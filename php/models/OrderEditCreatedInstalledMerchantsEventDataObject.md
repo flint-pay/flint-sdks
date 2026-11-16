@@ -8,5 +8,5 @@ The resource snapshot, without expansions. Webhooks omit these fields: `note`.
 
 Response model.
 
-Fields, types, descriptions and enum values: [OrderEditCreatedMerchantEventDataObject](../models/OrderEditCreatedMerchantEventDataObject.md#ordereditcreatedmerchanteventdataobject).
+Fields, types, descriptions and enum values: [OrderEditCanceledMerchantEventDataObject](../models/OrderEditCanceledMerchantEventDataObject.md#ordereditcanceledmerchanteventdataobject).
 

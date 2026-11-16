@@ -1,9 +1,9 @@
-import type { PartnerWebhookEnvelope } from './types-44.js';
-import type { WebhookInvoice } from './types-69.js';
 import type { MerchantWebhookEnvelope } from './types-38.js';
+import type { PartnerWebhookEnvelope } from './types-44.js';
+import type { WebhookInvoice } from './types-70.js';
 import type { Invoice, InvoiceAutopayRetryPolicy, InvoiceAutopayRetryPolicyInput } from './types-31.js';
-import type { ResponseMeta, ResourceVersionRequestInput } from './types-54.js';
-import type { MoneyValue, MoneyValueInput, OrderCharge } from './types-39.js';
+import type { ResponseMeta } from './types-54.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
 import type { Address, AddressRequest, AddressRequestInput, AssessInvoiceLateFeeRequestInput } from './types-0.js';
 import type {
     InvoicePaymentPolicy,
@@ -13,7 +13,8 @@ import type {
 } from './types-33.js';
 import type { SettlementAmounts } from './types-59.js';
 import type { InvoiceDiscount, InvoiceLineItem } from './types-32.js';
-import type { OrderTaxExemption } from './types-41.js';
+import type { OrderCharge } from './types-40.js';
+import type { OrderTaxExemption } from './types-42.js';
 import type { TaxBreakdown } from './types-64.js';
 import type { TaxCurrencyConversion, TaxIdentity, TaxReverseCharge } from './types-65.js';
 import type { InputValue } from '../runtime.js';
@@ -23,6 +24,51 @@ import type { CreateInvoiceManualPaymentRequestInput, CreateInvoiceRequestInput 
 import type { IssueInvoiceRequestInput } from './types-35.js';
 import type { CustomersListAddressesParams } from './types-16.js';
 import type { CreditNotesListAllocationsParams } from './types-15.js';
+/**
+ * One reminder in an invoice reminder policy. `days_from_due` sets when it is sent: negative
+ * values are days before the due date, positive values days after.
+ */
+export type InvoiceReminderRule = {
+    /**
+     * Calendar days from the due date in the invoice timezone. Negative values send before it,
+     * zero sends on it, and positive values send after it. Format: int32. minimum: -90. maximum:
+     * 365.
+     */
+    "days_from_due": number;
+};
+/**
+ * One reminder in an invoice reminder policy. `days_from_due` sets when it is sent: negative
+ * values are days before the due date, positive values days after.
+ */
+export type InvoiceReminderRuleInput = InvoiceReminderRule;
+export type InvoiceReopenedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookInvoice;
+        "previous_attributes"?: Partial<WebhookInvoice>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "invoice.reopened";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookInvoice;
+        "previous_attributes"?: Partial<WebhookInvoice>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "invoice.reopened";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "invoice.reopened";
+});
 /**
  * The `invoice.reopened` webhook payload for the `installed_merchants` event source. Fields shared
  * by partner webhook payloads.
@@ -2080,171 +2126,3 @@ export type InvoicesListActivitiesParams = {
 export type InvoicesListDeliveryAttemptsParams = CustomersListAddressesParams;
 export type InvoicesListLateFeesParams = CustomersListAddressesParams;
 export type InvoicesListManualPaymentsParams = CreditNotesListAllocationsParams;
-export type InvoicesListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by invoice status. Values are trimmed and deduplicated in first-seen order; empty or
-     * unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible",
-     * "credited". Value enum: "draft", "open", "partially_paid", "paid", "voided",
-     * "uncollectible", "credited". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[1][]
-     * (Value): string. Value enum: "draft", "open", "partially_paid", "paid", "voided",
-     * "uncollectible", "credited". anyOf[2] (Value): string. Value enum: "draft", "open",
-     * "partially_paid", "paid", "voided", "uncollectible", "credited".
-     */
-    "status"?: InputValue<("draft" | "open" | "partially_paid" | "paid" | "voided" | "uncollectible" | "credited")
-        | readonly ("draft" | "open" | "partially_paid" | "paid" | "voided" | "uncollectible" | "credited")[]>;
-    /**
-     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
-     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
-     * pending resource does not prove that the operation succeeded, and an empty list does not
-     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
-     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
-     */
-    "idempotency_key"?: InputValue<string>;
-    /**
-     * Filter by Flint customer ID. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: InputValue<string>;
-    /**
-     * Filter by Flint order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: InputValue<string>;
-    /**
-     * Exact-match filter on the backing order subscription ID. pattern:
-     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id"?: InputValue<string>;
-    /**
-     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842".
-     */
-    "external_reference_id"?: InputValue<string>;
-    /**
-     * Exact, byte-sensitive whole invoice number. Preserves casing, accents, and whitespace;
-     * drafts without a number do not match. minLength: 1. maxLength: 255.
-     */
-    "invoice_number"?: InputValue<string>;
-    /**
-     * Filter by the effective collection mode. Values are trimmed and deduplicated in first-seen
-     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
-     * filters are ANDed. [] enum: "buyer_initiated", "automatic", "external". Value enum:
-     * "buyer_initiated", "automatic", "external". anyOf[1] (Value): Array of string. minItems: 1.
-     * [] enum: "buyer_initiated", "automatic", "external". anyOf[1][] (Value): string. Value enum:
-     * "buyer_initiated", "automatic", "external". anyOf[2] (Value): string. Value enum:
-     * "buyer_initiated", "automatic", "external".
-     */
-    "collection_mode"?: InputValue<("buyer_initiated" | "automatic" | "external")
-        | readonly ("buyer_initiated" | "automatic" | "external")[]>;
-    /** Inclusive lower bound on issued_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "issued_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on issued_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "issued_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Inclusive lower bound on due_date, in YYYY-MM-DD format. Compares each invoice calendar date
-     * in its timezone (UTC when absent). Format: date. Example: "2026-08-02".
-     */
-    "due_date_from"?: InputValue<string>;
-    /**
-     * Exclusive upper bound on due_date, in YYYY-MM-DD format. Compares each invoice calendar date
-     * in its timezone (UTC when absent). Format: date. Example: "2026-08-02".
-     */
-    "due_date_to"?: InputValue<string>;
-    /**
-     * Filter by whether an open or partially_paid invoice has an outstanding balance after its due
-     * date ends in its timezone (UTC when absent). With a schedule, matches when any entry is
-     * overdue.
-     */
-    "is_overdue"?: InputValue<boolean>;
-    /** Filter by whether settlement_amounts.outstanding_money is greater than zero. */
-    "has_outstanding_balance"?: InputValue<boolean>;
-    /**
-     * Field to sort by. Defaults to created_at; ties are broken by invoice_id. Default:
-     * "created_at". Value enum: "created_at", "updated_at", "due_date", "invoice_number",
-     * "settlement_amounts.outstanding_money".
-     */
-    "sort_by"?: InputValue<"created_at" | "updated_at" | "due_date" | "invoice_number" | "settlement_amounts.outstanding_money">;
-    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /**
-     * Search across invoice_id, invoice_number, external_reference_id, recipient_email, reference,
-     * po_number, and the customer name and email on the invoice. Text fields match any part of the
-     * value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and
-     * need the type prefix, such as inv_01.
-     */
-    "query"?: InputValue<string>;
-    /**
-     * Include related objects in the response. Supported expansions: customer, order. Include the
-     * requested related resources using scoped batch reads for this page. Each relationship
-     * requires its existing target read scopes. Expansion changes the representation without
-     * changing pagination tokens. Limits: at most 10 unique expand paths per request. [] enum:
-     * "customer", "order". Value enum: "customer", "order". anyOf[1] (Value): Array of string. []
-     * enum: "customer", "order". anyOf[1][] (Value): string. Value enum: "customer", "order".
-     * anyOf[2] (Value): string. Value enum: "customer", "order".
-     */
-    "expand"?: InputValue<("customer" | "order") | readonly ("customer" | "order")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type InvoicesListPaymentAttemptsParams = CreditNotesListAllocationsParams;
-export type InvoicesMarkUncollectibleParams = (InputValue<ResourceVersionRequestInput> | {
-    "expected_version"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};

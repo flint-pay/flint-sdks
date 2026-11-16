@@ -27,10 +27,10 @@ namespace Flint;
  * @property-read list<string> $supported_actions
  * @property-read string $updated_at
  * @property-read int $version
- * @property-read string $client_secret
+ * @property-read ?string $client_secret
  * Presence-aware response; omitted optional fields return null. */
 final class PartnerAppWithRotatedSecret extends Model {
-    /** @param array{'allowed_scopes': list<string>, 'api_version': string, 'api_version_changed_at'?: string, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string, 'client_id': string, 'client_secret_enabled': bool, 'client_secret_last_used_at': string|null, 'created_at': string, 'default_requested_permissions': list<string>, 'merchant_action_routing'?: mixed, 'merchant_action_url'?: string, 'name': string, 'partner_app_id': string, 'payment_splits'?: mixed, 'permission_manifest': list<mixed>, 'platform': mixed, 'platform_fee_cap'?: mixed, 'platform_profile'?: mixed, 'previous_secret_expires_at'?: string, 'redirect_uris': list<string>, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int, 'client_secret': string, ...}|object $values */
+    /** @param array{'allowed_scopes': list<string>, 'api_version': string, 'api_version_changed_at'?: string, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string, 'client_id': string, 'client_secret_enabled': bool, 'client_secret_last_used_at': string|null, 'created_at': string, 'default_requested_permissions': list<string>, 'merchant_action_routing'?: mixed, 'merchant_action_url'?: string, 'name': string, 'partner_app_id': string, 'payment_splits'?: mixed, 'permission_manifest': list<mixed>, 'platform': mixed, 'platform_fee_cap'?: mixed, 'platform_profile'?: mixed, 'previous_secret_expires_at'?: string, 'redirect_uris': list<string>, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int, 'client_secret'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppWithRotatedSecret')); }
     /** Every Flint scope the app can hold: the union of required_scopes across the manifest. An install grants only the scopes of the permissions the merchant approves. [] (Value): string.
      * @return list<string>
@@ -157,9 +157,9 @@ final class PartnerAppWithRotatedSecret extends Model {
      */
     public function getVersion(): int { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
-    /** Newly issued client secret, returned only once after rotation.
-     * @return string
+    /** Newly issued client secret, returned only once after rotation. Returned only to the credential that created it, and omitted when another credential replays the request.
+     * @return ?string
      */
-    public function getClientSecret(): string { return $this->get('client_secret'); }
+    public function getClientSecret(): ?string { return $this->get('client_secret'); }
     public function hasClientSecret(): bool { return $this->has('client_secret'); }
 }

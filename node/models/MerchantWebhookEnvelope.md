@@ -14,7 +14,7 @@ Fields shared by merchant webhook payloads.
 | `created_at` | Required | string | When Flint recorded the event. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `data` | Required | object | The resource snapshot recorded for this event and rendered at the delivery API version. `data`: [field definitions](../models/MerchantWebhookEnvelope.md#merchantwebhookenvelopedata). |
 | `event_source` | Required | string | The origin of the event. Selects the webhook envelope and the fields in source. Values: `"merchant"`. |
-| `event_type` | Required | string | The resource change or condition this event announces. Values: [284 declared values](#merchantwebhookenvelope-event_type-values). |
+| `event_type` | Required | string | The resource change or condition this event announces. Values: [287 declared values](#merchantwebhookenvelope-event_type-values). |
 | `merchant_id` | Required | string | ID of the merchant this resource belongs to. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
 | `mode` | Required | string | Environment used for this resource or request. Values: `"test"`, `"live"`. |
 | `payload_version` | Required | integer | 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Values: `1`, `2`. |
@@ -198,6 +198,9 @@ Fields shared by merchant webhook payloads.
 - `"merchant_billing_invoice.updated"`
 - `"order.partially_refunded"`
 - `"order.closed"`
+- `"order_edit.completed"`
+- `"order_edit.canceled"`
+- `"order_edit.updated"`
 - `"order_edit.created"`
 - `"order.created"`
 - `"fulfillment.completed"`

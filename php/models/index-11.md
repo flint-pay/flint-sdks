@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# DisputeNeedsResponseMerchantEventInput to GetReturnPolicyResponseInput
+# DisputeListResponseInput to FulfillmentUpdatedMerchantEventInput
 
+- [DisputeListResponseInput](DisputeListResponseInput.md)
+- [DisputeLostInstalledMerchantsEventInput](DisputeLostInstalledMerchantsEventInput.md)
+- [DisputeLostMerchantEventInput](DisputeLostMerchantEventInput.md)
+- [DisputeNeedsResponseInstalledMerchantsEventInput](DisputeNeedsResponseInstalledMerchantsEventInput.md)
 - [DisputeNeedsResponseMerchantEventInput](DisputeNeedsResponseMerchantEventInput.md)
 - [DisputePreventedInstalledMerchantsEventInput](DisputePreventedInstalledMerchantsEventInput.md)
 - [DisputePreventedMerchantEventInput](DisputePreventedMerchantEventInput.md)
@@ -98,8 +102,4 @@
 - [FulfillmentSinglePackageRequestInput](FulfillmentSinglePackageRequestInput.md)
 - [FulfillmentUpdatedInstalledMerchantsEventInput](FulfillmentUpdatedInstalledMerchantsEventInput.md)
 - [FulfillmentUpdatedMerchantEventInput](FulfillmentUpdatedMerchantEventInput.md)
-- [GetReturnDispositionResponseInput](GetReturnDispositionResponseInput.md)
-- [GetReturnInspectionResponseInput](GetReturnInspectionResponseInput.md)
-- [GetReturnLineItemResponseInput](GetReturnLineItemResponseInput.md)
-- [GetReturnPolicyResponseInput](GetReturnPolicyResponseInput.md)
 

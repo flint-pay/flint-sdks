@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# InventoryReservationHoldExpiredMerchantEvent to InvoiceLateFeeDueMerchantEvent
+# InventoryReservationCreatedInstalledMerchantsEvent to InvoiceLateFeeAssessedInstalledMerchantsEvent
 
+- [InventoryReservationCreatedInstalledMerchantsEvent](InventoryReservationCreatedInstalledMerchantsEvent.md)
+- [InventoryReservationCreatedMerchantEvent](InventoryReservationCreatedMerchantEvent.md)
+- [InventoryReservationHoldExpiredInstalledMerchantsEvent](InventoryReservationHoldExpiredInstalledMerchantsEvent.md)
 - [InventoryReservationHoldExpiredMerchantEvent](InventoryReservationHoldExpiredMerchantEvent.md)
 - [InventoryReservationLine](InventoryReservationLine.md)
 - [InventoryReservationListResponse](InventoryReservationListResponse.md)
@@ -99,7 +102,4 @@
 - [InvoiceIssueFailedMerchantEvent](InvoiceIssueFailedMerchantEvent.md)
 - [InvoiceLateFee](InvoiceLateFee.md)
 - [InvoiceLateFeeAssessedInstalledMerchantsEvent](InvoiceLateFeeAssessedInstalledMerchantsEvent.md)
-- [InvoiceLateFeeAssessedMerchantEvent](InvoiceLateFeeAssessedMerchantEvent.md)
-- [InvoiceLateFeeDueInstalledMerchantsEvent](InvoiceLateFeeDueInstalledMerchantsEvent.md)
-- [InvoiceLateFeeDueMerchantEvent](InvoiceLateFeeDueMerchantEvent.md)
 

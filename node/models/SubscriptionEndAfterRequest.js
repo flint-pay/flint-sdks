@@ -1,9 +1,9 @@
-import { d8744 as c0 } from '../descriptors/data/431.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d7537 as c1 } from '../descriptors/data/360.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d5519 as c2 } from '../descriptors/data/240.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d5519 as d5519 } from '../descriptors/data/240.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d8778 as c0 } from '../descriptors/data/433.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d7568 as c1 } from '../descriptors/data/361.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d5549 as c2 } from '../descriptors/data/241.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d5549 as d5549 } from '../descriptors/data/241.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5519;
+const read = d5549;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec439"]:c0(),["SharedCodec97"]:c1(),["SubscriptionEndAfterRequest"]:c2()}); }
 export { codec as _validate };

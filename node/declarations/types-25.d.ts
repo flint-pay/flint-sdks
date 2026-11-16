@@ -1,32 +1,254 @@
-import type { DeliveryFulfillmentDetails } from './types-17.js';
-import type { DigitalFulfillmentDetails, DispatchFulfillmentRequestInput } from './types-23.js';
+import type { Dispute, DigitalFulfillmentDetails, DispatchFulfillmentRequestInput } from './types-23.js';
 import type {
+    ExpandedPaymentIntentSummary,
+    FraudWarning,
+    FraudWarningPaymentSummary,
     ExpandedOrderSummary,
     ExpandedPackageSummary,
     ExpandedShipmentSummary,
     FailFulfillmentRequestInput
 } from './types-24.js';
-import type { MetadataMap, MerchantWebhookEnvelope, MetadataRequestInput } from './types-38.js';
-import type { PickupFulfillmentDetails } from './types-48.js';
+import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-38.js';
+import type { InputValue } from '../runtime.js';
+import type { DeliveryFulfillmentDetails } from './types-17.js';
+import type { PickupFulfillmentDetails } from './types-49.js';
 import type { ServiceFulfillmentDetails, ShipmentFulfillmentDetails } from './types-59.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
 import type { ResponseMeta } from './types-54.js';
-import type { InputValue } from '../runtime.js';
 import type { CreateFulfillmentEventRequestInput, CreateFulfillmentRequestInput } from './types-9.js';
 import type { CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-11.js';
-import type { PackageCreateRequest, PackageCreateRequestInput } from './types-42.js';
+import type { PackageCreateRequest, PackageCreateRequestInput } from './types-43.js';
 import type { SinglePackageCreateRequest, SinglePackageCreateRequestInput } from './types-60.js';
 import type { OrderLineItemModifier } from './types-41.js';
 import type { Address, AddressRequest, AddressRequestInput, AcceptFulfillmentRequestInput } from './types-0.js';
 import type { CancelFulfillmentRequestInput } from './types-4.js';
 import type { CompleteFulfillmentRequestInput } from './types-7.js';
 import type { HoldFulfillmentRequestInput } from './types-28.js';
-import type {
-    MarkFulfillmentNoShowRequestInput,
-    MarkFulfillmentPackedRequestInput,
-    MarkFulfillmentPickedRequestInput,
-    MarkFulfillmentPreparingRequestInput
-} from './types-35.js';
+import type { MarkFulfillmentNoShowRequestInput } from './types-35.js';
+/**
+ * The `fraud_warning.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type FraudWarningUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.created_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.dispute (Optional): {@link Dispute} or
+     * null. Present only when `expand` includes `dispute`; `null` when expanded and there is no
+     * related dispute. object.dispute.anyOf[1] (Value): {@link Dispute}. A challenge to a
+     * collected payment. object.dispute.anyOf[2] (Value): null. object.dispute_id (Required):
+     * string or null. The dispute that opened on this payment after the warning. `null` when no
+     * dispute has opened. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". object.fraud_type (Required):
+     * string. The kind of fraud the card network reported. Value enum: "card_never_received",
+     * "fraudulent_card_application", "made_with_counterfeit_card", "made_with_lost_card",
+     * "made_with_stolen_card", "unauthorized_use_of_card", "other". object.fraud_warning_id
+     * (Required): string. Unique identifier for this fraud warning, prefixed `frw_`. Example:
+     * "frw_01KEZF7C00WD6W4TAFS0FH851W". object.is_actionable (Required): boolean. true until the
+     * payment is refunded in full, a dispute opens on it, or the card network marks the warning
+     * resolved; after that it stays false. A partial refund doesn't change it.
+     * object.payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
+     * when `expand` includes `payment_intent`; `null` when expanded and there is no related
+     * payment intent. object.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded.
+     * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Required): string.
+     * ID of the payment the warning is about. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_summary (Required): {@link FraudWarningPaymentSummary}. The payment's amount,
+     * buyer email, and card, for recognizing it. Payment details shown on a public fraud warning:
+     * amount, buyer email, card brand, and last four digits. object.reported_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous values of changed
+     * top-level fields in data.object, at this delivery's API version. Nested changes include the
+     * whole previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". dispute (Optional): {@link Dispute} or null. Present only when
+         * `expand` includes `dispute`; `null` when expanded and there is no related dispute.
+         * dispute.anyOf[1] (Value): {@link Dispute}. A challenge to a collected payment.
+         * dispute.anyOf[2] (Value): null. dispute_id (Required): string or null. The dispute that
+         * opened on this payment after the warning. `null` when no dispute has opened. Example:
+         * "du_01KEZF7C00DEJSF1KTXRT4BBQD". fraud_type (Required): string. The kind of fraud the
+         * card network reported. Value enum: "card_never_received", "fraudulent_card_application",
+         * "made_with_counterfeit_card", "made_with_lost_card", "made_with_stolen_card",
+         * "unauthorized_use_of_card", "other". fraud_warning_id (Required): string. Unique
+         * identifier for this fraud warning, prefixed `frw_`. Example:
+         * "frw_01KEZF7C00WD6W4TAFS0FH851W". is_actionable (Required): boolean. true until the
+         * payment is refunded in full, a dispute opens on it, or the card network marks the
+         * warning resolved; after that it stays false. A partial refund doesn't change it.
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
+         * when `expand` includes `payment_intent`; `null` when expanded and there is no related
+         * payment intent. payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A
+         * payment intent's summary fields, including amount, status, and capture method, returned
+         * when the payment intent is expanded. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Required): string. ID of the payment the warning is about. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_summary (Required): {@link
+         * FraudWarningPaymentSummary}. The payment's amount, buyer email, and card, for
+         * recognizing it. Payment details shown on a public fraud warning: amount, buyer email,
+         * card brand, and last four digits. reported_at (Required): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at (Required): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `dispute`; `null` when expanded and there is no
+             * related dispute. anyOf[1] (Value): {@link Dispute}. A challenge to a collected
+             * payment. anyOf[2] (Value): null.
+             */
+            "dispute"?: ((Dispute) | (null));
+            /**
+             * The dispute that opened on this payment after the warning. `null` when no dispute
+             * has opened. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
+             */
+            "dispute_id": string | null;
+            /**
+             * The kind of fraud the card network reported. Value enum: "card_never_received",
+             * "fraudulent_card_application", "made_with_counterfeit_card", "made_with_lost_card",
+             * "made_with_stolen_card", "unauthorized_use_of_card", "other".
+             */
+            "fraud_type": "card_never_received"
+                | "fraudulent_card_application"
+                | "made_with_counterfeit_card"
+                | "made_with_lost_card"
+                | "made_with_stolen_card"
+                | "unauthorized_use_of_card"
+                | "other"
+                | (string & {});
+            /**
+             * Unique identifier for this fraud warning, prefixed `frw_`. Example:
+             * "frw_01KEZF7C00WD6W4TAFS0FH851W".
+             */
+            "fraud_warning_id": string;
+            /**
+             * true until the payment is refunded in full, a dispute opens on it, or the card
+             * network marks the warning resolved; after that it stays false. A partial refund
+             * doesn't change it.
+             */
+            "is_actionable": boolean;
+            /**
+             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
+             * is no related payment intent. anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+             * status, and capture method, returned when the payment intent is expanded. anyOf[2]
+             * (Value): null.
+             */
+            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
+            /** ID of the payment the warning is about. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+            "payment_intent_id": string;
+            /**
+             * The payment's amount, buyer email, and card, for recognizing it. Payment details
+             * shown on a public fraud warning: amount, buyer email, card brand, and last four
+             * digits.
+             */
+            "payment_summary": FraudWarningPaymentSummary;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "reported_at": string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<FraudWarning>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "fraud_warning.updated". */
+    "event_type"?: "fraud_warning.updated";
+});
+export type FraudWarningsGetParams = {
+    /**
+     * Include related objects in the response. Supported expansions: dispute, payment_intent.
+     * Expansion requires risk.read plus the read scope for each expanded resource. Limits: at most
+     * 10 unique expand paths per request. [] enum: "dispute", "payment_intent". Value enum:
+     * "dispute", "payment_intent". anyOf[1] (Value): Array of string. [] enum: "dispute",
+     * "payment_intent". anyOf[1][] (Value): string. Value enum: "dispute", "payment_intent".
+     * anyOf[2] (Value): string. Value enum: "dispute", "payment_intent".
+     */
+    "expand"?: InputValue<("dispute" | "payment_intent") | readonly ("dispute" | "payment_intent")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FraudWarningsListParams = {
+    /** Filter by whether a proactive fraudulent refund can still prevent a dispute. */
+    "is_actionable"?: InputValue<boolean>;
+    /**
+     * Filter by Flint payment intent ID. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: InputValue<string>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Include related objects in the response. Supported expansions: dispute, payment_intent.
+     * Include the requested related resources using scoped batch reads for this page. Each
+     * relationship requires its existing target read scopes. Expansion changes the representation
+     * without changing pagination tokens. Limits: at most 10 unique expand paths per request. []
+     * enum: "dispute", "payment_intent". Value enum: "dispute", "payment_intent". anyOf[1]
+     * (Value): Array of string. [] enum: "dispute", "payment_intent". anyOf[1][] (Value): string.
+     * Value enum: "dispute", "payment_intent". anyOf[2] (Value): string. Value enum: "dispute",
+     * "payment_intent".
+     */
+    "expand"?: InputValue<("dispute" | "payment_intent") | readonly ("dispute" | "payment_intent")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 /** The merchant freeze reason and an optional version fence for the gift card. */
 export type FreezeGiftCardRequest = {
     /**
@@ -9212,87 +9434,6 @@ export type FulfillmentsListParams = {
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
 export type FulfillmentsMarkNoShowParams = (InputValue<MarkFulfillmentNoShowRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type FulfillmentsMarkPackedParams = (InputValue<MarkFulfillmentPackedRequestInput>
-    | {
-    "buyer_notification_behavior"?: never;
-    "expected_version"?: never;
-    "occurred_at"?: never;
-    "reason_message"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type FulfillmentsMarkPickedParams = (InputValue<MarkFulfillmentPickedRequestInput>
-    | {
-    "buyer_notification_behavior"?: never;
-    "expected_version"?: never;
-    "occurred_at"?: never;
-    "reason_message"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type FulfillmentsMarkPreparingParams = (InputValue<MarkFulfillmentPreparingRequestInput>
-    | {
-    "buyer_notification_behavior"?: never;
-    "expected_version"?: never;
-    "occurred_at"?: never;
-    "reason_message"?: never;
-})
     & {
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with

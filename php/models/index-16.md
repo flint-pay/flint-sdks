@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# LookupTicketRequestInput to OAuthTokenResponseInput
+# LocationListResponseInput to OAuthTokenRequestClientCredentialsInput
 
+- [LocationListResponseInput](LocationListResponseInput.md)
+- [LocationResponseInput](LocationResponseInput.md)
+- [LookupEmailPreferencesRequestInput](LookupEmailPreferencesRequestInput.md)
+- [LookupGiftCardRequestInput](LookupGiftCardRequestInput.md)
 - [LookupTicketRequestInput](LookupTicketRequestInput.md)
 - [ManualDiscountRequestInput](ManualDiscountRequestInput.md)
 - [MarkFulfillmentNoShowRequestInput](MarkFulfillmentNoShowRequestInput.md)
@@ -98,8 +102,4 @@
 - [OAuthTokenRequestInput](OAuthTokenRequestInput.md)
 - [OAuthTokenRequestAuthorizationCodeInput](OAuthTokenRequestAuthorizationCodeInput.md)
 - [OAuthTokenRequestClientCredentialsInput](OAuthTokenRequestClientCredentialsInput.md)
-- [OAuthTokenRequestDeviceCodeInput](OAuthTokenRequestDeviceCodeInput.md)
-- [OAuthTokenRequestRefreshTokenInput](OAuthTokenRequestRefreshTokenInput.md)
-- [OAuthTokenRequestTokenExchangeInput](OAuthTokenRequestTokenExchangeInput.md)
-- [OAuthTokenResponseInput](OAuthTokenResponseInput.md)
 

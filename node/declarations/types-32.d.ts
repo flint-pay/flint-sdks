@@ -1,14 +1,318 @@
 import type { InvoiceDeliveryAttempt, Invoice } from './types-31.js';
-import type { ResponseMeta } from './types-54.js';
 import type { MerchantWebhookEnvelope } from './types-38.js';
 import type { PartnerWebhookEnvelope, PaymentErrorSummary } from './types-44.js';
+import type { ResponseMeta } from './types-54.js';
 import type { MoneyValue, MoneyValueInput } from './types-39.js';
-import type { WebhookInvoice } from './types-69.js';
+import type { WebhookInvoice } from './types-70.js';
 import type { BundleComponent } from './types-1.js';
 import type { CategoryReference } from './types-5.js';
 import type { Image } from './types-28.js';
 import type { OrderLineItemModifier } from './types-41.js';
 import type { SelectedProductOption } from './types-59.js';
+export type InvoiceDeliveryAttemptFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": ({
+            "cc_emails"?: Array<string>;
+            "channel": "email" | (string & {});
+            "created_at": string;
+            "delivery_type": "send" | "reminder" | (string & {});
+            "failure_reason"?: "rejected" | "delivery_unknown" | "canceled" | (string & {});
+            "invoice_delivery_attempt_id": string;
+            "invoice_id": string;
+            "sent_at"?: string;
+            "status": "pending" | "sent" | "failed" | "suppressed" | (string & {});
+            "suppression_reason"?: "merchant_managed_email" | "recipient_unsubscribed" | "sandbox_daily_limit_reached" | (string & {});
+            "to_email": string | null;
+        });
+        "previous_attributes"?: Partial<InvoiceDeliveryAttempt>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "invoice_delivery_attempt.failed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": ({
+            "cc_emails"?: Array<string>;
+            "channel": "email" | (string & {});
+            "created_at": string;
+            "delivery_type": "send" | "reminder" | (string & {});
+            "failure_reason"?: "rejected" | "delivery_unknown" | "canceled" | (string & {});
+            "invoice_delivery_attempt_id": string;
+            "invoice_id": string;
+            "sent_at"?: string;
+            "status": "pending" | "sent" | "failed" | "suppressed" | (string & {});
+            "suppression_reason"?: "merchant_managed_email" | "recipient_unsubscribed" | "sandbox_daily_limit_reached" | (string & {});
+            "to_email": string | null;
+        });
+        "previous_attributes"?: Partial<InvoiceDeliveryAttempt>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "invoice_delivery_attempt.failed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "invoice_delivery_attempt.failed";
+});
+/**
+ * The `invoice_delivery_attempt.failed` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type InvoiceDeliveryAttemptFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.cc_emails (Optional): Array of string. Addresses copied on this
+     * email. Absent when none were copied. object.cc_emails[] (Value): string. object.channel
+     * (Required): string. How Flint delivered the invoice. Value enum: "email". object.created_at
+     * (Required): string. When the attempt was created. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.delivery_type (Required): string. Whether this attempt is the
+     * invoice email sent at issue or a reminder. Value enum: "send", "reminder".
+     * object.failure_reason (Optional): string. Present only when status is failed. Legacy failed
+     * attempts without a stored reason return rejected. Value enum: "rejected",
+     * "delivery_unknown", "canceled". object.invoice_delivery_attempt_id (Required): string. Flint
+     * invoice delivery attempt ID. Example: "indel_01KEZF7C001BBS41T0ZVY8VMEQ". object.invoice_id
+     * (Required): string. ID of the invoice this delivery attempt belongs to. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.sent_at (Optional): string. When the email service
+     * accepted the message. Absent until it does. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.status (Required): string. The outcome of this attempt. sent
+     * means the email service accepted the message. Value enum: "pending", "sent", "failed",
+     * "suppressed". object.suppression_reason (Optional): string. Present only when status is
+     * suppressed. Value enum: "merchant_managed_email", "recipient_unsubscribed",
+     * "sandbox_daily_limit_reached". object.to_email (Required): string or null. Address the
+     * invoice was sent to. `null` when the customer was deleted. previous_attributes (Optional):
+     * object. Previous values of changed top-level fields in data.object, at this delivery's API
+     * version. Nested changes include the whole previous top-level value. A value is null when the
+     * field was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields. cc_emails
+         * (Optional): Array of string. Addresses copied on this email. Absent when none were
+         * copied. cc_emails[] (Value): string. channel (Required): string. How Flint delivered the
+         * invoice. Value enum: "email". created_at (Required): string. When the attempt was
+         * created. Format: date-time. Example: "2026-08-02T16:00:00Z". delivery_type (Required):
+         * string. Whether this attempt is the invoice email sent at issue or a reminder. Value
+         * enum: "send", "reminder". failure_reason (Optional): string. Present only when status is
+         * failed. Legacy failed attempts without a stored reason return rejected. Value enum:
+         * "rejected", "delivery_unknown", "canceled". invoice_delivery_attempt_id (Required):
+         * string. Flint invoice delivery attempt ID. Example: "indel_01KEZF7C001BBS41T0ZVY8VMEQ".
+         * invoice_id (Required): string. ID of the invoice this delivery attempt belongs to.
+         * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". sent_at (Optional): string. When the email
+         * service accepted the message. Absent until it does. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". status (Required): string. The outcome of this attempt. sent
+         * means the email service accepted the message. Value enum: "pending", "sent", "failed",
+         * "suppressed". suppression_reason (Optional): string. Present only when status is
+         * suppressed. Value enum: "merchant_managed_email", "recipient_unsubscribed",
+         * "sandbox_daily_limit_reached". to_email (Required): string or null. Address the invoice
+         * was sent to. `null` when the customer was deleted.
+         */
+        "object": ({
+            /** Addresses copied on this email. Absent when none were copied. [] (Value): string. */
+            "cc_emails"?: Array<string>;
+            /** How Flint delivered the invoice. Value enum: "email". */
+            "channel": "email" | (string & {});
+            /** When the attempt was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Whether this attempt is the invoice email sent at issue or a reminder. Value enum:
+             * "send", "reminder".
+             */
+            "delivery_type": "send" | "reminder" | (string & {});
+            /**
+             * Present only when status is failed. Legacy failed attempts without a stored reason
+             * return rejected. Value enum: "rejected", "delivery_unknown", "canceled".
+             */
+            "failure_reason"?: "rejected" | "delivery_unknown" | "canceled" | (string & {});
+            /** Flint invoice delivery attempt ID. Example: "indel_01KEZF7C001BBS41T0ZVY8VMEQ". */
+            "invoice_delivery_attempt_id": string;
+            /**
+             * ID of the invoice this delivery attempt belongs to. Example:
+             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+             */
+            "invoice_id": string;
+            /**
+             * When the email service accepted the message. Absent until it does. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "sent_at"?: string;
+            /**
+             * The outcome of this attempt. sent means the email service accepted the message.
+             * Value enum: "pending", "sent", "failed", "suppressed".
+             */
+            "status": "pending" | "sent" | "failed" | "suppressed" | (string & {});
+            /**
+             * Present only when status is suppressed. Value enum: "merchant_managed_email",
+             * "recipient_unsubscribed", "sandbox_daily_limit_reached".
+             */
+            "suppression_reason"?: "merchant_managed_email" | "recipient_unsubscribed" | "sandbox_daily_limit_reached" | (string & {});
+            /** Address the invoice was sent to. `null` when the customer was deleted. */
+            "to_email": string | null;
+        });
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<InvoiceDeliveryAttempt>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "invoice_delivery_attempt.failed". */
+    "event_type"?: "invoice_delivery_attempt.failed";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `invoice_delivery_attempt.failed` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type InvoiceDeliveryAttemptFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.cc_emails (Optional): Array of string. Addresses copied on this
+     * email. Absent when none were copied. object.cc_emails[] (Value): string. object.channel
+     * (Required): string. How Flint delivered the invoice. Value enum: "email". object.created_at
+     * (Required): string. When the attempt was created. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.delivery_type (Required): string. Whether this attempt is the
+     * invoice email sent at issue or a reminder. Value enum: "send", "reminder".
+     * object.failure_reason (Optional): string. Present only when status is failed. Legacy failed
+     * attempts without a stored reason return rejected. Value enum: "rejected",
+     * "delivery_unknown", "canceled". object.invoice_delivery_attempt_id (Required): string. Flint
+     * invoice delivery attempt ID. Example: "indel_01KEZF7C001BBS41T0ZVY8VMEQ". object.invoice_id
+     * (Required): string. ID of the invoice this delivery attempt belongs to. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.sent_at (Optional): string. When the email service
+     * accepted the message. Absent until it does. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.status (Required): string. The outcome of this attempt. sent
+     * means the email service accepted the message. Value enum: "pending", "sent", "failed",
+     * "suppressed". object.suppression_reason (Optional): string. Present only when status is
+     * suppressed. Value enum: "merchant_managed_email", "recipient_unsubscribed",
+     * "sandbox_daily_limit_reached". object.to_email (Required): string or null. Address the
+     * invoice was sent to. `null` when the customer was deleted. previous_attributes (Optional):
+     * object. Previous values of changed top-level fields in data.object, at this delivery's API
+     * version. Nested changes include the whole previous top-level value. A value is null when the
+     * field was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields. cc_emails
+         * (Optional): Array of string. Addresses copied on this email. Absent when none were
+         * copied. cc_emails[] (Value): string. channel (Required): string. How Flint delivered the
+         * invoice. Value enum: "email". created_at (Required): string. When the attempt was
+         * created. Format: date-time. Example: "2026-08-02T16:00:00Z". delivery_type (Required):
+         * string. Whether this attempt is the invoice email sent at issue or a reminder. Value
+         * enum: "send", "reminder". failure_reason (Optional): string. Present only when status is
+         * failed. Legacy failed attempts without a stored reason return rejected. Value enum:
+         * "rejected", "delivery_unknown", "canceled". invoice_delivery_attempt_id (Required):
+         * string. Flint invoice delivery attempt ID. Example: "indel_01KEZF7C001BBS41T0ZVY8VMEQ".
+         * invoice_id (Required): string. ID of the invoice this delivery attempt belongs to.
+         * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". sent_at (Optional): string. When the email
+         * service accepted the message. Absent until it does. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". status (Required): string. The outcome of this attempt. sent
+         * means the email service accepted the message. Value enum: "pending", "sent", "failed",
+         * "suppressed". suppression_reason (Optional): string. Present only when status is
+         * suppressed. Value enum: "merchant_managed_email", "recipient_unsubscribed",
+         * "sandbox_daily_limit_reached". to_email (Required): string or null. Address the invoice
+         * was sent to. `null` when the customer was deleted.
+         */
+        "object": ({
+            /** Addresses copied on this email. Absent when none were copied. [] (Value): string. */
+            "cc_emails"?: Array<string>;
+            /** How Flint delivered the invoice. Value enum: "email". */
+            "channel": "email" | (string & {});
+            /** When the attempt was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Whether this attempt is the invoice email sent at issue or a reminder. Value enum:
+             * "send", "reminder".
+             */
+            "delivery_type": "send" | "reminder" | (string & {});
+            /**
+             * Present only when status is failed. Legacy failed attempts without a stored reason
+             * return rejected. Value enum: "rejected", "delivery_unknown", "canceled".
+             */
+            "failure_reason"?: "rejected" | "delivery_unknown" | "canceled" | (string & {});
+            /** Flint invoice delivery attempt ID. Example: "indel_01KEZF7C001BBS41T0ZVY8VMEQ". */
+            "invoice_delivery_attempt_id": string;
+            /**
+             * ID of the invoice this delivery attempt belongs to. Example:
+             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+             */
+            "invoice_id": string;
+            /**
+             * When the email service accepted the message. Absent until it does. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "sent_at"?: string;
+            /**
+             * The outcome of this attempt. sent means the email service accepted the message.
+             * Value enum: "pending", "sent", "failed", "suppressed".
+             */
+            "status": "pending" | "sent" | "failed" | "suppressed" | (string & {});
+            /**
+             * Present only when status is suppressed. Value enum: "merchant_managed_email",
+             * "recipient_unsubscribed", "sandbox_daily_limit_reached".
+             */
+            "suppression_reason"?: "merchant_managed_email" | "recipient_unsubscribed" | "sandbox_daily_limit_reached" | (string & {});
+            /** Address the invoice was sent to. `null` when the customer was deleted. */
+            "to_email": string | null;
+        });
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<InvoiceDeliveryAttempt>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "invoice_delivery_attempt.failed". */
+    "event_type"?: "invoice_delivery_attempt.failed";
+});
 /** A page of `InvoiceDeliveryAttempt` objects. */
 export type InvoiceDeliveryAttemptListResponse = {
     /**
@@ -3254,467 +3558,3 @@ export type InvoicePaymentAttempt = {
      */
     "updated_at": string;
 };
-export type InvoicePaymentAttemptCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "canceled_at"?: string;
-            "cancellation_requested_at"?: string;
-            "checkout_session_id"?: string;
-            "expected_amount_money": MoneyValue;
-            "expires_at"?: string;
-            "invoice_id": string;
-            "invoice_payment_attempt_id": string;
-            "invoice_schedule_entry_id"?: string;
-            "last_payment_error"?: PaymentErrorSummary;
-            "payment_intent_id"?: string;
-            "rail": "card" | "ach_debit" | (string & {});
-            "settled_at"?: string;
-            "started_at"?: string;
-            "status": "open" | "succeeded" | "failed" | "canceled" | "expired" | "processing" | (string & {});
-            "supported_actions": Array<"cancel" | (string & {})>;
-            "updated_at": string;
-        };
-        "previous_attributes"?: Partial<InvoicePaymentAttempt>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "invoice_payment_attempt.canceled";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "canceled_at"?: string;
-            "cancellation_requested_at"?: string;
-            "checkout_session_id"?: string;
-            "expected_amount_money": MoneyValue;
-            "expires_at"?: string;
-            "invoice_id": string;
-            "invoice_payment_attempt_id": string;
-            "invoice_schedule_entry_id"?: string;
-            "last_payment_error"?: PaymentErrorSummary;
-            "payment_intent_id"?: string;
-            "rail": "card" | "ach_debit" | (string & {});
-            "settled_at"?: string;
-            "started_at"?: string;
-            "status": "open" | "succeeded" | "failed" | "canceled" | "expired" | "processing" | (string & {});
-            "supported_actions": Array<"cancel" | (string & {})>;
-            "updated_at": string;
-        };
-        "previous_attributes"?: Partial<InvoicePaymentAttempt>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "invoice_payment_attempt.canceled";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "invoice_payment_attempt.canceled";
-});
-/**
- * The `invoice_payment_attempt.canceled` webhook payload for the `installed_merchants` event
- * source. Fields shared by partner webhook payloads.
- */
-export type InvoicePaymentAttemptCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.canceled_at (Optional): string. When the attempt was canceled. An
-     * attempt canceled with its checkout session before payment started may not have it. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.cancellation_requested_at (Optional):
-     * string. When cancellation of this attempt was last requested. It stays set when the payment
-     * processor refuses the cancellation or the payment settles first, so read status and
-     * canceled_at for the outcome. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.checkout_session_id (Optional): string. The hosted or headless checkout session the
-     * buyer pays through. Absent for automatic charges. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-     * object.expected_amount_money (Required): {@link MoneyValue}. The amount this attempt
-     * collects: the outstanding balance, or the targeted schedule entry's outstanding amount.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.expires_at (Optional): string. When a checkout attempt expires, matching its checkout
-     * session. Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.invoice_id (Required): string. The invoice this attempt collects. Example:
-     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.invoice_payment_attempt_id (Required): string.
-     * Flint invoice payment attempt ID. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX".
-     * object.invoice_schedule_entry_id (Optional): string. The schedule entry this attempt
-     * collects. Absent when the attempt collects the invoice balance. Example:
-     * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". object.last_payment_error (Optional): {@link
-     * PaymentErrorSummary}. Why the payment failed. Present only when status is failed. A summary
-     * of why a payment attempt failed, with a normalized error code, a message, the failure time,
-     * and remediation. object.payment_intent_id (Optional): string. The payment intent behind this
-     * attempt. Absent until payment starts, such as a hosted attempt the buyer hasn't paid yet.
-     * Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.rail (Required): string. How the attempt
-     * collects: card, including Apple Pay, Google Pay, and Affirm, or ACH debit. Value enum:
-     * "card", "ach_debit". object.settled_at (Optional): string. When this attempt first settled
-     * successfully. Duplicate payment notifications preserve this timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.started_at (Optional): string. When the attempt was
-     * created. Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required):
-     * string. Current payment attempt status. succeeded means this attempt completed successfully,
-     * even if the invoice still has an outstanding balance. invoice_payment_attempt.succeeded
-     * reports that completion. Value enum: "open", "succeeded", "failed", "canceled", "expired",
-     * "processing". object.supported_actions (Required): Array of string. Lifecycle actions
-     * accepted now. An open or processing attempt can be canceled; the payment processor can still
-     * refuse cancellation. [] enum: "cancel". object.supported_actions[] (Value): string. Value
-     * enum: "cancel". object.updated_at (Required): string. When this attempt last changed.
-     * Duplicate payment notifications preserve this timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous values of changed
-     * top-level fields in data.object, at this delivery's API version. Nested changes include the
-     * whole previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * canceled_at (Optional): string. When the attempt was canceled. An attempt canceled with
-         * its checkout session before payment started may not have it. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". cancellation_requested_at (Optional): string. When cancellation
-         * of this attempt was last requested. It stays set when the payment processor refuses the
-         * cancellation or the payment settles first, so read status and canceled_at for the
-         * outcome. Format: date-time. Example: "2026-08-02T16:00:00Z". checkout_session_id
-         * (Optional): string. The hosted or headless checkout session the buyer pays through.
-         * Absent for automatic charges. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-         * expected_amount_money (Required): {@link MoneyValue}. The amount this attempt collects:
-         * the outstanding balance, or the targeted schedule entry's outstanding amount. Monetary
-         * amount represented as integer minor units plus an ISO 4217 currency code. expires_at
-         * (Optional): string. When a checkout attempt expires, matching its checkout session.
-         * Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * invoice_id (Required): string. The invoice this attempt collects. Example:
-         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_payment_attempt_id (Required): string. Flint
-         * invoice payment attempt ID. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX".
-         * invoice_schedule_entry_id (Optional): string. The schedule entry this attempt collects.
-         * Absent when the attempt collects the invoice balance. Example:
-         * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". last_payment_error (Optional): {@link
-         * PaymentErrorSummary}. Why the payment failed. Present only when status is failed. A
-         * summary of why a payment attempt failed, with a normalized error code, a message, the
-         * failure time, and remediation. payment_intent_id (Optional): string. The payment intent
-         * behind this attempt. Absent until payment starts, such as a hosted attempt the buyer
-         * hasn't paid yet. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". rail (Required): string. How
-         * the attempt collects: card, including Apple Pay, Google Pay, and Affirm, or ACH debit.
-         * Value enum: "card", "ach_debit". settled_at (Optional): string. When this attempt first
-         * settled successfully. Duplicate payment notifications preserve this timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". started_at (Optional): string. When the
-         * attempt was created. Format: date-time. Example: "2026-08-02T16:00:00Z". status
-         * (Required): string. Current payment attempt status. succeeded means this attempt
-         * completed successfully, even if the invoice still has an outstanding balance.
-         * invoice_payment_attempt.succeeded reports that completion. Value enum: "open",
-         * "succeeded", "failed", "canceled", "expired", "processing". supported_actions
-         * (Required): Array of string. Lifecycle actions accepted now. An open or processing
-         * attempt can be canceled; the payment processor can still refuse cancellation. [] enum:
-         * "cancel". supported_actions[] (Value): string. Value enum: "cancel". updated_at
-         * (Required): string. When this attempt last changed. Duplicate payment notifications
-         * preserve this timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * When the attempt was canceled. An attempt canceled with its checkout session before
-             * payment started may not have it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "canceled_at"?: string;
-            /**
-             * When cancellation of this attempt was last requested. It stays set when the payment
-             * processor refuses the cancellation or the payment settles first, so read status and
-             * canceled_at for the outcome. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "cancellation_requested_at"?: string;
-            /**
-             * The hosted or headless checkout session the buyer pays through. Absent for automatic
-             * charges. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-             */
-            "checkout_session_id"?: string;
-            /**
-             * The amount this attempt collects: the outstanding balance, or the targeted schedule
-             * entry's outstanding amount. Monetary amount represented as integer minor units plus
-             * an ISO 4217 currency code.
-             */
-            "expected_amount_money": MoneyValue;
-            /**
-             * When a checkout attempt expires, matching its checkout session. Absent for automatic
-             * charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "expires_at"?: string;
-            /** The invoice this attempt collects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
-            "invoice_id": string;
-            /** Flint invoice payment attempt ID. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX". */
-            "invoice_payment_attempt_id": string;
-            /**
-             * The schedule entry this attempt collects. Absent when the attempt collects the
-             * invoice balance. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
-             */
-            "invoice_schedule_entry_id"?: string;
-            /**
-             * Why the payment failed. Present only when status is failed. A summary of why a
-             * payment attempt failed, with a normalized error code, a message, the failure time,
-             * and remediation.
-             */
-            "last_payment_error"?: PaymentErrorSummary;
-            /**
-             * The payment intent behind this attempt. Absent until payment starts, such as a
-             * hosted attempt the buyer hasn't paid yet. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-             */
-            "payment_intent_id"?: string;
-            /**
-             * How the attempt collects: card, including Apple Pay, Google Pay, and Affirm, or ACH
-             * debit. Value enum: "card", "ach_debit".
-             */
-            "rail": "card" | "ach_debit" | (string & {});
-            /**
-             * When this attempt first settled successfully. Duplicate payment notifications
-             * preserve this timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "settled_at"?: string;
-            /** When the attempt was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "started_at"?: string;
-            /**
-             * Current payment attempt status. succeeded means this attempt completed successfully,
-             * even if the invoice still has an outstanding balance.
-             * invoice_payment_attempt.succeeded reports that completion. Value enum: "open",
-             * "succeeded", "failed", "canceled", "expired", "processing".
-             */
-            "status": "open" | "succeeded" | "failed" | "canceled" | "expired" | "processing" | (string & {});
-            /**
-             * Lifecycle actions accepted now. An open or processing attempt can be canceled; the
-             * payment processor can still refuse cancellation. [] enum: "cancel". [] (Value):
-             * string. Value enum: "cancel".
-             */
-            "supported_actions": Array<"cancel" | (string & {})>;
-            /**
-             * When this attempt last changed. Duplicate payment notifications preserve this
-             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at": string;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<InvoicePaymentAttempt>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "invoice_payment_attempt.canceled". */
-    "event_type"?: "invoice_payment_attempt.canceled";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `invoice_payment_attempt.canceled` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type InvoicePaymentAttemptCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.canceled_at (Optional): string. When the attempt was canceled. An
-     * attempt canceled with its checkout session before payment started may not have it. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.cancellation_requested_at (Optional):
-     * string. When cancellation of this attempt was last requested. It stays set when the payment
-     * processor refuses the cancellation or the payment settles first, so read status and
-     * canceled_at for the outcome. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.checkout_session_id (Optional): string. The hosted or headless checkout session the
-     * buyer pays through. Absent for automatic charges. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-     * object.expected_amount_money (Required): {@link MoneyValue}. The amount this attempt
-     * collects: the outstanding balance, or the targeted schedule entry's outstanding amount.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.expires_at (Optional): string. When a checkout attempt expires, matching its checkout
-     * session. Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.invoice_id (Required): string. The invoice this attempt collects. Example:
-     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.invoice_payment_attempt_id (Required): string.
-     * Flint invoice payment attempt ID. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX".
-     * object.invoice_schedule_entry_id (Optional): string. The schedule entry this attempt
-     * collects. Absent when the attempt collects the invoice balance. Example:
-     * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". object.last_payment_error (Optional): {@link
-     * PaymentErrorSummary}. Why the payment failed. Present only when status is failed. A summary
-     * of why a payment attempt failed, with a normalized error code, a message, the failure time,
-     * and remediation. object.payment_intent_id (Optional): string. The payment intent behind this
-     * attempt. Absent until payment starts, such as a hosted attempt the buyer hasn't paid yet.
-     * Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.rail (Required): string. How the attempt
-     * collects: card, including Apple Pay, Google Pay, and Affirm, or ACH debit. Value enum:
-     * "card", "ach_debit". object.settled_at (Optional): string. When this attempt first settled
-     * successfully. Duplicate payment notifications preserve this timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.started_at (Optional): string. When the attempt was
-     * created. Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required):
-     * string. Current payment attempt status. succeeded means this attempt completed successfully,
-     * even if the invoice still has an outstanding balance. invoice_payment_attempt.succeeded
-     * reports that completion. Value enum: "open", "succeeded", "failed", "canceled", "expired",
-     * "processing". object.supported_actions (Required): Array of string. Lifecycle actions
-     * accepted now. An open or processing attempt can be canceled; the payment processor can still
-     * refuse cancellation. [] enum: "cancel". object.supported_actions[] (Value): string. Value
-     * enum: "cancel". object.updated_at (Required): string. When this attempt last changed.
-     * Duplicate payment notifications preserve this timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous values of changed
-     * top-level fields in data.object, at this delivery's API version. Nested changes include the
-     * whole previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * canceled_at (Optional): string. When the attempt was canceled. An attempt canceled with
-         * its checkout session before payment started may not have it. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". cancellation_requested_at (Optional): string. When cancellation
-         * of this attempt was last requested. It stays set when the payment processor refuses the
-         * cancellation or the payment settles first, so read status and canceled_at for the
-         * outcome. Format: date-time. Example: "2026-08-02T16:00:00Z". checkout_session_id
-         * (Optional): string. The hosted or headless checkout session the buyer pays through.
-         * Absent for automatic charges. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-         * expected_amount_money (Required): {@link MoneyValue}. The amount this attempt collects:
-         * the outstanding balance, or the targeted schedule entry's outstanding amount. Monetary
-         * amount represented as integer minor units plus an ISO 4217 currency code. expires_at
-         * (Optional): string. When a checkout attempt expires, matching its checkout session.
-         * Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * invoice_id (Required): string. The invoice this attempt collects. Example:
-         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_payment_attempt_id (Required): string. Flint
-         * invoice payment attempt ID. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX".
-         * invoice_schedule_entry_id (Optional): string. The schedule entry this attempt collects.
-         * Absent when the attempt collects the invoice balance. Example:
-         * "invse_01KEZF7C006JCPQBD8VZ0RNT6R". last_payment_error (Optional): {@link
-         * PaymentErrorSummary}. Why the payment failed. Present only when status is failed. A
-         * summary of why a payment attempt failed, with a normalized error code, a message, the
-         * failure time, and remediation. payment_intent_id (Optional): string. The payment intent
-         * behind this attempt. Absent until payment starts, such as a hosted attempt the buyer
-         * hasn't paid yet. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". rail (Required): string. How
-         * the attempt collects: card, including Apple Pay, Google Pay, and Affirm, or ACH debit.
-         * Value enum: "card", "ach_debit". settled_at (Optional): string. When this attempt first
-         * settled successfully. Duplicate payment notifications preserve this timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". started_at (Optional): string. When the
-         * attempt was created. Format: date-time. Example: "2026-08-02T16:00:00Z". status
-         * (Required): string. Current payment attempt status. succeeded means this attempt
-         * completed successfully, even if the invoice still has an outstanding balance.
-         * invoice_payment_attempt.succeeded reports that completion. Value enum: "open",
-         * "succeeded", "failed", "canceled", "expired", "processing". supported_actions
-         * (Required): Array of string. Lifecycle actions accepted now. An open or processing
-         * attempt can be canceled; the payment processor can still refuse cancellation. [] enum:
-         * "cancel". supported_actions[] (Value): string. Value enum: "cancel". updated_at
-         * (Required): string. When this attempt last changed. Duplicate payment notifications
-         * preserve this timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * When the attempt was canceled. An attempt canceled with its checkout session before
-             * payment started may not have it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "canceled_at"?: string;
-            /**
-             * When cancellation of this attempt was last requested. It stays set when the payment
-             * processor refuses the cancellation or the payment settles first, so read status and
-             * canceled_at for the outcome. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "cancellation_requested_at"?: string;
-            /**
-             * The hosted or headless checkout session the buyer pays through. Absent for automatic
-             * charges. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-             */
-            "checkout_session_id"?: string;
-            /**
-             * The amount this attempt collects: the outstanding balance, or the targeted schedule
-             * entry's outstanding amount. Monetary amount represented as integer minor units plus
-             * an ISO 4217 currency code.
-             */
-            "expected_amount_money": MoneyValue;
-            /**
-             * When a checkout attempt expires, matching its checkout session. Absent for automatic
-             * charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "expires_at"?: string;
-            /** The invoice this attempt collects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
-            "invoice_id": string;
-            /** Flint invoice payment attempt ID. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX". */
-            "invoice_payment_attempt_id": string;
-            /**
-             * The schedule entry this attempt collects. Absent when the attempt collects the
-             * invoice balance. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
-             */
-            "invoice_schedule_entry_id"?: string;
-            /**
-             * Why the payment failed. Present only when status is failed. A summary of why a
-             * payment attempt failed, with a normalized error code, a message, the failure time,
-             * and remediation.
-             */
-            "last_payment_error"?: PaymentErrorSummary;
-            /**
-             * The payment intent behind this attempt. Absent until payment starts, such as a
-             * hosted attempt the buyer hasn't paid yet. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-             */
-            "payment_intent_id"?: string;
-            /**
-             * How the attempt collects: card, including Apple Pay, Google Pay, and Affirm, or ACH
-             * debit. Value enum: "card", "ach_debit".
-             */
-            "rail": "card" | "ach_debit" | (string & {});
-            /**
-             * When this attempt first settled successfully. Duplicate payment notifications
-             * preserve this timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "settled_at"?: string;
-            /** When the attempt was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "started_at"?: string;
-            /**
-             * Current payment attempt status. succeeded means this attempt completed successfully,
-             * even if the invoice still has an outstanding balance.
-             * invoice_payment_attempt.succeeded reports that completion. Value enum: "open",
-             * "succeeded", "failed", "canceled", "expired", "processing".
-             */
-            "status": "open" | "succeeded" | "failed" | "canceled" | "expired" | "processing" | (string & {});
-            /**
-             * Lifecycle actions accepted now. An open or processing attempt can be canceled; the
-             * payment processor can still refuse cancellation. [] enum: "cancel". [] (Value):
-             * string. Value enum: "cancel".
-             */
-            "supported_actions": Array<"cancel" | (string & {})>;
-            /**
-             * When this attempt last changed. Duplicate payment notifications preserve this
-             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at": string;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<InvoicePaymentAttempt>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "invoice_payment_attempt.canceled". */
-    "event_type"?: "invoice_payment_attempt.canceled";
-});

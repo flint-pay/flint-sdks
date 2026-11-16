@@ -1,8 +1,7 @@
 import type { WithResponseInfo } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-54.js';
-import type { SubscriptionCreatePreview } from '../declarations/types-60.js';
-import type { SubscriptionDeliveryMethodImpact } from '../declarations/types-61.js';
+import type { SubscriptionCreatePreview, SubscriptionDeliveryMethodImpact } from '../declarations/types-61.js';
 import type { SubscriptionPlanChangePreview } from '../declarations/types-62.js';
 import type {
     SubscriptionPreview,
@@ -38,9 +37,7 @@ export type {
     SubscriptionServiceLocationRequestInput,
     SubscriptionServiceLocationInputCustomerAddressInput,
     SubscriptionServiceLocationInputAddressInput,
-    SubscriptionTaxRequestInput,
     SubscriptionTaxCalculationRequestInput,
-    SubscriptionTermsRequestInput,
     SubscriptionPlanTermsRequestInput,
     SubscriptionQuantityChangeLineItemRequestInput,
     SubscriptionPreviewError,
@@ -53,51 +50,54 @@ export type { _SdkWithoutIdempotency, Weight } from '../declarations/types-70.js
 export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-54.js';
 export type {
     SubscriptionCreatePreview,
-    SubscriptionBillingScheduleRequestInput,
-    SubscriptionBillingScheduleInputFlintInput,
-    SubscriptionBillingScheduleInputExternalInput,
-    SubscriptionBillingStartRequestInput,
-    SubscriptionBillingStartInputImmediateInput,
-    SubscriptionBillingStartInputScheduledInput,
-    SubscriptionBillingStartInputImportedInput,
-    SubscriptionChargeEstimate,
-    SubscriptionAddressVerification,
-    SubscriptionCounts
-} from '../declarations/types-60.js';
-export type {
     SubscriptionDeliveryMethodImpact,
     SubscriptionDeliveryDestinationRequestInput,
     SubscriptionDeliveryDestinationInputCustomerAddressInput,
     SubscriptionDeliveryDestinationInputAddressInput,
+    SubscriptionBillingStartRequestInput,
+    SubscriptionBillingStartInputScheduledInput,
     SubscriptionDeliveryRequestInput,
     SubscriptionEndAfterRequestInput,
     SubscriptionEndAfterCyclesRequestInput,
     SubscriptionEndAfterDateRequestInput,
-    SubscriptionGiftRecipientRequestInput,
+    SubscriptionChargeEstimate,
     SubscriptionDeliveryOption,
-    SubscriptionGiftRecipientRequest
+    SubscriptionCounts
 } from '../declarations/types-61.js';
 export type {
     SubscriptionPlanChangePreview,
+    SubscriptionGiftRecipientRequestInput,
     SubscriptionPlanChangeLineItemRequestInput,
     SubscriptionOfferTermsRequestInput,
     SubscriptionOfferLineItemRequestInput,
+    SubscriptionGiftRecipientRequest,
     SubscriptionPlanChangeLineItemRequest,
     SubscriptionOfferLineItemRequest
 } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateSubscriptionPreviewRequestInput,
     CreateSubscriptionPreviewRequestDeliveryOptionsInput,
     CreateSubscriptionPreviewRequestCreateInput,
     CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput,
     CreateSubscriptionPreviewRequestNextRenewalInput,
-    CreateSubscriptionPreviewRequestPlanChangeInput,
-    CreateSubscriptionPreviewRequestQuantityChangeInput,
-    CreateSubscriptionPreviewRequestPromotionApplyInput
+    CreateSubscriptionPreviewRequestPlanChangeInput
 } from '../declarations/types-13.js';
 export type { AddressRequestInput, Address, AddressRequest } from '../declarations/types-0.js';
-export type { CreateSubscriptionRequestInput, Credentials } from '../declarations/types-14.js';
+export type {
+    CreateSubscriptionRequestInput,
+    CreateSubscriptionPreviewRequestQuantityChangeInput,
+    CreateSubscriptionPreviewRequestPromotionApplyInput,
+    Credentials
+} from '../declarations/types-14.js';
+export type {
+    SubscriptionBillingScheduleRequestInput,
+    SubscriptionBillingScheduleInputFlintInput,
+    SubscriptionBillingScheduleInputExternalInput,
+    SubscriptionBillingStartInputImmediateInput,
+    SubscriptionBillingStartInputImportedInput,
+    SubscriptionAddressVerification
+} from '../declarations/types-60.js';
 export type {
     DeliverySelectionRecipientRequestInput,
     DeliveryStateConditionRequestInput,
@@ -111,6 +111,9 @@ export type {
     DeliveryTieredPricingStrategyInputWeightInput,
     DeliveryTieredPricingStrategyInputQuantityOrMoneyInput,
     DeliveryRevocationTargetLocationGeography,
+    DeliveryRevocationTargetDeliveryRateCallbackSigningKey,
+    DeliveryRevocationTargetDeliveryRateCallbackRevision,
+    DeliveryRevocationTargetDeliveryMethodRevision,
     DeliverySelectionRecipientRequest,
     DeliveryWindowTimeCondition,
     DeliveryWeeklyInterval
@@ -125,6 +128,7 @@ export type {
     PromotionRecurrenceRepeating,
     PromotionRecurrenceForever
 } from '../declarations/types-51.js';
+export type { SubscriptionTaxRequestInput, SubscriptionTermsRequestInput } from '../declarations/types-64.js';
 export type { UpdateDeliveryMethodRequestInput } from '../declarations/types-66.js';
 export type {
     DeliveryMethodConfigurationPatchRequestInput,
@@ -176,10 +180,7 @@ export type {
     DeliveryRecipientRequirementRequestInput,
     DeliveryRevocation,
     DeliveryRevocationImpact,
-    DeliveryRevocationTarget,
-    DeliveryRevocationTargetDeliveryRateCallbackSigningKey,
-    DeliveryRevocationTargetDeliveryRateCallbackRevision,
-    DeliveryRevocationTargetDeliveryMethodRevision
+    DeliveryRevocationTarget
 } from '../declarations/types-21.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type {
@@ -204,7 +205,7 @@ export type { OrderLineItemModifier, OrderSettlementAmounts } from '../declarati
 export type { TextModifierRequest } from '../declarations/types-65.js';
 export type { CheckoutBuyerContact } from '../declarations/types-5.js';
 export type { DeferredPromotion } from '../declarations/types-16.js';
-export type { PricingAmounts } from '../declarations/types-49.js';
+export type { PricingAmounts } from '../declarations/types-50.js';
 export type {
     SettlementAmounts,
     ServiceFulfillmentDetails,
@@ -214,7 +215,7 @@ export type {
     SelectableErrorResource,
     SelectableOrderPaymentIntent
 } from '../declarations/types-59.js';
-export type { PickupFulfillmentDetails } from '../declarations/types-48.js';
+export type { PickupFulfillmentDetails } from '../declarations/types-49.js';
 export type { ReturnHandoffRequirementLineItem } from '../declarations/types-55.js';
 export type { Package } from '../declarations/types-42.js';
 export type { CustomDomain, CustomDomainDNSRecord } from '../declarations/types-15.js';
@@ -231,9 +232,7 @@ export {
     makeCreateSubscriptionPreviewRequestPlanChange,
     makeCreateSubscriptionPreviewRequestPromotionApply,
     makeCreateSubscriptionPreviewRequestQuantityChange,
-    makeCreateSubscriptionRequest
-} from '../declarations/types-74.js';
-export {
+    makeCreateSubscriptionRequest,
     makeDeliveryAvailabilityRequest,
     makeDeliveryBlackoutIntervalRequest,
     makeDeliveryBusinessDayRangeRequest,
@@ -249,7 +248,9 @@ export {
     makeDeliveryFixedPricingStrategyRequest,
     makeDeliveryMethodConfigurationPatchRequest,
     makeDeliveryMethodOriginSelectorInputAllocatedOriginGroup,
-    makeDeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSet,
+    makeDeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSet
+} from '../declarations/types-75.js';
+export {
     makeDeliveryMethodOriginSelectorInputAllocatedOriginGroupLocations,
     makeDeliveryMethodOriginSelectorInputFixedLocation,
     makeDeliveryMethodOriginSelectorInputPickupLocationCollection,
@@ -258,9 +259,7 @@ export {
     makeDeliveryMethodOriginSelectorRequest,
     makeDeliveryPostalCodeConditionRequest,
     makeDeliveryPostalCodeValueRequest,
-    makeDeliveryPricingRateRequest
-} from '../declarations/types-75.js';
-export {
+    makeDeliveryPricingRateRequest,
     makeDeliveryPricingStrategyInputCalculated,
     makeDeliveryPricingStrategyInputCallback,
     makeDeliveryPricingStrategyInputCallerSupplied,
@@ -285,8 +284,10 @@ export {
     makeDeliveryWindowTimeCondition,
     makeDeliveryZoneConditionRequest
 } from '../declarations/types-76.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
-export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID, makePromotionRefRequest } from '../declarations/types-80.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
+export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID } from '../declarations/types-80.js';
+export { makePromotionRefRequest } from '../declarations/types-81.js';
 export {
     makeSubscriptionBillingScheduleInputExternal,
     makeSubscriptionBillingScheduleInputFlint,
@@ -298,7 +299,9 @@ export {
     makeSubscriptionDeliveryDestinationInputAddress,
     makeSubscriptionDeliveryDestinationInputCustomerAddress,
     makeSubscriptionDeliveryDestinationRequest,
-    makeSubscriptionDeliveryRequest,
+    makeSubscriptionDeliveryRequest
+} from '../declarations/types-82.js';
+export {
     makeSubscriptionEndAfterCyclesRequest,
     makeSubscriptionEndAfterDateRequest,
     makeSubscriptionEndAfterRequest,
@@ -306,9 +309,7 @@ export {
     makeSubscriptionOfferLineItemRequest,
     makeSubscriptionOfferTermsRequest,
     makeSubscriptionPlanChangeLineItemRequest,
-    makeSubscriptionPlanTermsRequest
-} from '../declarations/types-82.js';
-export {
+    makeSubscriptionPlanTermsRequest,
     makeSubscriptionPromotionRequest,
     makeSubscriptionQuantityChangeLineItemRequest,
     makeSubscriptionServiceLocationInputAddress,

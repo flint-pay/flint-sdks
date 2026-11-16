@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# ReaderPaymentSourceTipInput to ResolvePaymentLinkTextModifierRequestInput
+# ReaderConnectionSession to ResolveCustomerDeletionRequestInput
 
+- [ReaderConnectionSession](ReaderConnectionSession.md)
+- [ReaderConnectionSessionClientSession](ReaderConnectionSessionClientSession.md)
+- [ReaderConnectionSessionResponse](ReaderConnectionSessionResponse.md)
+- [ReaderConnectionSessionStripe](ReaderConnectionSessionStripe.md)
+- [ReaderConnectivity](ReaderConnectivity.md)
+- [ReaderCreatedInstalledMerchantsEvent](ReaderCreatedInstalledMerchantsEvent.md)
+- [ReaderCreatedMerchantEvent](ReaderCreatedMerchantEvent.md)
+- [ReaderListResponse](ReaderListResponse.md)
+- [ReaderPaymentSourceTip](ReaderPaymentSourceTip.md)
 - [ReaderPaymentSourceTipInput](ReaderPaymentSourceTipInput.md)
 - [ReaderResponse](ReaderResponse.md)
 - [ReaderUpdatedInstalledMerchantsEvent](ReaderUpdatedInstalledMerchantsEvent.md)
@@ -93,13 +102,4 @@
 - [ResetDemoSessionRequestInput](ResetDemoSessionRequestInput.md)
 - [ResolveCustomerDeletionRequest](ResolveCustomerDeletionRequest.md)
 - [ResolveCustomerDeletionRequestInput](ResolveCustomerDeletionRequestInput.md)
-- [ResolveOrderInventoryExceptionRequestInput](ResolveOrderInventoryExceptionRequestInput.md)
-- [ResolvePaymentLinkLineItemModifierRequest](ResolvePaymentLinkLineItemModifierRequest.md)
-- [ResolvePaymentLinkLineItemModifierRequestInput](ResolvePaymentLinkLineItemModifierRequestInput.md)
-- [ResolvePaymentLinkLineItemModifiers](ResolvePaymentLinkLineItemModifiers.md)
-- [ResolvePaymentLinkLineItemModifiersInput](ResolvePaymentLinkLineItemModifiersInput.md)
-- [ResolvePaymentLinkRequest](ResolvePaymentLinkRequest.md)
-- [ResolvePaymentLinkRequestInput](ResolvePaymentLinkRequestInput.md)
-- [ResolvePaymentLinkResponse](ResolvePaymentLinkResponse.md)
-- [ResolvePaymentLinkTextModifierRequestInput](ResolvePaymentLinkTextModifierRequestInput.md)
 

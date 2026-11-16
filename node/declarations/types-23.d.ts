@@ -1,18 +1,42 @@
 import type { InputValue } from '../runtime.js';
+import type { CreateDeliveryZoneRequestInput, CreateDemoSessionRequestInput, CreateDeviceRequestInput } from './types-9.js';
+import type { DeliveryLocationSetsDeleteParams } from './types-18.js';
 import type { UpdateDeliveryZoneRequestInput, UpdateDeviceRequestInput } from './types-66.js';
 import type { ResponseMeta, ResetDemoSessionRequestInput } from './types-54.js';
-import type { CreateDemoSessionRequestInput, CreateDeviceRequestInput } from './types-9.js';
 import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-29.js';
 import type { MetadataMap, MerchantWebhookEnvelope } from './types-38.js';
 import type { Settings } from './types-59.js';
-import type { TaxConnection } from './types-64.js';
-import type { PromotionCandidate } from './types-50.js';
-import type { CreateOrderDiscount, CreateOrderDiscountInput } from './types-10.js';
+import type { TaxConnection } from './types-65.js';
+import type { PromotionCandidate } from './types-51.js';
+import type { CreateOrderDiscount, CreateOrderDiscountInput } from './types-11.js';
 import type { AcceptFulfillmentRequestInput } from './types-0.js';
 import type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from './types-24.js';
 import type { MoneyValue } from './types-39.js';
 import type { SplitReversalReference } from './types-60.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
+export type DeliveryZonesCreateParams = (InputValue<CreateDeliveryZoneRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type DeliveryZonesDeleteParams = DeliveryLocationSetsDeleteParams;
+export type DeliveryZonesGetParams = DisputesAcceptParams;
 export type DeliveryZonesListParams = {
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
@@ -8638,217 +8662,6 @@ export type DisputeWonMerchantEvent = (Exclude<MerchantWebhookEnvelope & object,
     "event_type"?: "dispute.won";
 });
 export type DisputesAcceptParams = {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type DisputesCreateResponseSessionParams = DisputesAcceptParams;
-export type DisputesGetParams = {
-    /**
-     * Include related objects in the response. Supported expansions: customer, order,
-     * payment_intent. Expansion requires payments.disputes.read plus the read scope for each
-     * expanded resource. Limits: at most 10 unique expand paths per request. [] enum: "customer",
-     * "order", "payment_intent". Value enum: "customer", "order", "payment_intent". anyOf[1]
-     * (Value): Array of string. [] enum: "customer", "order", "payment_intent". anyOf[1][]
-     * (Value): string. Value enum: "customer", "order", "payment_intent". anyOf[2] (Value):
-     * string. Value enum: "customer", "order", "payment_intent".
-     */
-    "expand"?: InputValue<("customer" | "order" | "payment_intent") | readonly ("customer" | "order" | "payment_intent")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type DisputesListParams = {
-    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Optional Flint payment intent ID filter. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id"?: InputValue<string>;
-    /**
-     * Optional Flint order ID filter. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: InputValue<string>;
-    /**
-     * Optional Flint customer ID filter. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: InputValue<string>;
-    /**
-     * Optional dispute status filter. Values are trimmed and deduplicated in first-seen order;
-     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
-     * are ANDed. [] enum: "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
-     * "needs_response", "under_review", "won", "lost", "prevented", "other". Value enum:
-     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
-     * "under_review", "won", "lost", "prevented", "other". anyOf[1] (Value): Array of string.
-     * minItems: 1. [] enum: "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
-     * "needs_response", "under_review", "won", "lost", "prevented", "other". anyOf[1][] (Value):
-     * string. Value enum: "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
-     * "needs_response", "under_review", "won", "lost", "prevented", "other". anyOf[2] (Value):
-     * string. Value enum: "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
-     * "needs_response", "under_review", "won", "lost", "prevented", "other".
-     */
-    "status"?: InputValue<("inquiry_needs_response"
-        | "inquiry_under_review"
-        | "inquiry_closed"
-        | "needs_response"
-        | "under_review"
-        | "won"
-        | "lost"
-        | "prevented"
-        | "other")
-        | readonly ("inquiry_needs_response"
-        | "inquiry_under_review"
-        | "inquiry_closed"
-        | "needs_response"
-        | "under_review"
-        | "won"
-        | "lost"
-        | "prevented"
-        | "other")[]>;
-    /**
-     * Optional normalized dispute reason filter. Values are trimmed and deduplicated in first-seen
-     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
-     * filters are ANDed. [] enum: "fraudulent", "unrecognized", "duplicate",
-     * "product_not_received", "product_not_as_described", "refund_not_processed",
-     * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-     * "bank_account_not_found", "other". Value enum: "fraudulent", "unrecognized", "duplicate",
-     * "product_not_received", "product_not_as_described", "refund_not_processed",
-     * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-     * "bank_account_not_found", "other". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "fraudulent", "unrecognized", "duplicate", "product_not_received",
-     * "product_not_as_described", "refund_not_processed", "subscription_canceled", "noncompliant",
-     * "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other". anyOf[1][]
-     * (Value): string. Value enum: "fraudulent", "unrecognized", "duplicate",
-     * "product_not_received", "product_not_as_described", "refund_not_processed",
-     * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-     * "bank_account_not_found", "other". anyOf[2] (Value): string. Value enum: "fraudulent",
-     * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
-     * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
-     * "debit_not_authorized", "bank_account_not_found", "other".
-     */
-    "reason"?: InputValue<("fraudulent"
-        | "unrecognized"
-        | "duplicate"
-        | "product_not_received"
-        | "product_not_as_described"
-        | "refund_not_processed"
-        | "subscription_canceled"
-        | "noncompliant"
-        | "insufficient_funds"
-        | "debit_not_authorized"
-        | "bank_account_not_found"
-        | "other")
-        | readonly ("fraudulent"
-        | "unrecognized"
-        | "duplicate"
-        | "product_not_received"
-        | "product_not_as_described"
-        | "refund_not_processed"
-        | "subscription_canceled"
-        | "noncompliant"
-        | "insufficient_funds"
-        | "debit_not_authorized"
-        | "bank_account_not_found"
-        | "other")[]>;
-    /**
-     * Optional dispute case type filter. Values are trimmed and deduplicated in first-seen order;
-     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
-     * are ANDed. [] enum: "inquiry", "chargeback", "compliance", "resolution", "block", "other",
-     * "bank_return". Value enum: "inquiry", "chargeback", "compliance", "resolution", "block",
-     * "other", "bank_return". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "inquiry",
-     * "chargeback", "compliance", "resolution", "block", "other", "bank_return". anyOf[1][]
-     * (Value): string. Value enum: "inquiry", "chargeback", "compliance", "resolution", "block",
-     * "other", "bank_return". anyOf[2] (Value): string. Value enum: "inquiry", "chargeback",
-     * "compliance", "resolution", "block", "other", "bank_return".
-     */
-    "case_type"?: InputValue<("inquiry" | "chargeback" | "compliance" | "resolution" | "block" | "other" | "bank_return")
-        | readonly ("inquiry" | "chargeback" | "compliance" | "resolution" | "block" | "other" | "bank_return")[]>;
-    /**
-     * Filter by whether a merchant response is needed now. True includes needs_response and
-     * inquiry_needs_response disputes that allow evidence and whose evidence deadline has not
-     * passed; false includes the remaining disputes.
-     */
-    "is_action_required"?: InputValue<boolean>;
-    /**
-     * Field to sort by. Defaults to created_at; ties are broken by dispute_id. Default:
-     * "created_at". Value enum: "created_at", "evidence_due_at", "amount_money".
-     */
-    "sort_by"?: InputValue<"created_at" | "evidence_due_at" | "amount_money">;
-    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Inclusive lower bound on evidence_due_at. Format: date-time. Example:
-     * "2026-03-17T14:30:00Z".
-     */
-    "evidence_due_after"?: InputValue<string | globalThis.Date>;
-    /**
-     * Exclusive upper bound on evidence_due_at. Format: date-time. Example:
-     * "2026-03-17T14:30:00Z".
-     */
-    "evidence_due_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Include related objects in the response. Supported expansions: customer, order,
-     * payment_intent. Include the requested related resources using scoped batch reads for this
-     * page. Each relationship requires its existing target read scopes. Expansion changes the
-     * representation without changing pagination tokens. Limits: at most 10 unique expand paths
-     * per request. [] enum: "customer", "order", "payment_intent". Value enum: "customer",
-     * "order", "payment_intent". anyOf[1] (Value): Array of string. [] enum: "customer", "order",
-     * "payment_intent". anyOf[1][] (Value): string. Value enum: "customer", "order",
-     * "payment_intent". anyOf[2] (Value): string. Value enum: "customer", "order",
-     * "payment_intent".
-     */
-    "expand"?: InputValue<("customer" | "order" | "payment_intent") | readonly ("customer" | "order" | "payment_intent")[]>;
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
      * a merchant-bound one, which it must match. Other credentials may send it only with their own

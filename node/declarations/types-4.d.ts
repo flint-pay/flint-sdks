@@ -1,20 +1,49 @@
-import type { PaymentErrorSummary, PayOrderResponse } from './types-44.js';
-import type { ResponseMeta } from './types-54.js';
-import type { BuyerExpandedSubscriptionPlanSummary, BuyerOrder, BuyerOrderPaymentAttempt } from './types-2.js';
 import type { BuyerSubscription, BuyerSubscriptionLineItem } from './types-3.js';
+import type { ResponseMeta } from './types-54.js';
+import type { PaymentErrorSummary, PayOrderResponse } from './types-44.js';
+import type { BuyerExpandedSubscriptionPlanSummary, BuyerOrder, BuyerOrderPaymentAttempt } from './types-2.js';
 import type { CategoryReference } from './types-5.js';
 import type { Image } from './types-28.js';
-import type { MoneyValue, MoneyValueInput } from './types-39.js';
+import type { MoneyValue, MoneyValueInput, Order } from './types-39.js';
 import type { OrderLineItemTax } from './types-41.js';
 import type { SelectedProductOption } from './types-59.js';
-import type { SubscriptionPlanSwapVariant, SubscriptionPlanChangePreview } from './types-62.js';
-import type { SubscriptionPreview, SubscriptionQuantityChangePreview, SubscriptionRenewalPreview } from './types-63.js';
+import type {
+    SubscriptionPlanSwapVariant,
+    SubscriptionPreview,
+    SubscriptionQuantityChangePreview,
+    SubscriptionRenewalPreview
+} from './types-63.js';
+import type { SubscriptionPlanChangePreview } from './types-62.js';
 import type { Address, AcceptFulfillmentRequestInput, ApplyInventoryCountRequestInput } from './types-0.js';
 import type { TipPaymentIntentAllocation, TipValueSettlementAllocation } from './types-66.js';
 import type { ContextSummary } from './types-7.js';
 import type { DeliveryWindowRequest, DeliveryWindowRequestInput } from './types-22.js';
 import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-29.js';
-import type { GetReturnDispositionResponse, GetReturnResponse } from './types-26.js';
+import type { OrderEdit } from './types-40.js';
+import type { GetReturnDispositionResponse } from './types-26.js';
+/** A page of `BuyerSubscription` objects. */
+export type BuyerSubscriptionListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * BuyerSubscription}. A customer's recurring purchase.
+     */
+    "data": Array<BuyerSubscription>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
 /**
  * A retry of a past-due payment on the buyer's subscription. Includes, when available, its order,
  * payment intent and a failure the buyer can act on. Omits the store's idempotency key.
@@ -812,11 +841,6 @@ export type BuyerSubscriptionScheduledPlanChange = {
      * BuyerSubscriptionLineItem}. An item included in a customer's recurring purchase.
      */
     "line_items": Array<BuyerSubscriptionLineItem>;
-    /**
-     * The frozen target subscription quantity. Whole-number quantity; fractional quantities are
-     * not supported. Format: int32.
-     */
-    "quantity": number;
     /**
      * Frozen item subtotal per target billing period, before discounts, shipping, and tax.
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
@@ -2224,6 +2248,46 @@ export type CancelMeSubscriptionRequestInput = {
      */
     "expected_version"?: number;
 };
+/** Cancel a pending order edit. */
+export type CancelOrderEditRequestInput = {
+    /**
+     * The order edit version to cancel. A mismatch returns VERSION_CONFLICT before changes.
+     * Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+/** A response containing `CancelOrderEditResult` data. */
+export type CancelOrderEditResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The canceled edit and
+     * current order.
+     */
+    "data": CancelOrderEditResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** The canceled edit and current order. */
+export type CancelOrderEditResult = {
+    /**
+     * The order after releasing the edit's holds. A customer's purchase and its payment and
+     * fulfillment progress.
+     */
+    "order": Order;
+    /**
+     * The edit after cancellation. Nested child of an order with frozen item changes, balance and
+     * refund amounts. A pending edit changes the order only when its balance payment succeeds.
+     * Refund completion is tracked on the refunds.
+     */
+    "order_edit": OrderEdit;
+};
 /** The request body for: Cancel order payment attempt. */
 export type CancelOrderPaymentAttemptRequest = {
     /**
@@ -2352,44 +2416,3 @@ export type CancelReturnLineItemRequestInput = {
     /** Optional detail about `reason`, kept with the record. minLength: 1. */
     "reason_message"?: string;
 };
-export type CancelReturnLineItemResponse = GetReturnResponse;
-/** The request body for: Cancel return. */
-export type CancelReturnRequest = {
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Why it is being canceled. Value enum: "buyer_request", "merchant_request", "duplicate",
-     * "expired", "created_in_error", "other".
-     */
-    "reason": "buyer_request"
-        | "merchant_request"
-        | "duplicate"
-        | "expired"
-        | "created_in_error"
-        | "other"
-        | (string & {});
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
-};
-/** The request body for: Cancel return. */
-export type CancelReturnRequestInput = {
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Why it is being canceled. Value enum: "buyer_request", "merchant_request", "duplicate",
-     * "expired", "created_in_error", "other".
-     */
-    "reason": "buyer_request" | "merchant_request" | "duplicate" | "expired" | "created_in_error" | "other";
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
-};
-/** The request body for: Cancel return resolution. */
-export type CancelReturnResolutionRequestInput = CancelReturnRequestInput;

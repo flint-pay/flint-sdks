@@ -1,20 +1,14 @@
 import type {
-    CreateInventoryAdjustmentConditionChangeRequestInput,
-    CreateInventoryAdjustmentCorrectionRequestInput,
-    CreateInventoryAdjustmentCountedRequestInput,
-    CreateInventoryAdjustmentQuantityRequestInput,
-    CreateInlineModifierGroupRequestInput
-} from './types-9.js';
-import type {
+    InventoryAdjustmentSetLineRequestInput,
+    InventoryAdjustmentQuantityLineRequest,
+    InventoryAdjustmentQuantityLineRequestInput,
     InventoryAllocationConfigurationValue,
     InventoryAllocationPolicyConfigurationRequestInput,
     InventoryBackorderPolicyRequest
 } from './types-28.js';
-import type { MetadataMap, MetadataRequestInput, ModifierOverride, ModifierOverrideRequestInput } from './types-38.js';
-import type { InventoryReceiptLineRequest, InventoryReceiptLineRequestInput } from './types-29.js';
 import type {
-    InventorySourceSystemRequest,
     InventorySourceSystemRequestInput,
+    InventorySourceSystemRequest,
     InventoryReservationOwnerRequest,
     InventoryRoutingDemand,
     InventoryRoutingSourceRequest,
@@ -22,6 +16,16 @@ import type {
     InventoryRoutingDemandInput,
     InventoryRoutingSourceRequestInput
 } from './types-30.js';
+import type {
+    CreateInventoryAdjustmentConditionChangeRequest,
+    CreateInventoryAdjustmentCorrectionRequest,
+    CreateInventoryAdjustmentCountedRequest,
+    CreateInventoryAdjustmentConditionChangeRequestInput,
+    CreateInventoryAdjustmentCorrectionRequestInput,
+    CreateInlineModifierGroupRequestInput
+} from './types-9.js';
+import type { MetadataMap, MetadataRequestInput, ModifierOverride, ModifierOverrideRequestInput } from './types-38.js';
+import type { InventoryReceiptLineRequest, InventoryReceiptLineRequestInput } from './types-29.js';
 import type {
     InventoryTransferLineRequest,
     InventoryTransferLineRequestInput,
@@ -37,31 +41,24 @@ import type {
     InvoicePaymentDueRequestInput
 } from './types-33.js';
 import type {
+    CreateOrderDiscount,
     CreateOrderLineItemRequest,
     CreateOrderTip,
+    CreateOrderDiscountInput,
     CreateOrderLineItemRequestInput,
-    CreateOrderTipInput,
-    CreateOrderDiscountManual,
-    CreateOrderDiscountPromotion,
-    CreateOrderDiscountManualInput,
-    CreateOrderDiscountPromotionInput
+    CreateOrderTipInput
 } from './types-11.js';
 import type { OrderDeliveryDestinationRequest, OrderDeliveryDestinationRequestInput } from './types-40.js';
 import type { OrderTaxRequest, OrderTaxRequestInput } from './types-42.js';
 import type { AddressRequest, AddressRequestInput } from './types-0.js';
 import type { InvoiceScheduleEntryWrite, InvoiceScheduleEntryWriteInput } from './types-34.js';
-import type {
-    LocationCoordinate,
-    LocationCoordinateRequestInput,
-    ManualDiscountRequest,
-    ManualDiscountRequestInput
-} from './types-35.js';
+import type { LocationCoordinate, LocationCoordinateRequestInput } from './types-35.js';
 import type { CheckoutRedirects, CheckoutRedirectsRequestInput } from './types-6.js';
+import type { CreateSubscriptionPreviewRequestQuantityChange } from './types-14.js';
 import type {
     SubscriptionServiceLocationRequest,
     SubscriptionSwapPreviewRequest,
     SubscriptionSwapPreviewRequestInput,
-    SubscriptionQuantityChangeLineItemRequest,
     SubscriptionQuantityChangeLineItemRequestInput
 } from './types-63.js';
 import type {
@@ -71,7 +68,150 @@ import type {
 } from './types-61.js';
 import type { MerchantSignupOwner, MerchantSignupOwnerRequestInput } from './types-37.js';
 import type { TextModifierConfigRequest } from './types-65.js';
-import type { PromotionRefRequest, PromotionRefRequestInput } from './types-51.js';
+/** The `counted` variant of `CreateInventoryAdjustmentRequest`. */
+export type CreateInventoryAdjustmentCountedRequestInput = ({
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
+     * maxItems: 100. [] (Value): {@link InventoryAdjustmentSetLineRequestInput}. One line of an
+     * inventory adjustment that sets absolute quantities for an item at a Location. Omitted
+     * quantities stay unchanged.
+     */
+    "lines": Array<InventoryAdjustmentSetLineRequestInput>;
+    /**
+     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
+     */
+    "note"?: string;
+    /**
+     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
+     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string | globalThis.Date;
+    /** Why the stock changed. It decides which fields each line takes. Value enum: "counted". */
+    "reason": "counted";
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. The source system
+     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
+     * identifier when it applies.
+     */
+    "source_system"?: InventorySourceSystemRequestInput;
+})
+    & (({
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. type (Required):
+     * string. Value enum: "pos", "wms", "erp", "other".
+     */
+    "source_system": null
+        | boolean
+        | number
+        | string
+        | unknown[]
+        | ({
+        /** Value enum: "pos", "wms", "erp", "other". */
+        "type": "pos" | "wms" | "erp" | "other";
+        "external_source_id": unknown;
+    });
+})
+    | ({
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. [] (Value):
+     * any.
+     */
+    "lines"?: unknown;
+}));
+/**
+ * The `loss` variant of `CreateInventoryAdjustmentRequest`. The `received` variant of
+ * `CreateInventoryAdjustmentRequest`. The `returned` variant of
+ * `CreateInventoryAdjustmentRequest`. The `sold` variant of `CreateInventoryAdjustmentRequest`.
+ * The `theft` variant of `CreateInventoryAdjustmentRequest`.
+ */
+export type CreateInventoryAdjustmentQuantityRequest = ({
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
+     * maxItems: 100. [] (Value): {@link InventoryAdjustmentQuantityLineRequest}. One line of an
+     * inventory quantity adjustment: a `quantity` of an item at a Location, in the given
+     * `condition`.
+     */
+    "lines": Array<InventoryAdjustmentQuantityLineRequest>;
+    /**
+     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
+     */
+    "note"?: string;
+    /**
+     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
+     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string;
+    /**
+     * Why the stock changed. It decides which fields each line takes. Value enum: "received",
+     * "returned", "sold", "theft", "loss".
+     */
+    "reason": "received" | "returned" | "sold" | "theft" | "loss" | (string & {});
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. The source system
+     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
+     * identifier when it applies.
+     */
+    "source_system"?: InventorySourceSystemRequest;
+});
+/**
+ * The `loss` variant of `CreateInventoryAdjustmentRequest`. The `received` variant of
+ * `CreateInventoryAdjustmentRequest`. The `returned` variant of
+ * `CreateInventoryAdjustmentRequest`. The `sold` variant of `CreateInventoryAdjustmentRequest`.
+ * The `theft` variant of `CreateInventoryAdjustmentRequest`.
+ */
+export type CreateInventoryAdjustmentQuantityRequestInput = ({
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
+     * maxItems: 100. [] (Value): {@link InventoryAdjustmentQuantityLineRequestInput}. One line of
+     * an inventory quantity adjustment: a `quantity` of an item at a Location, in the given
+     * `condition`.
+     */
+    "lines": Array<InventoryAdjustmentQuantityLineRequestInput>;
+    /**
+     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
+     */
+    "note"?: string;
+    /**
+     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
+     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string | globalThis.Date;
+    /**
+     * Why the stock changed. It decides which fields each line takes. Value enum: "received",
+     * "returned", "sold", "theft", "loss".
+     */
+    "reason": "received" | "returned" | "sold" | "theft" | "loss";
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. The source system
+     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
+     * identifier when it applies.
+     */
+    "source_system"?: InventorySourceSystemRequestInput;
+});
+/** The request body for: Create inventory adjustment. */
+export type CreateInventoryAdjustmentRequest = ((CreateInventoryAdjustmentQuantityRequest)
+    | (CreateInventoryAdjustmentConditionChangeRequest)
+    | (CreateInventoryAdjustmentCountedRequest)
+    | (CreateInventoryAdjustmentCorrectionRequest)
+    | (Record<string, unknown>));
 /** The request body for: Create inventory adjustment. */
 export type CreateInventoryAdjustmentRequestInput = ((CreateInventoryAdjustmentQuantityRequestInput)
     | (CreateInventoryAdjustmentConditionChangeRequestInput)
@@ -1949,7 +2089,7 @@ export type CreateMeCheckoutSessionReturnResolutionInput = ({
 export type CreateMeSubscriptionPreviewRequest = ((CreateMeSubscriptionPreviewRequestDeliveryOptions)
     | (CreateMeSubscriptionPreviewRequestNextRenewal)
     | (CreateMeSubscriptionPreviewRequestPlanChange)
-    | (CreateMeSubscriptionPreviewRequestQuantityChange)
+    | (CreateSubscriptionPreviewRequestQuantityChange)
     | (Record<string, unknown>));
 /** The `delivery_options` variant of `CreateMeSubscriptionPreviewRequest`. */
 export type CreateMeSubscriptionPreviewRequestDeliveryOptions = {
@@ -2059,12 +2199,6 @@ export type CreateMeSubscriptionPreviewRequestPlanChange = ({
     /** The subscription change to preview. Value enum: "plan_change". */
     "mode": "plan_change" | (string & {});
     /**
-     * Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use
-     * line_items for multiple units. Whole-number quantity; fractional quantities are not
-     * supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-    /**
      * The buyer's subscription to preview a plan change for. minLength: 1. pattern:
      * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      */
@@ -2091,12 +2225,6 @@ export type CreateMeSubscriptionPreviewRequestPlanChangeInput = ({
     /** The subscription change to preview. Value enum: "plan_change". */
     "mode": "plan_change";
     /**
-     * Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use
-     * line_items for multiple units. Whole-number quantity; fractional quantities are not
-     * supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-    /**
      * The buyer's subscription to preview a plan change for. minLength: 1. pattern:
      * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      */
@@ -2107,33 +2235,6 @@ export type CreateMeSubscriptionPreviewRequestPlanChangeInput = ({
      */
     "subscription_plan_id": string;
 });
-/** The `quantity_change` variant of `CreateMeSubscriptionPreviewRequest`. */
-export type CreateMeSubscriptionPreviewRequestQuantityChange = {
-    /**
-     * When the quantity change is billed. Previews price only prorated_now; period_end changes are
-     * billed at the next renewal. Value enum: "prorated_now".
-     */
-    "billing_starts": "prorated_now" | (string & {});
-    /**
-     * Reject the preview if the subscription version has changed. Send the same value to
-     * change-quantity. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * The frozen adjustable subscription line and its quantity, within min_quantity and
-     * max_quantity. Omitted lines keep their quantities. minItems: 1. maxItems: 50. [] (Value):
-     * {@link SubscriptionQuantityChangeLineItemRequest}. Quantity for an existing subscription
-     * line.
-     */
-    "line_items": Array<SubscriptionQuantityChangeLineItemRequest>;
-    /** The subscription change to preview. Value enum: "quantity_change". */
-    "mode": "quantity_change" | (string & {});
-    /**
-     * The buyer's subscription to preview a quantity change for. minLength: 1. pattern:
-     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-};
 /** The `quantity_change` variant of `CreateMeSubscriptionPreviewRequest`. */
 export type CreateMeSubscriptionPreviewRequestQuantityChangeInput = {
     /**
@@ -2934,45 +3035,3 @@ export type CreateOnboardingAccessLinkRequest = {
      */
     "return_url": string;
 };
-/**
- * Where Flint's hosted onboarding page sends the person when they exit, finish, or open a used or
- * expired link.
- */
-export type CreateOnboardingAccessLinkRequestInput = CreateOnboardingAccessLinkRequest;
-/**
- * A discount to apply when creating an order: either a manual discount or a reference to a
- * promotion.
- */
-export type CreateOrderDiscount = ({
-    /**
-     * A discount you set by hand, with a name and an amount. A discount you apply by hand to an
-     * order, with a name, an amount, and the order, line items, or charges it applies to.
-     */
-    "manual"?: ManualDiscountRequest;
-    /**
-     * The promotion to apply. Identifies the promotion to apply, by promotion code or by promotion
-     * ID.
-     */
-    "promotion"?: PromotionRefRequest;
-})
-    & ((Exclude<CreateOrderDiscountPromotion & object, readonly unknown[]>)
-    | (Exclude<CreateOrderDiscountManual & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * A discount to apply when creating an order: either a manual discount or a reference to a
- * promotion.
- */
-export type CreateOrderDiscountInput = ({
-    /**
-     * A discount you set by hand, with a name and an amount. A discount you apply by hand to an
-     * order, with a name, an amount, and the order, line items, or charges it applies to.
-     */
-    "manual"?: ManualDiscountRequestInput;
-    /**
-     * The promotion to apply. Identifies the promotion to apply, by promotion code or by promotion
-     * ID.
-     */
-    "promotion"?: PromotionRefRequestInput;
-})
-    & ((Exclude<CreateOrderDiscountPromotionInput & object, readonly unknown[]>)
-    | (Exclude<CreateOrderDiscountManualInput & object, readonly unknown[]>));

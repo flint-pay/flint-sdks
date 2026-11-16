@@ -1,5 +1,24 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { ReturnUnverifiedItemInput, ReturnWindowRequestInput } from './types-57.js';
+import type {
+    ReturnReceiptLineItemInputExcessInput,
+    ReturnReceiptLineItemInputMatchedInput,
+    ReturnReceiptLineItemInputUnverifiedInput,
+    ReturnReceiptLineItemRequestInput
+} from './types-56.js';
+import type {
+    ReturnReplacementLineItemInputBundleInput,
+    ReturnReplacementLineItemInputCustomInput,
+    ReturnReplacementLineItemInputVariantInput,
+    ReturnReplacementLineItemRequestInput,
+    ReturnResolutionAdjustmentRequestInput,
+    ReturnResolutionLineItemRequestInput,
+    ReturnRestockingFeePolicyRequestInput,
+    ReturnShipmentLineItemAllocationRequestInput,
+    ReturnShippingPolicyRequestInput,
+    ReturnSourceSystemRequestInput,
+    ReturnUnverifiedItemInput,
+    ReturnWindowRequestInput
+} from './types-57.js';
 import type {
     ReverseInvoiceManualPaymentRequestInput,
     RiskPredicateNodeAllRequestInput,
@@ -10,10 +29,10 @@ import type {
     RiskPredicateNodeIsMissingRequestInput,
     RiskPredicateNodeMoneyComparisonRequestInput,
     RiskPredicateNodeNotRequestInput,
-    RiskPredicateNodeRequestInput,
-    RotateGiftCardCodeRequestInput
+    RiskPredicateNodeRequestInput
 } from './types-58.js';
 import type {
+    RotateGiftCardCodeRequestInput,
     RotatePartnerAppSecretRequestInput,
     RotateWebhookSecretRequestInput,
     SaveMeGiftCardRequestInput,
@@ -24,11 +43,11 @@ import type {
     ScheduleFulfillmentRequestInput,
     SellerTaxAttestationRequestInput,
     SendOrderReceiptRequestInput,
-    SendPaymentIntentReceiptRequestInput,
-    SignWebhookEndpointDeliveryRequestInput,
-    SignedMoneyRequestInput
+    SendPaymentIntentReceiptRequestInput
 } from './types-59.js';
 import type {
+    SignWebhookEndpointDeliveryRequestInput,
+    SignedMoneyRequestInput,
     SimulateDisputeRequestInput,
     SimulateReaderRequestInput,
     SinglePackageCreateInputCreatedInput,
@@ -46,32 +65,30 @@ import type {
     SubscriptionBillingScheduleUpdateInputFlintInput,
     SubscriptionBillingScheduleUpdateRequestInput,
     SubscriptionBillingStartInputImmediateInput,
-    SubscriptionBillingStartInputImportedInput,
-    SubscriptionBillingStartInputScheduledInput,
-    SubscriptionBillingStartRequestInput
+    SubscriptionBillingStartInputImportedInput
 } from './types-60.js';
 import type {
+    SubscriptionBillingStartInputScheduledInput,
+    SubscriptionBillingStartRequestInput,
     SubscriptionDeliveryDestinationInputAddressInput,
     SubscriptionDeliveryDestinationInputCustomerAddressInput,
     SubscriptionDeliveryDestinationRequestInput,
-    SubscriptionDeliveryRequestInput,
-    SubscriptionEndAfterCyclesRequestInput,
-    SubscriptionEndAfterDateRequestInput,
-    SubscriptionEndAfterRequestInput,
-    SubscriptionGiftRecipientRequestInput,
-    SubscriptionIntervalOptionRequestInput
+    SubscriptionDeliveryRequestInput
 } from './types-61.js';
-import type {
-    SubscriptionOfferLineItemRequestInput,
-    SubscriptionOfferTermsRequestInput,
-    SubscriptionPlanChangeLineItemRequestInput,
-    SubscriptionPlanChangeOptionRequestInput,
-    SubscriptionPlanLineItemInputBundleInput,
-    SubscriptionPlanLineItemInputCustomInput,
-    SubscriptionPlanLineItemInputVariantInput,
-    SubscriptionPlanLineItemRequestInput
-} from './types-62.js';
-import type { SubscriptionPlanTermsRequestInput } from './types-63.js';
+export declare function makeReturnReceiptLineItemInputExcess(value: InputValue<ReturnReceiptLineItemInputExcessInput>): Model<ReturnReceiptLineItemInputExcessInput>;
+export declare function makeReturnReceiptLineItemInputMatched(value: InputValue<ReturnReceiptLineItemInputMatchedInput>): Model<ReturnReceiptLineItemInputMatchedInput>;
+export declare function makeReturnReceiptLineItemInputUnverified(value: InputValue<ReturnReceiptLineItemInputUnverifiedInput>): Model<ReturnReceiptLineItemInputUnverifiedInput>;
+export declare function makeReturnReceiptLineItemRequest(value: InputValue<ReturnReceiptLineItemRequestInput>): Model<ReturnReceiptLineItemRequestInput>;
+export declare function makeReturnReplacementLineItemInputBundle(value: InputValue<ReturnReplacementLineItemInputBundleInput>): Model<ReturnReplacementLineItemInputBundleInput>;
+export declare function makeReturnReplacementLineItemInputCustom(value: InputValue<ReturnReplacementLineItemInputCustomInput>): Model<ReturnReplacementLineItemInputCustomInput>;
+export declare function makeReturnReplacementLineItemInputVariant(value: InputValue<ReturnReplacementLineItemInputVariantInput>): Model<ReturnReplacementLineItemInputVariantInput>;
+export declare function makeReturnReplacementLineItemRequest(value: InputValue<ReturnReplacementLineItemRequestInput>): Model<ReturnReplacementLineItemRequestInput>;
+export declare function makeReturnResolutionAdjustmentRequest(value: InputValue<ReturnResolutionAdjustmentRequestInput>): Model<ReturnResolutionAdjustmentRequestInput>;
+export declare function makeReturnResolutionLineItemRequest(value: InputValue<ReturnResolutionLineItemRequestInput>): Model<ReturnResolutionLineItemRequestInput>;
+export declare function makeReturnRestockingFeePolicyRequest(value: InputValue<ReturnRestockingFeePolicyRequestInput>): Model<ReturnRestockingFeePolicyRequestInput>;
+export declare function makeReturnShipmentLineItemAllocationRequest(value: InputValue<ReturnShipmentLineItemAllocationRequestInput>): Model<ReturnShipmentLineItemAllocationRequestInput>;
+export declare function makeReturnShippingPolicyRequest(value: InputValue<ReturnShippingPolicyRequestInput>): Model<ReturnShippingPolicyRequestInput>;
+export declare function makeReturnSourceSystemRequest(value: InputValue<ReturnSourceSystemRequestInput>): Model<ReturnSourceSystemRequestInput>;
 export declare function makeReturnUnverifiedItem(value: InputValue<ReturnUnverifiedItemInput>): Model<ReturnUnverifiedItemInput>;
 export declare function makeReturnWindowRequest(value: InputValue<ReturnWindowRequestInput>): Model<ReturnWindowRequestInput>;
 export declare function makeReverseInvoiceManualPaymentRequest(value: InputValue<ReverseInvoiceManualPaymentRequestInput>): Model<ReverseInvoiceManualPaymentRequestInput>;
@@ -126,18 +143,3 @@ export declare function makeSubscriptionDeliveryDestinationInputCustomerAddress(
 export declare function makeSubscriptionDeliveryDestinationRequest(value: InputValue<Exclude<SubscriptionDeliveryDestinationRequestInput & object, readonly unknown[]>>): Model<Exclude<SubscriptionDeliveryDestinationRequestInput & object, readonly unknown[]>>;
 export declare function makeSubscriptionDeliveryDestinationRequest(value: InputValue<SubscriptionDeliveryDestinationRequestInput>): Model<SubscriptionDeliveryDestinationRequestInput>;
 export declare function makeSubscriptionDeliveryRequest(value: InputValue<SubscriptionDeliveryRequestInput>): Model<SubscriptionDeliveryRequestInput>;
-export declare function makeSubscriptionEndAfterCyclesRequest(value: InputValue<SubscriptionEndAfterCyclesRequestInput>): Model<SubscriptionEndAfterCyclesRequestInput>;
-export declare function makeSubscriptionEndAfterDateRequest(value: InputValue<SubscriptionEndAfterDateRequestInput>): Model<SubscriptionEndAfterDateRequestInput>;
-export declare function makeSubscriptionEndAfterRequest(value: InputValue<Exclude<SubscriptionEndAfterRequestInput & object, readonly unknown[]>>): Model<Exclude<SubscriptionEndAfterRequestInput & object, readonly unknown[]>>;
-export declare function makeSubscriptionEndAfterRequest(value: InputValue<SubscriptionEndAfterRequestInput>): Model<SubscriptionEndAfterRequestInput>;
-export declare function makeSubscriptionGiftRecipientRequest(value: InputValue<SubscriptionGiftRecipientRequestInput>): Model<SubscriptionGiftRecipientRequestInput>;
-export declare function makeSubscriptionIntervalOptionRequest(value: InputValue<SubscriptionIntervalOptionRequestInput>): Model<SubscriptionIntervalOptionRequestInput>;
-export declare function makeSubscriptionOfferLineItemRequest(value: InputValue<SubscriptionOfferLineItemRequestInput>): Model<SubscriptionOfferLineItemRequestInput>;
-export declare function makeSubscriptionOfferTermsRequest(value: InputValue<SubscriptionOfferTermsRequestInput>): Model<SubscriptionOfferTermsRequestInput>;
-export declare function makeSubscriptionPlanChangeLineItemRequest(value: InputValue<SubscriptionPlanChangeLineItemRequestInput>): Model<SubscriptionPlanChangeLineItemRequestInput>;
-export declare function makeSubscriptionPlanChangeOptionRequest(value: InputValue<SubscriptionPlanChangeOptionRequestInput>): Model<SubscriptionPlanChangeOptionRequestInput>;
-export declare function makeSubscriptionPlanLineItemInputBundle(value: InputValue<SubscriptionPlanLineItemInputBundleInput>): Model<SubscriptionPlanLineItemInputBundleInput>;
-export declare function makeSubscriptionPlanLineItemInputCustom(value: InputValue<SubscriptionPlanLineItemInputCustomInput>): Model<SubscriptionPlanLineItemInputCustomInput>;
-export declare function makeSubscriptionPlanLineItemInputVariant(value: InputValue<SubscriptionPlanLineItemInputVariantInput>): Model<SubscriptionPlanLineItemInputVariantInput>;
-export declare function makeSubscriptionPlanLineItemRequest(value: InputValue<SubscriptionPlanLineItemRequestInput>): Model<SubscriptionPlanLineItemRequestInput>;
-export declare function makeSubscriptionPlanTermsRequest(value: InputValue<SubscriptionPlanTermsRequestInput>): Model<SubscriptionPlanTermsRequestInput>;

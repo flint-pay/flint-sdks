@@ -1,5 +1,5 @@
 import type { WithResponseInfo } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type { OrderEditPreview, OrderEditPreviewResponse, OrderEditPreviewsCreateParams } from '../declarations/types-40.js';
 import type { RequestOptions } from '../declarations/types-54.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
@@ -36,7 +36,7 @@ export type {
 } from '../declarations/types-40.js';
 export type { _SdkWithoutIdempotency, WeightRequestInput } from '../declarations/types-70.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateOrderLineItemRequestInput,
     CreateOrderLineItemInputVariantInput,
@@ -56,17 +56,18 @@ export type {
 export type { TextModifierRequestInput, TextModifierRequest } from '../declarations/types-65.js';
 export type { SubscribedLineRequestModelInput } from '../declarations/types-60.js';
 export type { DimensionsRequestInput } from '../declarations/types-23.js';
-export type { RefundChargeInput, RefundDestinationsInput, ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export type { RefundChargeInput, RefundDestinationsInput } from '../declarations/types-53.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
 export {
     makeCreateOrderLineItemInputBundle,
     makeCreateOrderLineItemInputCustom,
     makeCreateOrderLineItemInputVariant,
     makeCreateOrderLineItemRequest
 } from '../declarations/types-73.js';
-export { makeDimensionsRequest } from '../declarations/types-76.js';
 export {
+    makeDimensionsRequest,
     makeGiftCardPurchaseDetailsRequest,
     makeGiftCardPurchaseRecipientRequest,
     makeImageReferenceRequest
@@ -74,10 +75,10 @@ export {
 export {
     makeLineItemFulfillmentOriginRequestModel,
     makeLineItemFulfillmentRequestModel,
-    makeMetadataRequest,
-    makeMoneyValue
+    makeMetadataRequest
 } from '../declarations/types-78.js';
 export {
+    makeMoneyValue,
     makeOrderDraftLineItemInventoryDemandRequest,
     makeOrderDraftLineItemTaxCalculationRequestModel,
     makeOrderDraftLineItemTaxRequestModel,
@@ -92,7 +93,7 @@ export {
 export { makeRefundCharge, makeRefundDestinations } from '../declarations/types-81.js';
 export { makeSubscribedLineRequestModel } from '../declarations/types-82.js';
 export { makeTextModifierRequest } from '../declarations/types-83.js';
-export { makeWeightRequest } from '../declarations/types-84.js';
+export { makeWeightRequest } from '../declarations/types-85.js';
 export interface OrderEditPreviewsResource {
     /**
  * Calculates removing items from a paid order, adding items to it, or both, without changing it.

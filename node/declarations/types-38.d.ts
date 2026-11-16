@@ -1,14 +1,54 @@
 import type { MerchantSignup } from './types-37.js';
 import type { ResponseMeta } from './types-54.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateMerchantSignupRequestInput, CreateModifierGroupRequestInput, CreateModifierSetRequestInput } from './types-10.js';
-import type { VerifyMerchantSignupRequestInput, WebhookMerchant } from './types-69.js';
+import type { CreateMerchantSignupRequestInput, CreateModifierGroupRequestInput } from './types-10.js';
+import type { VerifyMerchantSignupRequestInput } from './types-69.js';
 import type { UpdateMerchantRequestInput, UpdateModifierGroupRequestInput } from './types-67.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
+import type { WebhookMerchant } from './types-70.js';
 import type { MoneyValue, MoneyValueInput } from './types-39.js';
 import type { TextModifierConfig } from './types-65.js';
 import type { DisputesAcceptParams } from './types-23.js';
 import type { InlineModifierGroupRequest, InlineModifierGroupRequestInput } from './types-28.js';
+/** A response containing `MerchantSignup` data. */
+export type MerchantSignupResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A platform's request to
+     * create a merchant for an owner, who confirms it with a code Flint emails them. Once
+     * verified, it is the record of the owner's consent, kept for as long as the merchant exists.
+     */
+    "data": MerchantSignup;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Flint's merchant terms the owner accepts by entering the code, fixed when the signup was
+ * created.
+ */
+export type MerchantSignupTerms = {
+    /** Where the terms are published. Link to it beside the checkbox in your form. */
+    "url": string;
+    /** The terms version. Send it as `terms_acceptance.merchant_terms_version` on verify. */
+    "version": string;
+};
+/**
+ * The owner's acceptance of Flint's merchant terms, recorded at verify. Flint also stores the IP
+ * address and user agent you reported; they aren't returned.
+ */
+export type MerchantSignupTermsAcceptance = {
+    /** When the owner accepted the terms. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "accepted_at": string;
+    /** The terms version accepted. */
+    "merchant_terms_version": string;
+};
 /**
  * Your statement that the owner ticked Flint's terms checkbox in your form, with Flint's wording.
  * The platform terms oblige you to show it and to report real values.
@@ -390,36 +430,36 @@ export type MerchantWebhookEnvelope = ({
      * "inventory_transfer.received", "inventory_transfer.returned", "inventory_transfer.updated",
      * "merchant_billing_balance.updated", "merchant.readiness_updated",
      * "merchant_billing_invoice.issued", "merchant_billing_invoice.updated",
-     * "order.partially_refunded", "order.closed", "order_edit.created", "order.created",
-     * "fulfillment.completed", "fulfillment.created", "fulfillment_event.created",
-     * "package.created", "package.updated", "shipment.created", "shipment.updated",
-     * "fulfillment.updated", "order.inventory_exception_created",
-     * "order.inventory_exception_resolved", "order.partially_paid", "order.paid",
-     * "order.refunded", "order.updated", "payment_intent.authorization_expiring",
-     * "payment_intent.expired", "payment_intent.updated", "payment_intent.created",
-     * "payment_intent.canceled", "payment_intent.fulfillment_hold_updated",
-     * "payment_intent.payment_failed", "payment_intent.processing",
-     * "payment_intent.requires_action", "payment_intent.requires_capture",
-     * "payment_intent.succeeded", "payment_link.created", "payment_link.updated",
-     * "payment_method.archived", "payment_method.failed", "payment_method.activated",
-     * "payment_method.updated", "payout.canceled", "payout.created", "payout.failed",
-     * "payout.succeeded", "payout.reversed", "payout.updated", "payout_destination.created",
-     * "payout_destination.archived", "payout_destination.disabled", "payout_destination.updated",
-     * "payout_settings.updated", "refund.partially_succeeded", "refund.succeeded",
-     * "refund.created", "refund.failed", "refund.updated", "report.failed", "report.succeeded",
-     * "return.canceled", "return.completed", "return.created", "return.decision_recorded",
-     * "return.reopened", "return.updated", "return_disposition.created",
-     * "return_disposition.updated", "return_inspection.acceptance_decided",
-     * "return_inspection.created", "return_inspection.superseded", "return_receipt.created",
-     * "return_receipt.superseded", "return_receipt.verified", "return_resolution.created",
-     * "return_resolution.updated", "payment_review.closed", "payment_review.reopened",
-     * "payment_review.opened", "subscription.activated", "subscription.canceled",
-     * "subscription.cancellation_scheduled", "subscription.created",
-     * "subscription.dunning_exhausted", "subscription.past_due", "subscription.paused",
-     * "subscription.payment_succeeded", "subscription_payment_retry.created",
-     * "subscription_payment_retry.succeeded", "subscription_payment_retry.failed",
-     * "subscription.reactivated", "subscription.resumed", "subscription.end_upcoming",
-     * "subscription.renewal_upcoming", "subscription.trial_ending",
+     * "order.partially_refunded", "order.closed", "order_edit.completed", "order_edit.canceled",
+     * "order_edit.updated", "order_edit.created", "order.created", "fulfillment.completed",
+     * "fulfillment.created", "fulfillment_event.created", "package.created", "package.updated",
+     * "shipment.created", "shipment.updated", "fulfillment.updated",
+     * "order.inventory_exception_created", "order.inventory_exception_resolved",
+     * "order.partially_paid", "order.paid", "order.refunded", "order.updated",
+     * "payment_intent.authorization_expiring", "payment_intent.expired", "payment_intent.updated",
+     * "payment_intent.created", "payment_intent.canceled",
+     * "payment_intent.fulfillment_hold_updated", "payment_intent.payment_failed",
+     * "payment_intent.processing", "payment_intent.requires_action",
+     * "payment_intent.requires_capture", "payment_intent.succeeded", "payment_link.created",
+     * "payment_link.updated", "payment_method.archived", "payment_method.failed",
+     * "payment_method.activated", "payment_method.updated", "payout.canceled", "payout.created",
+     * "payout.failed", "payout.succeeded", "payout.reversed", "payout.updated",
+     * "payout_destination.created", "payout_destination.archived", "payout_destination.disabled",
+     * "payout_destination.updated", "payout_settings.updated", "refund.partially_succeeded",
+     * "refund.succeeded", "refund.created", "refund.failed", "refund.updated", "report.failed",
+     * "report.succeeded", "return.canceled", "return.completed", "return.created",
+     * "return.decision_recorded", "return.reopened", "return.updated",
+     * "return_disposition.created", "return_disposition.updated",
+     * "return_inspection.acceptance_decided", "return_inspection.created",
+     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
+     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
+     * "payment_review.closed", "payment_review.reopened", "payment_review.opened",
+     * "subscription.activated", "subscription.canceled", "subscription.cancellation_scheduled",
+     * "subscription.created", "subscription.dunning_exhausted", "subscription.past_due",
+     * "subscription.paused", "subscription.payment_succeeded",
+     * "subscription_payment_retry.created", "subscription_payment_retry.succeeded",
+     * "subscription_payment_retry.failed", "subscription.reactivated", "subscription.resumed",
+     * "subscription.end_upcoming", "subscription.renewal_upcoming", "subscription.trial_ending",
      * "subscription.plan_change_scheduled", "subscription.plan_change_canceled",
      * "subscription.plan_changed", "subscription.updated",
      * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
@@ -605,6 +645,9 @@ export type MerchantWebhookEnvelope = ({
         | "merchant_billing_invoice.updated"
         | "order.partially_refunded"
         | "order.closed"
+        | "order_edit.completed"
+        | "order_edit.canceled"
+        | "order_edit.updated"
         | "order_edit.created"
         | "order.created"
         | "fulfillment.completed"
@@ -4463,180 +4506,3 @@ export type ModifierSetUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
         "sandbox_id"?: string;
     });
 });
-/**
- * The `modifier_set.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type ModifierSetUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.created_at (Optional): string. When the modifier set was created,
-     * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.merchant_id
-     * (Optional): string. Identifier of the merchant that owns this modifier set. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them. object.modifier_groups (Required): Array
-     * of {@link ModifierSetGroup}. Ordered group entries in this set, including the full content
-     * of reusable groups and groups owned by the set. object.modifier_groups[] (Value): {@link
-     * ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection
-     * limits, display options, and per-modifier overrides. object.modifier_set_id (Required):
-     * string. Stable identifier of the modifier set assigned to catalog items. Example:
-     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Name used to identify this
-     * modifier set. object.status (Required): string. Lifecycle status of the modifier set. Only
-     * active sets can be offered to buyers; archived sets remain readable and cannot be edited.
-     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When the
-     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
-     * the modifier set, including the groups it contains. Format: uint64. minimum: 1.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * created_at (Optional): string. When the modifier set was created, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". merchant_id (Optional): string. Identifier of
-         * the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
-         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
-         * be written through the public API. Caller-owned key-value data stored on a resource.
-         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. modifier_groups (Required): Array of {@link ModifierSetGroup}. Ordered
-         * group entries in this set, including the full content of reusable groups and groups
-         * owned by the set. modifier_groups[] (Value): {@link ModifierSetGroup}. A modifier group
-         * as it appears in a modifier set, with its selection limits, display options, and
-         * per-modifier overrides. modifier_set_id (Required): string. Stable identifier of the
-         * modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name
-         * (Required): string. Name used to identify this modifier set. status (Required): string.
-         * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
-         * archived sets remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". updated_at (Optional): string. When the modifier set or any group it
-         * contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier set,
-         * including the groups it contains. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * When the modifier set was created, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Identifier of the merchant that owns this modifier set. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-             * and MetadataPatchInput; maps written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Ordered group entries in this set, including the full content of reusable groups and
-             * groups owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as
-             * it appears in a modifier set, with its selection limits, display options, and
-             * per-modifier overrides.
-             */
-            "modifier_groups": Array<ModifierSetGroup>;
-            /**
-             * Stable identifier of the modifier set assigned to catalog items. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-             */
-            "modifier_set_id": string;
-            /** Name used to identify this modifier set. */
-            "name": string;
-            /**
-             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
-             * archived sets remain readable and cannot be edited. Value enum: "active",
-             * "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * When the modifier set or any group it contains last changed, as an RFC3339
-             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /**
-             * Version of the modifier set, including the groups it contains. Format: uint64.
-             * minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<ModifierSet>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "modifier_set.updated". */
-    "event_type"?: "modifier_set.updated";
-});
-export type ModifierSetsCreateParams = (InputValue<CreateModifierSetRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ModifierSetsDeleteParams = {
-    /**
-     * Optional modifier set version last read by the caller. Format: uint64. minimum: 1. maximum:
-     * 9007199254740991.
-     */
-    "expected_version"?: InputValue<number>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};

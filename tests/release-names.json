@@ -628,6 +628,7 @@
   "listMeTickets": "me.listTickets",
   "createOrderEditPreview": "orderEditPreviews.create",
   "createOrderEdit": "orders.createEdit",
+  "cancelOrderEdit": "orders.cancelEdit",
   "getOrderEdit": "orders.getEdit",
   "getOrderReceiptPDF": "orders.getReceiptPDF",
   "listOrderEdits": "orders.listEdits",

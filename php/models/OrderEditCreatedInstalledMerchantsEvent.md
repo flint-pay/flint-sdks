@@ -25,11 +25,11 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](OrderEditCreatedMerchantEvent.md#ordereditcreatedmerchanteventdata-fields-1).
+Field definitions: [shared fields](OrderEditCanceledMerchantEvent.md#ordereditcanceledmerchanteventdata-fields-1).
 
 ### OrderEditCreatedInstalledMerchantsEvent.data fields 1.object
 
-Field definitions: [OrderEditCreatedMerchantEvent.data fields 1.object](../models/OrderEditCreatedMerchantEvent.md#ordereditcreatedmerchanteventdata-fields-1object).
+Field definitions: [OrderEditCanceledMerchantEvent.data fields 1.object](../models/OrderEditCanceledMerchantEvent.md#ordereditcanceledmerchanteventdata-fields-1object).
 
 ### OrderEditCreatedInstalledMerchantsEvent.source fields 1
 

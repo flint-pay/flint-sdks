@@ -11,6 +11,6 @@ Result of rotating a tax calculation callback's HMAC secret, including the new `
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `key_id` | Required | string | ID of the new HMAC signing key. Example: `"cbkey_00112233445566778899aabb"`. |
-| `secret` | Required | string | New HMAC shared secret. Returned only by this response. |
+| `secret` | Optional | string | New HMAC shared secret. Returned only by this response. Returned only to the credential that created it, and omitted when another credential replays the request. |
 | `tax_calculation_callback_id` | Required | string | ID of the callback whose secret was issued or rotated, beginning with `tcb_`. Example: `"tcb_01KEZF7C00N7SER74Y2E6D1ZGT"`. |
 

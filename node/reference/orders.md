@@ -153,6 +153,84 @@ const result = await client.orders.applyGiftCard("ord_01KEZF7C0054GQKJ142A8X367A
 
 [Complete runnable example](../examples/orders-applyGiftCard.mjs)
 
+### orders.cancelEdit
+
+Cancels the payment intent, releases every hold, and leaves the order's items and money unchanged. Refused while the balance payment is processing or under review. Use the same Idempotency-Key to replay the recorded result.
+
+`POST /v1/orders/{order_id}/edits/{order_edit_id}/cancel`
+
+Signature:
+
+```typescript
+cancelEdit(order_id: InputValue<string>,
+ order_edit_id: InputValue<string>,
+ params: OrdersCancelEditParams |
+  undefined,
+ options: _SdkRequiredIdempotency<RequestOptions<"merchant">>)
+```
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `order_id` | Required | string | The order that owns the edit. |
+| `order_edit_id` | Required | string | The pending edit to cancel. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `body` | Optional | [CancelOrderEditRequestInput](../models/CancelOrderEditRequestInput.md#cancelordereditrequestinput) | Cancel a pending order edit. |
+
+Body model: [CancelOrderEditRequestInput](../models/CancelOrderEditRequestInput.md#cancelordereditrequestinput).
+
+#### orders.cancelEdit body fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | integer | The order edit version to cancel. A mismatch returns VERSION_CONFLICT before changes. Format: `uint64`. minimum: `1`. |
+
+#### Response
+
+Returned payload: [CancelOrderEditResult](../models/CancelOrderEditResult.md#cancelordereditresult).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key required, [As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.orders.cancelEdit("ord_01KEZF7C0054GQKJ142A8X367A", "oed_01KEZF7C00A6BQ4TBGWFDJ944A", undefined, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/orders-cancelEdit.mjs)
+
 ### orders.cancelPaymentAttempt
 
 Cancels an active order payment attempt, its unsettled payment legs, and its attempt-owned holds.
@@ -514,7 +592,7 @@ const result = await client.orders.createCharge("ord_01ARZ3NDEKTSV4RRFFQ69G5FAV"
 
 ### orders.createEdit
 
-Removes unassigned units from a paid order, adds items the removed value and released charges pay for, or does both, and queues any remaining refund atomically. Removed value and released charges pay for added lines first; only the remainder is refunded. Added lines are priced and taxed as usual, without promotions, and must be variant, bundle, or custom lines with a delivery requirement. They do not join the order's delivery selection. An edit that would leave a balance due writes nothing and returns LIMIT_EXCEEDED with reason order_edit_balance_due, with maximum_money equal to the removed value plus released charges. Bundle components must all be unassigned; dispatched quantities use Returns. Original quantities and pricing remain the sale record. The edit, added stock commitments, committed tax, and release of removed stock commit together; refund processing can continue afterward. Invoice-collected, subscription-owned, return-owned, disputed orders and unresolved inventory exceptions cannot be edited. Charges change only through charge_refunds. A zero-value edit creates no refund. Refund processing may still be pending, so refunds can be empty and refund.created follows later. Refund failures leave this immutable edit recorded. When supported_actions contains retry, use POST /v1/orders/{order_id}/edits/{order_edit_id}/retry to refund the remaining money. On VERSION_CONFLICT, keep the draft, fetch the order, preview again, and reconcile it before committing with the new expected_order_version and a new key. Retry a lost response with the original Idempotency-Key and unchanged body: Flint recovers the committed edit and its current order and refunds, without repeating the edit. If recovery cannot complete, retain the key and request ID for support; do not change keys to retry an uncertain result.
+Removes unassigned units from a paid order, adds items the removed value and released charges pay for, or does both, and queues any remaining refund atomically. Removed value and released charges pay for added lines first; only the remainder is refunded. Added lines are priced and taxed as usual, without promotions, and must be variant, bundle, or custom lines with a delivery requirement. They do not join the order's delivery selection. An edit that would leave a balance due defaults to refusing with LIMIT_EXCEEDED and reason order_edit_balance_due. Send balance_due_behavior: collect to create a pending edit and its payment intent. Confirm that payment intent to collect the balance. The order stays paid and closed with zero outstanding money. The edit holds stock, removed units and credit for 24 hours; cancellation releases those holds without changing the order. Send expected_amount_due_money to fence the previewed balance. Bundle components must all be unassigned; dispatched quantities use Returns. Original quantities and pricing remain the sale record. The edit, added stock commitments, committed tax, and release of removed stock commit together; refund processing can continue afterward. Invoice-collected, subscription-owned, return-owned, disputed orders and unresolved inventory exceptions cannot be edited. Charges change only through charge_refunds. A zero-value edit creates no refund. Refund processing may still be pending, so refunds can be empty and refund.created follows later. Refund failures leave the completed edit recorded. When supported_actions contains retry, use POST /v1/orders/{order_id}/edits/{order_edit_id}/retry to refund the remaining money. On VERSION_CONFLICT, keep the draft, fetch the order, preview again, and reconcile it before committing with the new expected_order_version and a new key. Retry a lost response with the original Idempotency-Key and unchanged body: Flint recovers the committed edit and its current order and refunds, without repeating the edit. If recovery cannot complete, retain the key and request ID for support; do not change keys to retry an uncertain result.
 
 `POST /v1/orders/{order_id}/edits`
 
@@ -528,7 +606,7 @@ Signature: `createEdit(order_id: InputValue<string>, params: OrdersCreateEditPar
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [CreateOrderEditRequestInput](../models/CreateOrderEditRequest.md#createordereditrequest) | Remove unassigned units from a paid order, add items the removed value and released charges pay for, or do both, and queue any remaining refund atomically. |
+| `body` | Required | [CreateOrderEditRequestInput](../models/CreateOrderEditRequest.md#createordereditrequest) | Remove unassigned units from a paid order, add items, or do both. Removed value and released charges pay for the additions; with `balance_due_behavior: collect`, the buyer pays the rest. Flint queues any remaining refund atomically. |
 
 Body model: [CreateOrderEditRequestInput](../models/CreateOrderEditRequest.md#createordereditrequest).
 
@@ -537,8 +615,10 @@ Body model: [CreateOrderEditRequestInput](../models/CreateOrderEditRequest.md#cr
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `add_line_items` | Optional | Array of [CreateOrderLineItemRequestInput](../models/CreateOrderLineItemRequest.md#createorderlineitemrequest) | Lines to add after removals, in the same shape as POST /v1/orders/{order_id}/line-items. Only variant, bundle, and custom lines with a delivery requirement can be added. Added lines are priced and taxed as usual, without promotions, and do not join the order's delivery selection. minItems: `1`. maxItems: `100`. |
+| `balance_due_behavior` | Optional | string | What happens when the added items cost more than the removed value and released charges. refuse returns 409 LIMIT_EXCEEDED and changes nothing. collect creates the edit as pending and a payment intent for the balance; the edit is applied when that payment succeeds. Default: `"refuse"`. Values: `"refuse"`, `"collect"`. |
 | `charge_refunds` | Optional | Array of [RefundChargeInput](../models/RefundCharge.md#refundcharge) | Charges to release. Released value pays for added lines first and the rest is refunded. Omitting amount_money releases the charge's remaining refundable amount. maxItems: `100`. |
 | `destinations` | Optional | [RefundDestinationsInput](../models/RefundDestinations.md#refunddestinations) | Refund destinations, with the same defaults as POST /v1/refunds. Default refund destinations for payment intent and gift card redemption allocations planned by Flint. Each tender type defaults to original when omitted. |
+| `expected_amount_due_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | The balance you showed the buyer, usually the preview's amount_due_money. If the edit would freeze a different balance, the request returns 409 VERSION_CONFLICT and changes nothing. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `expected_order_version` | Required | integer | The order.version the edit draft was based on. On VERSION_CONFLICT, keep the draft, fetch the order, preview again, and reconcile before committing with the new version and a new Idempotency-Key. Format: `int64`. minimum: `1`. |
 | `note` | Optional | string | Internal merchant note. Omitted from buyer and webhook payloads and refund messages. minLength: `1`. maxLength: `500`. |
 | `reason` | Optional | string | Reason for the edit and any refund it creates. Values: [13 declared values](../models/CreateOrderEditRequest.md#createordereditrequest-reason-values). |
@@ -551,8 +631,10 @@ Body model: [CreateOrderEditRequestInput](../models/CreateOrderEditRequest.md#cr
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `add_line_items` | Optional | Array of [CreateOrderLineItemRequestInput](../models/CreateOrderLineItemRequest.md#createorderlineitemrequest) | Lines to add after removals, in the same shape as POST /v1/orders/{order_id}/line-items. Only variant, bundle, and custom lines with a delivery requirement can be added. Added lines are priced and taxed as usual, without promotions, and do not join the order's delivery selection. minItems: `1`. maxItems: `100`. |
+| `balance_due_behavior` | Optional | string | What happens when the added items cost more than the removed value and released charges. refuse returns 409 LIMIT_EXCEEDED and changes nothing. collect creates the edit as pending and a payment intent for the balance; the edit is applied when that payment succeeds. Default: `"refuse"`. Values: `"refuse"`, `"collect"`. |
 | `charge_refunds` | Optional | Array of [RefundChargeInput](../models/RefundCharge.md#refundcharge) | Charges to release. Released value pays for added lines first and the rest is refunded. Omitting amount_money releases the charge's remaining refundable amount. maxItems: `100`. |
 | `destinations` | Optional | [RefundDestinationsInput](../models/RefundDestinations.md#refunddestinations) | Refund destinations, with the same defaults as POST /v1/refunds. Default refund destinations for payment intent and gift card redemption allocations planned by Flint. Each tender type defaults to original when omitted. |
+| `expected_amount_due_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | The balance you showed the buyer, usually the preview's amount_due_money. If the edit would freeze a different balance, the request returns 409 VERSION_CONFLICT and changes nothing. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `expected_order_version` | Required | integer | The order.version the edit draft was based on. On VERSION_CONFLICT, keep the draft, fetch the order, preview again, and reconcile before committing with the new version and a new Idempotency-Key. Format: `int64`. minimum: `1`. |
 | `note` | Optional | string | Internal merchant note. Omitted from buyer and webhook payloads and refund messages. minLength: `1`. maxLength: `500`. |
 | `reason` | Optional | string | Reason for the edit and any refund it creates. Values: [13 declared values](../models/CreateOrderEditRequest.md#createordereditrequest-reason-values). |
@@ -565,8 +647,10 @@ Body model: [CreateOrderEditRequestInput](../models/CreateOrderEditRequest.md#cr
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `add_line_items` | Required | Array of [CreateOrderLineItemRequestInput](../models/CreateOrderLineItemRequest.md#createorderlineitemrequest) | Lines to add after removals, in the same shape as POST /v1/orders/{order_id}/line-items. Only variant, bundle, and custom lines with a delivery requirement can be added. Added lines are priced and taxed as usual, without promotions, and do not join the order's delivery selection. minItems: `1`. maxItems: `100`. |
+| `balance_due_behavior` | Optional | string | What happens when the added items cost more than the removed value and released charges. refuse returns 409 LIMIT_EXCEEDED and changes nothing. collect creates the edit as pending and a payment intent for the balance; the edit is applied when that payment succeeds. Default: `"refuse"`. Values: `"refuse"`, `"collect"`. |
 | `charge_refunds` | Optional | Array of [RefundChargeInput](../models/RefundCharge.md#refundcharge) | Charges to release. Released value pays for added lines first and the rest is refunded. Omitting amount_money releases the charge's remaining refundable amount. maxItems: `100`. |
 | `destinations` | Optional | [RefundDestinationsInput](../models/RefundDestinations.md#refunddestinations) | Refund destinations, with the same defaults as POST /v1/refunds. Default refund destinations for payment intent and gift card redemption allocations planned by Flint. Each tender type defaults to original when omitted. |
+| `expected_amount_due_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | The balance you showed the buyer, usually the preview's amount_due_money. If the edit would freeze a different balance, the request returns 409 VERSION_CONFLICT and changes nothing. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `expected_order_version` | Required | integer | The order.version the edit draft was based on. On VERSION_CONFLICT, keep the draft, fetch the order, preview again, and reconcile before committing with the new version and a new Idempotency-Key. Format: `int64`. minimum: `1`. |
 | `note` | Optional | string | Internal merchant note. Omitted from buyer and webhook payloads and refund messages. minLength: `1`. maxLength: `500`. |
 | `reason` | Optional | string | Reason for the edit and any refund it creates. Values: [13 declared values](../models/CreateOrderEditRequest.md#createordereditrequest-reason-values). |
@@ -878,7 +962,7 @@ const result = await client.orders.get("ord_01KEZF7C0054GQKJ142A8X367A", {}, {  
 
 ### orders.getEdit
 
-Returns an immutable edit with its frozen refund amounts and current refund IDs. The internal note is visible to merchant callers only.
+Returns the edit with its current lifecycle, frozen balance and refund amounts, and current refund IDs. The internal note is visible to merchant callers only.
 
 `GET /v1/orders/{order_id}/edits/{order_edit_id}`
 
@@ -1263,7 +1347,7 @@ const result = await client.orders.listCharges("ord_01KEZF7C0054GQKJ142A8X367A",
 
 ### orders.listEdits
 
-Lists immutable edits for this order, newest created_at first, with descending order_edit_id as the tiebreaker. Defaults to 20 results. Keep filters unchanged when using a page token. Default order: created_at descending, then order_edit_id descending.
+Lists edits for this order, newest created_at first, with descending order_edit_id as the tiebreaker. Defaults to 20 results. Keep filters unchanged when using a page token. Default order: created_at descending, then order_edit_id descending.
 
 `GET /v1/orders/{order_id}/edits`
 
@@ -1276,6 +1360,7 @@ Signature: `listEdits(order_id: InputValue<string>, params?: OrdersListEditsPara
 | `order_id` | Required | string | The order that owns the edit. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `status` | Optional | Array of string or string | Exact edit status. Values match any supplied status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"completed"`, `"canceled"`. Values: `"pending"`, `"completed"`, `"canceled"`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1335,7 +1420,7 @@ listLineItems(order_id: InputValue<string>,
 
 #### Request fields
 
-Field definitions: [shared fields](#request-fields-17).
+Field definitions: [shared fields](#request-fields-18).
 
 #### Response
 

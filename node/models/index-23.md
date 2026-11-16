@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# PartnerAppPlatformUsage to PaymentLinkLineItemPatchRequestInput
+# PartnerAppPlatformCapability to PaymentLinkLineItemPatchInputBundle
 
+- [PartnerAppPlatformCapability](PartnerAppPlatformCapability.md)
+- [PartnerAppPlatformCurrentTerms](PartnerAppPlatformCurrentTerms.md)
+- [PartnerAppPlatformLimitedEvent](PartnerAppPlatformLimitedEvent.md)
+- [PartnerAppPlatformLimits](PartnerAppPlatformLimits.md)
+- [PartnerAppPlatformProfile](PartnerAppPlatformProfile.md)
+- [PartnerAppPlatformProfileRequestInput](PartnerAppPlatformProfileRequestInput.md)
+- [PartnerAppPlatformRejectedEvent](PartnerAppPlatformRejectedEvent.md)
+- [PartnerAppPlatformReserve](PartnerAppPlatformReserve.md)
+- [PartnerAppPlatformTermsAcceptance](PartnerAppPlatformTermsAcceptance.md)
 - [PartnerAppPlatformUsage](PartnerAppPlatformUsage.md)
 - [PartnerAppResponse](PartnerAppResponse.md)
 - [PartnerAppUpdatedEvent](PartnerAppUpdatedEvent.md)
@@ -93,13 +102,4 @@
 - [PaymentLinkLineItemInputVariant](PaymentLinkLineItemInputVariant.md)
 - [PaymentLinkLineItemInputVariantInput](PaymentLinkLineItemInputVariantInput.md)
 - [PaymentLinkLineItemPatchInputBundle](PaymentLinkLineItemPatchInputBundle.md)
-- [PaymentLinkLineItemPatchInputBundleInput](PaymentLinkLineItemPatchInputBundleInput.md)
-- [PaymentLinkLineItemPatchInputCustomFixed](PaymentLinkLineItemPatchInputCustomFixed.md)
-- [PaymentLinkLineItemPatchInputCustomFixedInput](PaymentLinkLineItemPatchInputCustomFixedInput.md)
-- [PaymentLinkLineItemPatchInputCustomVariable](PaymentLinkLineItemPatchInputCustomVariable.md)
-- [PaymentLinkLineItemPatchInputCustomVariableInput](PaymentLinkLineItemPatchInputCustomVariableInput.md)
-- [PaymentLinkLineItemPatchInputVariant](PaymentLinkLineItemPatchInputVariant.md)
-- [PaymentLinkLineItemPatchInputVariantInput](PaymentLinkLineItemPatchInputVariantInput.md)
-- [PaymentLinkLineItemPatchRequest](PaymentLinkLineItemPatchRequest.md)
-- [PaymentLinkLineItemPatchRequestInput](PaymentLinkLineItemPatchRequestInput.md)
 

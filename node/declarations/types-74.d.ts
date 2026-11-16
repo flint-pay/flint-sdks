@@ -1,11 +1,25 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    CreateOrderTipPercentInput,
+    CreatePackageItemRequestInput,
+    CreatePackageRequestInput,
+    CreatePackageRequestCreatedInput,
+    CreatePackageRequestShippedInput,
+    CreatePartnerAppCredentialJWKSURLRequestInput,
+    CreatePartnerAppCredentialPublicKeyRequestInput,
+    CreatePartnerAppCredentialRequestInput,
+    CreatePartnerAppCredentialWorkloadIdentityRequestInput,
+    CreatePartnerAppRequestInput,
+    CreatePaymentIntentRequestInput,
+    CreatePaymentLinkRequestInput,
+    CreatePaymentMethodDomainRequestInput,
+    CreatePayoutRequestInput,
     CreatePickupFulfillmentDetailsInput,
-    CreatePriceListPricesRequestInput,
-    CreatePriceListRequestInput,
-    CreateProductOptionRequestInput
+    CreatePriceListPricesRequestInput
 } from './types-11.js';
 import type {
+    CreatePriceListRequestInput,
+    CreateProductOptionRequestInput,
     CreateProductOptionValueRequestInput,
     CreateProductRequestInput,
     CreateProductRequestOptionedInput,
@@ -30,10 +44,10 @@ import type {
     CreateReturnPreviewRequestEligibilityInput,
     CreateReturnPreviewRequestResolutionInput,
     CreateReturnReasonRequestInput,
-    CreateReturnReceiptRequestInput,
-    CreateReturnRequestInput
+    CreateReturnReceiptRequestInput
 } from './types-12.js';
 import type {
+    CreateReturnRequestInput,
     CreateReturnResolutionPreviewRequestInput,
     CreateReturnResolutionPreviewRequestCorrectionInput,
     CreateReturnResolutionPreviewRequestStandardInput,
@@ -53,21 +67,23 @@ import type {
     CreateSmartReaderRequestInput,
     CreateSubscriptionAccessLinkRequestInput,
     CreateSubscriptionDeliveryMigrationRequestInput,
-    CreateSubscriptionLineItemRequestInput,
-    CreateSubscriptionLineItemRequestBundleInput,
-    CreateSubscriptionLineItemRequestVariantInput,
-    CreateSubscriptionOfferRequestInput,
-    CreateSubscriptionPlanRequestInput,
-    CreateSubscriptionPreviewRequestInput,
-    CreateSubscriptionPreviewRequestCreateInput,
-    CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput,
-    CreateSubscriptionPreviewRequestDeliveryOptionsInput,
-    CreateSubscriptionPreviewRequestNextRenewalInput,
-    CreateSubscriptionPreviewRequestPlanChangeInput,
-    CreateSubscriptionPreviewRequestPromotionApplyInput,
-    CreateSubscriptionPreviewRequestQuantityChangeInput
+    CreateSubscriptionLineItemRequestInput
 } from './types-13.js';
-import type { CreateSubscriptionRequestInput, CreateTapToPayReaderRequestInput } from './types-14.js';
+export declare function makeCreateOrderTipPercent(value: InputValue<CreateOrderTipPercentInput>): Model<CreateOrderTipPercentInput>;
+export declare function makeCreatePackageItemRequest(value: InputValue<CreatePackageItemRequestInput>): Model<CreatePackageItemRequestInput>;
+export declare function makeCreatePackageRequest(value: InputValue<CreatePackageRequestInput>): Model<CreatePackageRequestInput>;
+export declare function makeCreatePackageRequestCreated(value: InputValue<CreatePackageRequestCreatedInput>): Model<CreatePackageRequestCreatedInput>;
+export declare function makeCreatePackageRequestShipped(value: InputValue<CreatePackageRequestShippedInput>): Model<CreatePackageRequestShippedInput>;
+export declare function makeCreatePartnerAppCredentialJWKSURLRequest(value: InputValue<CreatePartnerAppCredentialJWKSURLRequestInput>): Model<CreatePartnerAppCredentialJWKSURLRequestInput>;
+export declare function makeCreatePartnerAppCredentialPublicKeyRequest(value: InputValue<CreatePartnerAppCredentialPublicKeyRequestInput>): Model<CreatePartnerAppCredentialPublicKeyRequestInput>;
+export declare function makeCreatePartnerAppCredentialRequest(value: InputValue<Exclude<CreatePartnerAppCredentialRequestInput & object, readonly unknown[]>>): Model<Exclude<CreatePartnerAppCredentialRequestInput & object, readonly unknown[]>>;
+export declare function makeCreatePartnerAppCredentialRequest(value: InputValue<CreatePartnerAppCredentialRequestInput>): Model<CreatePartnerAppCredentialRequestInput>;
+export declare function makeCreatePartnerAppCredentialWorkloadIdentityRequest(value: InputValue<CreatePartnerAppCredentialWorkloadIdentityRequestInput>): Model<CreatePartnerAppCredentialWorkloadIdentityRequestInput>;
+export declare function makeCreatePartnerAppRequest(value: InputValue<CreatePartnerAppRequestInput>): Model<CreatePartnerAppRequestInput>;
+export declare function makeCreatePaymentIntentRequest(value: InputValue<CreatePaymentIntentRequestInput>): Model<CreatePaymentIntentRequestInput>;
+export declare function makeCreatePaymentLinkRequest(value: InputValue<CreatePaymentLinkRequestInput>): Model<CreatePaymentLinkRequestInput>;
+export declare function makeCreatePaymentMethodDomainRequest(value: InputValue<CreatePaymentMethodDomainRequestInput>): Model<CreatePaymentMethodDomainRequestInput>;
+export declare function makeCreatePayoutRequest(value: InputValue<CreatePayoutRequestInput>): Model<CreatePayoutRequestInput>;
 export declare function makeCreatePickupFulfillmentDetails(value: InputValue<CreatePickupFulfillmentDetailsInput>): Model<CreatePickupFulfillmentDetailsInput>;
 export declare function makeCreatePriceListPricesRequest(value: InputValue<CreatePriceListPricesRequestInput>): Model<CreatePriceListPricesRequestInput>;
 export declare function makeCreatePriceListRequest(value: InputValue<CreatePriceListRequestInput>): Model<CreatePriceListRequestInput>;
@@ -119,18 +135,3 @@ export declare function makeCreateSmartReaderRequest(value: InputValue<CreateSma
 export declare function makeCreateSubscriptionAccessLinkRequest(value: InputValue<CreateSubscriptionAccessLinkRequestInput>): Model<CreateSubscriptionAccessLinkRequestInput>;
 export declare function makeCreateSubscriptionDeliveryMigrationRequest(value: InputValue<CreateSubscriptionDeliveryMigrationRequestInput>): Model<CreateSubscriptionDeliveryMigrationRequestInput>;
 export declare function makeCreateSubscriptionLineItemRequest(value: InputValue<CreateSubscriptionLineItemRequestInput>): Model<CreateSubscriptionLineItemRequestInput>;
-export declare function makeCreateSubscriptionLineItemRequestBundle(value: InputValue<CreateSubscriptionLineItemRequestBundleInput>): Model<CreateSubscriptionLineItemRequestBundleInput>;
-export declare function makeCreateSubscriptionLineItemRequestVariant(value: InputValue<CreateSubscriptionLineItemRequestVariantInput>): Model<CreateSubscriptionLineItemRequestVariantInput>;
-export declare function makeCreateSubscriptionOfferRequest(value: InputValue<CreateSubscriptionOfferRequestInput>): Model<CreateSubscriptionOfferRequestInput>;
-export declare function makeCreateSubscriptionPlanRequest(value: InputValue<CreateSubscriptionPlanRequestInput>): Model<CreateSubscriptionPlanRequestInput>;
-export declare function makeCreateSubscriptionPreviewRequest(value: InputValue<Exclude<CreateSubscriptionPreviewRequestInput & object, readonly unknown[]>>): Model<Exclude<CreateSubscriptionPreviewRequestInput & object, readonly unknown[]>>;
-export declare function makeCreateSubscriptionPreviewRequest(value: InputValue<CreateSubscriptionPreviewRequestInput>): Model<CreateSubscriptionPreviewRequestInput>;
-export declare function makeCreateSubscriptionPreviewRequestCreate(value: InputValue<CreateSubscriptionPreviewRequestCreateInput>): Model<CreateSubscriptionPreviewRequestCreateInput>;
-export declare function makeCreateSubscriptionPreviewRequestDeliveryMethodUpdate(value: InputValue<CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput>): Model<CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput>;
-export declare function makeCreateSubscriptionPreviewRequestDeliveryOptions(value: InputValue<CreateSubscriptionPreviewRequestDeliveryOptionsInput>): Model<CreateSubscriptionPreviewRequestDeliveryOptionsInput>;
-export declare function makeCreateSubscriptionPreviewRequestNextRenewal(value: InputValue<CreateSubscriptionPreviewRequestNextRenewalInput>): Model<CreateSubscriptionPreviewRequestNextRenewalInput>;
-export declare function makeCreateSubscriptionPreviewRequestPlanChange(value: InputValue<CreateSubscriptionPreviewRequestPlanChangeInput>): Model<CreateSubscriptionPreviewRequestPlanChangeInput>;
-export declare function makeCreateSubscriptionPreviewRequestPromotionApply(value: InputValue<CreateSubscriptionPreviewRequestPromotionApplyInput>): Model<CreateSubscriptionPreviewRequestPromotionApplyInput>;
-export declare function makeCreateSubscriptionPreviewRequestQuantityChange(value: InputValue<CreateSubscriptionPreviewRequestQuantityChangeInput>): Model<CreateSubscriptionPreviewRequestQuantityChangeInput>;
-export declare function makeCreateSubscriptionRequest(value: InputValue<CreateSubscriptionRequestInput>): Model<CreateSubscriptionRequestInput>;
-export declare function makeCreateTapToPayReaderRequest(value: InputValue<CreateTapToPayReaderRequestInput>): Model<CreateTapToPayReaderRequestInput>;

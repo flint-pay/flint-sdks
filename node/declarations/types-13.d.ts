@@ -1,44 +1,176 @@
+import type { MetadataRequestInput, MetadataMap } from './types-38.js';
+import type { ReturnLineItemRequestInput } from './types-56.js';
 import type {
-    ReturnResolutionAdjustmentRequestInput,
-    ReturnReplacementLineItemRequestInput,
-    ReturnResolutionLineItemRequestInput,
     ReturnReplacementLineItemRequest,
     ReturnResolutionAdjustmentRequest,
     ReturnResolutionLineItemRequest,
+    ReturnResolutionAdjustmentRequestInput,
+    ReturnReplacementLineItemRequestInput,
+    ReturnResolutionLineItemRequestInput,
     ReturnShipmentLineItemAllocationRequestInput
 } from './types-57.js';
-import type { MetadataMap, MetadataRequestInput } from './types-38.js';
 import type { GetReturnResolutionResponse, GetReturnResponse } from './types-26.js';
 import type { RiskPredicateNodeRequest, RiskPredicateNodeRequestInput } from './types-58.js';
-import type { PackageCreateRequest, PackageCreateRequestInput } from './types-42.js';
+import type { PackageCreateRequest, PackageCreateRequestInput } from './types-43.js';
 import type {
     SubscriptionIntervalOption,
     SubscriptionIntervalOptionRequestInput,
+    SubscriptionPlanChangeOption,
+    SubscriptionPlanChangeOptionRequestInput,
+    SubscriptionPlanChangeLineItemRequest,
+    SubscriptionPlanChangeLineItemRequestInput
+} from './types-62.js';
+import type { ImageRequest, ImageRequestInput } from './types-28.js';
+import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-30.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
+import type {
     SubscriptionEndAfterCycles,
     SubscriptionEndAfterCyclesRequestInput,
     SubscriptionDeliveryDestinationRequestInput,
     SubscriptionDeliveryRequest,
     SubscriptionDeliveryRequestInput
 } from './types-61.js';
-import type { ImageRequest, ImageRequestInput } from './types-28.js';
-import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-30.js';
-import type { MoneyValue, MoneyValueInput } from './types-39.js';
 import type {
-    SubscriptionPlanChangeOption,
     SubscriptionPlanLineItemRequest,
-    SubscriptionPlanChangeOptionRequestInput,
     SubscriptionPlanLineItemRequestInput,
-    SubscriptionPlanChangeLineItemRequest,
-    SubscriptionPlanChangeLineItemRequestInput
-} from './types-62.js';
-import type { CreateSubscriptionRequest, CreateSubscriptionRequestInput } from './types-14.js';
-import type { UpdateDeliveryMethodRequest, UpdateDeliveryMethodRequestInput } from './types-66.js';
-import type {
-    SubscriptionServiceLocationRequest,
-    SubscriptionQuantityChangeLineItemRequest,
-    SubscriptionQuantityChangeLineItemRequestInput
+    SubscriptionServiceLocationRequest
 } from './types-63.js';
-import type { PromotionRefRequest, PromotionRefRequestInput } from './types-51.js';
+import type {
+    CreateSubscriptionPreviewRequestQuantityChange,
+    CreateSubscriptionRequest,
+    CreateSubscriptionRequestInput,
+    CreateSubscriptionPreviewRequestPromotionApplyInput,
+    CreateSubscriptionPreviewRequestQuantityChangeInput
+} from './types-14.js';
+import type { UpdateDeliveryMethodRequest, UpdateDeliveryMethodRequestInput } from './types-66.js';
+import type { PromotionRefRequest } from './types-51.js';
+/** The request body for: Create return. */
+export type CreateReturnRequestInput = {
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * The lines to check or return, each naming an order line item. minItems: 1. [] (Value):
+     * {@link ReturnLineItemRequestInput}. An order line item to return, with the quantity, return
+     * reason, and optionally a note and the resolution the buyer wants.
+     */
+    "line_items": Array<ReturnLineItemRequestInput>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * ID of the Order to return items from. minLength: 1. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+};
+/**
+ * A request to preview the amounts of a return resolution for a return, selected by
+ * `resolution_type`: refund, exchange, replacement, no monetary action, or correction.
+ */
+export type CreateReturnResolutionPreviewRequest = ({
+    /**
+     * Fees and credits to apply to the resolution, at most 50. [] (Value): {@link
+     * ReturnResolutionAdjustmentRequest}. A fee or credit to apply to a return resolution, with
+     * the assessed and applied amounts and whether it is applied or waived.
+     */
+    "adjustments"?: Array<ReturnResolutionAdjustmentRequest>;
+    /**
+     * ID of the settled resolution to correct. Send only with `resolution_type: correction`.
+     * minLength: 1. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "corrects_return_resolution_id"?: string;
+    /**
+     * Optional version of the parent Return. A stale value returns VERSION_CONFLICT with the
+     * Return ID and its current version. Format: int64. minimum: 1.
+     */
+    "expected_return_version"?: number;
+    /**
+     * Return lines and quantities to cover, up to 100. Not allowed on a correction. [] (Value):
+     * {@link ReturnResolutionLineItemRequest}. A return line and quantity to include in a return
+     * resolution.
+     */
+    "line_items"?: Array<ReturnResolutionLineItemRequest>;
+    /**
+     * Required for merchant exchange and replacement requests. original_price preserves the
+     * selected units' net paid amounts using refund allocation; current_price uses catalog prices;
+     * merchant_agreed_price uses each supplied unit_price_money. Buyer requests must omit
+     * pricing_basis: replacements use original_price; exchanges use original_price when every
+     * replacement matches selected returned merchandise by variant, bundle, or product, otherwise
+     * current_price. Value enum: "original_price", "current_price", "merchant_agreed_price".
+     */
+    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
+    /**
+     * Merchandise the buyer receives instead, up to 100. Send with `exchange` or `replacement`. []
+     * (Value): {@link ReturnReplacementLineItemRequest}. A replacement item to include in a return
+     * resolution, from a variant, a bundle, or a custom name and price.
+     */
+    "replacement_line_items"?: Array<ReturnReplacementLineItemRequest>;
+    /**
+     * What the buyer gets for the approved quantity. Value enum: "refund", "exchange",
+     * "replacement", "store_credit", "no_monetary_action", "correction".
+     */
+    "resolution_type": "refund"
+        | "exchange"
+        | "replacement"
+        | "store_credit"
+        | "no_monetary_action"
+        | "correction"
+        | (string & {});
+    /**
+     * ID of the Return the resolution is for. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+})
+    & ((Exclude<CreateReturnResolutionPreviewRequestStandard & object, readonly unknown[]>)
+    | (Exclude<CreateReturnResolutionPreviewRequestCorrection & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `correction` variant of `CreateReturnResolutionPreviewRequest`. */
+export type CreateReturnResolutionPreviewRequestCorrection = ({
+    /**
+     * Fees and credits to apply to the resolution, at most 50. [] (Value): {@link
+     * ReturnResolutionAdjustmentRequest}. A fee or credit to apply to a return resolution, with
+     * the assessed and applied amounts and whether it is applied or waived.
+     */
+    "adjustments": Array<ReturnResolutionAdjustmentRequest>;
+    /**
+     * ID of the settled resolution to correct. Send only with `resolution_type: correction`.
+     * minLength: 1. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "corrects_return_resolution_id": string;
+    /**
+     * Optional version of the parent Return. A stale value returns VERSION_CONFLICT with the
+     * Return ID and its current version. Format: int64. minimum: 1.
+     */
+    "expected_return_version"?: number;
+    /** What the buyer gets for the approved quantity. Value enum: "correction". */
+    "resolution_type": "correction" | (string & {});
+    /**
+     * ID of the Return the resolution is for. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+})
+    & (({
+    /** Fees and credits to apply to the resolution, at most 50. minItems: 1. */
+    "adjustments": unknown;
+    /** What the buyer gets for the approved quantity. Value enum: "correction". */
+    "resolution_type"?: unknown;
+    /**
+     * ID of the settled resolution to correct. Send only with `resolution_type: correction`.
+     * minLength: 1. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "corrects_return_resolution_id": string;
+}));
 /** The `correction` variant of `CreateReturnResolutionPreviewRequest`. */
 export type CreateReturnResolutionPreviewRequestCorrectionInput = ({
     /**
@@ -2837,13 +2969,6 @@ export type CreateSubscriptionPlanRequest = {
      */
     "plan_change_options"?: Array<SubscriptionPlanChangeOption>;
     /**
-     * Quantities to offer. Send `[]` or `[1]`; both store `[1]`, and any other list is refused.
-     * Omit it to store `[1]`. To let buyers choose a seat count, set `allow_quantity_adjustment`
-     * on a plan line item instead. maxItems: 1. uniqueItems: true. [] (Value): integer. minimum:
-     * 1. maximum: 1.
-     */
-    "quantity_options"?: Array<number>;
-    /**
      * One-time fee charged with the first payment of a new subscription, except one that continues
      * an imported paid period. Must be above zero and in the plan's currency. Omit for no setup
      * fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
@@ -2989,13 +3114,6 @@ export type CreateSubscriptionPlanRequestInput = {
      * switch to and the billing timing for that change.
      */
     "plan_change_options"?: Array<SubscriptionPlanChangeOptionRequestInput>;
-    /**
-     * Quantities to offer. Send `[]` or `[1]`; both store `[1]`, and any other list is refused.
-     * Omit it to store `[1]`. To let buyers choose a seat count, set `allow_quantity_adjustment`
-     * on a plan line item instead. maxItems: 1. uniqueItems: true. [] (Value): integer. minimum:
-     * 1. maximum: 1.
-     */
-    "quantity_options"?: Array<number>;
     /**
      * One-time fee charged with the first payment of a new subscription, except one that continues
      * an imported paid period. Must be above zero and in the plan's currency. Omit for no setup
@@ -3189,12 +3307,6 @@ export type CreateSubscriptionPreviewRequestPlanChange = ({
     /** Selects the plan change preview. Value enum: "plan_change". */
     "mode": "plan_change" | (string & {});
     /**
-     * Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use
-     * line_items for multiple units. Whole-number quantity; fractional quantities are not
-     * supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-    /**
      * ID of the subscription to preview a plan change for. minLength: 1. pattern:
      * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      */
@@ -3238,12 +3350,6 @@ export type CreateSubscriptionPreviewRequestPlanChangeInput = ({
     /** Selects the plan change preview. Value enum: "plan_change". */
     "mode": "plan_change";
     /**
-     * Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use
-     * line_items for multiple units. Whole-number quantity; fractional quantities are not
-     * supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-    /**
      * ID of the subscription to preview a plan change for. minLength: 1. pattern:
      * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      */
@@ -3286,126 +3392,3 @@ export type CreateSubscriptionPreviewRequestPromotionApply = {
      */
     "subscription_id": string;
 };
-/** The `promotion_apply` variant of `CreateSubscriptionPreviewRequest`. */
-export type CreateSubscriptionPreviewRequestPromotionApplyInput = {
-    /**
-     * First charged cycle eligible for this promotion. Defaults to the next cycle without a
-     * renewal order, which is also the minimum: completed_cycles + 1, or completed_cycles + 2
-     * while past_due. The maximum is completed_cycles + 120. The unpaid past_due order keeps its
-     * price. Format: uint64. minimum: 1.
-     */
-    "first_cycle"?: number;
-    /**
-     * Preview applying a promotion to an existing subscription without saving changes. Value enum:
-     * "promotion_apply".
-     */
-    "mode": "promotion_apply";
-    /**
-     * Promotion to attach. Reattaching a removed promotion freezes its current terms and keeps its
-     * consumed cycles. Identifies the promotion to apply, by promotion code or by promotion ID.
-     */
-    "promotion": PromotionRefRequestInput;
-    /**
-     * Active or scheduled promotion to replace. It stops applying from first_cycle and continues
-     * to apply to earlier cycles. Must differ from the new promotion. An offer's own promotion
-     * cannot be replaced. minLength: 1. pattern: ^promo_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "replace_promotion_id"?: string;
-    /**
-     * ID of the subscription to preview. minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$.
-     * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-};
-/** The `quantity_change` variant of `CreateSubscriptionPreviewRequest`. */
-export type CreateSubscriptionPreviewRequestQuantityChange = ({
-    /**
-     * Charge the prorated difference now while keeping the period and anchor. Value enum:
-     * "prorated_now".
-     */
-    "billing_starts": "prorated_now" | (string & {});
-    /** Reject the request if the subscription version has changed. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
-     * quantities. Send quantity or line_items. minItems: 1. maxItems: 50. [] (Value): {@link
-     * SubscriptionQuantityChangeLineItemRequest}. Quantity for an existing subscription line.
-     */
-    "line_items"?: Array<SubscriptionQuantityChangeLineItemRequest>;
-    /** The kind of subscription pricing estimate to create. Value enum: "quantity_change". */
-    "mode": "quantity_change" | (string & {});
-    /**
-     * The whole-number subscription multiplier; fractional quantities are not supported. Validated
-     * as on subscription PATCH. Omit to keep its current value. Send quantity or line_items.
-     * minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-    /**
-     * The subscription whose quantities will change. minLength: 1. pattern:
-     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-})
-    & (({
-    /**
-     * The whole-number subscription multiplier; fractional quantities are not supported. Validated
-     * as on subscription PATCH. Omit to keep its current value. Send quantity or line_items.
-     * minimum: 1. maximum: 1.
-     */
-    "quantity": number;
-})
-    | ({
-    /**
-     * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
-     * quantities. Send quantity or line_items. minItems: 1. maxItems: 50. [] (Value): {@link
-     * SubscriptionQuantityChangeLineItemRequest}. Quantity for an existing subscription line.
-     */
-    "line_items": Array<SubscriptionQuantityChangeLineItemRequest>;
-})
-    | (Record<string, unknown>));
-/** The `quantity_change` variant of `CreateSubscriptionPreviewRequest`. */
-export type CreateSubscriptionPreviewRequestQuantityChangeInput = ({
-    /**
-     * Charge the prorated difference now while keeping the period and anchor. Value enum:
-     * "prorated_now".
-     */
-    "billing_starts": "prorated_now";
-    /** Reject the request if the subscription version has changed. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
-     * quantities. Send quantity or line_items. minItems: 1. maxItems: 50. [] (Value): {@link
-     * SubscriptionQuantityChangeLineItemRequestInput}. Quantity for an existing subscription line.
-     */
-    "line_items"?: Array<SubscriptionQuantityChangeLineItemRequestInput>;
-    /** The kind of subscription pricing estimate to create. Value enum: "quantity_change". */
-    "mode": "quantity_change";
-    /**
-     * The whole-number subscription multiplier; fractional quantities are not supported. Validated
-     * as on subscription PATCH. Omit to keep its current value. Send quantity or line_items.
-     * minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-    /**
-     * The subscription whose quantities will change. minLength: 1. pattern:
-     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-})
-    & (({
-    /**
-     * The whole-number subscription multiplier; fractional quantities are not supported. Validated
-     * as on subscription PATCH. Omit to keep its current value. Send quantity or line_items.
-     * minimum: 1. maximum: 1.
-     */
-    "quantity": number;
-})
-    | ({
-    /**
-     * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
-     * quantities. Send quantity or line_items. minItems: 1. maxItems: 50. [] (Value): {@link
-     * SubscriptionQuantityChangeLineItemRequestInput}. Quantity for an existing subscription line.
-     */
-    "line_items": Array<SubscriptionQuantityChangeLineItemRequestInput>;
-}));

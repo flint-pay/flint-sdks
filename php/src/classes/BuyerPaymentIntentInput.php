@@ -18,8 +18,10 @@ namespace Flint;
  * @property-read string $customer_presence
  * @property-read PaymentFulfillmentHoldInput|array<array-key, mixed>|\stdClass $fulfillment_hold
  * @property-read string $invoice_id
+ * @property-read string $invoice_schedule_entry_id
  * @property-read array{'code': string, 'failed_at': string|\DateTimeInterface, 'message': string, 'remediation': ErrorRemediationInput|array<array-key, mixed>|\stdClass, ...}|object|null $last_payment_error
  * @property-read string $merchant_id
+ * @property-read string $order_edit_id
  * @property-read string $order_id
  * @property-read string $payment_flow
  * @property-read string $payment_intent_id
@@ -42,7 +44,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerPaymentIntentInput extends Model {
-    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'authorization_expires_at'?: string|\DateTimeInterface, 'authorized_at'?: string|\DateTimeInterface, 'authorized_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'cancellation_reason'?: string, 'capturable_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'capture_method'?: string, 'captured_at'?: string|\DateTimeInterface, 'captured_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'captured_tip_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'checkout_session_id'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'customer_presence': string, 'fulfillment_hold'?: PaymentFulfillmentHoldInput|array<array-key, mixed>|\stdClass, 'invoice_id'?: string, 'last_payment_error': array{'code': string, 'failed_at': string|\DateTimeInterface, 'message': string, 'remediation': ErrorRemediationInput|array<array-key, mixed>|\stdClass, ...}|object|null, 'merchant_id'?: string, 'order_id'?: string, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: PaymentSourceSummaryInput|array<array-key, mixed>|\stdClass, 'receipt_email'?: string|null, 'refund_status'?: string, 'refunded_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'released_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'return_id'?: string, 'return_resolution_id'?: string, 'selected_payment_option'?: string, 'statement_descriptor': string|null, 'status': string, 'subscription_id'?: string, 'support_reference': string, 'tip_money'?: array{'amount': string, 'currency': string}|object|null, 'transaction_purpose'?: string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'authorization_expires_at'?: string|\DateTimeInterface, 'authorized_at'?: string|\DateTimeInterface, 'authorized_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'cancellation_reason'?: string, 'capturable_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'capture_method'?: string, 'captured_at'?: string|\DateTimeInterface, 'captured_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'captured_tip_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'checkout_session_id'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'customer_presence': string, 'fulfillment_hold'?: PaymentFulfillmentHoldInput|array<array-key, mixed>|\stdClass, 'invoice_id'?: string, 'invoice_schedule_entry_id'?: string, 'last_payment_error': array{'code': string, 'failed_at': string|\DateTimeInterface, 'message': string, 'remediation': ErrorRemediationInput|array<array-key, mixed>|\stdClass, ...}|object|null, 'merchant_id'?: string, 'order_edit_id'?: string, 'order_id'?: string, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: PaymentSourceSummaryInput|array<array-key, mixed>|\stdClass, 'receipt_email'?: string|null, 'refund_status'?: string, 'refunded_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'released_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'return_id'?: string, 'return_resolution_id'?: string, 'selected_payment_option'?: string, 'statement_descriptor': string|null, 'status': string, 'subscription_id'?: string, 'support_reference': string, 'tip_money'?: array{'amount': string, 'currency': string}|object|null, 'transaction_purpose'?: string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerPaymentIntentInput')); }
     /** The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -140,6 +142,12 @@ final class BuyerPaymentIntentInput extends Model {
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
+    /** The bill installment this payment collects. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
+     * @return string
+     * @throws SdkError When invoice_schedule_entry_id is omitted; use hasInvoiceScheduleEntryId() or valueOrDefault().
+     */
+    public function getInvoiceScheduleEntryId(): string { return $this->get('invoice_schedule_entry_id'); }
+    public function hasInvoiceScheduleEntryId(): bool { return $this->has('invoice_schedule_entry_id'); }
     /** Most recent payment error. Null when no payment error is recorded. anyOf[1] (Value): {@see PaymentErrorSummaryInput}. A summary of why a payment attempt failed, with a normalized error code, a message, the failure time, and remediation. anyOf[2] (Value): null.
      * @return array{'code': string, 'failed_at': string|\DateTimeInterface, 'message': string, 'remediation': ErrorRemediationInput|array<array-key, mixed>|\stdClass, ...}|object|null
      * @throws SdkError When last_payment_error is omitted; use hasLastPaymentError() or valueOrDefault().
@@ -152,6 +160,12 @@ final class BuyerPaymentIntentInput extends Model {
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
+    /** The edit whose added balance this payment collects. Omitted when this payment doesn't collect an edit's balance. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * @return string
+     * @throws SdkError When order_edit_id is omitted; use hasOrderEditId() or valueOrDefault().
+     */
+    public function getOrderEditId(): string { return $this->get('order_edit_id'); }
+    public function hasOrderEditId(): bool { return $this->has('order_edit_id'); }
     /** Order this payment belongs to. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().

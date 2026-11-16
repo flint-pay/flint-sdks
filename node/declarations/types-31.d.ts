@@ -20,9 +20,453 @@ import type {
     InvoicePaymentPolicyRequestInput
 } from './types-33.js';
 import type { InvoiceScheduleEntry, InvoiceSettlementAmounts, InvoiceSnapshot } from './types-34.js';
-import type { PricingAmounts } from './types-49.js';
+import type { PricingAmounts } from './types-50.js';
 import type { MoneyValue } from './types-39.js';
-import type { WebhookInvoice } from './types-69.js';
+import type { WebhookInvoice } from './types-70.js';
+/**
+ * The `inventory_transfer.closed` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type InventoryTransferClosedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.closed_at (Optional): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.closed_reason (Optional): string or null.
+     * How the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
+     * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
+     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.departed_at (Optional): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.destination_location_id (Required):
+     * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
+     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
+     * movement, of the command that wrote it. Omitted when that request had no key.
+     * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
+     * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
+     * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
+     * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+     * object.lines[] (Value): {@link InventoryTransferLine}. One line of an inventory transfer,
+     * with its quantities. object.note (Optional): string. Free-text note about the transfer.
+     * object.origin_location_id (Required): string. ID of the Location the stock leaves. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.received_at (Optional): string. RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required): string. Where
+     * the transfer stands, worked out from the quantities that have left the origin and have since
+     * been received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". object.supported_actions (Required): Array of string.
+     * Actions that can change this transfer now. `depart` and `cancel` need units that haven't
+     * left the origin. `receive`, `return_to_origin`, and `report_loss` need units in transit.
+     * Empty once the transfer is closed. [] enum: "depart", "receive", "return_to_origin",
+     * "report_loss", "cancel". object.supported_actions[] (Value): string. Value enum: "depart",
+     * "receive", "return_to_origin", "report_loss", "cancel". object.updated_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.version (Required): integer. Current version of this resource's owned state. Send it
+     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
+     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
+     * fields in data.object, at this delivery's API version. Nested changes include the whole
+     * previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
+         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". closed_reason (Optional): string or null. How the transfer
+         * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
+         * "received_with_cancellation", "returned", "lost", "mixed", null. created_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * departed_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
+         * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
+         * (Optional): string. Caller-owned identifier for this resource in an external system.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
+         * Idempotency-Key of the request that created this resource; on a movement, of the command
+         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
+         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
+         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
+         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
+         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
+         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
+         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
+         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". status (Required): string. Where the transfer stands, worked out
+         * from the quantities that have left the origin and have since been received, returned, or
+         * reported lost. Value enum: "draft", "in_transit", "partially_resolved", "closed".
+         * supported_actions (Required): Array of string. Actions that can change this transfer
+         * now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions[] (Value): string. Value enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". updated_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
+         * integer. Current version of this resource's owned state. Send it as `expected_version`
+         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "closed_at"?: string;
+            /**
+             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
+             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
+             * null.
+             */
+            "closed_reason"?: "received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "departed_at"?: string;
+            /** ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+            "destination_location_id": string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key.
+             */
+            "idempotency_key"?: string;
+            /**
+             * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
+             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+             */
+            "inventory_transfer_id": string;
+            /**
+             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
+             * PATCH replaces the full collection. [] (Value): {@link InventoryTransferLine}. One
+             * line of an inventory transfer, with its quantities.
+             */
+            "lines": Array<InventoryTransferLine>;
+            /** Free-text note about the transfer. */
+            "note"?: string;
+            /** ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+            "origin_location_id": string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "received_at"?: string;
+            /**
+             * Where the transfer stands, worked out from the quantities that have left the origin
+             * and have since been received, returned, or reported lost. Value enum: "draft",
+             * "in_transit", "partially_resolved", "closed".
+             */
+            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
+            /**
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". [] (Value): string. Value enum:
+             * "depart", "receive", "return_to_origin", "report_loss", "cancel".
+             */
+            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<InventoryTransfer>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "inventory_transfer.closed". */
+    "event_type"?: "inventory_transfer.closed";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `inventory_transfer.closed` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type InventoryTransferClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.closed_at (Optional): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.closed_reason (Optional): string or null.
+     * How the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
+     * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
+     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.departed_at (Optional): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.destination_location_id (Required):
+     * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
+     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
+     * movement, of the command that wrote it. Omitted when that request had no key.
+     * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
+     * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
+     * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
+     * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+     * object.lines[] (Value): {@link InventoryTransferLine}. One line of an inventory transfer,
+     * with its quantities. object.note (Optional): string. Free-text note about the transfer.
+     * object.origin_location_id (Required): string. ID of the Location the stock leaves. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.received_at (Optional): string. RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required): string. Where
+     * the transfer stands, worked out from the quantities that have left the origin and have since
+     * been received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". object.supported_actions (Required): Array of string.
+     * Actions that can change this transfer now. `depart` and `cancel` need units that haven't
+     * left the origin. `receive`, `return_to_origin`, and `report_loss` need units in transit.
+     * Empty once the transfer is closed. [] enum: "depart", "receive", "return_to_origin",
+     * "report_loss", "cancel". object.supported_actions[] (Value): string. Value enum: "depart",
+     * "receive", "return_to_origin", "report_loss", "cancel". object.updated_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.version (Required): integer. Current version of this resource's owned state. Send it
+     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
+     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
+     * fields in data.object, at this delivery's API version. Nested changes include the whole
+     * previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
+         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". closed_reason (Optional): string or null. How the transfer
+         * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
+         * "received_with_cancellation", "returned", "lost", "mixed", null. created_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * departed_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
+         * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
+         * (Optional): string. Caller-owned identifier for this resource in an external system.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
+         * Idempotency-Key of the request that created this resource; on a movement, of the command
+         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
+         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
+         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
+         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
+         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
+         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
+         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
+         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". status (Required): string. Where the transfer stands, worked out
+         * from the quantities that have left the origin and have since been received, returned, or
+         * reported lost. Value enum: "draft", "in_transit", "partially_resolved", "closed".
+         * supported_actions (Required): Array of string. Actions that can change this transfer
+         * now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions[] (Value): string. Value enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". updated_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
+         * integer. Current version of this resource's owned state. Send it as `expected_version`
+         * when changing the resource to reject a stale write. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "closed_at"?: string;
+            /**
+             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
+             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
+             * null.
+             */
+            "closed_reason"?: "received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "departed_at"?: string;
+            /** ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+            "destination_location_id": string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key.
+             */
+            "idempotency_key"?: string;
+            /**
+             * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
+             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+             */
+            "inventory_transfer_id": string;
+            /**
+             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
+             * PATCH replaces the full collection. [] (Value): {@link InventoryTransferLine}. One
+             * line of an inventory transfer, with its quantities.
+             */
+            "lines": Array<InventoryTransferLine>;
+            /** Free-text note about the transfer. */
+            "note"?: string;
+            /** ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+            "origin_location_id": string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "received_at"?: string;
+            /**
+             * Where the transfer stands, worked out from the quantities that have left the origin
+             * and have since been received, returned, or reported lost. Value enum: "draft",
+             * "in_transit", "partially_resolved", "closed".
+             */
+            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
+            /**
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". [] (Value): string. Value enum:
+             * "depart", "receive", "return_to_origin", "report_loss", "cancel".
+             */
+            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<InventoryTransfer>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "inventory_transfer.closed". */
+    "event_type"?: "inventory_transfer.closed";
+});
+export type InventoryTransferDepartedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_at"?: string;
+            "closed_reason"?: "received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            "created_at": string;
+            "departed_at"?: string;
+            "destination_location_id": string;
+            "external_reference_id"?: string;
+            "idempotency_key"?: string;
+            "inventory_transfer_id": string;
+            "lines": Array<InventoryTransferLine>;
+            "note"?: string;
+            "origin_location_id": string;
+            "received_at"?: string;
+            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
+            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<InventoryTransfer>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "inventory_transfer.departed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_at"?: string;
+            "closed_reason"?: "received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            "created_at": string;
+            "departed_at"?: string;
+            "destination_location_id": string;
+            "external_reference_id"?: string;
+            "idempotency_key"?: string;
+            "inventory_transfer_id": string;
+            "lines": Array<InventoryTransferLine>;
+            "note"?: string;
+            "origin_location_id": string;
+            "received_at"?: string;
+            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
+            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<InventoryTransfer>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "inventory_transfer.departed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "inventory_transfer.departed";
+});
 /**
  * The `inventory_transfer.departed` webhook payload for the `installed_merchants` event source.
  * Fields shared by partner webhook payloads.
@@ -3903,308 +4347,4 @@ export type InvoiceDeliveryAttempt = ({
     "suppression_reason"?: "merchant_managed_email" | "recipient_unsubscribed" | "sandbox_daily_limit_reached" | (string & {});
     /** Address the invoice was sent to. `null` when the customer was deleted. */
     "to_email": string | null;
-});
-export type InvoiceDeliveryAttemptFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": ({
-            "cc_emails"?: Array<string>;
-            "channel": "email" | (string & {});
-            "created_at": string;
-            "delivery_type": "send" | "reminder" | (string & {});
-            "failure_reason"?: "rejected" | "delivery_unknown" | "canceled" | (string & {});
-            "invoice_delivery_attempt_id": string;
-            "invoice_id": string;
-            "sent_at"?: string;
-            "status": "pending" | "sent" | "failed" | "suppressed" | (string & {});
-            "suppression_reason"?: "merchant_managed_email" | "recipient_unsubscribed" | "sandbox_daily_limit_reached" | (string & {});
-            "to_email": string | null;
-        });
-        "previous_attributes"?: Partial<InvoiceDeliveryAttempt>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "invoice_delivery_attempt.failed";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": ({
-            "cc_emails"?: Array<string>;
-            "channel": "email" | (string & {});
-            "created_at": string;
-            "delivery_type": "send" | "reminder" | (string & {});
-            "failure_reason"?: "rejected" | "delivery_unknown" | "canceled" | (string & {});
-            "invoice_delivery_attempt_id": string;
-            "invoice_id": string;
-            "sent_at"?: string;
-            "status": "pending" | "sent" | "failed" | "suppressed" | (string & {});
-            "suppression_reason"?: "merchant_managed_email" | "recipient_unsubscribed" | "sandbox_daily_limit_reached" | (string & {});
-            "to_email": string | null;
-        });
-        "previous_attributes"?: Partial<InvoiceDeliveryAttempt>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "invoice_delivery_attempt.failed";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "invoice_delivery_attempt.failed";
-});
-/**
- * The `invoice_delivery_attempt.failed` webhook payload for the `installed_merchants` event
- * source. Fields shared by partner webhook payloads.
- */
-export type InvoiceDeliveryAttemptFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.cc_emails (Optional): Array of string. Addresses copied on this
-     * email. Absent when none were copied. object.cc_emails[] (Value): string. object.channel
-     * (Required): string. How Flint delivered the invoice. Value enum: "email". object.created_at
-     * (Required): string. When the attempt was created. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.delivery_type (Required): string. Whether this attempt is the
-     * invoice email sent at issue or a reminder. Value enum: "send", "reminder".
-     * object.failure_reason (Optional): string. Present only when status is failed. Legacy failed
-     * attempts without a stored reason return rejected. Value enum: "rejected",
-     * "delivery_unknown", "canceled". object.invoice_delivery_attempt_id (Required): string. Flint
-     * invoice delivery attempt ID. Example: "indel_01KEZF7C001BBS41T0ZVY8VMEQ". object.invoice_id
-     * (Required): string. ID of the invoice this delivery attempt belongs to. Example:
-     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.sent_at (Optional): string. When the email service
-     * accepted the message. Absent until it does. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.status (Required): string. The outcome of this attempt. sent
-     * means the email service accepted the message. Value enum: "pending", "sent", "failed",
-     * "suppressed". object.suppression_reason (Optional): string. Present only when status is
-     * suppressed. Value enum: "merchant_managed_email", "recipient_unsubscribed",
-     * "sandbox_daily_limit_reached". object.to_email (Required): string or null. Address the
-     * invoice was sent to. `null` when the customer was deleted. previous_attributes (Optional):
-     * object. Previous values of changed top-level fields in data.object, at this delivery's API
-     * version. Nested changes include the whole previous top-level value. A value is null when the
-     * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. cc_emails
-         * (Optional): Array of string. Addresses copied on this email. Absent when none were
-         * copied. cc_emails[] (Value): string. channel (Required): string. How Flint delivered the
-         * invoice. Value enum: "email". created_at (Required): string. When the attempt was
-         * created. Format: date-time. Example: "2026-08-02T16:00:00Z". delivery_type (Required):
-         * string. Whether this attempt is the invoice email sent at issue or a reminder. Value
-         * enum: "send", "reminder". failure_reason (Optional): string. Present only when status is
-         * failed. Legacy failed attempts without a stored reason return rejected. Value enum:
-         * "rejected", "delivery_unknown", "canceled". invoice_delivery_attempt_id (Required):
-         * string. Flint invoice delivery attempt ID. Example: "indel_01KEZF7C001BBS41T0ZVY8VMEQ".
-         * invoice_id (Required): string. ID of the invoice this delivery attempt belongs to.
-         * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". sent_at (Optional): string. When the email
-         * service accepted the message. Absent until it does. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. The outcome of this attempt. sent
-         * means the email service accepted the message. Value enum: "pending", "sent", "failed",
-         * "suppressed". suppression_reason (Optional): string. Present only when status is
-         * suppressed. Value enum: "merchant_managed_email", "recipient_unsubscribed",
-         * "sandbox_daily_limit_reached". to_email (Required): string or null. Address the invoice
-         * was sent to. `null` when the customer was deleted.
-         */
-        "object": ({
-            /** Addresses copied on this email. Absent when none were copied. [] (Value): string. */
-            "cc_emails"?: Array<string>;
-            /** How Flint delivered the invoice. Value enum: "email". */
-            "channel": "email" | (string & {});
-            /** When the attempt was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Whether this attempt is the invoice email sent at issue or a reminder. Value enum:
-             * "send", "reminder".
-             */
-            "delivery_type": "send" | "reminder" | (string & {});
-            /**
-             * Present only when status is failed. Legacy failed attempts without a stored reason
-             * return rejected. Value enum: "rejected", "delivery_unknown", "canceled".
-             */
-            "failure_reason"?: "rejected" | "delivery_unknown" | "canceled" | (string & {});
-            /** Flint invoice delivery attempt ID. Example: "indel_01KEZF7C001BBS41T0ZVY8VMEQ". */
-            "invoice_delivery_attempt_id": string;
-            /**
-             * ID of the invoice this delivery attempt belongs to. Example:
-             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-             */
-            "invoice_id": string;
-            /**
-             * When the email service accepted the message. Absent until it does. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "sent_at"?: string;
-            /**
-             * The outcome of this attempt. sent means the email service accepted the message.
-             * Value enum: "pending", "sent", "failed", "suppressed".
-             */
-            "status": "pending" | "sent" | "failed" | "suppressed" | (string & {});
-            /**
-             * Present only when status is suppressed. Value enum: "merchant_managed_email",
-             * "recipient_unsubscribed", "sandbox_daily_limit_reached".
-             */
-            "suppression_reason"?: "merchant_managed_email" | "recipient_unsubscribed" | "sandbox_daily_limit_reached" | (string & {});
-            /** Address the invoice was sent to. `null` when the customer was deleted. */
-            "to_email": string | null;
-        });
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<InvoiceDeliveryAttempt>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "invoice_delivery_attempt.failed". */
-    "event_type"?: "invoice_delivery_attempt.failed";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `invoice_delivery_attempt.failed` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type InvoiceDeliveryAttemptFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.cc_emails (Optional): Array of string. Addresses copied on this
-     * email. Absent when none were copied. object.cc_emails[] (Value): string. object.channel
-     * (Required): string. How Flint delivered the invoice. Value enum: "email". object.created_at
-     * (Required): string. When the attempt was created. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.delivery_type (Required): string. Whether this attempt is the
-     * invoice email sent at issue or a reminder. Value enum: "send", "reminder".
-     * object.failure_reason (Optional): string. Present only when status is failed. Legacy failed
-     * attempts without a stored reason return rejected. Value enum: "rejected",
-     * "delivery_unknown", "canceled". object.invoice_delivery_attempt_id (Required): string. Flint
-     * invoice delivery attempt ID. Example: "indel_01KEZF7C001BBS41T0ZVY8VMEQ". object.invoice_id
-     * (Required): string. ID of the invoice this delivery attempt belongs to. Example:
-     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.sent_at (Optional): string. When the email service
-     * accepted the message. Absent until it does. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.status (Required): string. The outcome of this attempt. sent
-     * means the email service accepted the message. Value enum: "pending", "sent", "failed",
-     * "suppressed". object.suppression_reason (Optional): string. Present only when status is
-     * suppressed. Value enum: "merchant_managed_email", "recipient_unsubscribed",
-     * "sandbox_daily_limit_reached". object.to_email (Required): string or null. Address the
-     * invoice was sent to. `null` when the customer was deleted. previous_attributes (Optional):
-     * object. Previous values of changed top-level fields in data.object, at this delivery's API
-     * version. Nested changes include the whole previous top-level value. A value is null when the
-     * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. cc_emails
-         * (Optional): Array of string. Addresses copied on this email. Absent when none were
-         * copied. cc_emails[] (Value): string. channel (Required): string. How Flint delivered the
-         * invoice. Value enum: "email". created_at (Required): string. When the attempt was
-         * created. Format: date-time. Example: "2026-08-02T16:00:00Z". delivery_type (Required):
-         * string. Whether this attempt is the invoice email sent at issue or a reminder. Value
-         * enum: "send", "reminder". failure_reason (Optional): string. Present only when status is
-         * failed. Legacy failed attempts without a stored reason return rejected. Value enum:
-         * "rejected", "delivery_unknown", "canceled". invoice_delivery_attempt_id (Required):
-         * string. Flint invoice delivery attempt ID. Example: "indel_01KEZF7C001BBS41T0ZVY8VMEQ".
-         * invoice_id (Required): string. ID of the invoice this delivery attempt belongs to.
-         * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". sent_at (Optional): string. When the email
-         * service accepted the message. Absent until it does. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. The outcome of this attempt. sent
-         * means the email service accepted the message. Value enum: "pending", "sent", "failed",
-         * "suppressed". suppression_reason (Optional): string. Present only when status is
-         * suppressed. Value enum: "merchant_managed_email", "recipient_unsubscribed",
-         * "sandbox_daily_limit_reached". to_email (Required): string or null. Address the invoice
-         * was sent to. `null` when the customer was deleted.
-         */
-        "object": ({
-            /** Addresses copied on this email. Absent when none were copied. [] (Value): string. */
-            "cc_emails"?: Array<string>;
-            /** How Flint delivered the invoice. Value enum: "email". */
-            "channel": "email" | (string & {});
-            /** When the attempt was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Whether this attempt is the invoice email sent at issue or a reminder. Value enum:
-             * "send", "reminder".
-             */
-            "delivery_type": "send" | "reminder" | (string & {});
-            /**
-             * Present only when status is failed. Legacy failed attempts without a stored reason
-             * return rejected. Value enum: "rejected", "delivery_unknown", "canceled".
-             */
-            "failure_reason"?: "rejected" | "delivery_unknown" | "canceled" | (string & {});
-            /** Flint invoice delivery attempt ID. Example: "indel_01KEZF7C001BBS41T0ZVY8VMEQ". */
-            "invoice_delivery_attempt_id": string;
-            /**
-             * ID of the invoice this delivery attempt belongs to. Example:
-             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-             */
-            "invoice_id": string;
-            /**
-             * When the email service accepted the message. Absent until it does. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "sent_at"?: string;
-            /**
-             * The outcome of this attempt. sent means the email service accepted the message.
-             * Value enum: "pending", "sent", "failed", "suppressed".
-             */
-            "status": "pending" | "sent" | "failed" | "suppressed" | (string & {});
-            /**
-             * Present only when status is suppressed. Value enum: "merchant_managed_email",
-             * "recipient_unsubscribed", "sandbox_daily_limit_reached".
-             */
-            "suppression_reason"?: "merchant_managed_email" | "recipient_unsubscribed" | "sandbox_daily_limit_reached" | (string & {});
-            /** Address the invoice was sent to. `null` when the customer was deleted. */
-            "to_email": string | null;
-        });
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<InvoiceDeliveryAttempt>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "invoice_delivery_attempt.failed". */
-    "event_type"?: "invoice_delivery_attempt.failed";
 });

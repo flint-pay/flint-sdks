@@ -24,7 +24,6 @@ namespace Flint;
  * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $name
  * @property-read list<SubscriptionPlanChangeOptionInput|array<array-key, mixed>|\stdClass> $plan_change_options
- * @property-read list<int> $quantity_options
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $setup_fee_money
  * @property-read string $status
  * @property-read list<string> $subscription_delivery_method_ids
@@ -34,7 +33,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionPlanInput extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'contract_term_months'?: int, 'created_at': string|\DateTimeInterface, 'currency': string, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'delivery_method_subscription_counts': list<SubscriptionDeliveryMethodCountsInput|array<array-key, mixed>|\stdClass>, 'delivery_required': bool, 'description'?: string, 'early_termination_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'end_after': array{'cycle_count': int, 'type': string}|object|null, 'external_reference_id'?: string, 'gifts_enabled': bool, 'images': list<ImageAttachmentInput|array<array-key, mixed>|\stdClass>, 'inventory_routing_source'?: InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass, 'line_items'?: list<SubscriptionPlanLineItemInput|array<array-key, mixed>|\stdClass>, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'plan_change_options': list<SubscriptionPlanChangeOptionInput|array<array-key, mixed>|\stdClass>, 'quantity_options': list<int>, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription_delivery_method_ids': list<string>, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'contract_term_months'?: int, 'created_at': string|\DateTimeInterface, 'currency': string, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'delivery_method_subscription_counts': list<SubscriptionDeliveryMethodCountsInput|array<array-key, mixed>|\stdClass>, 'delivery_required': bool, 'description'?: string, 'early_termination_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'end_after': array{'cycle_count': int, 'type': string}|object|null, 'external_reference_id'?: string, 'gifts_enabled': bool, 'images': list<ImageAttachmentInput|array<array-key, mixed>|\stdClass>, 'inventory_routing_source'?: InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass, 'line_items'?: list<SubscriptionPlanLineItemInput|array<array-key, mixed>|\stdClass>, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'plan_change_options': list<SubscriptionPlanChangeOptionInput|array<array-key, mixed>|\stdClass>, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription_delivery_method_ids': list<string>, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPlanInput')); }
     /** Unit of the plan's default billing period. Read with `billing_interval_count`: monthly with a count of 3 bills every three months. A new subscription starts on the pair the buyer chose from `billing_interval_options`, or on this one when they chose none. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -168,12 +167,6 @@ final class SubscriptionPlanInput extends Model {
      */
     public function getPlanChangeOptions(): array { return $this->get('plan_change_options'); }
     public function hasPlanChangeOptions(): bool { return $this->has('plan_change_options'); }
-    /** Quantities of the whole subscription that this plan lists, from 1 to 100, in ascending order. Flint accepts only a subscription quantity of 1, so you can set this list only to `[1]`. To let buyers choose a seat count, set `allow_quantity_adjustment` on a plan line item. A plan saved before that rule can still list up to 10 quantities. maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
-     * @return list<int>
-     * @throws SdkError When quantity_options is omitted; use hasQuantityOptions() or valueOrDefault().
-     */
-    public function getQuantityOptions(): array { return $this->get('quantity_options'); }
-    public function hasQuantityOptions(): bool { return $this->has('quantity_options'); }
     /** One-time fee charged with the first payment of a new subscription, except one that continues an imported paid period. Omitted when the plan has no setup fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When setup_fee_money is omitted; use hasSetupFeeMoney() or valueOrDefault().

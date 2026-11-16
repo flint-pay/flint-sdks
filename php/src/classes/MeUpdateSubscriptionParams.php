@@ -8,11 +8,10 @@ namespace Flint;
  * @property-read SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass $delivery
  * @property-read int $expected_version
  * @property-read string $payment_method_id
- * @property-read int $quantity
  * @property-read null $scheduled_plan_change
  * Presence-aware input; omitted fields throw when accessed. */
 final class MeUpdateSubscriptionParams extends Model {
-    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'cancel_at_period_end'?: bool, 'delivery'?: SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'payment_method_id'?: string, 'quantity'?: int, 'scheduled_plan_change'?: null}|object $values */
+    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'cancel_at_period_end'?: bool, 'delivery'?: SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'payment_method_id'?: string, 'scheduled_plan_change'?: null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeUpdateSubscriptionParams')); }
     /** New billing interval unit. Send it with `billing_interval_count`; the pair must be one the subscription's `billing_interval_options` offer. It applies from the next renewal that has not been paid, and it is refused while a plan change is scheduled. Not accepted as null. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -50,12 +49,6 @@ final class MeUpdateSubscriptionParams extends Model {
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
-    /** Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 1.
-     * @return int
-     * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
-     */
-    public function getQuantity(): int { return $this->get('quantity'); }
-    public function hasQuantity(): bool { return $this->has('quantity'); }
     /** Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it unchanged. Schedule or replace through change-plan.
      * @return null
      * @throws SdkError When scheduled_plan_change is omitted; use hasScheduledPlanChange() or valueOrDefault().

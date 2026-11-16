@@ -1,7 +1,17 @@
 [Model index](../MODELS.md)
 
-# RepriceDiscountsRequestInput to ReturnReceiptCreatedMerchantEventInput
+# ReopenReturnResponseInput to ReturnProcessDecisionInput
 
+- [ReopenReturnResponseInput](ReopenReturnResponseInput.md)
+- [ReportInput](ReportInput.md)
+- [ReportFailedInput](ReportFailedInput.md)
+- [ReportFailedEventInput](ReportFailedEventInput.md)
+- [ReportInventoryTransferLossRequestInput](ReportInventoryTransferLossRequestInput.md)
+- [ReportListResponseInput](ReportListResponseInput.md)
+- [ReportPendingInput](ReportPendingInput.md)
+- [ReportResponseInput](ReportResponseInput.md)
+- [ReportSucceededInput](ReportSucceededInput.md)
+- [ReportSucceededEventInput](ReportSucceededEventInput.md)
 - [RepriceDiscountsRequestInput](RepriceDiscountsRequestInput.md)
 - [ResendWebhookDeliveryRequestInput](ResendWebhookDeliveryRequestInput.md)
 - [ResetDemoSessionRequestInput](ResetDemoSessionRequestInput.md)
@@ -92,14 +102,4 @@
 - [ReturnPolicyScopeIncludeRequestInput](ReturnPolicyScopeIncludeRequestInput.md)
 - [ReturnPolicyScopeRequestInput](ReturnPolicyScopeRequestInput.md)
 - [ReturnProcessDecisionInput](ReturnProcessDecisionInput.md)
-- [ReturnProcessDispositionRequestInput](ReturnProcessDispositionRequestInput.md)
-- [ReturnProcessInspectionRequestInput](ReturnProcessInspectionRequestInput.md)
-- [ReturnProcessReceiptRequestInput](ReturnProcessReceiptRequestInput.md)
-- [ReturnProcessResolutionRequestInput](ReturnProcessResolutionRequestInput.md)
-- [ReturnProcessResultInput](ReturnProcessResultInput.md)
-- [ReturnReasonInput](ReturnReasonInput.md)
-- [ReturnReasonSummaryInput](ReturnReasonSummaryInput.md)
-- [ReturnReceiptInput](ReturnReceiptInput.md)
-- [ReturnReceiptCreatedInstalledMerchantsEventInput](ReturnReceiptCreatedInstalledMerchantsEventInput.md)
-- [ReturnReceiptCreatedMerchantEventInput](ReturnReceiptCreatedMerchantEventInput.md)
 

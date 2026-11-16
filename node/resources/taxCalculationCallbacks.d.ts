@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-54.js';
 import type {
     TaxCalculationCallback,
@@ -59,19 +59,20 @@ export type {
 } from '../declarations/types-64.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
 export type { _SdkWithoutIdempotency, WebhookSigningMethodInput } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials, CreateTaxCalculationCallbackRequestInput } from '../declarations/types-14.js';
 export type { NextAction, MoneyValue } from '../declarations/types-39.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { UpdateTaxCalculationCallbackRequestInput } from '../declarations/types-68.js';
+export type { UpdateTaxCalculationCallbackRequestInput } from '../declarations/types-69.js';
 export { makeCreateTaxCalculationCallbackRequest } from '../declarations/types-75.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export {
     makeTaxCalculationCallbackConfigurationPatchRequest,
     makeTaxCalculationCallbackConfigurationRequest
 } from '../declarations/types-83.js';
-export { makeUpdateTaxCalculationCallbackRequest, makeWebhookSigningMethod } from '../declarations/types-84.js';
+export { makeUpdateTaxCalculationCallbackRequest } from '../declarations/types-84.js';
+export { makeWebhookSigningMethod } from '../declarations/types-85.js';
 export interface TaxCalculationCallbacksResource {
     /**
  * Tax calculation callback configuration is scoped to the selected environment. Partner

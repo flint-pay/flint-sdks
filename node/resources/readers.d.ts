@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
     Reader,
     ReaderConnectionSession,
@@ -50,7 +50,7 @@ export type {
 } from '../declarations/types-52.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateReaderRequestInput } from '../declarations/types-12.js';
 export type { CreateSmartReaderRequestInput } from '../declarations/types-13.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-38.js';
@@ -58,10 +58,12 @@ export type { CreateTapToPayReaderRequestInput, Credentials } from '../declarati
 export type { AuthMode } from '../declarations/types-1.js';
 export type { NextAction, MoneyValue, MoneyValueInput } from '../declarations/types-39.js';
 export type { SimulateReaderRequestInput } from '../declarations/types-60.js';
-export type { UpdateReaderRequestInput } from '../declarations/types-67.js';
+export type { UpdateReaderRequestInput } from '../declarations/types-68.js';
 export type { DisputesAcceptParams } from '../declarations/types-23.js';
-export { makeCreateReaderRequest, makeCreateSmartReaderRequest, makeCreateTapToPayReaderRequest } from '../declarations/types-74.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
+export { makeCreateReaderRequest, makeCreateSmartReaderRequest } from '../declarations/types-74.js';
+export { makeCreateTapToPayReaderRequest } from '../declarations/types-75.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export { makeSimulateReaderRequest } from '../declarations/types-82.js';
 export { makeUpdateReaderRequest } from '../declarations/types-84.js';
 export interface ReadersResource {

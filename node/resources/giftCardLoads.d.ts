@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type { CreateGiftCardLoadResult, CreateGiftCardLoadResultResponse } from '../declarations/types-9.js';
 import type {
     GiftCardLoad,
@@ -57,7 +57,7 @@ export type {
 export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-54.js';
 export type { CreateGiftCardLoadResult, CreateGiftCardLoadResultResponse, CreateGiftCardLoadRequestInput } from '../declarations/types-9.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-39.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
@@ -74,7 +74,7 @@ export type {
 } from '../declarations/types-27.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
 export type { DisputesAcceptParams } from '../declarations/types-23.js';
-export { makeCreateGiftCardLoadRequest } from '../declarations/types-72.js';
+export { makeCreateGiftCardLoadRequest } from '../declarations/types-73.js';
 export {
     makeGiftCardFundingSourceAdjustmentRequest,
     makeGiftCardFundingSourceExternalPaymentRequest,
@@ -86,7 +86,7 @@ export {
     makeGiftCardFundingSourceRequest,
     makeGiftCardFundingSourceStoreCreditRequest
 } from '../declarations/types-77.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export interface GiftCardLoadsResource {
     /**
  * Adds positive value with separately recorded consideration and funding provenance. Limits apply

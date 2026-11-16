@@ -15,7 +15,7 @@ Response model.
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `note`.
 
-Field definitions: [shared fields](OrderEditCreatedMerchantEventData.md#ordereditcreatedmerchanteventdataobject-fields-1).
+Field definitions: [shared fields](OrderEditCanceledMerchantEventData.md#ordereditcanceledmerchanteventdataobject-fields-1).
 
 ### OrderEditCreatedInstalledMerchantsEventData.object fields 1.add_line_items[]
 

@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
     Location,
     LocationListResponse,
@@ -40,7 +40,7 @@ export type {
 } from '../declarations/types-35.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateLocationRequestInput } from '../declarations/types-10.js';
 export type { AddressRequestInput, Address, AddressRequest } from '../declarations/types-0.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-38.js';
@@ -53,8 +53,9 @@ export type { InventoryAllocationPoliciesDeleteParams } from '../declarations/ty
 export type { DisputesAcceptParams } from '../declarations/types-23.js';
 export { makeAddressRequest } from '../declarations/types-70.js';
 export { makeCreateLocationRequest } from '../declarations/types-73.js';
-export { makeLocationCoordinateRequest, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
-export { makeUpdateLocationRequest } from '../declarations/types-83.js';
+export { makeLocationCoordinateRequest, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
+export { makeUpdateLocationRequest } from '../declarations/types-84.js';
 export interface LocationsResource {
     /**
  * Create a Location. Sending inventory_allocation_enabled also requires

@@ -38,43 +38,49 @@ anyOf CancelInventoryCountRequest: Declared schema CancelInventoryCountRequest. 
 
 ### CloseGiftCardRequest variant 5
 
-anyOf variant 5: Declared schema UnfreezeGiftCardRequest. An optional version fence for removing the merchant freeze..
+anyOf variant 5: Declared schema CancelOrderEditRequest. Cancel a pending order edit..
 
-- Constraints for `expected_version`: The gift card version last read. The command changes this card only when its current version matches. Format: `int64`.
+- Constraints for `expected_version`: The order edit version to cancel. A mismatch returns VERSION_CONFLICT before changes. Format: `uint64`.
 
 ### CloseGiftCardRequest variant 6
 
-anyOf variant 6: Declared schema SkipMeSubscriptionCycleRequest. The request body for: Skip subscription cycle..
+anyOf variant 6: Declared schema UnfreezeGiftCardRequest. An optional version fence for removing the merchant freeze..
 
-- Constraints for `expected_version`: Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: `uint64`.
+- Constraints for `expected_version`: The gift card version last read. The command changes this card only when its current version matches. Format: `int64`.
 
 ### CloseGiftCardRequest variant 7
 
-anyOf variant 7: Declared schema ResourceVersionRequest. The request body for: Mark invoice uncollectible; Regenerate invoice public link; Resume one of the current buyer's subscriptions; Resume subscription; Reverse credit note allocation; Void credit note; Void invoice..
+anyOf variant 7: Declared schema SkipMeSubscriptionCycleRequest. The request body for: Skip subscription cycle..
 
-- Constraints for `expected_version`: Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: `int64`.
+- Constraints for `expected_version`: Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: `uint64`.
 
 ### CloseGiftCardRequest variant 8
 
-anyOf variant 8: Declared schema GiftCardVersionRequest. Optional version fence for the redemption being captured or canceled..
+anyOf variant 8: Declared schema ResourceVersionRequest. The request body for: Mark invoice uncollectible; Regenerate invoice public link; Resume one of the current buyer's subscriptions; Resume subscription; Reverse credit note allocation; Void credit note; Void invoice..
 
-- Constraints for `expected_version`: The redemption version last read. Capture or cancel changes the redemption only when its current version matches. Format: `int64`.
+- Constraints for `expected_version`: Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: `int64`.
 
 ### CloseGiftCardRequest variant 9
 
-anyOf variant 9: Declared schema MerchantSignupVersionRequest. The request body for: Cancel a merchant signup; Mint new authorization codes for a merchant signup; Send a new merchant signup code..
+anyOf variant 9: Declared schema GiftCardVersionRequest. Optional version fence for the redemption being captured or canceled..
 
-- Constraints for `expected_version`: Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Format: `uint64`.
+- Constraints for `expected_version`: The redemption version last read. Capture or cancel changes the redemption only when its current version matches. Format: `int64`.
 
 ### CloseGiftCardRequest variant 10
 
-anyOf variant 10: Declared schema RepriceDiscountsRequest. The request body for: Reprice discounts..
+anyOf variant 10: Declared schema MerchantSignupVersionRequest. The request body for: Cancel a merchant signup; Mint new authorization codes for a merchant signup; Send a new merchant signup code..
 
-- Constraints for `expected_version`: Optional order version from the last order read. The mutation fails if the order changed. Format: `int64`.
+- Constraints for `expected_version`: Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Format: `uint64`.
 
 ### CloseGiftCardRequest variant 11
 
-anyOf variant 11: Declared schema TicketVersionRequest. An optional version fence for the ticket..
+anyOf variant 11: Declared schema RepriceDiscountsRequest. The request body for: Reprice discounts..
+
+- Constraints for `expected_version`: Optional order version from the last order read. The mutation fails if the order changed. Format: `int64`.
+
+### CloseGiftCardRequest variant 12
+
+anyOf variant 12: Declared schema TicketVersionRequest. An optional version fence for the ticket..
 
 - Constraints for `expected_version`: The ticket version last read. The change applies only while the ticket is at this version; a stale value returns 409 VERSION_CONFLICT, even when the ticket's status would also refuse the change. Door scanners usually omit it. Format: `uint64`.
 

@@ -1,3 +1,4 @@
+import type { CreateOnboardingAccessLinkRequest } from './types-10.js';
 import type {
     ManualDiscountRequest,
     ManualDiscountRequestInput,
@@ -6,6 +7,7 @@ import type {
     LegalSettings
 } from './types-35.js';
 import type { PromotionRefRequest, PromotionRefRequestInput } from './types-51.js';
+import type { MoneyValue, MoneyValueInput, Order, OrderCalculatedLineItemTax } from './types-39.js';
 import type {
     OrderEditRemovalRequest,
     OrderEditRemovalRequestInput,
@@ -15,14 +17,12 @@ import type {
     OrderDraftLineItemTaxRequestModelInput,
     OrderDeliveryDestinationRequest,
     OrderDeliveryRequest,
-    OrderHandover,
     OrderDeliveryDestinationRequestInput,
-    OrderDeliveryRequestInput,
-    OrderHandoverRequestInput
+    OrderDeliveryRequestInput
 } from './types-40.js';
-import type { RefundCharge, RefundDestinations, RefundChargeInput, RefundDestinationsInput, Refund } from './types-52.js';
+import type { RefundCharge, RefundDestinations, RefundChargeInput, RefundDestinationsInput } from './types-53.js';
 import type { ResponseMeta } from './types-54.js';
-import type { Order, MoneyValue, OrderCalculatedLineItemTax, MoneyValueInput } from './types-39.js';
+import type { Refund } from './types-52.js';
 import type { Dimensions, DimensionsRequestInput } from './types-23.js';
 import type { GiftCardPurchaseRequest, GiftCardPurchaseDetailsRequestInput } from './types-27.js';
 import type { ImageReferenceRequest, ImageReferenceRequestInput, ImageRequest, ImageRequestInput } from './types-28.js';
@@ -30,12 +30,13 @@ import type { MetadataMap, MetadataRequestInput } from './types-38.js';
 import type {
     OrderLineItemModifierRequest,
     OrderLineItemModifierRequestModelInput,
+    OrderHandover,
+    OrderHandoverRequestInput,
     OrderPaymentSourceSelection,
     OrderPaymentSourceSelectionInput
 } from './types-41.js';
 import type { SubscribedLineRequest, SubscribedLineRequestModelInput } from './types-60.js';
 import type { Weight, WeightRequestInput } from './types-70.js';
-import type { CreateOrderDiscount, CreateOrderDiscountInput } from './types-10.js';
 import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-30.js';
 import type { OrderTaxRequest, OrderTaxRequestInput } from './types-42.js';
 import type { ReturnResolutionLineItemRequest, ReturnShipmentLineItemAllocationRequestInput } from './types-57.js';
@@ -44,9 +45,7 @@ import type {
     CheckoutBuyerFields,
     CheckoutCustomTextConfig,
     CheckoutPaymentConfig,
-    CheckoutPromotionConfig,
-    CheckoutBuyerFieldsRequestInput,
-    CheckoutPromotionConfigRequestInput
+    CheckoutBuyerFieldsRequestInput
 } from './types-5.js';
 import type {
     PartnerAppCredentialJWKSURLRequestInput,
@@ -56,11 +55,13 @@ import type {
     PartnerAppCredentialWorkloadIdentityRequestInput,
     PartnerAppPaymentSplits,
     PartnerAppPermissionManifestEntry,
+    PartnerAppPaymentSplitsRequestInput
+} from './types-43.js';
+import type {
     PartnerAppPlatformProfile,
-    PartnerAppPaymentSplitsRequestInput,
     PartnerAppPermissionManifestEntryRequestInput,
     PartnerAppPlatformProfileRequestInput
-} from './types-43.js';
+} from './types-44.js';
 import type {
     PlatformFeeCap,
     PlatformFeeCapRequestInput,
@@ -71,32 +72,73 @@ import type {
     PriceList,
     PriceListPriceAddition
 } from './types-49.js';
-import type { PaymentSplitRequest, PaymentSplitRequestInput } from './types-47.js';
+import type { PaymentSplitRequest, PaymentSplitRequestInput } from './types-48.js';
 import type {
+    CheckoutPromotionConfig,
     CheckoutRedirects,
     CheckoutTaxConfig,
     CheckoutTipConfig,
+    CheckoutPromotionConfigRequestInput,
     CheckoutRedirectsRequestInput,
-    CheckoutTaxConfigRequestInput,
-    CheckoutTipConfigRequestInput
+    CheckoutTaxConfigRequestInput
 } from './types-6.js';
 import type {
     PaymentLinkCustomFieldRequest,
     PaymentLinkEventConfig,
+    PaymentLinkLineItemRequest,
     PaymentLinkCustomFieldRequestInput,
     PaymentLinkCustomTextConfigInput,
     PaymentLinkEventConfigRequestInput,
-    PaymentLinkLegalConfigInput
-} from './types-45.js';
-import type {
-    PaymentLinkLineItemRequest,
+    PaymentLinkLegalConfigInput,
     PaymentLinkLineItemRequestInput,
     PaymentLinkPaymentConfigInput,
     PaymentLinkThemeConfigInput
 } from './types-46.js';
 import type { ThemeConfig } from './types-65.js';
+import type { CheckoutTipConfigRequestInput } from './types-7.js';
 import type { AddressRequest, AddressRequestInput } from './types-0.js';
-import type { CreateProductOptionValueRequest, CreateProductOptionValueRequestInput } from './types-12.js';
+/**
+ * Where Flint's hosted onboarding page sends the person when they exit, finish, or open a used or
+ * expired link.
+ */
+export type CreateOnboardingAccessLinkRequestInput = CreateOnboardingAccessLinkRequest;
+/**
+ * A discount to apply when creating an order: either a manual discount or a reference to a
+ * promotion.
+ */
+export type CreateOrderDiscount = ({
+    /**
+     * A discount you set by hand, with a name and an amount. A discount you apply by hand to an
+     * order, with a name, an amount, and the order, line items, or charges it applies to.
+     */
+    "manual"?: ManualDiscountRequest;
+    /**
+     * The promotion to apply. Identifies the promotion to apply, by promotion code or by promotion
+     * ID.
+     */
+    "promotion"?: PromotionRefRequest;
+})
+    & ((Exclude<CreateOrderDiscountPromotion & object, readonly unknown[]>)
+    | (Exclude<CreateOrderDiscountManual & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * A discount to apply when creating an order: either a manual discount or a reference to a
+ * promotion.
+ */
+export type CreateOrderDiscountInput = ({
+    /**
+     * A discount you set by hand, with a name and an amount. A discount you apply by hand to an
+     * order, with a name, an amount, and the order, line items, or charges it applies to.
+     */
+    "manual"?: ManualDiscountRequestInput;
+    /**
+     * The promotion to apply. Identifies the promotion to apply, by promotion code or by promotion
+     * ID.
+     */
+    "promotion"?: PromotionRefRequestInput;
+})
+    & ((Exclude<CreateOrderDiscountPromotionInput & object, readonly unknown[]>)
+    | (Exclude<CreateOrderDiscountManualInput & object, readonly unknown[]>));
 /** The `Manual` variant of `CreateOrderDiscount`. */
 export type CreateOrderDiscountManual = ({
     /**
@@ -156,8 +198,9 @@ export type CreateOrderDiscountPromotionInput = ({
     "manual"?: never;
 }));
 /**
- * Remove unassigned units from a paid order, add items the removed value and released charges pay
- * for, or do both, and queue any remaining refund atomically.
+ * Remove unassigned units from a paid order, add items, or do both. Removed value and released
+ * charges pay for the additions; with `balance_due_behavior: collect`, the buyer pays the rest.
+ * Flint queues any remaining refund atomically.
  */
 export type CreateOrderEditRequest = ({
     /**
@@ -169,6 +212,13 @@ export type CreateOrderEditRequest = ({
      * unit price.
      */
     "add_line_items"?: Array<CreateOrderLineItemRequest>;
+    /**
+     * What happens when the added items cost more than the removed value and released charges.
+     * refuse returns 409 LIMIT_EXCEEDED and changes nothing. collect creates the edit as pending
+     * and a payment intent for the balance; the edit is applied when that payment succeeds.
+     * Default: "refuse". Value enum: "refuse", "collect".
+     */
+    "balance_due_behavior"?: "refuse" | "collect" | (string & {});
     /**
      * Charges to release. Released value pays for added lines first and the rest is refunded.
      * Omitting amount_money releases the charge's remaining refundable amount. maxItems: 100. []
@@ -182,6 +232,12 @@ export type CreateOrderEditRequest = ({
      * defaults to original when omitted.
      */
     "destinations"?: RefundDestinations;
+    /**
+     * The balance you showed the buyer, usually the preview's amount_due_money. If the edit would
+     * freeze a different balance, the request returns 409 VERSION_CONFLICT and changes nothing.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "expected_amount_due_money"?: MoneyValue;
     /**
      * The order.version the edit draft was based on. On VERSION_CONFLICT, keep the draft, fetch
      * the order, preview again, and reconcile before committing with the new version and a new
@@ -243,8 +299,9 @@ export type CreateOrderEditRequest = ({
 })
     | (Record<string, unknown>));
 /**
- * Remove unassigned units from a paid order, add items the removed value and released charges pay
- * for, or do both, and queue any remaining refund atomically.
+ * Remove unassigned units from a paid order, add items, or do both. Removed value and released
+ * charges pay for the additions; with `balance_due_behavior: collect`, the buyer pays the rest.
+ * Flint queues any remaining refund atomically.
  */
 export type CreateOrderEditRequestInput = ({
     /**
@@ -256,6 +313,13 @@ export type CreateOrderEditRequestInput = ({
      * and unit price.
      */
     "add_line_items"?: Array<CreateOrderLineItemRequestInput>;
+    /**
+     * What happens when the added items cost more than the removed value and released charges.
+     * refuse returns 409 LIMIT_EXCEEDED and changes nothing. collect creates the edit as pending
+     * and a payment intent for the balance; the edit is applied when that payment succeeds.
+     * Default: "refuse". Value enum: "refuse", "collect".
+     */
+    "balance_due_behavior"?: "refuse" | "collect";
     /**
      * Charges to release. Released value pays for added lines first and the rest is refunded.
      * Omitting amount_money releases the charge's remaining refundable amount. maxItems: 100. []
@@ -269,6 +333,12 @@ export type CreateOrderEditRequestInput = ({
      * defaults to original when omitted.
      */
     "destinations"?: RefundDestinationsInput;
+    /**
+     * The balance you showed the buyer, usually the preview's amount_due_money. If the edit would
+     * freeze a different balance, the request returns 409 VERSION_CONFLICT and changes nothing.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "expected_amount_due_money"?: MoneyValueInput;
     /**
      * The order.version the edit draft was based on. On VERSION_CONFLICT, keep the draft, fetch
      * the order, preview again, and reconcile before committing with the new version and a new
@@ -330,8 +400,8 @@ export type CreateOrderEditRequestInput = ({
 /** A response containing `CreateOrderEditResult` data. */
 export type CreateOrderEditResponse = {
     /**
-     * Resource, collection, or operation result returned by this request. The completed edit,
-     * current order, and refunds created so far.
+     * Resource, collection, or operation result returned by this request. The pending or completed
+     * edit, current order, and refunds created so far.
      */
     "data": CreateOrderEditResult;
     /**
@@ -345,14 +415,15 @@ export type CreateOrderEditResponse = {
      */
     "request_id": string;
 };
-/** The completed edit, current order, and refunds created so far. */
+/** The pending or completed edit, current order, and refunds created so far. */
 export type CreateOrderEditResult = {
     /** The order after the edit. A customer's purchase and its payment and fulfillment progress. */
     "order": Order;
     /**
-     * The committed edit, even when refund processing is pending. Nested child of an order:
-     * immutable, completed item changes with frozen values and refund amounts. Refund completion
-     * is tracked on the refunds.
+     * The pending or completed edit, even when payment or refund processing is pending. Nested
+     * child of an order with frozen item changes, balance and refund amounts. A pending edit
+     * changes the order only when its balance payment succeeds. Refund completion is tracked on
+     * the refunds.
      */
     "order_edit": OrderEdit;
     /**
@@ -4467,117 +4538,4 @@ export type CreatePriceListRequest = {
      * "active". Value enum: "active", "inactive".
      */
     "status"?: "active" | "inactive" | (string & {});
-};
-/** Fields for a new price list. */
-export type CreatePriceListRequestInput = {
-    /**
-     * Currency of all list prices, as an uppercase ISO 4217 code. Must match the catalog currency;
-     * currently only USD is supported. Cannot be changed after creation. minLength: 3. maxLength:
-     * 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency": string;
-    /**
-     * Customer.segment labels to assign, at most 20. Each label can belong to only one unarchived
-     * list, including inactive lists. Omit or send [] for no segment assignments. maxItems: 20.
-     * uniqueItems: true. [] (Value): string. minLength: 1.
-     */
-    "customer_segments"?: Array<string>;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Caller-owned metadata to store on this price list. Caller-owned key-value data for a new or
-     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
-     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
-     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Name used to identify the price list. minLength: 1. maxLength: 100. */
-    "name": string;
-    /**
-     * Initial availability. Inactive lists remain assignable but do not provide prices. Default:
-     * "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-};
-/**
- * A product option to create with a product, such as size, with its values, position, and status.
- */
-export type CreateProductOptionRequest = {
-    /**
-     * Value of this option given to every active variant that has no active value for it after
-     * this request, such as when you add an option to a product that already has active variants.
-     * It must match one of this option's active `values`, ignoring case and surrounding
-     * whitespace. Not stored; the variants keep the value. minLength: 1. maxLength: 255.
-     */
-    "existing_variant_value"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Option name, such as Size or Color. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Display order among the product's options, starting at zero. Defaults to the option's array
-     * index when omitted. Format: int32. minimum: 0.
-     */
-    "position"?: number;
-    /**
-     * Whether the option is active or inactive. Active variants must select an active value for
-     * every active option. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /**
-     * Values offered for this option, such as Small, Medium, and Large for Size. [] (Value):
-     * {@link CreateProductOptionValueRequest}. One value of a product option to create, such as a
-     * specific size, with its position and status.
-     */
-    "values"?: Array<CreateProductOptionValueRequest>;
-};
-/**
- * A product option to create with a product, such as size, with its values, position, and status.
- */
-export type CreateProductOptionRequestInput = {
-    /**
-     * Value of this option given to every active variant that has no active value for it after
-     * this request, such as when you add an option to a product that already has active variants.
-     * It must match one of this option's active `values`, ignoring case and surrounding
-     * whitespace. Not stored; the variants keep the value. minLength: 1. maxLength: 255.
-     */
-    "existing_variant_value"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Option name, such as Size or Color. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Display order among the product's options, starting at zero. Defaults to the option's array
-     * index when omitted. Format: int32. minimum: 0.
-     */
-    "position"?: number;
-    /**
-     * Whether the option is active or inactive. Active variants must select an active value for
-     * every active option. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /**
-     * Values offered for this option, such as Small, Medium, and Large for Size. [] (Value):
-     * {@link CreateProductOptionValueRequestInput}. One value of a product option to create, such
-     * as a specific size, with its position and status.
-     */
-    "values"?: Array<CreateProductOptionValueRequestInput>;
 };

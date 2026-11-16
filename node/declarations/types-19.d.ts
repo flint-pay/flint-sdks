@@ -1,3 +1,6 @@
+import type { InputValue } from '../runtime.js';
+import type { DisputesAcceptParams } from './types-23.js';
+import type { UpdateDeliveryMethodRequestInput } from './types-66.js';
 import type { BuyerInstructionsConfig } from './types-2.js';
 import type {
     DeliveryArrivalEstimate,
@@ -18,13 +21,7 @@ import type {
     DeliveryCallerSuppliedPricingStrategyRequestInput,
     DeliveryFixedPricingStrategyRequestInput
 } from './types-17.js';
-import type {
-    DeliveryQuoteExecutionLegResource,
-    DeliveryQuoteLineItemResource,
-    DeliveryProfileConfiguration,
-    DeliveryProfileDiagnostics,
-    DeliveryProfileUnconfiguredAssignment
-} from './types-20.js';
+import type { DeliveryQuoteExecutionLegResource, DeliveryQuoteLineItemResource } from './types-20.js';
 import type {
     DeliveryRecipientRequirement,
     DeliveryRateTablePricingStrategy,
@@ -44,11 +41,112 @@ import type { Address } from './types-0.js';
 import type { DeliveryLocationSummaryResource, DeliveryMerchantDiagnostic } from './types-18.js';
 import type { CreateOrderLineItem } from './types-11.js';
 import type { ResponseMeta } from './types-54.js';
-import type { InputValue } from '../runtime.js';
 import type { CreateDeliveryPreviewRequestInput } from './types-8.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-38.js';
-import type { PartnerWebhookEnvelope } from './types-44.js';
-import type { WebhookDeliveryProfile } from './types-69.js';
+export type DeliveryMethodsGetParams = DisputesAcceptParams;
+export type DeliveryMethodsListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Search across delivery_method_id, name, description, and external_reference_id. Text fields
+     * match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs
+     * match from the start and need the type prefix, such as dmet_01. maxLength: 255.
+     */
+    "query"?: InputValue<string>;
+    /**
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842".
+     */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
+     * "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value):
+     * string. Value enum: "active", "inactive", "archived". anyOf[2] (Value): string. Value enum:
+     * "active", "inactive", "archived".
+     */
+    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
+    /**
+     * Filter by method type. Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "shipment", "local_delivery", "pickup". Value enum: "shipment",
+     * "local_delivery", "pickup". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "shipment", "local_delivery", "pickup". anyOf[1][] (Value): string. Value enum: "shipment",
+     * "local_delivery", "pickup". anyOf[2] (Value): string. Value enum: "shipment",
+     * "local_delivery", "pickup".
+     */
+    "type"?: InputValue<("shipment" | "local_delivery" | "pickup") | readonly ("shipment" | "local_delivery" | "pickup")[]>;
+    /**
+     * Filter by referenced delivery zone. pattern: ^dzone_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
+     */
+    "delivery_zone_id"?: InputValue<string>;
+    /**
+     * Filter by referenced delivery location set. pattern: ^dls_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "dls_01KEZF7C00C4WWN7RYTRF55C4H".
+     */
+    "delivery_location_set_id"?: InputValue<string>;
+    /**
+     * Filter by referenced callback endpoint. pattern: ^dcb_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+     */
+    "delivery_rate_callback_id"?: InputValue<string>;
+    /**
+     * Filter by referenced Location. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: InputValue<string>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type DeliveryMethodsUpdateParams = (UpdateDeliveryMethodRequestInput)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 /**
  * A delivery option in a quote or preview: its price, type, timing, delivery plan, execution legs,
  * and shipment, pickup, or local delivery details.
@@ -2915,156 +3013,3 @@ export type DeliveryPricingTierBandRequestInput = {
      */
     "to"?: number;
 };
-/** Reusable delivery rules assigned to catalog items. */
-export type DeliveryProfile = {
-    /**
-     * Current delivery requirement and grouping policy. Whether delivery planning applies to items
-     * under a delivery profile, and if so the allowed delivery types, resolution mode, origin
-     * policy, and grouping and splitting rules.
-     */
-    "configuration": DeliveryProfileConfiguration;
-    /** Time the profile was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * Immutable revision used for new line-item snapshots. Example:
-     * "dprofr_01KEZF7C00K1P3FXGHCF46YQ1F".
-     */
-    "current_delivery_profile_revision_id": string;
-    /** Stable delivery profile ID. Example: "dprof_01KEZF7C0020J13FQYNY9854R0". */
-    "delivery_profile_id": string;
-    /**
-     * Read-only catalog and delivery-method compatibility diagnostics. Read-only coverage checks
-     * for a delivery profile, such as how many active Locations have no compatible delivery method
-     * and how many countries its zones name.
-     */
-    "diagnostics"?: DeliveryProfileDiagnostics;
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /** True only when this profile is the current physical catalog default. */
-    "is_default": boolean;
-    /**
-     * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with
-     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /** Merchant-facing profile name. */
-    "name": string;
-    /** Current profile lifecycle status. Value enum: "active", "archived". */
-    "status": "active" | "archived" | (string & {});
-    /**
-     * Progress of the profile's latest bulk assignment through `POST
-     * /v1/delivery-profiles/{delivery_profile_id}/assign-to-unconfigured`. `null` when the profile
-     * has never had one. Omitted when the response is a write response or a webhook object;
-     * retrieve and list responses include it. Flint updates it as the assignment's runs commit,
-     * without changing the profile's `version` or sending `delivery_profile.updated`; each batch's
-     * `product_variant.updated`, `product.updated`, and `bundle.updated` events report the items
-     * it assigned. anyOf[1] (Value): {@link DeliveryProfileUnconfiguredAssignment}. Progress of a
-     * delivery profile's latest bulk assignment to catalog items that have no delivery profile. It
-     * moves from `processing` to `completed`, to `canceled` when it stops early, or to `failed`
-     * when Flint can't finish it. anyOf[2] (Value): null.
-     */
-    "unconfigured_assignment"?: ((DeliveryProfileUnconfiguredAssignment) | (null));
-    /** Time the profile last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /** Optimistic-concurrency version for profile writes. Format: uint64. minimum: 1. */
-    "version": number;
-};
-export type DeliveryProfileArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookDeliveryProfile;
-        "previous_attributes"?: Partial<WebhookDeliveryProfile>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "delivery_profile.archived";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookDeliveryProfile;
-        "previous_attributes"?: Partial<WebhookDeliveryProfile>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "delivery_profile.archived";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "delivery_profile.archived";
-});
-/**
- * The `delivery_profile.archived` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type DeliveryProfileArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookDeliveryProfile}. The resource snapshot, without
-     * expansions. Webhooks omit these fields: `diagnostics`, `unconfigured_assignment`.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit these fields: `diagnostics`,
-         * `unconfigured_assignment`.
-         */
-        "object": WebhookDeliveryProfile;
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<WebhookDeliveryProfile>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "delivery_profile.archived". */
-    "event_type"?: "delivery_profile.archived";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});

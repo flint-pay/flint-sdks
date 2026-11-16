@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type { DeliveryLocationSet } from '../declarations/types-17.js';
 import type {
     DeliveryLocationSetListResponse,
@@ -33,12 +33,14 @@ export type {
     DeliveryLocationSetsGetParams,
     DeliveryLocationSetsListParams,
     DeliveryLocationSetListResponse,
-    DeliveryLocationSetsUpdateParams
+    DeliveryLocationSetsUpdateParams,
+    DeliveryLocationSetConfigurationInput,
+    DeliveryLocationSetConfiguration
 } from '../declarations/types-18.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { DeliveryLocationSet, DeliveryLocationSetConfigurationInput, DeliveryLocationSetConfiguration } from '../declarations/types-17.js';
+export type { DeliveryLocationSet } from '../declarations/types-17.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateDeliveryLocationSetRequestInput } from '../declarations/types-8.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-38.js';
 export type { AuthMode } from '../declarations/types-1.js';
@@ -49,7 +51,8 @@ export type { UpdateDeliveryLocationSetRequestInput } from '../declarations/type
 export type { DisputesAcceptParams } from '../declarations/types-23.js';
 export { makeCreateDeliveryLocationSetRequest } from '../declarations/types-72.js';
 export { makeDeliveryLocationSetConfiguration } from '../declarations/types-75.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export { makeUpdateDeliveryLocationSetRequest } from '../declarations/types-83.js';
 export interface DeliveryLocationSetsResource {
     /**

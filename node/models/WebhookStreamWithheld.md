@@ -10,7 +10,7 @@ Sent on the webhook event stream in place of an event that was withheld, such as
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Required | string | Type of the event whose payload was withheld. Values: [291 declared values](CreateWebhookTestEventRequest.md#createwebhooktesteventrequest-event_type-values). |
+| `event_type` | Required | string | Type of the event whose payload was withheld. Values: [294 declared values](CreateWebhookTestEventRequest.md#createwebhooktesteventrequest-event_type-values). |
 | `reason` | Required | string | Why the credential cannot read this event's payload. Values: `"missing_resource_scope"`, `"resource_unattributed"`, `"partner_read_unsupported"`. |
 | `required_scopes` | Optional | Array of string | Read scopes for the affected resource. Omitted when no public resource read scope is known. |
 | `resource_id` | Optional | string | ID of the affected resource. Omitted when Flint cannot form a public resource reference. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |

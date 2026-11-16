@@ -9,7 +9,7 @@ namespace Flint;
 final class OrderEditResponse extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderEditResponse')); }
-    /** Resource, collection, or operation result returned by this request. Nested child of an order: immutable, completed item changes with frozen values and refund amounts. Refund completion is tracked on the refunds.
+    /** Resource, collection, or operation result returned by this request. Nested child of an order with frozen item changes, balance and refund amounts. A pending edit changes the order only when its balance payment succeeds. Refund completion is tracked on the refunds.
      * @return OrderEdit
      */
     public function getData(): OrderEdit { return $this->get('data'); }

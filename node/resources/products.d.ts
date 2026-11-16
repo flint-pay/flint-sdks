@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
-import type { Product } from '../declarations/types-49.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
+    Product,
     ProductListResponse,
     ProductOption,
     ProductOptionListResponse,
@@ -41,6 +41,7 @@ export type {
 } from '../runtime.js';
 export type {
     ProductsCreateParams,
+    Product,
     ProductResponse,
     ProductsCreateVariantParams,
     ProductVariant,
@@ -69,11 +70,11 @@ export type {
     ProductVariantSelectedOptionRequest
 } from '../declarations/types-50.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { Product } from '../declarations/types-49.js';
 export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateProductRequestInput,
+    CreateProductOptionRequestInput,
     CreateProductOptionValueRequestInput,
     CreateProductRequestSimpleInput,
     CreateProductRequestOptionedInput
@@ -96,7 +97,6 @@ export type {
 } from '../declarations/types-38.js';
 export type { QuantityPriceBreakRequestInput, ReadinessMerchantAccountSession, QuantityPriceBreak } from '../declarations/types-52.js';
 export type { DimensionsRequestInput, Dimensions, DisputesAcceptParams } from '../declarations/types-23.js';
-export type { CreateProductOptionRequestInput } from '../declarations/types-11.js';
 export type { AuthMode, BundlesGetParams } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { CategoryReference } from '../declarations/types-5.js';
@@ -105,10 +105,10 @@ export type { InventoryRoutingSource } from '../declarations/types-30.js';
 export type { SelectedProductOption } from '../declarations/types-59.js';
 export type {
     UpdateProductRequestInput,
-    UpdateProductOptionRequestInput,
     UpdateProductOptionValueRequestInput,
     UpdateProductVariantRequestInput
-} from '../declarations/types-67.js';
+} from '../declarations/types-68.js';
+export type { UpdateProductOptionRequestInput } from '../declarations/types-67.js';
 export {
     makeCreateProductOptionRequest,
     makeCreateProductOptionValueRequest,
@@ -116,8 +116,8 @@ export {
     makeCreateProductRequestOptioned,
     makeCreateProductRequestSimple
 } from '../declarations/types-74.js';
-export { makeDimensionsRequest } from '../declarations/types-76.js';
 export {
+    makeDimensionsRequest,
     makeGiftCardCustomAmountBoundsRequest,
     makeGiftCardProductConfigurationRequest,
     makeImageInputFile,
@@ -125,19 +125,17 @@ export {
     makeImageRequest,
     makeInventoryItemCreateRequest
 } from '../declarations/types-77.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
-export {
-    makeProductVariantRequest,
-    makeProductVariantSelectedOptionRequest,
-    makeQuantityPriceBreakRequest
-} from '../declarations/types-80.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
+export { makeProductVariantRequest, makeProductVariantSelectedOptionRequest } from '../declarations/types-80.js';
+export { makeQuantityPriceBreakRequest } from '../declarations/types-81.js';
 export {
     makeUpdateProductOptionRequest,
     makeUpdateProductOptionValueRequest,
     makeUpdateProductRequest,
-    makeUpdateProductVariantRequest,
-    makeWeightRequest
+    makeUpdateProductVariantRequest
 } from '../declarations/types-84.js';
+export { makeWeightRequest } from '../declarations/types-85.js';
 export interface ProductsResource {
     /**
  * Creates a product, the catalog item buyers purchase through orders, checkout, payment links, and

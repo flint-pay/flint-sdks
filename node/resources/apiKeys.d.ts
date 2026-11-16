@@ -10,8 +10,7 @@ import type {
     ApiKeysRevokeParams,
     ApiKeysUpdateParams
 } from '../declarations/types-0.js';
-import type { ClientOptions } from '../declarations/types-6.js';
-import type { CreateAPIKeyResponse } from '../declarations/types-7.js';
+import type { ClientOptions, CreateAPIKeyResponse } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-54.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
@@ -42,6 +41,7 @@ export type {
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
 export type {
     CreateAPIKeyResponse,
+    ClientOptions,
     CreateAPIKeyRequestInput,
     CreateAPIKeyRequestFullInput,
     CreateAPIKeyRequestReadOnlyInput,
@@ -49,20 +49,19 @@ export type {
     ConfigurationVersionRequestInput
 } from '../declarations/types-7.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { NextAction, MoneyValue } from '../declarations/types-39.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
 export type { UpdateAPIKeyRequestInput } from '../declarations/types-66.js';
+export { makeConfigurationVersionRequest } from '../declarations/types-71.js';
 export {
-    makeConfigurationVersionRequest,
     makeCreateAPIKeyRequest,
     makeCreateAPIKeyRequestFull,
     makeCreateAPIKeyRequestReadOnly,
     makeCreateAPIKeyRequestRestricted
-} from '../declarations/types-71.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+} from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export { makeUpdateAPIKeyRequest } from '../declarations/types-83.js';
 export interface ApiKeysResource {
     /**

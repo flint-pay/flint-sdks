@@ -1,12 +1,28 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    ModifierRequestInput,
+    ModifierSetGroupInputExistingInput,
+    ModifierSetGroupInputInlineInput,
+    ModifierSetGroupRequestInput
+} from './types-38.js';
+import type {
+    MoneyValueInput,
+    OAuthRevokeRequestInput,
+    OAuthTokenRequestInput,
+    OAuthTokenRequestAuthorizationCodeInput,
+    OAuthTokenRequestClientCredentialsInput,
+    OAuthTokenRequestDeviceCodeInput,
+    OAuthTokenRequestRefreshTokenInput,
+    OAuthTokenRequestTokenExchangeInput,
+    OnboardingAdvanceRequestInput,
+    OnboardingProfileRequestInput,
     OnboardingStartRequestInput,
     OnboardingVerifyEmailRequestInput,
     OrderCalculatedChargeTaxRequestInput,
-    OrderCalculatedLineItemTaxRequestInput,
-    OrderChargeInputAmountInput
+    OrderCalculatedLineItemTaxRequestInput
 } from './types-39.js';
 import type {
+    OrderChargeInputAmountInput,
     OrderChargeInputPercentInput,
     OrderChargeRequestInput,
     OrderChargeTaxAssignmentInput,
@@ -20,10 +36,10 @@ import type {
     OrderDraftTaxJurisdictionRequestModelInput,
     OrderEditPreviewRequestInput,
     OrderEditRemovalRequestInput,
-    OrderGiftCardAllocationAcceptanceInput,
-    OrderHandoverRequestInput
+    OrderGiftCardAllocationAcceptanceInput
 } from './types-40.js';
 import type {
+    OrderHandoverRequestInput,
     OrderLineItemModifierInputCatalogRequestInput,
     OrderLineItemModifierInputTextRequestInput,
     OrderLineItemModifierRequestModelInput,
@@ -35,14 +51,14 @@ import type {
     OrderTaxCalculationInputAutomaticInput,
     OrderTaxCalculationInputExternalInput,
     OrderTaxCalculationRequestInput,
-    OrderTaxComponentRequestInput,
+    OrderTaxComponentRequestInput
+} from './types-41.js';
+import type {
     OrderTaxExemptionInputCustomerInput,
     OrderTaxExemptionInputNoneInput,
     OrderTaxExemptionInputOrderInput,
     OrderTaxExemptionRequestInput,
-    OrderTaxJurisdictionRequestInput
-} from './types-41.js';
-import type {
+    OrderTaxJurisdictionRequestInput,
     OrderTaxLocationFullAddressRequestInput,
     OrderTaxLocationInputFullAddressInput,
     OrderTaxLocationInputPostalCodeInput,
@@ -50,33 +66,29 @@ import type {
     OrderTaxLocationRequestInput,
     OrderTaxRequestInput,
     OrderTaxUpdateRequestInput,
-    PackageCreateInputCreatedInput,
-    PackageCreateInputShippedInput,
-    PackageCreateRequestInput
+    PackageCreateInputCreatedInput
 } from './types-42.js';
 import type {
+    PackageCreateInputShippedInput,
+    PackageCreateRequestInput,
     PartnerAppCredentialJWKSURLRequestInput,
     PartnerAppCredentialPublicKeyRequestInput,
-    PartnerAppCredentialWorkloadIdentityRequestInput,
-    PartnerAppPaymentSplitsRequestInput,
-    PartnerAppPermissionManifestEntryRequestInput,
-    PartnerAppPlatformProfileRequestInput
+    PartnerAppCredentialWorkloadIdentityRequestInput
 } from './types-43.js';
-import type {
-    PauseSubscriptionRequestInput,
-    PayOrderRequestInput,
-    PayOrderRequestConfirmPaymentIntentsInput,
-    PayOrderRequestPayInput,
-    PayOrderRequestResumeInput,
-    PayOrderRequestSetupInput
-} from './types-44.js';
-import type {
-    PaymentLimitSettingsPatchInput,
-    PaymentLinkCustomFieldPatchRequestInput,
-    PaymentLinkCustomFieldRequestInput,
-    PaymentLinkCustomTextConfigInput,
-    PaymentLinkCustomTextPatchRequestInput
-} from './types-45.js';
+export declare function makeModifierRequest(value: InputValue<ModifierRequestInput>): Model<ModifierRequestInput>;
+export declare function makeModifierSetGroupInputExisting(value: InputValue<ModifierSetGroupInputExistingInput>): Model<ModifierSetGroupInputExistingInput>;
+export declare function makeModifierSetGroupInputInline(value: InputValue<ModifierSetGroupInputInlineInput>): Model<ModifierSetGroupInputInlineInput>;
+export declare function makeModifierSetGroupRequest(value: InputValue<ModifierSetGroupRequestInput>): Model<ModifierSetGroupRequestInput>;
+export declare function makeMoneyValue(value: InputValue<MoneyValueInput>): Model<MoneyValueInput>;
+export declare function makeOAuthRevokeRequest(value: InputValue<OAuthRevokeRequestInput>): Model<OAuthRevokeRequestInput>;
+export declare function makeOAuthTokenRequest(value: InputValue<OAuthTokenRequestInput>): Model<OAuthTokenRequestInput>;
+export declare function makeOAuthTokenRequestAuthorizationCode(value: InputValue<OAuthTokenRequestAuthorizationCodeInput>): Model<OAuthTokenRequestAuthorizationCodeInput>;
+export declare function makeOAuthTokenRequestClientCredentials(value: InputValue<OAuthTokenRequestClientCredentialsInput>): Model<OAuthTokenRequestClientCredentialsInput>;
+export declare function makeOAuthTokenRequestDeviceCode(value: InputValue<OAuthTokenRequestDeviceCodeInput>): Model<OAuthTokenRequestDeviceCodeInput>;
+export declare function makeOAuthTokenRequestRefreshToken(value: InputValue<OAuthTokenRequestRefreshTokenInput>): Model<OAuthTokenRequestRefreshTokenInput>;
+export declare function makeOAuthTokenRequestTokenExchange(value: InputValue<OAuthTokenRequestTokenExchangeInput>): Model<OAuthTokenRequestTokenExchangeInput>;
+export declare function makeOnboardingAdvanceRequest(value: InputValue<OnboardingAdvanceRequestInput>): Model<OnboardingAdvanceRequestInput>;
+export declare function makeOnboardingProfileRequest(value: InputValue<OnboardingProfileRequestInput>): Model<OnboardingProfileRequestInput>;
 export declare function makeOnboardingStartRequest(value: InputValue<OnboardingStartRequestInput>): Model<OnboardingStartRequestInput>;
 export declare function makeOnboardingVerifyEmailRequest(value: InputValue<OnboardingVerifyEmailRequestInput>): Model<OnboardingVerifyEmailRequestInput>;
 export declare function makeOrderCalculatedChargeTaxRequest(value: InputValue<OrderCalculatedChargeTaxRequestInput>): Model<OrderCalculatedChargeTaxRequestInput>;
@@ -128,18 +140,3 @@ export declare function makePackageCreateRequest(value: InputValue<PackageCreate
 export declare function makePartnerAppCredentialJWKSURLRequest(value: InputValue<PartnerAppCredentialJWKSURLRequestInput>): Model<PartnerAppCredentialJWKSURLRequestInput>;
 export declare function makePartnerAppCredentialPublicKeyRequest(value: InputValue<PartnerAppCredentialPublicKeyRequestInput>): Model<PartnerAppCredentialPublicKeyRequestInput>;
 export declare function makePartnerAppCredentialWorkloadIdentityRequest(value: InputValue<PartnerAppCredentialWorkloadIdentityRequestInput>): Model<PartnerAppCredentialWorkloadIdentityRequestInput>;
-export declare function makePartnerAppPaymentSplitsRequest(value: InputValue<PartnerAppPaymentSplitsRequestInput>): Model<PartnerAppPaymentSplitsRequestInput>;
-export declare function makePartnerAppPermissionManifestEntryRequest(value: InputValue<PartnerAppPermissionManifestEntryRequestInput>): Model<PartnerAppPermissionManifestEntryRequestInput>;
-export declare function makePartnerAppPlatformProfileRequest(value: InputValue<PartnerAppPlatformProfileRequestInput>): Model<PartnerAppPlatformProfileRequestInput>;
-export declare function makePauseSubscriptionRequest(value: InputValue<PauseSubscriptionRequestInput>): Model<PauseSubscriptionRequestInput>;
-export declare function makePayOrderRequest(value: InputValue<Exclude<PayOrderRequestInput & object, readonly unknown[]>>): Model<Exclude<PayOrderRequestInput & object, readonly unknown[]>>;
-export declare function makePayOrderRequest(value: InputValue<PayOrderRequestInput>): Model<PayOrderRequestInput>;
-export declare function makePayOrderRequestConfirmPaymentIntents(value: InputValue<PayOrderRequestConfirmPaymentIntentsInput>): Model<PayOrderRequestConfirmPaymentIntentsInput>;
-export declare function makePayOrderRequestPay(value: InputValue<PayOrderRequestPayInput>): Model<PayOrderRequestPayInput>;
-export declare function makePayOrderRequestResume(value: InputValue<PayOrderRequestResumeInput>): Model<PayOrderRequestResumeInput>;
-export declare function makePayOrderRequestSetup(value: InputValue<PayOrderRequestSetupInput>): Model<PayOrderRequestSetupInput>;
-export declare function makePaymentLimitSettingsPatch(value: InputValue<PaymentLimitSettingsPatchInput>): Model<PaymentLimitSettingsPatchInput>;
-export declare function makePaymentLinkCustomFieldPatchRequest(value: InputValue<PaymentLinkCustomFieldPatchRequestInput>): Model<PaymentLinkCustomFieldPatchRequestInput>;
-export declare function makePaymentLinkCustomFieldRequest(value: InputValue<PaymentLinkCustomFieldRequestInput>): Model<PaymentLinkCustomFieldRequestInput>;
-export declare function makePaymentLinkCustomTextConfig(value: InputValue<PaymentLinkCustomTextConfigInput>): Model<PaymentLinkCustomTextConfigInput>;
-export declare function makePaymentLinkCustomTextPatchRequest(value: InputValue<PaymentLinkCustomTextPatchRequestInput>): Model<PaymentLinkCustomTextPatchRequestInput>;

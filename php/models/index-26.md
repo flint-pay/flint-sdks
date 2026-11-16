@@ -1,7 +1,17 @@
 [Model index](../MODELS.md)
 
-# SubscriptionEndAfterCyclesInput to SubscriptionTrialEndingMerchantEventInput
+# SubscriptionDeliveryMigrationResponseInput to SubscriptionSettingsRequestInput
 
+- [SubscriptionDeliveryMigrationResponseInput](SubscriptionDeliveryMigrationResponseInput.md)
+- [SubscriptionDeliveryOptionInput](SubscriptionDeliveryOptionInput.md)
+- [SubscriptionDeliveryPauseUpcomingInstalledMerchantsEventInput](SubscriptionDeliveryPauseUpcomingInstalledMerchantsEventInput.md)
+- [SubscriptionDeliveryPauseUpcomingMerchantEventInput](SubscriptionDeliveryPauseUpcomingMerchantEventInput.md)
+- [SubscriptionDeliveryRequestInput](SubscriptionDeliveryRequestInput.md)
+- [SubscriptionDeliveryUpdatedInstalledMerchantsEventInput](SubscriptionDeliveryUpdatedInstalledMerchantsEventInput.md)
+- [SubscriptionDeliveryUpdatedMerchantEventInput](SubscriptionDeliveryUpdatedMerchantEventInput.md)
+- [SubscriptionDunningExhaustedInstalledMerchantsEventInput](SubscriptionDunningExhaustedInstalledMerchantsEventInput.md)
+- [SubscriptionDunningExhaustedMerchantEventInput](SubscriptionDunningExhaustedMerchantEventInput.md)
+- [SubscriptionEndAfterInput](SubscriptionEndAfterInput.md)
 - [SubscriptionEndAfterCyclesInput](SubscriptionEndAfterCyclesInput.md)
 - [SubscriptionEndAfterCyclesRequestInput](SubscriptionEndAfterCyclesRequestInput.md)
 - [SubscriptionEndAfterDateInput](SubscriptionEndAfterDateInput.md)
@@ -92,14 +102,4 @@
 - [SubscriptionServiceLocationRequestInput](SubscriptionServiceLocationRequestInput.md)
 - [SubscriptionSettingsInput](SubscriptionSettingsInput.md)
 - [SubscriptionSettingsRequestInput](SubscriptionSettingsRequestInput.md)
-- [SubscriptionSnapshotMetricsInput](SubscriptionSnapshotMetricsInput.md)
-- [SubscriptionStatusCountsInput](SubscriptionStatusCountsInput.md)
-- [SubscriptionSwapPreviewRequestInput](SubscriptionSwapPreviewRequestInput.md)
-- [SubscriptionTaxInput](SubscriptionTaxInput.md)
-- [SubscriptionTaxCalculationInput](SubscriptionTaxCalculationInput.md)
-- [SubscriptionTaxCalculationRequestInput](SubscriptionTaxCalculationRequestInput.md)
-- [SubscriptionTaxRequestInput](SubscriptionTaxRequestInput.md)
-- [SubscriptionTermsRequestInput](SubscriptionTermsRequestInput.md)
-- [SubscriptionTrialEndingInstalledMerchantsEventInput](SubscriptionTrialEndingInstalledMerchantsEventInput.md)
-- [SubscriptionTrialEndingMerchantEventInput](SubscriptionTrialEndingMerchantEventInput.md)
 

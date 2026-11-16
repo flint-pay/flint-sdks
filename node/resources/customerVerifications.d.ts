@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
     CustomerVerification,
     CustomerVerificationListResponse,
@@ -36,8 +36,7 @@ export type {
 } from '../declarations/types-16.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-6.js';
-export type { ConfirmCustomerVerificationRequestInput } from '../declarations/types-7.js';
+export type { ClientOptions, ConfirmCustomerVerificationRequestInput } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { NextAction, MoneyValue } from '../declarations/types-39.js';
@@ -45,7 +44,7 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-52.j
 export type { CreateCustomerVerificationRequestInput } from '../declarations/types-8.js';
 export { makeConfirmCustomerVerificationRequest } from '../declarations/types-71.js';
 export { makeCreateCustomerVerificationRequest } from '../declarations/types-72.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export interface CustomerVerificationsResource {
     /**
  * Confirms the Flint-sent code and returns a verification that can link guest purchases for its

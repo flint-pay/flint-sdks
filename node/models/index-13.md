@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# DeliveryRateEvaluationOutcomeCannotCalculate to DisputeCreatedInstalledMerchantsEvent
+# DeliveryRateEvaluationOutcomeInput to DiscountPreviewResponse
 
+- [DeliveryRateEvaluationOutcomeInput](DeliveryRateEvaluationOutcomeInput.md)
+- [DeliveryRateEvaluationOutcomeAvailable](DeliveryRateEvaluationOutcomeAvailable.md)
+- [DeliveryRateEvaluationOutcomeAvailableInput](DeliveryRateEvaluationOutcomeAvailableInput.md)
 - [DeliveryRateEvaluationOutcomeCannotCalculate](DeliveryRateEvaluationOutcomeCannotCalculate.md)
 - [DeliveryRateEvaluationOutcomeCannotCalculateInput](DeliveryRateEvaluationOutcomeCannotCalculateInput.md)
 - [DeliveryRateEvaluationOutcomeUnavailable](DeliveryRateEvaluationOutcomeUnavailable.md)
@@ -99,7 +102,4 @@
 - [DiscountPreviewRequest](DiscountPreviewRequest.md)
 - [DiscountPreviewRequestInput](DiscountPreviewRequestInput.md)
 - [DiscountPreviewResponse](DiscountPreviewResponse.md)
-- [DispatchFulfillmentRequestInput](DispatchFulfillmentRequestInput.md)
-- [Dispute](Dispute.md)
-- [DisputeCreatedInstalledMerchantsEvent](DisputeCreatedInstalledMerchantsEvent.md)
 

@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type { CreateReturnPolicyResponse } from '../declarations/types-12.js';
-import type { DeleteReturnPolicyResponse } from '../declarations/types-16.js';
+import type { DeleteReturnPolicyResponse } from '../declarations/types-17.js';
 import type { GetReturnPolicyResponse, GetReturnPolicyRevisionResponse } from '../declarations/types-26.js';
 import type { ListReturnPoliciesResponse, ListReturnPolicyRevisionsResponse } from '../declarations/types-35.js';
 import type { PublishReturnPolicyRevisionResponse } from '../declarations/types-52.js';
@@ -14,9 +14,10 @@ import type {
     ReturnPoliciesGetRevisionParams,
     ReturnPoliciesListParams,
     ReturnPoliciesListRevisionsParams,
-    ReturnPoliciesUpdateParams
-} from '../declarations/types-55.js';
-import type { ReturnPolicy, ReturnPolicyRevision } from '../declarations/types-56.js';
+    ReturnPoliciesUpdateParams,
+    ReturnPolicy,
+    ReturnPolicyRevision
+} from '../declarations/types-56.js';
 import type { UpdateReturnPolicyResponse } from '../declarations/types-68.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
@@ -35,18 +36,15 @@ export type {
 } from '../runtime.js';
 export type {
     ReturnPoliciesCreateParams,
+    ReturnPolicy,
     ReturnPoliciesCreateRevisionParams,
     ReturnPoliciesDeleteParams,
     ReturnPoliciesGetParams,
     ReturnPoliciesGetRevisionParams,
+    ReturnPolicyRevision,
     ReturnPoliciesListParams,
     ReturnPoliciesListRevisionsParams,
-    ReturnPoliciesUpdateParams
-} from '../declarations/types-55.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type {
-    ReturnPolicy,
-    ReturnPolicyRevision,
+    ReturnPoliciesUpdateParams,
     ReturnPolicyRevisionRequestInput,
     ReturnPolicyScopeRequestInput,
     ReturnPolicyScopeAllRequestInput,
@@ -57,18 +55,19 @@ export type {
     ReturnPolicyScopeAll,
     ReturnPolicyScopeInclude
 } from '../declarations/types-56.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
 export type { CreateReturnPolicyResponse, CreateReturnPolicyRequestInput } from '../declarations/types-12.js';
 export type {
     PublishReturnPolicyRevisionResponse,
     PublishReturnPolicyRevisionRequestInput,
     ReadinessMerchantAccountSession
 } from '../declarations/types-52.js';
-export type { DeleteReturnPolicyResponse } from '../declarations/types-16.js';
+export type { DeleteReturnPolicyResponse } from '../declarations/types-17.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export type { GetReturnPolicyResponse, GetReturnPolicyRevisionResponse } from '../declarations/types-26.js';
 export type { ListReturnPoliciesResponse, ListReturnPolicyRevisionsResponse } from '../declarations/types-35.js';
 export type { UpdateReturnPolicyResponse, UpdateReturnPolicyRequestInput } from '../declarations/types-68.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-38.js';
 export type {
     ReturnRestockingFeePolicyRequestInput,
@@ -83,19 +82,18 @@ export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { DisputesAcceptParams } from '../declarations/types-23.js';
 export { makeCreateReturnPolicyRequest } from '../declarations/types-74.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
-export { makePublishReturnPolicyRevisionRequest } from '../declarations/types-80.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export {
+    makePublishReturnPolicyRevisionRequest,
     makeReturnPolicyRevisionInputIneligible,
     makeReturnPolicyRevisionInputReturnable,
     makeReturnPolicyRevisionRequest,
     makeReturnPolicyScopeAllRequest,
     makeReturnPolicyScopeIncludeRequest,
-    makeReturnPolicyScopeRequest,
-    makeReturnRestockingFeePolicyRequest,
-    makeReturnShippingPolicyRequest
+    makeReturnPolicyScopeRequest
 } from '../declarations/types-81.js';
-export { makeReturnWindowRequest } from '../declarations/types-82.js';
+export { makeReturnRestockingFeePolicyRequest, makeReturnShippingPolicyRequest, makeReturnWindowRequest } from '../declarations/types-82.js';
 export { makeUpdateReturnPolicyRequest } from '../declarations/types-84.js';
 export interface ReturnPoliciesResource {
     /**

@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# InvoiceScheduleDueWrite to MerchantBillingBalanceResponse
+# InvoiceScheduleDueAtIssue to MerchantAccountSessionStripeRequirements
 
+- [InvoiceScheduleDueAtIssue](InvoiceScheduleDueAtIssue.md)
+- [InvoiceScheduleDueDate](InvoiceScheduleDueDate.md)
+- [InvoiceScheduleDueInvoiceDueDate](InvoiceScheduleDueInvoiceDueDate.md)
 - [InvoiceScheduleDueWrite](InvoiceScheduleDueWrite.md)
 - [InvoiceScheduleDueWriteInput](InvoiceScheduleDueWriteInput.md)
 - [InvoiceScheduleDueWriteAtIssue](InvoiceScheduleDueWriteAtIssue.md)
@@ -99,7 +102,4 @@
 - [MerchantAccountSessionStripeCollectionOptions](MerchantAccountSessionStripeCollectionOptions.md)
 - [MerchantAccountSessionStripeComponent](MerchantAccountSessionStripeComponent.md)
 - [MerchantAccountSessionStripeRequirements](MerchantAccountSessionStripeRequirements.md)
-- [MerchantBillingBalance](MerchantBillingBalance.md)
-- [MerchantBillingBalanceListResponse](MerchantBillingBalanceListResponse.md)
-- [MerchantBillingBalanceResponse](MerchantBillingBalanceResponse.md)
 

@@ -6,12 +6,11 @@ namespace Flint;
  * @property-read int $expected_version
  * @property-read list<SubscriptionQuantityChangeLineItemRequestInput|array<array-key, mixed>|\stdClass> $line_items
  * @property-read string $mode
- * @property-read int $quantity
  * @property-read string $subscription_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateSubscriptionPreviewRequestQuantityChangeInput extends Model {
-    /** @param mixed $values */
-    public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateSubscriptionPreviewRequestQuantityChangeInput')); }
+    /** @param array{'billing_starts': string, 'expected_version'?: int, 'line_items': list<SubscriptionQuantityChangeLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'mode': string, 'subscription_id': string}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateSubscriptionPreviewRequestQuantityChangeInput')); }
     /** Charge the prorated difference now while keeping the period and anchor. Value enum: "prorated_now".
      * @return string
      * @throws SdkError When billing_starts is omitted; use hasBillingStarts() or valueOrDefault().
@@ -24,7 +23,7 @@ final class CreateSubscriptionPreviewRequestQuantityChangeInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their quantities. Send quantity or line_items. minItems: 1. maxItems: 50. [] (Value): {@see SubscriptionQuantityChangeLineItemRequestInput}. Quantity for an existing subscription line.
+    /** Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their quantities. line_items is required. minItems: 1. maxItems: 50. [] (Value): {@see SubscriptionQuantityChangeLineItemRequestInput}. Quantity for an existing subscription line.
      * @return list<SubscriptionQuantityChangeLineItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
@@ -36,12 +35,6 @@ final class CreateSubscriptionPreviewRequestQuantityChangeInput extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** The whole-number subscription multiplier; fractional quantities are not supported. Validated as on subscription PATCH. Omit to keep its current value. Send quantity or line_items. minimum: 1. maximum: 1.
-     * @return int
-     * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
-     */
-    public function getQuantity(): int { return $this->get('quantity'); }
-    public function hasQuantity(): bool { return $this->has('quantity'); }
     /** The subscription whose quantities will change. minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().

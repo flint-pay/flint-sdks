@@ -15,7 +15,7 @@ Response model.
 
 ### OrderEditListResponse.data[]
 
-Nested child of an order: immutable, completed item changes with frozen values and refund amounts. Refund completion is tracked on the refunds.
+Nested child of an order with frozen item changes, balance and refund amounts. A pending edit changes the order only when its balance payment succeeds. Refund completion is tracked on the refunds.
 
 Field definitions: [shared fields](OrderEditResponse.md#ordereditresponsedata).
 

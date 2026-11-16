@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
     GiftCardRedemption,
     GiftCardRedemptionListResponse,
@@ -45,7 +45,7 @@ export type {
 } from '../declarations/types-27.js';
 export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-54.js';
 export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { GiftCard } from '../declarations/types-26.js';
@@ -61,9 +61,9 @@ export {
     makeCreateGiftCardRedemptionRequest,
     makeCreateGiftCardRedemptionRequestAutomatic,
     makeCreateGiftCardRedemptionRequestManual
-} from '../declarations/types-72.js';
+} from '../declarations/types-73.js';
 export { makeGiftCardVersionRequest } from '../declarations/types-77.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export interface GiftCardRedemptionsResource {
     /**
  * Releases an uncaptured standalone reservation without posting a debit or refund. Flint order

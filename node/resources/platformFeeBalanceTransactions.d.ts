@@ -1,11 +1,12 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
     PlatformFeeBalanceTransaction,
     PlatformFeeBalanceTransactionListResponse,
-    PlatformFeeBalanceTransactionResponse
-} from '../declarations/types-48.js';
-import type { PlatformFeeBalanceTransactionsGetParams, PlatformFeeBalanceTransactionsListParams } from '../declarations/types-49.js';
+    PlatformFeeBalanceTransactionResponse,
+    PlatformFeeBalanceTransactionsGetParams,
+    PlatformFeeBalanceTransactionsListParams
+} from '../declarations/types-49.js';
 import type { RequestOptions } from '../declarations/types-54.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
@@ -22,20 +23,21 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { PlatformFeeBalanceTransactionsGetParams, PlatformFeeBalanceTransactionsListParams } from '../declarations/types-49.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-54.js';
 export type {
+    PlatformFeeBalanceTransactionsGetParams,
     PlatformFeeBalanceTransaction,
     PlatformFeeBalanceTransactionResponse,
+    PlatformFeeBalanceTransactionsListParams,
     PlatformFeeBalanceTransactionListResponse
-} from '../declarations/types-48.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+} from '../declarations/types-49.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-54.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { MoneyValue, NextAction } from '../declarations/types-39.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export interface PlatformFeeBalanceTransactionsResource {
     /**
  * Returns one entry of your partner apps' platform fee ledger. Reads the merchant that owns the

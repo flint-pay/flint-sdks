@@ -1,7 +1,17 @@
 [Model index](../MODELS.md)
 
-# PlatformFeeResponseInput to PromotionScheduleInput
+# PlatformFeeCapRequestInput to PromotionRefInputPromotionCodeInput
 
+- [PlatformFeeCapRequestInput](PlatformFeeCapRequestInput.md)
+- [PlatformFeeCreatedEventInput](PlatformFeeCreatedEventInput.md)
+- [PlatformFeeListResponseInput](PlatformFeeListResponseInput.md)
+- [PlatformFeePayoutInput](PlatformFeePayoutInput.md)
+- [PlatformFeePayoutCreatedEventInput](PlatformFeePayoutCreatedEventInput.md)
+- [PlatformFeePayoutFailedEventInput](PlatformFeePayoutFailedEventInput.md)
+- [PlatformFeePayoutListResponseInput](PlatformFeePayoutListResponseInput.md)
+- [PlatformFeePayoutResponseInput](PlatformFeePayoutResponseInput.md)
+- [PlatformFeePayoutSucceededEventInput](PlatformFeePayoutSucceededEventInput.md)
+- [PlatformFeeRequestInput](PlatformFeeRequestInput.md)
 - [PlatformFeeResponseInput](PlatformFeeResponseInput.md)
 - [PlatformFeeSucceededEventInput](PlatformFeeSucceededEventInput.md)
 - [PlatformFeeUpdatedEventInput](PlatformFeeUpdatedEventInput.md)
@@ -92,14 +102,4 @@
 - [PromotionRecurrenceRepeatingRequestInput](PromotionRecurrenceRepeatingRequestInput.md)
 - [PromotionRecurrenceRequestInput](PromotionRecurrenceRequestInput.md)
 - [PromotionRefInputPromotionCodeInput](PromotionRefInputPromotionCodeInput.md)
-- [PromotionRefInputPromotionIDInput](PromotionRefInputPromotionIDInput.md)
-- [PromotionRefRequestInput](PromotionRefRequestInput.md)
-- [PromotionResponseInput](PromotionResponseInput.md)
-- [PromotionRuleInput](PromotionRuleInput.md)
-- [PromotionRuleGroupInput](PromotionRuleGroupInput.md)
-- [PromotionRuleGroupRequestInput](PromotionRuleGroupRequestInput.md)
-- [PromotionRuleRequestInput](PromotionRuleRequestInput.md)
-- [PromotionRuleValueInput](PromotionRuleValueInput.md)
-- [PromotionRuleValueRequestInput](PromotionRuleValueRequestInput.md)
-- [PromotionScheduleInput](PromotionScheduleInput.md)
 

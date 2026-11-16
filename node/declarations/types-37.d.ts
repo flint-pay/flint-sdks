@@ -1,20 +1,200 @@
 import type { InputValue } from '../runtime.js';
 import type { PauseSubscriptionRequestInput, PartnerWebhookEnvelope } from './types-44.js';
-import type { RenewSubscriptionRequestInput } from './types-53.js';
-import type { ResourceVersionRequestInput, ResponseMeta } from './types-54.js';
+import type { RenewSubscriptionRequestInput, ResourceVersionRequestInput, ResponseMeta } from './types-54.js';
 import type { SaveMeGiftCardRequestInput } from './types-59.js';
 import type { SkipMeSubscriptionCycleRequestInput } from './types-60.js';
 import type { UpdateCustomerAddressRequestInput, UpdateCustomerEmailPreferencesRequestInput } from './types-66.js';
 import type { UpdateMeRequestInput, UpdateMeSubscriptionLineItemRequestInput, UpdateMeSubscriptionRequestInput } from './types-67.js';
 import type { Address } from './types-0.js';
 import type { ImageAttachment } from './types-28.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-38.js';
+import type { MetadataMap, MerchantWebhookEnvelope, MerchantSignupTerms, MerchantSignupTermsAcceptance } from './types-38.js';
 import type { DisputeResponseSessionStripeAccountSession, DisputesAcceptParams } from './types-23.js';
 import type { MoneyValue } from './types-39.js';
 import type { CapabilityReadiness } from './types-5.js';
 import type { ReadinessAxis, ReadinessRequirements } from './types-52.js';
-import type { WebhookMerchant } from './types-69.js';
+import type { WebhookMerchant } from './types-70.js';
 import type { PlatformFeeCap } from './types-49.js';
+export type MeListRefundsParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: InputValue<string>;
+    /**
+     * Filter by refund status. Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "pending", "succeeded", "partially_succeeded", "failed". Value enum:
+     * "pending", "succeeded", "partially_succeeded", "failed". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[1][]
+     * (Value): string. Value enum: "pending", "succeeded", "partially_succeeded", "failed".
+     * anyOf[2] (Value): string. Value enum: "pending", "succeeded", "partially_succeeded",
+     * "failed".
+     */
+    "status"?: InputValue<("pending" | "succeeded" | "partially_succeeded" | "failed")
+        | readonly ("pending" | "succeeded" | "partially_succeeded" | "failed")[]>;
+    /**
+     * Inclusive lower bound on amount_money.amount. Requires currency. Format: int64. minimum: 1.
+     * Example: 500.
+     */
+    "min_amount"?: InputValue<number>;
+    /**
+     * Inclusive upper bound on amount_money.amount. Requires currency. Format: int64. minimum: 1.
+     * Example: 500.
+     */
+    "max_amount"?: InputValue<number>;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency"?: InputValue<string>;
+    /**
+     * Filter by linked Return ID. pattern: ^ret_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id"?: InputValue<string>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by refund_id. Default:
+     * "created_at". Value enum: "created_at", "updated_at", "amount_money".
+     */
+    "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+};
+export type MeListRememberedBuyersParams = {};
+export type MeListReturnsParams = {
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Filter by decision status. Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "pending", "approved", "partially_approved", "declined". Value enum:
+     * "pending", "approved", "partially_approved", "declined". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "pending", "approved", "partially_approved", "declined". anyOf[1][]
+     * (Value): string. Value enum: "pending", "approved", "partially_approved", "declined".
+     * anyOf[2] (Value): string. Value enum: "pending", "approved", "partially_approved",
+     * "declined".
+     */
+    "decision_status"?: InputValue<("pending" | "approved" | "partially_approved" | "declined")
+        | readonly ("pending" | "approved" | "partially_approved" | "declined")[]>;
+    /**
+     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
+     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
+     * pending resource does not prove that the operation succeeded, and an empty list does not
+     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
+     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     */
+    "idempotency_key"?: InputValue<string>;
+    /**
+     * Filter by merchandise status. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "not_required", "awaiting_handoff", "in_transit", "partially_received",
+     * "inspection_required", "partially_inspected", "inspection_review_required",
+     * "disposition_required", "resolved", "exception". Value enum: "not_required",
+     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+     * "exception". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "not_required",
+     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+     * "exception". anyOf[1][] (Value): string. Value enum: "not_required", "awaiting_handoff",
+     * "in_transit", "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[2]
+     * (Value): string. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     */
+    "merchandise_status"?: InputValue<("not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | "exception")
+        | readonly ("not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | "exception")[]>;
+    /**
+     * Filter by order id. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. Format: int32. minimum:
+     * 1. maximum: 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by resolution status. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "not_selected", "pending", "partially_completed", "requires_action",
+     * "completed", "failed". Value enum: "not_selected", "pending", "partially_completed",
+     * "requires_action", "completed", "failed". anyOf[1] (Value): Array of string. minItems: 1. []
+     * enum: "not_selected", "pending", "partially_completed", "requires_action", "completed",
+     * "failed". anyOf[1][] (Value): string. Value enum: "not_selected", "pending",
+     * "partially_completed", "requires_action", "completed", "failed". anyOf[2] (Value): string.
+     * Value enum: "not_selected", "pending", "partially_completed", "requires_action",
+     * "completed", "failed".
+     */
+    "resolution_status"?: InputValue<("not_selected" | "pending" | "partially_completed" | "requires_action" | "completed" | "failed")
+        | readonly ("not_selected" | "pending" | "partially_completed" | "requires_action" | "completed" | "failed")[]>;
+    /** Filter by return number. */
+    "return_number"?: InputValue<string>;
+    /**
+     * Filter by return reason id. pattern: ^rrsn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
+     */
+    "return_reason_id"?: InputValue<string>;
+    /**
+     * Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown
+     * entries are rejected. Values within this filter are ORed; separate filters are ANDed. []
+     * enum: "requested", "open", "completed", "declined", "canceled". Value enum: "requested",
+     * "open", "completed", "declined", "canceled". anyOf[1] (Value): Array of string. minItems: 1.
+     * [] enum: "requested", "open", "completed", "declined", "canceled". anyOf[1][] (Value):
+     * string. Value enum: "requested", "open", "completed", "declined", "canceled". anyOf[2]
+     * (Value): string. Value enum: "requested", "open", "completed", "declined", "canceled".
+     */
+    "status"?: InputValue<("requested" | "open" | "completed" | "declined" | "canceled")
+        | readonly ("requested" | "open" | "completed" | "declined" | "canceled")[]>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+};
 export type MeListShipmentsParams = {
     /**
      * Optional order ID filter. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
@@ -357,10 +537,11 @@ export type Merchant = {
 export type MerchantAccountSession = {
     /**
      * Browser initialization data required to mount embedded account-management components. These
-     * instructions are not merchant account resource state. Short-lived browser initialization
-     * data for an embedded merchant account session.
+     * instructions are not merchant account resource state. Returned only to the credential that
+     * created it, and omitted when another credential replays the request. Short-lived browser
+     * initialization data for an embedded merchant account session.
      */
-    "client_session": MerchantAccountSessionClientSession;
+    "client_session"?: MerchantAccountSessionClientSession;
     /**
      * The components the session authorizes, in catalog order. minItems: 1. [] enum:
      * "account_onboarding", "account_management", "payouts", "balances", "tax_documents",
@@ -385,9 +566,10 @@ export type MerchantAccountSession = {
     /**
      * Signed Flint token to exchange at POST /v1/merchant-account-session-refreshes. Each new
      * refresh operation rotates this token; a same-key retry replays the original token. The
-     * caller must still authenticate and authorize the human using the session.
+     * caller must still authenticate and authorize the human using the session. Returned only to
+     * the credential that created it, and omitted when another credential replays the request.
      */
-    "launch_token": string;
+    "launch_token"?: string;
     /**
      * Expiry of launch_token in UTC. After expiry, create a new merchant account session. Format:
      * date-time. Example: "2026-08-02T16:00:00Z".
@@ -806,6 +988,24 @@ export type MerchantBillingBalance = {
      * represented as integer minor units plus an ISO 4217 currency code.
      */
     "outstanding_money": MoneyValue;
+    /**
+     * Due date of the oldest unpaid past-due amount, as an RFC 3339 UTC timestamp. Omitted when
+     * nothing is past due. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "past_due_at"?: string;
+    /**
+     * Amount that is past its due date and still unpaid. Zero when nothing is past due. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "past_due_money": MoneyValue;
+    /**
+     * Time at which Flint holds payouts if the past-due amount is still unpaid, as an RFC 3339 UTC
+     * timestamp. The hold can begin later than this while a collection is in progress. Payouts are
+     * actually held when `readiness.payouts.status_reason` on the Merchant is `billing_suspended`.
+     * Omitted when no hold is scheduled, for example when the only past-due amounts never hold
+     * payouts. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "payout_hold_at"?: string;
 };
 /** A list of `MerchantBillingBalance` objects. */
 export type MerchantBillingBalanceListResponse = {
@@ -853,6 +1053,9 @@ export type MerchantBillingBalanceUpdatedEvent = ((Exclude<MerchantWebhookEnvelo
             "merchant_billing_balance_id": string;
             "observed_at": string;
             "outstanding_money": MoneyValue;
+            "past_due_at"?: string;
+            "past_due_money": MoneyValue;
+            "payout_hold_at"?: string;
         };
         "previous_attributes"?: Partial<MerchantBillingBalance>;
     };
@@ -1652,43 +1855,4 @@ export type MerchantSignupPermission = {
     "required_scopes": Array<string>;
     /** The permission's title, as the code email showed it. */
     "title": string;
-};
-/** A response containing `MerchantSignup` data. */
-export type MerchantSignupResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A platform's request to
-     * create a merchant for an owner, who confirms it with a code Flint emails them. Once
-     * verified, it is the record of the owner's consent, kept for as long as the merchant exists.
-     */
-    "data": MerchantSignup;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Flint's merchant terms the owner accepts by entering the code, fixed when the signup was
- * created.
- */
-export type MerchantSignupTerms = {
-    /** Where the terms are published. Link to it beside the checkbox in your form. */
-    "url": string;
-    /** The terms version. Send it as `terms_acceptance.merchant_terms_version` on verify. */
-    "version": string;
-};
-/**
- * The owner's acceptance of Flint's merchant terms, recorded at verify. Flint also stores the IP
- * address and user agent you reported; they aren't returned.
- */
-export type MerchantSignupTermsAcceptance = {
-    /** When the owner accepted the terms. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "accepted_at": string;
-    /** The terms version accepted. */
-    "merchant_terms_version": string;
 };

@@ -1137,3 +1137,7 @@ The generated 0.2 beta is an intentional breaking upgrade. It is initially publi
 - Retry and pagination helpers only exist where the SDK profile declares them. Do not assume the old SDK's helper behavior carries over.
 
 Compare your production call sites against the generated reference and run your payment, refund, checkout, and webhook flows against a sandbox before upgrading. The generator's compatibility baseline does not describe the old handwritten SDK.
+
+## Changes in 8.0.0-beta.4
+
+See the [beta.4 changelog](CHANGELOG.md#800-beta4) for subscription line quantities, checkout confirmation, order counters and edit states, and replay-secret migration details. Use beta.4 only with a backend serving its pinned contract. Stable 7.0.0 remains on npm `latest` until the production stable cut.

@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
     GiftCardFundingDisposition,
     GiftCardFundingDispositionListResponse,
@@ -34,15 +34,15 @@ export type {
 } from '../declarations/types-26.js';
 export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateGiftCardFundingDispositionRequestInput } from '../declarations/types-9.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { MoneyValue, NextAction } from '../declarations/types-39.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
 export type { DisputesAcceptParams } from '../declarations/types-23.js';
-export { makeCreateGiftCardFundingDispositionRequest } from '../declarations/types-72.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeCreateGiftCardFundingDispositionRequest } from '../declarations/types-73.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export interface GiftCardFundingDispositionsResource {
     /**
  * Accepts a confirmed funding dispute loss and honors all gift card value funded by that payment,

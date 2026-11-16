@@ -10,7 +10,9 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.subscriptions.update(
   "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV",
   {
-    quantity: 1,
+    metadata: {
+      source: "sdk-example",
+    },
   },
   { idempotencyKey: idempotencyKey },
 );

@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-54.js';
 import type {
     WebhookDeliveriesCreateParams,
@@ -53,7 +53,7 @@ export type {
     ResendWebhookDeliveryRequest
 } from '../declarations/types-54.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateWebhookDeliveryRequestInput, Credentials, CreateWebhookDeliveryRequest } from '../declarations/types-14.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { NextAction, MoneyValue } from '../declarations/types-39.js';
@@ -61,7 +61,7 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-52.j
 export type { DisputesAcceptParams } from '../declarations/types-23.js';
 export type { CustomersListAddressesParams } from '../declarations/types-16.js';
 export { makeCreateWebhookDeliveryRequest } from '../declarations/types-75.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export { makeResendWebhookDeliveryRequest } from '../declarations/types-81.js';
 export interface WebhookDeliveriesResource {
     /**

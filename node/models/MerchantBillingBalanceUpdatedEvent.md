@@ -46,6 +46,10 @@ Field definitions: [MerchantBillingBalance.available_credit_money](../models/Mer
 
 Field definitions: [MerchantBillingBalance.outstanding_money](../models/MerchantBillingBalance.md#merchantbillingbalanceoutstanding_money).
 
+### MerchantBillingBalanceUpdatedEvent.data.object.past_due_money
+
+Field definitions: [MerchantBillingBalance.past_due_money](../models/MerchantBillingBalance.md#merchantbillingbalancepast_due_money).
+
 ### MerchantBillingBalanceUpdatedEvent.request
 
 Field definitions: [ApiKeyCreatedEvent.request](../models/ApiKeyCreatedEvent.md#apikeycreatedeventrequest).

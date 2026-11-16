@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# DeliveryEstimateRuleRequestInput to DeliveryPricingStrategyCreateInputRateTableInput
+# DeliveryEligibilityExpressionRequestInput to DeliveryPricingStrategyCreateInputFixed
 
+- [DeliveryEligibilityExpressionRequestInput](DeliveryEligibilityExpressionRequestInput.md)
+- [DeliveryEligibilityMismatch](DeliveryEligibilityMismatch.md)
+- [DeliveryEstimateRule](DeliveryEstimateRule.md)
 - [DeliveryEstimateRuleRequestInput](DeliveryEstimateRuleRequestInput.md)
 - [DeliveryExternalPricingStrategy](DeliveryExternalPricingStrategy.md)
 - [DeliveryFixedPricingStrategy](DeliveryFixedPricingStrategy.md)
@@ -99,7 +102,4 @@
 - [DeliveryPricingStrategyCreateInputCallerSupplied](DeliveryPricingStrategyCreateInputCallerSupplied.md)
 - [DeliveryPricingStrategyCreateInputCallerSuppliedInput](DeliveryPricingStrategyCreateInputCallerSuppliedInput.md)
 - [DeliveryPricingStrategyCreateInputFixed](DeliveryPricingStrategyCreateInputFixed.md)
-- [DeliveryPricingStrategyCreateInputFixedInput](DeliveryPricingStrategyCreateInputFixedInput.md)
-- [DeliveryPricingStrategyCreateInputRateTable](DeliveryPricingStrategyCreateInputRateTable.md)
-- [DeliveryPricingStrategyCreateInputRateTableInput](DeliveryPricingStrategyCreateInputRateTableInput.md)
 

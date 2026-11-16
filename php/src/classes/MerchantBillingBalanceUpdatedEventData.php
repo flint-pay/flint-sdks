@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read ?array<array-key, mixed> $previous_attributes
  * Presence-aware response; omitted optional fields return null. */
 final class MerchantBillingBalanceUpdatedEventData extends Model {
-    /** @param array{'object': object{'available_credit_money': mixed, 'currency': string, 'merchant_billing_balance_id': string, 'observed_at': string, 'outstanding_money': mixed}, 'previous_attributes'?: \stdClass, ...}|object $values */
+    /** @param array{'object': object{'available_credit_money': mixed, 'currency': string, 'merchant_billing_balance_id': string, 'observed_at': string, 'outstanding_money': mixed, 'past_due_at'?: string, 'past_due_money': mixed, 'payout_hold_at'?: string}, 'previous_attributes'?: \stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantBillingBalanceUpdatedEventData')); }
     /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
      * @return MerchantBillingBalanceUpdatedEventDataObject

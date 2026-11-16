@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# TaxCurrencyConversion to UpdateInventoryCountRequest
+# TaxComponentRequest to UpdateDeviceRequestInput
 
+- [TaxComponentRequest](TaxComponentRequest.md)
+- [TaxComponentRequestModelInput](TaxComponentRequestModelInput.md)
+- [TaxComponentRequestRequestInput](TaxComponentRequestRequestInput.md)
+- [TaxConnection](TaxConnection.md)
+- [TaxConnectionDisclosure](TaxConnectionDisclosure.md)
+- [TaxConnectionResponse](TaxConnectionResponse.md)
+- [TaxConnectionSellerAttestation](TaxConnectionSellerAttestation.md)
+- [TaxConnectionUpdatedEvent](TaxConnectionUpdatedEvent.md)
+- [TaxCountryCoverage](TaxCountryCoverage.md)
 - [TaxCurrencyConversion](TaxCurrencyConversion.md)
 - [TaxDefaultCalculation](TaxDefaultCalculation.md)
 - [TaxDefaultCalculationRequestInput](TaxDefaultCalculationRequestInput.md)
@@ -93,13 +102,4 @@
 - [UpdateDeliveryZoneRequestInput](UpdateDeliveryZoneRequestInput.md)
 - [UpdateDeviceRequest](UpdateDeviceRequest.md)
 - [UpdateDeviceRequestInput](UpdateDeviceRequestInput.md)
-- [UpdateDigitalFulfillmentDetails](UpdateDigitalFulfillmentDetails.md)
-- [UpdateDigitalFulfillmentDetailsInput](UpdateDigitalFulfillmentDetailsInput.md)
-- [UpdateFulfillmentRequest](UpdateFulfillmentRequest.md)
-- [UpdateFulfillmentRequestInput](UpdateFulfillmentRequestInput.md)
-- [UpdateGiftCardRequest](UpdateGiftCardRequest.md)
-- [UpdateGiftCardRequestInput](UpdateGiftCardRequestInput.md)
-- [UpdateInventoryAllocationPolicyRequest](UpdateInventoryAllocationPolicyRequest.md)
-- [UpdateInventoryAllocationPolicyRequestInput](UpdateInventoryAllocationPolicyRequestInput.md)
-- [UpdateInventoryCountRequest](UpdateInventoryCountRequest.md)
 

@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# DecideReturnRequestInput to DeliveryPendingCallerRateRequestInput
+# CustomFieldAnswerTextInput to DeliveryMethodResponseInput
 
+- [CustomFieldAnswerTextInput](CustomFieldAnswerTextInput.md)
+- [CustomFieldAnswerTextareaInput](CustomFieldAnswerTextareaInput.md)
+- [DecideReturnInspectionLineItemRequestInput](DecideReturnInspectionLineItemRequestInput.md)
+- [DecideReturnInspectionLineItemResponseInput](DecideReturnInspectionLineItemResponseInput.md)
 - [DecideReturnRequestInput](DecideReturnRequestInput.md)
 - [DecideReturnResponseInput](DecideReturnResponseInput.md)
 - [DeclinePaymentReviewRequestInput](DeclinePaymentReviewRequestInput.md)
@@ -98,8 +102,4 @@
 - [DeliveryMethodOriginSelectorPickupLocationCollectionInput](DeliveryMethodOriginSelectorPickupLocationCollectionInput.md)
 - [DeliveryMethodOriginSelectorRequestInput](DeliveryMethodOriginSelectorRequestInput.md)
 - [DeliveryMethodResponseInput](DeliveryMethodResponseInput.md)
-- [DeliveryMethodUpdatedInstalledMerchantsEventInput](DeliveryMethodUpdatedInstalledMerchantsEventInput.md)
-- [DeliveryMethodUpdatedMerchantEventInput](DeliveryMethodUpdatedMerchantEventInput.md)
-- [DeliveryOptionProjectionInput](DeliveryOptionProjectionInput.md)
-- [DeliveryPendingCallerRateRequestInput](DeliveryPendingCallerRateRequestInput.md)
 

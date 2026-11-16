@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# SubscriptionPlanLineItem to TaxCountryCoverage
+# SubscriptionPlanChangeLineItemRequest to TaxCalculationRequestRequestInput
 
+- [SubscriptionPlanChangeLineItemRequest](SubscriptionPlanChangeLineItemRequest.md)
+- [SubscriptionPlanChangeLineItemRequestInput](SubscriptionPlanChangeLineItemRequestInput.md)
+- [SubscriptionPlanChangeOption](SubscriptionPlanChangeOption.md)
+- [SubscriptionPlanChangeOptionRequestInput](SubscriptionPlanChangeOptionRequestInput.md)
+- [SubscriptionPlanChangePreview](SubscriptionPlanChangePreview.md)
+- [SubscriptionPlanChangeResult](SubscriptionPlanChangeResult.md)
+- [SubscriptionPlanChangeResultResponse](SubscriptionPlanChangeResultResponse.md)
+- [SubscriptionPlanChangeScheduledInstalledMerchantsEvent](SubscriptionPlanChangeScheduledInstalledMerchantsEvent.md)
+- [SubscriptionPlanChangeScheduledMerchantEvent](SubscriptionPlanChangeScheduledMerchantEvent.md)
 - [SubscriptionPlanLineItem](SubscriptionPlanLineItem.md)
 - [SubscriptionPlanLineItemBundle](SubscriptionPlanLineItemBundle.md)
 - [SubscriptionPlanLineItemCustom](SubscriptionPlanLineItemCustom.md)
@@ -93,13 +102,4 @@
 - [TaxCalculationRequest](TaxCalculationRequest.md)
 - [TaxCalculationRequestModelInput](TaxCalculationRequestModelInput.md)
 - [TaxCalculationRequestRequestInput](TaxCalculationRequestRequestInput.md)
-- [TaxComponentRequest](TaxComponentRequest.md)
-- [TaxComponentRequestModelInput](TaxComponentRequestModelInput.md)
-- [TaxComponentRequestRequestInput](TaxComponentRequestRequestInput.md)
-- [TaxConnection](TaxConnection.md)
-- [TaxConnectionDisclosure](TaxConnectionDisclosure.md)
-- [TaxConnectionResponse](TaxConnectionResponse.md)
-- [TaxConnectionSellerAttestation](TaxConnectionSellerAttestation.md)
-- [TaxConnectionUpdatedEvent](TaxConnectionUpdatedEvent.md)
-- [TaxCountryCoverage](TaxCountryCoverage.md)
 

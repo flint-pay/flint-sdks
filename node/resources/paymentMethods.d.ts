@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type { PaymentMethod } from '../declarations/types-46.js';
 import type {
     PaymentMethodListResponse,
@@ -40,7 +40,7 @@ export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference }
 export type { SavePaymentMethodResponse, SavePaymentMethodRequestInput } from '../declarations/types-59.js';
 export type { PaymentMethod } from '../declarations/types-46.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { StripeClientSetup, StripeClientSetupStripe, StripeClientAuthority } from '../declarations/types-60.js';
@@ -49,7 +49,7 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-52.j
 export type { CardDetails } from '../declarations/types-5.js';
 export type { ExpandedCustomerSummary } from '../declarations/types-24.js';
 export type { DisputesAcceptParams } from '../declarations/types-23.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export { makeSavePaymentMethodRequest } from '../declarations/types-82.js';
 export interface PaymentMethodsResource {
     /**

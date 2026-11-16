@@ -13,7 +13,7 @@ import type {
 } from './types-17.js';
 import type { Address } from './types-0.js';
 import type { DeliveryRecipientResource } from './types-21.js';
-import type { MoneyValue, OrderAuthorizationAmounts, OrderCharge, MoneyValueInput } from './types-39.js';
+import type { MoneyValue, OrderAuthorizationAmounts, MoneyValueInput } from './types-39.js';
 import type {
     DeliveryPickupDetails,
     DeliveryPlan,
@@ -38,24 +38,82 @@ import type {
 import type { Fulfillment } from './types-25.js';
 import type { InventoryRoutingSource } from './types-30.js';
 import type {
+    OrderCharge,
     OrderDeliveryDestination,
     OrderDeliverySummary,
     OrderDiscount,
     OrderGiftCardEstimate,
-    OrderGiftCardSelection,
+    OrderGiftCardSelection
+} from './types-40.js';
+import type {
     OrderGiftCardSettlement,
     OrderHandover,
-    OrderLineItem
-} from './types-40.js';
-import type { OrderPaymentAttempt, OrderReturnCreditSettlement, OrderSettlementAmounts, OrderTax } from './types-41.js';
-import type { PricingAmounts } from './types-49.js';
+    OrderLineItem,
+    OrderPaymentAttempt,
+    OrderReturnCreditSettlement,
+    OrderSettlementAmounts,
+    OrderTax
+} from './types-41.js';
+import type { PricingAmounts } from './types-50.js';
 import type { SetupCollection } from './types-59.js';
-import type { TicketedEvent } from './types-65.js';
-import type { Tip } from './types-66.js';
+import type { TicketedEvent, Tip } from './types-66.js';
 import type { CheckoutSession } from './types-6.js';
-import type { CreateDeliverySelectionRequestInput, CreateDeliveryZoneRequestInput } from './types-9.js';
+import type { CreateDeliverySelectionRequestInput } from './types-9.js';
 import type { DeliveryRadiusCondition, DeliveryRadiusConditionRequestInput } from './types-20.js';
-import type { DeliveryLocationSetsDeleteParams } from './types-18.js';
+/** Fences one immutable revision of the named delivery method. */
+export type DeliveryRevocationTargetDeliveryMethodRevision = {
+    /**
+     * ID of the delivery method that owns the targeted revision. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_id": string;
+    /**
+     * ID of the immutable revision to fence. It must belong to delivery_method_id. Example:
+     * "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+     */
+    "delivery_method_revision_id": string;
+    /**
+     * Fences one immutable revision of the named delivery method. Value enum:
+     * "delivery_method_revision".
+     */
+    "target_type": "delivery_method_revision" | (string & {});
+};
+/** Fences one immutable revision of the named delivery rate callback. */
+export type DeliveryRevocationTargetDeliveryRateCallbackRevision = {
+    /**
+     * ID of the delivery rate callback that owns the targeted revision or signing key. Example:
+     * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+     */
+    "delivery_rate_callback_id": string;
+    /**
+     * ID of the immutable revision to fence. It must belong to delivery_rate_callback_id. Example:
+     * "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+     */
+    "delivery_rate_callback_revision_id": string;
+    /**
+     * Fences one immutable revision of the named delivery rate callback. Value enum:
+     * "delivery_rate_callback_revision".
+     */
+    "target_type": "delivery_rate_callback_revision" | (string & {});
+};
+/** Fences one current or previous HMAC signing key of the named delivery rate callback. */
+export type DeliveryRevocationTargetDeliveryRateCallbackSigningKey = {
+    /**
+     * ID of the delivery rate callback that owns the targeted revision or signing key. Example:
+     * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+     */
+    "delivery_rate_callback_id": string;
+    /**
+     * ID of the HMAC signing key to fence. It must be the named callback's current or previous
+     * key; secret material is never returned. Example: "cbkey_00112233445566778899aabb".
+     */
+    "delivery_rate_callback_signing_key_id": string;
+    /**
+     * Fences one current or previous HMAC signing key of the named delivery rate callback. Value
+     * enum: "delivery_rate_callback_signing_key".
+     */
+    "target_type": "delivery_rate_callback_signing_key" | (string & {});
+};
 /** Fences one geography version recorded by the named Location. */
 export type DeliveryRevocationTargetLocationGeography = {
     /**
@@ -1651,6 +1709,12 @@ export type DeliverySelectionOrder = {
      * written-off amount. Value enum: "unpaid", "partially_paid", "paid".
      */
     "payment_status": "unpaid" | "partially_paid" | "paid" | (string & {});
+    /**
+     * The order edit waiting for its balance payment. While it is set, the units that edit removes
+     * can't join a fulfillment and the order refuses another edit. `null` when there is none.
+     * Omitted for buyer credentials. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     */
+    "pending_order_edit_id"?: string | null;
     /**
      * Order that paid for this prepaid delivery. Null when this is not a prepaid delivery order.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
@@ -3892,26 +3956,3 @@ export type DeliveryZoneUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
     /** Value enum: "delivery_zone.updated". */
     "event_type"?: "delivery_zone.updated";
 });
-export type DeliveryZonesCreateParams = (InputValue<CreateDeliveryZoneRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type DeliveryZonesDeleteParams = DeliveryLocationSetsDeleteParams;
-export type DeliveryZonesGetParams = DisputesAcceptParams;

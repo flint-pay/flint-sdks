@@ -1,22 +1,35 @@
-import type { Product } from './types-49.js';
-import type { ResponseMeta } from './types-54.js';
-import type { MetadataMap, MerchantWebhookEnvelope, ModifierSet, MetadataRequestInput } from './types-38.js';
 import type { MoneyValue, MoneyValueInput } from './types-39.js';
+import type {
+    ReturnProcessDecision,
+    ReturnProcessDispositionRequest,
+    ReturnProcessInspectionRequest,
+    ReturnProcessResolutionRequest,
+    ReturnProcessDecisionInput,
+    ReturnProcessDispositionRequestInput,
+    ReturnProcessInspectionRequestInput,
+    ReturnProcessResolutionRequestInput,
+    ReturnProcessReceiptRequest,
+    ReturnProcessReceiptRequestInput,
+    ReturnProcessResult
+} from './types-56.js';
+import type { ResponseMeta } from './types-54.js';
+import type { CategoryReference } from './types-5.js';
+import type { ImageAttachment, ImageRequest, ImageRequestInput } from './types-28.js';
+import type { MetadataMap, ModifierSet, MerchantWebhookEnvelope, MetadataRequestInput } from './types-38.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
-import type { WebhookProduct, WebhookProductVariant, WebhookPromotion } from './types-69.js';
+import type { WebhookProduct, Weight, WebhookProductVariant, WeightRequestInput, WebhookPromotion } from './types-70.js';
 import type { Dimensions, DimensionsRequestInput, DisputesAcceptParams } from './types-23.js';
 import type { GiftCardProductConfiguration, GiftCardProductConfigurationRequestInput } from './types-27.js';
-import type { ImageAttachment, ImageRequest, ImageRequestInput } from './types-28.js';
 import type { QuantityPriceBreak, QuantityPriceBreakRequestInput } from './types-52.js';
 import type { SelectedProductOption } from './types-59.js';
-import type { Weight, WeightRequestInput, WebhookPromotionCode } from './types-70.js';
 import type { InventoryRoutingSource } from './types-30.js';
 import type { InventoryItemCreateRequest, InventoryItemCreateRequestInput } from './types-29.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateProductRequestInput } from './types-12.js';
 import type { BundlesGetParams } from './types-1.js';
-import type { UpdateProductRequestInput, UpdateProductVariantRequestInput } from './types-67.js';
+import type { UpdateProductRequestInput, UpdateProductVariantRequestInput } from './types-68.js';
 import type {
+    PromotionCode,
     PromotionCodesSummary,
     PromotionCombinesWith,
     PromotionExclusivity,
@@ -26,10 +39,601 @@ import type {
     PromotionRuleGroupRequest,
     PromotionRecurrenceRequestInput,
     PromotionRuleGroupRequestInput,
+    PromotionBuyXGetYMethod,
     PromotionPercentOffMethod,
+    PromotionBuyXGetYMethodRequest,
     PromotionPercentOffMethodRequest,
+    PromotionBuyXGetYMethodRequestInput,
     PromotionPercentOffMethodRequestInput
 } from './types-51.js';
+/**
+ * The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and
+ * total.
+ */
+export type PricingAmounts = {
+    /**
+     * Tax added on top of prices, included in total_money. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "additive_tax_money": MoneyValue;
+    /**
+     * Total of the order's service charges after service-charge discounts. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "charge_money": MoneyValue;
+    /**
+     * Total of order and line-item discounts. Service-charge discounts, such as free shipping, are
+     * not included; they reduce charge_money. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "discount_money": MoneyValue;
+    /**
+     * Tax already included in subtotal_money and charge_money. Informational; it is not added
+     * again to total_money. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "inclusive_tax_money": MoneyValue;
+    /**
+     * Tip money in the total: the requested tip before payment, and settled tips net of refunds
+     * after. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "requested_tip_money": MoneyValue;
+    /**
+     * Sum of the line items' subtotal_money: prices with modifiers, before discounts. Lines with
+     * tax-inclusive prices include their tax here. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "subtotal_money": MoneyValue;
+    /**
+     * Total tax, equal to additive_tax_money + inclusive_tax_money. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "tax_money": MoneyValue;
+    /**
+     * subtotal_money - discount_money + charge_money + additive_tax_money + requested_tip_money,
+     * never below zero. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "total_money": MoneyValue;
+};
+/**
+ * How to process one line of an existing return: the received quantity, inspection, decision,
+ * disposition, and resolution.
+ */
+export type ProcessExistingReturnLineItemRequest = {
+    /**
+     * The decision for this line, as an assertion about the committed terms. Example:
+     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}. Start from
+     * the pinned policy proposal recomputed for approved_quantity when the line has a policy
+     * evaluation and the proposal can be built. Otherwise start with return_required_quantity
+     * equal to approved_quantity, allowed_resolution_types containing refund, exchange,
+     * replacement, no_monetary_action, and store_credit in that order regardless of whether the
+     * original payment is refundable, no automatic_resolution_type, is_inspection_required false,
+     * and no receiving_location_id. Each supplied field replaces its starting value;
+     * allowed_resolution_types replaces the whole list. Omit automatic_resolution_type to keep its
+     * starting value, or send null to resolve manually. Then fill an omitted release_timing with
+     * after_inspection when merchandise is required and inspection is required, after_receipt when
+     * merchandise is required without inspection, or after_approval when no merchandise is
+     * required. Validate the merged decision for quantity bounds, allowed resolution types, and
+     * reachable timing and inspection requirements. A pinned policy always requires
+     * override_reason when approved_quantity exceeds evaluated eligible_quantity, even when no
+     * proposal can be built. With a pinned policy but no proposal, other decision fields use these
+     * defaults and override_reason is otherwise optional. Example:
+     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}.
+     */
+    "decision"?: ReturnProcessDecision;
+    /**
+     * A disposition to record for this line's units. What was done with a returned item, such as
+     * restocked as sellable or sent for repair, supplied when processing an existing return.
+     */
+    "disposition"?: ReturnProcessDispositionRequest;
+    /**
+     * An inspection to record for this line's units. An inspection result for a returned item,
+     * supplied when processing an existing return.
+     */
+    "inspection"?: ReturnProcessInspectionRequest;
+    /**
+     * Whole number of units received. It must equal the line's committed return_required_quantity;
+     * fractional quantities are not supported. Format: int64.
+     */
+    "received_quantity"?: number;
+    /**
+     * A resolution to create and confirm for this line. The resolution to apply to a returned
+     * item, such as refund or exchange, with the quantity and any replacement items.
+     */
+    "resolution"?: ReturnProcessResolutionRequest;
+    /**
+     * ID of the Return line to act on. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+};
+/**
+ * How to process one line of an existing return: the received quantity, inspection, decision,
+ * disposition, and resolution.
+ */
+export type ProcessExistingReturnLineItemRequestInput = {
+    /**
+     * The decision for this line, as an assertion about the committed terms. Example:
+     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}. Start from
+     * the pinned policy proposal recomputed for approved_quantity when the line has a policy
+     * evaluation and the proposal can be built. Otherwise start with return_required_quantity
+     * equal to approved_quantity, allowed_resolution_types containing refund, exchange,
+     * replacement, no_monetary_action, and store_credit in that order regardless of whether the
+     * original payment is refundable, no automatic_resolution_type, is_inspection_required false,
+     * and no receiving_location_id. Each supplied field replaces its starting value;
+     * allowed_resolution_types replaces the whole list. Omit automatic_resolution_type to keep its
+     * starting value, or send null to resolve manually. Then fill an omitted release_timing with
+     * after_inspection when merchandise is required and inspection is required, after_receipt when
+     * merchandise is required without inspection, or after_approval when no merchandise is
+     * required. Validate the merged decision for quantity bounds, allowed resolution types, and
+     * reachable timing and inspection requirements. A pinned policy always requires
+     * override_reason when approved_quantity exceeds evaluated eligible_quantity, even when no
+     * proposal can be built. With a pinned policy but no proposal, other decision fields use these
+     * defaults and override_reason is otherwise optional. Example:
+     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}.
+     */
+    "decision"?: ReturnProcessDecisionInput;
+    /**
+     * A disposition to record for this line's units. What was done with a returned item, such as
+     * restocked as sellable or sent for repair, supplied when processing an existing return.
+     */
+    "disposition"?: ReturnProcessDispositionRequestInput;
+    /**
+     * An inspection to record for this line's units. An inspection result for a returned item,
+     * supplied when processing an existing return.
+     */
+    "inspection"?: ReturnProcessInspectionRequestInput;
+    /**
+     * Whole number of units received. It must equal the line's committed return_required_quantity;
+     * fractional quantities are not supported. Format: int64.
+     */
+    "received_quantity"?: number;
+    /**
+     * A resolution to create and confirm for this line. The resolution to apply to a returned
+     * item, such as refund or exchange, with the quantity and any replacement items.
+     */
+    "resolution"?: ReturnProcessResolutionRequestInput;
+    /**
+     * ID of the Return line to act on. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+};
+/** The request body for: Process existing return. */
+export type ProcessExistingReturnRequest = {
+    /**
+     * Omit to use the mode shared by all pinned policies that set completion_mode, or automatic
+     * when no pinned policy sets one. Conflicting pinned policy modes return 400 naming
+     * completion_mode only when completion_mode is omitted. An explicit manual or automatic value
+     * is used as sent. On an open Return, omit to keep its committed mode. Sending that mode is
+     * accepted; a different mode returns 409 ACTION_NOT_ALLOWED with reason field_locked and param
+     * completion_mode. Value enum: "manual", "automatic".
+     */
+    "completion_mode"?: "manual" | "automatic" | (string & {});
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * One decision for each line. minItems: 1. [] (Value): {@link
+     * ProcessExistingReturnLineItemRequest}. How to process one line of an existing return: the
+     * received quantity, inspection, decision, disposition, and resolution.
+     */
+    "line_items": Array<ProcessExistingReturnLineItemRequest>;
+    /**
+     * A receipt to record for the Return. The receipt of returned merchandise, with when and where
+     * it was received, supplied when processing an existing return.
+     */
+    "receipt"?: ReturnProcessReceiptRequest;
+};
+/** The request body for: Process existing return. */
+export type ProcessExistingReturnRequestInput = {
+    /**
+     * Omit to use the mode shared by all pinned policies that set completion_mode, or automatic
+     * when no pinned policy sets one. Conflicting pinned policy modes return 400 naming
+     * completion_mode only when completion_mode is omitted. An explicit manual or automatic value
+     * is used as sent. On an open Return, omit to keep its committed mode. Sending that mode is
+     * accepted; a different mode returns 409 ACTION_NOT_ALLOWED with reason field_locked and param
+     * completion_mode. Value enum: "manual", "automatic".
+     */
+    "completion_mode"?: "manual" | "automatic";
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * One decision for each line. minItems: 1. [] (Value): {@link
+     * ProcessExistingReturnLineItemRequestInput}. How to process one line of an existing return:
+     * the received quantity, inspection, decision, disposition, and resolution.
+     */
+    "line_items": Array<ProcessExistingReturnLineItemRequestInput>;
+    /**
+     * A receipt to record for the Return. The receipt of returned merchandise, with when and where
+     * it was received, supplied when processing an existing return.
+     */
+    "receipt"?: ReturnProcessReceiptRequestInput;
+};
+/** A response containing `ReturnProcessResult` data. */
+export type ProcessExistingReturnResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The return is the
+     * primary resource and expected_version target; the other resources report the processing
+     * effects.
+     */
+    "data": ReturnProcessResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** An item offered in the merchant's catalog. */
+export type Product = {
+    /** Number of active variants belonging to the product. Format: int32. */
+    "active_variant_count"?: number;
+    /**
+     * Always present. Empty collections are returned as []. [] (Value): {@link CategoryReference}.
+     * A reference to a product category by ID, handle, and name.
+     */
+    "categories": Array<CategoryReference>;
+    /**
+     * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "created_at"?: string;
+    /**
+     * The product's default variant, when one is set. A specific purchasable version of a product.
+     */
+    "default_variant"?: ProductVariant;
+    /**
+     * Identifier of the variant chosen as this product's default, when one is set. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /**
+     * Delivery readiness aggregated across the product's non-archived variants. Value enum:
+     * "configured", "action_required", "not_applicable".
+     */
+    "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+    /** Description of the product shown to buyers. */
+    "description"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Images attached to this resource, in display order. The first image is primary. [] (Value):
+     * {@link ImageAttachment}. An image attached to a resource, with its display properties and
+     * attachment metadata.
+     */
+    "images": Array<ImageAttachment>;
+    /** Whether the product is active and has at least one active variant. */
+    "is_available_for_sale"?: boolean;
+    /**
+     * On product list rows, the first non-archived variant by position, then variant_id, that
+     * matches all exact variant filters. Without exact variant filters, identifies the first
+     * variant whose SKU matches query. Omitted when no variant matches; a product name or
+     * description match alone does not set it. Page the product's variants to find all matches. A
+     * single variant witness on product list rows only. With exact variant filters, the first
+     * variant by position, then variant_id, satisfying every exact predicate. Otherwise, the first
+     * variant in that order whose SKU matches query. Use the paginated nested variant list to
+     * enumerate every match.
+     */
+    "matched_variant"?: ProductVariantMatch;
+    /**
+     * Identifier of the merchant that owns this resource. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: string;
+    /**
+     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Attached modifier set, included when expand=modifier_set is requested. Requires
+     * commerce.catalog.read in addition to the resource's read scope. Present only when `expand`
+     * includes `modifier_set`; `null` when expanded and there is no related modifier set. anyOf[1]
+     * (Value): {@link ModifierSet}. A reusable collection of customization groups. anyOf[2]
+     * (Value): null.
+     */
+    "modifier_set"?: ((ModifierSet) | (null));
+    /**
+     * ID of the modifier set attached to the product. `null` when no modifier set is attached.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+     */
+    "modifier_set_id": string | null;
+    /** Product name shown to buyers. */
+    "name": string;
+    /** Number of active options belonging to the product. Format: int32. */
+    "option_count"?: number;
+    /**
+     * Product options and their non-archived values. Empty when the product has no options. []
+     * (Value): {@link ProductOption}. A choice that defines a product's variants.
+     */
+    "options": Array<ProductOption>;
+    /**
+     * Lowest and highest base unit prices among active variants, before any quantity price breaks.
+     * Omitted when there are no active variants or their currencies differ. The lowest and highest
+     * unit prices across a product's variants.
+     */
+    "price_range"?: ProductPriceRange;
+    /** Stable identifier of the product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
+    "product_id": string;
+    /**
+     * Kind of goods or service this product represents. New variants of digital products store
+     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
+     * Value enum: "physical", "service", "fee", "digital", "gift_card".
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+    /**
+     * Product lifecycle status. Archived products remain readable and cannot be edited. Value
+     * enum: "active", "inactive", "archived".
+     */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /**
+     * When this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "updated_at"?: string;
+    /** Number of non-archived variants belonging to the product. Format: int32. */
+    "variant_count"?: number;
+    /**
+     * The product's complete non-archived variants, ordered by `position` and then `variant_id`.
+     * Present when `expand=variants` is requested, and on the `POST /v1/products` response. An
+     * archived product returns an empty array. [] (Value): {@link ProductVariant}. A specific
+     * purchasable version of a product.
+     */
+    "variants"?: Array<ProductVariant>;
+    /**
+     * Current resource version. Send it as expected_version to reject a write if the resource has
+     * changed. Format: uint64. minimum: 0.
+     */
+    "version": number;
+};
+export type ProductArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookProduct;
+        "previous_attributes"?: Partial<WebhookProduct>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "product.archived";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookProduct;
+        "previous_attributes"?: Partial<WebhookProduct>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "product.archived";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "product.archived";
+});
+/**
+ * The `product.archived` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type ProductArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookProduct}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `variants`, `matched_variant`, `modifier_set`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `variants`,
+         * `matched_variant`, `modifier_set`.
+         */
+        "object": WebhookProduct;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<WebhookProduct>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "product.archived". */
+    "event_type"?: "product.archived";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `product.archived` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type ProductArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookProduct}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `variants`, `matched_variant`, `modifier_set`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `variants`,
+         * `matched_variant`, `modifier_set`.
+         */
+        "object": WebhookProduct;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<WebhookProduct>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "product.archived". */
+    "event_type"?: "product.archived";
+});
+export type ProductCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookProduct;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "product.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookProduct;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "product.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "product.created";
+});
+/**
+ * The `product.created` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type ProductCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookProduct}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `variants`, `matched_variant`, `modifier_set`.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `variants`,
+         * `matched_variant`, `modifier_set`.
+         */
+        "object": WebhookProduct;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "product.created". */
+    "event_type"?: "product.created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `product.created` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type ProductCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookProduct}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `variants`, `matched_variant`, `modifier_set`.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `variants`,
+         * `matched_variant`, `modifier_set`.
+         */
+        "object": WebhookProduct;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "product.created". */
+    "event_type"?: "product.created";
+});
 /** A page of `Product` objects. */
 export type ProductListResponse = {
     /**
@@ -2355,740 +2959,3 @@ export type PromotionArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
         "sandbox_id"?: string;
     });
 });
-/**
- * The `promotion.archived` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type PromotionArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookPromotion}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `codes`. previous_attributes (Optional): object. Previous values
-     * of changed top-level fields in data.object, at this delivery's API version. Nested changes
-     * include the whole previous top-level value. A value is null when the field was absent before
-     * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events.
-     */
-    "data"?: {
-        /** The resource snapshot, without expansions. Webhooks omit these fields: `codes`. */
-        "object": WebhookPromotion;
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<WebhookPromotion>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "promotion.archived". */
-    "event_type"?: "promotion.archived";
-});
-/** The `buy_x_get_y` variant of `PromotionApplicationMethod`. */
-export type PromotionBuyXGetYMethod = {
-    /**
-     * How the effect is applied across the matched items or charges. each applies the effect to
-     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
-     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
-     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
-     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
-     * is taken from the combined subtotal. For percent_off the two produce the same total and
-     * differ only in how the discount is attributed to individual line items; for amount_off they
-     * differ by the number of matched items, so set it deliberately. Defaults to each for
-     * line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across" | (string & {});
-    /**
-     * Number of qualifying units needed for one application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "buy_min_quantity": number;
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
-     * "subtotal_pre_tax", "subtotal_post_tax".
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | (string & {});
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "discounted_item_rules": PromotionRuleGroup;
-    /**
-     * Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items
-     * free. minimum: 1. maximum: 100. multipleOf: 0.0001.
-     */
-    "get_percent_off": number;
-    /**
-     * Maximum number of reward units discounted per application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "get_quantity": number;
-    /**
-     * Maximum number of times the buy_x_get_y promotion can apply to one order. Omit for no limit
-     * beyond the qualifying and reward quantities. Format: int32. minimum: 1.
-     */
-    "max_applications_per_order"?: number;
-    /**
-     * Rules that identify the items counted toward buy_min_quantity for a buy_x_get_y promotion. A
-     * rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
-     * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
-     * rules, or send null where the field is clearable. Responses list rules before nested groups.
-     * Under any, a nested group containing only one rule reads back as that rule. Under all,
-     * nested groups keep their boundaries to preserve matched_items.subtotal scope. These
-     * deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the
-     * line items matched by the line_item.* rules in the same all group, including its nested
-     * groups.
-     */
-    "qualifying_item_rules": PromotionRuleGroup;
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
-     * subscription: once, for a number of charged payments, or forever.
-     */
-    "recurrence"?: PromotionRecurrence;
-    /**
-     * Which matching reward items receive the discount: the cheapest, the highest priced, or those
-     * added first to the order. Defaults to cheapest. Default: "cheapest". Value enum: "cheapest",
-     * "highest_price", "first_added".
-     */
-    "reward_selection"?: "cheapest" | "highest_price" | "first_added" | (string & {});
-    /**
-     * Selects the buy_x_get_y discount effect and its allowed fields. Value enum: "buy_x_get_y".
-     */
-    "type": "buy_x_get_y" | (string & {});
-};
-/** The `buy_x_get_y` variant of `PromotionApplicationMethodInput`. */
-export type PromotionBuyXGetYMethodRequest = {
-    /**
-     * How the effect is applied across the matched items or charges. each applies the effect to
-     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
-     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
-     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
-     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
-     * is taken from the combined subtotal. For percent_off the two produce the same total and
-     * differ only in how the discount is attributed to individual line items; for amount_off they
-     * differ by the number of matched items, so set it deliberately. Defaults to each for
-     * line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across" | (string & {});
-    /**
-     * Number of qualifying units needed for one application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "buy_min_quantity": number;
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
-     * "subtotal_pre_tax", "subtotal_post_tax".
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | (string & {});
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "discounted_item_rules": PromotionRuleGroupRequest;
-    /**
-     * Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items
-     * free. minimum: 1. maximum: 100. multipleOf: 0.0001.
-     */
-    "get_percent_off": number;
-    /**
-     * Maximum number of reward units discounted per application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "get_quantity": number;
-    /**
-     * Maximum number of times the buy_x_get_y promotion can apply to one order. Omit for no limit
-     * beyond the qualifying and reward quantities. Format: int32. minimum: 1.
-     */
-    "max_applications_per_order"?: number;
-    /**
-     * Rules that identify the items counted toward buy_min_quantity for a buy_x_get_y promotion. A
-     * rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
-     * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
-     * rules, or send null where the field is clearable. Responses list rules before nested groups.
-     * Under any, a nested group containing only one rule reads back as that rule. Under all,
-     * nested groups keep their boundaries to preserve matched_items.subtotal scope. These
-     * deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the
-     * line items matched by the line_item.* rules in the same all group, including its nested
-     * groups.
-     */
-    "qualifying_item_rules": PromotionRuleGroupRequest;
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
-     * subscription: once, for a number of charged payments, or forever.
-     */
-    "recurrence"?: PromotionRecurrence;
-    /**
-     * Which matching reward items receive the discount: the cheapest, the highest priced, or those
-     * added first to the order. Defaults to cheapest. Default: "cheapest". Value enum: "cheapest",
-     * "highest_price", "first_added".
-     */
-    "reward_selection"?: "cheapest" | "highest_price" | "first_added" | (string & {});
-    /**
-     * Selects the buy_x_get_y discount effect and its allowed fields. Value enum: "buy_x_get_y".
-     */
-    "type": "buy_x_get_y" | (string & {});
-};
-/** The `buy_x_get_y` variant of `PromotionApplicationMethodInput`. */
-export type PromotionBuyXGetYMethodRequestInput = {
-    /**
-     * How the effect is applied across the matched items or charges. each applies the effect to
-     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
-     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
-     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
-     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
-     * is taken from the combined subtotal. For percent_off the two produce the same total and
-     * differ only in how the discount is attributed to individual line items; for amount_off they
-     * differ by the number of matched items, so set it deliberately. Defaults to each for
-     * line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across";
-    /**
-     * Number of qualifying units needed for one application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "buy_min_quantity": number;
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
-     * "subtotal_pre_tax", "subtotal_post_tax".
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax";
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "discounted_item_rules": PromotionRuleGroupRequestInput;
-    /**
-     * Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items
-     * free. minimum: 1. maximum: 100. multipleOf: 0.0001.
-     */
-    "get_percent_off": number;
-    /**
-     * Maximum number of reward units discounted per application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "get_quantity": number;
-    /**
-     * Maximum number of times the buy_x_get_y promotion can apply to one order. Omit for no limit
-     * beyond the qualifying and reward quantities. Format: int32. minimum: 1.
-     */
-    "max_applications_per_order"?: number;
-    /**
-     * Rules that identify the items counted toward buy_min_quantity for a buy_x_get_y promotion. A
-     * rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
-     * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
-     * rules, or send null where the field is clearable. Responses list rules before nested groups.
-     * Under any, a nested group containing only one rule reads back as that rule. Under all,
-     * nested groups keep their boundaries to preserve matched_items.subtotal scope. These
-     * deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the
-     * line items matched by the line_item.* rules in the same all group, including its nested
-     * groups.
-     */
-    "qualifying_item_rules": PromotionRuleGroupRequestInput;
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
-     * subscription: once, for a number of charged payments, or forever.
-     */
-    "recurrence"?: PromotionRecurrenceRequestInput;
-    /**
-     * Which matching reward items receive the discount: the cheapest, the highest priced, or those
-     * added first to the order. Defaults to cheapest. Default: "cheapest". Value enum: "cheapest",
-     * "highest_price", "first_added".
-     */
-    "reward_selection"?: "cheapest" | "highest_price" | "first_added";
-    /**
-     * Selects the buy_x_get_y discount effect and its allowed fields. Value enum: "buy_x_get_y".
-     */
-    "type": "buy_x_get_y";
-};
-/**
- * A promotion considered for an order, with its discount amounts, its stacking rules, and why it
- * was or was not applied.
- */
-export type PromotionCandidate = {
-    /**
-     * Calculated discount amount for this promotion candidate before final application, when
-     * available. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Discount amount applied to the order for candidates in applied[]. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "applied_money"?: MoneyValue;
-    /**
-     * Which promotion discount classes this promotion may share an order with. Both promotions
-     * must allow each other's class. Which kinds of discounts a promotion can combine with: line
-     * item, order, and service charge discounts.
-     */
-    "combines_with"?: PromotionCombinesWith;
-    /**
-     * Current money amount counted toward threshold_money for available[] candidates. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "current_money"?: MoneyValue;
-    /**
-     * The name buyers see for the promotion: its `display_name`, or its `name` when it has no
-     * display name.
-     */
-    "customer_facing_name": string;
-    /**
-     * Whether the promotion discounts the order, individual line items, or service charges. Value
-     * enum: "order", "line_item", "service_charge".
-     */
-    "discount_class"?: "order" | "line_item" | "service_charge" | (string & {});
-    /**
-     * The promotion's exclusivity group and priority. Promotions in the same group compete, and
-     * only one of them applies. Only one promotion in an exclusivity group continues. See
-     * Promotion for the evaluation order.
-     */
-    "exclusivity"?: PromotionExclusivity;
-    /**
-     * Additional money amount needed to reach threshold_money for available[] candidates. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "gap_money"?: MoneyValue;
-    /**
-     * IDs of the order charges the discount applies to. Set for `service_charge` promotions. []
-     * (Value): string. Example: "och_01KEZF7C00XX8AKACP0GHKFWWT".
-     */
-    "order_charge_ids"?: Array<string>;
-    /**
-     * IDs of the order line items the discount applies to. Omitted when it applies to none. []
-     * (Value): string. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
-     */
-    "order_line_item_ids"?: Array<string>;
-    /** The code the buyer entered. Omitted when the promotion applies automatically. */
-    "promotion_code"?: string;
-    /**
-     * ID of the promotion code the buyer entered. Omitted when the promotion applies
-     * automatically. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
-     */
-    "promotion_code_id"?: string;
-    /**
-     * Why the promotion did not apply, or stopped applying. Omitted for a promotion that applies.
-     * Value enum: "already_applied", "automatic_disabled", "buy_item_missing", "code_invalid",
-     * "code_required", "codes_disabled", "currency_mismatch", "customer_limit_reached",
-     * "customer_mismatch", "customer_required", "exhausted", "expired", "inactive",
-     * "max_promotions_reached", "minimum_not_met", "no_discountable_balance", "not_combinable",
-     * "not_eligible", "not_yet_started", "recurrence_completed", "superseded",
-     * "superseded_by_better_offer", "superseded_by_higher_priority", "unknown_type".
-     */
-    "promotion_decline_reason"?: "already_applied"
-        | "automatic_disabled"
-        | "buy_item_missing"
-        | "code_invalid"
-        | "code_required"
-        | "codes_disabled"
-        | "currency_mismatch"
-        | "customer_limit_reached"
-        | "customer_mismatch"
-        | "customer_required"
-        | "exhausted"
-        | "expired"
-        | "inactive"
-        | "max_promotions_reached"
-        | "minimum_not_met"
-        | "no_discountable_balance"
-        | "not_combinable"
-        | "not_eligible"
-        | "not_yet_started"
-        | "recurrence_completed"
-        | "superseded"
-        | "superseded_by_better_offer"
-        | "superseded_by_higher_priority"
-        | "unknown_type"
-        | (string & {});
-    /** ID of the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". */
-    "promotion_id": string;
-    /**
-     * Minimum money amount required by a threshold rule for available[] candidates. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "threshold_money"?: MoneyValue;
-    /**
-     * Discount amount this candidate would have applied if it had been eligible and won conflict
-     * resolution. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "would_have_applied_money"?: MoneyValue;
-};
-/** A code a buyer enters to claim a promotion. */
-export type PromotionCode = {
-    /**
-     * Whether a buyer can redeem the code right now: the code is active, not expired, and under
-     * its max_uses, and its promotion is available.
-     */
-    "available": boolean;
-    /** Code a buyer enters to redeem the promotion. */
-    "code": string;
-    /**
-     * When the promotion code was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "created_at": string;
-    /**
-     * Only this identified customer can redeem the code. The customer must belong to the same
-     * merchant and environment. A checkout may use its merchant-named or email-verified customer;
-     * a typed email does not identify a customer. Null when the code is unbound. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id": string | null;
-    /**
-     * When the code stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the
-     * code does not expire. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "expires_at"?: string;
-    /**
-     * Maximum number of times this code can be redeemed. Omitted when the code has no redemption
-     * limit. Format: int64.
-     */
-    "max_uses"?: number;
-    /**
-     * Identifier of the merchant that owns the promotion code. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id": string;
-    /**
-     * Key-value data you attach to the promotion code. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * The promotion this code belongs to. Present only when the list request asked for
-     * expand=promotion. Promotion evaluation order: manual discounts stay, do not count toward the
-     * cap, and are ignored by combines_with. Frozen subscription-term promotions are admitted
-     * first and are exempt from exclusivity, combines_with, and the cap. Candidates include codes
-     * being applied, existing promotion discounts, and qualifying automatic promotions. Each
-     * exclusivity group keeps its highest-priority member, then the larger standalone discount,
-     * earlier created_at, and lower promotion_id. Remaining candidates rank by standalone
-     * discount, then earlier created_at and lower promotion_id; each is admitted unless
-     * max_promotions_per_order is reached or both promotions do not allow each other's discount
-     * class. Admitted promotions price line item first, then order, then service charge. A
-     * zero-value promotion is dropped and selection runs again.
-     */
-    "promotion"?: Promotion;
-    /** Unique identifier for the promotion code. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T". */
-    "promotion_code_id": string;
-    /**
-     * Identifier of the promotion this code redeems. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id": string;
-    /**
-     * Lifecycle status: active, inactive, or archived. Set active or inactive with PATCH; DELETE
-     * sets archived. An active code can still be unavailable: read available. Value enum:
-     * "active", "inactive", "archived".
-     */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /**
-     * IANA zone the code's times were entered in, used for display. expires_at is an absolute
-     * timestamp, so this does not change when the code expires.
-     */
-    "timezone"?: string;
-    /**
-     * Why available is false. Present only when available is false. The code's own state is
-     * reported first; promotion_unavailable means the code is usable but its promotion is not.
-     * Value enum: "archived", "inactive", "expired", "exhausted", "promotion_unavailable".
-     */
-    "unavailable_reason"?: "archived" | "inactive" | "expired" | "exhausted" | "promotion_unavailable" | (string & {});
-    /**
-     * When the promotion code was last updated, as an RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "updated_at": string;
-    /** Number of times this code has been redeemed. Format: int64. */
-    "uses_count": number;
-    /**
-     * Persisted owned-state version. Clock-based availability and expanded resources do not
-     * advance this counter. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
-export type PromotionCodeArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookPromotionCode;
-        "previous_attributes"?: Partial<WebhookPromotionCode>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "promotion_code.archived";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookPromotionCode;
-        "previous_attributes"?: Partial<WebhookPromotionCode>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "promotion_code.archived";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "promotion_code.archived";
-});
-/**
- * The `promotion_code.archived` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type PromotionCodeArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookPromotionCode}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `promotion`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
-     */
-    "data"?: {
-        /** The resource snapshot, without expansions. Webhooks omit these fields: `promotion`. */
-        "object": WebhookPromotionCode;
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<WebhookPromotionCode>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "promotion_code.archived". */
-    "event_type"?: "promotion_code.archived";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `promotion_code.archived` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type PromotionCodeArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookPromotionCode}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `promotion`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
-     */
-    "data"?: {
-        /** The resource snapshot, without expansions. Webhooks omit these fields: `promotion`. */
-        "object": WebhookPromotionCode;
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<WebhookPromotionCode>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "promotion_code.archived". */
-    "event_type"?: "promotion_code.archived";
-});
-export type PromotionCodeCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookPromotionCode;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "promotion_code.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookPromotionCode;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "promotion_code.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "promotion_code.created";
-});
-/**
- * The `promotion_code.created` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type PromotionCodeCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookPromotionCode}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `promotion`.
-     */
-    "data"?: {
-        /** The resource snapshot, without expansions. Webhooks omit these fields: `promotion`. */
-        "object": WebhookPromotionCode;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "promotion_code.created". */
-    "event_type"?: "promotion_code.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `promotion_code.created` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type PromotionCodeCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookPromotionCode}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `promotion`.
-     */
-    "data"?: {
-        /** The resource snapshot, without expansions. Webhooks omit these fields: `promotion`. */
-        "object": WebhookPromotionCode;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "promotion_code.created". */
-    "event_type"?: "promotion_code.created";
-});
-/** A page of `PromotionCode` objects. */
-export type PromotionCodeListResponse = {
-    /**
-     * Promotion codes returned in the requested sort order. [] (Value): {@link PromotionCode}. A
-     * code a buyer enters to claim a promotion.
-     */
-    "data": Array<PromotionCode>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Token for the next page. Omitted when there are no more results. */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};

@@ -7,11 +7,12 @@ namespace Flint;
  * @property-read string $order_id
  * @property-read int $page_size
  * @property-read string $page_token
+ * @property-read list<string>|string $status
  * @property-read string|\DateTimeInterface $created_after
  * @property-read string|\DateTimeInterface $created_before
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrdersListEditsInput extends Model {
-    /** @param array{'order_id': string, 'page_size'?: int, 'page_token'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'order_id': string, 'page_size'?: int, 'page_token'?: string, 'status'?: list<string>|string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersListEditsInput')); }
     /** The order that owns the edit. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
@@ -31,6 +32,12 @@ final class OrdersListEditsInput extends Model {
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
+    /** Exact edit status. Values match any supplied status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "pending", "completed", "canceled". Value enum: "pending", "completed", "canceled". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending", "completed", "canceled". anyOf[1][] (Value): string.  Value enum: "pending", "completed", "canceled". anyOf[2] (Value): string.  Value enum: "pending", "completed", "canceled".
+     * @return list<string>|string
+     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+     */
+    public function getStatus(): mixed { return $this->get('status'); }
+    public function hasStatus(): bool { return $this->has('status'); }
     /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_after is omitted; use hasCreatedAfter() or valueOrDefault().

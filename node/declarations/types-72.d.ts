@@ -1,13 +1,27 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    ConfirmPaymentIntentRequestInput,
+    ConfirmReturnResolutionRequestInput,
+    ConnectTaxConnectionRequestInput,
+    ConsumeInventoryReservationRequestInput,
+    CreateAPIKeyRequestInput,
+    CreateAPIKeyRequestFullInput,
+    CreateAPIKeyRequestReadOnlyInput,
+    CreateAPIKeyRequestRestrictedInput,
+    CreateBundleComponentRequestInput,
+    CreateBundleRequestInput,
+    CreateCategoryRequestInput,
+    CreateCheckoutDeliveryQuoteRequestInput,
+    CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput,
+    CreateCheckoutSessionCustomerVerificationRequestInput,
     CreateCheckoutSessionDiscountInput,
     CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput,
     CreateCheckoutSessionInvoiceInput,
-    CreateCheckoutSessionOrderInput,
-    CreateCheckoutSessionPayToNewAddressVerificationRequestInput,
-    CreateCheckoutSessionQuickPayInput
+    CreateCheckoutSessionOrderInput
 } from './types-7.js';
 import type {
+    CreateCheckoutSessionPayToNewAddressVerificationRequestInput,
+    CreateCheckoutSessionQuickPayInput,
     CreateCheckoutSessionRequestInput,
     CreateCheckoutSessionReturnResolutionInput,
     CreateCheckoutSessionSavePaymentMethodVerificationRequestInput,
@@ -37,14 +51,14 @@ import type {
     CreateDeliveryProfileRequestInput,
     CreateDeliveryRateCallbackRequestInput,
     CreateDeliveryRevocationRequestInput,
-    CreateDeliveryRevocationTargetInput,
     CreateDeliveryRevocationTargetDeliveryMethodRevisionInput,
     CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput,
-    CreateDeliveryRevocationTargetDeliveryRateCallbackSigningKeyInput,
-    CreateDeliveryRevocationTargetLocationGeographyInput,
-    CreateDeliverySelectionChoiceRequestInput
+    CreateDeliveryRevocationTargetDeliveryRateCallbackSigningKeyInput
 } from './types-8.js';
 import type {
+    CreateDeliveryRevocationTargetInput,
+    CreateDeliveryRevocationTargetLocationGeographyInput,
+    CreateDeliverySelectionChoiceRequestInput,
     CreateDeliverySelectionRequestInput,
     CreateDeliveryZoneRequestInput,
     CreateDemoSessionRequestInput,
@@ -53,22 +67,23 @@ import type {
     CreateEmailChangeRequestInput,
     CreateFeedbackReportNarrativeInput,
     CreateFeedbackReportRatingInput,
-    CreateFeedbackReportRequestInput,
-    CreateFileRequestInput,
-    CreateFulfillmentEventRequestInput,
-    CreateFulfillmentRequestInput,
-    CreateFulfillmentRequestDigitalInput,
-    CreateFulfillmentRequestLocalDeliveryInput,
-    CreateFulfillmentRequestPickupInput,
-    CreateFulfillmentRequestServiceInput,
-    CreateFulfillmentRequestShipmentInput,
-    CreateGiftCardFundingDispositionRequestInput,
-    CreateGiftCardLoadRequestInput,
-    CreateGiftCardNotificationRequestInput,
-    CreateGiftCardRedemptionRequestInput,
-    CreateGiftCardRedemptionRequestAutomaticInput,
-    CreateGiftCardRedemptionRequestManualInput
+    CreateFeedbackReportRequestInput
 } from './types-9.js';
+export declare function makeConfirmPaymentIntentRequest(value: InputValue<ConfirmPaymentIntentRequestInput>): Model<ConfirmPaymentIntentRequestInput>;
+export declare function makeConfirmReturnResolutionRequest(value: InputValue<ConfirmReturnResolutionRequestInput>): Model<ConfirmReturnResolutionRequestInput>;
+export declare function makeConnectTaxConnectionRequest(value: InputValue<ConnectTaxConnectionRequestInput>): Model<ConnectTaxConnectionRequestInput>;
+export declare function makeConsumeInventoryReservationRequest(value: InputValue<ConsumeInventoryReservationRequestInput>): Model<ConsumeInventoryReservationRequestInput>;
+export declare function makeCreateAPIKeyRequest(value: InputValue<CreateAPIKeyRequestInput>): Model<CreateAPIKeyRequestInput>;
+export declare function makeCreateAPIKeyRequestFull(value: InputValue<CreateAPIKeyRequestFullInput>): Model<CreateAPIKeyRequestFullInput>;
+export declare function makeCreateAPIKeyRequestReadOnly(value: InputValue<CreateAPIKeyRequestReadOnlyInput>): Model<CreateAPIKeyRequestReadOnlyInput>;
+export declare function makeCreateAPIKeyRequestRestricted(value: InputValue<CreateAPIKeyRequestRestrictedInput>): Model<CreateAPIKeyRequestRestrictedInput>;
+export declare function makeCreateBundleComponentRequest(value: InputValue<CreateBundleComponentRequestInput>): Model<CreateBundleComponentRequestInput>;
+export declare function makeCreateBundleRequest(value: InputValue<CreateBundleRequestInput>): Model<CreateBundleRequestInput>;
+export declare function makeCreateCategoryRequest(value: InputValue<CreateCategoryRequestInput>): Model<CreateCategoryRequestInput>;
+export declare function makeCreateCheckoutDeliveryQuoteRequest(value: InputValue<CreateCheckoutDeliveryQuoteRequestInput>): Model<CreateCheckoutDeliveryQuoteRequestInput>;
+export declare function makeCreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest(value: InputValue<CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput>): Model<CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput>;
+export declare function makeCreateCheckoutSessionCustomerVerificationRequest(value: InputValue<Exclude<CreateCheckoutSessionCustomerVerificationRequestInput & object, readonly unknown[]>>): Model<Exclude<CreateCheckoutSessionCustomerVerificationRequestInput & object, readonly unknown[]>>;
+export declare function makeCreateCheckoutSessionCustomerVerificationRequest(value: InputValue<CreateCheckoutSessionCustomerVerificationRequestInput>): Model<CreateCheckoutSessionCustomerVerificationRequestInput>;
 export declare function makeCreateCheckoutSessionDiscount(value: InputValue<CreateCheckoutSessionDiscountInput>): Model<CreateCheckoutSessionDiscountInput>;
 export declare function makeCreateCheckoutSessionGiftCardPurchaseVerificationRequest(value: InputValue<CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput>): Model<CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput>;
 export declare function makeCreateCheckoutSessionInvoice(value: InputValue<CreateCheckoutSessionInvoiceInput>): Model<CreateCheckoutSessionInvoiceInput>;
@@ -120,17 +135,3 @@ export declare function makeCreateEmailChangeRequest(value: InputValue<CreateEma
 export declare function makeCreateFeedbackReportNarrative(value: InputValue<CreateFeedbackReportNarrativeInput>): Model<CreateFeedbackReportNarrativeInput>;
 export declare function makeCreateFeedbackReportRating(value: InputValue<CreateFeedbackReportRatingInput>): Model<CreateFeedbackReportRatingInput>;
 export declare function makeCreateFeedbackReportRequest(value: InputValue<CreateFeedbackReportRequestInput>): Model<CreateFeedbackReportRequestInput>;
-export declare function makeCreateFileRequest(value: InputValue<CreateFileRequestInput>): Model<CreateFileRequestInput>;
-export declare function makeCreateFulfillmentEventRequest(value: InputValue<CreateFulfillmentEventRequestInput>): Model<CreateFulfillmentEventRequestInput>;
-export declare function makeCreateFulfillmentRequest(value: InputValue<CreateFulfillmentRequestInput>): Model<CreateFulfillmentRequestInput>;
-export declare function makeCreateFulfillmentRequestDigital(value: InputValue<CreateFulfillmentRequestDigitalInput>): Model<CreateFulfillmentRequestDigitalInput>;
-export declare function makeCreateFulfillmentRequestLocalDelivery(value: InputValue<CreateFulfillmentRequestLocalDeliveryInput>): Model<CreateFulfillmentRequestLocalDeliveryInput>;
-export declare function makeCreateFulfillmentRequestPickup(value: InputValue<CreateFulfillmentRequestPickupInput>): Model<CreateFulfillmentRequestPickupInput>;
-export declare function makeCreateFulfillmentRequestService(value: InputValue<CreateFulfillmentRequestServiceInput>): Model<CreateFulfillmentRequestServiceInput>;
-export declare function makeCreateFulfillmentRequestShipment(value: InputValue<CreateFulfillmentRequestShipmentInput>): Model<CreateFulfillmentRequestShipmentInput>;
-export declare function makeCreateGiftCardFundingDispositionRequest(value: InputValue<CreateGiftCardFundingDispositionRequestInput>): Model<CreateGiftCardFundingDispositionRequestInput>;
-export declare function makeCreateGiftCardLoadRequest(value: InputValue<CreateGiftCardLoadRequestInput>): Model<CreateGiftCardLoadRequestInput>;
-export declare function makeCreateGiftCardNotificationRequest(value: InputValue<CreateGiftCardNotificationRequestInput>): Model<CreateGiftCardNotificationRequestInput>;
-export declare function makeCreateGiftCardRedemptionRequest(value: InputValue<CreateGiftCardRedemptionRequestInput>): Model<CreateGiftCardRedemptionRequestInput>;
-export declare function makeCreateGiftCardRedemptionRequestAutomatic(value: InputValue<CreateGiftCardRedemptionRequestAutomaticInput>): Model<CreateGiftCardRedemptionRequestAutomaticInput>;
-export declare function makeCreateGiftCardRedemptionRequestManual(value: InputValue<CreateGiftCardRedemptionRequestManualInput>): Model<CreateGiftCardRedemptionRequestManualInput>;

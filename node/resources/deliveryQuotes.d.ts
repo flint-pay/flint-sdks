@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
     DeliveryQuote,
     DeliveryQuoteListResponse,
@@ -38,8 +38,7 @@ export type {
 } from '../declarations/types-20.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-6.js';
-export type { CreateCheckoutDeliveryQuoteRequestInput } from '../declarations/types-7.js';
+export type { ClientOptions, CreateCheckoutDeliveryQuoteRequestInput } from '../declarations/types-7.js';
 export type {
     DeliveryBuyerLocationRequestInput,
     DeliveryAddressRequestInput,
@@ -86,13 +85,11 @@ export type { DisputesAcceptParams } from '../declarations/types-23.js';
 export {
     makeCallerSuppliedDeliveryMethodResultRequest,
     makeCallerSuppliedDeliveryOutcomeRequest,
-    makeCallerSuppliedDeliveryOutcomeRequestAvailable
-} from '../declarations/types-70.js';
-export {
+    makeCallerSuppliedDeliveryOutcomeRequestAvailable,
     makeCallerSuppliedDeliveryOutcomeRequestCannotCalculate,
-    makeCallerSuppliedDeliveryOutcomeRequestUnavailable,
-    makeCreateCheckoutDeliveryQuoteRequest
+    makeCallerSuppliedDeliveryOutcomeRequestUnavailable
 } from '../declarations/types-71.js';
+export { makeCreateCheckoutDeliveryQuoteRequest } from '../declarations/types-72.js';
 export {
     makeDeliveryAddressRequest,
     makeDeliveryBuyerLocationInputAddress,
@@ -102,7 +99,7 @@ export {
     makeDeliveryInventoryAssignmentRequest
 } from '../declarations/types-75.js';
 export { makeDeliveryWindowRequest } from '../declarations/types-76.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export interface DeliveryQuotesResource {
     /**
  * Creates an exact delivery quote for the checkout session named by checkout_session_id, without

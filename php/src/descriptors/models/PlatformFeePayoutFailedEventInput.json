@@ -1,1 +1,1 @@
-{"shared":"PlatformFeePayoutFailedEvent","dependencies":["MoneyValue","PlatformFeePayout","PlatformFeePayoutFailedEvent","SharedCodec10","SharedCodec1299","SharedCodec1300","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9"]}
+{"shared":"PlatformFeePayoutFailedEvent","dependencies":["MoneyValue","PlatformFeePayout","PlatformFeePayoutFailedEvent","SharedCodec10","SharedCodec1306","SharedCodec1307","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9"]}

@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
     InventoryReceipt,
     InventoryReceiptListResponse,
@@ -42,7 +42,7 @@ export type {
 } from '../declarations/types-29.js';
 export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateInventoryReceiptRequestInput } from '../declarations/types-10.js';
 export type { InventorySourceSystemRequestInput, InventorySourceSystem } from '../declarations/types-30.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
@@ -53,7 +53,7 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-52.j
 export type { DisputesAcceptParams } from '../declarations/types-23.js';
 export { makeCreateInventoryReceiptRequest } from '../declarations/types-73.js';
 export { makeInventoryReceiptLineRequest, makeInventorySourceSystemRequest } from '../declarations/types-77.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export interface InventoryReceiptsResource {
     /**
  * Record returned units against a consumed inventory reservation and their disposition. For

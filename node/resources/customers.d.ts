@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
     Customer,
     CustomerAccessLink,
@@ -8,10 +8,10 @@ import type {
     CustomerAddressListResponse,
     CustomerAddressResponse,
     CustomerEmailPreferences,
-    CustomerEmailPreferencesResponse,
-    CustomerListResponse
+    CustomerEmailPreferencesResponse
 } from '../declarations/types-15.js';
 import type {
+    CustomerListResponse,
     CustomerResponse,
     CustomerSessionsRevocation,
     CustomerSessionsRevocationResponse,
@@ -80,6 +80,7 @@ export type {
     CustomersListAddressesParams,
     CustomersListEmailChangeRequestsParams,
     CustomersListParams,
+    CustomerListResponse,
     CustomersListTaxExemptionsParams,
     CustomerTaxExemptionListResponse,
     CustomersRevokeSessionsParams,
@@ -88,6 +89,8 @@ export type {
     CustomersUpdateParams,
     CustomersUpdateAddressParams,
     CustomersUpdateTaxExemptionParams,
+    CustomerReceivables,
+    CustomerReceivableBalance,
     CustomerTaxExemptionCoverageRequestInput,
     CustomerTaxExemptionCoverageAllStatesRequestInput,
     CustomerTaxExemptionCoverageStatesRequestInput,
@@ -113,15 +116,12 @@ export type {
     CustomerEmailPreferences,
     CustomerEmailPreferencesResponse,
     CustomerAddressListResponse,
-    CustomerListResponse,
-    CustomerReceivables,
-    CustomerReceivableBalance,
     CustomerAccessLinkReturned,
     CustomerAccessLinkEmailed
 } from '../declarations/types-15.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-28.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { NextAction, MoneyValue } from '../declarations/types-39.js';
@@ -157,13 +157,9 @@ export {
     makeCustomerTaxExemptionCoverageRequest,
     makeCustomerTaxExemptionCoverageStatesRequest
 } from '../declarations/types-75.js';
-export { makeDocumentTaxIDRequest } from '../declarations/types-76.js';
-export {
-    makeLinkCustomerGuestPurchasesRequest,
-    makeMetadataPatchRequest,
-    makeMetadataRequest,
-    makeMoneyValue
-} from '../declarations/types-78.js';
+export { makeDocumentTaxIDRequest } from '../declarations/types-77.js';
+export { makeLinkCustomerGuestPurchasesRequest, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export {
     makeTaxIdentityPatch,
     makeTaxIdentityRequest,

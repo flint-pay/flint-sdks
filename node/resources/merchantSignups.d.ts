@@ -1,7 +1,8 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
-import type { MerchantSignup, MerchantSignupListResponse, MerchantSignupResponse } from '../declarations/types-37.js';
+import type { ClientOptions } from '../declarations/types-7.js';
+import type { MerchantSignup, MerchantSignupListResponse } from '../declarations/types-37.js';
 import type {
+    MerchantSignupResponse,
     MerchantSignupWithAuthorizationCodes,
     MerchantSignupWithAuthorizationCodesResponse,
     MerchantSignupsCancelParams,
@@ -30,6 +31,7 @@ export type {
 } from '../runtime.js';
 export type {
     MerchantSignupsCancelParams,
+    MerchantSignupResponse,
     MerchantSignupsCreateParams,
     MerchantSignupsGetParams,
     MerchantSignupsListParams,
@@ -39,22 +41,21 @@ export type {
     MerchantSignupWithAuthorizationCodesResponse,
     MerchantSignupsVerifyParams,
     MerchantSignupVersionRequestInput,
+    MerchantSignupTerms,
+    MerchantSignupTermsAcceptance,
     MerchantSignupTermsAcceptanceRequestInput,
     MerchantSignupTermsAcceptanceRequest
 } from '../declarations/types-38.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
 export type {
     MerchantSignup,
-    MerchantSignupResponse,
     MerchantSignupListResponse,
-    MerchantSignupTerms,
     MerchantSignupOwner,
     MerchantSignupPermission,
-    MerchantSignupTermsAcceptance,
     MerchantSignupOwnerRequestInput
 } from '../declarations/types-37.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { PlatformFeeCap } from '../declarations/types-49.js';
@@ -66,10 +67,10 @@ export { makeCreateMerchantSignupRequest } from '../declarations/types-73.js';
 export {
     makeMerchantSignupOwnerRequest,
     makeMerchantSignupTermsAcceptanceRequest,
-    makeMerchantSignupVersionRequest,
-    makeMoneyValue
+    makeMerchantSignupVersionRequest
 } from '../declarations/types-78.js';
-export { makeVerifyMerchantSignupRequest } from '../declarations/types-84.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
+export { makeVerifyMerchantSignupRequest } from '../declarations/types-85.js';
 export interface MerchantSignupsResource {
     /**
  * Cancels a `pending` signup and voids its code, so a code email still queued is never sent. A

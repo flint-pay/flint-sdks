@@ -9,7 +9,7 @@ namespace Flint;
 final class CreateOrderEditResponse extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateOrderEditResponse')); }
-    /** Resource, collection, or operation result returned by this request. The completed edit, current order, and refunds created so far.
+    /** Resource, collection, or operation result returned by this request. The pending or completed edit, current order, and refunds created so far.
      * @return CreateOrderEditResult
      */
     public function getData(): CreateOrderEditResult { return $this->get('data'); }

@@ -1,5 +1,6 @@
-import type { Customer, CustomerReceivables } from './types-15.js';
+import type { Customer } from './types-15.js';
 import type { ResponseMeta } from './types-54.js';
+import type { MoneyValue } from './types-39.js';
 import type { InputValue } from '../runtime.js';
 import type {
     CreateCustomerSessionRequestInput,
@@ -24,8 +25,59 @@ import type {
     UpdateCustomerRequestInput,
     UpdateCustomerTaxExemptionRequestInput
 } from './types-66.js';
-import type { GetReturnInspectionResponse, GetReturnResponse, GetReturnPolicyResponse, GetReturnReasonResponse } from './types-26.js';
+import type { GetReturnInspectionResponse, GetReturnResponse } from './types-26.js';
 import type { ReturnLineDecision, ReturnLineDecisionInput } from './types-55.js';
+/** A page of `Customer` objects. */
+export type CustomerListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * Customer}. A merchant's customer profile.
+     */
+    "data": Array<Customer>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A customer's outstanding and overdue amounts in one currency. */
+export type CustomerReceivableBalance = {
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency": string;
+    /**
+     * Total still owed across the customer's invoices in this currency: invoice totals minus
+     * payments applied and balance reductions. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "outstanding_money": MoneyValue;
+    /**
+     * Part of the outstanding amount that is past its due date at `observed_at`. Invoices with a
+     * payment schedule count only their past-due installments. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "overdue_money": MoneyValue;
+};
+/** A customer's receivable balances by currency and when they were observed. */
+export type CustomerReceivables = {
+    /**
+     * One balance per currency in which the customer has an outstanding or overdue amount. Empty
+     * when the customer owes nothing. [] (Value): {@link CustomerReceivableBalance}. A customer's
+     * outstanding and overdue amounts in one currency.
+     */
+    "balances": Array<CustomerReceivableBalance>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "observed_at": string;
+};
 /** A response containing `Customer` data. */
 export type CustomerResponse = {
     /**
@@ -115,11 +167,16 @@ export type CustomerSessionWithSecret = (Exclude<CustomerSession & object, reado
     & ({
     /**
      * Single-use refresh token. Returned only on create and refresh; retry rotation with the same
-     * Idempotency-Key.
+     * Idempotency-Key. Returned only to the credential that created it, and omitted when another
+     * credential replays the request.
      */
-    "refresh_token": string;
-    /** Current server-held customer session secret. Returned only on create and refresh. */
-    "secret": string;
+    "refresh_token"?: string;
+    /**
+     * Current server-held customer session secret. Returned only on create and refresh. Returned
+     * only to the credential that created it, and omitted when another credential replays the
+     * request.
+     */
+    "secret"?: string;
 });
 /** A response containing `CustomerSessionWithSecret` data. */
 export type CustomerSessionWithSecretResponse = {
@@ -2381,6 +2438,3 @@ export type DeferredPromotion = {
      */
     "promotion_id": string;
 };
-export type DeleteReturnLineItemResponse = GetReturnResponse;
-export type DeleteReturnPolicyResponse = GetReturnPolicyResponse;
-export type DeleteReturnReasonResponse = GetReturnReasonResponse;

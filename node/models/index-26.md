@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# ProductVariantUpdatedMerchantEvent to ReaderPaymentSourceTip
+# ProductVariantInventoryAvailability to ReaderArchivedMerchantEvent
 
+- [ProductVariantInventoryAvailability](ProductVariantInventoryAvailability.md)
+- [ProductVariantListResponse](ProductVariantListResponse.md)
+- [ProductVariantMatch](ProductVariantMatch.md)
+- [ProductVariantRequest](ProductVariantRequest.md)
+- [ProductVariantRequestInput](ProductVariantRequestInput.md)
+- [ProductVariantResponse](ProductVariantResponse.md)
+- [ProductVariantSelectedOptionRequest](ProductVariantSelectedOptionRequest.md)
+- [ProductVariantSelectedOptionRequestInput](ProductVariantSelectedOptionRequestInput.md)
+- [ProductVariantUpdatedInstalledMerchantsEvent](ProductVariantUpdatedInstalledMerchantsEvent.md)
 - [ProductVariantUpdatedMerchantEvent](ProductVariantUpdatedMerchantEvent.md)
 - [Promotion](Promotion.md)
 - [PromotionAmountOffMethod](PromotionAmountOffMethod.md)
@@ -93,13 +102,4 @@
 - [Reader](Reader.md)
 - [ReaderArchivedInstalledMerchantsEvent](ReaderArchivedInstalledMerchantsEvent.md)
 - [ReaderArchivedMerchantEvent](ReaderArchivedMerchantEvent.md)
-- [ReaderConnectionSession](ReaderConnectionSession.md)
-- [ReaderConnectionSessionClientSession](ReaderConnectionSessionClientSession.md)
-- [ReaderConnectionSessionResponse](ReaderConnectionSessionResponse.md)
-- [ReaderConnectionSessionStripe](ReaderConnectionSessionStripe.md)
-- [ReaderConnectivity](ReaderConnectivity.md)
-- [ReaderCreatedInstalledMerchantsEvent](ReaderCreatedInstalledMerchantsEvent.md)
-- [ReaderCreatedMerchantEvent](ReaderCreatedMerchantEvent.md)
-- [ReaderListResponse](ReaderListResponse.md)
-- [ReaderPaymentSourceTip](ReaderPaymentSourceTip.md)
 

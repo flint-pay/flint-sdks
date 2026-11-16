@@ -1,7 +1,17 @@
 [Model index](../MODELS.md)
 
-# PaymentClientActionInput to PaymentMethodUpdatedMerchantEventInput
+# PartnerAuthorizePreviewResponseInput to PaymentMethodArchivedMerchantEventInput
 
+- [PartnerAuthorizePreviewResponseInput](PartnerAuthorizePreviewResponseInput.md)
+- [PartnerEnvironmentGrantInput](PartnerEnvironmentGrantInput.md)
+- [PartnerEnvironmentGrantPaymentSplitsInput](PartnerEnvironmentGrantPaymentSplitsInput.md)
+- [PartnerTokenErrorResponseInput](PartnerTokenErrorResponseInput.md)
+- [PartnerWebhookEnvelopeInput](PartnerWebhookEnvelopeInput.md)
+- [PartnerWebhookEnvelopeSourceInput](PartnerWebhookEnvelopeSourceInput.md)
+- [PauseSubscriptionRequestInput](PauseSubscriptionRequestInput.md)
+- [PaymentAddOnFeeInput](PaymentAddOnFeeInput.md)
+- [PaymentAttemptGiftCardRedemptionInput](PaymentAttemptGiftCardRedemptionInput.md)
+- [PaymentAttemptPaymentIntentInput](PaymentAttemptPaymentIntentInput.md)
 - [PaymentClientActionInput](PaymentClientActionInput.md)
 - [PaymentClientActionStripeInput](PaymentClientActionStripeInput.md)
 - [PaymentClientActionURLInput](PaymentClientActionURLInput.md)
@@ -92,14 +102,4 @@
 - [PaymentMethodActivatedMerchantEventInput](PaymentMethodActivatedMerchantEventInput.md)
 - [PaymentMethodArchivedInstalledMerchantsEventInput](PaymentMethodArchivedInstalledMerchantsEventInput.md)
 - [PaymentMethodArchivedMerchantEventInput](PaymentMethodArchivedMerchantEventInput.md)
-- [PaymentMethodDomainInput](PaymentMethodDomainInput.md)
-- [PaymentMethodDomainListResponseInput](PaymentMethodDomainListResponseInput.md)
-- [PaymentMethodDomainPaymentOptionStatusInput](PaymentMethodDomainPaymentOptionStatusInput.md)
-- [PaymentMethodDomainResponseInput](PaymentMethodDomainResponseInput.md)
-- [PaymentMethodFailedInstalledMerchantsEventInput](PaymentMethodFailedInstalledMerchantsEventInput.md)
-- [PaymentMethodFailedMerchantEventInput](PaymentMethodFailedMerchantEventInput.md)
-- [PaymentMethodListResponseInput](PaymentMethodListResponseInput.md)
-- [PaymentMethodResponseInput](PaymentMethodResponseInput.md)
-- [PaymentMethodUpdatedInstalledMerchantsEventInput](PaymentMethodUpdatedInstalledMerchantsEventInput.md)
-- [PaymentMethodUpdatedMerchantEventInput](PaymentMethodUpdatedMerchantEventInput.md)
 

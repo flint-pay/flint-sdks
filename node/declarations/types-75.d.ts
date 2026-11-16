@@ -1,5 +1,21 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    CreateSubscriptionLineItemRequestBundleInput,
+    CreateSubscriptionLineItemRequestVariantInput,
+    CreateSubscriptionOfferRequestInput,
+    CreateSubscriptionPlanRequestInput,
+    CreateSubscriptionPreviewRequestInput,
+    CreateSubscriptionPreviewRequestCreateInput,
+    CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput,
+    CreateSubscriptionPreviewRequestDeliveryOptionsInput,
+    CreateSubscriptionPreviewRequestNextRenewalInput,
+    CreateSubscriptionPreviewRequestPlanChangeInput
+} from './types-13.js';
+import type {
+    CreateSubscriptionPreviewRequestPromotionApplyInput,
+    CreateSubscriptionPreviewRequestQuantityChangeInput,
+    CreateSubscriptionRequestInput,
+    CreateTapToPayReaderRequestInput,
     CreateTaxCalculationCallbackRequestInput,
     CreateTaxRegistrationRequestInput,
     CreateTestClockRequestInput,
@@ -49,32 +65,31 @@ import type {
     DeliveryEligibilityExpressionRequestInput,
     DeliveryEstimateRuleRequestInput,
     DeliveryFixedPricingStrategyRequestInput,
-    DeliveryInventoryAssignmentRequestInput,
-    DeliveryLocationSetConfigurationInput
+    DeliveryInventoryAssignmentRequestInput
 } from './types-17.js';
 import type {
+    DeliveryLocationSetConfigurationInput,
     DeliveryMethodConfigurationCreateRequestInput,
     DeliveryMethodConfigurationPatchRequestInput,
     DeliveryMethodConfigurationRequestInput,
     DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput,
-    DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSetInput,
-    DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocationsInput,
-    DeliveryMethodOriginSelectorInputFixedLocationInput,
-    DeliveryMethodOriginSelectorInputPickupLocationCollectionInput,
-    DeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSetInput,
-    DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput,
-    DeliveryMethodOriginSelectorRequestInput
+    DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSetInput
 } from './types-18.js';
-import type {
-    DeliveryPickupAvailabilityMaximumDistanceRequestInput,
-    DeliveryPostalCodeConditionRequestInput,
-    DeliveryPostalCodeValueRequestInput,
-    DeliveryPricingRateCreateRequestInput,
-    DeliveryPricingRateRequestInput,
-    DeliveryPricingStrategyCreateInputCalculatedInput,
-    DeliveryPricingStrategyCreateInputCallbackInput,
-    DeliveryPricingStrategyCreateInputCallerSuppliedInput
-} from './types-19.js';
+export declare function makeCreateSubscriptionLineItemRequestBundle(value: InputValue<CreateSubscriptionLineItemRequestBundleInput>): Model<CreateSubscriptionLineItemRequestBundleInput>;
+export declare function makeCreateSubscriptionLineItemRequestVariant(value: InputValue<CreateSubscriptionLineItemRequestVariantInput>): Model<CreateSubscriptionLineItemRequestVariantInput>;
+export declare function makeCreateSubscriptionOfferRequest(value: InputValue<CreateSubscriptionOfferRequestInput>): Model<CreateSubscriptionOfferRequestInput>;
+export declare function makeCreateSubscriptionPlanRequest(value: InputValue<CreateSubscriptionPlanRequestInput>): Model<CreateSubscriptionPlanRequestInput>;
+export declare function makeCreateSubscriptionPreviewRequest(value: InputValue<Exclude<CreateSubscriptionPreviewRequestInput & object, readonly unknown[]>>): Model<Exclude<CreateSubscriptionPreviewRequestInput & object, readonly unknown[]>>;
+export declare function makeCreateSubscriptionPreviewRequest(value: InputValue<CreateSubscriptionPreviewRequestInput>): Model<CreateSubscriptionPreviewRequestInput>;
+export declare function makeCreateSubscriptionPreviewRequestCreate(value: InputValue<CreateSubscriptionPreviewRequestCreateInput>): Model<CreateSubscriptionPreviewRequestCreateInput>;
+export declare function makeCreateSubscriptionPreviewRequestDeliveryMethodUpdate(value: InputValue<CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput>): Model<CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput>;
+export declare function makeCreateSubscriptionPreviewRequestDeliveryOptions(value: InputValue<CreateSubscriptionPreviewRequestDeliveryOptionsInput>): Model<CreateSubscriptionPreviewRequestDeliveryOptionsInput>;
+export declare function makeCreateSubscriptionPreviewRequestNextRenewal(value: InputValue<CreateSubscriptionPreviewRequestNextRenewalInput>): Model<CreateSubscriptionPreviewRequestNextRenewalInput>;
+export declare function makeCreateSubscriptionPreviewRequestPlanChange(value: InputValue<CreateSubscriptionPreviewRequestPlanChangeInput>): Model<CreateSubscriptionPreviewRequestPlanChangeInput>;
+export declare function makeCreateSubscriptionPreviewRequestPromotionApply(value: InputValue<CreateSubscriptionPreviewRequestPromotionApplyInput>): Model<CreateSubscriptionPreviewRequestPromotionApplyInput>;
+export declare function makeCreateSubscriptionPreviewRequestQuantityChange(value: InputValue<CreateSubscriptionPreviewRequestQuantityChangeInput>): Model<CreateSubscriptionPreviewRequestQuantityChangeInput>;
+export declare function makeCreateSubscriptionRequest(value: InputValue<CreateSubscriptionRequestInput>): Model<CreateSubscriptionRequestInput>;
+export declare function makeCreateTapToPayReaderRequest(value: InputValue<CreateTapToPayReaderRequestInput>): Model<CreateTapToPayReaderRequestInput>;
 export declare function makeCreateTaxCalculationCallbackRequest(value: InputValue<CreateTaxCalculationCallbackRequestInput>): Model<CreateTaxCalculationCallbackRequestInput>;
 export declare function makeCreateTaxRegistrationRequest(value: InputValue<CreateTaxRegistrationRequestInput>): Model<CreateTaxRegistrationRequestInput>;
 export declare function makeCreateTestClockRequest(value: InputValue<CreateTestClockRequestInput>): Model<CreateTestClockRequestInput>;
@@ -125,17 +140,3 @@ export declare function makeDeliveryMethodConfigurationPatchRequest(value: Input
 export declare function makeDeliveryMethodConfigurationRequest(value: InputValue<DeliveryMethodConfigurationRequestInput>): Model<DeliveryMethodConfigurationRequestInput>;
 export declare function makeDeliveryMethodOriginSelectorInputAllocatedOriginGroup(value: InputValue<DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput>): Model<DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput>;
 export declare function makeDeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSet(value: InputValue<DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSetInput>): Model<DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSetInput>;
-export declare function makeDeliveryMethodOriginSelectorInputAllocatedOriginGroupLocations(value: InputValue<DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocationsInput>): Model<DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocationsInput>;
-export declare function makeDeliveryMethodOriginSelectorInputFixedLocation(value: InputValue<DeliveryMethodOriginSelectorInputFixedLocationInput>): Model<DeliveryMethodOriginSelectorInputFixedLocationInput>;
-export declare function makeDeliveryMethodOriginSelectorInputPickupLocationCollection(value: InputValue<DeliveryMethodOriginSelectorInputPickupLocationCollectionInput>): Model<DeliveryMethodOriginSelectorInputPickupLocationCollectionInput>;
-export declare function makeDeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSet(value: InputValue<DeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSetInput>): Model<DeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSetInput>;
-export declare function makeDeliveryMethodOriginSelectorInputPickupLocationCollectionLocations(value: InputValue<DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput>): Model<DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput>;
-export declare function makeDeliveryMethodOriginSelectorRequest(value: InputValue<DeliveryMethodOriginSelectorRequestInput>): Model<DeliveryMethodOriginSelectorRequestInput>;
-export declare function makeDeliveryPickupAvailabilityMaximumDistanceRequest(value: InputValue<DeliveryPickupAvailabilityMaximumDistanceRequestInput>): Model<DeliveryPickupAvailabilityMaximumDistanceRequestInput>;
-export declare function makeDeliveryPostalCodeConditionRequest(value: InputValue<DeliveryPostalCodeConditionRequestInput>): Model<DeliveryPostalCodeConditionRequestInput>;
-export declare function makeDeliveryPostalCodeValueRequest(value: InputValue<DeliveryPostalCodeValueRequestInput>): Model<DeliveryPostalCodeValueRequestInput>;
-export declare function makeDeliveryPricingRateCreateRequest(value: InputValue<DeliveryPricingRateCreateRequestInput>): Model<DeliveryPricingRateCreateRequestInput>;
-export declare function makeDeliveryPricingRateRequest(value: InputValue<DeliveryPricingRateRequestInput>): Model<DeliveryPricingRateRequestInput>;
-export declare function makeDeliveryPricingStrategyCreateInputCalculated(value: InputValue<DeliveryPricingStrategyCreateInputCalculatedInput>): Model<DeliveryPricingStrategyCreateInputCalculatedInput>;
-export declare function makeDeliveryPricingStrategyCreateInputCallback(value: InputValue<DeliveryPricingStrategyCreateInputCallbackInput>): Model<DeliveryPricingStrategyCreateInputCallbackInput>;
-export declare function makeDeliveryPricingStrategyCreateInputCallerSupplied(value: InputValue<DeliveryPricingStrategyCreateInputCallerSuppliedInput>): Model<DeliveryPricingStrategyCreateInputCallerSuppliedInput>;

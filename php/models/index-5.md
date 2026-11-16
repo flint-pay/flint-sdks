@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# CreateDeliveryLocationSetRequestInput to CreateOrderTipInput
+# CreateCustomerSessionRequestInput to CreateOrderLineItemInputVariantInput
 
+- [CreateCustomerSessionRequestInput](CreateCustomerSessionRequestInput.md)
+- [CreateCustomerTaxExemptionRequestInput](CreateCustomerTaxExemptionRequestInput.md)
+- [CreateCustomerVerificationRequestInput](CreateCustomerVerificationRequestInput.md)
+- [CreateDeliveryFulfillmentDetailsInput](CreateDeliveryFulfillmentDetailsInput.md)
 - [CreateDeliveryLocationSetRequestInput](CreateDeliveryLocationSetRequestInput.md)
 - [CreateDeliveryMethodRequestInput](CreateDeliveryMethodRequestInput.md)
 - [CreateDeliveryMethodRequestLocalDeliveryInput](CreateDeliveryMethodRequestLocalDeliveryInput.md)
@@ -98,8 +102,4 @@
 - [CreateOrderLineItemInputBundleInput](CreateOrderLineItemInputBundleInput.md)
 - [CreateOrderLineItemInputCustomInput](CreateOrderLineItemInputCustomInput.md)
 - [CreateOrderLineItemInputVariantInput](CreateOrderLineItemInputVariantInput.md)
-- [CreateOrderLineItemRequestInput](CreateOrderLineItemRequestInput.md)
-- [CreateOrderLineItemVariantInput](CreateOrderLineItemVariantInput.md)
-- [CreateOrderRequestInput](CreateOrderRequestInput.md)
-- [CreateOrderTipInput](CreateOrderTipInput.md)
 

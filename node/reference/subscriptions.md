@@ -143,7 +143,7 @@ const result = await client.subscriptions.cancel("sub_01KEZF7C00BVRE8YDBXQB74BBM
 
 ### subscriptions.changePlan
 
-Replaces the subscription's lines and recurring options with the active target plan's current terms. Paired lines keep their quantities unless line_items overrides them. Pair by the same plan line on the same plan, then variant or bundle, then the only line on each side. Unpaired target lines use their plan quantity. If an adjusted current line cannot be paired, send quantities for every target line; otherwise the request fails with quantity_not_carried before any change. With billing_starts next_renewal, changes terms now without charging and keeps the current period and next billing date. With billing_starts prorated_now, charges the new terms for the rest of the current period, less unused paid item credit, while keeping the billing period and anchor; the resulting interval must stay unchanged. With billing_starts now, charges a new period and credits unused paid item time after promotions; the plan changes only when payment succeeds. If the credit exceeds the new item charge, choose next_renewal. Omit interval and quantity to keep their current values; the target plan must offer them. Contract terms and existing recurring promotions are preserved. Requires Idempotency-Key; retry with the same key to recover the same result. Returns status 200 for a decline, with a closed unpaid order, failed order_payment_attempt, and unchanged subscription. Inspect order_payment_attempt.last_payment_error and update the subscription payment method before trying again. Send expected_version to reject a concurrent change. After a confirmed CONCURRENT_MODIFICATION with billing_starts now, refresh the subscription and send a new Idempotency-Key.
+Replaces the subscription's lines and recurring options with the active target plan's current terms. Paired lines keep their quantities unless line_items overrides them. Pair by the same plan line on the same plan, then variant or bundle, then the only line on each side. Unpaired target lines use their plan quantity. If an adjusted current line cannot be paired, send quantities for every target line; otherwise the request fails with quantity_not_carried before any change. With billing_starts next_renewal, changes terms now without charging and keeps the current period and next billing date. With billing_starts prorated_now, charges the new terms for the rest of the current period, less unused paid item credit, while keeping the billing period and anchor; the resulting interval must stay unchanged. With billing_starts now, charges a new period and credits unused paid item time after promotions; the plan changes only when payment succeeds. If the credit exceeds the new item charge, choose next_renewal. Omit the interval pair to keep the current interval when the target plan offers it, otherwise use the target default. Contract terms and existing recurring promotions are preserved. Requires Idempotency-Key; retry with the same key to recover the same result. Returns status 200 for a decline, with a closed unpaid order, failed order_payment_attempt, and unchanged subscription. Inspect order_payment_attempt.last_payment_error and update the subscription payment method before trying again. Send expected_version to reject a concurrent change. After a confirmed CONCURRENT_MODIFICATION with billing_starts now, refresh the subscription and send a new Idempotency-Key.
 
 `POST /v1/subscriptions/{subscription_id}/change-plan`
 
@@ -176,7 +176,6 @@ Body model: [ChangeSubscriptionPlanRequestInput](../models/ChangeSubscriptionPla
 | `billing_starts` | Required | string | now bills a new period with credit for unused paid item time. next_renewal changes the plan immediately and keeps the current paid period and next billing date. period_end keeps the current plan until the next charged renewal, then applies and bills the scheduled terms. prorated_now charges the new terms for the rest of the current period, less unused paid item credit, and keeps the billing period and anchor. Values: `"now"`, `"next_renewal"`, `"period_end"`, `"prorated_now"`. |
 | `expected_version` | Optional | integer | Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: `uint64`. minimum: `1`. |
 | `line_items` | Optional | Array of [SubscriptionPlanChangeLineItemRequestInput](../models/SubscriptionPlanChangeLineItemRequest.md#subscriptionplanchangelineitemrequest) | Optional quantities for target plan lines, with no duplicate IDs. Omitted lines carry their paired current line's quantity, or use the target line's quantity when unpaired. If an adjusted current quantity cannot be paired, send a quantity for every target line. |
-| `quantity` | Optional | integer | Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use line_items for multiple units. Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `1`. |
 | `subscription_plan_id` | Required | string | The target subscription plan. minLength: `1`. pattern: `^plan_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
@@ -225,7 +224,7 @@ const result = await client.subscriptions.changePlan("sub_01ARZ3NDEKTSV4RRFFQ69G
 
 ### subscriptions.changeQuantity
 
-Changes the subscription quantity multiplier, existing line quantities, or both, with the chosen billing timing. billing_starts is required: prorated_now charges now, next_renewal changes quantities immediately without charging, and period_end schedules them for the next billing boundary in scheduled_plan_change. Cancel pending quantities with PATCH scheduled_plan_change: null. A pending change locks quantity edits with plan_change_scheduled. Keeps the current billing period, next billing date, anchor and completed cycles. Omitted quantities stay unchanged. Send quantity or 1 to 50 distinct line_items. With prorated_now, a shipping line cannot be changed, and quantity cannot be supplied when any subscription line ships. Physical quantities can use next_renewal or period_end. Digital line quantities can be changed on a subscription with other lines that ship; its shipping lines stay unchanged and this charge creates no shipment or shipping charge. Quantities that do not charge can still be updated with subscription PATCH or the line-item routes. Requires Idempotency-Key; retry with the same key to recover the original outcome. Returns 200 on decline with a closed unpaid order, failed order_payment_attempt, and unchanged subscription. Inspect order_payment_attempt.last_payment_error before trying again. The order and order_payment_attempt are null when the net charge is zero. Send expected_version to reject a concurrent change. If the outcome remains uncertain, retrieve the subscription and its orders; contact Flint support with the original key and request ID when those reads cannot establish the result.
+Changes existing subscription line quantities with the chosen billing timing. billing_starts is required: prorated_now charges now, next_renewal changes quantities immediately without charging, and period_end schedules them for the next billing boundary in scheduled_plan_change. Cancel pending quantities with PATCH scheduled_plan_change: null. A pending change locks quantity edits with plan_change_scheduled. Keeps the current billing period, next billing date, anchor and completed cycles. Omitted quantities stay unchanged. Send 1 to 50 distinct line_items, each with an existing subscription_line_item_id and its new quantity. With prorated_now, a shipping line cannot be changed. Physical quantities can use next_renewal or period_end. Digital line quantities can be changed on a subscription with other lines that ship; its shipping lines stay unchanged and this charge creates no shipment or shipping charge. Use next_renewal to change quantities without charging now. Requires Idempotency-Key; retry with the same key to recover the original outcome. Returns 200 on decline with a closed unpaid order, failed order_payment_attempt, and unchanged subscription. Inspect order_payment_attempt.last_payment_error before trying again. The order and order_payment_attempt are null when the net charge is zero. Send expected_version to reject a concurrent change. If the outcome remains uncertain, retrieve the subscription and its orders; contact Flint support with the original key and request ID when those reads cannot establish the result.
 
 `POST /v1/subscriptions/{subscription_id}/change-quantity`
 
@@ -255,30 +254,7 @@ Body model: [ChangeSubscriptionQuantityRequestInput](../models/ChangeSubscriptio
 | --- | --- | --- | --- |
 | `billing_starts` | Required | string | prorated_now charges the prorated difference now and keeps the current period and anchor; next_renewal changes quantities now without charging; period_end schedules them for the next billing boundary. Values: `"prorated_now"`, `"next_renewal"`, `"period_end"`. |
 | `expected_version` | Optional | integer | Reject the request if the subscription version has changed. Format: `uint64`. minimum: `1`. |
-| `line_items` | Optional | Array of [SubscriptionQuantityChangeLineItemRequestInput](../models/SubscriptionQuantityChangeLineItemRequest.md#subscriptionquantitychangelineitemrequest) | Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their quantities. Send quantity or line_items. minItems: `1`. maxItems: `50`. |
-| `quantity` | Optional | integer | The whole-number subscription multiplier; fractional quantities are not supported. Validated as on subscription PATCH. Omit to keep its current value. Send quantity or line_items. minimum: `1`. maximum: `1`. |
-
-#### subscriptions.changeQuantity: variant 1
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `billing_starts` | Required | string | prorated_now charges the prorated difference now and keeps the current period and anchor; next_renewal changes quantities now without charging; period_end schedules them for the next billing boundary. Values: `"prorated_now"`, `"next_renewal"`, `"period_end"`. |
-| `expected_version` | Optional | integer | Reject the request if the subscription version has changed. Format: `uint64`. minimum: `1`. |
-| `line_items` | Optional | Array of [SubscriptionQuantityChangeLineItemRequestInput](../models/SubscriptionQuantityChangeLineItemRequest.md#subscriptionquantitychangelineitemrequest) | Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their quantities. Send quantity or line_items. minItems: `1`. maxItems: `50`. |
-| `quantity` | Required | integer | The whole-number subscription multiplier; fractional quantities are not supported. Validated as on subscription PATCH. Omit to keep its current value. Send quantity or line_items. minimum: `1`. maximum: `1`. |
-
-#### subscriptions.changeQuantity: variant 2
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `billing_starts` | Required | string | prorated_now charges the prorated difference now and keeps the current period and anchor; next_renewal changes quantities now without charging; period_end schedules them for the next billing boundary. Values: `"prorated_now"`, `"next_renewal"`, `"period_end"`. |
-| `expected_version` | Optional | integer | Reject the request if the subscription version has changed. Format: `uint64`. minimum: `1`. |
-| `line_items` | Required | Array of [SubscriptionQuantityChangeLineItemRequestInput](../models/SubscriptionQuantityChangeLineItemRequest.md#subscriptionquantitychangelineitemrequest) | Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their quantities. Send quantity or line_items. minItems: `1`. maxItems: `50`. |
-| `quantity` | Optional | integer | The whole-number subscription multiplier; fractional quantities are not supported. Validated as on subscription PATCH. Omit to keep its current value. Send quantity or line_items. minimum: `1`. maximum: `1`. |
+| `line_items` | Required | Array of [SubscriptionQuantityChangeLineItemRequestInput](../models/SubscriptionQuantityChangeLineItemRequest.md#subscriptionquantitychangelineitemrequest) | Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their quantities. line_items is required. minItems: `1`. maxItems: `50`. |
 
 #### Response
 
@@ -319,7 +295,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.subscriptions.changeQuantity("sub_01KEZF7C00BVRE8YDBXQB74BBM", {billing_starts: "prorated_now", expected_version: 1, quantity: 1}, { idempotencyKey: idempotencyKey });
+const result = await client.subscriptions.changeQuantity("sub_01KEZF7C00BVRE8YDBXQB74BBM", {billing_starts: "prorated_now", expected_version: 1, line_items: [{quantity: 2, subscription_line_item_id: "sli_01KEZF7C00VQ081BX7W2T96R71"}]}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/subscriptions-changeQuantity.mjs)
@@ -1348,7 +1324,7 @@ const result = await client.subscriptions.skipCycle("sub_01KEZF7C00BVRE8YDBXQB74
 
 ### subscriptions.update
 
-Updates metadata, external_reference_id, payment_method_id, delivery, billing interval, quantity, cancel_at_period_end: false to undo a scheduled cancellation, or scheduled_plan_change: null to keep the current plan. Send billing_interval and billing_interval_count together. A billing_schedule update must be the only mutable field. Delivery, cadence and quantity changes apply to future unpaid renewals. Send expected_version to reject concurrent changes. Schedule a cancellation with POST /v1/subscriptions/{subscription_id}/cancel, change the plan with /change-plan, and manage lines through the line-items collection. A card whose setup hasn't finished fails with `ACTION_NOT_ALLOWED` and reason `status_not_reached`. Once setup finishes, send a new request with a new idempotency key.
+Updates metadata, external_reference_id, payment_method_id, delivery, billing interval, cancel_at_period_end: false to undo a scheduled cancellation, or scheduled_plan_change: null to keep the current plan. Send billing_interval and billing_interval_count together. A billing_schedule update must be the only mutable field. Delivery and cadence changes apply to future unpaid renewals. Send expected_version to reject concurrent changes. Schedule a cancellation with POST /v1/subscriptions/{subscription_id}/cancel, change the plan with /change-plan, and manage lines through the line-items collection. A card whose setup hasn't finished fails with `ACTION_NOT_ALLOWED` and reason `status_not_reached`. Once setup finishes, send a new request with a new idempotency key.
 
 `PATCH /v1/subscriptions/{subscription_id}`
 
@@ -1381,7 +1357,6 @@ Body model: [UpdateSubscriptionRequestInput](../models/UpdateSubscriptionRequest
 | `gift_recipient` | Optional | [SubscriptionGiftRecipientRequestInput](../models/SubscriptionGiftRecipientRequest.md#subscriptiongiftrecipientrequest) or null | Replace the whole gift recipient, or send null to clear it. There are no partial changes. Send expected_version to guard against concurrent changes. Buyers cannot change this field. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
 | `payment_method_id` | Optional | string | ID of the saved payment method to charge for renewals. It must belong to the subscription's customer, be active, and allow charges without the buyer present. Not accepted as null. minLength: `1`. |
-| `quantity` | Optional | integer | Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `1`. |
 | `scheduled_plan_change` | Optional | null | Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it unchanged. Schedule or replace through change-plan. |
 | `tax` | Optional | [SubscriptionTaxRequestInput](../models/SubscriptionTaxRequest.md#subscriptiontaxrequest) or null | Replace the subscription's tax as a whole, or send null to clear it, so its orders follow your settings again. Orders Flint creates after the change use it; an open renewal order keeps the tax it was created with. Buyers cannot change this field. |
 
@@ -1423,14 +1398,14 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.subscriptions.update("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", {quantity: 1}, { idempotencyKey: idempotencyKey });
+const result = await client.subscriptions.update("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", {metadata: {source: "sdk-example"}}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/subscriptions-update.mjs)
 
 ### subscriptions.updateLineItem
 
-Updates a subscription line for future renewals. Send expected_version to reject a concurrent change. Already-created orders keep their lines.
+Swaps a subscription line variant for future renewals while keeping its quantity. Use change-quantity to change line quantities. Send expected_version to reject a concurrent change. Already-created orders keep their lines.
 
 `PATCH /v1/subscriptions/{subscription_id}/line-items/{subscription_line_item_id}`
 
@@ -1461,7 +1436,6 @@ Body model: [UpdateSubscriptionLineItemRequestInput](../models/UpdateSubscriptio
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `expected_version` | Optional | integer | Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: `uint64`. minimum: `1`. |
-| `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `9999`. |
 | `variant_id` | Optional | string | ID of the catalog variant to swap the line to. The line keeps its quantity unless `quantity` is also sent, and is priced from the variant's catalog price for the subscription's customer. minLength: `1`. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
@@ -1502,7 +1476,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.subscriptions.updateLineItem("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", "sli_01ARZ3NDEKTSV4RRFFQ69G5FAV", {quantity: 1}, { idempotencyKey: idempotencyKey });
+const result = await client.subscriptions.updateLineItem("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", "sli_01ARZ3NDEKTSV4RRFFQ69G5FAV", {expected_version: 1, variant_id: "var_01ARZ3NDEKTSV4RRFFQ69G5FAV"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/subscriptions-updateLineItem.mjs)

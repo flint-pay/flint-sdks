@@ -1,4 +1,4 @@
-<!-- Package 8.0.0-beta.3; API 2026-09-07 -->
+<!-- Package 8.0.0-beta.4; API 2026-09-07 -->
 
 # Partner app OAuth
 

@@ -1,9 +1,14 @@
 import type { InputValue } from '../runtime.js';
-import type { MarkFulfillmentReadyRequestInput } from './types-35.js';
+import type {
+    MarkFulfillmentPackedRequestInput,
+    MarkFulfillmentPickedRequestInput,
+    MarkFulfillmentPreparingRequestInput,
+    MarkFulfillmentReadyRequestInput
+} from './types-35.js';
 import type { ReleaseFulfillmentHoldRequestInput } from './types-53.js';
 import type { ScheduleFulfillmentRequestInput } from './types-59.js';
 import type { StartFulfillmentRequestInput } from './types-60.js';
-import type { UpdateFulfillmentRequestInput } from './types-66.js';
+import type { UpdateFulfillmentRequestInput } from './types-67.js';
 import type { ResponseMeta } from './types-54.js';
 import type { ReturnDisposition, ReturnInspection, ReturnLineItem } from './types-55.js';
 import type { ReturnPolicy, ReturnPolicyRevision, ReturnReason, ReturnReceipt } from './types-56.js';
@@ -14,15 +19,95 @@ import type {
     GiftCardPurchaseRefundValueHold,
     GiftCardPurchaseRestoration,
     GiftCardRefundProvenance,
-    GiftCardPurchaseRecipient,
-    GiftCardNotificationDeliveryAttempt,
-    GiftCardNotificationDeliveryEvent
+    GiftCardNotificationDelivery,
+    GiftCardPurchaseRecipient
 } from './types-27.js';
 import type { MoneyValue, MoneyValueInput } from './types-39.js';
 import type { MerchantWebhookEnvelope } from './types-38.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
 import type { CreateGiftCardFundingDispositionRequestInput, CreateGiftCardLoadRequestInput } from './types-9.js';
 import type { DisputesAcceptParams } from './types-23.js';
+export type FulfillmentsMarkPackedParams = (InputValue<MarkFulfillmentPackedRequestInput>
+    | {
+    "buyer_notification_behavior"?: never;
+    "expected_version"?: never;
+    "occurred_at"?: never;
+    "reason_message"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FulfillmentsMarkPickedParams = (InputValue<MarkFulfillmentPickedRequestInput>
+    | {
+    "buyer_notification_behavior"?: never;
+    "expected_version"?: never;
+    "occurred_at"?: never;
+    "reason_message"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FulfillmentsMarkPreparingParams = (InputValue<MarkFulfillmentPreparingRequestInput>
+    | {
+    "buyer_notification_behavior"?: never;
+    "expected_version"?: never;
+    "occurred_at"?: never;
+    "reason_message"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 export type FulfillmentsMarkReadyParams = (InputValue<MarkFulfillmentReadyRequestInput>
     | {
     "buyer_notification_behavior"?: never;
@@ -3592,325 +3677,3 @@ export type GiftCardNotificationCreatedEvent = ((((Exclude<MerchantWebhookEnvelo
     & {
     "event_type": "gift_card_notification.created";
 });
-/**
- * The `gift_card_notification.created` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type GiftCardNotificationCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.created_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.delivery (Optional): {@link
-     * GiftCardNotificationDelivery}. Included on notification retrieval. Contains the most recent
-     * sending attempts and delivery events, newest first. A failed attempt describes the send
-     * call; use notification.status to determine whether acceptance remains unconfirmed. Delivery
-     * history of a gift card notification email: its send attempts and delivery events, and
-     * whether more of each exist. object.gift_card_id (Required): string. ID of the gift card the
-     * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
-     * object.gift_card_notification_id (Required): string. Unique identifier for this gift card
-     * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". object.recipient
-     * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who receives
-     * a gift card notification: their `email`, optional `name` and `message`, and an optional
-     * `send_at` time. object.resend_of_notification_id (Optional): string. ID of the earlier
-     * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". object.sent_at
-     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.status (Required): string. Where sending the notification stands. Read `delivery` for
-     * the attempts and email events behind it. Value enum: "scheduled", "pending", "sent",
-     * "failed", "unconfirmed", "canceled". object.status_reason (Required): string or null. Why
-     * the notification has its current status. credential_rotated means code rotation canceled an
-     * unsent notification for the previous code. Null when no reason applies. Value enum:
-     * "credential_rotated", null. object.supported_actions (Required): Array of string. Lifecycle
-     * actions accepted for this notification's stored state, independent of the caller's
-     * credentials. Empty when none are available. [] enum: "cancel". object.supported_actions[]
-     * (Value): string. Value enum: "cancel". object.updated_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current version of this resource's owned state. Send it as `expected_version` when
-     * changing the resource to reject a stale write. Format: int64.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". delivery (Optional): {@link GiftCardNotificationDelivery}.
-         * Included on notification retrieval. Contains the most recent sending attempts and
-         * delivery events, newest first. A failed attempt describes the send call; use
-         * notification.status to determine whether acceptance remains unconfirmed. Delivery
-         * history of a gift card notification email: its send attempts and delivery events, and
-         * whether more of each exist. gift_card_id (Required): string. ID of the gift card the
-         * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
-         * gift_card_notification_id (Required): string. Unique identifier for this gift card
-         * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". recipient
-         * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who
-         * receives a gift card notification: their `email`, optional `name` and `message`, and an
-         * optional `send_at` time. resend_of_notification_id (Optional): string. ID of the earlier
-         * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". sent_at
-         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Where sending the notification
-         * stands. Read `delivery` for the attempts and email events behind it. Value enum:
-         * "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled". status_reason
-         * (Required): string or null. Why the notification has its current status.
-         * credential_rotated means code rotation canceled an unsent notification for the previous
-         * code. Null when no reason applies. Value enum: "credential_rotated", null.
-         * supported_actions (Required): Array of string. Lifecycle actions accepted for this
-         * notification's stored state, independent of the caller's credentials. Empty when none
-         * are available. [] enum: "cancel". supported_actions[] (Value): string. Value enum:
-         * "cancel". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
-         * owned state. Send it as `expected_version` when changing the resource to reject a stale
-         * write. Format: int64.
-         */
-        "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Included on notification retrieval. Contains the most recent sending attempts and
-             * delivery events, newest first. A failed attempt describes the send call; use
-             * notification.status to determine whether acceptance remains unconfirmed. Delivery
-             * history of a gift card notification email: its send attempts and delivery events,
-             * and whether more of each exist.
-             */
-            "delivery"?: GiftCardNotificationDelivery;
-            /**
-             * ID of the gift card the notification is about. Example:
-             * "gc_01KEZF7C00RT1618WYBM1Y94CG".
-             */
-            "gift_card_id": string;
-            /**
-             * Unique identifier for this gift card notification, prefixed `gcn_`. Example:
-             * "gcn_01KEZF7C0023FN0HF9GH34RZA1".
-             */
-            "gift_card_notification_id": string;
-            /**
-             * Who the notification is sent to. Who receives a gift card notification: their
-             * `email`, optional `name` and `message`, and an optional `send_at` time.
-             */
-            "recipient": GiftCardPurchaseRecipient;
-            /**
-             * ID of the earlier notification this one sends again. Example:
-             * "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
-             */
-            "resend_of_notification_id"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "sent_at"?: string;
-            /**
-             * Where sending the notification stands. Read `delivery` for the attempts and email
-             * events behind it. Value enum: "scheduled", "pending", "sent", "failed",
-             * "unconfirmed", "canceled".
-             */
-            "status": "scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {});
-            /**
-             * Why the notification has its current status. credential_rotated means code rotation
-             * canceled an unsent notification for the previous code. Null when no reason applies.
-             * Value enum: "credential_rotated", null.
-             */
-            "status_reason": "credential_rotated" | null | (string & {}) | null;
-            /**
-             * Lifecycle actions accepted for this notification's stored state, independent of the
-             * caller's credentials. Empty when none are available. [] enum: "cancel". [] (Value):
-             * string. Value enum: "cancel".
-             */
-            "supported_actions": Array<"cancel" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: int64.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "gift_card_notification.created". */
-    "event_type"?: "gift_card_notification.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `gift_card_notification.created` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type GiftCardNotificationCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.created_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.delivery (Optional): {@link
-     * GiftCardNotificationDelivery}. Included on notification retrieval. Contains the most recent
-     * sending attempts and delivery events, newest first. A failed attempt describes the send
-     * call; use notification.status to determine whether acceptance remains unconfirmed. Delivery
-     * history of a gift card notification email: its send attempts and delivery events, and
-     * whether more of each exist. object.gift_card_id (Required): string. ID of the gift card the
-     * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
-     * object.gift_card_notification_id (Required): string. Unique identifier for this gift card
-     * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". object.recipient
-     * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who receives
-     * a gift card notification: their `email`, optional `name` and `message`, and an optional
-     * `send_at` time. object.resend_of_notification_id (Optional): string. ID of the earlier
-     * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". object.sent_at
-     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.status (Required): string. Where sending the notification stands. Read `delivery` for
-     * the attempts and email events behind it. Value enum: "scheduled", "pending", "sent",
-     * "failed", "unconfirmed", "canceled". object.status_reason (Required): string or null. Why
-     * the notification has its current status. credential_rotated means code rotation canceled an
-     * unsent notification for the previous code. Null when no reason applies. Value enum:
-     * "credential_rotated", null. object.supported_actions (Required): Array of string. Lifecycle
-     * actions accepted for this notification's stored state, independent of the caller's
-     * credentials. Empty when none are available. [] enum: "cancel". object.supported_actions[]
-     * (Value): string. Value enum: "cancel". object.updated_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current version of this resource's owned state. Send it as `expected_version` when
-     * changing the resource to reject a stale write. Format: int64.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". delivery (Optional): {@link GiftCardNotificationDelivery}.
-         * Included on notification retrieval. Contains the most recent sending attempts and
-         * delivery events, newest first. A failed attempt describes the send call; use
-         * notification.status to determine whether acceptance remains unconfirmed. Delivery
-         * history of a gift card notification email: its send attempts and delivery events, and
-         * whether more of each exist. gift_card_id (Required): string. ID of the gift card the
-         * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
-         * gift_card_notification_id (Required): string. Unique identifier for this gift card
-         * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". recipient
-         * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who
-         * receives a gift card notification: their `email`, optional `name` and `message`, and an
-         * optional `send_at` time. resend_of_notification_id (Optional): string. ID of the earlier
-         * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". sent_at
-         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Where sending the notification
-         * stands. Read `delivery` for the attempts and email events behind it. Value enum:
-         * "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled". status_reason
-         * (Required): string or null. Why the notification has its current status.
-         * credential_rotated means code rotation canceled an unsent notification for the previous
-         * code. Null when no reason applies. Value enum: "credential_rotated", null.
-         * supported_actions (Required): Array of string. Lifecycle actions accepted for this
-         * notification's stored state, independent of the caller's credentials. Empty when none
-         * are available. [] enum: "cancel". supported_actions[] (Value): string. Value enum:
-         * "cancel". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
-         * owned state. Send it as `expected_version` when changing the resource to reject a stale
-         * write. Format: int64.
-         */
-        "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Included on notification retrieval. Contains the most recent sending attempts and
-             * delivery events, newest first. A failed attempt describes the send call; use
-             * notification.status to determine whether acceptance remains unconfirmed. Delivery
-             * history of a gift card notification email: its send attempts and delivery events,
-             * and whether more of each exist.
-             */
-            "delivery"?: GiftCardNotificationDelivery;
-            /**
-             * ID of the gift card the notification is about. Example:
-             * "gc_01KEZF7C00RT1618WYBM1Y94CG".
-             */
-            "gift_card_id": string;
-            /**
-             * Unique identifier for this gift card notification, prefixed `gcn_`. Example:
-             * "gcn_01KEZF7C0023FN0HF9GH34RZA1".
-             */
-            "gift_card_notification_id": string;
-            /**
-             * Who the notification is sent to. Who receives a gift card notification: their
-             * `email`, optional `name` and `message`, and an optional `send_at` time.
-             */
-            "recipient": GiftCardPurchaseRecipient;
-            /**
-             * ID of the earlier notification this one sends again. Example:
-             * "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
-             */
-            "resend_of_notification_id"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "sent_at"?: string;
-            /**
-             * Where sending the notification stands. Read `delivery` for the attempts and email
-             * events behind it. Value enum: "scheduled", "pending", "sent", "failed",
-             * "unconfirmed", "canceled".
-             */
-            "status": "scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {});
-            /**
-             * Why the notification has its current status. credential_rotated means code rotation
-             * canceled an unsent notification for the previous code. Null when no reason applies.
-             * Value enum: "credential_rotated", null.
-             */
-            "status_reason": "credential_rotated" | null | (string & {}) | null;
-            /**
-             * Lifecycle actions accepted for this notification's stored state, independent of the
-             * caller's credentials. Empty when none are available. [] enum: "cancel". [] (Value):
-             * string. Value enum: "cancel".
-             */
-            "supported_actions": Array<"cancel" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: int64.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "gift_card_notification.created". */
-    "event_type"?: "gift_card_notification.created";
-});
-/**
- * Delivery history of a gift card notification email: its send attempts and delivery events, and
- * whether more of each exist.
- */
-export type GiftCardNotificationDelivery = {
-    /**
-     * Recent delivery attempts for the notification. maxItems: 20. [] (Value): {@link
-     * GiftCardNotificationDeliveryAttempt}. One attempt to send a gift card notification email,
-     * with its attempt number, status, and start and completion times.
-     */
-    "attempts": Array<GiftCardNotificationDeliveryAttempt>;
-    /**
-     * Recent delivery events for the notification. maxItems: 50. [] (Value): {@link
-     * GiftCardNotificationDeliveryEvent}. A delivery event for a gift card notification email,
-     * such as accepted, delivered, bounced, or dropped, with when it occurred and was received.
-     */
-    "events": Array<GiftCardNotificationDeliveryEvent>;
-    /** Whether the notification has more attempts than `attempts` lists. */
-    "has_more_attempts": boolean;
-    /** Whether the notification has more events than `events` lists. */
-    "has_more_events": boolean;
-};

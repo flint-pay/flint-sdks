@@ -27,26 +27,9 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `note`. `object`: [field definitions](../models/OrderEditCreatedMerchantEvent.md#ordereditcreatedmerchanteventdata-fields-1object). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+Field definitions: [shared fields](OrderEditCanceledMerchantEvent.md#ordereditcanceledmerchanteventdata-fields-1).
 
 ### OrderEditCreatedMerchantEvent.data fields 1.object
 
-The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `note`.
-
-Field definitions: [shared fields](OrderEditCreatedMerchantEventData.md#ordereditcreatedmerchanteventdataobject-fields-1).
-
-### OrderEditCreatedMerchantEvent.data fields 1.object.add_line_items[]
-
-Field definitions: [OrderEditResponse.data.add_line_items[]](../models/OrderEditResponse.md#ordereditresponsedataadd_line_items).
-
-### OrderEditCreatedMerchantEvent.data fields 1.object.charge_refunds[]
-
-Field definitions: [OrderEditPreviewResponse.data.charge_refunds[]](../models/OrderEditPreviewResponse.md#ordereditpreviewresponsedatacharge_refunds).
-
-### OrderEditCreatedMerchantEvent.data fields 1.object.remove_line_items[]
-
-Field definitions: [OrderEditResponse.data.remove_line_items[]](../models/OrderEditResponse.md#ordereditresponsedataremove_line_items).
+Field definitions: [OrderEditCanceledMerchantEvent.data fields 1.object](../models/OrderEditCanceledMerchantEvent.md#ordereditcanceledmerchanteventdata-fields-1object).
 

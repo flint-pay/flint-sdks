@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# UpdateInventoryCountRequestInput to UpdateSettingsRequestInput
+# UpdateDigitalFulfillmentDetails to UpdateReturnResolutionRequest
 
+- [UpdateDigitalFulfillmentDetails](UpdateDigitalFulfillmentDetails.md)
+- [UpdateDigitalFulfillmentDetailsInput](UpdateDigitalFulfillmentDetailsInput.md)
+- [UpdateFulfillmentRequest](UpdateFulfillmentRequest.md)
+- [UpdateFulfillmentRequestInput](UpdateFulfillmentRequestInput.md)
+- [UpdateGiftCardRequest](UpdateGiftCardRequest.md)
+- [UpdateGiftCardRequestInput](UpdateGiftCardRequestInput.md)
+- [UpdateInventoryAllocationPolicyRequest](UpdateInventoryAllocationPolicyRequest.md)
+- [UpdateInventoryAllocationPolicyRequestInput](UpdateInventoryAllocationPolicyRequestInput.md)
+- [UpdateInventoryCountRequest](UpdateInventoryCountRequest.md)
 - [UpdateInventoryCountRequestInput](UpdateInventoryCountRequestInput.md)
 - [UpdateInventoryItemRequest](UpdateInventoryItemRequest.md)
 - [UpdateInventoryItemRequestInput](UpdateInventoryItemRequestInput.md)
@@ -93,13 +102,4 @@
 - [UpdateReturnResolutionLineItemRequest](UpdateReturnResolutionLineItemRequest.md)
 - [UpdateReturnResolutionLineItemRequestInput](UpdateReturnResolutionLineItemRequestInput.md)
 - [UpdateReturnResolutionRequest](UpdateReturnResolutionRequest.md)
-- [UpdateReturnResolutionRequestInput](UpdateReturnResolutionRequestInput.md)
-- [UpdateRiskListRequest](UpdateRiskListRequest.md)
-- [UpdateRiskListRequestInput](UpdateRiskListRequestInput.md)
-- [UpdateRiskRuleRequest](UpdateRiskRuleRequest.md)
-- [UpdateRiskRuleRequestInput](UpdateRiskRuleRequestInput.md)
-- [UpdateServiceFulfillmentDetails](UpdateServiceFulfillmentDetails.md)
-- [UpdateServiceFulfillmentDetailsInput](UpdateServiceFulfillmentDetailsInput.md)
-- [UpdateSettingsRequest](UpdateSettingsRequest.md)
-- [UpdateSettingsRequestInput](UpdateSettingsRequestInput.md)
 

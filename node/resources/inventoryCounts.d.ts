@@ -1,7 +1,8 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
-import type { InventoryCount, InventoryCountListResponse } from '../declarations/types-28.js';
+import type { ClientOptions } from '../declarations/types-7.js';
+import type { InventoryCount } from '../declarations/types-28.js';
 import type {
+    InventoryCountListResponse,
     InventoryCountResponse,
     InventoryCountResult,
     InventoryCountResultResponse,
@@ -37,21 +38,18 @@ export type {
     InventoryCountResponse,
     InventoryCountsGetParams,
     InventoryCountsListParams,
+    InventoryCountListResponse,
     InventoryCountsUpdateParams,
     InventoryLevel,
     InventoryItem,
-    InventoryCountObservationRequestInput
+    InventoryCountObservationProvenance,
+    InventoryCountObservationRequestInput,
+    InventoryCountObservationRequest
 } from '../declarations/types-29.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type {
-    InventoryCount,
-    InventoryCountListResponse,
-    InventoryCountLine,
-    InventoryCountObservationProvenance,
-    InventoryCountObservationRequest
-} from '../declarations/types-28.js';
+export type { InventoryCount, InventoryCountLine } from '../declarations/types-28.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { ApplyInventoryCountRequestInput } from '../declarations/types-0.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
@@ -61,14 +59,14 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-52.j
 export type { CancelInventoryCountRequestInput } from '../declarations/types-4.js';
 export type { CreateInventoryCountRequestInput, CreateInventoryCountRequest } from '../declarations/types-10.js';
 export type { InventorySourceSystem, InventorySourceSystemRequestInput } from '../declarations/types-30.js';
-export type { UpdateInventoryCountRequestInput } from '../declarations/types-66.js';
+export type { UpdateInventoryCountRequestInput } from '../declarations/types-67.js';
 export type { DisputesAcceptParams } from '../declarations/types-23.js';
 export { makeApplyInventoryCountRequest } from '../declarations/types-70.js';
 export { makeCancelInventoryCountRequest } from '../declarations/types-71.js';
 export { makeCreateInventoryCountRequest } from '../declarations/types-73.js';
 export { makeInventoryCountObservationRequest, makeInventorySourceSystemRequest } from '../declarations/types-77.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
-export { makeUpdateInventoryCountRequest } from '../declarations/types-83.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
+export { makeUpdateInventoryCountRequest } from '../declarations/types-84.js';
 export interface InventoryCountsResource {
     /**
  * Sets inventory levels to the counted quantities of an open physical count. Every line needs an

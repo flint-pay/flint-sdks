@@ -1,8 +1,8 @@
-import { d245 as c0 } from '../descriptors/data/12.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d6794 as c1, d6798 as c2, d6799 as c3 } from '../descriptors/data/317.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d245 as d245 } from '../descriptors/data/12.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d248 as c0 } from '../descriptors/data/12.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d6824 as c1, d6828 as c2, d6829 as c3 } from '../descriptors/data/318.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d248 as d248 } from '../descriptors/data/12.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d245;
+const read = d248;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["CreateFeedbackReportRequest"]:c0(),["FeedbackReportingClientRequest"]:c1(),["SharedCodec259"]:c2(),["SharedCodec260"]:c3()}); }
 export { codec as _validate };

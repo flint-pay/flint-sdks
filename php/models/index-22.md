@@ -1,7 +1,17 @@
 [Model index](../MODELS.md)
 
-# PromotionSchedulePatchInput to ReportSucceededEventInput
+# PromotionRefInputPromotionIDInput to ReopenReturnRequestInput
 
+- [PromotionRefInputPromotionIDInput](PromotionRefInputPromotionIDInput.md)
+- [PromotionRefRequestInput](PromotionRefRequestInput.md)
+- [PromotionResponseInput](PromotionResponseInput.md)
+- [PromotionRuleInput](PromotionRuleInput.md)
+- [PromotionRuleGroupInput](PromotionRuleGroupInput.md)
+- [PromotionRuleGroupRequestInput](PromotionRuleGroupRequestInput.md)
+- [PromotionRuleRequestInput](PromotionRuleRequestInput.md)
+- [PromotionRuleValueInput](PromotionRuleValueInput.md)
+- [PromotionRuleValueRequestInput](PromotionRuleValueRequestInput.md)
+- [PromotionScheduleInput](PromotionScheduleInput.md)
 - [PromotionSchedulePatchInput](PromotionSchedulePatchInput.md)
 - [PromotionScheduleRequestInput](PromotionScheduleRequestInput.md)
 - [PromotionSettingsInput](PromotionSettingsInput.md)
@@ -92,14 +102,4 @@
 - [RemoveSubscriptionPromotionsRequestInput](RemoveSubscriptionPromotionsRequestInput.md)
 - [RenewSubscriptionRequestInput](RenewSubscriptionRequestInput.md)
 - [ReopenReturnRequestInput](ReopenReturnRequestInput.md)
-- [ReopenReturnResponseInput](ReopenReturnResponseInput.md)
-- [ReportInput](ReportInput.md)
-- [ReportFailedInput](ReportFailedInput.md)
-- [ReportFailedEventInput](ReportFailedEventInput.md)
-- [ReportInventoryTransferLossRequestInput](ReportInventoryTransferLossRequestInput.md)
-- [ReportListResponseInput](ReportListResponseInput.md)
-- [ReportPendingInput](ReportPendingInput.md)
-- [ReportResponseInput](ReportResponseInput.md)
-- [ReportSucceededInput](ReportSucceededInput.md)
-- [ReportSucceededEventInput](ReportSucceededEventInput.md)
 

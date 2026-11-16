@@ -2,19 +2,19 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read MerchantAccountSessionClientSession $client_session
+ * @property-read ?MerchantAccountSessionClientSession $client_session
  * @property-read list<string> $components
  * @property-read MerchantAccountSessionEffectivePolicy $effective_policy
- * @property-read string $launch_token
+ * @property-read ?string $launch_token
  * @property-read string $launch_token_expires_at
  * Presence-aware response; omitted optional fields return null. */
 final class MerchantAccountSession extends Model {
-    /** @param array{'client_session': mixed, 'components': list<string>, 'effective_policy': mixed, 'launch_token': string, 'launch_token_expires_at': string, ...}|object $values */
+    /** @param array{'client_session'?: mixed, 'components': list<string>, 'effective_policy': mixed, 'launch_token'?: string, 'launch_token_expires_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantAccountSession')); }
-    /** Browser initialization data required to mount embedded account-management components. These instructions are not merchant account resource state. Short-lived browser initialization data for an embedded merchant account session.
-     * @return MerchantAccountSessionClientSession
+    /** Browser initialization data required to mount embedded account-management components. These instructions are not merchant account resource state. Returned only to the credential that created it, and omitted when another credential replays the request. Short-lived browser initialization data for an embedded merchant account session.
+     * @return ?MerchantAccountSessionClientSession
      */
-    public function getClientSession(): MerchantAccountSessionClientSession { return $this->get('client_session'); }
+    public function getClientSession(): ?MerchantAccountSessionClientSession { return $this->get('client_session'); }
     public function hasClientSession(): bool { return $this->has('client_session'); }
     /** The components the session authorizes, in catalog order. minItems: 1. [] enum: "account_onboarding", "account_management", "payouts", "balances", "tax_documents", "notification_banner", "payments". [] (Value): string.  Value enum: "account_onboarding", "account_management", "payouts", "balances", "tax_documents", "notification_banner", "payments".
      * @return list<string>
@@ -26,10 +26,10 @@ final class MerchantAccountSession extends Model {
      */
     public function getEffectivePolicy(): MerchantAccountSessionEffectivePolicy { return $this->get('effective_policy'); }
     public function hasEffectivePolicy(): bool { return $this->has('effective_policy'); }
-    /** Signed Flint token to exchange at POST /v1/merchant-account-session-refreshes. Each new refresh operation rotates this token; a same-key retry replays the original token. The caller must still authenticate and authorize the human using the session.
-     * @return string
+    /** Signed Flint token to exchange at POST /v1/merchant-account-session-refreshes. Each new refresh operation rotates this token; a same-key retry replays the original token. The caller must still authenticate and authorize the human using the session. Returned only to the credential that created it, and omitted when another credential replays the request.
+     * @return ?string
      */
-    public function getLaunchToken(): string { return $this->get('launch_token'); }
+    public function getLaunchToken(): ?string { return $this->get('launch_token'); }
     public function hasLaunchToken(): bool { return $this->has('launch_token'); }
     /** Expiry of launch_token in UTC. After expiry, create a new merchant account session. Format: date-time.
      * @return string

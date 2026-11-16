@@ -1,8 +1,7 @@
-import type { MerchantWebhookEnvelope } from './types-38.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-38.js';
+import type { PartnerWebhookEnvelope } from './types-44.js';
 import type { WebhookDeliveryProfile } from './types-69.js';
 import type { ResponseMeta } from './types-54.js';
-import type { PartnerWebhookEnvelope } from './types-44.js';
-import type { DeliveryProfile, DeliveryPendingCallerRateRequest, DeliveryOptionProjection, DeliveryPlan } from './types-19.js';
 import type { InputValue } from '../runtime.js';
 import type { AssignToUnconfiguredDeliveryProfileRequestInput, Address } from './types-0.js';
 import type { CreateDeliveryProfileRequestInput } from './types-8.js';
@@ -16,10 +15,164 @@ import type {
     DeliveryDistance,
     DeliveryDistanceRequestInput
 } from './types-17.js';
+import type { DeliveryPendingCallerRateRequest, DeliveryOptionProjection, DeliveryPlan } from './types-19.js';
 import type { BuyerInstructionsConfig } from './types-2.js';
 import type { MoneyValue } from './types-39.js';
 import type { CreateCheckoutDeliveryQuoteRequestInput } from './types-7.js';
 import type { DisputesAcceptParams } from './types-23.js';
+/** Reusable delivery rules assigned to catalog items. */
+export type DeliveryProfile = {
+    /**
+     * Current delivery requirement and grouping policy. Whether delivery planning applies to items
+     * under a delivery profile, and if so the allowed delivery types, resolution mode, origin
+     * policy, and grouping and splitting rules.
+     */
+    "configuration": DeliveryProfileConfiguration;
+    /** Time the profile was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Immutable revision used for new line-item snapshots. Example:
+     * "dprofr_01KEZF7C00K1P3FXGHCF46YQ1F".
+     */
+    "current_delivery_profile_revision_id": string;
+    /** Stable delivery profile ID. Example: "dprof_01KEZF7C0020J13FQYNY9854R0". */
+    "delivery_profile_id": string;
+    /**
+     * Read-only catalog and delivery-method compatibility diagnostics. Read-only coverage checks
+     * for a delivery profile, such as how many active Locations have no compatible delivery method
+     * and how many countries its zones name.
+     */
+    "diagnostics"?: DeliveryProfileDiagnostics;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /** True only when this profile is the current physical catalog default. */
+    "is_default": boolean;
+    /**
+     * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with
+     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
+     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /** Merchant-facing profile name. */
+    "name": string;
+    /** Current profile lifecycle status. Value enum: "active", "archived". */
+    "status": "active" | "archived" | (string & {});
+    /**
+     * Progress of the profile's latest bulk assignment through `POST
+     * /v1/delivery-profiles/{delivery_profile_id}/assign-to-unconfigured`. `null` when the profile
+     * has never had one. Omitted when the response is a write response or a webhook object;
+     * retrieve and list responses include it. Flint updates it as the assignment's runs commit,
+     * without changing the profile's `version` or sending `delivery_profile.updated`; each batch's
+     * `product_variant.updated`, `product.updated`, and `bundle.updated` events report the items
+     * it assigned. anyOf[1] (Value): {@link DeliveryProfileUnconfiguredAssignment}. Progress of a
+     * delivery profile's latest bulk assignment to catalog items that have no delivery profile. It
+     * moves from `processing` to `completed`, to `canceled` when it stops early, or to `failed`
+     * when Flint can't finish it. anyOf[2] (Value): null.
+     */
+    "unconfigured_assignment"?: ((DeliveryProfileUnconfiguredAssignment) | (null));
+    /** Time the profile last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /** Optimistic-concurrency version for profile writes. Format: uint64. minimum: 1. */
+    "version": number;
+};
+export type DeliveryProfileArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookDeliveryProfile;
+        "previous_attributes"?: Partial<WebhookDeliveryProfile>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "delivery_profile.archived";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookDeliveryProfile;
+        "previous_attributes"?: Partial<WebhookDeliveryProfile>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "delivery_profile.archived";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "delivery_profile.archived";
+});
+/**
+ * The `delivery_profile.archived` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type DeliveryProfileArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookDeliveryProfile}. The resource snapshot, without
+     * expansions. Webhooks omit these fields: `diagnostics`, `unconfigured_assignment`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `diagnostics`,
+         * `unconfigured_assignment`.
+         */
+        "object": WebhookDeliveryProfile;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<WebhookDeliveryProfile>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "delivery_profile.archived". */
+    "event_type"?: "delivery_profile.archived";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
 /**
  * The `delivery_profile.archived` webhook payload for the `merchant` event source. Fields shared
  * by merchant webhook payloads.
@@ -2914,112 +3067,6 @@ export type DeliveryRateCallbackConfiguration = {
      * Default: "reject". Value enum: "reject".
      */
     "redirect_policy"?: "reject" | (string & {});
-    /**
-     * Maximum time to wait for the callback response, in seconds. Defaults to 2; accepts 0.1
-     * through 10. minimum: 0.1. maximum: 10. Default: 2.
-     */
-    "request_timeout_seconds"?: number;
-    /** HTTPS URL that Flint calls to get a delivery rate. minLength: 1. */
-    "url": string;
-};
-/**
- * Patch object: fields you send are applied, fields you omit are unchanged. Null restores a key's
- * default, as each field describes. The result must be a configuration you could create. An empty
- * configuration is invalid. Publishes a new immutable revision, even when the values are
- * unchanged, and requires expected_version. minProperties: 1.
- */
-export type DeliveryRateCallbackConfigurationPatchRequest = {
-    /**
-     * Maximum callback request body size in bytes. Defaults to 262144; accepts 1 through 1048576.
-     * Null restores 262144 bytes. Format: int64. minimum: 1. maximum: 1048576.
-     */
-    "maximum_request_bytes"?: number | null;
-    /**
-     * Maximum callback response body size in bytes. Defaults to 262144; accepts 1 through 1048576.
-     * Null restores 262144 bytes. Format: int64. minimum: 1. maximum: 1048576.
-     */
-    "maximum_response_bytes"?: number | null;
-    /**
-     * Whether delivery previews call this callback. Previews call it only when this setting and
-     * `preview_enabled` on the delivery method are both `true`. Defaults to `false`. Null restores
-     * false.
-     */
-    "preview_enabled"?: boolean | null;
-    /**
-     * What Flint does when the callback responds with an HTTP redirect. Defaults to `reject`. Null
-     * restores reject. Value enum: "reject", null.
-     */
-    "redirect_policy"?: "reject" | null | (string & {}) | null;
-    /**
-     * Maximum time to wait for the callback response, in seconds. Defaults to 2; accepts 0.1
-     * through 10. Null restores 2 seconds. minimum: 0.1. maximum: 10.
-     */
-    "request_timeout_seconds"?: number | null;
-    /** HTTPS URL that Flint calls to get a delivery rate. Null is invalid. minLength: 1. */
-    "url"?: string;
-};
-/**
- * Patch object: fields you send are applied, fields you omit are unchanged. Null restores a key's
- * default, as each field describes. The result must be a configuration you could create. An empty
- * configuration is invalid. Publishes a new immutable revision, even when the values are
- * unchanged, and requires expected_version. minProperties: 1.
- */
-export type DeliveryRateCallbackConfigurationPatchRequestInput = {
-    /**
-     * Maximum callback request body size in bytes. Defaults to 262144; accepts 1 through 1048576.
-     * Null restores 262144 bytes. Format: int64. minimum: 1. maximum: 1048576.
-     */
-    "maximum_request_bytes"?: number | null;
-    /**
-     * Maximum callback response body size in bytes. Defaults to 262144; accepts 1 through 1048576.
-     * Null restores 262144 bytes. Format: int64. minimum: 1. maximum: 1048576.
-     */
-    "maximum_response_bytes"?: number | null;
-    /**
-     * Whether delivery previews call this callback. Previews call it only when this setting and
-     * `preview_enabled` on the delivery method are both `true`. Defaults to `false`. Null restores
-     * false.
-     */
-    "preview_enabled"?: boolean | null;
-    /**
-     * What Flint does when the callback responds with an HTTP redirect. Defaults to `reject`. Null
-     * restores reject. Value enum: "reject", null.
-     */
-    "redirect_policy"?: "reject" | null;
-    /**
-     * Maximum time to wait for the callback response, in seconds. Defaults to 2; accepts 0.1
-     * through 10. Null restores 2 seconds. minimum: 0.1. maximum: 10.
-     */
-    "request_timeout_seconds"?: number | null;
-    /** HTTPS URL that Flint calls to get a delivery rate. Null is invalid. minLength: 1. */
-    "url"?: string;
-};
-/**
- * Settings for a delivery rate callback: the endpoint `url` Flint calls, request timeout, request
- * and response size limits, redirect policy, and whether previews can use it.
- */
-export type DeliveryRateCallbackConfigurationRequestInput = {
-    /**
-     * Maximum callback request body size in bytes. Defaults to 262144; accepts 1 through 1048576.
-     * Format: int64. minimum: 1. maximum: 1048576. Default: 262144.
-     */
-    "maximum_request_bytes"?: number;
-    /**
-     * Maximum callback response body size in bytes. Defaults to 262144; accepts 1 through 1048576.
-     * Format: int64. minimum: 1. maximum: 1048576. Default: 262144.
-     */
-    "maximum_response_bytes"?: number;
-    /**
-     * Whether delivery previews call this callback. Previews call it only when this setting and
-     * `preview_enabled` on the delivery method are both `true`. Defaults to `false`. Default:
-     * false.
-     */
-    "preview_enabled"?: boolean;
-    /**
-     * What Flint does when the callback responds with an HTTP redirect. Defaults to `reject`.
-     * Default: "reject". Value enum: "reject".
-     */
-    "redirect_policy"?: "reject";
     /**
      * Maximum time to wait for the callback response, in seconds. Defaults to 2; accepts 0.1
      * through 10. minimum: 0.1. maximum: 10. Default: 2.

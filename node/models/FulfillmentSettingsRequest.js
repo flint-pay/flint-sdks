@@ -1,7 +1,7 @@
-import { d667 as c0 } from '../descriptors/data/37.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d667 as d667 } from '../descriptors/data/37.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d670 as c0 } from '../descriptors/data/36.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d670 as d670 } from '../descriptors/data/36.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d667;
+const read = d670;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["FulfillmentSettingsRequest"]:c0()}); }
 export { codec as _validate };

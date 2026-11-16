@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# CreatePriceListPricesResponse to CreateSubscriptionDeliveryMigrationRequest
+# CreatePickupFulfillmentDetailsInput to CreateSmartReaderRequestInput
 
+- [CreatePickupFulfillmentDetailsInput](CreatePickupFulfillmentDetailsInput.md)
+- [CreatePriceListPricesRequest](CreatePriceListPricesRequest.md)
+- [CreatePriceListPricesRequestInput](CreatePriceListPricesRequestInput.md)
 - [CreatePriceListPricesResponse](CreatePriceListPricesResponse.md)
 - [CreatePriceListPricesResult](CreatePriceListPricesResult.md)
 - [CreatePriceListRequest](CreatePriceListRequest.md)
@@ -99,7 +102,4 @@
 - [CreateShipmentRequestReturnInput](CreateShipmentRequestReturnInput.md)
 - [CreateSmartReaderRequest](CreateSmartReaderRequest.md)
 - [CreateSmartReaderRequestInput](CreateSmartReaderRequestInput.md)
-- [CreateSubscriptionAccessLinkRequest](CreateSubscriptionAccessLinkRequest.md)
-- [CreateSubscriptionAccessLinkRequestInput](CreateSubscriptionAccessLinkRequestInput.md)
-- [CreateSubscriptionDeliveryMigrationRequest](CreateSubscriptionDeliveryMigrationRequest.md)
 

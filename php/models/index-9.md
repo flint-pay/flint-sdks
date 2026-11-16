@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# DeliveryPickupAvailabilityInput to DeliveryRateCallbackWithSecretResponseInput
+# DeliveryMethodUpdatedInstalledMerchantsEventInput to DeliveryRateCallbackTestDeliveryResponseInput
 
+- [DeliveryMethodUpdatedInstalledMerchantsEventInput](DeliveryMethodUpdatedInstalledMerchantsEventInput.md)
+- [DeliveryMethodUpdatedMerchantEventInput](DeliveryMethodUpdatedMerchantEventInput.md)
+- [DeliveryOptionProjectionInput](DeliveryOptionProjectionInput.md)
+- [DeliveryPendingCallerRateRequestInput](DeliveryPendingCallerRateRequestInput.md)
 - [DeliveryPickupAvailabilityInput](DeliveryPickupAvailabilityInput.md)
 - [DeliveryPickupAvailabilityCandidateOutcomeInput](DeliveryPickupAvailabilityCandidateOutcomeInput.md)
 - [DeliveryPickupAvailabilityDiagnosticInput](DeliveryPickupAvailabilityDiagnosticInput.md)
@@ -98,8 +102,4 @@
 - [DeliveryRateCallbackResponseInput](DeliveryRateCallbackResponseInput.md)
 - [DeliveryRateCallbackTestDeliveryInput](DeliveryRateCallbackTestDeliveryInput.md)
 - [DeliveryRateCallbackTestDeliveryResponseInput](DeliveryRateCallbackTestDeliveryResponseInput.md)
-- [DeliveryRateCallbackUpdatedInstalledMerchantsEventInput](DeliveryRateCallbackUpdatedInstalledMerchantsEventInput.md)
-- [DeliveryRateCallbackUpdatedMerchantEventInput](DeliveryRateCallbackUpdatedMerchantEventInput.md)
-- [DeliveryRateCallbackWithSecretInput](DeliveryRateCallbackWithSecretInput.md)
-- [DeliveryRateCallbackWithSecretResponseInput](DeliveryRateCallbackWithSecretResponseInput.md)
 

@@ -65,8 +65,6 @@ Resource, collection, or operation result returned by this request. A customer's
 | `payment_method_id` | Required | string or null | Saved payment method used for renewal charges. Null when no card is bound. Bind a card to this subscription with PATCH; changing the customer's default alone does not bind it. Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. |
 | `promotions` | Required | Array of [SubscriptionPromotion](../models/SubscriptionPromotion.md#subscriptionpromotion) | Recurring promotions applying to the next charged cycle. Scheduled attachments are listed in scheduled_promotions. Empty when none apply; signup-only and exhausted promotions are excluded. `promotions[]`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedatapromotions). |
 | `prorate_first_period` | Required | boolean | Whether this subscription was created to prorate its first anchored paid period. Set at creation and never changes; starting on the anchor day still bills a normal full period. |
-| `quantity` | Required | integer | How many of each line the subscription bills each period, as a whole number; fractional quantities are not supported. A change applies from the next renewal that has not been paid. Format: `int32`. |
-| `quantity_options` | Optional | Array of integer | Quantities this subscription can be changed to, from 1 to 100, in ascending order. A change to quantity must send one of these values, and the request is refused otherwise. A buyer can change quantity only when more than one is listed. For a subscription on a plan, the list follows the plan's current quantity_options. A subscription that came from an offer keeps the choices the offer had at signup. [1] when no other quantity is offered. maxItems: `10`. uniqueItems: `true`. Items: minimum: `1`. maximum: `100`. |
 | `recurring_subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | What one billing period's items cost before discounts, shipping, and tax: each line's price with modifiers, times quantity. It changes when items, quantity, or the plan change; editing the plan doesn't change it. For the next charge, use a subscription preview in next_renewal mode. `null` when a cancellation succeeds but Flint couldn't load the billing snapshot afterward, so the cancel response returns it as null. Retrieve the subscription again to get it. |
 | `remaining_cycles` | Required | integer or null | Charges left for a cycle limit, bounded by an earlier scheduled cancellation. Null when there is no cycle limit or the subscription is canceled. Format: `uint64`. minimum: `0`. |
 | `remaining_prepaid_deliveries` | Required | integer | Paid deliveries whose delivery order Flint hasn't created yet. A paid period starts with deliveries_per_period minus one. When delivery_hold is present and this count is positive, fixing delivery releases an already-paid delivery with shipping waived and no new charge. A next_renewal preview still estimates the next paid billing cycle. Skips, holds, and pauses consume none. Frozen on cancellation for manual refunds. Format: `int32`. minimum: `0`. maximum: `23`. |
@@ -236,7 +234,7 @@ An item included in a customer's recurring purchase.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `allow_quantity_adjustment` | Required | boolean | Whether the frozen terms allow the buyer to adjust this line quantity. |
-| `base_subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Unit price multiplied by this line's `quantity`, before modifiers, discounts, and tax. It doesn't include the subscription's `quantity`. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `base_subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Unit price multiplied by this line's `quantity`, before modifiers, discounts, and tax. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `bundle_components` | Optional | Array of [BundleComponent](../models/BundleComponent.md#bundlecomponent) | Components of a bundle line, recorded when the line joined the subscription. `bundle_components[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_components). |
 | `bundle_id` | Optional | string | ID of the bundle the line bills. Present on `bundle` lines. Example: `"bun_01KEZF7C00TQ6S76Z6CVQF5SVN"`. |
 | `categories` | Optional | Array of [CategoryReference](../models/CategoryReference.md#categoryreference) | Catalog categories of the item, recorded when the line joined the subscription. `categories[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemscategories). |
@@ -360,7 +358,6 @@ Frozen target terms for the next charged renewal. Null when no plan change is sc
 | `billing_interval_count` | Conditional | integer | Number of target billing_interval units between charges. Format: `int32`. |
 | `effective_at` | Conditional | string or null | Expected boundary from the current billing schedule. Null when the subscription is paused without a scheduled resume or is waiting for an external billing date. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `line_items` | Conditional | Array of [SubscriptionLineItem](../models/SubscriptionLineItem.md#subscriptionlineitem) | Frozen target lines, including buyer quantity permissions and bounds. `line_items[]`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedataline_items). |
-| `quantity` | Conditional | integer | The frozen target subscription quantity. Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `recurring_subtotal_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Frozen item subtotal per target billing period, before discounts, shipping, and tax. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `requested_by` | Conditional | string | Who scheduled the plan change. Values: `"buyer"`, `"merchant"`. |
 | `scheduled_at` | Conditional | string | When the plan change was scheduled. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -370,13 +367,13 @@ Frozen target terms for the next charged renewal. Null when no plan change is sc
 
 anyOf SubscriptionScheduledPlanChange: Frozen target terms that apply at the next charged renewal..
 
-- Required: `billing_interval`, `billing_interval_count`, `effective_at`, `line_items`, `quantity`, `recurring_subtotal_money`, `requested_by`, `scheduled_at`, `subscription_plan_id`.
+- Required: `billing_interval`, `billing_interval_count`, `effective_at`, `line_items`, `recurring_subtotal_money`, `requested_by`, `scheduled_at`, `subscription_plan_id`.
 
 ### SubscriptionResponse.data.scheduled_plan_change variant 2
 
 anyOf variant 2.
 
-- Undeclared: `billing_interval`, `billing_interval_count`, `effective_at`, `line_items`, `quantity`, `recurring_subtotal_money`, `requested_by`, `scheduled_at`, `subscription_plan_id`.
+- Undeclared: `billing_interval`, `billing_interval_count`, `effective_at`, `line_items`, `recurring_subtotal_money`, `requested_by`, `scheduled_at`, `subscription_plan_id`.
 - Value shape: null. Frozen target terms for the next charged renewal. Null when no plan change is scheduled. Cancel with scheduled_plan_change: null on PATCH; replace through change-plan. 
 
 ### SubscriptionResponse.data.scheduled_plan_change variant 1.line_items[]
@@ -414,13 +411,13 @@ Field definitions: [shared fields](OrderResponse.md#orderresponsedatasubscriptio
 anyOf ExpandedSubscriptionPlanSummary: A subscription plan's summary fields, including name, billing interval, currency, and status, returned when the plan is expanded..
 
 - Required: `billing_interval`, `billing_interval_count`, `currency`, `name`, `status`, `subscription_plan_id`.
-- Optional: `billing_interval_options`, `created_at`, `description`, `line_items`, `quantity_options`, `setup_fee_money`, `trial_period_days`, `updated_at`.
+- Optional: `billing_interval_options`, `created_at`, `description`, `line_items`, `setup_fee_money`, `trial_period_days`, `updated_at`.
 
 ### SubscriptionResponse.data.subscription_plan variant 2
 
 anyOf variant 2.
 
-- Undeclared: `billing_interval`, `billing_interval_count`, `billing_interval_options`, `created_at`, `currency`, `description`, `line_items`, `name`, `quantity_options`, `setup_fee_money`, `status`, `subscription_plan_id`, `trial_period_days`, `updated_at`.
+- Undeclared: `billing_interval`, `billing_interval_count`, `billing_interval_options`, `created_at`, `currency`, `description`, `line_items`, `name`, `setup_fee_money`, `status`, `subscription_plan_id`, `trial_period_days`, `updated_at`.
 - Value shape: null. Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. 
 
 ### SubscriptionResponse.data.subscription_plan variant 1.line_items[]

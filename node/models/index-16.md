@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# GiftCardVersionRequestInput to InventoryReservationHoldExpiredInstalledMerchantsEvent
+# GiftCardTransactionListResponse to InventoryReservationConsumedMerchantEvent
 
+- [GiftCardTransactionListResponse](GiftCardTransactionListResponse.md)
+- [GiftCardUpdatedInstalledMerchantsEvent](GiftCardUpdatedInstalledMerchantsEvent.md)
+- [GiftCardUpdatedMerchantEvent](GiftCardUpdatedMerchantEvent.md)
 - [GiftCardVersionRequestInput](GiftCardVersionRequestInput.md)
 - [GuestPurchaseLink](GuestPurchaseLink.md)
 - [GuestPurchaseLinkResponse](GuestPurchaseLinkResponse.md)
@@ -99,7 +102,4 @@
 - [InventoryReservationCommittedMerchantEvent](InventoryReservationCommittedMerchantEvent.md)
 - [InventoryReservationConsumedInstalledMerchantsEvent](InventoryReservationConsumedInstalledMerchantsEvent.md)
 - [InventoryReservationConsumedMerchantEvent](InventoryReservationConsumedMerchantEvent.md)
-- [InventoryReservationCreatedInstalledMerchantsEvent](InventoryReservationCreatedInstalledMerchantsEvent.md)
-- [InventoryReservationCreatedMerchantEvent](InventoryReservationCreatedMerchantEvent.md)
-- [InventoryReservationHoldExpiredInstalledMerchantsEvent](InventoryReservationHoldExpiredInstalledMerchantsEvent.md)
 

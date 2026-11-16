@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $url
  * Presence-aware input; omitted fields throw when accessed. */
 final class AccessLinkInput extends Model {
-    /** @param array{'expires_at': string|\DateTimeInterface, 'purpose': string, 'return_url': string|null, 'url': string, ...}|object $values */
+    /** @param array{'expires_at': string|\DateTimeInterface, 'purpose': string, 'return_url': string|null, 'url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AccessLinkInput')); }
     /** When the link stops opening what its purpose describes. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
@@ -28,7 +28,7 @@ final class AccessLinkInput extends Model {
      */
     public function getReturnUrl(): string|null { return $this->get('return_url'); }
     public function hasReturnUrl(): bool { return $this->has('return_url'); }
-    /** The link to send the person to. It carries a bearer credential, so anyone with it can open what its purpose describes until expires_at or until it reaches its open limit. Customer account links use the merchant's customer account host; onboarding links use Flint's dashboard host and carry the credential in the URL fragment. Format: uri. Example: "https://example.com/receipt".
+    /** The link to send the person to. It carries a bearer credential, so anyone with it can open what its purpose describes until expires_at or until it reaches its open limit. Customer account links use the merchant's customer account host; onboarding links use Flint's dashboard host and carry the credential in the URL fragment. Returned only to the credential that created it, and omitted when another credential replays the request. Format: uri. Example: "https://example.com/receipt".
      * @return string
      * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
      */

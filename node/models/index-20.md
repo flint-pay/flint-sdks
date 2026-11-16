@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# MerchantBillingBalanceUpdatedEvent to Order
+# MerchantBillingBalance to OnboardingVerifyEmailRequestInput
 
+- [MerchantBillingBalance](MerchantBillingBalance.md)
+- [MerchantBillingBalanceListResponse](MerchantBillingBalanceListResponse.md)
+- [MerchantBillingBalanceResponse](MerchantBillingBalanceResponse.md)
 - [MerchantBillingBalanceUpdatedEvent](MerchantBillingBalanceUpdatedEvent.md)
 - [MerchantBillingEntry](MerchantBillingEntry.md)
 - [MerchantBillingEntryListResponse](MerchantBillingEntryListResponse.md)
@@ -99,7 +102,4 @@
 - [OnboardingStateResponse](OnboardingStateResponse.md)
 - [OnboardingVerifyEmailRequest](OnboardingVerifyEmailRequest.md)
 - [OnboardingVerifyEmailRequestInput](OnboardingVerifyEmailRequestInput.md)
-- [OnboardingVerifyEmailResponse](OnboardingVerifyEmailResponse.md)
-- [OnboardingVerifyEmailResult](OnboardingVerifyEmailResult.md)
-- [Order](Order.md)
 

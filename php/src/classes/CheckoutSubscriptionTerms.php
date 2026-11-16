@@ -15,8 +15,6 @@ namespace Flint;
  * @property-read bool $gifts_enabled
  * @property-read list<CheckoutSubscriptionTermsLineItemsItem> $line_items
  * @property-read string $plan_name
- * @property-read int $quantity
- * @property-read list<int> $quantity_options
  * @property-read ?CheckoutSubscriptionRecurringShipping $recurring_shipping
  * @property-read MoneyValue $recurring_total_money
  * @property-read ?MoneyValue $setup_fee_money
@@ -24,7 +22,7 @@ namespace Flint;
  * @property-read ?int $trial_period_days
  * Presence-aware response; omitted optional fields return null. */
 final class CheckoutSubscriptionTerms extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<mixed>, 'contract_term_months'?: int, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'delivery_required': bool, 'early_termination_fee_money'?: mixed, 'gift_recipient': mixed, 'gifts_enabled': bool, 'line_items': list<object{'allow_quantity_adjustment': bool, 'max_quantity': int, 'min_quantity': int, 'name': string, 'quantity': int, 'subscription_plan_line_item_id'?: string, 'unit_price_money': mixed}>, 'plan_name': string, 'quantity': int, 'quantity_options': list<int>, 'recurring_shipping'?: mixed, 'recurring_total_money': mixed, 'setup_fee_money'?: mixed, 'subscription_plan_id': string, 'trial_period_days'?: int, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<mixed>, 'contract_term_months'?: int, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'delivery_required': bool, 'early_termination_fee_money'?: mixed, 'gift_recipient': mixed, 'gifts_enabled': bool, 'line_items': list<object{'allow_quantity_adjustment': bool, 'max_quantity': int, 'min_quantity': int, 'name': string, 'quantity': int, 'subscription_plan_line_item_id'?: string, 'unit_price_money': mixed}>, 'plan_name': string, 'recurring_shipping'?: mixed, 'recurring_total_money': mixed, 'setup_fee_money'?: mixed, 'subscription_plan_id': string, 'trial_period_days'?: int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSubscriptionTerms')); }
     /** Unit of the billing period this checkout currently charges on. It starts as the interval chosen when the checkout session was created, or the plan's default when none was chosen, and changes when the buyer picks another option. Read with `billing_interval_count`. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -91,16 +89,6 @@ final class CheckoutSubscriptionTerms extends Model {
      */
     public function getPlanName(): string { return $this->get('plan_name'); }
     public function hasPlanName(): bool { return $this->has('plan_name'); }
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32.
-     * @return int
-     */
-    public function getQuantity(): int { return $this->get('quantity'); }
-    public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** Quantities the plan offered when the session was created, in ascending order. The same values as the plan's `quantity_options`. Flint accepts only a subscription quantity of 1. minItems: 1. [] (Value): integer. Format: int32.
-     * @return list<int>
-     */
-    public function getQuantityOptions(): array { return $this->get('quantity_options'); }
-    public function hasQuantityOptions(): bool { return $this->has('quantity_options'); }
     /** Shipping that renews with each charge, for the delivery method the buyer chose. Omitted when no delivery method applies to the plan's lines. Recurring shipping charged on a checkout's subscription: the delivery method name, whether the price is fixed or quoted, and the amount.
      * @return ?CheckoutSubscriptionRecurringShipping
      */

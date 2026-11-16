@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# CustomerDeletedInstalledMerchantsEvent to DeliveryEstimateRule
+# CustomerAddressResponse to DeliveryEligibilityExpressionRequest
 
+- [CustomerAddressResponse](CustomerAddressResponse.md)
+- [CustomerCreatedInstalledMerchantsEvent](CustomerCreatedInstalledMerchantsEvent.md)
+- [CustomerCreatedMerchantEvent](CustomerCreatedMerchantEvent.md)
 - [CustomerDeletedInstalledMerchantsEvent](CustomerDeletedInstalledMerchantsEvent.md)
 - [CustomerDeletedMerchantEvent](CustomerDeletedMerchantEvent.md)
 - [CustomerDeletionRequest](CustomerDeletionRequest.md)
@@ -99,7 +102,4 @@
 - [DeliveryDistanceUnitPriceRequestInput](DeliveryDistanceUnitPriceRequestInput.md)
 - [DeliveryEligibilityExpression](DeliveryEligibilityExpression.md)
 - [DeliveryEligibilityExpressionRequest](DeliveryEligibilityExpressionRequest.md)
-- [DeliveryEligibilityExpressionRequestInput](DeliveryEligibilityExpressionRequestInput.md)
-- [DeliveryEligibilityMismatch](DeliveryEligibilityMismatch.md)
-- [DeliveryEstimateRule](DeliveryEstimateRule.md)
 

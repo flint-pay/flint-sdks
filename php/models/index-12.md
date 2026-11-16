@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# GetReturnPolicyRevisionResponseInput to InventoryAdjustmentLineInput
+# GetReturnDispositionResponseInput to InlineModifierGroupRequestInput
 
+- [GetReturnDispositionResponseInput](GetReturnDispositionResponseInput.md)
+- [GetReturnInspectionResponseInput](GetReturnInspectionResponseInput.md)
+- [GetReturnLineItemResponseInput](GetReturnLineItemResponseInput.md)
+- [GetReturnPolicyResponseInput](GetReturnPolicyResponseInput.md)
 - [GetReturnPolicyRevisionResponseInput](GetReturnPolicyRevisionResponseInput.md)
 - [GetReturnReasonResponseInput](GetReturnReasonResponseInput.md)
 - [GetReturnReceiptResponseInput](GetReturnReceiptResponseInput.md)
@@ -98,8 +102,4 @@
 - [ImageRequestInput](ImageRequestInput.md)
 - [InitialGiftCardFundingInput](InitialGiftCardFundingInput.md)
 - [InlineModifierGroupRequestInput](InlineModifierGroupRequestInput.md)
-- [InventoryActionRequiredInput](InventoryActionRequiredInput.md)
-- [InventoryAdjustmentInput](InventoryAdjustmentInput.md)
-- [InventoryAdjustmentConditionChangeLineRequestInput](InventoryAdjustmentConditionChangeLineRequestInput.md)
-- [InventoryAdjustmentLineInput](InventoryAdjustmentLineInput.md)
 

@@ -2,7 +2,7 @@
 
 ## CreateSubscriptionPreviewRequestQuantityChange
 
-The `quantity_change` variant of `CreateSubscriptionPreviewRequest`.
+
 
 
 
@@ -10,24 +10,29 @@ The `quantity_change` variant of `CreateSubscriptionPreviewRequest`.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `billing_starts` | Required | string | Charge the prorated difference now while keeping the period and anchor. Values: `"prorated_now"`. |
-| `expected_version` | Optional | integer | Reject the request if the subscription version has changed. Format: `uint64`. minimum: `1`. |
-| `line_items` | Conditional | Array of [SubscriptionQuantityChangeLineItemRequest](../models/SubscriptionQuantityChangeLineItemRequest.md#subscriptionquantitychangelineitemrequest) | Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their quantities. Send quantity or line_items. minItems: `1`. maxItems: `50`. |
-| `mode` | Required | string | The kind of subscription pricing estimate to create. Values: `"quantity_change"`. |
-| `quantity` | Conditional | integer | The whole-number subscription multiplier; fractional quantities are not supported. Validated as on subscription PATCH. Omit to keep its current value. Send quantity or line_items. minimum: `1`. maximum: `1`. |
-| `subscription_id` | Required | string | The subscription whose quantities will change. minLength: `1`. pattern: `^sub_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. |
+| `billing_starts` | Required | string | Values: `"prorated_now"`. |
+| `expected_version` | Optional | integer | Format: `uint64`. minimum: `1`. |
+| `line_items` | Required | Array of [SubscriptionQuantityChangeLineItemRequest](../models/SubscriptionQuantityChangeLineItemRequest.md#subscriptionquantitychangelineitemrequest) | minItems: `1`. maxItems: `50`. |
+| `mode` | Required | string | Values: `"quantity_change"`. |
+| `subscription_id` | Required | string | minLength: `1`. pattern: `^sub_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. |
 
 ### CreateSubscriptionPreviewRequestQuantityChange variant 1: `billing_starts` = `"prorated_now"`, `mode` = `"quantity_change"`
 
-anyOf variant 1.
+anyOf CreateMeSubscriptionPreviewRequestQuantityChange: Declared schema CreateMeSubscriptionPreviewRequestQuantityChange. The `quantity_change` variant of `CreateMeSubscriptionPreviewRequest`..
 
-- Required: `quantity`.
-- Optional: `line_items`.
+- Constraints for `billing_starts`: When the quantity change is billed. Previews price only prorated_now; period_end changes are billed at the next renewal. Values: `"prorated_now"`.
+- Constraints for `expected_version`: Reject the preview if the subscription version has changed. Send the same value to change-quantity.
+- Constraints for `line_items`: The frozen adjustable subscription line and its quantity, within min_quantity and max_quantity. Omitted lines keep their quantities.
+- Constraints for `mode`: The subscription change to preview. Values: `"quantity_change"`.
+- Constraints for `subscription_id`: The buyer's subscription to preview a quantity change for.
 
 ### CreateSubscriptionPreviewRequestQuantityChange variant 2: `billing_starts` = `"prorated_now"`, `mode` = `"quantity_change"`
 
-anyOf variant 2.
+anyOf CreateSubscriptionPreviewRequestQuantityChange: Declared schema CreateSubscriptionPreviewRequestQuantityChange. The `quantity_change` variant of `CreateSubscriptionPreviewRequest`..
 
-- Required: `line_items`.
-- Optional: `quantity`.
+- Constraints for `billing_starts`: Charge the prorated difference now while keeping the period and anchor. Values: `"prorated_now"`.
+- Constraints for `expected_version`: Reject the request if the subscription version has changed.
+- Constraints for `line_items`: Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their quantities. line_items is required.
+- Constraints for `mode`: The kind of subscription pricing estimate to create. Values: `"quantity_change"`.
+- Constraints for `subscription_id`: The subscription whose quantities will change.
 

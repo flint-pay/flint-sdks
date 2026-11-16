@@ -14,7 +14,7 @@ Response model.
 | `recipient_email` | Required | string | Masked customer address receiving the account link. No credential is returned with email delivery. |
 | `return_url` | Required | (string or null) or null | `return_url`: [declared alternatives](../models/CustomerAccessLinkResponseDataLink.md#customeraccesslinkresponsedatalinkreturn_url). |
 | `sent` | Required | boolean | True when Flint accepted the email into its durable delivery queue. Provider delivery runs asynchronously. Values: `true`. |
-| `url` | Optional | string | The single-use bearer URL, present only with link delivery. Format: `uri`. |
+| `url` | Optional | string | The single-use bearer URL, present only with link delivery. Returned only to the credential that created it, and omitted when another credential replays the request. Format: `uri`. |
 
 ### CustomerAccessLinkResponseDataEmail.return_url
 
