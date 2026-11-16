@@ -2,6 +2,8 @@
 
 ## 8.0.0-beta.6
 
+- Derive 150 s attempt timeouts and 300 s deadlines from payment and external provider route classes in both SDKs, including subscription charges and invoice collection.
+
 Version `8.0.0-beta.6` updates both SDKs to Flint `233935366aaa4351e5c38be959132e5281fa1f06` with recursive partial webhook previous attributes, keeping API date `2026-09-07`. This prerelease publishes to npm `next`; `latest` stays `7.0.0`.
 
 Signed order updates and refund events now decode when prior line items omit `purchased_gift_cards`. Previous fields are optional and nullable inside nested objects and arrays in Node and PHP; supplied values still receive normal validation and exact-number decoding. Current `data.object` fields retain their required resource shape.

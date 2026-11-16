@@ -1047,10 +1047,6 @@
       "retry": {
         "maxAttempts": 3
       },
-      "defaults": {
-        "timeoutMs": 150000,
-        "deadlineMs": 300000
-      },
       "example": {
         "body": {
           "metadata": {
@@ -1058,6 +1054,10 @@
           }
         },
         "checkout_session_id": "cs_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "closeCheckoutSession": {
@@ -1196,6 +1196,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "getCreditNotePDF": {
@@ -1235,6 +1239,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "deleteCustomDomain": {
@@ -1245,6 +1253,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "getCustomDomain": {
@@ -1262,6 +1274,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "listCustomerDeletionRequests": {
@@ -1767,6 +1783,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "createDeliveryRateCallbackTestDelivery": {
@@ -1777,6 +1797,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "getDeliveryRevocation": {
@@ -2129,6 +2153,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "lookupEmailPreferenceLink": {
@@ -3054,6 +3082,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "listInvoiceDeliveryAttempts": {
@@ -3073,6 +3105,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "createInvoiceLateFee": {
@@ -3174,6 +3210,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "getInvoicePDF": {
@@ -3204,6 +3244,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "voidInvoice": {
@@ -3459,6 +3503,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "listMeFulfillmentEvents": {
@@ -3616,6 +3664,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "listMePackages": {
@@ -3651,6 +3703,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "deleteMePaymentMethod": {
@@ -3661,6 +3717,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "getMePaymentMethod": {
@@ -3835,6 +3895,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "updateMeSubscriptionLineItem": {
@@ -3862,6 +3926,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "createMeSubscriptionPaymentRetry": {
@@ -3872,6 +3940,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "getMeSubscriptionPaymentRetry": {
@@ -3889,6 +3961,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "resumeMeSubscription": {
@@ -3899,6 +3975,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "skipMeSubscriptionCycle": {
@@ -3941,6 +4021,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "refreshMerchantAccountSession": {
@@ -3954,7 +4038,11 @@
       },
       "resource": "merchantAccountSessions",
       "method": "refresh",
-      "namingReason": "Use the registered merchant-account-sessions handoff subject (FLI-399)."
+      "namingReason": "Use the registered merchant-account-sessions handoff subject (FLI-399).",
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
+      }
     },
     "listMerchantBillingBalances": {
       "response": {
@@ -4128,6 +4216,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "startOnboarding": {
@@ -4206,15 +4298,15 @@
       "retry": {
         "maxAttempts": 3
       },
-      "defaults": {
-        "timeoutMs": 150000,
-        "deadlineMs": 300000
-      },
       "example": {
         "body": {
           "buyer_note": "Please include a gift receipt"
         },
         "order_id": "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "createOrderAccessLink": {
@@ -4287,16 +4379,16 @@
       "retry": {
         "maxAttempts": 3
       },
-      "defaults": {
-        "timeoutMs": 150000,
-        "deadlineMs": 300000
-      },
       "example": {
         "body": {
           "name": "Priority delivery"
         },
         "order_id": "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV",
         "order_charge_id": "och_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "closeOrder": {
@@ -4432,16 +4524,16 @@
       "retry": {
         "maxAttempts": 3
       },
-      "defaults": {
-        "timeoutMs": 150000,
-        "deadlineMs": 300000
-      },
       "example": {
         "body": {
           "name": "Gift item"
         },
         "order_id": "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV",
         "order_line_item_id": "li_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "payOrder": {
@@ -4496,6 +4588,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "listPackages": {
@@ -4668,15 +4764,15 @@
       "retry": {
         "maxAttempts": 3
       },
-      "defaults": {
-        "timeoutMs": 150000,
-        "deadlineMs": 300000
-      },
       "example": {
         "body": {
           "receipt_email": "buyer@example.com"
         },
         "payment_intent_id": "pi_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "listPaymentIntentActivities": {
@@ -4738,6 +4834,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "listPaymentLinks": {
@@ -4821,6 +4921,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "getPaymentMethodDomain": {
@@ -4844,6 +4948,10 @@
           "status": "active"
         },
         "payment_method_domain_id": "pmdom_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "listPaymentMethods": {
@@ -4863,6 +4971,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "deletePaymentMethod": {
@@ -4873,6 +4985,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "getPaymentMethod": {
@@ -4906,6 +5022,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "declinePaymentReview": {
@@ -4916,6 +5036,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "getPayoutSettings": {
@@ -4938,6 +5062,10 @@
         "body": {
           "interval": "manual"
         }
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "listPayoutDestinations": {
@@ -4957,6 +5085,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "getPayoutDestination": {
@@ -4982,6 +5114,10 @@
           }
         },
         "payout_destination_id": "pdest_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "listPayouts": {
@@ -5009,6 +5145,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "getPayout": {
@@ -5026,6 +5166,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "listProducts": {
@@ -6367,6 +6511,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "getSubscription": {
@@ -6412,6 +6560,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "changeSubscriptionPlan": {
@@ -6429,6 +6581,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "createSubscriptionLineItem": {
@@ -6485,6 +6641,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "listSubscriptionPaymentRetries": {
@@ -6504,6 +6664,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "getSubscriptionPaymentRetry": {
@@ -6521,6 +6685,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "resumeSubscription": {
@@ -6531,6 +6699,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "skipSubscriptionCycle": {
@@ -6658,6 +6830,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "listWebhookEventTypes": {
@@ -6835,6 +7011,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "disconnectTaxConnection": {
@@ -6872,6 +7052,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "getTaxRegistration": {
@@ -6905,6 +7089,10 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
       }
     },
     "simulateDispute": {
@@ -6915,7 +7103,11 @@
       "retry": {
         "maxAttempts": 3
       },
-      "pagination": false
+      "pagination": false,
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
+      }
     },
     "listTestClocks": {
       "idempotency": false,
@@ -7330,7 +7522,11 @@
       "retry": {
         "maxAttempts": 3
       },
-      "pagination": false
+      "pagination": false,
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
+      }
     },
     "changeMeSubscriptionQuantity": {
       "idempotency": {
@@ -7340,7 +7536,11 @@
       "retry": {
         "maxAttempts": 3
       },
-      "pagination": false
+      "pagination": false,
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
+      }
     },
     "listMeTickets": {
       "response": {
@@ -7377,7 +7577,11 @@
       "retry": {
         "maxAttempts": 3
       },
-      "pagination": false
+      "pagination": false,
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
+      }
     },
     "getOrderEdit": {
       "idempotency": false,
@@ -7394,7 +7598,11 @@
       "retry": {
         "maxAttempts": 3
       },
-      "pagination": false
+      "pagination": false,
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
+      }
     },
     "getOrderReceiptPDF": {
       "response": {
@@ -7626,7 +7834,11 @@
       "retry": {
         "maxAttempts": 3
       },
-      "pagination": false
+      "pagination": false,
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
+      }
     },
     "applySubscriptionPromotion": {
       "idempotency": {
@@ -7708,7 +7920,11 @@
       "retry": {
         "maxAttempts": 3
       },
-      "pagination": false
+      "pagination": false,
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
+      }
     },
     "rotateTaxCalculationCallbackSecret": {
       "idempotency": {
@@ -7728,7 +7944,11 @@
       "retry": {
         "maxAttempts": 3
       },
-      "pagination": false
+      "pagination": false,
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
+      }
     },
     "listTickets": {
       "response": {
@@ -7907,7 +8127,11 @@
       "retry": {
         "maxAttempts": 3
       },
-      "pagination": false
+      "pagination": false,
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
+      }
     },
     "listMerchantSignups": {
       "idempotency": false,
@@ -8075,7 +8299,11 @@
       "retry": {
         "maxAttempts": 3
       },
-      "pagination": false
+      "pagination": false,
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
+      }
     },
     "deleteReader": {
       "idempotency": {
@@ -8112,7 +8340,11 @@
       "retry": {
         "maxAttempts": 3
       },
-      "pagination": false
+      "pagination": false,
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
+      }
     },
     "simulateReader": {
       "idempotency": {
@@ -8122,7 +8354,11 @@
       "retry": {
         "maxAttempts": 3
       },
-      "pagination": false
+      "pagination": false,
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
+      }
     },
     "listOrderCharges": {
       "idempotency": false,
@@ -8149,7 +8385,11 @@
         "statuses": [],
         "transport": false
       },
-      "pagination": false
+      "pagination": false,
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
+      }
     },
     "listCustomerEmailChangeRequests": {
       "idempotency": false,
@@ -8268,7 +8508,11 @@
       "retry": {
         "maxAttempts": 3
       },
-      "pagination": false
+      "pagination": false,
+      "defaults": {
+        "timeoutMs": 150000,
+        "deadlineMs": 300000
+      }
     }
   },
   "requests": {

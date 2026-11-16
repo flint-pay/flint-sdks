@@ -1,9 +1,9 @@
-import { d310 as c0 } from '../descriptors/data/16.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
-import { d8997 as c1, d8999 as c2 } from '../descriptors/data/405.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
-import { d7640 as c3 } from '../descriptors/data/327.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
-import { d8042 as c4 } from '../descriptors/data/351.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
-import { d8043 as c5, d8044 as c6, d8045 as c7, d8046 as c8, d8047 as c9, d8048 as c10, d8049 as c11, d8050 as c12, d8051 as c13, d8052 as c14, d8053 as c15, d8054 as c16, d8055 as c17, d8056 as c18 } from '../descriptors/data/352.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
-import { d310 as d310 } from '../descriptors/data/16.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
+import { d310 as c0 } from '../descriptors/data/16.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d8997 as c1, d8999 as c2 } from '../descriptors/data/405.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d7640 as c3 } from '../descriptors/data/327.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d8042 as c4 } from '../descriptors/data/351.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d8043 as c5, d8044 as c6, d8045 as c7, d8046 as c8, d8047 as c9, d8048 as c10, d8049 as c11, d8050 as c12, d8051 as c13, d8052 as c14, d8053 as c15, d8054 as c16, d8055 as c17, d8056 as c18 } from '../descriptors/data/352.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d310 as d310 } from '../descriptors/data/16.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
 const read = d310;
 let prepared;
