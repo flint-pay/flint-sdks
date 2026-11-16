@@ -23,7 +23,7 @@ Field definitions: [shared fields](CustomerAccessLinkInput.md#customeraccesslink
 oneOf with delivery: "link": The result of creating a customer account link. With link delivery it carries the single-use sign-in link. With email delivery Flint has queued that link in an email to the customer, and the response carries only a masked recipient address..
 
 - Condition: not (present(`sent`)).
-- Required: `expires_at`, `purpose`, `url`.
+- Required: `expires_at`, `purpose`.
 - Optional: `recipient_email`, `sent`.
 - Constraints for `delivery`: Values: `"link"`.
 
@@ -33,7 +33,7 @@ oneOf with delivery: "email": The result of creating a customer account link. Wi
 
 - Condition: not (present(`url`)).
 - Required: `recipient_email`, `sent`.
-- Optional: `expires_at`, `purpose`, `url`.
+- Optional: `expires_at`, `purpose`.
 - Constraints for `delivery`: Values: `"email"`.
 
 ### CustomerAccessLinkResponse.meta

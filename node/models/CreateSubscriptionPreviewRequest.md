@@ -21,7 +21,6 @@ The request body for: Preview subscription.
 | `billing_interval_count` | Conditional | integer | Required when billing_interval is sent; billing_interval is required when this field is sent. minimum: `1`. maximum: `365`. |
 | `billing_starts` | Conditional | string |  |
 | `line_items` | Conditional | Varies by condition |  |
-| `quantity` | Conditional | integer | minimum: `1`. maximum: `1`. |
 | `subscription_plan_id` | Conditional | string | The target subscription plan. minLength: `1`. pattern: `^plan_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"plan_01KEZF7C004CY5ZR33XST2AASV"`. |
 | `expected_version` | Conditional | integer | Reject the request if the subscription version has changed. Format: `uint64`. minimum: `1`. |
 | `first_cycle` | Conditional | integer | First charged cycle eligible for this promotion. Defaults to the next cycle without a renewal order, which is also the minimum: completed_cycles + 1, or completed_cycles + 2 while past_due. The maximum is completed_cycles + 120. The unpaid past_due order keeps its price. Format: `uint64`. minimum: `1`. |
@@ -33,7 +32,7 @@ The request body for: Preview subscription.
 oneOf with mode: "delivery_options": The `delivery_options` variant of `CreateSubscriptionPreviewRequest`..
 
 - Required: `destination`, `subscription_id`.
-- Undeclared: `subscription`, `delivery_method`, `delivery_method_id`, `delivery`, `billing_interval`, `billing_interval_count`, `billing_starts`, `line_items`, `quantity`, `subscription_plan_id`, `expected_version`, `first_cycle`, `promotion`, `replace_promotion_id`.
+- Undeclared: `subscription`, `delivery_method`, `delivery_method_id`, `delivery`, `billing_interval`, `billing_interval_count`, `billing_starts`, `line_items`, `subscription_plan_id`, `expected_version`, `first_cycle`, `promotion`, `replace_promotion_id`.
 - Constraints for `mode`: Selects the delivery options preview. Values: `"delivery_options"`.
 - Constraints for `subscription_id`: ID of the subscription to list delivery methods for.
 
@@ -42,7 +41,7 @@ oneOf with mode: "delivery_options": The `delivery_options` variant of `CreateSu
 oneOf with mode: "create": The `create` variant of `CreateSubscriptionPreviewRequest`..
 
 - Required: `subscription`.
-- Undeclared: `destination`, `subscription_id`, `delivery_method`, `delivery_method_id`, `delivery`, `billing_interval`, `billing_interval_count`, `billing_starts`, `line_items`, `quantity`, `subscription_plan_id`, `expected_version`, `first_cycle`, `promotion`, `replace_promotion_id`.
+- Undeclared: `destination`, `subscription_id`, `delivery_method`, `delivery_method_id`, `delivery`, `billing_interval`, `billing_interval_count`, `billing_starts`, `line_items`, `subscription_plan_id`, `expected_version`, `first_cycle`, `promotion`, `replace_promotion_id`.
 - Constraints for `mode`: Selects the create preview. Values: `"create"`.
 
 ### CreateSubscriptionPreviewRequest variant 3: `mode` = `"delivery_method_update"`
@@ -50,7 +49,7 @@ oneOf with mode: "create": The `create` variant of `CreateSubscriptionPreviewReq
 oneOf with mode: "delivery_method_update": The `delivery_method_update` variant of `CreateSubscriptionPreviewRequest`..
 
 - Required: `delivery_method`, `delivery_method_id`.
-- Undeclared: `destination`, `subscription_id`, `subscription`, `delivery`, `billing_interval`, `billing_interval_count`, `billing_starts`, `line_items`, `quantity`, `subscription_plan_id`, `expected_version`, `first_cycle`, `promotion`, `replace_promotion_id`.
+- Undeclared: `destination`, `subscription_id`, `subscription`, `delivery`, `billing_interval`, `billing_interval_count`, `billing_starts`, `line_items`, `subscription_plan_id`, `expected_version`, `first_cycle`, `promotion`, `replace_promotion_id`.
 - Constraints for `mode`: Selects the delivery method update preview. Values: `"delivery_method_update"`.
 
 ### CreateSubscriptionPreviewRequest variant 4: `mode` = `"next_renewal"`
@@ -59,7 +58,7 @@ oneOf with mode: "next_renewal": The `next_renewal` variant of `CreateSubscripti
 
 - Required: `subscription_id`.
 - Optional: `delivery`.
-- Undeclared: `destination`, `subscription`, `delivery_method`, `delivery_method_id`, `billing_interval`, `billing_interval_count`, `billing_starts`, `line_items`, `quantity`, `subscription_plan_id`, `expected_version`, `first_cycle`, `promotion`, `replace_promotion_id`.
+- Undeclared: `destination`, `subscription`, `delivery_method`, `delivery_method_id`, `billing_interval`, `billing_interval_count`, `billing_starts`, `line_items`, `subscription_plan_id`, `expected_version`, `first_cycle`, `promotion`, `replace_promotion_id`.
 - Constraints for `mode`: Selects the next renewal preview. Values: `"next_renewal"`.
 - Constraints for `subscription_id`: ID of the subscription to preview the next renewal for.
 
@@ -68,47 +67,32 @@ oneOf with mode: "next_renewal": The `next_renewal` variant of `CreateSubscripti
 oneOf with mode: "plan_change": The `plan_change` variant of `CreateSubscriptionPreviewRequest`..
 
 - Required: `billing_starts`, `subscription_id`, `subscription_plan_id`.
-- Optional: `billing_interval`, `billing_interval_count`, `line_items`, `quantity`.
+- Optional: `billing_interval`, `billing_interval_count`, `line_items`.
 - Undeclared: `destination`, `subscription`, `delivery_method`, `delivery_method_id`, `delivery`, `expected_version`, `first_cycle`, `promotion`, `replace_promotion_id`.
 - Constraints for `billing_starts`: now bills a new period with credit for unused paid item time. next_renewal changes the plan immediately and keeps the current paid period and next billing date. period_end keeps the current plan until the next charged renewal, then applies and bills the scheduled terms. prorated_now charges the new terms for the rest of the current period, less unused paid item credit, and keeps the billing period and anchor. Values: `"now"`, `"next_renewal"`, `"period_end"`, `"prorated_now"`.
 - Constraints for `line_items`: Array of [SubscriptionPlanChangeLineItemRequest](../models/SubscriptionPlanChangeLineItemRequest.md#subscriptionplanchangelineitemrequest). Optional quantities for target plan lines, with no duplicate IDs. Omitted lines carry their paired current line's quantity, or use the target line's quantity when unpaired. If an adjusted current quantity cannot be paired, send a quantity for every target line.
 - Constraints for `mode`: Selects the plan change preview. Values: `"plan_change"`.
-- Constraints for `quantity`: Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use line_items for multiple units. Whole-number quantity; fractional quantities are not supported.
 - Constraints for `subscription_id`: ID of the subscription to preview a plan change for.
 
 ### CreateSubscriptionPreviewRequest variant 6: `billing_starts` = `"prorated_now"`, `mode` = `"quantity_change"`
 
-oneOf with mode: "quantity_change": The `quantity_change` variant of `CreateSubscriptionPreviewRequest`.; anyOf variant 1.
-
-- Required: `billing_starts`, `quantity`, `subscription_id`.
-- Optional: `expected_version`, `line_items`.
-- Undeclared: `destination`, `subscription`, `delivery_method`, `delivery_method_id`, `delivery`, `billing_interval`, `billing_interval_count`, `subscription_plan_id`, `first_cycle`, `promotion`, `replace_promotion_id`.
-- Constraints for `billing_starts`: Charge the prorated difference now while keeping the period and anchor. Values: `"prorated_now"`.
-- Constraints for `line_items`: Array of [SubscriptionQuantityChangeLineItemRequest](../models/SubscriptionQuantityChangeLineItemRequest.md#subscriptionquantitychangelineitemrequest). Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their quantities. Send quantity or line_items. minItems: `1`. maxItems: `50`.
-- Constraints for `mode`: The kind of subscription pricing estimate to create. Values: `"quantity_change"`.
-- Constraints for `quantity`: The whole-number subscription multiplier; fractional quantities are not supported. Validated as on subscription PATCH. Omit to keep its current value. Send quantity or line_items.
-- Constraints for `subscription_id`: The subscription whose quantities will change.
-
-### CreateSubscriptionPreviewRequest variant 7: `billing_starts` = `"prorated_now"`, `mode` = `"quantity_change"`
-
-oneOf with mode: "quantity_change": The `quantity_change` variant of `CreateSubscriptionPreviewRequest`.; anyOf variant 2.
+oneOf with mode: "quantity_change": The `quantity_change` variant of `CreateSubscriptionPreviewRequest`..
 
 - Required: `billing_starts`, `line_items`, `subscription_id`.
-- Optional: `expected_version`, `quantity`.
+- Optional: `expected_version`.
 - Undeclared: `destination`, `subscription`, `delivery_method`, `delivery_method_id`, `delivery`, `billing_interval`, `billing_interval_count`, `subscription_plan_id`, `first_cycle`, `promotion`, `replace_promotion_id`.
 - Constraints for `billing_starts`: Charge the prorated difference now while keeping the period and anchor. Values: `"prorated_now"`.
-- Constraints for `line_items`: Array of [SubscriptionQuantityChangeLineItemRequest](../models/SubscriptionQuantityChangeLineItemRequest.md#subscriptionquantitychangelineitemrequest). Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their quantities. Send quantity or line_items. minItems: `1`. maxItems: `50`.
+- Constraints for `line_items`: Array of [SubscriptionQuantityChangeLineItemRequest](../models/SubscriptionQuantityChangeLineItemRequest.md#subscriptionquantitychangelineitemrequest). Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their quantities. line_items is required. minItems: `1`. maxItems: `50`.
 - Constraints for `mode`: The kind of subscription pricing estimate to create. Values: `"quantity_change"`.
-- Constraints for `quantity`: The whole-number subscription multiplier; fractional quantities are not supported. Validated as on subscription PATCH. Omit to keep its current value. Send quantity or line_items.
 - Constraints for `subscription_id`: The subscription whose quantities will change.
 
-### CreateSubscriptionPreviewRequest variant 8: `mode` = `"promotion_apply"`
+### CreateSubscriptionPreviewRequest variant 7: `mode` = `"promotion_apply"`
 
 oneOf with mode: "promotion_apply": The `promotion_apply` variant of `CreateSubscriptionPreviewRequest`..
 
 - Required: `promotion`, `subscription_id`.
 - Optional: `first_cycle`, `replace_promotion_id`.
-- Undeclared: `destination`, `subscription`, `delivery_method`, `delivery_method_id`, `delivery`, `billing_interval`, `billing_interval_count`, `billing_starts`, `line_items`, `quantity`, `subscription_plan_id`, `expected_version`.
+- Undeclared: `destination`, `subscription`, `delivery_method`, `delivery_method_id`, `delivery`, `billing_interval`, `billing_interval_count`, `billing_starts`, `line_items`, `subscription_plan_id`, `expected_version`.
 - Constraints for `mode`: Preview applying a promotion to an existing subscription without saving changes. Values: `"promotion_apply"`.
 - Constraints for `subscription_id`: ID of the subscription to preview.
 

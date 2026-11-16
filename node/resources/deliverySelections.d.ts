@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
     DeliverySelection,
     DeliverySelectionListResponse,
@@ -49,20 +49,8 @@ export type {
 } from '../declarations/types-22.js';
 export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-54.js';
 export type { _SdkWithoutIdempotency, Weight } from '../declarations/types-70.js';
-export type {
-    ClientOptions,
-    CheckoutSession,
-    CheckoutSessionPlatformFee,
-    CheckoutRedirects,
-    CheckoutSubscriptionTerms,
-    CheckoutSubscriptionRecurringShipping,
-    CheckoutSessionTax,
-    CheckoutTaxCalculation,
-    CheckoutTheme,
-    CheckoutTipConfig
-} from '../declarations/types-6.js';
-export type { CreateDeliverySelectionRequestInput } from '../declarations/types-9.js';
-export type { CreateDeliverySelectionChoiceRequestInput } from '../declarations/types-8.js';
+export type { ClientOptions } from '../declarations/types-7.js';
+export type { CreateDeliverySelectionRequestInput, CreateDeliverySelectionChoiceRequestInput } from '../declarations/types-9.js';
 export type { AddressRequestInput, Address, AddressRequest } from '../declarations/types-0.js';
 export type {
     AuthMode,
@@ -74,26 +62,41 @@ export type {
 } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type {
+    CheckoutSession,
+    CheckoutSessionPlatformFee,
+    CheckoutProblemResource,
+    CheckoutPromotionConfig,
+    CheckoutRedirects,
+    CheckoutSubscriptionTerms,
+    CheckoutSubscriptionRecurringShipping,
+    CheckoutSessionTax,
+    CheckoutTaxCalculation,
+    CheckoutTheme,
+    CheckoutTipConfig
+} from '../declarations/types-6.js';
+export type {
     OrderPaymentAttempt,
     OrderPaymentAttemptPaymentMethodSave,
     OrderSettlementAmounts,
     OrderLineItemModifier,
+    OrderGiftCardSettlement,
+    OrderHandover,
+    OrderLineItem,
     OrderLineItemFulfillmentQuantities,
     OrderLineItemFulfillmentRequirements,
+    OrderLineItemFulfillmentComponent,
+    OrderLineItemFulfillmentProfile,
     OrderLineSubscriptionOfferSummary,
     OrderLineSubscriptionOfferDiscount,
     OrderReturnCreditSettlement,
     OrderLineItemTax,
     OrderTax,
-    OrderTaxCallbackEvaluation,
-    OrderTaxExemption,
-    OrderTaxLocation
+    OrderTaxCallbackEvaluation
 } from '../declarations/types-41.js';
 export type {
     MoneyValue,
     NextAction,
     OrderAuthorizationAmounts,
-    OrderCharge,
     OrderCalculatedChargeTax,
     OrderCalculatedLineItemTax
 } from '../declarations/types-39.js';
@@ -120,14 +123,14 @@ export type {
     ExpandedSubscriptionSummary,
     ExpandedSubscriptionPlanSummary
 } from '../declarations/types-24.js';
-export type { ReadinessMerchantAccountSession, RefundAdjustmentReason, PurchasedGiftCard } from '../declarations/types-52.js';
+export type { ReadinessMerchantAccountSession, PurchasedGiftCard } from '../declarations/types-52.js';
 export type {
     PendingPaymentAction,
     PendingPaymentActionSubject,
     PendingPaymentActionPaymentIntentSubject,
     PendingPaymentActionSetupPaymentSourceSubject,
     PickupFulfillmentDetails
-} from '../declarations/types-48.js';
+} from '../declarations/types-49.js';
 export type {
     StripePaymentClientAction,
     StripeSetupIntentClientAction,
@@ -145,8 +148,6 @@ export type {
     CheckoutPaymentMethodSave,
     CheckoutPaymentConfig,
     CheckoutPrefill,
-    CheckoutProblemResource,
-    CheckoutPromotionConfig,
     CategoryReference,
     CatalogPricing
 } from '../declarations/types-5.js';
@@ -186,12 +187,11 @@ export type {
     BuyerInstructionsConfig,
     BuyerExpandedOrderSummary,
     BuyerExpandedPaymentIntentSummary,
-    BuyerPauseActionOptions,
-    BuyerPayBalanceActionOptions
+    BuyerPauseActionOptions
 } from '../declarations/types-2.js';
 export type { DeliveryLocationSummaryResource, DeliveryMerchantDiagnostic } from '../declarations/types-18.js';
 export type { DeliveryRecipientRequirement, DeliveryRecipientResource } from '../declarations/types-21.js';
-export type { PricingAmounts } from '../declarations/types-49.js';
+export type { PricingAmounts } from '../declarations/types-50.js';
 export type { InvoiceSettlementAmounts } from '../declarations/types-34.js';
 export type {
     SettlementAmounts,
@@ -218,11 +218,12 @@ export type {
     PaymentSourceCardSummary,
     PaymentSourceCardPresentDetails
 } from '../declarations/types-47.js';
-export type { BuyerRefund, BuyerPaymentRefund, BuyerRetryPaymentActionOptions } from '../declarations/types-3.js';
+export type { BuyerRefund, BuyerPaymentRefund, BuyerPayBalanceActionOptions, BuyerRetryPaymentActionOptions } from '../declarations/types-3.js';
 export type {
     RefundLineItemAllocation,
     RefundLineItemAdjustmentRefund,
     RefundLineItemAdjustment,
+    RefundAdjustmentReason,
     RefundLineItemAutomaticRefund,
     RefundLineItemModifierAllocation,
     RefundTaxBreakdownRefund,
@@ -230,19 +231,20 @@ export type {
 } from '../declarations/types-53.js';
 export type {
     OrderGiftCardAllocation,
+    OrderCharge,
     OrderDeliverySummary,
     OrderDeliveryDestination,
     OrderDeliveryDestinationRecipient,
     OrderDiscount,
     OrderGiftCardEstimate,
-    OrderGiftCardSettlement,
-    OrderGiftCardSelection,
-    OrderHandover,
-    OrderLineItem,
-    OrderLineItemFulfillmentComponent,
-    OrderLineItemFulfillmentProfile
+    OrderGiftCardSelection
 } from '../declarations/types-40.js';
-export type { SubscriptionIntervalOption, SubscriptionGiftRecipient } from '../declarations/types-61.js';
+export type {
+    SubscriptionIntervalOption,
+    SubscriptionGiftRecipient,
+    SubscriptionPlanLineItem,
+    SubscriptionPlanLineItemBundle
+} from '../declarations/types-62.js';
 export type {
     Fulfillment,
     FulfillmentHold,
@@ -252,25 +254,14 @@ export type {
     FulfillmentRecipient
 } from '../declarations/types-25.js';
 export type { DigitalFulfillmentDetails, Dimensions, DisputesAcceptParams } from '../declarations/types-23.js';
-export type { TextModifierRequest, TaxJurisdiction, TaxReverseCharge, TicketedEvent } from '../declarations/types-65.js';
+export type { TextModifierRequest, TaxComponentRequest, TaxJurisdiction, TaxReverseCharge } from '../declarations/types-65.js';
 export type { InventoryRoutingSource } from '../declarations/types-30.js';
 export type { GiftCardPurchaseSnapshot, GiftCardProductConfiguration, GiftCardPurchaseRecipient } from '../declarations/types-27.js';
 export type { GiftCardCustomAmountBounds } from '../declarations/types-26.js';
-export type {
-    TaxCalculationRequest,
-    TaxComponentRequest,
-    TaxBreakdown,
-    TaxBreakdownPercentage,
-    TaxBreakdownFlatAmount
-} from '../declarations/types-64.js';
-export type {
-    SubscriptionPlanLineItem,
-    SubscriptionPlanSwapVariant,
-    SubscriptionPlanLineItemVariant,
-    SubscriptionPlanLineItemBundle,
-    SubscriptionPlanLineItemCustom
-} from '../declarations/types-62.js';
-export type { Tip, TipPaymentIntentAllocation, TipValueSettlementAllocation } from '../declarations/types-66.js';
+export type { TaxCalculationRequest, TaxBreakdown, TaxBreakdownPercentage, TaxBreakdownFlatAmount } from '../declarations/types-64.js';
+export type { SubscriptionPlanSwapVariant, SubscriptionPlanLineItemVariant, SubscriptionPlanLineItemCustom } from '../declarations/types-63.js';
+export type { OrderTaxExemption, OrderTaxLocation } from '../declarations/types-42.js';
+export type { TicketedEvent, Tip, TipPaymentIntentAllocation, TipValueSettlementAllocation } from '../declarations/types-66.js';
 export { makeAddressRequest } from '../declarations/types-70.js';
 export { makeCreateDeliverySelectionChoiceRequest, makeCreateDeliverySelectionRequest } from '../declarations/types-72.js';
 export {
@@ -278,7 +269,7 @@ export {
     makeDeliverySelectionRecipientRequest,
     makeDeliveryWindowRequest
 } from '../declarations/types-76.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export { makeTextModifierRequest } from '../declarations/types-83.js';
 export interface DeliverySelectionsResource {
     /**

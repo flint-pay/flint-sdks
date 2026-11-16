@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type { DemoSession, DemoSessionResponse, DemoSessionsCreateParams, DemoSessionsResetParams } from '../declarations/types-23.js';
 import type { RequestOptions } from '../declarations/types-54.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
@@ -24,14 +24,14 @@ export type {
     DemoSessionAPIKey
 } from '../declarations/types-23.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference, ResetDemoSessionRequestInput } from '../declarations/types-54.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateDemoSessionRequestInput } from '../declarations/types-9.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { NextAction, MoneyValue } from '../declarations/types-39.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
 export { makeCreateDemoSessionRequest } from '../declarations/types-72.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export { makeResetDemoSessionRequest } from '../declarations/types-81.js';
 export interface DemoSessionsResource {
     /**

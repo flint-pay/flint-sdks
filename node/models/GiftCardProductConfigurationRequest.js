@@ -1,8 +1,8 @@
-import { d8139 as c0, d8140 as c1 } from '../descriptors/data/395.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d5784 as c2 } from '../descriptors/data/258.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d8140 as d8140 } from '../descriptors/data/395.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d8173 as c0, d8174 as c1 } from '../descriptors/data/397.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d5814 as c2 } from '../descriptors/data/259.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d8174 as d8174 } from '../descriptors/data/397.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d8140;
+const read = d8174;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["GiftCardCustomAmountBoundsRequest"]:c0(),["GiftCardProductConfigurationRequest"]:c1(),["MoneyValue"]:c2()}); }
 export { codec as _validate };

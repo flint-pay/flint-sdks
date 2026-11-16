@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
     CustomerSession,
     CustomerSessionResponse,
@@ -40,7 +40,7 @@ export type {
 } from '../declarations/types-16.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
 export type { _SdkRequiredIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateCustomerSessionRequestInput, CreateCustomerSessionRequest } from '../declarations/types-8.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
@@ -51,8 +51,8 @@ export type {
     RefreshCustomerSessionRequest
 } from '../declarations/types-52.js';
 export { makeCreateCustomerSessionRequest } from '../declarations/types-72.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
-export { makeRefreshCustomerSessionRequest } from '../declarations/types-80.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
+export { makeRefreshCustomerSessionRequest } from '../declarations/types-81.js';
 export interface CustomerSessionsResource {
     /**
  * Mints a server-side, customer-scoped credential after the merchant has authenticated the buyer.

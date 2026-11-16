@@ -1,5 +1,19 @@
 import type { InputValue, Model } from '../runtime.js';
+import type { BuyerInstructionsConfigRequestInput, BuyerPauseCapabilityInput } from './types-2.js';
 import type {
+    BuyerRetentionOfferRequestInput,
+    BuyerReturnReplacementLineItemInputBundleInput,
+    BuyerReturnReplacementLineItemInputVariantInput,
+    BuyerReturnReplacementLineItemRequestInput,
+    BuyerSkipCapabilityInput
+} from './types-3.js';
+import type {
+    CLIContextsRequestInput,
+    CLIDeviceRequestInput,
+    CLIReauthorizeRequestInput,
+    CallerSuppliedDeliveryMethodResultRequestInput,
+    CallerSuppliedDeliveryOutcomeRequestInput,
+    CallerSuppliedDeliveryOutcomeRequestAvailableInput,
     CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput,
     CallerSuppliedDeliveryOutcomeRequestUnavailableInput,
     CancelFulfillmentRequestInput,
@@ -7,15 +21,16 @@ import type {
     CancelInventoryCountRequestInput,
     CancelInventoryTransferRequestInput,
     CancelMeSubscriptionRequestInput,
+    CancelOrderEditRequestInput,
     CancelOrderPaymentAttemptRequestInput,
     CancelPaymentIntentRequestInput,
     CancelPayoutRequestInput,
     CancelReturnDispositionRequestInput,
-    CancelReturnLineItemRequestInput,
-    CancelReturnRequestInput,
-    CancelReturnResolutionRequestInput
+    CancelReturnLineItemRequestInput
 } from './types-4.js';
 import type {
+    CancelReturnRequestInput,
+    CancelReturnResolutionRequestInput,
     CancelSubscriptionRequestInput,
     CapturePaymentIntentRequestInput,
     CapturePaymentSplitRequestInput,
@@ -30,10 +45,10 @@ import type {
     CheckoutCustomTextWriteConfigInput,
     CheckoutLegalConfigRequestInput,
     CheckoutPaymentConfigRequestInput,
-    CheckoutPrefillRequestInput,
-    CheckoutPromotionConfigRequestInput
+    CheckoutPrefillRequestInput
 } from './types-5.js';
 import type {
+    CheckoutPromotionConfigRequestInput,
     CheckoutQuickPayItemRequestInput,
     CheckoutRecoveryEmailSettingsRequestInput,
     CheckoutRedirectsRequestInput,
@@ -41,11 +56,11 @@ import type {
     CheckoutSettingsRequestInput,
     CheckoutSubscriptionTermsRequestInput,
     CheckoutTaxCalculationRequestInput,
-    CheckoutTaxConfigRequestInput,
-    CheckoutTipConfigRequestInput,
-    CloseCheckoutSessionRequestInput
+    CheckoutTaxConfigRequestInput
 } from './types-6.js';
 import type {
+    CheckoutTipConfigRequestInput,
+    CloseCheckoutSessionRequestInput,
     CloseGiftCardRequestInput,
     CloseOrderRequestInput,
     CollectInvoiceRequestInput,
@@ -55,22 +70,21 @@ import type {
     ConfigurationVersionRequestInput,
     ConfirmCheckoutSessionCustomerVerificationRequestInput,
     ConfirmCustomerVerificationRequestInput,
-    ConfirmEmailChangeRequestInput,
-    ConfirmPaymentIntentRequestInput,
-    ConfirmReturnResolutionRequestInput,
-    ConnectTaxConnectionRequestInput,
-    ConsumeInventoryReservationRequestInput,
-    CreateAPIKeyRequestInput,
-    CreateAPIKeyRequestFullInput,
-    CreateAPIKeyRequestReadOnlyInput,
-    CreateAPIKeyRequestRestrictedInput,
-    CreateBundleComponentRequestInput,
-    CreateBundleRequestInput,
-    CreateCategoryRequestInput,
-    CreateCheckoutDeliveryQuoteRequestInput,
-    CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput,
-    CreateCheckoutSessionCustomerVerificationRequestInput
+    ConfirmEmailChangeRequestInput
 } from './types-7.js';
+export declare function makeBuyerInstructionsConfigRequest(value: InputValue<BuyerInstructionsConfigRequestInput>): Model<BuyerInstructionsConfigRequestInput>;
+export declare function makeBuyerPauseCapability(value: InputValue<BuyerPauseCapabilityInput>): Model<BuyerPauseCapabilityInput>;
+export declare function makeBuyerRetentionOfferRequest(value: InputValue<BuyerRetentionOfferRequestInput>): Model<BuyerRetentionOfferRequestInput>;
+export declare function makeBuyerReturnReplacementLineItemInputBundle(value: InputValue<BuyerReturnReplacementLineItemInputBundleInput>): Model<BuyerReturnReplacementLineItemInputBundleInput>;
+export declare function makeBuyerReturnReplacementLineItemInputVariant(value: InputValue<BuyerReturnReplacementLineItemInputVariantInput>): Model<BuyerReturnReplacementLineItemInputVariantInput>;
+export declare function makeBuyerReturnReplacementLineItemRequest(value: InputValue<BuyerReturnReplacementLineItemRequestInput>): Model<BuyerReturnReplacementLineItemRequestInput>;
+export declare function makeBuyerSkipCapability(value: InputValue<BuyerSkipCapabilityInput>): Model<BuyerSkipCapabilityInput>;
+export declare function makeCLIContextsRequest(value: InputValue<CLIContextsRequestInput>): Model<CLIContextsRequestInput>;
+export declare function makeCLIDeviceRequest(value: InputValue<CLIDeviceRequestInput>): Model<CLIDeviceRequestInput>;
+export declare function makeCLIReauthorizeRequest(value: InputValue<CLIReauthorizeRequestInput>): Model<CLIReauthorizeRequestInput>;
+export declare function makeCallerSuppliedDeliveryMethodResultRequest(value: InputValue<CallerSuppliedDeliveryMethodResultRequestInput>): Model<CallerSuppliedDeliveryMethodResultRequestInput>;
+export declare function makeCallerSuppliedDeliveryOutcomeRequest(value: InputValue<CallerSuppliedDeliveryOutcomeRequestInput>): Model<CallerSuppliedDeliveryOutcomeRequestInput>;
+export declare function makeCallerSuppliedDeliveryOutcomeRequestAvailable(value: InputValue<CallerSuppliedDeliveryOutcomeRequestAvailableInput>): Model<CallerSuppliedDeliveryOutcomeRequestAvailableInput>;
 export declare function makeCallerSuppliedDeliveryOutcomeRequestCannotCalculate(value: InputValue<CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput>): Model<CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput>;
 export declare function makeCallerSuppliedDeliveryOutcomeRequestUnavailable(value: InputValue<CallerSuppliedDeliveryOutcomeRequestUnavailableInput>): Model<CallerSuppliedDeliveryOutcomeRequestUnavailableInput>;
 export declare function makeCancelFulfillmentRequest(value: InputValue<CancelFulfillmentRequestInput>): Model<CancelFulfillmentRequestInput>;
@@ -78,6 +92,7 @@ export declare function makeCancelGiftCardNotificationRequest(value: InputValue<
 export declare function makeCancelInventoryCountRequest(value: InputValue<CancelInventoryCountRequestInput>): Model<CancelInventoryCountRequestInput>;
 export declare function makeCancelInventoryTransferRequest(value: InputValue<CancelInventoryTransferRequestInput>): Model<CancelInventoryTransferRequestInput>;
 export declare function makeCancelMeSubscriptionRequest(value: InputValue<CancelMeSubscriptionRequestInput>): Model<CancelMeSubscriptionRequestInput>;
+export declare function makeCancelOrderEditRequest(value: InputValue<CancelOrderEditRequestInput>): Model<CancelOrderEditRequestInput>;
 export declare function makeCancelOrderPaymentAttemptRequest(value: InputValue<CancelOrderPaymentAttemptRequestInput>): Model<CancelOrderPaymentAttemptRequestInput>;
 export declare function makeCancelPaymentIntentRequest(value: InputValue<CancelPaymentIntentRequestInput>): Model<CancelPaymentIntentRequestInput>;
 export declare function makeCancelPayoutRequest(value: InputValue<CancelPayoutRequestInput>): Model<CancelPayoutRequestInput>;
@@ -121,18 +136,3 @@ export declare function makeConfigurationVersionRequest(value: InputValue<Config
 export declare function makeConfirmCheckoutSessionCustomerVerificationRequest(value: InputValue<ConfirmCheckoutSessionCustomerVerificationRequestInput>): Model<ConfirmCheckoutSessionCustomerVerificationRequestInput>;
 export declare function makeConfirmCustomerVerificationRequest(value: InputValue<ConfirmCustomerVerificationRequestInput>): Model<ConfirmCustomerVerificationRequestInput>;
 export declare function makeConfirmEmailChangeRequest(value: InputValue<ConfirmEmailChangeRequestInput>): Model<ConfirmEmailChangeRequestInput>;
-export declare function makeConfirmPaymentIntentRequest(value: InputValue<ConfirmPaymentIntentRequestInput>): Model<ConfirmPaymentIntentRequestInput>;
-export declare function makeConfirmReturnResolutionRequest(value: InputValue<ConfirmReturnResolutionRequestInput>): Model<ConfirmReturnResolutionRequestInput>;
-export declare function makeConnectTaxConnectionRequest(value: InputValue<ConnectTaxConnectionRequestInput>): Model<ConnectTaxConnectionRequestInput>;
-export declare function makeConsumeInventoryReservationRequest(value: InputValue<ConsumeInventoryReservationRequestInput>): Model<ConsumeInventoryReservationRequestInput>;
-export declare function makeCreateAPIKeyRequest(value: InputValue<CreateAPIKeyRequestInput>): Model<CreateAPIKeyRequestInput>;
-export declare function makeCreateAPIKeyRequestFull(value: InputValue<CreateAPIKeyRequestFullInput>): Model<CreateAPIKeyRequestFullInput>;
-export declare function makeCreateAPIKeyRequestReadOnly(value: InputValue<CreateAPIKeyRequestReadOnlyInput>): Model<CreateAPIKeyRequestReadOnlyInput>;
-export declare function makeCreateAPIKeyRequestRestricted(value: InputValue<CreateAPIKeyRequestRestrictedInput>): Model<CreateAPIKeyRequestRestrictedInput>;
-export declare function makeCreateBundleComponentRequest(value: InputValue<CreateBundleComponentRequestInput>): Model<CreateBundleComponentRequestInput>;
-export declare function makeCreateBundleRequest(value: InputValue<CreateBundleRequestInput>): Model<CreateBundleRequestInput>;
-export declare function makeCreateCategoryRequest(value: InputValue<CreateCategoryRequestInput>): Model<CreateCategoryRequestInput>;
-export declare function makeCreateCheckoutDeliveryQuoteRequest(value: InputValue<CreateCheckoutDeliveryQuoteRequestInput>): Model<CreateCheckoutDeliveryQuoteRequestInput>;
-export declare function makeCreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest(value: InputValue<CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput>): Model<CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput>;
-export declare function makeCreateCheckoutSessionCustomerVerificationRequest(value: InputValue<Exclude<CreateCheckoutSessionCustomerVerificationRequestInput & object, readonly unknown[]>>): Model<Exclude<CreateCheckoutSessionCustomerVerificationRequestInput & object, readonly unknown[]>>;
-export declare function makeCreateCheckoutSessionCustomerVerificationRequest(value: InputValue<CreateCheckoutSessionCustomerVerificationRequestInput>): Model<CreateCheckoutSessionCustomerVerificationRequestInput>;

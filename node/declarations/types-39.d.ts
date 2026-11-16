@@ -1,13 +1,15 @@
+import type { MerchantWebhookEnvelope, MetadataMap, ModifierSet, ModifierSetGroup } from './types-38.js';
 import type { InputValue } from '../runtime.js';
+import type { CreateModifierSetRequestInput } from './types-10.js';
 import type { DisputesAcceptParams } from './types-23.js';
 import type { UpdateModifierSetRequestInput } from './types-67.js';
 import type { ResponseWarning, ResourceReference, ResponseMeta } from './types-54.js';
 import type { ReadinessMerchantAccountSession, ReadinessAction } from './types-52.js';
 import type { CLIDeviceRequestInput, CLIContextsRequestInput, CLIReauthorizeRequestInput } from './types-4.js';
-import type { CreateOnboardingAccessLinkRequestInput } from './types-10.js';
+import type { CreateOnboardingAccessLinkRequestInput } from './types-11.js';
 import type { Merchant } from './types-37.js';
-import type { User } from './types-68.js';
-import type { WebhookPreviousAttributes } from './types-69.js';
+import type { User } from './types-69.js';
+import type { WebhookPreviousAttributes } from './types-70.js';
 import type { CheckoutBuyerContact } from './types-5.js';
 import type { CustomFieldAnswer } from './types-15.js';
 import type { DeferredPromotion } from './types-16.js';
@@ -19,24 +21,206 @@ import type {
 } from './types-24.js';
 import type { Fulfillment } from './types-25.js';
 import type { InventoryRoutingSource } from './types-30.js';
-import type { MetadataMap, MetadataRequestInput } from './types-38.js';
 import type {
+    OrderCharge,
     OrderDeliveryDestination,
     OrderDeliverySummary,
     OrderDiscount,
     OrderGiftCardEstimate,
-    OrderGiftCardSelection,
+    OrderGiftCardSelection
+} from './types-40.js';
+import type {
     OrderGiftCardSettlement,
     OrderHandover,
-    OrderLineItem
-} from './types-40.js';
-import type { OrderPaymentAttempt, OrderReturnCreditSettlement, OrderSettlementAmounts, OrderTax } from './types-41.js';
+    OrderLineItem,
+    OrderPaymentAttempt,
+    OrderReturnCreditSettlement,
+    OrderSettlementAmounts,
+    OrderTax
+} from './types-41.js';
 import type { PaymentCollection } from './types-44.js';
-import type { PricingAmounts } from './types-49.js';
+import type { PricingAmounts } from './types-50.js';
 import type { SetupCollection } from './types-59.js';
-import type { TicketedEvent } from './types-65.js';
-import type { Tip } from './types-66.js';
-import type { TaxCalculationRequestRequestInput, TaxCalculationRequest } from './types-64.js';
+import type { TicketedEvent, Tip } from './types-66.js';
+import type { TaxCalculationRequestRequestInput } from './types-65.js';
+import type { TaxCalculationRequest } from './types-64.js';
+/**
+ * The `modifier_set.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type ModifierSetUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.created_at (Optional): string. When the modifier set was created,
+     * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.merchant_id
+     * (Optional): string. Identifier of the merchant that owns this modifier set. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them. object.modifier_groups (Required): Array
+     * of {@link ModifierSetGroup}. Ordered group entries in this set, including the full content
+     * of reusable groups and groups owned by the set. object.modifier_groups[] (Value): {@link
+     * ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection
+     * limits, display options, and per-modifier overrides. object.modifier_set_id (Required):
+     * string. Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Name used to identify this
+     * modifier set. object.status (Required): string. Lifecycle status of the modifier set. Only
+     * active sets can be offered to buyers; archived sets remain readable and cannot be edited.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When the
+     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
+     * the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * created_at (Optional): string. When the modifier set was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
+         * (Optional): string. Caller-owned identifier for this resource in an external system.
+         * maxLength: 255. Example: "warehouse-1842". merchant_id (Optional): string. Identifier of
+         * the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
+         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
+         * be written through the public API. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. modifier_groups (Required): Array of {@link ModifierSetGroup}. Ordered
+         * group entries in this set, including the full content of reusable groups and groups
+         * owned by the set. modifier_groups[] (Value): {@link ModifierSetGroup}. A modifier group
+         * as it appears in a modifier set, with its selection limits, display options, and
+         * per-modifier overrides. modifier_set_id (Required): string. Stable identifier of the
+         * modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name
+         * (Required): string. Name used to identify this modifier set. status (Required): string.
+         * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+         * archived sets remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". updated_at (Optional): string. When the modifier set or any group it
+         * contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier set,
+         * including the groups it contains. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When the modifier set was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Identifier of the merchant that owns this modifier set. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
+             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
+             * and MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Ordered group entries in this set, including the full content of reusable groups and
+             * groups owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as
+             * it appears in a modifier set, with its selection limits, display options, and
+             * per-modifier overrides.
+             */
+            "modifier_groups": Array<ModifierSetGroup>;
+            /**
+             * Stable identifier of the modifier set assigned to catalog items. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string;
+            /** Name used to identify this modifier set. */
+            "name": string;
+            /**
+             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+             * archived sets remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When the modifier set or any group it contains last changed, as an RFC3339
+             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /**
+             * Version of the modifier set, including the groups it contains. Format: uint64.
+             * minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<ModifierSet>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "modifier_set.updated". */
+    "event_type"?: "modifier_set.updated";
+});
+export type ModifierSetsCreateParams = (InputValue<CreateModifierSetRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ModifierSetsDeleteParams = {
+    /**
+     * Optional modifier set version last read by the caller. Format: uint64. minimum: 1. maximum:
+     * 9007199254740991.
+     */
+    "expected_version"?: InputValue<number>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 export type ModifierSetsGetParams = DisputesAcceptParams;
 export type ModifierSetsListParams = {
     /**
@@ -215,33 +399,33 @@ export type MoneyValueInput = {
 export type NextAction = {
     /**
      * Action to take next. Use its target resource and required_fields to prepare the request.
-     * Value enum: "add_line_items", "cancel_payment_intent", "capture_payment_intent",
-     * "close_checkout_session", "close_order", "collect_invoice", "complete_gift_card_challenge",
-     * "confirm_payment_intent", "create_checkout_session_customer_verification",
-     * "create_dispute_response_session", "create_merchant_account_session", "create_refund",
-     * "create_subscription_payment_retry", "get_api_key", "get_bundle", "get_category",
-     * "get_checkout_session", "get_credit_note", "get_custom_domain", "get_customer",
-     * "get_customer_address", "get_customer_deletion_request",
-     * "get_customer_email_change_request", "get_customer_tax_exemption",
-     * "get_customer_verification", "get_delivery_location_set", "get_delivery_method",
-     * "get_delivery_profile", "get_delivery_rate_callback", "get_delivery_selection",
-     * "get_delivery_zone", "get_device", "get_dispute", "get_file", "get_gift_card",
-     * "get_gift_card_notification", "get_gift_card_redemption", "get_inventory_count",
-     * "get_inventory_item", "get_inventory_level", "get_inventory_reservation",
-     * "get_inventory_transfer", "get_invoice", "get_invoice_manual_payment",
-     * "get_invoice_payment_term", "get_location", "get_me", "get_me_address",
-     * "get_me_email_preferences", "get_me_gift_card", "get_me_payment_method", "get_me_return",
-     * "get_me_subscription", "get_merchant", "get_merchant_signup", "get_modifier_group",
-     * "get_modifier_set", "get_onboarding_state", "get_operation", "get_order", "get_order_edit",
-     * "get_order_payment_attempt", "get_partner_app", "get_partner_app_credential",
-     * "get_partner_app_install", "get_payment_intent", "get_payment_link",
-     * "get_payment_link_public", "get_payment_method", "get_payment_method_domain",
-     * "get_payment_review", "get_payout", "get_payout_destination", "get_payout_settings",
-     * "get_price_list", "get_price_list_price", "get_product", "get_product_variant",
-     * "get_promotion", "get_promotion_code", "get_reader", "get_refund", "get_return",
-     * "get_return_line_item", "get_return_policy", "get_return_resolution", "get_risk_list",
-     * "get_risk_list_item", "get_risk_rule", "get_sandbox", "get_settings", "get_shipment",
-     * "get_subscription", "get_subscription_offer", "get_subscription_plan",
+     * Value enum: "add_line_items", "cancel_order_edit", "cancel_payment_intent",
+     * "capture_payment_intent", "close_checkout_session", "close_order", "collect_invoice",
+     * "complete_gift_card_challenge", "confirm_payment_intent",
+     * "create_checkout_session_customer_verification", "create_dispute_response_session",
+     * "create_merchant_account_session", "create_refund", "create_subscription_payment_retry",
+     * "get_api_key", "get_bundle", "get_category", "get_checkout_session", "get_credit_note",
+     * "get_custom_domain", "get_customer", "get_customer_address",
+     * "get_customer_deletion_request", "get_customer_email_change_request",
+     * "get_customer_tax_exemption", "get_customer_verification", "get_delivery_location_set",
+     * "get_delivery_method", "get_delivery_profile", "get_delivery_rate_callback",
+     * "get_delivery_selection", "get_delivery_zone", "get_device", "get_dispute", "get_file",
+     * "get_gift_card", "get_gift_card_notification", "get_gift_card_redemption",
+     * "get_inventory_count", "get_inventory_item", "get_inventory_level",
+     * "get_inventory_reservation", "get_inventory_transfer", "get_invoice",
+     * "get_invoice_manual_payment", "get_invoice_payment_term", "get_location", "get_me",
+     * "get_me_address", "get_me_email_preferences", "get_me_gift_card", "get_me_payment_method",
+     * "get_me_return", "get_me_subscription", "get_merchant", "get_merchant_signup",
+     * "get_modifier_group", "get_modifier_set", "get_onboarding_state", "get_operation",
+     * "get_order", "get_order_edit", "get_order_payment_attempt", "get_partner_app",
+     * "get_partner_app_credential", "get_partner_app_install", "get_payment_intent",
+     * "get_payment_link", "get_payment_link_public", "get_payment_method",
+     * "get_payment_method_domain", "get_payment_review", "get_payout", "get_payout_destination",
+     * "get_payout_settings", "get_price_list", "get_price_list_price", "get_product",
+     * "get_product_variant", "get_promotion", "get_promotion_code", "get_reader", "get_refund",
+     * "get_return", "get_return_line_item", "get_return_policy", "get_return_resolution",
+     * "get_risk_list", "get_risk_list_item", "get_risk_rule", "get_sandbox", "get_settings",
+     * "get_shipment", "get_subscription", "get_subscription_offer", "get_subscription_plan",
      * "get_tax_calculation_callback", "get_tax_connection", "get_tax_registration",
      * "get_test_clock", "get_ticket", "get_webhook_delivery", "get_webhook_endpoint",
      * "get_workload_identity", "issue_developer_sandbox_test_key", "list_credit_note_allocations",
@@ -265,6 +449,7 @@ export type NextAction = {
      * "update_settings".
      */
     "action_type": "add_line_items"
+        | "cancel_order_edit"
         | "cancel_payment_intent"
         | "capture_payment_intent"
         | "close_checkout_session"
@@ -2691,6 +2876,12 @@ export type Order = {
      */
     "payment_status": "unpaid" | "partially_paid" | "paid" | (string & {});
     /**
+     * The order edit waiting for its balance payment. While it is set, the units that edit removes
+     * can't join a fulfillment and the order refuses another edit. `null` when there is none.
+     * Omitted for buyer credentials. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     */
+    "pending_order_edit_id": string | null;
+    /**
      * Order that paid for this prepaid delivery. Null when this is not a prepaid delivery order.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      */
@@ -3113,273 +3304,3 @@ export type OrderCalculatedLineItemTaxRequestInput = {
     /** Whether the line item is subject to tax. */
     "taxable"?: boolean;
 };
-/** An additional charge applied to an order. */
-export type OrderCharge = {
-    /**
-     * Fixed charge amount before charge discounts and tax. Percentage charges use percent instead.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Resolved charge amount after charge discounts and before additive tax. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "applied_money": MoneyValue;
-    /**
-     * The amount a percent charge is calculated from. Value enum: "subtotal_pre_discount",
-     * "subtotal_post_discount".
-     */
-    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /** Optional description of the charge. */
-    "description"?: string;
-    /**
-     * ID of the fulfillment this charge belongs to, such as a shipping fee on its shipment.
-     * Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: string;
-    /**
-     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /** What the buyer sees for this charge at checkout and on receipts. */
-    "name": string;
-    /**
-     * Unique identifier for this order charge, prefixed `och_`. Example:
-     * "och_01KEZF7C00XX8AKACP0GHKFWWT".
-     */
-    "order_charge_id": string;
-    /**
-     * Order that owns this charge, including the source order of an invoice snapshot. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-    /**
-     * Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges
-     * use `amount_money` instead. multipleOf: 0.0001.
-     */
-    "percent"?: number;
-    /**
-     * Charge amount already refunded. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "refunded_money": MoneyValue;
-    /**
-     * How tax applies to this charge. Tax settings for an order charge calculated by Flint or
-     * supplied by you, including the charge's tax category and whether it is taxable.
-     */
-    "tax"?: OrderCalculatedChargeTax;
-    /**
-     * Tax calculated for the charge, including any tax already included in its price. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "tax_money": MoneyValue;
-    /**
-     * Applied charge amount plus tax that is not already included in the price. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "total_money": MoneyValue;
-    /**
-     * What the charge is for. It classifies the charge in reporting and sets its default tax
-     * category. Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee",
-     * "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee", "installation_fee",
-     * "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee",
-     * "restocking_fee", "rush_fee", "other".
-     */
-    "type": "service_fee"
-        | "delivery_fee"
-        | "shipping_fee"
-        | "handling_fee"
-        | "packaging_fee"
-        | "small_order_fee"
-        | "service_area_fee"
-        | "setup_fee"
-        | "installation_fee"
-        | "cleaning_fee"
-        | "booking_fee"
-        | "reservation_fee"
-        | "ticket_fee"
-        | "fulfillment_fee"
-        | "restocking_fee"
-        | "rush_fee"
-        | "other"
-        | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-};
-/** The `amount` variant of `OrderChargeInput`. */
-export type OrderChargeInputAmount = ({
-    /**
-     * Fixed charge amount in the order currency. The amount and every computed order amount must
-     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
-     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
-     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * The amount a percent charge is calculated from. Value enum: "subtotal_pre_discount",
-     * "subtotal_post_discount".
-     */
-    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount" | (string & {});
-    /** Selects a fixed amount or percentage calculation. Value enum: "amount". */
-    "calculation_type": "amount" | (string & {});
-    /** Optional description of the charge. minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * ID of the fulfillment this charge belongs to, such as a shipping fee on its shipment.
-     * minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: string;
-    /**
-     * Caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * What the buyer sees for this charge at checkout and on receipts. minLength: 1. maxLength:
-     * 255.
-     */
-    "name": string;
-    /**
-     * Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges
-     * use `amount_money` instead. multipleOf: 0.0001.
-     */
-    "percent"?: number;
-    /**
-     * How tax applies to this charge. Tax settings for an order charge calculated by Flint or
-     * supplied by you, including the charge's tax category and whether it is taxable.
-     */
-    "tax"?: OrderCalculatedChargeTax;
-    /**
-     * What the charge is for. It classifies the charge in reporting and sets its default tax
-     * category. Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee",
-     * "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee", "installation_fee",
-     * "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee",
-     * "restocking_fee", "rush_fee", "other".
-     */
-    "type": "service_fee"
-        | "delivery_fee"
-        | "shipping_fee"
-        | "handling_fee"
-        | "packaging_fee"
-        | "small_order_fee"
-        | "service_area_fee"
-        | "setup_fee"
-        | "installation_fee"
-        | "cleaning_fee"
-        | "booking_fee"
-        | "reservation_fee"
-        | "ticket_fee"
-        | "fulfillment_fee"
-        | "restocking_fee"
-        | "rush_fee"
-        | "other"
-        | (string & {});
-})
-    & (({
-    /** Selects a fixed amount or percentage calculation. Value enum: "amount". */
-    "calculation_type": "amount" | (string & {});
-    /**
-     * Fixed charge amount in the order currency. The amount and every computed order amount must
-     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
-     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
-     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-}));
-/** The `amount` variant of `OrderChargeInput`. */
-export type OrderChargeInputAmountInput = ({
-    /**
-     * Fixed charge amount in the order currency. The amount and every computed order amount must
-     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
-     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
-     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-    /**
-     * The amount a percent charge is calculated from. Value enum: "subtotal_pre_discount",
-     * "subtotal_post_discount".
-     */
-    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount";
-    /** Selects a fixed amount or percentage calculation. Value enum: "amount". */
-    "calculation_type": "amount";
-    /** Optional description of the charge. minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * ID of the fulfillment this charge belongs to, such as a shipping fee on its shipment.
-     * minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: string;
-    /**
-     * Caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * What the buyer sees for this charge at checkout and on receipts. minLength: 1. maxLength:
-     * 255.
-     */
-    "name": string;
-    /**
-     * Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges
-     * use `amount_money` instead. multipleOf: 0.0001.
-     */
-    "percent"?: number;
-    /**
-     * How tax applies to this charge. Tax settings for an order charge calculated by Flint or
-     * supplied by you, including the charge's tax category and whether it is taxable.
-     */
-    "tax"?: OrderCalculatedChargeTaxRequestInput;
-    /**
-     * What the charge is for. It classifies the charge in reporting and sets its default tax
-     * category. Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee",
-     * "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee", "installation_fee",
-     * "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee",
-     * "restocking_fee", "rush_fee", "other".
-     */
-    "type": "service_fee"
-        | "delivery_fee"
-        | "shipping_fee"
-        | "handling_fee"
-        | "packaging_fee"
-        | "small_order_fee"
-        | "service_area_fee"
-        | "setup_fee"
-        | "installation_fee"
-        | "cleaning_fee"
-        | "booking_fee"
-        | "reservation_fee"
-        | "ticket_fee"
-        | "fulfillment_fee"
-        | "restocking_fee"
-        | "rush_fee"
-        | "other";
-})
-    & (({
-    /** Selects a fixed amount or percentage calculation. Value enum: "amount". */
-    "calculation_type": ("amount") & ("amount");
-    /**
-     * Fixed charge amount in the order currency. The amount and every computed order amount must
-     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
-     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
-     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-})
-    & (({
-    "percent"?: never;
-})));

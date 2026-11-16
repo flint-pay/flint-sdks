@@ -12,5 +12,4 @@ Request input.
 | `billing_interval_count` | Optional | integer | Number of `billing_interval` units between charges. Send it with `billing_interval`. minimum: `1`. maximum: `365`. |
 | `gift_recipient` | Optional | [SubscriptionGiftRecipientRequestInput](../models/SubscriptionGiftRecipientRequestInput.md#subscriptiongiftrecipientrequestinput) or null | Who receives the gift, when subscription_terms.gifts_enabled is true. Replaces the whole recipient; send null to clear it. The buyer stays the purchaser. |
 | `line_items` | Optional | Array of [SubscriptionPlanChangeLineItemRequestInput](../models/SubscriptionPlanChangeLineItemRequestInput.md#subscriptionplanchangelineitemrequestinput) | Partial quantities for distinct frozen plan lines. Omitted lines keep their quantities. Checkout credentials may set only the adjustable line, within min_quantity and max_quantity (defaults 1 and 9,999). Merchant credentials may set any line to 1 through 9,999. maxItems: `50`. |
-| `quantity` | Optional | integer | Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `1`. |
 

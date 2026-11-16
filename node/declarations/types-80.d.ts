@@ -1,11 +1,24 @@
 import type { InputValue, Model } from '../runtime.js';
+import type { PartnerAppPaymentSplitsRequestInput } from './types-43.js';
 import type {
+    PartnerAppPermissionManifestEntryRequestInput,
+    PartnerAppPlatformProfileRequestInput,
+    PauseSubscriptionRequestInput,
+    PayOrderRequestInput,
+    PayOrderRequestConfirmPaymentIntentsInput,
+    PayOrderRequestPayInput,
+    PayOrderRequestResumeInput,
+    PayOrderRequestSetupInput
+} from './types-44.js';
+import type { PaymentLimitSettingsPatchInput, PaymentLinkCustomFieldPatchRequestInput } from './types-45.js';
+import type {
+    PaymentLinkCustomFieldRequestInput,
+    PaymentLinkCustomTextConfigInput,
+    PaymentLinkCustomTextPatchRequestInput,
     PaymentLinkEventConfigPatchRequestInput,
     PaymentLinkEventConfigRequestInput,
     PaymentLinkLegalConfigInput,
-    PaymentLinkLegalPatchRequestInput
-} from './types-45.js';
-import type {
+    PaymentLinkLegalPatchRequestInput,
     PaymentLinkLineItemInputBundleInput,
     PaymentLinkLineItemInputCustomFixedInput,
     PaymentLinkLineItemInputCustomVariableInput,
@@ -29,25 +42,21 @@ import type {
     PaymentSourceCredentialPaymentMethodInput,
     PaymentSourceCredentialReaderInput,
     PaymentSourceCredentialStripeConfirmationTokenInput,
-    PaymentSourceCredentialStripePaymentMethodInput,
-    PaymentSplitRequestInput
+    PaymentSourceCredentialStripePaymentMethodInput
 } from './types-47.js';
+import type { PaymentSplitRequestInput } from './types-48.js';
+import type { PlatformFeeCapRequestInput, PlatformFeeRequestInput, PriceListPriceRequestInput } from './types-49.js';
 import type {
-    PlatformFeeCapRequestInput,
-    PlatformFeeRequestInput,
-    PriceListPriceRequestInput,
     ProcessExistingReturnLineItemRequestInput,
-    ProcessExistingReturnRequestInput
-} from './types-49.js';
-import type {
+    ProcessExistingReturnRequestInput,
     ProductVariantRequestInput,
     ProductVariantSelectedOptionRequestInput,
     PromotionAmountOffMethodRequestInput,
     PromotionApplicationMethodPatchInput,
-    PromotionApplicationMethodRequestInput,
-    PromotionBuyXGetYMethodRequestInput
+    PromotionApplicationMethodRequestInput
 } from './types-50.js';
 import type {
+    PromotionBuyXGetYMethodRequestInput,
     PromotionCodeRequestInput,
     PromotionCombinesWithPatchInput,
     PromotionCombinesWithRequestInput,
@@ -59,24 +68,23 @@ import type {
     PromotionRecurrenceRepeatingRequestInput,
     PromotionRecurrenceRequestInput,
     PromotionRefInputPromotionCodeInput,
-    PromotionRefInputPromotionIDInput,
-    PromotionRefRequestInput,
-    PromotionRuleGroupRequestInput,
-    PromotionRuleRequestInput,
-    PromotionRuleValueRequestInput,
-    PromotionSchedulePatchInput,
-    PromotionScheduleRequestInput,
-    PromotionSettingsRequestInput
+    PromotionRefInputPromotionIDInput
 } from './types-51.js';
-import type {
-    PublishReturnPolicyRevisionRequestInput,
-    QuantityPriceBreakRequestInput,
-    ReaderPaymentSourceTipInput,
-    ReceiveInventoryTransferRequestInput,
-    RefreshCustomerSessionRequestInput,
-    RefundAdjustmentAuditInput,
-    RefundAdjustmentReasonRequestInput
-} from './types-52.js';
+export declare function makePartnerAppPaymentSplitsRequest(value: InputValue<PartnerAppPaymentSplitsRequestInput>): Model<PartnerAppPaymentSplitsRequestInput>;
+export declare function makePartnerAppPermissionManifestEntryRequest(value: InputValue<PartnerAppPermissionManifestEntryRequestInput>): Model<PartnerAppPermissionManifestEntryRequestInput>;
+export declare function makePartnerAppPlatformProfileRequest(value: InputValue<PartnerAppPlatformProfileRequestInput>): Model<PartnerAppPlatformProfileRequestInput>;
+export declare function makePauseSubscriptionRequest(value: InputValue<PauseSubscriptionRequestInput>): Model<PauseSubscriptionRequestInput>;
+export declare function makePayOrderRequest(value: InputValue<Exclude<PayOrderRequestInput & object, readonly unknown[]>>): Model<Exclude<PayOrderRequestInput & object, readonly unknown[]>>;
+export declare function makePayOrderRequest(value: InputValue<PayOrderRequestInput>): Model<PayOrderRequestInput>;
+export declare function makePayOrderRequestConfirmPaymentIntents(value: InputValue<PayOrderRequestConfirmPaymentIntentsInput>): Model<PayOrderRequestConfirmPaymentIntentsInput>;
+export declare function makePayOrderRequestPay(value: InputValue<PayOrderRequestPayInput>): Model<PayOrderRequestPayInput>;
+export declare function makePayOrderRequestResume(value: InputValue<PayOrderRequestResumeInput>): Model<PayOrderRequestResumeInput>;
+export declare function makePayOrderRequestSetup(value: InputValue<PayOrderRequestSetupInput>): Model<PayOrderRequestSetupInput>;
+export declare function makePaymentLimitSettingsPatch(value: InputValue<PaymentLimitSettingsPatchInput>): Model<PaymentLimitSettingsPatchInput>;
+export declare function makePaymentLinkCustomFieldPatchRequest(value: InputValue<PaymentLinkCustomFieldPatchRequestInput>): Model<PaymentLinkCustomFieldPatchRequestInput>;
+export declare function makePaymentLinkCustomFieldRequest(value: InputValue<PaymentLinkCustomFieldRequestInput>): Model<PaymentLinkCustomFieldRequestInput>;
+export declare function makePaymentLinkCustomTextConfig(value: InputValue<PaymentLinkCustomTextConfigInput>): Model<PaymentLinkCustomTextConfigInput>;
+export declare function makePaymentLinkCustomTextPatchRequest(value: InputValue<PaymentLinkCustomTextPatchRequestInput>): Model<PaymentLinkCustomTextPatchRequestInput>;
 export declare function makePaymentLinkEventConfigPatchRequest(value: InputValue<PaymentLinkEventConfigPatchRequestInput>): Model<PaymentLinkEventConfigPatchRequestInput>;
 export declare function makePaymentLinkEventConfigRequest(value: InputValue<PaymentLinkEventConfigRequestInput>): Model<PaymentLinkEventConfigRequestInput>;
 export declare function makePaymentLinkLegalConfig(value: InputValue<PaymentLinkLegalConfigInput>): Model<PaymentLinkLegalConfigInput>;
@@ -129,19 +137,3 @@ export declare function makePromotionRecurrenceRepeatingRequest(value: InputValu
 export declare function makePromotionRecurrenceRequest(value: InputValue<PromotionRecurrenceRequestInput>): Model<PromotionRecurrenceRequestInput>;
 export declare function makePromotionRefInputPromotionCode(value: InputValue<PromotionRefInputPromotionCodeInput>): Model<PromotionRefInputPromotionCodeInput>;
 export declare function makePromotionRefInputPromotionID(value: InputValue<PromotionRefInputPromotionIDInput>): Model<PromotionRefInputPromotionIDInput>;
-export declare function makePromotionRefRequest(value: InputValue<PromotionRefRequestInput>): Model<PromotionRefRequestInput>;
-export declare function makePromotionRuleGroupRequest(value: InputValue<Exclude<PromotionRuleGroupRequestInput & object, readonly unknown[]>>): Model<Exclude<PromotionRuleGroupRequestInput & object, readonly unknown[]>>;
-export declare function makePromotionRuleGroupRequest(value: InputValue<PromotionRuleGroupRequestInput>): Model<PromotionRuleGroupRequestInput>;
-export declare function makePromotionRuleRequest(value: InputValue<PromotionRuleRequestInput>): Model<PromotionRuleRequestInput>;
-export declare function makePromotionRuleValueRequest(value: InputValue<Exclude<PromotionRuleValueRequestInput & object, readonly unknown[]>>): Model<Exclude<PromotionRuleValueRequestInput & object, readonly unknown[]>>;
-export declare function makePromotionRuleValueRequest(value: InputValue<PromotionRuleValueRequestInput>): Model<PromotionRuleValueRequestInput>;
-export declare function makePromotionSchedulePatch(value: InputValue<PromotionSchedulePatchInput>): Model<PromotionSchedulePatchInput>;
-export declare function makePromotionScheduleRequest(value: InputValue<PromotionScheduleRequestInput>): Model<PromotionScheduleRequestInput>;
-export declare function makePromotionSettingsRequest(value: InputValue<PromotionSettingsRequestInput>): Model<PromotionSettingsRequestInput>;
-export declare function makePublishReturnPolicyRevisionRequest(value: InputValue<PublishReturnPolicyRevisionRequestInput>): Model<PublishReturnPolicyRevisionRequestInput>;
-export declare function makeQuantityPriceBreakRequest(value: InputValue<QuantityPriceBreakRequestInput>): Model<QuantityPriceBreakRequestInput>;
-export declare function makeReaderPaymentSourceTip(value: InputValue<ReaderPaymentSourceTipInput>): Model<ReaderPaymentSourceTipInput>;
-export declare function makeReceiveInventoryTransferRequest(value: InputValue<ReceiveInventoryTransferRequestInput>): Model<ReceiveInventoryTransferRequestInput>;
-export declare function makeRefreshCustomerSessionRequest(value: InputValue<RefreshCustomerSessionRequestInput>): Model<RefreshCustomerSessionRequestInput>;
-export declare function makeRefundAdjustmentAudit(value: InputValue<RefundAdjustmentAuditInput>): Model<RefundAdjustmentAuditInput>;
-export declare function makeRefundAdjustmentReasonRequest(value: InputValue<RefundAdjustmentReasonRequestInput>): Model<RefundAdjustmentReasonRequestInput>;

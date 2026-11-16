@@ -5,10 +5,10 @@ namespace Flint;
  * @internal
  *
  * @property-read string $subscription_id
- * @property-read mixed $body
+ * @property-read array{'billing_starts': string, 'expected_version'?: int, 'line_items': list<mixed>}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsChangeQuantityInput extends Model {
-    /** @param array{'subscription_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': mixed}|object $values */
+    /** @param array{'subscription_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'billing_starts': string, 'expected_version'?: int, 'line_items': list<mixed>}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionsChangeQuantityInput')); }
     /** Subscription ID. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
@@ -34,10 +34,10 @@ final class SubscriptionsChangeQuantityInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Change subscription quantity. Example: {"billing_starts":"prorated_now","expected_version":1,"quantity":1}.
-     * @return mixed
+    /** The request body for: Change subscription quantity. Example: {"billing_starts":"prorated_now","expected_version":1,"line_items":[{"quantity":2,"subscription_line_item_id":"sli_01KEZF7C00VQ081BX7W2T96R71"}]}.
+     * @return array{'billing_starts': string, 'expected_version'?: int, 'line_items': list<mixed>}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
-    public function getBody(): mixed { return $this->get('body'); }
+    public function getBody(): array|object { return $this->get('body'); }
     public function hasBody(): bool { return $this->has('body'); }
 }

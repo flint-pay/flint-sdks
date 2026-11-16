@@ -1,6 +1,6 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { CancelReturnDispositionResponse } from '../declarations/types-4.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type { CreateReturnDispositionResponse } from '../declarations/types-12.js';
 import type { GetReturnDispositionResponse } from '../declarations/types-26.js';
 import type { ListReturnDispositionsResponse } from '../declarations/types-35.js';
@@ -34,12 +34,12 @@ export type {
     ReturnDispositionsCreateParams,
     ReturnDispositionsGetParams,
     ReturnDispositionsListParams,
-    ReturnDispositionsRetryParams
+    ReturnDispositionsRetryParams,
+    ReturnActor
 } from '../declarations/types-55.js';
 export type {
     RequestOptions,
     RetryReturnDispositionResponse,
-    ReturnActor,
     ResponseMeta,
     ResponseWarning,
     ResourceReference,
@@ -55,7 +55,7 @@ export type {
 } from '../declarations/types-12.js';
 export type { GetReturnDispositionResponse } from '../declarations/types-26.js';
 export type { ListReturnDispositionsResponse } from '../declarations/types-35.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { MetadataMap, MetadataRequestInput } from '../declarations/types-38.js';
@@ -68,7 +68,8 @@ export {
     makeCreateReturnDispositionRequestInspectionLine,
     makeCreateReturnDispositionRequestReceiptLine
 } from '../declarations/types-74.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
+export { makeMetadataRequest } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export { makeRetryReturnDispositionRequest } from '../declarations/types-81.js';
 export interface ReturnDispositionsResource {
     /**

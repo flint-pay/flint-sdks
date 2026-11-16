@@ -1,8 +1,8 @@
-import { d90 as c0 } from '../descriptors/data/3.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d7442 as c1 } from '../descriptors/data/356.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d90 as d90 } from '../descriptors/data/3.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d91 as c0 } from '../descriptors/data/3.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d7473 as c1 } from '../descriptors/data/357.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d91 as d91 } from '../descriptors/data/3.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d90;
+const read = d91;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["BuyerReturnReplacementLineItemInputVariant"]:c0(),["SharedCodec92"]:c1()}); }
 export { codec as _validate };

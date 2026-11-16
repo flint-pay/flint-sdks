@@ -1,11 +1,11 @@
 import type { ResourceReference, ResponseMeta } from './types-54.js';
 import type { CreateOrderLineItemRequest, CreateOrderLineItemRequestInput } from './types-11.js';
 import type { OrderChargeRequest, OrderChargeRequestInput } from './types-40.js';
-import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-55.js';
+import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-56.js';
 import type { GetReturnResponse, GiftCard, GiftCardLoad } from './types-26.js';
 import type { RiskListItemAddition } from './types-58.js';
 import type { MoneyValue } from './types-39.js';
-import type { SignedMoneyRequestInput } from './types-59.js';
+import type { SignedMoneyRequestInput } from './types-60.js';
 import type { GiftCardTransaction } from './types-27.js';
 import type { InputValue } from '../runtime.js';
 import type { MerchantWebhookEnvelope } from './types-38.js';
@@ -364,8 +364,11 @@ export type APIKeyResponse = {
  */
 export type APIKeyWithSecret = (Exclude<APIKey & object, readonly unknown[]>)
     & ({
-    /** One-time secret returned only when the API key is created. */
-    "secret_key": string;
+    /**
+     * One-time secret returned only when the API key is created. Returned only to the credential
+     * that created it, and omitted when another credential replays the request.
+     */
+    "secret_key"?: string;
 });
 /** A record of an API request and its response. */
 export type APIRequestLog = {
@@ -1195,10 +1198,11 @@ export type AccessLink = {
      * The link to send the person to. It carries a bearer credential, so anyone with it can open
      * what its purpose describes until expires_at or until it reaches its open limit. Customer
      * account links use the merchant's customer account host; onboarding links use Flint's
-     * dashboard host and carry the credential in the URL fragment. Format: uri. Example:
-     * "https://example.com/receipt".
+     * dashboard host and carry the credential in the URL fragment. Returned only to the credential
+     * that created it, and omitted when another credential replays the request. Format: uri.
+     * Example: "https://example.com/receipt".
      */
-    "url": string;
+    "url"?: string;
 };
 /** A response containing `AccessLink` data. */
 export type AccessLinkResponse = {

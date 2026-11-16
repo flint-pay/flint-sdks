@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $url
  * Presence-aware input; omitted fields throw when accessed. */
 final class FileUploadInput extends Model {
-    /** @param array{'expires_at': string|\DateTimeInterface, 'headers': array<array-key, string>|\stdClass, 'method': string, 'url': string, ...}|object $values */
+    /** @param array{'expires_at': string|\DateTimeInterface, 'headers': array<array-key, string>|\stdClass, 'method': string, 'url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FileUploadInput')); }
     /** When the signed upload URL expires, 15 minutes after creation. Create a new file if it expires. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
@@ -28,7 +28,7 @@ final class FileUploadInput extends Model {
      */
     public function getMethod(): string { return $this->get('method'); }
     public function hasMethod(): bool { return $this->has('method'); }
-    /** A signed upload target. Send the bytes with method and headers verbatim; keep the URL out of logs. Format: uri. Example: "https://example.com/receipt".
+    /** A signed upload target. Send the bytes with method and headers verbatim; keep the URL out of logs. Returned only to the credential that created it, and omitted when another credential replays the request. Format: uri. Example: "https://example.com/receipt".
      * @return string
      * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
      */

@@ -30,7 +30,7 @@ namespace Flint;
  * @property-read string|null $client_secret
  * Presence-aware response; omitted optional fields return null. */
 final class PartnerAppWithSecret extends Model {
-    /** @param array{'allowed_scopes': list<string>, 'api_version': string, 'api_version_changed_at'?: string, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string, 'client_id': string, 'client_secret_enabled': bool, 'client_secret_last_used_at': string|null, 'created_at': string, 'default_requested_permissions': list<string>, 'merchant_action_routing'?: mixed, 'merchant_action_url'?: string, 'name': string, 'partner_app_id': string, 'payment_splits'?: mixed, 'permission_manifest': list<mixed>, 'platform': mixed, 'platform_fee_cap'?: mixed, 'platform_profile'?: mixed, 'previous_secret_expires_at'?: string, 'redirect_uris': list<string>, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int, 'client_secret': string|null, ...}|object $values */
+    /** @param array{'allowed_scopes': list<string>, 'api_version': string, 'api_version_changed_at'?: string, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string, 'client_id': string, 'client_secret_enabled': bool, 'client_secret_last_used_at': string|null, 'created_at': string, 'default_requested_permissions': list<string>, 'merchant_action_routing'?: mixed, 'merchant_action_url'?: string, 'name': string, 'partner_app_id': string, 'payment_splits'?: mixed, 'permission_manifest': list<mixed>, 'platform': mixed, 'platform_fee_cap'?: mixed, 'platform_profile'?: mixed, 'previous_secret_expires_at'?: string, 'redirect_uris': list<string>, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int, 'client_secret'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppWithSecret')); }
     /** Every Flint scope the app can hold: the union of required_scopes across the manifest. An install grants only the scopes of the permissions the merchant approves. [] (Value): string.
      * @return list<string>
@@ -157,7 +157,7 @@ final class PartnerAppWithSecret extends Model {
      */
     public function getVersion(): int { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
-    /** One-time client secret returned when issued by create or PATCH. Null when this response did not issue a secret, including when secret authentication was already enabled.
+    /** One-time client secret returned when issued by create or PATCH. Null when this response did not issue a secret, including when secret authentication was already enabled. Returned only to the credential that created it, and omitted when another credential replays the request.
      * @return string|null
      */
     public function getClientSecret(): string|null { return $this->get('client_secret'); }

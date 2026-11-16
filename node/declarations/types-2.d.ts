@@ -1,4 +1,4 @@
-import type { ReturnLineItemRequestInput, ReturnHandoffRequirementLineItem } from './types-55.js';
+import type { ReturnLineItemRequestInput } from './types-56.js';
 import type {
     BuyerReturnReplacementLineItemRequest,
     BuyerReturnReplacementLineItemRequestInput,
@@ -9,34 +9,29 @@ import type {
 } from './types-3.js';
 import type { ReturnResolutionLineItemRequest, ReturnResolutionLineItemRequestInput } from './types-57.js';
 import type { CreditNoteLineItem } from './types-14.js';
-import type {
-    MoneyValue,
-    OrderCharge,
-    OrderAuthorizationAmounts,
-    OrderCalculatedChargeTax,
-    OrderCalculatedLineItemTax
-} from './types-39.js';
-import type { TaxCurrencyConversion, TaxIdentity, TaxReverseCharge, TicketedEvent, TextModifierRequest } from './types-65.js';
+import type { MoneyValue, OrderAuthorizationAmounts, OrderCalculatedChargeTax, OrderCalculatedLineItemTax } from './types-39.js';
+import type { TaxCurrencyConversion, TaxIdentity, TaxReverseCharge, TextModifierRequest } from './types-65.js';
 import type { ResponseMeta } from './types-54.js';
 import type { Address } from './types-0.js';
 import type { ErrorResourceReference } from './types-24.js';
 import type { DeferredPromotion, CustomerTaxExemptionCoverage } from './types-16.js';
 import type {
     OrderSettlementAmounts,
+    OrderGiftCardSettlement,
     OrderReturnCreditSettlement,
     OrderLineItemFulfillmentQuantities,
     OrderLineItemFulfillmentRequirements,
     OrderLineSubscriptionOfferSummary,
     OrderPaymentAttemptPaymentMethodSave
 } from './types-41.js';
-import type { PricingAmounts } from './types-49.js';
+import type { PricingAmounts } from './types-50.js';
 import type { PaymentSourceSummary } from './types-47.js';
 import type { BuyerSubscriptionPlanLineItem, BuyerTip } from './types-4.js';
-import type { SubscriptionIntervalOption } from './types-61.js';
+import type { SubscriptionIntervalOption } from './types-62.js';
 import type { CardDetails, CheckoutMerchantSupport, CheckoutBuyerContact, CategoryReference } from './types-5.js';
 import type { StripeClientSetup, SubscribedLine } from './types-60.js';
 import type { FulfillmentChargeLink, FulfillmentRecipient } from './types-25.js';
-import type { PickupFulfillmentDetails, PendingPaymentAction } from './types-48.js';
+import type { PickupFulfillmentDetails, PendingPaymentAction } from './types-49.js';
 import type { ServiceFulfillmentDetails, ShipmentFulfillmentDetails, SelectedProductOption } from './types-59.js';
 import type { BuyerAction, BundleComponent } from './types-1.js';
 import type { CheckoutTheme } from './types-6.js';
@@ -44,15 +39,16 @@ import type { Image } from './types-28.js';
 import type { InvoiceDocumentRow, InvoiceLateFeePolicy, InvoiceDiscount, InvoiceLineItem } from './types-32.js';
 import type { InvoicePaymentOptionCostComparison, InvoicePaymentTermsSnapshot } from './types-33.js';
 import type { InvoiceScheduleEntry, InvoiceSettlementAmounts, InvoiceTip } from './types-34.js';
-import type { TaxBreakdown } from './types-64.js';
 import type {
+    OrderCharge,
     OrderDeliveryDestination,
     OrderDeliverySummary,
     OrderDiscount,
     OrderGiftCardEstimate,
-    OrderGiftCardSelection,
-    OrderGiftCardSettlement
+    OrderGiftCardSelection
 } from './types-40.js';
+import type { TaxBreakdown } from './types-64.js';
+import type { TicketedEvent } from './types-66.js';
 import type { Dimensions } from './types-23.js';
 import type { GiftCardPurchaseSnapshot } from './types-27.js';
 import type { LineItemInventorySnapshot } from './types-35.js';
@@ -60,6 +56,7 @@ import type { PurchasedGiftCard } from './types-52.js';
 import type { Weight } from './types-70.js';
 import type { PaymentAttemptGiftCardRedemption } from './types-44.js';
 import type { DeliveryChargeTaxCalculationRequest } from './types-17.js';
+import type { ReturnHandoffRequirementLineItem } from './types-55.js';
 /** The request body for: Create a Return for the current buyer. */
 export type BuyerCreateReturnRequestInput = {
     /**
@@ -689,6 +686,30 @@ export type BuyerEmailChangeRequest = {
      */
     "status": "pending" | "confirmed" | "canceled" | "expired" | (string & {});
 };
+/** A page of `BuyerEmailChangeRequest` objects. */
+export type BuyerEmailChangeRequestListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * BuyerEmailChangeRequest}. Nested child of Customer. A request to change this customer's
+     * sign-in email. Only one request can be pending per customer.
+     */
+    "data": Array<BuyerEmailChangeRequest>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
 /** A response containing `BuyerEmailChangeRequest` data. */
 export type BuyerEmailChangeRequestResponse = {
     /**
@@ -1107,14 +1128,6 @@ export type BuyerExpandedSubscriptionPlanSummary = {
     "line_items"?: Array<BuyerSubscriptionPlanLineItem>;
     /** Name of the plan. Buyers see it at checkout and on their subscription. */
     "name": string;
-    /**
-     * Quantities of the whole subscription that this plan lists, from 1 to 100, in ascending
-     * order. Flint accepts only a subscription quantity of 1, so you can set this list only to
-     * `[1]`. To let buyers choose a seat count, set `allow_quantity_adjustment` on a plan line
-     * item. A plan saved before that rule can still list up to 10 quantities. maxItems: 10.
-     * uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
-     */
-    "quantity_options"?: Array<number>;
     /**
      * One-time fee charged with the first payment of a new subscription, except one that continues
      * an imported paid period. Omitted when the plan has no setup fee. Monetary amount represented
@@ -3141,10 +3154,12 @@ export type BuyerOrderPaymentAttempt = {
      */
     "payment_intents": Array<BuyerPaymentAttemptPaymentIntent>;
     /**
-     * Set when the pay request sent save_payment_method: true and the attempt paid without saving
-     * the payment method. A card typed into checkout and saved has no entry here; read
-     * payment_method_save on the checkout session for a card waiting for confirmation. What became
-     * of the buyer's save_payment_method. The payment does not depend on it.
+     * Reports only a checkout buyer's skipped save when the pay request sent save_payment_method:
+     * true and the attempt paid without saving the payment method. A merchant save has no entry
+     * here; read payment_source.card.payment_method_id on the payment intent. A card typed into
+     * checkout and saved has no entry here; read payment_method_save on the checkout session for a
+     * card waiting for confirmation. What became of the buyer's save_payment_method. The payment
+     * does not depend on it.
      */
     "payment_method_save"?: OrderPaymentAttemptPaymentMethodSave;
     /**
@@ -3592,13 +3607,3 @@ export type BuyerPauseCapability = {
 };
 /** Whether buyers may pause their own subscriptions. Send at least one field. minProperties: 1. */
 export type BuyerPauseCapabilityInput = BuyerPauseCapability;
-/** The return resolutions the buyer can pay now. */
-export type BuyerPayBalanceActionOptions = {
-    /**
-     * Payable resolutions in creation order. Read each amount with GET
-     * /v1/me/return-resolutions/{return_resolution_id}, then create its checkout session with POST
-     * /v1/me/checkout-sessions and type return_resolution. minItems: 1. [] (Value): string.
-     * Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     */
-    "return_resolution_ids": Array<string>;
-};

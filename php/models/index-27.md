@@ -1,7 +1,17 @@
 [Model index](../MODELS.md)
 
-# SubscriptionUpcomingDeliveryHoldInput to UpdateDeliveryMethodRequestInput
+# SubscriptionSnapshotMetricsInput to UpdateBundleRequestInput
 
+- [SubscriptionSnapshotMetricsInput](SubscriptionSnapshotMetricsInput.md)
+- [SubscriptionStatusCountsInput](SubscriptionStatusCountsInput.md)
+- [SubscriptionSwapPreviewRequestInput](SubscriptionSwapPreviewRequestInput.md)
+- [SubscriptionTaxInput](SubscriptionTaxInput.md)
+- [SubscriptionTaxCalculationInput](SubscriptionTaxCalculationInput.md)
+- [SubscriptionTaxCalculationRequestInput](SubscriptionTaxCalculationRequestInput.md)
+- [SubscriptionTaxRequestInput](SubscriptionTaxRequestInput.md)
+- [SubscriptionTermsRequestInput](SubscriptionTermsRequestInput.md)
+- [SubscriptionTrialEndingInstalledMerchantsEventInput](SubscriptionTrialEndingInstalledMerchantsEventInput.md)
+- [SubscriptionTrialEndingMerchantEventInput](SubscriptionTrialEndingMerchantEventInput.md)
 - [SubscriptionUpcomingDeliveryHoldInput](SubscriptionUpcomingDeliveryHoldInput.md)
 - [SubscriptionUpdatedInstalledMerchantsEventInput](SubscriptionUpdatedInstalledMerchantsEventInput.md)
 - [SubscriptionUpdatedMerchantEventInput](SubscriptionUpdatedMerchantEventInput.md)
@@ -92,14 +102,4 @@
 - [UpdateAPIKeyRequestInput](UpdateAPIKeyRequestInput.md)
 - [UpdateBundleComponentRequestInput](UpdateBundleComponentRequestInput.md)
 - [UpdateBundleRequestInput](UpdateBundleRequestInput.md)
-- [UpdateCategoryRequestInput](UpdateCategoryRequestInput.md)
-- [UpdateCheckoutSessionRequestInput](UpdateCheckoutSessionRequestInput.md)
-- [UpdateCreditNoteRequestInput](UpdateCreditNoteRequestInput.md)
-- [UpdateCustomerAddressRequestInput](UpdateCustomerAddressRequestInput.md)
-- [UpdateCustomerEmailPreferencesRequestInput](UpdateCustomerEmailPreferencesRequestInput.md)
-- [UpdateCustomerRequestInput](UpdateCustomerRequestInput.md)
-- [UpdateCustomerTaxExemptionRequestInput](UpdateCustomerTaxExemptionRequestInput.md)
-- [UpdateDeliveryFulfillmentDetailsInput](UpdateDeliveryFulfillmentDetailsInput.md)
-- [UpdateDeliveryLocationSetRequestInput](UpdateDeliveryLocationSetRequestInput.md)
-- [UpdateDeliveryMethodRequestInput](UpdateDeliveryMethodRequestInput.md)
 

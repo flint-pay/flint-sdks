@@ -50,7 +50,7 @@ One entry in a resource timeline. The `entry_type` selects which of the request,
 | `retry` | Conditional | string | Whether sending this request again can succeed, and how. It depends only on code and details[0].reason; the errors reference lists the value for each. Values: `"same_request"`, `"after_refresh"`, `"none"`. |
 | `route_pattern` | Conditional | string | The matched route as a method and path template, such as `POST /v1/orders`. |
 | `status_code` | Conditional | integer | Format: `int32`. |
-| `event_type` | Conditional | string | Type of webhook event recorded for this resource. Values: [291 declared values](CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
+| `event_type` | Conditional | string | Type of webhook event recorded for this resource. Values: [294 declared values](CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
 | `webhook_event_id` | Conditional | string | ID of the event being delivered. Example: `"whev_01KEZF7C00362MS3HV970TRZGS"`. |
 | `attempt_number` | Conditional | integer | Which attempt this is for the delivery, starting at 1. Format: `int32`. |
 | `completed_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |

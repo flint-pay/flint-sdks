@@ -6,14 +6,13 @@ namespace Flint;
  * @property-read int $billing_interval_count
  * @property-read string|null $effective_at
  * @property-read list<SubscriptionLineItem> $line_items
- * @property-read int $quantity
  * @property-read MoneyValue $recurring_subtotal_money
  * @property-read string $requested_by
  * @property-read string $scheduled_at
  * @property-read string $subscription_plan_id
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionScheduledPlanChange extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'effective_at': string|null, 'line_items': list<mixed>, 'quantity': int, 'recurring_subtotal_money': mixed, 'requested_by': string, 'scheduled_at': string, 'subscription_plan_id': string, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'effective_at': string|null, 'line_items': list<mixed>, 'recurring_subtotal_money': mixed, 'requested_by': string, 'scheduled_at': string, 'subscription_plan_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionScheduledPlanChange')); }
     /** The frozen target billing interval. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -35,11 +34,6 @@ final class SubscriptionScheduledPlanChange extends Model {
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** The frozen target subscription quantity. Whole-number quantity; fractional quantities are not supported. Format: int32.
-     * @return int
-     */
-    public function getQuantity(): int { return $this->get('quantity'); }
-    public function hasQuantity(): bool { return $this->has('quantity'); }
     /** Frozen item subtotal per target billing period, before discounts, shipping, and tax. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */

@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# UpdateShipmentRequest to WorkloadIdentityResponse
+# UpdateReturnResolutionRequestInput to WorkloadIdentityResponse
 
+- [UpdateReturnResolutionRequestInput](UpdateReturnResolutionRequestInput.md)
+- [UpdateRiskListRequest](UpdateRiskListRequest.md)
+- [UpdateRiskListRequestInput](UpdateRiskListRequestInput.md)
+- [UpdateRiskRuleRequest](UpdateRiskRuleRequest.md)
+- [UpdateRiskRuleRequestInput](UpdateRiskRuleRequestInput.md)
+- [UpdateServiceFulfillmentDetails](UpdateServiceFulfillmentDetails.md)
+- [UpdateServiceFulfillmentDetailsInput](UpdateServiceFulfillmentDetailsInput.md)
+- [UpdateSettingsRequest](UpdateSettingsRequest.md)
+- [UpdateSettingsRequestInput](UpdateSettingsRequestInput.md)
 - [UpdateShipmentRequest](UpdateShipmentRequest.md)
 - [UpdateShipmentRequestInput](UpdateShipmentRequestInput.md)
 - [UpdateSubscriptionLineItemRequest](UpdateSubscriptionLineItemRequest.md)

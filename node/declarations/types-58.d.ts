@@ -1,19 +1,577 @@
 import type { InputValue } from '../runtime.js';
-import type { ReopenReturnRequestInput } from './types-53.js';
-import type {
-    UpdateReturnLineItemRequestInput,
-    UpdateReturnRequestInput,
-    UpdateRiskListRequestInput,
-    UpdateRiskRuleRequestInput
-} from './types-68.js';
-import type { WaiveReturnLineInspectionRequestInput } from './types-69.js';
-import type { ResponseMeta, ResourceReference, ResponseWarning } from './types-54.js';
-import type { AddRiskListItemsRequestInput } from './types-0.js';
-import type { CreateRiskListRequestInput, CreateRiskPreviewRequestInput, CreateRiskRuleRequestInput } from './types-13.js';
+import type { CancelReturnRequestInput } from './types-5.js';
+import type { CompleteReturnRequestInput } from './types-7.js';
+import type { FilesCompleteParams } from './types-24.js';
+import type { AddReturnLineItemRequestInput, AddRiskListItemsRequestInput } from './types-0.js';
+import type { CreateReturnRequestInput, CreateRiskListRequestInput, CreateRiskPreviewRequestInput } from './types-13.js';
+import type { DecideReturnRequestInput } from './types-16.js';
 import type { DisputesAcceptParams } from './types-23.js';
+import type { ProcessExistingReturnRequestInput } from './types-50.js';
+import type { ReopenReturnRequestInput, ResponseMeta, ResourceReference, ResponseWarning } from './types-54.js';
+import type { UpdateReturnLineItemRequestInput, UpdateReturnRequestInput, UpdateRiskListRequestInput } from './types-68.js';
+import type { WaiveReturnLineInspectionRequestInput } from './types-69.js';
 import type { MoneyValue, MoneyValueInput } from './types-39.js';
-import type { GiftCardPurchaseRecipient, GiftCardNotificationRecipientInput } from './types-27.js';
-import type { GiftCard, GiftCardNotification } from './types-26.js';
+import type { RiskRuleAnalysis, RiskRuleIssue } from './types-59.js';
+export type ReturnsCancelParams = (InputValue<CancelReturnRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsCompleteParams = (InputValue<CompleteReturnRequestInput>
+    | {
+    "expected_version"?: never;
+    "reason"?: never;
+    "reason_message"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsCreateAccessLinkParams = FilesCompleteParams;
+export type ReturnsCreateLineItemParams = (InputValue<AddReturnLineItemRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsCreateParams = (InputValue<CreateReturnRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsDecideParams = (InputValue<DecideReturnRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsDeleteLineItemParams = {
+    /**
+     * Optional version of the parent Return. Supply exactly once. A stale value returns
+     * VERSION_CONFLICT with the current Return version. Format: int64. minimum: 1. maximum:
+     * 9007199254740991.
+     */
+    "expected_version"?: InputValue<number>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsGetLineItemParams = DisputesAcceptParams;
+export type ReturnsGetParams = {
+    /**
+     * Include related objects in the response. Supported expansions: customer,
+     * line_items.fulfillment, line_items.return_reason, order, return_dispositions,
+     * return_inspections, return_receipts, return_resolutions, shipments. Expanded relationships
+     * are returned only when explicitly requested and authorized. Limits: at most 10 unique expand
+     * paths per request. To-many expansions are capped per path: at 100 related objects for
+     * return_dispositions, return_inspections, return_receipts, return_resolutions, and shipments;
+     * at 20 for line_items.fulfillment and line_items.return_reason. [] enum: "customer",
+     * "line_items.fulfillment", "line_items.return_reason", "order", "return_dispositions",
+     * "return_inspections", "return_receipts", "return_resolutions", "shipments". Value enum:
+     * "customer", "line_items.fulfillment", "line_items.return_reason", "order",
+     * "return_dispositions", "return_inspections", "return_receipts", "return_resolutions",
+     * "shipments". anyOf[1] (Value): Array of string. [] enum: "customer",
+     * "line_items.fulfillment", "line_items.return_reason", "order", "return_dispositions",
+     * "return_inspections", "return_receipts", "return_resolutions", "shipments". anyOf[1][]
+     * (Value): string. Value enum: "customer", "line_items.fulfillment",
+     * "line_items.return_reason", "order", "return_dispositions", "return_inspections",
+     * "return_receipts", "return_resolutions", "shipments". anyOf[2] (Value): string. Value enum:
+     * "customer", "line_items.fulfillment", "line_items.return_reason", "order",
+     * "return_dispositions", "return_inspections", "return_receipts", "return_resolutions",
+     * "shipments".
+     */
+    "expand"?: InputValue<("customer"
+        | "line_items.fulfillment"
+        | "line_items.return_reason"
+        | "order"
+        | "return_dispositions"
+        | "return_inspections"
+        | "return_receipts"
+        | "return_resolutions"
+        | "shipments")
+        | readonly ("customer"
+        | "line_items.fulfillment"
+        | "line_items.return_reason"
+        | "order"
+        | "return_dispositions"
+        | "return_inspections"
+        | "return_receipts"
+        | "return_resolutions"
+        | "shipments")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsListActivitiesParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. Format: int32. minimum:
+     * 1. maximum: 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsListLineItemsParams = {
+    /**
+     * Filter by fulfillment id. pattern: ^ful_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: InputValue<string>;
+    /**
+     * Filter by merchandise status. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "not_required", "awaiting_handoff", "in_transit", "partially_received",
+     * "inspection_required", "partially_inspected", "inspection_review_required",
+     * "disposition_required", "resolved", "exception". Value enum: "not_required",
+     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+     * "exception". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "not_required",
+     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+     * "exception". anyOf[1][] (Value): string. Value enum: "not_required", "awaiting_handoff",
+     * "in_transit", "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[2]
+     * (Value): string. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     */
+    "merchandise_status"?: InputValue<("not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | "exception")
+        | readonly ("not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | "exception")[]>;
+    /**
+     * Filter by order line item id. pattern: ^li_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31".
+     */
+    "order_line_item_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. Format: int32. minimum:
+     * 1. maximum: 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by resolution status. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "not_selected", "pending", "requires_action", "completed", "failed". Value
+     * enum: "not_selected", "pending", "requires_action", "completed", "failed". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "not_selected", "pending", "requires_action",
+     * "completed", "failed". anyOf[1][] (Value): string. Value enum: "not_selected", "pending",
+     * "requires_action", "completed", "failed". anyOf[2] (Value): string. Value enum:
+     * "not_selected", "pending", "requires_action", "completed", "failed".
+     */
+    "resolution_status"?: InputValue<("not_selected" | "pending" | "requires_action" | "completed" | "failed")
+        | readonly ("not_selected" | "pending" | "requires_action" | "completed" | "failed")[]>;
+    /**
+     * Filter by return reason id. pattern: ^rrsn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
+     */
+    "return_reason_id"?: InputValue<string>;
+    /**
+     * Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown
+     * entries are rejected. Values within this filter are ORed; separate filters are ANDed. []
+     * enum: "requested", "open", "completed", "declined", "canceled". Value enum: "requested",
+     * "open", "completed", "declined", "canceled". anyOf[1] (Value): Array of string. minItems: 1.
+     * [] enum: "requested", "open", "completed", "declined", "canceled". anyOf[1][] (Value):
+     * string. Value enum: "requested", "open", "completed", "declined", "canceled". anyOf[2]
+     * (Value): string. Value enum: "requested", "open", "completed", "declined", "canceled".
+     */
+    "status"?: InputValue<("requested" | "open" | "completed" | "declined" | "canceled")
+        | readonly ("requested" | "open" | "completed" | "declined" | "canceled")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsListParams = {
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Filter by customer id. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: InputValue<string>;
+    /**
+     * Filter by decision status. Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "pending", "approved", "partially_approved", "declined". Value enum:
+     * "pending", "approved", "partially_approved", "declined". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "pending", "approved", "partially_approved", "declined". anyOf[1][]
+     * (Value): string. Value enum: "pending", "approved", "partially_approved", "declined".
+     * anyOf[2] (Value): string. Value enum: "pending", "approved", "partially_approved",
+     * "declined".
+     */
+    "decision_status"?: InputValue<("pending" | "approved" | "partially_approved" | "declined")
+        | readonly ("pending" | "approved" | "partially_approved" | "declined")[]>;
+    /**
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842".
+     */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
+     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
+     * pending resource does not prove that the operation succeeded, and an empty list does not
+     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
+     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     */
+    "idempotency_key"?: InputValue<string>;
+    /**
+     * Filter by merchandise status. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "not_required", "awaiting_handoff", "in_transit", "partially_received",
+     * "inspection_required", "partially_inspected", "inspection_review_required",
+     * "disposition_required", "resolved", "exception". Value enum: "not_required",
+     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+     * "exception". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "not_required",
+     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+     * "exception". anyOf[1][] (Value): string. Value enum: "not_required", "awaiting_handoff",
+     * "in_transit", "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[2]
+     * (Value): string. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     */
+    "merchandise_status"?: InputValue<("not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | "exception")
+        | readonly ("not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | "exception")[]>;
+    /**
+     * Filter by order id. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. Format: int32. minimum:
+     * 1. maximum: 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Search by return ID, return number, external reference ID, the order's number, or the
+     * buyer's email.
+     */
+    "query"?: InputValue<string>;
+    /**
+     * Filter by receiving location id. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "receiving_location_id"?: InputValue<string>;
+    /**
+     * Filter by resolution status. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "not_selected", "pending", "partially_completed", "requires_action",
+     * "completed", "failed". Value enum: "not_selected", "pending", "partially_completed",
+     * "requires_action", "completed", "failed". anyOf[1] (Value): Array of string. minItems: 1. []
+     * enum: "not_selected", "pending", "partially_completed", "requires_action", "completed",
+     * "failed". anyOf[1][] (Value): string. Value enum: "not_selected", "pending",
+     * "partially_completed", "requires_action", "completed", "failed". anyOf[2] (Value): string.
+     * Value enum: "not_selected", "pending", "partially_completed", "requires_action",
+     * "completed", "failed".
+     */
+    "resolution_status"?: InputValue<("not_selected" | "pending" | "partially_completed" | "requires_action" | "completed" | "failed")
+        | readonly ("not_selected" | "pending" | "partially_completed" | "requires_action" | "completed" | "failed")[]>;
+    /**
+     * Filter by resolution type. Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action",
+     * "correction". Value enum: "refund", "exchange", "replacement", "store_credit",
+     * "no_monetary_action", "correction". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction".
+     * anyOf[1][] (Value): string. Value enum: "refund", "exchange", "replacement", "store_credit",
+     * "no_monetary_action", "correction". anyOf[2] (Value): string. Value enum: "refund",
+     * "exchange", "replacement", "store_credit", "no_monetary_action", "correction".
+     */
+    "resolution_type"?: InputValue<("refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction")
+        | readonly ("refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction")[]>;
+    /** Filter by return number. */
+    "return_number"?: InputValue<string>;
+    /**
+     * Filter by return reason id. pattern: ^rrsn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
+     */
+    "return_reason_id"?: InputValue<string>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by return_id. Default:
+     * "created_at". Value enum: "created_at".
+     */
+    "sort_by"?: InputValue<"created_at">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /**
+     * Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown
+     * entries are rejected. Values within this filter are ORed; separate filters are ANDed. []
+     * enum: "requested", "open", "completed", "declined", "canceled". Value enum: "requested",
+     * "open", "completed", "declined", "canceled". anyOf[1] (Value): Array of string. minItems: 1.
+     * [] enum: "requested", "open", "completed", "declined", "canceled". anyOf[1][] (Value):
+     * string. Value enum: "requested", "open", "completed", "declined", "canceled". anyOf[2]
+     * (Value): string. Value enum: "requested", "open", "completed", "declined", "canceled".
+     */
+    "status"?: InputValue<("requested" | "open" | "completed" | "declined" | "canceled")
+        | readonly ("requested" | "open" | "completed" | "declined" | "canceled")[]>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Filter by work type. Matches only returns that are still requested or open. Values are
+     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
+     * within this filter are ORed; separate filters are ANDed. [] enum: "decision", "handoff",
+     * "receipt", "inspection", "disposition", "resolution", "exception". Value enum: "decision",
+     * "handoff", "receipt", "inspection", "disposition", "resolution", "exception". anyOf[1]
+     * (Value): Array of string. minItems: 1. [] enum: "decision", "handoff", "receipt",
+     * "inspection", "disposition", "resolution", "exception". anyOf[1][] (Value): string. Value
+     * enum: "decision", "handoff", "receipt", "inspection", "disposition", "resolution",
+     * "exception". anyOf[2] (Value): string. Value enum: "decision", "handoff", "receipt",
+     * "inspection", "disposition", "resolution", "exception".
+     */
+    "work_type"?: InputValue<("decision" | "handoff" | "receipt" | "inspection" | "disposition" | "resolution" | "exception")
+        | readonly ("decision" | "handoff" | "receipt" | "inspection" | "disposition" | "resolution" | "exception")[]>;
+    /**
+     * Include related objects in the response. Supported expansions: customer, order. Include the
+     * requested related resources using scoped batch reads for this page. Each relationship
+     * requires its existing target read scopes. Expansion changes the representation without
+     * changing pagination tokens. Limits: at most 10 unique expand paths per request. [] enum:
+     * "customer", "order". Value enum: "customer", "order". anyOf[1] (Value): Array of string. []
+     * enum: "customer", "order". anyOf[1][] (Value): string. Value enum: "customer", "order".
+     * anyOf[2] (Value): string. Value enum: "customer", "order".
+     */
+    "expand"?: InputValue<("customer" | "order") | readonly ("customer" | "order")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsProcessParams = (InputValue<ProcessExistingReturnRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 export type ReturnsReopenParams = (InputValue<ReopenReturnRequestInput>)
     & {
     /**
@@ -952,271 +1510,4 @@ export type RiskRule = {
      * someone else's change. Format: int64.
      */
     "version": number;
-};
-/**
- * What a valid risk rule uses: its evaluation stage, the attributes and list aliases it
- * references, and which payments it applies to.
- */
-export type RiskRuleAnalysis = {
-    /** Which payments the rule applies to. Value enum: "all_payments", "on_session_only". */
-    "applicability": "all_payments" | "on_session_only" | (string & {});
-    /** Names of the payment attributes the rule reads. [] (Value): string. */
-    "attributes_used": Array<string>;
-    /** Aliases of the risk lists the rule references. [] (Value): string. */
-    "list_aliases_used": Array<string>;
-    /**
-     * When Flint evaluates the rule for a payment. Value enum: "pre_authorization",
-     * "post_authorization".
-     */
-    "stage": "pre_authorization" | "post_authorization" | (string & {});
-};
-/**
- * A problem that stops a saved or proposed risk rule from running, with a `code`, a message, and
- * the `path` to the part of the rule at fault.
- */
-export type RiskRuleIssue = {
-    /**
-     * Extensible rule issue code. Accept new codes as they are added. Risk rules and previews
-     * share these issue codes; invalid rule writes use the standard error codes. Value enum:
-     * "invalid_predicate", "invalid_predicate_node", "invalid_predicate_group",
-     * "unknown_predicate_field", "unknown_attribute", "attribute_unavailable", "invalid_operator",
-     * "invalid_operand", "invalid_list_alias", "invalid_money", "invalid_rule_action",
-     * "rule_action_unavailable_at_stage", "list_not_found", "list_archived", "list_type_mismatch".
-     */
-    "code": "invalid_predicate"
-        | "invalid_predicate_node"
-        | "invalid_predicate_group"
-        | "unknown_predicate_field"
-        | "unknown_attribute"
-        | "attribute_unavailable"
-        | "invalid_operator"
-        | "invalid_operand"
-        | "invalid_list_alias"
-        | "invalid_money"
-        | "invalid_rule_action"
-        | "rule_action_unavailable_at_stage"
-        | "list_not_found"
-        | "list_archived"
-        | "list_type_mismatch"
-        | (string & {});
-    /** Description of the rule issue and how to correct it. */
-    "message": string;
-    /**
-     * Public request field path, as used by error param: predicate for the root,
-     * predicate.all[0].attribute for a nested field, or action.
-     */
-    "path": string;
-    /**
-     * Why an attribute is unavailable. Present only for attribute_unavailable issues. Value enum:
-     * "risk_scoring_not_enabled", "ip_geolocation_not_enabled".
-     */
-    "unavailable_reason"?: "risk_scoring_not_enabled" | "ip_geolocation_not_enabled" | (string & {});
-};
-/** A page of `RiskRule` objects. */
-export type RiskRuleListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * RiskRule}. A rule for assessing and handling payment risk.
-     */
-    "data": Array<RiskRule>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `RiskRule` data. */
-export type RiskRuleResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A rule for assessing and
-     * handling payment risk.
-     */
-    "data": RiskRule;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type RiskRulesCreateParams = (InputValue<CreateRiskRuleRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type RiskRulesDeleteParams = {
-    /**
-     * Optional risk rule version last read by the caller. Format: int64. minimum: 1. maximum:
-     * 9007199254740991.
-     */
-    "expected_version"?: InputValue<number>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type RiskRulesGetAttributesParams = DisputesAcceptParams;
-export type RiskRulesGetParams = DisputesAcceptParams;
-export type RiskRulesListParams = {
-    /**
-     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
-     * "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value):
-     * Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value):
-     * string. Value enum: "active", "inactive", "archived". anyOf[2] (Value): string. Value enum:
-     * "active", "inactive", "archived".
-     */
-    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type RiskRulesUpdateParams = (UpdateRiskRuleRequestInput)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/** The request body for: Replace a gift card code. */
-export type RotateGiftCardCodeRequest = {
-    /**
-     * The gift card version last read. The command changes this card only when its current version
-     * matches. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Explicitly send or schedule the replacement code through private recipient access. Requires
-     * commerce.gift_cards.secrets.write. Who receives a gift card notification: their `email`,
-     * optional `name` and `message`, and an optional `send_at` time.
-     */
-    "notification"?: GiftCardPurchaseRecipient;
-};
-/** The request body for: Replace a gift card code. */
-export type RotateGiftCardCodeRequestInput = {
-    /**
-     * The gift card version last read. The command changes this card only when its current version
-     * matches. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Explicitly send or schedule the replacement code through private recipient access. Requires
-     * commerce.gift_cards.secrets.write. Who receives a gift card notification: their `email`,
-     * optional `name` and `message`, and an optional `send_at` time.
-     */
-    "notification"?: GiftCardNotificationRecipientInput;
-};
-/**
- * The gift card after its code was rotated, with the new `code` while it can be recovered and the
- * notification sent.
- */
-export type RotateGiftCardCodeResult = {
-    /**
-     * The full current code. Omitted after the 24-hour recovery window or when this code has been
-     * replaced.
-     */
-    "code"?: string;
-    /**
-     * When recovery of this code expires. Omitted when the code cannot be recovered. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "code_recovery_expires_at"?: string;
-    /**
-     * The gift card after the command. Merchant-issued purchased gift card. Posted balance
-     * includes reserved value; available value is balance minus reservations. Frozen value remains
-     * part of outstanding liability. Gift cards are independent resources and cannot be
-     * transferred across merchants or currencies.
-     */
-    "gift_card": GiftCard;
-    /**
-     * The notification the command created because the request included `notification`. Omitted
-     * otherwise. A message sent to a gift card recipient.
-     */
-    "gift_card_notification"?: GiftCardNotification;
 };

@@ -1,5 +1,13 @@
-import type { MoneyValueInput, MoneyValue } from './types-39.js';
-import type { OrderLineItemTaxRequestInput, OrderPaymentAttempt } from './types-41.js';
+import type {
+    ErrorRemediation,
+    ExpandedCustomerSummary,
+    ExpandedInvoiceSummary,
+    ExpandedOrderSummary,
+    ExpandedPaymentIntentSummary,
+    ExpandedPaymentLinkSummary
+} from './types-24.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
+import type { OrderLineItemTax, OrderLineItemTaxRequestInput, OrderPaymentAttempt } from './types-41.js';
 import type { BuyerRefund } from './types-3.js';
 import type {
     CheckoutBuyerContact,
@@ -11,18 +19,9 @@ import type {
     CheckoutMerchantSupport,
     CheckoutPaymentConfig,
     CheckoutPaymentMethodSave,
-    CheckoutPrefill,
-    CheckoutProblemResource,
-    CheckoutPromotionConfig
+    CheckoutPrefill
 } from './types-5.js';
 import type { CustomFieldAnswer } from './types-15.js';
-import type {
-    ExpandedCustomerSummary,
-    ExpandedInvoiceSummary,
-    ExpandedOrderSummary,
-    ExpandedPaymentIntentSummary,
-    ExpandedPaymentLinkSummary
-} from './types-24.js';
 import type { Image } from './types-28.js';
 import type { LegalSettings } from './types-35.js';
 import type { MetadataMap, MerchantWebhookEnvelope } from './types-38.js';
@@ -31,8 +30,9 @@ import type { SetupCollection } from './types-59.js';
 import type { WebhookCheckoutSession } from './types-69.js';
 import type { ResponseMeta } from './types-54.js';
 import type { Address } from './types-0.js';
-import type { InputValue, ClientOptions as RuntimeClientOptions, CredentialProvider } from '../runtime.js';
+import type { InputValue } from '../runtime.js';
 import type {
+    CloseCheckoutSessionRequestInput,
     ConfirmCheckoutSessionCustomerVerificationRequestInput,
     CreateCheckoutSessionCustomerVerificationRequestInput
 } from './types-7.js';
@@ -42,11 +42,75 @@ import type {
     SubscriptionGiftRecipient,
     SubscriptionIntervalOption,
     SubscriptionGiftRecipientRequest,
-    SubscriptionGiftRecipientRequestInput
-} from './types-61.js';
-import type { SubscriptionPlanChangeLineItemRequest, SubscriptionPlanChangeLineItemRequestInput } from './types-62.js';
-import type { AuthMode } from './types-1.js';
-import type { Credentials } from './types-14.js';
+    SubscriptionPlanChangeLineItemRequest,
+    SubscriptionGiftRecipientRequestInput,
+    SubscriptionPlanChangeLineItemRequestInput
+} from './types-62.js';
+/**
+ * A problem with a checkout session, such as a stale delivery selection, with its `code`, whether
+ * it blocks completion, and remediation.
+ */
+export type CheckoutProblemResource = {
+    /** Whether the checkout cannot complete until the problem is resolved. */
+    "blocks_completion": boolean;
+    /**
+     * Which condition affects the checkout. Value enum: "delivery_selection_stale",
+     * "delivery_selection_invalid", "delivery_unreadable", "payment_in_progress".
+     */
+    "code": "delivery_selection_stale"
+        | "delivery_selection_invalid"
+        | "delivery_unreadable"
+        | "payment_in_progress"
+        | (string & {});
+    /**
+     * What the caller can do about the problem, and whether retrying the same request can help.
+     * Recovery guidance for an error: whether and how to `retry`, plus next steps and suggested
+     * actions.
+     */
+    "remediation"?: ErrorRemediation;
+    /** How serious the problem is. Value enum: "error". */
+    "severity": "error" | (string & {});
+};
+/**
+ * Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can
+ * apply promotion codes.
+ */
+export type CheckoutPromotionConfig = {
+    /**
+     * Whether automatic promotions apply to this checkout. Send false to stop them here. True
+     * can't turn them back on when your promotion settings have them off.
+     */
+    "automatic_enabled"?: boolean;
+    /**
+     * Object-level override for whether this checkout's buyer can apply promotion codes, hosted or
+     * headless. Omit to inherit the payment link and checkout.promotion_codes_enabled. When all
+     * are unset, hosted checkout offers code entry only while an active code promotion exists in
+     * this environment; read can_apply_promotion_code on the session. True allows codes when the
+     * merchant's promotion settings allow them; false blocks them for this checkout. `null` when
+     * this checkout inherits checkout.promotion_codes_enabled.
+     */
+    "codes_enabled"?: boolean | null;
+};
+/**
+ * Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can
+ * apply promotion codes.
+ */
+export type CheckoutPromotionConfigRequestInput = CheckoutPromotionConfig;
+/**
+ * A single custom item to charge on a checkout session, supplied as `quick_pay_item`: a name, an
+ * amount, and optional tax settings.
+ */
+export type CheckoutQuickPayItemRequest = {
+    /**
+     * Amount the buyer pays for the item. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /** Name shown for the item. minLength: 1. */
+    "name": string;
+    /** Tax settings for the item. A line item's tax category and whether it is taxable. */
+    "tax"?: OrderLineItemTax;
+};
 /**
  * A single custom item to charge on a checkout session, supplied as `quick_pay_item`: a name, an
  * amount, and optional tax settings.
@@ -2371,8 +2435,8 @@ export type CheckoutSubscriptionTerms = {
      * maximum: 9999. [].min_quantity (Required): integer. Minimum buyer quantity, defaulting to 1.
      * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
      * maximum: 9999. [].name (Required): string. The captured line name. [].quantity (Required):
-     * integer. The line quantity, before the subscription quantity multiplier. Whole-number
-     * quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999.
+     * integer. The line quantity is the seat count. Nothing multiplies it. Whole-number quantity;
+     * fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999.
      * [].subscription_plan_line_item_id (Optional): string. The plan line whose terms were
      * captured. Absent when an older snapshot did not record its plan line ID. pattern:
      * ^spli_[0-9A-HJKMNP-TV-Z]{26}$. Example: "spli_01KEZF7C00H9FGC2KBRF82H87N".
@@ -2395,7 +2459,7 @@ export type CheckoutSubscriptionTerms = {
         /** The captured line name. */
         "name": string;
         /**
-         * The line quantity, before the subscription quantity multiplier. Whole-number quantity;
+         * The line quantity is the seat count. Nothing multiplies it. Whole-number quantity;
          * fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999.
          */
         "quantity": number;
@@ -2413,14 +2477,6 @@ export type CheckoutSubscriptionTerms = {
     }>;
     /** Plan name shown to the buyer. */
     "plan_name": string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "quantity": number;
-    /**
-     * Quantities the plan offered when the session was created, in ascending order. The same
-     * values as the plan's `quantity_options`. Flint accepts only a subscription quantity of 1.
-     * minItems: 1. [] (Value): integer. Format: int32.
-     */
-    "quantity_options": Array<number>;
     /**
      * Shipping that renews with each charge, for the delivery method the buyer chose. Omitted when
      * no delivery method applies to the plan's lines. Recurring shipping charged on a checkout's
@@ -2478,11 +2534,6 @@ export type CheckoutSubscriptionTermsRequest = ({
      * in the target subscription plan.
      */
     "line_items"?: Array<SubscriptionPlanChangeLineItemRequest>;
-    /**
-     * Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional
-     * quantities are not supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
 });
 /**
  * Subscription choices for a checkout session: billing interval, interval count, line quantities,
@@ -2516,11 +2567,6 @@ export type CheckoutSubscriptionTermsRequestInput = ({
      * line in the target subscription plan.
      */
     "line_items"?: Array<SubscriptionPlanChangeLineItemRequestInput>;
-    /**
-     * Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional
-     * quantities are not supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
 });
 /**
  * The calculation the order Flint creates uses while tax is enabled. Replaced as a whole: send
@@ -2669,76 +2715,3 @@ export type CheckoutTipConfig = {
      */
     "tip_percent_options"?: Array<number>;
 };
-/**
- * Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the
- * default tip, and custom tips.
- */
-export type CheckoutTipConfigRequestInput = {
-    /** Whether buyers can enter a custom tip amount. */
-    "custom_tip_enabled"?: boolean;
-    /**
-     * The preselected fixed tip, with a positive amount in the same currency as
-     * smart_tip_money_options. Its amount and currency must match one of the effective
-     * smart_tip_money_options: the ones sent here, or else the ones inherited from tipping
-     * settings. An inherited preselection that isn't one of the effective options is dropped.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "default_smart_tip_money"?: MoneyValueInput;
-    /**
-     * The preselected tip percent, from 1 through 100 with at most four decimal places. Must match
-     * one of the effective tip_percent_options: the ones sent here, or else the ones inherited
-     * from tipping settings. An inherited preselection that isn't one of the effective options is
-     * dropped, and checkout preselects no tip. minimum: 1. maximum: 100. multipleOf: 0.0001.
-     */
-    "default_tip_percent"?: number;
-    /**
-     * Whether checkout offers a tip. Omit it to follow the merchant's tipping settings.
-     * Subscription signups don't inherit that setting or its preselected tip: they offer a tip
-     * only when this is true, and the tip is collected once, with the signup payment. A signup
-     * with nothing due today, such as a free trial, offers none. Renewals don't include it.
-     */
-    "enabled"?: boolean;
-    /**
-     * Three fixed tips to offer, each with a positive amount. On a checkout session they must use
-     * the session's currency. On a payment link they must share one currency, and a checkout
-     * opened from the link offers only those in its currency. [] (Value): {@link MoneyValueInput}.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "smart_tip_money_options"?: Array<MoneyValueInput>;
-    /** Whether checkout offers fixed tip amounts instead of tip percentages. */
-    "smart_tips_enabled"?: boolean;
-    /**
-     * Three tip percents to offer, each from 1 through 100 with at most four decimal places. []
-     * (Value): number. minimum: 1. maximum: 100. multipleOf: 0.0001.
-     */
-    "tip_percent_options"?: Array<number>;
-};
-/** Client configuration. See RUNTIME.md#clientoptions. */
-export type ClientOptions = Omit<RuntimeClientOptions, 'baseUrl' | 'token' | 'authMode' | 'credentials'>
-    & {
-    baseUrl?: string | undefined;
-    "apiKey"?: string | CredentialProvider;
-    "checkoutToken"?: string | CredentialProvider;
-    "customerToken"?: string | CredentialProvider;
-    "invoiceToken"?: string | CredentialProvider;
-    "onboardingToken"?: string | CredentialProvider;
-    "token"?: string | CredentialProvider;
-    authMode?: AuthMode;
-    credentials?: Partial<Credentials>;
-};
-/** The request body for: Close checkout session. */
-export type CloseCheckoutSessionRequest = {
-    /**
-     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
-     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Your note explaining why you are closing the checkout session. It is not shown to the buyer.
-     * minLength: 1.
-     */
-    "reason_message"?: string;
-};
-/** The request body for: Close checkout session. */
-export type CloseCheckoutSessionRequestInput = CloseCheckoutSessionRequest;

@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# CreateSubscriptionDeliveryMigrationRequestInput to CustomerCreatedMerchantEvent
+# CreateSubscriptionAccessLinkRequest to CustomerAddressListResponse
 
+- [CreateSubscriptionAccessLinkRequest](CreateSubscriptionAccessLinkRequest.md)
+- [CreateSubscriptionAccessLinkRequestInput](CreateSubscriptionAccessLinkRequestInput.md)
+- [CreateSubscriptionDeliveryMigrationRequest](CreateSubscriptionDeliveryMigrationRequest.md)
 - [CreateSubscriptionDeliveryMigrationRequestInput](CreateSubscriptionDeliveryMigrationRequestInput.md)
 - [CreateSubscriptionLineItemRequest](CreateSubscriptionLineItemRequest.md)
 - [CreateSubscriptionLineItemRequestInput](CreateSubscriptionLineItemRequestInput.md)
@@ -99,7 +102,4 @@
 - [CustomerAccountSettingsRequestInput](CustomerAccountSettingsRequestInput.md)
 - [CustomerAddress](CustomerAddress.md)
 - [CustomerAddressListResponse](CustomerAddressListResponse.md)
-- [CustomerAddressResponse](CustomerAddressResponse.md)
-- [CustomerCreatedInstalledMerchantsEvent](CustomerCreatedInstalledMerchantsEvent.md)
-- [CustomerCreatedMerchantEvent](CustomerCreatedMerchantEvent.md)
 

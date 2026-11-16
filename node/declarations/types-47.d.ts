@@ -1,16 +1,825 @@
 import type { CardDetails } from './types-5.js';
 import type { ExpandedCustomerSummary, ExpandedPaymentIntentSummary, ExpandedOrderSummary } from './types-24.js';
 import type { MerchantWebhookEnvelope } from './types-38.js';
+import type { PartnerWebhookEnvelope } from './types-44.js';
 import type { PaymentMethod } from './types-46.js';
 import type { ResponseMeta, ResourceReference } from './types-54.js';
-import type { PartnerWebhookEnvelope } from './types-44.js';
-import type { StripeClientSetup, SplitReversalReference } from './types-60.js';
 import type { InputValue } from '../runtime.js';
+import type { CreatePaymentMethodDomainRequestInput } from './types-11.js';
+import type { UpdatePaymentMethodDomainRequestInput } from './types-67.js';
+import type { StripeClientSetup, SplitReversalReference } from './types-60.js';
 import type { SavePaymentMethodRequestInput } from './types-59.js';
 import type { DisputesAcceptParams } from './types-23.js';
-import type { MoneyValue, MoneyValueInput } from './types-39.js';
+import type { MoneyValue } from './types-39.js';
 import type { DeclinePaymentReviewRequestInput } from './types-16.js';
 import type { ReaderPaymentSourceTip, ReaderPaymentSourceTipInput } from './types-52.js';
+import type { PaymentSplitReversal } from './types-48.js';
+export type PaymentMethodArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "card"?: CardDetails;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id": string;
+            "fingerprint"?: string;
+            "is_default": boolean;
+            "merchant_id": string;
+            "payment_method_id": string;
+            "saved_with"?: "flint" | "store" | (string & {});
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            "type": "card" | (string & {});
+            "updated_at": string;
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        "previous_attributes"?: Partial<PaymentMethod>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "payment_method.archived";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "card"?: CardDetails;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id": string;
+            "fingerprint"?: string;
+            "is_default": boolean;
+            "merchant_id": string;
+            "payment_method_id": string;
+            "saved_with"?: "flint" | "store" | (string & {});
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            "type": "card" | (string & {});
+            "updated_at": string;
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        "previous_attributes"?: Partial<PaymentMethod>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "payment_method.archived";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "payment_method.archived";
+});
+/**
+ * The `payment_method.archived` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PaymentMethodArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
+     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
+     * month and year, last four digits, and the wallet when one was used. object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+     * fields, returned in place of a customer ID when the customer is expanded.
+     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint
+     * (Optional): string. A value that is the same for every saved copy of one card number at this
+     * merchant and environment, so you can spot duplicates. It doesn't identify the card anywhere
+     * else. A card added through Apple Pay or Google Pay can have a different fingerprint from the
+     * same card typed in. object.is_default (Required): boolean. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. object.merchant_id (Required): string. ID of the merchant this resource belongs to.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string.
+     * Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
+     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
+     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
+     * string. Whether the payment method can be charged. Treat any value other than active as not
+     * chargeable, including values added later. Value enum: "pending", "active", "expired",
+     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
+     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
+         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
+         * is `card`. Card details on a payment method: brand, expiration month and year, last four
+         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
+         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
+         * (Required): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional): string. A value that is the
+         * same for every saved copy of one card number at this merchant and environment, so you
+         * can spot duplicates. It doesn't identify the card anywhere else. A card added through
+         * Apple Pay or Google Pay can have a different fingerprint from the same card typed in.
+         * is_default (Required): boolean. Whether this is the customer's default payment method,
+         * the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id (Required): string. Unique
+         * identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
+         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
+         * support is enabled. Accept future values. Value enum: "flint", "store". status
+         * (Required): string. Whether the payment method can be charged. Treat any value other
+         * than active as not chargeable, including values added later. Value enum: "pending",
+         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
+         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
+         * charge the payment method. off_session payment methods can pay subscriptions, automatic
+         * invoices, and other charges without the buyer, and can be a customer's default.
+         * on_session payment methods were saved by the buyer in checkout for faster checkout at
+         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
+         * for any charge without the buyer and as a default. Payment methods saved before usage
+         * existed are off_session. Value enum: "on_session", "off_session".
+         */
+        "object": {
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
+             * payment method: brand, expiration month and year, last four digits, and the wallet
+             * when one was used.
+             */
+            "card"?: CardDetails;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /**
+             * Customer this payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string;
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in.
+             */
+            "fingerprint"?: string;
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event.
+             */
+            "is_default": boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
+             */
+            "payment_method_id": string;
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store".
+             */
+            "saved_with"?: "flint" | "store" | (string & {});
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed".
+             */
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            /** Kind of payment method. Value enum: "card". */
+            "type": "card" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session".
+             */
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<PaymentMethod>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "payment_method.archived". */
+    "event_type"?: "payment_method.archived";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `payment_method.archived` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type PaymentMethodArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
+     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
+     * month and year, last four digits, and the wallet when one was used. object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+     * fields, returned in place of a customer ID when the customer is expanded.
+     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint
+     * (Optional): string. A value that is the same for every saved copy of one card number at this
+     * merchant and environment, so you can spot duplicates. It doesn't identify the card anywhere
+     * else. A card added through Apple Pay or Google Pay can have a different fingerprint from the
+     * same card typed in. object.is_default (Required): boolean. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. object.merchant_id (Required): string. ID of the merchant this resource belongs to.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string.
+     * Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
+     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
+     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
+     * string. Whether the payment method can be charged. Treat any value other than active as not
+     * chargeable, including values added later. Value enum: "pending", "active", "expired",
+     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
+     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
+         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
+         * is `card`. Card details on a payment method: brand, expiration month and year, last four
+         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
+         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
+         * (Required): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional): string. A value that is the
+         * same for every saved copy of one card number at this merchant and environment, so you
+         * can spot duplicates. It doesn't identify the card anywhere else. A card added through
+         * Apple Pay or Google Pay can have a different fingerprint from the same card typed in.
+         * is_default (Required): boolean. Whether this is the customer's default payment method,
+         * the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id (Required): string. Unique
+         * identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
+         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
+         * support is enabled. Accept future values. Value enum: "flint", "store". status
+         * (Required): string. Whether the payment method can be charged. Treat any value other
+         * than active as not chargeable, including values added later. Value enum: "pending",
+         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
+         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
+         * charge the payment method. off_session payment methods can pay subscriptions, automatic
+         * invoices, and other charges without the buyer, and can be a customer's default.
+         * on_session payment methods were saved by the buyer in checkout for faster checkout at
+         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
+         * for any charge without the buyer and as a default. Payment methods saved before usage
+         * existed are off_session. Value enum: "on_session", "off_session".
+         */
+        "object": {
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
+             * payment method: brand, expiration month and year, last four digits, and the wallet
+             * when one was used.
+             */
+            "card"?: CardDetails;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /**
+             * Customer this payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string;
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in.
+             */
+            "fingerprint"?: string;
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event.
+             */
+            "is_default": boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
+             */
+            "payment_method_id": string;
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store".
+             */
+            "saved_with"?: "flint" | "store" | (string & {});
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed".
+             */
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            /** Kind of payment method. Value enum: "card". */
+            "type": "card" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session".
+             */
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<PaymentMethod>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "payment_method.archived". */
+    "event_type"?: "payment_method.archived";
+});
+/** A domain registered for browser payment methods. */
+export type PaymentMethodDomain = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The registered hostname, trimmed and lowercased. ASCII only, at least two labels, each up to
+     * 63 characters, 253 characters in total; no scheme, path, port, IP address, or wildcard.
+     */
+    "domain_name": string;
+    /**
+     * Flint payment method domain ID, starting with pmdom_. Example:
+     * "pmdom_01KEZF7C001WQCSRGH9GWR6628".
+     */
+    "payment_method_domain_id": string;
+    /**
+     * Availability and validation status of each payment option on this domain. [] (Value): {@link
+     * PaymentMethodDomainPaymentOptionStatus}. Whether a wallet payment option, Apple Pay or
+     * Google Pay, is active, inactive, or unavailable for a payment method domain.
+     */
+    "payment_option_statuses": Array<PaymentMethodDomainPaymentOptionStatus>;
+    /**
+     * Whether wallet buttons are on for the hostname. Change it with `PATCH`. Value enum:
+     * "active", "inactive".
+     */
+    "status": "active" | "inactive" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Whether the hostname passed the checks wallets need, summarizing `payment_option_statuses`.
+     * Value enum: "active", "action_required", "unavailable".
+     */
+    "validation_status": "active" | "action_required" | "unavailable" | (string & {});
+    /**
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+/** A page of `PaymentMethodDomain` objects. */
+export type PaymentMethodDomainListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * PaymentMethodDomain}. A domain registered for browser payment methods.
+     */
+    "data": Array<PaymentMethodDomain>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Whether a wallet payment option, Apple Pay or Google Pay, is active, inactive, or unavailable
+ * for a payment method domain.
+ */
+export type PaymentMethodDomainPaymentOptionStatus = {
+    /** The wallet this status is for. Value enum: "apple_pay", "google_pay". */
+    "payment_option": "apple_pay" | "google_pay" | (string & {});
+    /**
+     * Whether this wallet's button can show on the hostname. Value enum: "active", "inactive",
+     * "unavailable".
+     */
+    "status": "active" | "inactive" | "unavailable" | (string & {});
+};
+/** A response containing `PaymentMethodDomain` data. */
+export type PaymentMethodDomainResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A domain registered for
+     * browser payment methods.
+     */
+    "data": PaymentMethodDomain;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type PaymentMethodDomainsCreateParams = (InputValue<CreatePaymentMethodDomainRequestInput>);
+export type PaymentMethodDomainsGetParams = {};
+export type PaymentMethodDomainsListParams = {
+    /**
+     * Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown
+     * entries are rejected. Values within this filter are ORed; separate filters are ANDed. []
+     * enum: "active", "inactive". Value enum: "active", "inactive". anyOf[1] (Value): Array of
+     * string. minItems: 1. [] enum: "active", "inactive". anyOf[1][] (Value): string. Value enum:
+     * "active", "inactive". anyOf[2] (Value): string. Value enum: "active", "inactive".
+     */
+    "status"?: InputValue<("active" | "inactive") | readonly ("active" | "inactive")[]>;
+    /**
+     * Exact hostname filter after trimming whitespace and converting to lowercase. Accepts an
+     * ASCII fully-qualified hostname without a URL, port, wildcard, or IP address. Matches the
+     * entire stored domain name. minLength: 1. maxLength: 253. pattern: ^[\t\n\v\f\r
+     * ]*(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?[\t\n\v\f\r
+     * ]*$.
+     */
+    "domain_name"?: InputValue<(string)>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+};
+export type PaymentMethodDomainsUpdateParams = (InputValue<UpdatePaymentMethodDomainRequestInput>);
+export type PaymentMethodFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "card"?: CardDetails;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id": string;
+            "fingerprint"?: string;
+            "is_default": boolean;
+            "merchant_id": string;
+            "payment_method_id": string;
+            "saved_with"?: "flint" | "store" | (string & {});
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            "type": "card" | (string & {});
+            "updated_at": string;
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        "previous_attributes"?: Partial<PaymentMethod>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "payment_method.failed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "card"?: CardDetails;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id": string;
+            "fingerprint"?: string;
+            "is_default": boolean;
+            "merchant_id": string;
+            "payment_method_id": string;
+            "saved_with"?: "flint" | "store" | (string & {});
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            "type": "card" | (string & {});
+            "updated_at": string;
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        "previous_attributes"?: Partial<PaymentMethod>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "payment_method.failed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "payment_method.failed";
+});
+/**
+ * The `payment_method.failed` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PaymentMethodFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
+     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
+     * month and year, last four digits, and the wallet when one was used. object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+     * fields, returned in place of a customer ID when the customer is expanded.
+     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint
+     * (Optional): string. A value that is the same for every saved copy of one card number at this
+     * merchant and environment, so you can spot duplicates. It doesn't identify the card anywhere
+     * else. A card added through Apple Pay or Google Pay can have a different fingerprint from the
+     * same card typed in. object.is_default (Required): boolean. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. object.merchant_id (Required): string. ID of the merchant this resource belongs to.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string.
+     * Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
+     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
+     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
+     * string. Whether the payment method can be charged. Treat any value other than active as not
+     * chargeable, including values added later. Value enum: "pending", "active", "expired",
+     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
+     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
+         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
+         * is `card`. Card details on a payment method: brand, expiration month and year, last four
+         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
+         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
+         * (Required): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional): string. A value that is the
+         * same for every saved copy of one card number at this merchant and environment, so you
+         * can spot duplicates. It doesn't identify the card anywhere else. A card added through
+         * Apple Pay or Google Pay can have a different fingerprint from the same card typed in.
+         * is_default (Required): boolean. Whether this is the customer's default payment method,
+         * the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id (Required): string. Unique
+         * identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
+         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
+         * support is enabled. Accept future values. Value enum: "flint", "store". status
+         * (Required): string. Whether the payment method can be charged. Treat any value other
+         * than active as not chargeable, including values added later. Value enum: "pending",
+         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
+         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
+         * charge the payment method. off_session payment methods can pay subscriptions, automatic
+         * invoices, and other charges without the buyer, and can be a customer's default.
+         * on_session payment methods were saved by the buyer in checkout for faster checkout at
+         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
+         * for any charge without the buyer and as a default. Payment methods saved before usage
+         * existed are off_session. Value enum: "on_session", "off_session".
+         */
+        "object": {
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
+             * payment method: brand, expiration month and year, last four digits, and the wallet
+             * when one was used.
+             */
+            "card"?: CardDetails;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /**
+             * Customer this payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string;
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in.
+             */
+            "fingerprint"?: string;
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event.
+             */
+            "is_default": boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
+             */
+            "payment_method_id": string;
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store".
+             */
+            "saved_with"?: "flint" | "store" | (string & {});
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed".
+             */
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            /** Kind of payment method. Value enum: "card". */
+            "type": "card" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session".
+             */
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<PaymentMethod>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "payment_method.failed". */
+    "event_type"?: "payment_method.failed";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
 /**
  * The `payment_method.failed` webhook payload for the `merchant` event source. Fields shared by
  * merchant webhook payloads.
@@ -801,9 +1610,10 @@ export type PaymentRefund = {
      * Why a refund failed or a payment refund was canceled. Failed and canceled amounts become
      * refundable again, except a refund with reason payment_returned that failed with
      * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
-     * payment_returned refund that failed with refund_abandoned cannot be retried through Flint;
-     * the store must arrange repayment outside Flint. Fix the cause, then create a new refund with
-     * a new idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+     * payment_returned refund that failed with refund_abandoned can't be retried through Flint
+     * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another way
+     * if you haven't already. Fix the cause, then create a new refund with a new idempotency key.
+     * Unknown provider values are returned as refund_failed. Value enum:
      * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
      * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
      * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
@@ -4130,448 +4940,3 @@ export type PaymentSplitCanceledEvent = ((Exclude<MerchantWebhookEnvelope & obje
     & {
     "event_type": "payment_split.canceled";
 });
-export type PaymentSplitCreatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "amount_money": MoneyValue;
-            "canceled_reason"?: "payment_not_completed" | "install_revoked" | "fully_reversed" | (string & {});
-            "collecting_merchant_id": string;
-            "created_at": string;
-            "description"?: string;
-            "external_reference_id"?: string;
-            "failure_reason"?: "seller_cannot_receive" | "split_failed" | (string & {});
-            "funds_available_at": string | null;
-            "partner_app_id": string;
-            "partner_app_install_id": string;
-            "payment_intent_id": string;
-            "payment_split_id": string;
-            "pending_reason"?: "awaiting_payment" | "dispute_open" | "reversals_pending" | "awaiting_funds" | (string & {});
-            "reversals": Array<PaymentSplitReversal>;
-            "reversed_money": MoneyValue;
-            "seller_merchant_id": string;
-            "shortfall_money": MoneyValue;
-            "status": "pending" | "processing" | "succeeded" | "failed" | "canceled" | (string & {});
-            "succeeded_at"?: string;
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: "merchant" | (string & {});
-    "event_type"?: "payment_split.created";
-})
-    & {
-    "event_type": "payment_split.created";
-});
-export type PaymentSplitFailedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "amount_money": MoneyValue;
-            "canceled_reason"?: "payment_not_completed" | "install_revoked" | "fully_reversed" | (string & {});
-            "collecting_merchant_id": string;
-            "created_at": string;
-            "description"?: string;
-            "external_reference_id"?: string;
-            "failure_reason"?: "seller_cannot_receive" | "split_failed" | (string & {});
-            "funds_available_at": string | null;
-            "partner_app_id": string;
-            "partner_app_install_id": string;
-            "payment_intent_id": string;
-            "payment_split_id": string;
-            "pending_reason"?: "awaiting_payment" | "dispute_open" | "reversals_pending" | "awaiting_funds" | (string & {});
-            "reversals": Array<PaymentSplitReversal>;
-            "reversed_money": MoneyValue;
-            "seller_merchant_id": string;
-            "shortfall_money": MoneyValue;
-            "status": "pending" | "processing" | "succeeded" | "failed" | "canceled" | (string & {});
-            "succeeded_at"?: string;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<PaymentSplit>;
-    };
-    "event_source"?: "merchant" | (string & {});
-    "event_type"?: "payment_split.failed";
-})
-    & {
-    "event_type": "payment_split.failed";
-});
-/** A page of `PaymentSplit` objects. */
-export type PaymentSplitListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * PaymentSplit}. A top-level child of a payment intent dividing the collecting merchant's
-     * payment funds with one seller. Both parties read this same resource with their own
-     * credentials.
-     */
-    "data": Array<PaymentSplit>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * A seller's fixed share of one payment, created with that payment. This divides the payment's
- * funds; split tender divides how the buyer pays.
- */
-export type PaymentSplitRequest = {
-    /**
-     * Seller's share above zero, in the payment's currency. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. amount (Required): integer string. Use an
-     * integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-     * Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64. minimum: 0. currency (Required):
-     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
-     * ^[A-Z]{3}$.
-     */
-    "amount_money": ({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
-         */
-        "amount"?: `${bigint}`;
-    })
-        & (Exclude<MoneyValue & object, readonly unknown[]>);
-    /** Description shown to the seller, 1 to 500 characters. minLength: 1. maxLength: 500. */
-    "description"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. Shown to the seller. Exact,
-     * case-sensitive matching. Must contain 1 to 255 characters (Unicode code points). minLength:
-     * 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Seller install of the collecting merchant's partner app. At most one split per install.
-     * minLength: 1. pattern: ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-     */
-    "partner_app_install_id": string;
-};
-/**
- * A seller's fixed share of one payment, created with that payment. This divides the payment's
- * funds; split tender divides how the buyer pays.
- */
-export type PaymentSplitRequestInput = {
-    /**
-     * Seller's share above zero, in the payment's currency. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. amount (Required): integer string. Use an
-     * integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-     * Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64. minimum: 0. currency (Required):
-     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
-     * ^[A-Z]{3}$.
-     */
-    "amount_money": ({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
-         */
-        "amount"?: `${bigint}` | bigint;
-    })
-        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
-    /** Description shown to the seller, 1 to 500 characters. minLength: 1. maxLength: 500. */
-    "description"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. Shown to the seller. Exact,
-     * case-sensitive matching. Must contain 1 to 255 characters (Unicode code points). minLength:
-     * 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Seller install of the collecting merchant's partner app. At most one split per install.
-     * minLength: 1. pattern: ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-     */
-    "partner_app_install_id": string;
-};
-/** A response containing `PaymentSplit` data. */
-export type PaymentSplitResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A top-level child of a
-     * payment intent dividing the collecting merchant's payment funds with one seller. Both
-     * parties read this same resource with their own credentials.
-     */
-    "data": PaymentSplit;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * A read-only nested child of a payment split, created by Flint for a refund or dispute. Embedded
- * whole in PaymentSplit.reversals; no routes of its own.
- */
-export type PaymentSplitReversal = {
-    /**
-     * The split's share taken back. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /** When the reversal was recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /** Unique identifier for the reversal. Example: "psrev_01KEZF7C00XC1HA7S8YCQJDBDM". */
-    "payment_split_reversal_id": string;
-    /** Why Flint created the reversal. Value enum: "refund", "dispute", "other". */
-    "reason": "refund" | "dispute" | "other" | (string & {});
-    /**
-     * Funds returned to whoever funded the reversal, such as after a won dispute or failed refund.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "reinstated_money": MoneyValue;
-    /**
-     * The part the collecting merchant covered. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "shortfall_money": MoneyValue;
-    /**
-     * The refund or dispute behind the reversal. A reference to another resource by
-     * `resource_type` and `resource_id`.
-     */
-    "source": ResourceReference;
-    /** The reversal lifecycle status. Value enum: "pending", "succeeded", "canceled". */
-    "status": "pending" | "succeeded" | "canceled" | (string & {});
-    /**
-     * When the split's share was recovered. Present when succeeded. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "succeeded_at"?: string;
-};
-export type PaymentSplitSucceededEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "amount_money": MoneyValue;
-            "canceled_reason"?: "payment_not_completed" | "install_revoked" | "fully_reversed" | (string & {});
-            "collecting_merchant_id": string;
-            "created_at": string;
-            "description"?: string;
-            "external_reference_id"?: string;
-            "failure_reason"?: "seller_cannot_receive" | "split_failed" | (string & {});
-            "funds_available_at": string | null;
-            "partner_app_id": string;
-            "partner_app_install_id": string;
-            "payment_intent_id": string;
-            "payment_split_id": string;
-            "pending_reason"?: "awaiting_payment" | "dispute_open" | "reversals_pending" | "awaiting_funds" | (string & {});
-            "reversals": Array<PaymentSplitReversal>;
-            "reversed_money": MoneyValue;
-            "seller_merchant_id": string;
-            "shortfall_money": MoneyValue;
-            "status": "pending" | "processing" | "succeeded" | "failed" | "canceled" | (string & {});
-            "succeeded_at"?: string;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<PaymentSplit>;
-    };
-    "event_source"?: "merchant" | (string & {});
-    "event_type"?: "payment_split.succeeded";
-})
-    & {
-    "event_type": "payment_split.succeeded";
-});
-export type PaymentSplitUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "amount_money": MoneyValue;
-            "canceled_reason"?: "payment_not_completed" | "install_revoked" | "fully_reversed" | (string & {});
-            "collecting_merchant_id": string;
-            "created_at": string;
-            "description"?: string;
-            "external_reference_id"?: string;
-            "failure_reason"?: "seller_cannot_receive" | "split_failed" | (string & {});
-            "funds_available_at": string | null;
-            "partner_app_id": string;
-            "partner_app_install_id": string;
-            "payment_intent_id": string;
-            "payment_split_id": string;
-            "pending_reason"?: "awaiting_payment" | "dispute_open" | "reversals_pending" | "awaiting_funds" | (string & {});
-            "reversals": Array<PaymentSplitReversal>;
-            "reversed_money": MoneyValue;
-            "seller_merchant_id": string;
-            "shortfall_money": MoneyValue;
-            "status": "pending" | "processing" | "succeeded" | "failed" | "canceled" | (string & {});
-            "succeeded_at"?: string;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<PaymentSplit>;
-    };
-    "event_source"?: "merchant" | (string & {});
-    "event_type"?: "payment_split.updated";
-})
-    & {
-    "event_type": "payment_split.updated";
-});
-export type PaymentSplitsGetParams = {};
-export type PaymentSplitsListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Exact match on the payment intent. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id"?: InputValue<string>;
-    /**
-     * Exact match on the collecting merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "collecting_merchant_id"?: InputValue<string>;
-    /**
-     * Exact match on the seller. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "seller_merchant_id"?: InputValue<string>;
-    /**
-     * Exact match on the partner app. pattern: ^papp_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
-     */
-    "partner_app_id"?: InputValue<string>;
-    /**
-     * Exact match on the install. pattern: ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-     */
-    "partner_app_install_id"?: InputValue<string>;
-    /**
-     * Exact, case-sensitive match on the collecting merchant's external identifier. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: InputValue<string>;
-    /**
-     * Statuses to include. Omit to include all statuses. Values are trimmed and deduplicated in
-     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
-     * separate filters are ANDed. [] enum: "pending", "processing", "succeeded", "failed",
-     * "canceled". Value enum: "pending", "processing", "succeeded", "failed", "canceled". anyOf[1]
-     * (Value): Array of string. minItems: 1. [] enum: "pending", "processing", "succeeded",
-     * "failed", "canceled". anyOf[1][] (Value): string. Value enum: "pending", "processing",
-     * "succeeded", "failed", "canceled". anyOf[2] (Value): string. Value enum: "pending",
-     * "processing", "succeeded", "failed", "canceled".
-     */
-    "status"?: InputValue<("pending" | "processing" | "succeeded" | "failed" | "canceled")
-        | readonly ("pending" | "processing" | "succeeded" | "failed" | "canceled")[]>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-};
-/**
- * The half-open period [period_start_at, period_end_at) includes its start and excludes its end.
- * Amounts and payments_count use currency; customer and subscription counts span currencies.
- */
-export type PaymentVolumeBucket = {
-    /**
-     * Succeeded payments selected by payment created_at within this bucket, restricted to the
-     * response currency. The half-open period [period_start_at, period_end_at) includes its start
-     * and excludes its end. Amounts and payments_count use currency; customer and subscription
-     * counts span currencies. Format: int64.
-     */
-    "payments_count": number;
-    /**
-     * Exclusive bucket end instant, clipped to the resolved period. The half-open period
-     * [period_start_at, period_end_at) includes its start and excludes its end. Amounts and
-     * payments_count use currency; customer and subscription counts span currencies. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "period_end_at": string;
-    /**
-     * Inclusive start instant. The half-open period [period_start_at, period_end_at) includes its
-     * start and excludes its end. Amounts and payments_count use currency; customer and
-     * subscription counts span currencies. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "period_start_at": string;
-    /**
-     * Succeeded payment amounts selected by payment created_at within this bucket, in the response
-     * currency. The half-open period [period_start_at, period_end_at) includes its start and
-     * excludes its end. Amounts and payments_count use currency; customer and subscription counts
-     * span currencies. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "volume_money": MoneyValue;
-};
-/**
- * The half-open period [period_start_at, period_end_at) includes its start and excludes its end.
- * Amounts and payments_count use currency; customer and subscription counts span currencies.
- */
-export type PaymentVolumeTimeseries = {
-    /**
-     * Payment created_at buckets clipped to the period, including empty buckets. Repeated local
-     * hours produce two buckets; skipped hours and days produce none. The half-open period
-     * [period_start_at, period_end_at) includes its start and excludes its end. Amounts and
-     * payments_count use currency; customer and subscription counts span currencies. [] (Value):
-     * {@link PaymentVolumeBucket}. The half-open period [period_start_at, period_end_at) includes
-     * its start and excludes its end. Amounts and payments_count use currency; customer and
-     * subscription counts span currencies.
-     */
-    "buckets": Array<PaymentVolumeBucket>;
-    /**
-     * Currencies of succeeded payments selected by payment created_at or counted refunds selected
-     * by refund created_at in the period, regardless of the currency filter. Empty when neither
-     * has rows. The half-open period [period_start_at, period_end_at) includes its start and
-     * excludes its end. Amounts and payments_count use currency; customer and subscription counts
-     * span currencies. [] (Value): string.
-     */
-    "currencies": Array<string>;
-    /**
-     * ISO 4217 currency for amounts and payment counts. Defaults to the merchant's default
-     * currency. The half-open period [period_start_at, period_end_at) includes its start and
-     * excludes its end. Amounts and payments_count use currency; customer and subscription counts
-     * span currencies. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency": string;
-    /**
-     * Local bucket size: hour, day, week starting Monday, or month. Defaults to day. The half-open
-     * period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and
-     * payments_count use currency; customer and subscription counts span currencies. Value enum:
-     * "hour", "day", "week", "month".
-     */
-    "granularity": "hour" | "day" | "week" | "month" | (string & {});
-    /**
-     * Exclusive resolved end instant. Omitted or future request ends resolve to the request time
-     * truncated to the second. The half-open period [period_start_at, period_end_at) includes its
-     * start and excludes its end. Amounts and payments_count use currency; customer and
-     * subscription counts span currencies. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "period_end_at": string;
-    /**
-     * Inclusive start instant. The half-open period [period_start_at, period_end_at) includes its
-     * start and excludes its end. Amounts and payments_count use currency; customer and
-     * subscription counts span currencies. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "period_start_at": string;
-    /**
-     * IANA timezone used only for local bucket boundaries. Defaults to the merchant's timezone,
-     * then UTC. The half-open period [period_start_at, period_end_at) includes its start and
-     * excludes its end. Amounts and payments_count use currency; customer and subscription counts
-     * span currencies.
-     */
-    "timezone": string;
-};

@@ -25,32 +25,11 @@ Fields shared by partner webhook payloads.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `object` | Required | object and [WebhookOrderEdit](../models/WebhookOrderEdit.md#webhookorderedit) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `note`. `object`: [field definitions](../models/OrderEditCreatedInstalledMerchantsEvent.md#ordereditcreatedinstalledmerchantseventdataobject). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+Field definitions: [shared fields](OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdata).
 
 ### OrderEditCreatedInstalledMerchantsEvent.data.object
 
-The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `note`.
-
-Field definitions: [shared fields](WebhookOrderEdit.md#webhookorderedit).
-
-### OrderEditCreatedInstalledMerchantsEvent.data.object.added_total_money
-
-Field definitions: [OrderEdit.added_total_money](../models/OrderEdit.md#ordereditadded_total_money).
-
-### OrderEditCreatedInstalledMerchantsEvent.data.object.refund_money
-
-Field definitions: [OrderEdit.refund_money](../models/OrderEdit.md#ordereditrefund_money).
-
-### OrderEditCreatedInstalledMerchantsEvent.data.object.removed_total_money
-
-Field definitions: [OrderEdit.removed_total_money](../models/OrderEdit.md#ordereditremoved_total_money).
-
-### OrderEditCreatedInstalledMerchantsEvent.data.object.unrefunded_money
-
-Field definitions: [OrderEdit.unrefunded_money](../models/OrderEdit.md#ordereditunrefunded_money).
+Field definitions: [OrderEditCanceledInstalledMerchantsEvent.data.object](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataobject).
 
 ### OrderEditCreatedInstalledMerchantsEvent.source
 

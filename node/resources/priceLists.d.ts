@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type { CreatePriceListPricesResponse, CreatePriceListPricesResult } from '../declarations/types-11.js';
 import type {
     PriceList,
@@ -56,14 +56,10 @@ export type {
     PriceListPriceAddition
 } from '../declarations/types-49.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type {
-    CreatePriceListPricesResult,
-    CreatePriceListPricesResponse,
-    CreatePriceListRequestInput,
-    CreatePriceListPricesRequestInput
-} from '../declarations/types-11.js';
+export type { CreatePriceListPricesResult, CreatePriceListPricesResponse, CreatePriceListPricesRequestInput } from '../declarations/types-11.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
+export type { CreatePriceListRequestInput } from '../declarations/types-12.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-38.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
@@ -72,8 +68,10 @@ export type { ReadinessMerchantAccountSession, QuantityPriceBreakRequestInput, Q
 export type { UpdatePriceListRequestInput, UpdatePriceListPriceRequestInput } from '../declarations/types-67.js';
 export type { DisputesAcceptParams } from '../declarations/types-23.js';
 export { makeCreatePriceListPricesRequest, makeCreatePriceListRequest } from '../declarations/types-74.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
-export { makePriceListPriceRequest, makeQuantityPriceBreakRequest } from '../declarations/types-80.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
+export { makePriceListPriceRequest } from '../declarations/types-80.js';
+export { makeQuantityPriceBreakRequest } from '../declarations/types-81.js';
 export { makeUpdatePriceListPriceRequest, makeUpdatePriceListRequest } from '../declarations/types-84.js';
 export interface PriceListsResource {
     /**

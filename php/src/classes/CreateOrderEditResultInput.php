@@ -15,7 +15,7 @@ final class CreateOrderEditResultInput extends Model {
      */
     public function getOrder(): mixed { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** The committed edit, even when refund processing is pending. Nested child of an order: immutable, completed item changes with frozen values and refund amounts. Refund completion is tracked on the refunds.
+    /** The pending or completed edit, even when payment or refund processing is pending. Nested child of an order with frozen item changes, balance and refund amounts. A pending edit changes the order only when its balance payment succeeds. Refund completion is tracked on the refunds.
      * @return OrderEditInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When order_edit is omitted; use hasOrderEdit() or valueOrDefault().
      */

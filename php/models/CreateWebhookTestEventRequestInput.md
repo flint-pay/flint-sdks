@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [291 declared values](#createwebhooktesteventrequestinput-event_type-values). |
+| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [294 declared values](#createwebhooktesteventrequestinput-event_type-values). |
 
 #### CreateWebhookTestEventRequestInput event_type values
 
@@ -166,7 +166,10 @@ Request input.
 - `"order.partially_refunded"`
 - `"order.refunded"`
 - `"order.updated"`
+- `"order_edit.canceled"`
+- `"order_edit.completed"`
 - `"order_edit.created"`
+- `"order_edit.updated"`
 - `"package.created"`
 - `"package.updated"`
 - `"partner_app.platform_approved"`

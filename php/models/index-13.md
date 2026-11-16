@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# InventoryAdjustmentListResponseInput to InventoryTransferDepartedInstalledMerchantsEventInput
+# InventoryActionRequiredInput to InventoryTransferActionConflictErrorObjectInput
 
+- [InventoryActionRequiredInput](InventoryActionRequiredInput.md)
+- [InventoryAdjustmentInput](InventoryAdjustmentInput.md)
+- [InventoryAdjustmentConditionChangeLineRequestInput](InventoryAdjustmentConditionChangeLineRequestInput.md)
+- [InventoryAdjustmentLineInput](InventoryAdjustmentLineInput.md)
 - [InventoryAdjustmentListResponseInput](InventoryAdjustmentListResponseInput.md)
 - [InventoryAdjustmentQuantityLineRequestInput](InventoryAdjustmentQuantityLineRequestInput.md)
 - [InventoryAdjustmentResponseInput](InventoryAdjustmentResponseInput.md)
@@ -98,8 +102,4 @@
 - [InventoryTransferActionConflictErrorDetailInput](InventoryTransferActionConflictErrorDetailInput.md)
 - [InventoryTransferActionConflictErrorEnvelopeInput](InventoryTransferActionConflictErrorEnvelopeInput.md)
 - [InventoryTransferActionConflictErrorObjectInput](InventoryTransferActionConflictErrorObjectInput.md)
-- [InventoryTransferClosedInstalledMerchantsEventInput](InventoryTransferClosedInstalledMerchantsEventInput.md)
-- [InventoryTransferClosedMerchantEventInput](InventoryTransferClosedMerchantEventInput.md)
-- [InventoryTransferConflictErrorEnvelopeInput](InventoryTransferConflictErrorEnvelopeInput.md)
-- [InventoryTransferDepartedInstalledMerchantsEventInput](InventoryTransferDepartedInstalledMerchantsEventInput.md)
 

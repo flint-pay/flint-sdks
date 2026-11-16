@@ -1,5 +1,5 @@
 import type { WithResponseInfo } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
     PayoutSettings,
     PayoutSettingsGetParams,
@@ -34,7 +34,7 @@ export type {
 } from '../declarations/types-48.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-54.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { MoneyMovementBlockedReason, MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-39.js';
@@ -44,7 +44,7 @@ export type { PartnerWebhookEnvelope } from '../declarations/types-44.js';
 export type { WebhookEventSource } from '../declarations/types-69.js';
 export type { MerchantWebhookEnvelope } from '../declarations/types-38.js';
 export type { DisputesAcceptParams } from '../declarations/types-23.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export { makeUpdatePayoutSettingsRequest } from '../declarations/types-84.js';
 export interface PayoutSettingsResource {
     /**

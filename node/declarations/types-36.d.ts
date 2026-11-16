@@ -10,6 +10,54 @@ import type { CreateEmailChangeRequestInput } from './types-9.js';
 import type { SaveMePaymentMethodRequestInput } from './types-59.js';
 import type { BuyerCreateReturnRequestInput } from './types-2.js';
 import type { CheckoutSessionsListCustomerVerificationsParams } from './types-6.js';
+/** Records the package action mark_in_transit. */
+export type MarkPackageInTransitRequest = {
+    /**
+     * Whether to send or suppress the buyer notification for this action. Value enum: "send",
+     * "suppress".
+     */
+    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+    /**
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expected_delivery_at"?: string | null;
+    /** Resource version the caller last read. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * When the carrier scan or package action occurred, as an RFC 3339 timestamp. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string;
+    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
+    "reason_message"?: string;
+};
+/** Records the package action mark_in_transit. */
+export type MarkPackageInTransitRequestInput = {
+    /**
+     * Whether to send or suppress the buyer notification for this action. Value enum: "send",
+     * "suppress".
+     */
+    "buyer_notification_behavior"?: "send" | "suppress";
+    /**
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expected_delivery_at"?: string | globalThis.Date | null;
+    /** Resource version the caller last read. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * When the carrier scan or package action occurred, as an RFC 3339 timestamp. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string | globalThis.Date;
+    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
+    "reason_message"?: string;
+};
+/** Records the package action mark_out_for_delivery. */
+export type MarkPackageOutForDeliveryRequestInput = MarkPackageInTransitRequestInput;
 /** Records the package action mark_packed. */
 export type MarkPackagePackedRequestInput = MarkPackageDeliveredRequestInput;
 /** Records the package action mark_returned. */
@@ -918,185 +966,4 @@ export type MeListPaymentMethodsParams = {
     "created_after"?: InputValue<string | globalThis.Date>;
     /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "created_before"?: InputValue<string | globalThis.Date>;
-};
-export type MeListRefundsParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: InputValue<string>;
-    /**
-     * Filter by refund status. Values are trimmed and deduplicated in first-seen order; empty or
-     * unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "pending", "succeeded", "partially_succeeded", "failed". Value enum:
-     * "pending", "succeeded", "partially_succeeded", "failed". anyOf[1] (Value): Array of string.
-     * minItems: 1. [] enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[1][]
-     * (Value): string. Value enum: "pending", "succeeded", "partially_succeeded", "failed".
-     * anyOf[2] (Value): string. Value enum: "pending", "succeeded", "partially_succeeded",
-     * "failed".
-     */
-    "status"?: InputValue<("pending" | "succeeded" | "partially_succeeded" | "failed")
-        | readonly ("pending" | "succeeded" | "partially_succeeded" | "failed")[]>;
-    /**
-     * Inclusive lower bound on amount_money.amount. Requires currency. Format: int64. minimum: 1.
-     * Example: 500.
-     */
-    "min_amount"?: InputValue<number>;
-    /**
-     * Inclusive upper bound on amount_money.amount. Requires currency. Format: int64. minimum: 1.
-     * Example: 500.
-     */
-    "max_amount"?: InputValue<number>;
-    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
-    "currency"?: InputValue<string>;
-    /**
-     * Filter by linked Return ID. pattern: ^ret_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id"?: InputValue<string>;
-    /**
-     * Field to sort by. Defaults to created_at; ties are broken by refund_id. Default:
-     * "created_at". Value enum: "created_at", "updated_at", "amount_money".
-     */
-    "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
-    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-};
-export type MeListRememberedBuyersParams = {};
-export type MeListReturnsParams = {
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Filter by decision status. Values are trimmed and deduplicated in first-seen order; empty or
-     * unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "pending", "approved", "partially_approved", "declined". Value enum:
-     * "pending", "approved", "partially_approved", "declined". anyOf[1] (Value): Array of string.
-     * minItems: 1. [] enum: "pending", "approved", "partially_approved", "declined". anyOf[1][]
-     * (Value): string. Value enum: "pending", "approved", "partially_approved", "declined".
-     * anyOf[2] (Value): string. Value enum: "pending", "approved", "partially_approved",
-     * "declined".
-     */
-    "decision_status"?: InputValue<("pending" | "approved" | "partially_approved" | "declined")
-        | readonly ("pending" | "approved" | "partially_approved" | "declined")[]>;
-    /**
-     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
-     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
-     * pending resource does not prove that the operation succeeded, and an empty list does not
-     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
-     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
-     */
-    "idempotency_key"?: InputValue<string>;
-    /**
-     * Filter by merchandise status. Values are trimmed and deduplicated in first-seen order; empty
-     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "not_required", "awaiting_handoff", "in_transit", "partially_received",
-     * "inspection_required", "partially_inspected", "inspection_review_required",
-     * "disposition_required", "resolved", "exception". Value enum: "not_required",
-     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
-     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
-     * "exception". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "not_required",
-     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
-     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
-     * "exception". anyOf[1][] (Value): string. Value enum: "not_required", "awaiting_handoff",
-     * "in_transit", "partially_received", "inspection_required", "partially_inspected",
-     * "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[2]
-     * (Value): string. Value enum: "not_required", "awaiting_handoff", "in_transit",
-     * "partially_received", "inspection_required", "partially_inspected",
-     * "inspection_review_required", "disposition_required", "resolved", "exception".
-     */
-    "merchandise_status"?: InputValue<("not_required"
-        | "awaiting_handoff"
-        | "in_transit"
-        | "partially_received"
-        | "inspection_required"
-        | "partially_inspected"
-        | "inspection_review_required"
-        | "disposition_required"
-        | "resolved"
-        | "exception")
-        | readonly ("not_required"
-        | "awaiting_handoff"
-        | "in_transit"
-        | "partially_received"
-        | "inspection_required"
-        | "partially_inspected"
-        | "inspection_review_required"
-        | "disposition_required"
-        | "resolved"
-        | "exception")[]>;
-    /**
-     * Filter by order id. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: InputValue<string>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. Format: int32. minimum:
-     * 1. maximum: 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by resolution status. Values are trimmed and deduplicated in first-seen order; empty
-     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "not_selected", "pending", "partially_completed", "requires_action",
-     * "completed", "failed". Value enum: "not_selected", "pending", "partially_completed",
-     * "requires_action", "completed", "failed". anyOf[1] (Value): Array of string. minItems: 1. []
-     * enum: "not_selected", "pending", "partially_completed", "requires_action", "completed",
-     * "failed". anyOf[1][] (Value): string. Value enum: "not_selected", "pending",
-     * "partially_completed", "requires_action", "completed", "failed". anyOf[2] (Value): string.
-     * Value enum: "not_selected", "pending", "partially_completed", "requires_action",
-     * "completed", "failed".
-     */
-    "resolution_status"?: InputValue<("not_selected" | "pending" | "partially_completed" | "requires_action" | "completed" | "failed")
-        | readonly ("not_selected" | "pending" | "partially_completed" | "requires_action" | "completed" | "failed")[]>;
-    /** Filter by return number. */
-    "return_number"?: InputValue<string>;
-    /**
-     * Filter by return reason id. pattern: ^rrsn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
-     */
-    "return_reason_id"?: InputValue<string>;
-    /**
-     * Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown
-     * entries are rejected. Values within this filter are ORed; separate filters are ANDed. []
-     * enum: "requested", "open", "completed", "declined", "canceled". Value enum: "requested",
-     * "open", "completed", "declined", "canceled". anyOf[1] (Value): Array of string. minItems: 1.
-     * [] enum: "requested", "open", "completed", "declined", "canceled". anyOf[1][] (Value):
-     * string. Value enum: "requested", "open", "completed", "declined", "canceled". anyOf[2]
-     * (Value): string. Value enum: "requested", "open", "completed", "declined", "canceled".
-     */
-    "status"?: InputValue<("requested" | "open" | "completed" | "declined" | "canceled")
-        | readonly ("requested" | "open" | "completed" | "declined" | "canceled")[]>;
-    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
 };

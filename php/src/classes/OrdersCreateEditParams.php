@@ -3,8 +3,10 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read list<CreateOrderLineItemRequestInput|array<array-key, mixed>|\stdClass> $add_line_items
+ * @property-read string $balance_due_behavior
  * @property-read list<RefundChargeInput|array<array-key, mixed>|\stdClass> $charge_refunds
  * @property-read RefundDestinationsInput|array<array-key, mixed>|\stdClass $destinations
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $expected_amount_due_money
  * @property-read int $expected_order_version
  * @property-read string $note
  * @property-read string $reason
@@ -19,6 +21,12 @@ final class OrdersCreateEditParams extends Model {
      */
     public function getAddLineItems(): array { return $this->get('add_line_items'); }
     public function hasAddLineItems(): bool { return $this->has('add_line_items'); }
+    /** What happens when the added items cost more than the removed value and released charges. refuse returns 409 LIMIT_EXCEEDED and changes nothing. collect creates the edit as pending and a payment intent for the balance; the edit is applied when that payment succeeds. Default: "refuse". Value enum: "refuse", "collect".
+     * @return string
+     * @throws SdkError When balance_due_behavior is omitted; use hasBalanceDueBehavior() or valueOrDefault().
+     */
+    public function getBalanceDueBehavior(): string { return $this->get('balance_due_behavior'); }
+    public function hasBalanceDueBehavior(): bool { return $this->has('balance_due_behavior'); }
     /** Charges to release. Released value pays for added lines first and the rest is refunded. Omitting amount_money releases the charge's remaining refundable amount. maxItems: 100. [] (Value): {@see RefundChargeInput}. An order charge to refund when creating a refund, with an optional amount to refund.
      * @return list<RefundChargeInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When charge_refunds is omitted; use hasChargeRefunds() or valueOrDefault().
@@ -31,6 +39,12 @@ final class OrdersCreateEditParams extends Model {
      */
     public function getDestinations(): mixed { return $this->get('destinations'); }
     public function hasDestinations(): bool { return $this->has('destinations'); }
+    /** The balance you showed the buyer, usually the preview's amount_due_money. If the edit would freeze a different balance, the request returns 409 VERSION_CONFLICT and changes nothing. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When expected_amount_due_money is omitted; use hasExpectedAmountDueMoney() or valueOrDefault().
+     */
+    public function getExpectedAmountDueMoney(): mixed { return $this->get('expected_amount_due_money'); }
+    public function hasExpectedAmountDueMoney(): bool { return $this->has('expected_amount_due_money'); }
     /** The order.version the edit draft was based on. On VERSION_CONFLICT, keep the draft, fetch the order, preview again, and reconcile before committing with the new version and a new Idempotency-Key. Format: int64. minimum: 1.
      * @return int
      * @throws SdkError When expected_order_version is omitted; use hasExpectedOrderVersion() or valueOrDefault().

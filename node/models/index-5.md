@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# CompleteReturnRequestInput to CreateDeliveryPreviewRequest
+# CommitInventoryReservationRequest to CreateDeliveryOptionsPreviewRequest
 
+- [CommitInventoryReservationRequest](CommitInventoryReservationRequest.md)
+- [CommitInventoryReservationRequestInput](CommitInventoryReservationRequestInput.md)
+- [CompleteFulfillmentRequestInput](CompleteFulfillmentRequestInput.md)
+- [CompleteReturnRequest](CompleteReturnRequest.md)
 - [CompleteReturnRequestInput](CompleteReturnRequestInput.md)
 - [ConfigurationVersionRequestInput](ConfigurationVersionRequestInput.md)
 - [ConfirmCheckoutSessionCustomerVerificationRequest](ConfirmCheckoutSessionCustomerVerificationRequest.md)
@@ -98,8 +102,4 @@
 - [CreateDeliveryMethodRequestShipment](CreateDeliveryMethodRequestShipment.md)
 - [CreateDeliveryMethodRequestShipmentInput](CreateDeliveryMethodRequestShipmentInput.md)
 - [CreateDeliveryOptionsPreviewRequest](CreateDeliveryOptionsPreviewRequest.md)
-- [CreateDeliveryOptionsPreviewRequestInput](CreateDeliveryOptionsPreviewRequestInput.md)
-- [CreateDeliveryPickupLocationsPreviewRequest](CreateDeliveryPickupLocationsPreviewRequest.md)
-- [CreateDeliveryPickupLocationsPreviewRequestInput](CreateDeliveryPickupLocationsPreviewRequestInput.md)
-- [CreateDeliveryPreviewRequest](CreateDeliveryPreviewRequest.md)
 

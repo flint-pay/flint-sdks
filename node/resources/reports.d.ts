@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
-import type { Report } from '../declarations/types-53.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
+    Report,
     ReportListResponse,
     ReportResponse,
     ReportsCreateParams,
@@ -27,6 +27,7 @@ export type {
 export type {
     ReportsCreateParams,
     RequestOptions,
+    Report,
     ReportResponse,
     ReportsGetParams,
     ReportsListParams,
@@ -38,9 +39,8 @@ export type {
     ResponseWarning,
     ResourceReference
 } from '../declarations/types-54.js';
-export type { Report } from '../declarations/types-53.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateReportRequestInput, CreateReceivablesAgingReportRequestInput } from '../declarations/types-12.js';
 export type { CreateIntervalReportRequestInput } from '../declarations/types-9.js';
 export type { AuthMode } from '../declarations/types-1.js';
@@ -49,7 +49,7 @@ export type { PublicDownload, ReadinessMerchantAccountSession } from '../declara
 export type { NextAction, MoneyValue } from '../declarations/types-39.js';
 export { makeCreateIntervalReportRequest } from '../declarations/types-73.js';
 export { makeCreateReceivablesAgingReportRequest, makeCreateReportRequest } from '../declarations/types-74.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export interface ReportsResource {
     /**
  * Creates an idempotent asynchronous CSV report. receivables_aging_v1 takes as_of_date instead of

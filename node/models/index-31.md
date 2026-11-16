@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# SubscriptionBillingStartInputImportedInput to SubscriptionPlanChangeScheduledMerchantEvent
+# SubscriptionBillingScheduleUpdateInputExternal to SubscriptionPlanChangedMerchantEvent
 
+- [SubscriptionBillingScheduleUpdateInputExternal](SubscriptionBillingScheduleUpdateInputExternal.md)
+- [SubscriptionBillingScheduleUpdateInputExternalInput](SubscriptionBillingScheduleUpdateInputExternalInput.md)
+- [SubscriptionBillingScheduleUpdateInputFlint](SubscriptionBillingScheduleUpdateInputFlint.md)
+- [SubscriptionBillingScheduleUpdateInputFlintInput](SubscriptionBillingScheduleUpdateInputFlintInput.md)
+- [SubscriptionBillingScheduleUpdateRequest](SubscriptionBillingScheduleUpdateRequest.md)
+- [SubscriptionBillingScheduleUpdateRequestInput](SubscriptionBillingScheduleUpdateRequestInput.md)
+- [SubscriptionBillingStartInputImmediate](SubscriptionBillingStartInputImmediate.md)
+- [SubscriptionBillingStartInputImmediateInput](SubscriptionBillingStartInputImmediateInput.md)
+- [SubscriptionBillingStartInputImported](SubscriptionBillingStartInputImported.md)
 - [SubscriptionBillingStartInputImportedInput](SubscriptionBillingStartInputImportedInput.md)
 - [SubscriptionBillingStartInputScheduled](SubscriptionBillingStartInputScheduled.md)
 - [SubscriptionBillingStartInputScheduledInput](SubscriptionBillingStartInputScheduledInput.md)
@@ -93,13 +102,4 @@
 - [SubscriptionPlanChangeCanceledMerchantEvent](SubscriptionPlanChangeCanceledMerchantEvent.md)
 - [SubscriptionPlanChangedInstalledMerchantsEvent](SubscriptionPlanChangedInstalledMerchantsEvent.md)
 - [SubscriptionPlanChangedMerchantEvent](SubscriptionPlanChangedMerchantEvent.md)
-- [SubscriptionPlanChangeLineItemRequest](SubscriptionPlanChangeLineItemRequest.md)
-- [SubscriptionPlanChangeLineItemRequestInput](SubscriptionPlanChangeLineItemRequestInput.md)
-- [SubscriptionPlanChangeOption](SubscriptionPlanChangeOption.md)
-- [SubscriptionPlanChangeOptionRequestInput](SubscriptionPlanChangeOptionRequestInput.md)
-- [SubscriptionPlanChangePreview](SubscriptionPlanChangePreview.md)
-- [SubscriptionPlanChangeResult](SubscriptionPlanChangeResult.md)
-- [SubscriptionPlanChangeResultResponse](SubscriptionPlanChangeResultResponse.md)
-- [SubscriptionPlanChangeScheduledInstalledMerchantsEvent](SubscriptionPlanChangeScheduledInstalledMerchantsEvent.md)
-- [SubscriptionPlanChangeScheduledMerchantEvent](SubscriptionPlanChangeScheduledMerchantEvent.md)
 

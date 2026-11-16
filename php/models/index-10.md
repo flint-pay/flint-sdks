@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# DeliveryRateEvaluationAllocationInput to DisputeNeedsResponseInstalledMerchantsEventInput
+# DeliveryRateCallbackUpdatedInstalledMerchantsEventInput to DisputeInquiryClosedMerchantEventInput
 
+- [DeliveryRateCallbackUpdatedInstalledMerchantsEventInput](DeliveryRateCallbackUpdatedInstalledMerchantsEventInput.md)
+- [DeliveryRateCallbackUpdatedMerchantEventInput](DeliveryRateCallbackUpdatedMerchantEventInput.md)
+- [DeliveryRateCallbackWithSecretInput](DeliveryRateCallbackWithSecretInput.md)
+- [DeliveryRateCallbackWithSecretResponseInput](DeliveryRateCallbackWithSecretResponseInput.md)
 - [DeliveryRateEvaluationAllocationInput](DeliveryRateEvaluationAllocationInput.md)
 - [DeliveryRateEvaluationCandidateInput](DeliveryRateEvaluationCandidateInput.md)
 - [DeliveryRateEvaluationExecutionLegInput](DeliveryRateEvaluationExecutionLegInput.md)
@@ -98,8 +102,4 @@
 - [DisputeCreatedMerchantEventInput](DisputeCreatedMerchantEventInput.md)
 - [DisputeInquiryClosedInstalledMerchantsEventInput](DisputeInquiryClosedInstalledMerchantsEventInput.md)
 - [DisputeInquiryClosedMerchantEventInput](DisputeInquiryClosedMerchantEventInput.md)
-- [DisputeListResponseInput](DisputeListResponseInput.md)
-- [DisputeLostInstalledMerchantsEventInput](DisputeLostInstalledMerchantsEventInput.md)
-- [DisputeLostMerchantEventInput](DisputeLostMerchantEventInput.md)
-- [DisputeNeedsResponseInstalledMerchantsEventInput](DisputeNeedsResponseInstalledMerchantsEventInput.md)
 

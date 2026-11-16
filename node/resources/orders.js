@@ -5,11 +5,11 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/orders.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import r0 from '../descriptors/resources/orders.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import settings from '../descriptors/settings.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["applyOrderDiscount"]:r0,["applyOrderGiftCard"]:r0,["cancelOrderPaymentAttempt"]:r0,["closeOrder"]:r0,["createOrder"]:r0,["createOrderAccessLink"]:r0,["createOrderCharge"]:r0,["createOrderEdit"]:r0,["createOrderLineItems"]:r0,["deleteOrderCharge"]:r0,["deleteOrderLineItem"]:r0,["getOrder"]:r0,["getOrderEdit"]:r0,["getOrderPaymentAttempt"]:r0,["getOrderReceiptPDF"]:r0,["listOrderActivities"]:r0,["listOrderCharges"]:r0,["listOrderEdits"]:r0,["listOrderLineItems"]:r0,["listOrderPaymentAttempts"]:r0,["listOrders"]:r0,["payOrder"]:r0,["removeOrderDiscounts"]:r0,["removeOrderGiftCard"]:r0,["repriceOrderDiscounts"]:r0,["resolveOrderInventoryException"]:r0,["retryOrderEditRefund"]:r0,["sendOrderReceipt"]:r0,["updateOrder"]:r0,["updateOrderCharge"]:r0,["updateOrderLineItem"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["applyOrderDiscount"]:r0,["applyOrderGiftCard"]:r0,["cancelOrderEdit"]:r0,["cancelOrderPaymentAttempt"]:r0,["closeOrder"]:r0,["createOrder"]:r0,["createOrderAccessLink"]:r0,["createOrderCharge"]:r0,["createOrderEdit"]:r0,["createOrderLineItems"]:r0,["deleteOrderCharge"]:r0,["deleteOrderLineItem"]:r0,["getOrder"]:r0,["getOrderEdit"]:r0,["getOrderPaymentAttempt"]:r0,["getOrderReceiptPDF"]:r0,["listOrderActivities"]:r0,["listOrderCharges"]:r0,["listOrderEdits"]:r0,["listOrderLineItems"]:r0,["listOrderPaymentAttempts"]:r0,["listOrders"]:r0,["payOrder"]:r0,["removeOrderDiscounts"]:r0,["removeOrderGiftCard"]:r0,["repriceOrderDiscounts"]:r0,["resolveOrderInventoryException"]:r0,["retryOrderEditRefund"]:r0,["sendOrderReceipt"]:r0,["updateOrder"]:r0,["updateOrderCharge"]:r0,["updateOrderLineItem"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -38,6 +38,18 @@ this.orders = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("applyOrderGiftCard", result, path))),
+      cancelEdit: async (order_id, order_edit_id, params, options) => this.#runtime.request("cancelOrderEdit", _sdkRequestInput([
+  "order_id",
+  "order_edit_id"
+], [order_id, order_edit_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelOrderEdit", result, path))),
       cancelPaymentAttempt: async (order_id, order_payment_attempt_id, params, options) => this.#runtime.request("cancelOrderPaymentAttempt", _sdkRequestInput([
   "order_id",
   "order_payment_attempt_id"
@@ -266,6 +278,7 @@ this.orders = Object.freeze({
 ], [order_id], [
   "page_size",
   "page_token",
+  "status",
   "created_after",
   "created_before",
   "Flint-Merchant-Id",
@@ -280,6 +293,7 @@ this.orders = Object.freeze({
 ], [order_id], [
   "page_size",
   "page_token",
+  "status",
   "created_after",
   "created_before",
   "Flint-Merchant-Id",
@@ -294,6 +308,7 @@ this.orders = Object.freeze({
 ], [order_id], [
   "page_size",
   "page_token",
+  "status",
   "created_after",
   "created_before",
   "Flint-Merchant-Id",
@@ -635,6 +650,7 @@ export { makeApplyDiscountRequest } from '../models/ApplyDiscountRequest.js';
 export { makeApplyDiscountRequestManual } from '../models/ApplyDiscountRequestManual.js';
 export { makeApplyDiscountRequestPromotion } from '../models/ApplyDiscountRequestPromotion.js';
 export { makeApplyOrderGiftCardRequest } from '../models/ApplyOrderGiftCardRequest.js';
+export { makeCancelOrderEditRequest } from '../models/CancelOrderEditRequest.js';
 export { makeCancelOrderPaymentAttemptRequest } from '../models/CancelOrderPaymentAttemptRequest.js';
 export { makeCheckoutBuyerContactRequest } from '../models/CheckoutBuyerContactRequest.js';
 export { makeCloseOrderRequest } from '../models/CloseOrderRequest.js';

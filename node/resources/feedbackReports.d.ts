@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
     FeedbackReport,
     FeedbackReportListResponse,
@@ -38,7 +38,7 @@ export type {
 } from '../declarations/types-24.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions, CheckoutSessionsListCustomerVerificationsParams } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateFeedbackReportRequestInput,
     CreateFeedbackReportRatingInput,
@@ -48,13 +48,14 @@ export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { NextAction, MoneyValue } from '../declarations/types-39.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export type { CheckoutSessionsListCustomerVerificationsParams } from '../declarations/types-6.js';
 export {
     makeCreateFeedbackReportNarrative,
     makeCreateFeedbackReportRating,
     makeCreateFeedbackReportRequest
 } from '../declarations/types-72.js';
-export { makeFeedbackReportingClientRequest } from '../declarations/types-76.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeFeedbackReportingClientRequest } from '../declarations/types-77.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export interface FeedbackReportsResource {
     /**
  * Stores one immutable occurrence of Flint feedback. Use one report per root cause and include

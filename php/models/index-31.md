@@ -1,7 +1,18 @@
 [Model index](../MODELS.md)
 
-# AuthContextResponse to GiftCardListResponse
+# DeleteReturnLineItemResponse to DeviceListResponse
 
+- [DeleteReturnLineItemResponse](DeleteReturnLineItemResponse.md)
+- [DeleteReturnPolicyResponse](DeleteReturnPolicyResponse.md)
+- [DeleteReturnReasonResponse](DeleteReturnReasonResponse.md)
+- [RiskListItemResponse](RiskListItemResponse.md)
+- [SandboxResponse](SandboxResponse.md)
+- [WebhookEndpointResponse](WebhookEndpointResponse.md)
+- [DisconnectTaxConnectionResponse](DisconnectTaxConnectionResponse.md)
+- [OAuthTokenResponse](OAuthTokenResponse.md)
+- [AnalyticsOverviewResponse](AnalyticsOverviewResponse.md)
+- [APIKeyResponse](APIKeyResponse.md)
+- [APIRequestLogDetailResponse](APIRequestLogDetailResponse.md)
 - [AuthContextResponse](AuthContextResponse.md)
 - [BalanceTransactionResponse](BalanceTransactionResponse.md)
 - [CreditNoteAllocationResponse](CreditNoteAllocationResponse.md)
@@ -91,15 +102,4 @@
 - [DeliverySelectionListResponse](DeliverySelectionListResponse.md)
 - [DeliveryZoneListResponse](DeliveryZoneListResponse.md)
 - [DeviceListResponse](DeviceListResponse.md)
-- [DisputeListResponse](DisputeListResponse.md)
-- [FeedbackReportListResponse](FeedbackReportListResponse.md)
-- [FraudWarningListResponse](FraudWarningListResponse.md)
-- [FulfillmentEventListResponse](FulfillmentEventListResponse.md)
-- [FulfillmentNotificationListResponse](FulfillmentNotificationListResponse.md)
-- [FulfillmentListResponse](FulfillmentListResponse.md)
-- [GiftCardFundingDispositionListResponse](GiftCardFundingDispositionListResponse.md)
-- [GiftCardLoadListResponse](GiftCardLoadListResponse.md)
-- [GiftCardNotificationListResponse](GiftCardNotificationListResponse.md)
-- [GiftCardRedemptionListResponse](GiftCardRedemptionListResponse.md)
-- [GiftCardListResponse](GiftCardListResponse.md)
 

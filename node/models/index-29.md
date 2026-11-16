@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# ReturnReceipt to RiskRuleResponse
+# ReturnProcessInspectionRequest to RiskPredicateNodeNotRequestInput
 
+- [ReturnProcessInspectionRequest](ReturnProcessInspectionRequest.md)
+- [ReturnProcessInspectionRequestInput](ReturnProcessInspectionRequestInput.md)
+- [ReturnProcessReceiptRequest](ReturnProcessReceiptRequest.md)
+- [ReturnProcessReceiptRequestInput](ReturnProcessReceiptRequestInput.md)
+- [ReturnProcessResolutionRequest](ReturnProcessResolutionRequest.md)
+- [ReturnProcessResolutionRequestInput](ReturnProcessResolutionRequestInput.md)
+- [ReturnProcessResult](ReturnProcessResult.md)
+- [ReturnReason](ReturnReason.md)
+- [ReturnReasonSummary](ReturnReasonSummary.md)
 - [ReturnReceipt](ReturnReceipt.md)
 - [ReturnReceiptCreatedInstalledMerchantsEvent](ReturnReceiptCreatedInstalledMerchantsEvent.md)
 - [ReturnReceiptCreatedMerchantEvent](ReturnReceiptCreatedMerchantEvent.md)
@@ -93,13 +102,4 @@
 - [RiskPredicateNodeNot](RiskPredicateNodeNot.md)
 - [RiskPredicateNodeNotRequest](RiskPredicateNodeNotRequest.md)
 - [RiskPredicateNodeNotRequestInput](RiskPredicateNodeNotRequestInput.md)
-- [RiskPredicateNodeRequest](RiskPredicateNodeRequest.md)
-- [RiskPredicateNodeRequestInput](RiskPredicateNodeRequestInput.md)
-- [RiskPreview](RiskPreview.md)
-- [RiskPreviewResponse](RiskPreviewResponse.md)
-- [RiskRule](RiskRule.md)
-- [RiskRuleAnalysis](RiskRuleAnalysis.md)
-- [RiskRuleIssue](RiskRuleIssue.md)
-- [RiskRuleListResponse](RiskRuleListResponse.md)
-- [RiskRuleResponse](RiskRuleResponse.md)
 

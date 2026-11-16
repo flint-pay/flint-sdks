@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# FulfillmentPackagingRequestInput to GiftCardUpdatedMerchantEvent
+# FulfillmentNotificationResponse to GiftCardTransactionCreatedMerchantEvent
 
+- [FulfillmentNotificationResponse](FulfillmentNotificationResponse.md)
+- [FulfillmentOutcome](FulfillmentOutcome.md)
+- [FulfillmentPackagingRequest](FulfillmentPackagingRequest.md)
 - [FulfillmentPackagingRequestInput](FulfillmentPackagingRequestInput.md)
 - [FulfillmentRecipient](FulfillmentRecipient.md)
 - [FulfillmentRecipientRequest](FulfillmentRecipientRequest.md)
@@ -99,7 +102,4 @@
 - [GiftCardTransaction](GiftCardTransaction.md)
 - [GiftCardTransactionCreatedInstalledMerchantsEvent](GiftCardTransactionCreatedInstalledMerchantsEvent.md)
 - [GiftCardTransactionCreatedMerchantEvent](GiftCardTransactionCreatedMerchantEvent.md)
-- [GiftCardTransactionListResponse](GiftCardTransactionListResponse.md)
-- [GiftCardUpdatedInstalledMerchantsEvent](GiftCardUpdatedInstalledMerchantsEvent.md)
-- [GiftCardUpdatedMerchantEvent](GiftCardUpdatedMerchantEvent.md)
 

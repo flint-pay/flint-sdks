@@ -1,6 +1,6 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { AddRiskListItemsResponse, AddRiskListItemsResult } from '../declarations/types-0.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-54.js';
 import type {
     RiskList,
@@ -60,7 +60,7 @@ export type {
     AddRiskListItemsRequest
 } from '../declarations/types-0.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateRiskListRequestInput } from '../declarations/types-13.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
@@ -70,7 +70,7 @@ export type { UpdateRiskListRequestInput, UpdateRiskListRequest } from '../decla
 export type { DisputesAcceptParams } from '../declarations/types-23.js';
 export { makeAddRiskListItemsRequest } from '../declarations/types-70.js';
 export { makeCreateRiskListRequest } from '../declarations/types-74.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export { makeUpdateRiskListRequest } from '../declarations/types-84.js';
 export interface RiskListsResource {
     /**

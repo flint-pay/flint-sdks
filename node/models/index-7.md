@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# CreateInvoiceRequest to CreatePriceListPricesRequestInput
+# CreateInvoicePaymentTermRequest to CreatePickupFulfillmentDetails
 
+- [CreateInvoicePaymentTermRequest](CreateInvoicePaymentTermRequest.md)
+- [CreateInvoicePaymentTermRequestInput](CreateInvoicePaymentTermRequestInput.md)
+- [CreateInvoiceQuickPayRequest](CreateInvoiceQuickPayRequest.md)
+- [CreateInvoiceQuickPayRequestInput](CreateInvoiceQuickPayRequestInput.md)
 - [CreateInvoiceRequest](CreateInvoiceRequest.md)
 - [CreateInvoiceRequestInput](CreateInvoiceRequestInput.md)
 - [CreateInvoiceRequestOrder](CreateInvoiceRequestOrder.md)
@@ -26,7 +30,6 @@
 - [CreateMeSubscriptionPreviewRequestNextRenewalInput](CreateMeSubscriptionPreviewRequestNextRenewalInput.md)
 - [CreateMeSubscriptionPreviewRequestPlanChange](CreateMeSubscriptionPreviewRequestPlanChange.md)
 - [CreateMeSubscriptionPreviewRequestPlanChangeInput](CreateMeSubscriptionPreviewRequestPlanChangeInput.md)
-- [CreateMeSubscriptionPreviewRequestQuantityChange](CreateMeSubscriptionPreviewRequestQuantityChange.md)
 - [CreateMeSubscriptionPreviewRequestQuantityChangeInput](CreateMeSubscriptionPreviewRequestQuantityChangeInput.md)
 - [CreateModifierGroupRequest](CreateModifierGroupRequest.md)
 - [CreateModifierGroupRequestInput](CreateModifierGroupRequestInput.md)
@@ -99,7 +102,4 @@
 - [CreatePayoutRequest](CreatePayoutRequest.md)
 - [CreatePayoutRequestInput](CreatePayoutRequestInput.md)
 - [CreatePickupFulfillmentDetails](CreatePickupFulfillmentDetails.md)
-- [CreatePickupFulfillmentDetailsInput](CreatePickupFulfillmentDetailsInput.md)
-- [CreatePriceListPricesRequest](CreatePriceListPricesRequest.md)
-- [CreatePriceListPricesRequestInput](CreatePriceListPricesRequestInput.md)
 

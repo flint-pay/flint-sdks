@@ -1,5 +1,5 @@
 import type { WithResponseInfo } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
     MerchantAccountSession,
     MerchantAccountSessionResponse,
@@ -37,17 +37,14 @@ export type {
     MerchantAccountSessionRefreshRequest
 } from '../declarations/types-37.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { DisputeResponseSessionStripeAccountSession } from '../declarations/types-23.js';
 export type { NextAction, MoneyValue } from '../declarations/types-39.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export {
-    makeMerchantAccountSessionCreateRequest,
-    makeMerchantAccountSessionRefreshRequest,
-    makeMoneyValue
-} from '../declarations/types-78.js';
+export { makeMerchantAccountSessionCreateRequest, makeMerchantAccountSessionRefreshRequest } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export interface MerchantAccountSessionsResource {
     /**
  * Creates an embedded browser handoff for one or more allowlisted account components. The

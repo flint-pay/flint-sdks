@@ -15,7 +15,7 @@ An event prepared for delivery to webhook endpoints.
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `data` | Optional | object | The delivered envelope's data, including its payload-version-specific shape. Omitted from list responses and from detail responses when the caller lacks read access to the attributed resource or the payload has expired after 14 days. |
 | `event_source` | Optional | string | Envelope discriminator identifying merchant events, partner app lifecycle events, or events forwarded from installed merchants. Values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. |
-| `event_type` | Required | string | Type of event Flint recorded, using the current event type name. Values: [291 declared values](CreateWebhookTestEventRequest.md#createwebhooktesteventrequest-event_type-values). |
+| `event_type` | Required | string | Type of event Flint recorded, using the current event type name. Values: [294 declared values](CreateWebhookTestEventRequest.md#createwebhooktesteventrequest-event_type-values). |
 | `merchant_id` | Optional | string | ID of the merchant this resource belongs to. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
 | `mode` | Optional | string | Environment used for this resource or request. Values: `"test"`, `"live"`. |
 | `partner_app_id` | Optional | string | ID of the partner app that owns this partner event. Omitted for merchant events. Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. |

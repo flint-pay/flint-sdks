@@ -22,13 +22,13 @@ final class OrderEditLineRemovalInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** The part of total_money refunded to the buyer, frozen when the edit committed. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The part of total_money refunded to the buyer, frozen when the edit was created. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When refund_money is omitted; use hasRefundMoney() or valueOrDefault().
      */
     public function getRefundMoney(): mixed { return $this->get('refund_money'); }
     public function hasRefundMoney(): bool { return $this->has('refund_money'); }
-    /** The value of these units, including their original discount and tax shares, frozen when the edit committed. The order no longer owes it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The value of these units, including their original discount and tax shares, frozen when the edit was created. The order no longer owes it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When total_money is omitted; use hasTotalMoney() or valueOrDefault().
      */

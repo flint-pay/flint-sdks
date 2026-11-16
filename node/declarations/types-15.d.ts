@@ -1,17 +1,47 @@
 import type { InputValue } from '../runtime.js';
-import type { IssueCreditNoteRequestInput } from './types-35.js';
-import type { InvoicesMarkUncollectibleParams } from './types-34.js';
+import type { DisputesAcceptParams } from './types-23.js';
+import type { IssueCreditNoteRequestInput, InvoicesMarkUncollectibleParams } from './types-35.js';
 import type { UpdateCreditNoteRequestInput } from './types-66.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-38.js';
 import type { ResponseMeta, ResolveCustomerDeletionRequestInput } from './types-54.js';
 import type { CreateCustomDomainRequestInput, CreateCustomerDeletionRequestInput } from './types-8.js';
-import type { DisputesAcceptParams } from './types-23.js';
 import type { Address } from './types-0.js';
+import type { CustomerReceivables } from './types-16.js';
 import type { ExpandedPaymentMethodSummary, ErrorResourceReference } from './types-24.js';
 import type { TaxIdentity } from './types-65.js';
 import type { BuyerCapabilities, BuyerCapabilitiesRequestInput } from './types-1.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
-import type { MoneyValue } from './types-39.js';
+export type CreditNotesGetPDFParams = DisputesAcceptParams;
+export type CreditNotesGetPDFResponse = Uint8Array;
+export type CreditNotesGetParams = {
+    /**
+     * Include related objects in the response. Supported expansions: invoice. Include the source
+     * invoice summary with expand=invoice. Requires commerce.credit_notes.read and
+     * commerce.invoices.read. Limits: at most 10 unique expand paths per request. [] enum:
+     * "invoice". Value enum: "invoice". anyOf[1] (Value): Array of string. [] enum: "invoice".
+     * anyOf[1][] (Value): string. Value enum: "invoice". anyOf[2] (Value): string. Value enum:
+     * "invoice".
+     */
+    "expand"?: InputValue<("invoice") | readonly ("invoice")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 export type CreditNotesIssueParams = (InputValue<IssueCreditNoteRequestInput>
     | {
     "allocation"?: never;
@@ -802,8 +832,9 @@ export type CustomerAccessLink = ({
      */
     "sent"?: boolean;
     /**
-     * The single-use bearer URL, present only with link delivery. Format: uri. Example:
-     * "https://example.com/receipt".
+     * The single-use bearer URL, present only with link delivery. Returned only to the credential
+     * that created it, and omitted when another credential replays the request. Format: uri.
+     * Example: "https://example.com/receipt".
      */
     "url"?: string;
 })
@@ -835,8 +866,9 @@ export type CustomerAccessLinkEmailed = ({
      */
     "sent": boolean;
     /**
-     * The single-use bearer URL, present only with link delivery. Format: uri. Example:
-     * "https://example.com/receipt".
+     * The single-use bearer URL, present only with link delivery. Returned only to the credential
+     * that created it, and omitted when another credential replays the request. Format: uri.
+     * Example: "https://example.com/receipt".
      */
     "url"?: string;
 })
@@ -899,19 +931,15 @@ export type CustomerAccessLinkReturned = ({
      */
     "sent"?: boolean;
     /**
-     * The single-use bearer URL, present only with link delivery. Format: uri. Example:
-     * "https://example.com/receipt".
+     * The single-use bearer URL, present only with link delivery. Returned only to the credential
+     * that created it, and omitted when another credential replays the request. Format: uri.
+     * Example: "https://example.com/receipt".
      */
-    "url": string;
+    "url"?: string;
 })
     & (({
     /** Value enum: "link". */
     "delivery": unknown;
-    /**
-     * The single-use bearer URL, present only with link delivery. Format: uri. Example:
-     * "https://example.com/receipt".
-     */
-    "url": string;
     /** When a returned link expires. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "expires_at": string;
     /** The returned link opens the customer's account. Value enum: "customer_account". */
@@ -3372,54 +3400,3 @@ export type CustomerEmailPreferencesUpdatedMerchantEvent = (Exclude<MerchantWebh
     /** Value enum: "customer_email_preferences.updated". */
     "event_type"?: "customer_email_preferences.updated";
 });
-/** A page of `Customer` objects. */
-export type CustomerListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * Customer}. A merchant's customer profile.
-     */
-    "data": Array<Customer>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A customer's outstanding and overdue amounts in one currency. */
-export type CustomerReceivableBalance = {
-    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
-    "currency": string;
-    /**
-     * Total still owed across the customer's invoices in this currency: invoice totals minus
-     * payments applied and balance reductions. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "outstanding_money": MoneyValue;
-    /**
-     * Part of the outstanding amount that is past its due date at `observed_at`. Invoices with a
-     * payment schedule count only their past-due installments. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "overdue_money": MoneyValue;
-};
-/** A customer's receivable balances by currency and when they were observed. */
-export type CustomerReceivables = {
-    /**
-     * One balance per currency in which the customer has an outstanding or overdue amount. Empty
-     * when the customer owes nothing. [] (Value): {@link CustomerReceivableBalance}. A customer's
-     * outstanding and overdue amounts in one currency.
-     */
-    "balances": Array<CustomerReceivableBalance>;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "observed_at": string;
-};

@@ -1,3 +1,4 @@
+import type { GetReturnResponse, GetReturnPolicyResponse, GetReturnReasonResponse } from './types-26.js';
 import type { Address, AddRiskListItemsRequest } from './types-0.js';
 import type {
     DeliveryWeeklyInterval,
@@ -19,10 +20,14 @@ import type {
 import type { LocationCoordinate } from './types-35.js';
 import type { MoneyValue, MoneyValueInput } from './types-39.js';
 import type { DeliveryOptionProjection, DeliveryPostalCodeCondition, DeliveryPostalCodeConditionRequestInput } from './types-19.js';
-import type { TaxComponentRequest, TaxComponentRequestModelInput } from './types-64.js';
+import type { TaxComponentRequest, TaxComponentRequestModelInput } from './types-65.js';
 import type { DeliveryRadiusCondition, DeliveryRadiusConditionRequestInput } from './types-20.js';
+import type { DeliveryLocationSetConfiguration } from './types-18.js';
 import type { MetadataMap, MerchantWebhookEnvelope } from './types-38.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
+export type DeleteReturnLineItemResponse = GetReturnResponse;
+export type DeleteReturnPolicyResponse = GetReturnPolicyResponse;
+export type DeleteReturnReasonResponse = GetReturnReasonResponse;
 /**
  * An address verification result for a delivery address or buyer location. `suggested_address` may
  * offer a correction.
@@ -3705,62 +3710,4 @@ export type DeliveryLocationSetArchivedMerchantEvent = (Exclude<MerchantWebhookE
     "event_source"?: "merchant" | (string & {});
     /** Value enum: "delivery_location_set.archived". */
     "event_type"?: "delivery_location_set.archived";
-});
-/** The location IDs in a delivery location set. */
-export type DeliveryLocationSetConfiguration = {
-    /**
-     * IDs of the Locations in the set, from 1 to 1,000. An allocated origin group accepts at most
-     * 25. [] (Value): string. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_ids": Array<string>;
-};
-/** The location IDs in a delivery location set. */
-export type DeliveryLocationSetConfigurationInput = DeliveryLocationSetConfiguration;
-export type DeliveryLocationSetCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "configuration": DeliveryLocationSetConfiguration;
-            "created_at": string;
-            "current_delivery_location_set_revision_id": string;
-            "delivery_location_set_id": string;
-            "external_reference_id"?: string;
-            "metadata"?: MetadataMap;
-            "name": string;
-            "status": "active" | "archived" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "delivery_location_set.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "configuration": DeliveryLocationSetConfiguration;
-            "created_at": string;
-            "current_delivery_location_set_revision_id": string;
-            "delivery_location_set_id": string;
-            "external_reference_id"?: string;
-            "metadata"?: MetadataMap;
-            "name": string;
-            "status": "active" | "archived" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "delivery_location_set.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "delivery_location_set.created";
 });

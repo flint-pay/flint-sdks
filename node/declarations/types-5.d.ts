@@ -1,4 +1,4 @@
-import type { GetReturnResolutionResponse, GetReturnResponse, GiftCard } from './types-26.js';
+import type { GetReturnResponse, GetReturnResolutionResponse, GiftCard } from './types-26.js';
 import type { ReadinessAction, ReadinessRequirements } from './types-52.js';
 import type { MoneyValue, MoneyValueInput } from './types-39.js';
 import type { PlatformFeeRequest, PlatformFeeRequestInput } from './types-49.js';
@@ -17,8 +17,47 @@ import type { Address, AddressRequest, AddressRequestInput } from './types-0.js'
 import type { DeliveryInputRequirement } from './types-17.js';
 import type { DeliveryMerchantDiagnostic } from './types-18.js';
 import type { DeliveryQuoteChoiceGroupResource } from './types-20.js';
-import type { ErrorRemediation } from './types-24.js';
-import type { OrderLineItemTax } from './types-41.js';
+export type CancelReturnLineItemResponse = GetReturnResponse;
+/** The request body for: Cancel return. */
+export type CancelReturnRequest = {
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Why it is being canceled. Value enum: "buyer_request", "merchant_request", "duplicate",
+     * "expired", "created_in_error", "other".
+     */
+    "reason": "buyer_request"
+        | "merchant_request"
+        | "duplicate"
+        | "expired"
+        | "created_in_error"
+        | "other"
+        | (string & {});
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
+    "reason_message"?: string;
+};
+/** The request body for: Cancel return. */
+export type CancelReturnRequestInput = {
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Why it is being canceled. Value enum: "buyer_request", "merchant_request", "duplicate",
+     * "expired", "created_in_error", "other".
+     */
+    "reason": "buyer_request" | "merchant_request" | "duplicate" | "expired" | "created_in_error" | "other";
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
+    "reason_message"?: string;
+};
+/** The request body for: Cancel return resolution. */
+export type CancelReturnResolutionRequestInput = CancelReturnRequestInput;
 export type CancelReturnResolutionResponse = GetReturnResolutionResponse;
 export type CancelReturnResponse = GetReturnResponse;
 /** Cancellation timing and the optional reason and comment recorded with the request. */
@@ -1783,12 +1822,6 @@ export type ChangeMeSubscriptionPlanRequest = ({
      */
     "expected_version"?: number;
     /**
-     * Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use
-     * line_items for multiple units. Whole-number quantity; fractional quantities are not
-     * supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-    /**
      * The target subscription plan. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "plan_01KEZF7C004CY5ZR33XST2AASV".
      */
@@ -1813,12 +1846,6 @@ export type ChangeMeSubscriptionPlanRequestInput = ({
      * the operation and fields being changed. Format: uint64. minimum: 1.
      */
     "expected_version"?: number;
-    /**
-     * Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use
-     * line_items for multiple units. Whole-number quantity; fractional quantities are not
-     * supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
     /**
      * The target subscription plan. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "plan_01KEZF7C004CY5ZR33XST2AASV".
@@ -1896,12 +1923,6 @@ export type ChangeSubscriptionPlanRequest = ({
      */
     "line_items"?: Array<SubscriptionPlanChangeLineItemRequest>;
     /**
-     * Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use
-     * line_items for multiple units. Whole-number quantity; fractional quantities are not
-     * supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-    /**
      * The target subscription plan. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "plan_01KEZF7C004CY5ZR33XST2AASV".
      */
@@ -1944,19 +1965,13 @@ export type ChangeSubscriptionPlanRequestInput = ({
      */
     "line_items"?: Array<SubscriptionPlanChangeLineItemRequestInput>;
     /**
-     * Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use
-     * line_items for multiple units. Whole-number quantity; fractional quantities are not
-     * supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-    /**
      * The target subscription plan. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "plan_01KEZF7C004CY5ZR33XST2AASV".
      */
     "subscription_plan_id": string;
 });
 /** The request body for: Change subscription quantity. */
-export type ChangeSubscriptionQuantityRequest = ({
+export type ChangeSubscriptionQuantityRequest = {
     /**
      * prorated_now charges the prorated difference now and keeps the current period and anchor;
      * next_renewal changes quantities now without charging; period_end schedules them for the next
@@ -1967,36 +1982,13 @@ export type ChangeSubscriptionQuantityRequest = ({
     "expected_version"?: number;
     /**
      * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
-     * quantities. Send quantity or line_items. minItems: 1. maxItems: 50. [] (Value): {@link
-     * SubscriptionQuantityChangeLineItemRequest}. Quantity for an existing subscription line.
-     */
-    "line_items"?: Array<SubscriptionQuantityChangeLineItemRequest>;
-    /**
-     * The whole-number subscription multiplier; fractional quantities are not supported. Validated
-     * as on subscription PATCH. Omit to keep its current value. Send quantity or line_items.
-     * minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-})
-    & (({
-    /**
-     * The whole-number subscription multiplier; fractional quantities are not supported. Validated
-     * as on subscription PATCH. Omit to keep its current value. Send quantity or line_items.
-     * minimum: 1. maximum: 1.
-     */
-    "quantity": number;
-})
-    | ({
-    /**
-     * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
-     * quantities. Send quantity or line_items. minItems: 1. maxItems: 50. [] (Value): {@link
+     * quantities. line_items is required. minItems: 1. maxItems: 50. [] (Value): {@link
      * SubscriptionQuantityChangeLineItemRequest}. Quantity for an existing subscription line.
      */
     "line_items": Array<SubscriptionQuantityChangeLineItemRequest>;
-})
-    | (Record<string, unknown>));
+};
 /** The request body for: Change subscription quantity. */
-export type ChangeSubscriptionQuantityRequestInput = ({
+export type ChangeSubscriptionQuantityRequestInput = {
     /**
      * prorated_now charges the prorated difference now and keeps the current period and anchor;
      * next_renewal changes quantities now without charging; period_end schedules them for the next
@@ -2007,33 +1999,11 @@ export type ChangeSubscriptionQuantityRequestInput = ({
     "expected_version"?: number;
     /**
      * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
-     * quantities. Send quantity or line_items. minItems: 1. maxItems: 50. [] (Value): {@link
-     * SubscriptionQuantityChangeLineItemRequestInput}. Quantity for an existing subscription line.
-     */
-    "line_items"?: Array<SubscriptionQuantityChangeLineItemRequestInput>;
-    /**
-     * The whole-number subscription multiplier; fractional quantities are not supported. Validated
-     * as on subscription PATCH. Omit to keep its current value. Send quantity or line_items.
-     * minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-})
-    & (({
-    /**
-     * The whole-number subscription multiplier; fractional quantities are not supported. Validated
-     * as on subscription PATCH. Omit to keep its current value. Send quantity or line_items.
-     * minimum: 1. maximum: 1.
-     */
-    "quantity": number;
-})
-    | ({
-    /**
-     * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
-     * quantities. Send quantity or line_items. minItems: 1. maxItems: 50. [] (Value): {@link
+     * quantities. line_items is required. minItems: 1. maxItems: 50. [] (Value): {@link
      * SubscriptionQuantityChangeLineItemRequestInput}. Quantity for an existing subscription line.
      */
     "line_items": Array<SubscriptionQuantityChangeLineItemRequestInput>;
-}));
+};
 /** An optional admission code to verify and an optional version fence. */
 export type CheckInTicketRequest = {
     /**
@@ -2413,69 +2383,4 @@ export type CheckoutPrefillRequestInput = {
      * minLength: 1. maxLength: 200.
      */
     "shipping_recipient_name"?: string;
-};
-/**
- * A problem with a checkout session, such as a stale delivery selection, with its `code`, whether
- * it blocks completion, and remediation.
- */
-export type CheckoutProblemResource = {
-    /** Whether the checkout cannot complete until the problem is resolved. */
-    "blocks_completion": boolean;
-    /**
-     * Which condition affects the checkout. Value enum: "delivery_selection_stale",
-     * "delivery_selection_invalid", "delivery_unreadable", "payment_in_progress".
-     */
-    "code": "delivery_selection_stale"
-        | "delivery_selection_invalid"
-        | "delivery_unreadable"
-        | "payment_in_progress"
-        | (string & {});
-    /**
-     * What the caller can do about the problem, and whether retrying the same request can help.
-     * Recovery guidance for an error: whether and how to `retry`, plus next steps and suggested
-     * actions.
-     */
-    "remediation"?: ErrorRemediation;
-    /** How serious the problem is. Value enum: "error". */
-    "severity": "error" | (string & {});
-};
-/**
- * Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can
- * apply promotion codes.
- */
-export type CheckoutPromotionConfig = {
-    /**
-     * Whether automatic promotions apply to this checkout. Send false to stop them here. True
-     * can't turn them back on when your promotion settings have them off.
-     */
-    "automatic_enabled"?: boolean;
-    /**
-     * Object-level override for whether this checkout's buyer can apply promotion codes, hosted or
-     * headless. Omit to inherit the payment link and checkout.promotion_codes_enabled. When all
-     * are unset, hosted checkout offers code entry only while an active code promotion exists in
-     * this environment; read can_apply_promotion_code on the session. True allows codes when the
-     * merchant's promotion settings allow them; false blocks them for this checkout. `null` when
-     * this checkout inherits checkout.promotion_codes_enabled.
-     */
-    "codes_enabled"?: boolean | null;
-};
-/**
- * Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can
- * apply promotion codes.
- */
-export type CheckoutPromotionConfigRequestInput = CheckoutPromotionConfig;
-/**
- * A single custom item to charge on a checkout session, supplied as `quick_pay_item`: a name, an
- * amount, and optional tax settings.
- */
-export type CheckoutQuickPayItemRequest = {
-    /**
-     * Amount the buyer pays for the item. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /** Name shown for the item. minLength: 1. */
-    "name": string;
-    /** Tax settings for the item. A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTax;
 };

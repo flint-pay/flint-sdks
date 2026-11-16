@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# DisputeCreatedMerchantEvent to FulfillmentPackagingRequest
+# DispatchFulfillmentRequestInput to FulfillmentNotificationListResponse
 
+- [DispatchFulfillmentRequestInput](DispatchFulfillmentRequestInput.md)
+- [Dispute](Dispute.md)
+- [DisputeCreatedInstalledMerchantsEvent](DisputeCreatedInstalledMerchantsEvent.md)
 - [DisputeCreatedMerchantEvent](DisputeCreatedMerchantEvent.md)
 - [DisputeInquiryClosedInstalledMerchantsEvent](DisputeInquiryClosedInstalledMerchantsEvent.md)
 - [DisputeInquiryClosedMerchantEvent](DisputeInquiryClosedMerchantEvent.md)
@@ -99,7 +102,4 @@
 - [FulfillmentListResponse](FulfillmentListResponse.md)
 - [FulfillmentNotification](FulfillmentNotification.md)
 - [FulfillmentNotificationListResponse](FulfillmentNotificationListResponse.md)
-- [FulfillmentNotificationResponse](FulfillmentNotificationResponse.md)
-- [FulfillmentOutcome](FulfillmentOutcome.md)
-- [FulfillmentPackagingRequest](FulfillmentPackagingRequest.md)
 

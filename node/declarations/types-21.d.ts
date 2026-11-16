@@ -15,7 +15,118 @@ import type {
     DeliveryPricingRateRequest,
     DeliveryPricingRateRequestInput
 } from './types-19.js';
-import type { DeliveryRevocationTargetLocationGeography } from './types-22.js';
+import type {
+    DeliveryRevocationTargetDeliveryMethodRevision,
+    DeliveryRevocationTargetDeliveryRateCallbackRevision,
+    DeliveryRevocationTargetDeliveryRateCallbackSigningKey,
+    DeliveryRevocationTargetLocationGeography
+} from './types-22.js';
+/**
+ * Patch object: fields you send are applied, fields you omit are unchanged. Null restores a key's
+ * default, as each field describes. The result must be a configuration you could create. An empty
+ * configuration is invalid. Publishes a new immutable revision, even when the values are
+ * unchanged, and requires expected_version. minProperties: 1.
+ */
+export type DeliveryRateCallbackConfigurationPatchRequest = {
+    /**
+     * Maximum callback request body size in bytes. Defaults to 262144; accepts 1 through 1048576.
+     * Null restores 262144 bytes. Format: int64. minimum: 1. maximum: 1048576.
+     */
+    "maximum_request_bytes"?: number | null;
+    /**
+     * Maximum callback response body size in bytes. Defaults to 262144; accepts 1 through 1048576.
+     * Null restores 262144 bytes. Format: int64. minimum: 1. maximum: 1048576.
+     */
+    "maximum_response_bytes"?: number | null;
+    /**
+     * Whether delivery previews call this callback. Previews call it only when this setting and
+     * `preview_enabled` on the delivery method are both `true`. Defaults to `false`. Null restores
+     * false.
+     */
+    "preview_enabled"?: boolean | null;
+    /**
+     * What Flint does when the callback responds with an HTTP redirect. Defaults to `reject`. Null
+     * restores reject. Value enum: "reject", null.
+     */
+    "redirect_policy"?: "reject" | null | (string & {}) | null;
+    /**
+     * Maximum time to wait for the callback response, in seconds. Defaults to 2; accepts 0.1
+     * through 10. Null restores 2 seconds. minimum: 0.1. maximum: 10.
+     */
+    "request_timeout_seconds"?: number | null;
+    /** HTTPS URL that Flint calls to get a delivery rate. Null is invalid. minLength: 1. */
+    "url"?: string;
+};
+/**
+ * Patch object: fields you send are applied, fields you omit are unchanged. Null restores a key's
+ * default, as each field describes. The result must be a configuration you could create. An empty
+ * configuration is invalid. Publishes a new immutable revision, even when the values are
+ * unchanged, and requires expected_version. minProperties: 1.
+ */
+export type DeliveryRateCallbackConfigurationPatchRequestInput = {
+    /**
+     * Maximum callback request body size in bytes. Defaults to 262144; accepts 1 through 1048576.
+     * Null restores 262144 bytes. Format: int64. minimum: 1. maximum: 1048576.
+     */
+    "maximum_request_bytes"?: number | null;
+    /**
+     * Maximum callback response body size in bytes. Defaults to 262144; accepts 1 through 1048576.
+     * Null restores 262144 bytes. Format: int64. minimum: 1. maximum: 1048576.
+     */
+    "maximum_response_bytes"?: number | null;
+    /**
+     * Whether delivery previews call this callback. Previews call it only when this setting and
+     * `preview_enabled` on the delivery method are both `true`. Defaults to `false`. Null restores
+     * false.
+     */
+    "preview_enabled"?: boolean | null;
+    /**
+     * What Flint does when the callback responds with an HTTP redirect. Defaults to `reject`. Null
+     * restores reject. Value enum: "reject", null.
+     */
+    "redirect_policy"?: "reject" | null;
+    /**
+     * Maximum time to wait for the callback response, in seconds. Defaults to 2; accepts 0.1
+     * through 10. Null restores 2 seconds. minimum: 0.1. maximum: 10.
+     */
+    "request_timeout_seconds"?: number | null;
+    /** HTTPS URL that Flint calls to get a delivery rate. Null is invalid. minLength: 1. */
+    "url"?: string;
+};
+/**
+ * Settings for a delivery rate callback: the endpoint `url` Flint calls, request timeout, request
+ * and response size limits, redirect policy, and whether previews can use it.
+ */
+export type DeliveryRateCallbackConfigurationRequestInput = {
+    /**
+     * Maximum callback request body size in bytes. Defaults to 262144; accepts 1 through 1048576.
+     * Format: int64. minimum: 1. maximum: 1048576. Default: 262144.
+     */
+    "maximum_request_bytes"?: number;
+    /**
+     * Maximum callback response body size in bytes. Defaults to 262144; accepts 1 through 1048576.
+     * Format: int64. minimum: 1. maximum: 1048576. Default: 262144.
+     */
+    "maximum_response_bytes"?: number;
+    /**
+     * Whether delivery previews call this callback. Previews call it only when this setting and
+     * `preview_enabled` on the delivery method are both `true`. Defaults to `false`. Default:
+     * false.
+     */
+    "preview_enabled"?: boolean;
+    /**
+     * What Flint does when the callback responds with an HTTP redirect. Defaults to `reject`.
+     * Default: "reject". Value enum: "reject".
+     */
+    "redirect_policy"?: "reject";
+    /**
+     * Maximum time to wait for the callback response, in seconds. Defaults to 2; accepts 0.1
+     * through 10. minimum: 0.1. maximum: 10. Default: 2.
+     */
+    "request_timeout_seconds"?: number;
+    /** HTTPS URL that Flint calls to get a delivery rate. minLength: 1. */
+    "url": string;
+};
 /**
  * Result of checking the connection to a delivery rate callback endpoint, with its status,
  * latency, HTTP status code, and failure category if it failed.
@@ -3470,57 +3581,3 @@ export type DeliveryRevocationTarget = ({
     | (Exclude<DeliveryRevocationTargetDeliveryRateCallbackRevision & object, readonly unknown[]>)
     | (Exclude<DeliveryRevocationTargetDeliveryMethodRevision & object, readonly unknown[]>)
     | (Record<string, unknown>));
-/** Fences one immutable revision of the named delivery method. */
-export type DeliveryRevocationTargetDeliveryMethodRevision = {
-    /**
-     * ID of the delivery method that owns the targeted revision. Example:
-     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "delivery_method_id": string;
-    /**
-     * ID of the immutable revision to fence. It must belong to delivery_method_id. Example:
-     * "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
-     */
-    "delivery_method_revision_id": string;
-    /**
-     * Fences one immutable revision of the named delivery method. Value enum:
-     * "delivery_method_revision".
-     */
-    "target_type": "delivery_method_revision" | (string & {});
-};
-/** Fences one immutable revision of the named delivery rate callback. */
-export type DeliveryRevocationTargetDeliveryRateCallbackRevision = {
-    /**
-     * ID of the delivery rate callback that owns the targeted revision or signing key. Example:
-     * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-     */
-    "delivery_rate_callback_id": string;
-    /**
-     * ID of the immutable revision to fence. It must belong to delivery_rate_callback_id. Example:
-     * "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-     */
-    "delivery_rate_callback_revision_id": string;
-    /**
-     * Fences one immutable revision of the named delivery rate callback. Value enum:
-     * "delivery_rate_callback_revision".
-     */
-    "target_type": "delivery_rate_callback_revision" | (string & {});
-};
-/** Fences one current or previous HMAC signing key of the named delivery rate callback. */
-export type DeliveryRevocationTargetDeliveryRateCallbackSigningKey = {
-    /**
-     * ID of the delivery rate callback that owns the targeted revision or signing key. Example:
-     * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-     */
-    "delivery_rate_callback_id": string;
-    /**
-     * ID of the HMAC signing key to fence. It must be the named callback's current or previous
-     * key; secret material is never returned. Example: "cbkey_00112233445566778899aabb".
-     */
-    "delivery_rate_callback_signing_key_id": string;
-    /**
-     * Fences one current or previous HMAC signing key of the named delivery rate callback. Value
-     * enum: "delivery_rate_callback_signing_key".
-     */
-    "target_type": "delivery_rate_callback_signing_key" | (string & {});
-};

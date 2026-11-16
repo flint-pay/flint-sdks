@@ -1,14 +1,28 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    CreateFileRequestInput,
+    CreateFulfillmentEventRequestInput,
+    CreateFulfillmentRequestInput,
+    CreateFulfillmentRequestDigitalInput,
+    CreateFulfillmentRequestLocalDeliveryInput,
+    CreateFulfillmentRequestPickupInput,
+    CreateFulfillmentRequestServiceInput,
+    CreateFulfillmentRequestShipmentInput,
+    CreateGiftCardFundingDispositionRequestInput,
+    CreateGiftCardLoadRequestInput,
+    CreateGiftCardNotificationRequestInput,
+    CreateGiftCardRedemptionRequestInput,
+    CreateGiftCardRedemptionRequestAutomaticInput,
+    CreateGiftCardRedemptionRequestManualInput,
     CreateGiftCardRequestInput,
     CreateInlineModifierGroupRequestInput,
     CreateIntervalReportRequestInput,
     CreateInventoryAdjustmentConditionChangeRequestInput,
-    CreateInventoryAdjustmentCorrectionRequestInput,
-    CreateInventoryAdjustmentCountedRequestInput,
-    CreateInventoryAdjustmentQuantityRequestInput
+    CreateInventoryAdjustmentCorrectionRequestInput
 } from './types-9.js';
 import type {
+    CreateInventoryAdjustmentCountedRequestInput,
+    CreateInventoryAdjustmentQuantityRequestInput,
     CreateInventoryAdjustmentRequestInput,
     CreateInventoryAllocationPolicyRequestInput,
     CreateInventoryBackorderPolicyRequestInput,
@@ -39,11 +53,11 @@ import type {
     CreateModifierSetGroupInputExistingInput,
     CreateModifierSetGroupInputInlineInput,
     CreateModifierSetGroupRequestInput,
-    CreateModifierSetRequestInput,
-    CreateOnboardingAccessLinkRequestInput,
-    CreateOrderDiscountInput
+    CreateModifierSetRequestInput
 } from './types-10.js';
 import type {
+    CreateOnboardingAccessLinkRequestInput,
+    CreateOrderDiscountInput,
     CreateOrderDiscountManualInput,
     CreateOrderDiscountPromotionInput,
     CreateOrderEditRequestInput,
@@ -53,22 +67,22 @@ import type {
     CreateOrderLineItemRequestInput,
     CreateOrderRequestInput,
     CreateOrderTipInput,
-    CreateOrderTipAmountInput,
-    CreateOrderTipPercentInput,
-    CreatePackageItemRequestInput,
-    CreatePackageRequestInput,
-    CreatePackageRequestCreatedInput,
-    CreatePackageRequestShippedInput,
-    CreatePartnerAppCredentialJWKSURLRequestInput,
-    CreatePartnerAppCredentialPublicKeyRequestInput,
-    CreatePartnerAppCredentialRequestInput,
-    CreatePartnerAppCredentialWorkloadIdentityRequestInput,
-    CreatePartnerAppRequestInput,
-    CreatePaymentIntentRequestInput,
-    CreatePaymentLinkRequestInput,
-    CreatePaymentMethodDomainRequestInput,
-    CreatePayoutRequestInput
+    CreateOrderTipAmountInput
 } from './types-11.js';
+export declare function makeCreateFileRequest(value: InputValue<CreateFileRequestInput>): Model<CreateFileRequestInput>;
+export declare function makeCreateFulfillmentEventRequest(value: InputValue<CreateFulfillmentEventRequestInput>): Model<CreateFulfillmentEventRequestInput>;
+export declare function makeCreateFulfillmentRequest(value: InputValue<CreateFulfillmentRequestInput>): Model<CreateFulfillmentRequestInput>;
+export declare function makeCreateFulfillmentRequestDigital(value: InputValue<CreateFulfillmentRequestDigitalInput>): Model<CreateFulfillmentRequestDigitalInput>;
+export declare function makeCreateFulfillmentRequestLocalDelivery(value: InputValue<CreateFulfillmentRequestLocalDeliveryInput>): Model<CreateFulfillmentRequestLocalDeliveryInput>;
+export declare function makeCreateFulfillmentRequestPickup(value: InputValue<CreateFulfillmentRequestPickupInput>): Model<CreateFulfillmentRequestPickupInput>;
+export declare function makeCreateFulfillmentRequestService(value: InputValue<CreateFulfillmentRequestServiceInput>): Model<CreateFulfillmentRequestServiceInput>;
+export declare function makeCreateFulfillmentRequestShipment(value: InputValue<CreateFulfillmentRequestShipmentInput>): Model<CreateFulfillmentRequestShipmentInput>;
+export declare function makeCreateGiftCardFundingDispositionRequest(value: InputValue<CreateGiftCardFundingDispositionRequestInput>): Model<CreateGiftCardFundingDispositionRequestInput>;
+export declare function makeCreateGiftCardLoadRequest(value: InputValue<CreateGiftCardLoadRequestInput>): Model<CreateGiftCardLoadRequestInput>;
+export declare function makeCreateGiftCardNotificationRequest(value: InputValue<CreateGiftCardNotificationRequestInput>): Model<CreateGiftCardNotificationRequestInput>;
+export declare function makeCreateGiftCardRedemptionRequest(value: InputValue<CreateGiftCardRedemptionRequestInput>): Model<CreateGiftCardRedemptionRequestInput>;
+export declare function makeCreateGiftCardRedemptionRequestAutomatic(value: InputValue<CreateGiftCardRedemptionRequestAutomaticInput>): Model<CreateGiftCardRedemptionRequestAutomaticInput>;
+export declare function makeCreateGiftCardRedemptionRequestManual(value: InputValue<CreateGiftCardRedemptionRequestManualInput>): Model<CreateGiftCardRedemptionRequestManualInput>;
 export declare function makeCreateGiftCardRequest(value: InputValue<CreateGiftCardRequestInput>): Model<CreateGiftCardRequestInput>;
 export declare function makeCreateInlineModifierGroupRequest(value: InputValue<CreateInlineModifierGroupRequestInput>): Model<CreateInlineModifierGroupRequestInput>;
 export declare function makeCreateIntervalReportRequest(value: InputValue<CreateIntervalReportRequestInput>): Model<CreateIntervalReportRequestInput>;
@@ -121,18 +135,3 @@ export declare function makeCreateOrderLineItemRequest(value: InputValue<CreateO
 export declare function makeCreateOrderRequest(value: InputValue<CreateOrderRequestInput>): Model<CreateOrderRequestInput>;
 export declare function makeCreateOrderTip(value: InputValue<CreateOrderTipInput>): Model<CreateOrderTipInput>;
 export declare function makeCreateOrderTipAmount(value: InputValue<CreateOrderTipAmountInput>): Model<CreateOrderTipAmountInput>;
-export declare function makeCreateOrderTipPercent(value: InputValue<CreateOrderTipPercentInput>): Model<CreateOrderTipPercentInput>;
-export declare function makeCreatePackageItemRequest(value: InputValue<CreatePackageItemRequestInput>): Model<CreatePackageItemRequestInput>;
-export declare function makeCreatePackageRequest(value: InputValue<CreatePackageRequestInput>): Model<CreatePackageRequestInput>;
-export declare function makeCreatePackageRequestCreated(value: InputValue<CreatePackageRequestCreatedInput>): Model<CreatePackageRequestCreatedInput>;
-export declare function makeCreatePackageRequestShipped(value: InputValue<CreatePackageRequestShippedInput>): Model<CreatePackageRequestShippedInput>;
-export declare function makeCreatePartnerAppCredentialJWKSURLRequest(value: InputValue<CreatePartnerAppCredentialJWKSURLRequestInput>): Model<CreatePartnerAppCredentialJWKSURLRequestInput>;
-export declare function makeCreatePartnerAppCredentialPublicKeyRequest(value: InputValue<CreatePartnerAppCredentialPublicKeyRequestInput>): Model<CreatePartnerAppCredentialPublicKeyRequestInput>;
-export declare function makeCreatePartnerAppCredentialRequest(value: InputValue<Exclude<CreatePartnerAppCredentialRequestInput & object, readonly unknown[]>>): Model<Exclude<CreatePartnerAppCredentialRequestInput & object, readonly unknown[]>>;
-export declare function makeCreatePartnerAppCredentialRequest(value: InputValue<CreatePartnerAppCredentialRequestInput>): Model<CreatePartnerAppCredentialRequestInput>;
-export declare function makeCreatePartnerAppCredentialWorkloadIdentityRequest(value: InputValue<CreatePartnerAppCredentialWorkloadIdentityRequestInput>): Model<CreatePartnerAppCredentialWorkloadIdentityRequestInput>;
-export declare function makeCreatePartnerAppRequest(value: InputValue<CreatePartnerAppRequestInput>): Model<CreatePartnerAppRequestInput>;
-export declare function makeCreatePaymentIntentRequest(value: InputValue<CreatePaymentIntentRequestInput>): Model<CreatePaymentIntentRequestInput>;
-export declare function makeCreatePaymentLinkRequest(value: InputValue<CreatePaymentLinkRequestInput>): Model<CreatePaymentLinkRequestInput>;
-export declare function makeCreatePaymentMethodDomainRequest(value: InputValue<CreatePaymentMethodDomainRequestInput>): Model<CreatePaymentMethodDomainRequestInput>;
-export declare function makeCreatePayoutRequest(value: InputValue<CreatePayoutRequestInput>): Model<CreatePayoutRequestInput>;

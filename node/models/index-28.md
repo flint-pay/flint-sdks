@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# ResourceReference to ReturnReasonSummary
+# ResolveOrderInventoryExceptionRequestInput to ReturnProcessDispositionRequestInput
 
+- [ResolveOrderInventoryExceptionRequestInput](ResolveOrderInventoryExceptionRequestInput.md)
+- [ResolvePaymentLinkLineItemModifierRequest](ResolvePaymentLinkLineItemModifierRequest.md)
+- [ResolvePaymentLinkLineItemModifierRequestInput](ResolvePaymentLinkLineItemModifierRequestInput.md)
+- [ResolvePaymentLinkLineItemModifiers](ResolvePaymentLinkLineItemModifiers.md)
+- [ResolvePaymentLinkLineItemModifiersInput](ResolvePaymentLinkLineItemModifiersInput.md)
+- [ResolvePaymentLinkRequest](ResolvePaymentLinkRequest.md)
+- [ResolvePaymentLinkRequestInput](ResolvePaymentLinkRequestInput.md)
+- [ResolvePaymentLinkResponse](ResolvePaymentLinkResponse.md)
+- [ResolvePaymentLinkTextModifierRequestInput](ResolvePaymentLinkTextModifierRequestInput.md)
 - [ResourceReference](ResourceReference.md)
 - [ResourceTimeline](ResourceTimeline.md)
 - [ResourceTimelineAPIRequestEntry](ResourceTimelineAPIRequestEntry.md)
@@ -93,13 +102,4 @@
 - [ReturnProcessDecisionInput](ReturnProcessDecisionInput.md)
 - [ReturnProcessDispositionRequest](ReturnProcessDispositionRequest.md)
 - [ReturnProcessDispositionRequestInput](ReturnProcessDispositionRequestInput.md)
-- [ReturnProcessInspectionRequest](ReturnProcessInspectionRequest.md)
-- [ReturnProcessInspectionRequestInput](ReturnProcessInspectionRequestInput.md)
-- [ReturnProcessReceiptRequest](ReturnProcessReceiptRequest.md)
-- [ReturnProcessReceiptRequestInput](ReturnProcessReceiptRequestInput.md)
-- [ReturnProcessResolutionRequest](ReturnProcessResolutionRequest.md)
-- [ReturnProcessResolutionRequestInput](ReturnProcessResolutionRequestInput.md)
-- [ReturnProcessResult](ReturnProcessResult.md)
-- [ReturnReason](ReturnReason.md)
-- [ReturnReasonSummary](ReturnReasonSummary.md)
 

@@ -1,7 +1,17 @@
 [Model index](../MODELS.md)
 
-# PaymentMethodWithSetupInput to PlatformFeeRequestInput
+# PaymentMethodDomainInput to PlatformFeeCapInput
 
+- [PaymentMethodDomainInput](PaymentMethodDomainInput.md)
+- [PaymentMethodDomainListResponseInput](PaymentMethodDomainListResponseInput.md)
+- [PaymentMethodDomainPaymentOptionStatusInput](PaymentMethodDomainPaymentOptionStatusInput.md)
+- [PaymentMethodDomainResponseInput](PaymentMethodDomainResponseInput.md)
+- [PaymentMethodFailedInstalledMerchantsEventInput](PaymentMethodFailedInstalledMerchantsEventInput.md)
+- [PaymentMethodFailedMerchantEventInput](PaymentMethodFailedMerchantEventInput.md)
+- [PaymentMethodListResponseInput](PaymentMethodListResponseInput.md)
+- [PaymentMethodResponseInput](PaymentMethodResponseInput.md)
+- [PaymentMethodUpdatedInstalledMerchantsEventInput](PaymentMethodUpdatedInstalledMerchantsEventInput.md)
+- [PaymentMethodUpdatedMerchantEventInput](PaymentMethodUpdatedMerchantEventInput.md)
 - [PaymentMethodWithSetupInput](PaymentMethodWithSetupInput.md)
 - [PaymentRefundInput](PaymentRefundInput.md)
 - [PaymentReviewInput](PaymentReviewInput.md)
@@ -92,14 +102,4 @@
 - [PlatformFeeBalanceTransactionResponseInput](PlatformFeeBalanceTransactionResponseInput.md)
 - [PlatformFeeCanceledEventInput](PlatformFeeCanceledEventInput.md)
 - [PlatformFeeCapInput](PlatformFeeCapInput.md)
-- [PlatformFeeCapRequestInput](PlatformFeeCapRequestInput.md)
-- [PlatformFeeCreatedEventInput](PlatformFeeCreatedEventInput.md)
-- [PlatformFeeListResponseInput](PlatformFeeListResponseInput.md)
-- [PlatformFeePayoutInput](PlatformFeePayoutInput.md)
-- [PlatformFeePayoutCreatedEventInput](PlatformFeePayoutCreatedEventInput.md)
-- [PlatformFeePayoutFailedEventInput](PlatformFeePayoutFailedEventInput.md)
-- [PlatformFeePayoutListResponseInput](PlatformFeePayoutListResponseInput.md)
-- [PlatformFeePayoutResponseInput](PlatformFeePayoutResponseInput.md)
-- [PlatformFeePayoutSucceededEventInput](PlatformFeePayoutSucceededEventInput.md)
-- [PlatformFeeRequestInput](PlatformFeeRequestInput.md)
 

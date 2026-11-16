@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# InvoiceLateFeePolicy to InvoiceScheduleDueInvoiceDueDate
+# InvoiceLateFeeAssessedMerchantEvent to InvoiceScheduleDue
 
+- [InvoiceLateFeeAssessedMerchantEvent](InvoiceLateFeeAssessedMerchantEvent.md)
+- [InvoiceLateFeeDueInstalledMerchantsEvent](InvoiceLateFeeDueInstalledMerchantsEvent.md)
+- [InvoiceLateFeeDueMerchantEvent](InvoiceLateFeeDueMerchantEvent.md)
 - [InvoiceLateFeePolicy](InvoiceLateFeePolicy.md)
 - [InvoiceLateFeePolicyFixed](InvoiceLateFeePolicyFixed.md)
 - [InvoiceLateFeePolicyFixedRequestInput](InvoiceLateFeePolicyFixedRequestInput.md)
@@ -99,7 +102,4 @@
 - [InvoiceScheduleAmountSpecificationRemainingBalanceRequestInput](InvoiceScheduleAmountSpecificationRemainingBalanceRequestInput.md)
 - [InvoiceScheduleAmountSpecificationRequestInput](InvoiceScheduleAmountSpecificationRequestInput.md)
 - [InvoiceScheduleDue](InvoiceScheduleDue.md)
-- [InvoiceScheduleDueAtIssue](InvoiceScheduleDueAtIssue.md)
-- [InvoiceScheduleDueDate](InvoiceScheduleDueDate.md)
-- [InvoiceScheduleDueInvoiceDueDate](InvoiceScheduleDueInvoiceDueDate.md)
 

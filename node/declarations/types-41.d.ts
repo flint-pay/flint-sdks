@@ -1,23 +1,603 @@
-import type { OrderLineItemFulfillmentComponent, OrderLineItemFulfillmentProfile, OrderLineItem } from './types-40.js';
-import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-38.js';
-import type { MoneyValue, Order, MoneyValueInput } from './types-39.js';
-import type { TextModifierRequest, TextModifierRequestInput, TaxReverseCharge, TaxJurisdiction } from './types-65.js';
-import type { TaxCalculationRequest, TaxCalculationRequestModelInput, TaxBreakdown } from './types-64.js';
-import type { ResponseMeta } from './types-54.js';
-import type { SubscriptionIntervalOption } from './types-61.js';
+import type { MoneyValue, OrderCalculatedLineItemTax, Order, MoneyValueInput } from './types-39.js';
+import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-38.js';
 import type {
     PartnerWebhookEnvelope,
     PaymentAttemptGiftCardRedemption,
     PaymentAttemptPaymentIntent,
     PaymentErrorSummary
 } from './types-44.js';
-import type { WebhookOrder } from './types-69.js';
-import type { PendingPaymentAction } from './types-48.js';
+import type { WebhookOrder, Weight } from './types-70.js';
+import type { BundleComponent } from './types-1.js';
+import type { CatalogPricing, CategoryReference } from './types-5.js';
+import type { Dimensions } from './types-23.js';
+import type { GiftCardPurchaseSnapshot } from './types-27.js';
+import type { Image } from './types-28.js';
+import type { LineItemInventorySnapshot } from './types-35.js';
+import type { PurchasedGiftCard } from './types-52.js';
+import type { SelectedProductOption, SettlementAmounts } from './types-59.js';
+import type { SubscribedLine } from './types-60.js';
+import type { TextModifierRequest, TextModifierRequestInput, TaxReverseCharge, TaxJurisdiction } from './types-65.js';
+import type { TaxCalculationRequest, TaxCalculationRequestModelInput, TaxBreakdown } from './types-64.js';
+import type { ResponseMeta } from './types-54.js';
+import type { SubscriptionIntervalOption } from './types-62.js';
+import type { PendingPaymentAction } from './types-49.js';
 import type { PaymentSourceCredential, PaymentSourceCredentialInput } from './types-47.js';
-import type { SettlementAmounts } from './types-59.js';
 import type { DeliveryChargeTaxCalculationRequest } from './types-17.js';
-import type { CustomerTaxExemptionCoverage, CustomerTaxExemptionCoverageRequestInput } from './types-16.js';
-import type { Address } from './types-0.js';
+import type { OrderTaxExemption, OrderTaxLocation, OrderTaxJurisdictionRequestInput } from './types-42.js';
+/** A gift card redemption applied to an order payment, with the amount, tip, and gift card. */
+export type OrderGiftCardSettlement = {
+    /**
+     * The amount the redemption paid toward the order, not counting the tip. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /** ID of the gift card the redemption spent. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". */
+    "gift_card_id": string;
+    /** ID of the redemption that posted the spend. Example: "gcr_01KEZF7C002YD2G2J734RRZTWT". */
+    "gift_card_redemption_id": string;
+    /**
+     * Last four characters of the code that paid. It stays the same if the gift card's code is
+     * later replaced.
+     */
+    "last4": string;
+    /**
+     * The part of the redemption that paid a tip. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "tip_money": MoneyValue;
+};
+/**
+ * Every physical item is handed to the buyer at this location when the order is paid. Replaces a
+ * delivery selection.
+ */
+export type OrderHandover = {
+    /**
+     * Active location with a complete address where the buyer receives the goods. Tracked items
+     * take stock from it, and automatic tax treats the sale as made there. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id": string;
+};
+/**
+ * Every physical item is handed to the buyer at this location when the order is paid. Replaces a
+ * delivery selection.
+ */
+export type OrderHandoverRequestInput = {
+    /**
+     * Active location with a complete address where the buyer receives the goods. minLength: 1.
+     * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id": string;
+};
+export type OrderInventoryExceptionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookOrder;
+        "previous_attributes"?: Partial<WebhookOrder>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "order.inventory_exception_created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookOrder;
+        "previous_attributes"?: Partial<WebhookOrder>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "order.inventory_exception_created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "order.inventory_exception_created";
+});
+/**
+ * The `order.inventory_exception_created` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type OrderInventoryExceptionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookOrder}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `active_payment_attempt`, `payment_collection`,
+     * `setup_collection`. previous_attributes (Optional): object. Previous values of changed
+     * top-level fields in data.object, at this delivery's API version. Nested changes include the
+     * whole previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields:
+         * `active_payment_attempt`, `payment_collection`, `setup_collection`.
+         */
+        "object": WebhookOrder;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<WebhookOrder>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "order.inventory_exception_created". */
+    "event_type"?: "order.inventory_exception_created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `order.inventory_exception_created` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type OrderInventoryExceptionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookOrder}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `active_payment_attempt`, `payment_collection`,
+     * `setup_collection`. previous_attributes (Optional): object. Previous values of changed
+     * top-level fields in data.object, at this delivery's API version. Nested changes include the
+     * whole previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields:
+         * `active_payment_attempt`, `payment_collection`, `setup_collection`.
+         */
+        "object": WebhookOrder;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<WebhookOrder>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "order.inventory_exception_created". */
+    "event_type"?: "order.inventory_exception_created";
+});
+export type OrderInventoryExceptionResolvedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookOrder;
+        "previous_attributes"?: Partial<WebhookOrder>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "order.inventory_exception_resolved";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookOrder;
+        "previous_attributes"?: Partial<WebhookOrder>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "order.inventory_exception_resolved";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "order.inventory_exception_resolved";
+});
+/**
+ * The `order.inventory_exception_resolved` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type OrderInventoryExceptionResolvedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookOrder}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `active_payment_attempt`, `payment_collection`,
+     * `setup_collection`. previous_attributes (Optional): object. Previous values of changed
+     * top-level fields in data.object, at this delivery's API version. Nested changes include the
+     * whole previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields:
+         * `active_payment_attempt`, `payment_collection`, `setup_collection`.
+         */
+        "object": WebhookOrder;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<WebhookOrder>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "order.inventory_exception_resolved". */
+    "event_type"?: "order.inventory_exception_resolved";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `order.inventory_exception_resolved` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type OrderInventoryExceptionResolvedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookOrder}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `active_payment_attempt`, `payment_collection`,
+     * `setup_collection`. previous_attributes (Optional): object. Previous values of changed
+     * top-level fields in data.object, at this delivery's API version. Nested changes include the
+     * whole previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields:
+         * `active_payment_attempt`, `payment_collection`, `setup_collection`.
+         */
+        "object": WebhookOrder;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<WebhookOrder>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "order.inventory_exception_resolved". */
+    "event_type"?: "order.inventory_exception_resolved";
+});
+/** An item purchased in an order. */
+export type OrderLineItem = ({
+    /**
+     * Tracked line units waiting for stock. Always 0 when none are backordered. Whole-number
+     * quantity; fractional quantities are not supported. Format: int64. minimum: 0.
+     */
+    "backordered_quantity": number;
+    /**
+     * Unit price multiplied by quantity, before modifiers, discounts, and tax. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "base_subtotal_money": MoneyValue;
+    /**
+     * Components fixed when the bundle line was added. The line takes their shared taxability and
+     * tax category; all component variants must share both stored values. An unset category equals
+     * only another unset category. [] (Value): {@link BundleComponent}. An item included in a
+     * bundle.
+     */
+    "bundle_components": Array<BundleComponent>;
+    /** ID of the bundle the line was sold from. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
+    "bundle_id"?: string;
+    /**
+     * Price source and applied quantity break frozen for a catalog variant line. Omitted for older
+     * lines, custom lines, and bundles. The source of a catalog variant line's selected net unit
+     * price.
+     */
+    "catalog_pricing"?: CatalogPricing;
+    /**
+     * Catalog categories of the item. [] (Value): {@link CategoryReference}. A reference to a
+     * product category by ID, handle, and name.
+     */
+    "categories": Array<CategoryReference>;
+    /** Description of the item as sold. */
+    "description"?: string;
+    /**
+     * Discount value allocated to this line item. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "discount_money": MoneyValue;
+    /**
+     * Expected calendar ship date in YYYY-MM-DD format, shown once a delivery or payment hold
+     * exists. Null when no hold exists yet, or when neither a future copied release_date nor the
+     * inventory item supplies an applicable date. A future copied release_date takes precedence
+     * even when physical stock covers every unit; otherwise the inventory item's expected ship
+     * date applies only to backordered units when it is today or later in the merchant's timezone.
+     * Past item dates are omitted and never frozen. The estimate may change before payment and
+     * freezes at settlement. Thereafter only a paid-line PATCH changes or clears it; allocation
+     * preserves it. Null or past dates add no delay. Earlier fulfillment is permitted. Format:
+     * date. Example: "2026-08-02".
+     */
+    "expected_ship_date": string | null;
+    /**
+     * Current quantities for each required fulfillment obligation: one entry for a single item or
+     * one per bundle component that requires fulfillment. Quantities use line units for single
+     * items and component units for bundles. required_quantity equals unassigned_quantity +
+     * assigned_quantity + fulfilled_quantity + canceled_quantity + failed_quantity +
+     * removed_quantity. Omitted when the line needs no fulfillment or the order's obligations
+     * cannot be computed, including older lines without recorded requirements. [] (Value): {@link
+     * OrderLineItemFulfillmentQuantities}. Counts of how much of an order line item is assigned,
+     * fulfilled, failed, canceled, removed, or still unassigned for fulfillment.
+     */
+    "fulfillment_quantities"?: Array<OrderLineItemFulfillmentQuantities>;
+    /**
+     * Fulfillment requirements fixed when the line item was created. direct describes a single
+     * item; components describes each bundle component. Omitted for older line items without
+     * recorded requirements. Fulfillment requirements for an order line item, given for a single
+     * item or for each component of a bundle.
+     */
+    "fulfillment_requirements"?: OrderLineItemFulfillmentRequirements;
+    /**
+     * Gift card details for a gift card purchase line. The gift card purchase details saved on an
+     * order line item: configuration, face value, price paid, and recipient.
+     */
+    "gift_card_purchase"?: GiftCardPurchaseSnapshot;
+    /** Image of the item as sold. An image with its URL, size, and alt text. */
+    "image"?: Image;
+    /**
+     * Whether the line tracks inventory, and the inventory demands fixed when the line was added.
+     * `null` when no inventory snapshot was recorded for the line. anyOf[1] (Value): {@link
+     * LineItemInventorySnapshot}. Whether an order line item tracks inventory, and the inventory
+     * item quantities each unit demands. anyOf[2] (Value): null.
+     */
+    "inventory_snapshot": ((LineItemInventorySnapshot) | (null));
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Sum of the line item's modifier totals. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "modifier_total_money": MoneyValue;
+    /**
+     * Modifiers selected on the line, with their prices. [] (Value): {@link
+     * OrderLineItemModifier}. A modifier selected on an order line item.
+     */
+    "modifiers": Array<OrderLineItemModifier>;
+    /** Name of the item as sold. */
+    "name": string;
+    /**
+     * The edit that added this line. Null when the line was not added by an order edit. Example:
+     * "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     */
+    "order_edit_id": string | null;
+    /**
+     * Order that owns this record or its referenced line item and charge. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * Unique identifier for this order line item, prefixed `li_`. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31".
+     */
+    "order_line_item_id": string;
+    /**
+     * The `key` of the payment link line item this line was created from. Match order lines to the
+     * link's line items with it instead of by name. Flint sets it when checkout starts and it
+     * never changes; metadata updates don't affect it. `null` when the line didn't come from a
+     * payment link line item: the order didn't come from a payment link, the line was added to the
+     * order later, or the line came from a subscription plan through a subscription signup link.
+     * minLength: 1. maxLength: 100.
+     */
+    "payment_link_line_item_key": string | null;
+    /**
+     * ID of the catalog product the item was sold from. Required whenever variant_id is present.
+     * Absent on bundle and custom lines, which have no parent product. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: string;
+    /**
+     * Product classification frozen on this line. Null when the line is unclassified. Custom lines
+     * accept physical, digital, service, or fee; catalog lines use the product's type when added.
+     * Unclassified non-goods lines keep ACH debit unavailable. Issued invoices retain their frozen
+     * classification; void and reissue to change it. Value enum: "physical", "service", "fee",
+     * "digital", "gift_card", null.
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {}) | null;
+    /**
+     * Masked card identities for fully funded units of this purchase line. Partial consideration
+     * does not issue a card. [] (Value): {@link PurchasedGiftCard}. A gift card issued for one
+     * unit of a purchased order line item, with its last four code characters and any card it
+     * replaced.
+     */
+    "purchased_gift_cards": Array<PurchasedGiftCard>;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * Amount of this line already refunded. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "refunded_money": MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "refunded_quantity": number;
+    /**
+     * Future release date copied when the line was created, in YYYY-MM-DD format. Null when the
+     * line is not a pre-order. Earlier fulfillment is permitted. Format: date. Example:
+     * "2026-08-02".
+     */
+    "release_date": string | null;
+    /**
+     * Whole-number quantity; fractional quantities are not supported. Whole line units removed by
+     * paid-order edits. For bundles, each removed line unit removes all of its component units.
+     * The original quantity and pricing remain the sale record; refunds are tracked separately.
+     * Format: int64.
+     */
+    "removed_quantity": number;
+    /**
+     * Variant options selected for the item, such as size and color. [] (Value): {@link
+     * SelectedProductOption}. An option and value chosen for a product variant, such as size
+     * Large.
+     */
+    "selected_options": Array<SelectedProductOption>;
+    /** SKU of the item as sold. */
+    "sku"?: string;
+    /**
+     * Recurring offer and cadence frozen for this line at signup. The subscription offer and
+     * billing interval an order line was bought under, with the recurring amount.
+     */
+    "subscription"?: SubscribedLine;
+    /**
+     * Subscription created for this line after the order is paid. Example:
+     * "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "subscription_id"?: string;
+    /**
+     * Applicable active offer for a one-time line, or the offer terms frozen for a subscribed
+     * line. A subscription offer attached to an order line item, with its name, discount, and
+     * billing interval options.
+     */
+    "subscription_offer"?: OrderLineSubscriptionOfferSummary;
+    /**
+     * Base subtotal plus modifier total, before discounts and tax. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "subtotal_money": MoneyValue;
+    /**
+     * How tax was calculated for this line item. Tax settings for an order line item calculated by
+     * Flint or supplied by you, including the line item tax category and whether it is taxable.
+     */
+    "tax"?: OrderCalculatedLineItemTax;
+    /**
+     * Tax calculated for this line item, including any tax already included in its price. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "tax_money": MoneyValue;
+    /**
+     * Subtotal minus discounts, plus tax that is not already included in the price. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "total_money": MoneyValue;
+    /**
+     * Whether the line was sold from a catalog variant, a bundle, or a custom item. Value enum:
+     * "variant", "bundle", "custom".
+     */
+    "type": "variant" | "bundle" | "custom" | (string & {});
+    /**
+     * Dimensions of one unit fixed when the line was created. Omitted when unknown and for bundle
+     * lines. Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     */
+    "unit_dimensions"?: Dimensions;
+    /**
+     * Price of one unit before modifiers, discounts, and tax. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /**
+     * Weight of one unit fixed when the line was created. Omitted when unknown and for bundle
+     * lines. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile
+     * configuration.
+     */
+    "unit_weight"?: Weight;
+    /**
+     * ID of the catalog variant the item was sold from. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+});
+/**
+ * Fulfillment requirements for one component of a bundle line item, with the component quantity
+ * per unit.
+ */
+export type OrderLineItemFulfillmentComponent = {
+    /**
+     * ID of the bundle component these requirements apply to. Example:
+     * "bunc_01KEZF7C00CQASEZGAPEANTGD1".
+     */
+    "bundle_component_id": string;
+    /**
+     * Fulfillment requirements for this component. Whether an order line item requires
+     * fulfillment, and the fulfillment types it allows.
+     */
+    "profile": OrderLineItemFulfillmentProfile;
+    /**
+     * Number of this component per unit of the order line item; fractional quantities are not
+     * supported. Format: int64.
+     */
+    "quantity_per_line_item_unit": number;
+};
+/** Whether an order line item requires fulfillment, and the fulfillment types it allows. */
+export type OrderLineItemFulfillmentProfile = {
+    /**
+     * Fulfillment types allowed for this item. Empty when fulfillment is not required. [] enum:
+     * "shipment", "pickup", "local_delivery", "digital", "service". [] (Value): string. Value
+     * enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "allowed_types": Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
+    /** Whether this item requires fulfillment. Value enum: "none", "required". */
+    "requirement": "none" | "required" | (string & {});
+};
 /**
  * Counts of how much of an order line item is assigned, fulfilled, failed, canceled, removed, or
  * still unassigned for fulfillment.
@@ -64,7 +644,8 @@ export type OrderLineItemFulfillmentQuantities = {
     /**
      * Whole-number quantity; fractional quantities are not supported. Required quantity still
      * available for assignment to a fulfillment, in any resolution mode. Includes quantity
-     * released by a failed fulfillment. Format: int64.
+     * released by a failed fulfillment. Units reserved by pending_order_edit_id's edit can't be
+     * assigned until that edit ends. Format: int64.
      */
     "unassigned_quantity": number;
 };
@@ -1034,10 +1615,12 @@ export type OrderPaymentAttempt = {
      */
     "payment_intents": Array<PaymentAttemptPaymentIntent>;
     /**
-     * Set when the pay request sent save_payment_method: true and the attempt paid without saving
-     * the payment method. A card typed into checkout and saved has no entry here; read
-     * payment_method_save on the checkout session for a card waiting for confirmation. What became
-     * of the buyer's save_payment_method. The payment does not depend on it.
+     * Reports only a checkout buyer's skipped save when the pay request sent save_payment_method:
+     * true and the attempt paid without saving the payment method. A merchant save has no entry
+     * here; read payment_source.card.payment_method_id on the payment intent. A card typed into
+     * checkout and saved has no entry here; read payment_method_save on the checkout session for a
+     * card waiting for confirmation. What became of the buyer's save_payment_method. The payment
+     * does not depend on it.
      */
     "payment_method_save"?: OrderPaymentAttemptPaymentMethodSave;
     /**
@@ -1856,467 +2439,4 @@ export type OrderTaxComponentRequestInput = ({
 })
     & ({
     "percent"?: never;
-});
-/**
- * The exemption assessment recorded for an order or invoice, frozen when tax commits. Fields
- * absent from historical snapshots stay omitted.
- */
-export type OrderTaxExemption = {
-    /** Certificate number recorded at assessment. Omitted when none was recorded. */
-    "certificate_number"?: string;
-    /**
-     * Jurisdictions covered by the exemption at assessment. Omitted when no coverage was recorded.
-     * Replaced as a whole: send every field you want to keep. Covers all US states or an explicit
-     * list of US states and DC.
-     */
-    "coverage"?: CustomerTaxExemptionCoverage;
-    /**
-     * ID of the customer the exemption was assessed from, when one was linked. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Customer exemption record used for this assessment. Omitted for blanket flags, order
-     * declarations, and older snapshots. Example: "ctex_01KEZF7C009N0YTK0NMWP1XZPW".
-     */
-    "customer_tax_exemption_id"?: string;
-    /**
-     * Last day of the selected record's exemption, inclusive. Omitted when no end date was
-     * recorded. Format: date. Example: "2026-08-02".
-     */
-    "end_date"?: string;
-    /**
-     * Merchant-only reference to supporting evidence recorded at assessment. Buyer views omit it.
-     * Never printed on buyer documents.
-     */
-    "evidence_reference"?: string;
-    /**
-     * Exemption reason recorded at assessment. Omitted when no reason was recorded. Value enum:
-     * "federal_government", "state_or_local_government", "tribal_government", "foreign_diplomat",
-     * "charitable_organization", "religious_organization", "educational_organization", "resale",
-     * "agricultural_production", "industrial_production", "direct_pay_permit", "direct_mail",
-     * "other".
-     */
-    "reason"?: "federal_government"
-        | "state_or_local_government"
-        | "tribal_government"
-        | "foreign_diplomat"
-        | "charitable_organization"
-        | "religious_organization"
-        | "educational_organization"
-        | "resale"
-        | "agricultural_production"
-        | "industrial_production"
-        | "direct_pay_permit"
-        | "direct_mail"
-        | "other"
-        | (string & {});
-    /**
-     * The source of the tax exemption assessment. Omitted when the source has not been
-     * established. Value enum: "none", "customer", "order".
-     */
-    "source"?: "none" | "customer" | "order" | (string & {});
-    /**
-     * First day of the selected record's exemption, inclusive. Omitted when no date was recorded.
-     * Format: date. Example: "2026-08-02".
-     */
-    "start_date"?: string;
-    /**
-     * Whether an exemption applied to this sale. An exempt sale has zero tax and taxability_reason
-     * customer_exempt.
-     */
-    "tax_exempt": boolean;
-};
-/**
- * Replaced as a whole: send every field you want to keep. Choose customer assessment, no
- * exemption, or a one-off order declaration. Write-only: responses return the exemption that
- * applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns
- * 409 ACTION_NOT_ALLOWED with reason payment_collected.
- */
-export type OrderTaxExemptionInputCustomer = ({}) & (({
-    /** Value enum: "customer". */
-    "type"?: "customer" | (string & {});
-}));
-/**
- * Replaced as a whole: send every field you want to keep. Choose customer assessment, no
- * exemption, or a one-off order declaration. Write-only: responses return the exemption that
- * applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns
- * 409 ACTION_NOT_ALLOWED with reason payment_collected.
- */
-export type OrderTaxExemptionInputCustomerInput = ({
-    /**
-     * Required selector. customer uses the linked customer; none ignores customer exemptions;
-     * order supplies a declaration. Value enum: "customer".
-     */
-    "type": "customer";
-})
-    & (({
-    /** Value enum: "customer". */
-    "type"?: "customer";
-})
-    & (({
-    "reason"?: never;
-})
-    & ({
-    "coverage"?: never;
-})
-    & ({
-    "certificate_number"?: never;
-})
-    & ({
-    "description"?: never;
-})
-    & ({
-    "evidence_reference"?: never;
-})));
-/**
- * Replaced as a whole: send every field you want to keep. Choose customer assessment, no
- * exemption, or a one-off order declaration. Write-only: responses return the exemption that
- * applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns
- * 409 ACTION_NOT_ALLOWED with reason payment_collected.
- */
-export type OrderTaxExemptionInputNone = ({}) & (({
-    /** Value enum: "none". */
-    "type"?: "none" | (string & {});
-}));
-/**
- * Replaced as a whole: send every field you want to keep. Choose customer assessment, no
- * exemption, or a one-off order declaration. Write-only: responses return the exemption that
- * applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns
- * 409 ACTION_NOT_ALLOWED with reason payment_collected.
- */
-export type OrderTaxExemptionInputNoneInput = ({
-    /**
-     * Required selector. customer uses the linked customer; none ignores customer exemptions;
-     * order supplies a declaration. Value enum: "none".
-     */
-    "type": "none";
-})
-    & (({
-    /** Value enum: "none". */
-    "type"?: "none";
-})
-    & (({
-    "reason"?: never;
-})
-    & ({
-    "coverage"?: never;
-})
-    & ({
-    "certificate_number"?: never;
-})
-    & ({
-    "description"?: never;
-})
-    & ({
-    "evidence_reference"?: never;
-})));
-/**
- * Replaced as a whole: send every field you want to keep. Choose customer assessment, no
- * exemption, or a one-off order declaration. Write-only: responses return the exemption that
- * applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns
- * 409 ACTION_NOT_ALLOWED with reason payment_collected.
- */
-export type OrderTaxExemptionInputOrder = ({}) & ({
-    /** Value enum: "order". */
-    "type"?: "order" | (string & {});
-});
-/**
- * Replaced as a whole: send every field you want to keep. Choose customer assessment, no
- * exemption, or a one-off order declaration. Write-only: responses return the exemption that
- * applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns
- * 409 ACTION_NOT_ALLOWED with reason payment_collected.
- */
-export type OrderTaxExemptionInputOrderInput = ({
-    /**
-     * Merchant's exemption certificate number. Optional for type order. minLength: 1. maxLength:
-     * 255.
-     */
-    "certificate_number"?: string;
-    /**
-     * Replaced as a whole: send every field you want to keep. Required for type order. Covers all
-     * US states or an explicit list of states and DC. Replaced as a whole: send every field you
-     * want to keep. Covers all US states or an explicit list of US states and DC.
-     */
-    "coverage": CustomerTaxExemptionCoverageRequestInput;
-    /**
-     * Explanation of the exemption. Required when reason is other; optional for every other
-     * reason. Up to 500 characters. minLength: 1. maxLength: 500.
-     */
-    "description"?: string;
-    /**
-     * Merchant-only reference to the supporting document. Never shown to buyers or printed on
-     * buyer documents. minLength: 1. maxLength: 1024.
-     */
-    "evidence_reference"?: string;
-    /**
-     * Required for type order. other requires description; description is optional for every other
-     * reason. Value enum: "federal_government", "state_or_local_government", "tribal_government",
-     * "foreign_diplomat", "charitable_organization", "religious_organization",
-     * "educational_organization", "resale", "agricultural_production", "industrial_production",
-     * "direct_pay_permit", "direct_mail", "other".
-     */
-    "reason": "federal_government"
-        | "state_or_local_government"
-        | "tribal_government"
-        | "foreign_diplomat"
-        | "charitable_organization"
-        | "religious_organization"
-        | "educational_organization"
-        | "resale"
-        | "agricultural_production"
-        | "industrial_production"
-        | "direct_pay_permit"
-        | "direct_mail"
-        | "other";
-    /**
-     * Required selector. customer uses the linked customer; none ignores customer exemptions;
-     * order supplies a declaration. Value enum: "order".
-     */
-    "type": "order";
-})
-    & ({
-    /** Value enum: "order". */
-    "type"?: "order";
-    /**
-     * Required for type order. other requires description; description is optional for every other
-     * reason. Value enum: "federal_government", "state_or_local_government", "tribal_government",
-     * "foreign_diplomat", "charitable_organization", "religious_organization",
-     * "educational_organization", "resale", "agricultural_production", "industrial_production",
-     * "direct_pay_permit", "direct_mail", "other".
-     */
-    "reason": "federal_government"
-        | "state_or_local_government"
-        | "tribal_government"
-        | "foreign_diplomat"
-        | "charitable_organization"
-        | "religious_organization"
-        | "educational_organization"
-        | "resale"
-        | "agricultural_production"
-        | "industrial_production"
-        | "direct_pay_permit"
-        | "direct_mail"
-        | "other";
-    /**
-     * Replaced as a whole: send every field you want to keep. Required for type order. Covers all
-     * US states or an explicit list of states and DC. Replaced as a whole: send every field you
-     * want to keep. Covers all US states or an explicit list of US states and DC.
-     */
-    "coverage": CustomerTaxExemptionCoverageRequestInput;
-});
-/**
- * Replaced as a whole: send every field you want to keep. Choose customer assessment, no
- * exemption, or a one-off order declaration. Write-only: responses return the exemption that
- * applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns
- * 409 ACTION_NOT_ALLOWED with reason payment_collected.
- */
-export type OrderTaxExemptionRequest = ({
-    /**
-     * Merchant's exemption certificate number. Optional for type order. minLength: 1. maxLength:
-     * 255.
-     */
-    "certificate_number"?: string;
-    /**
-     * Replaced as a whole: send every field you want to keep. Required for type order. Covers all
-     * US states or an explicit list of states and DC. Replaced as a whole: send every field you
-     * want to keep. Covers all US states or an explicit list of US states and DC.
-     */
-    "coverage"?: CustomerTaxExemptionCoverage;
-    /**
-     * Explanation of the exemption. Required when reason is other; optional for every other
-     * reason. Up to 500 characters. minLength: 1. maxLength: 500.
-     */
-    "description"?: string;
-    /**
-     * Merchant-only reference to the supporting document. Never shown to buyers or printed on
-     * buyer documents. minLength: 1. maxLength: 1024.
-     */
-    "evidence_reference"?: string;
-    /**
-     * Required for type order. other requires description; description is optional for every other
-     * reason. Value enum: "federal_government", "state_or_local_government", "tribal_government",
-     * "foreign_diplomat", "charitable_organization", "religious_organization",
-     * "educational_organization", "resale", "agricultural_production", "industrial_production",
-     * "direct_pay_permit", "direct_mail", "other".
-     */
-    "reason"?: "federal_government"
-        | "state_or_local_government"
-        | "tribal_government"
-        | "foreign_diplomat"
-        | "charitable_organization"
-        | "religious_organization"
-        | "educational_organization"
-        | "resale"
-        | "agricultural_production"
-        | "industrial_production"
-        | "direct_pay_permit"
-        | "direct_mail"
-        | "other"
-        | (string & {});
-})
-    & ((Exclude<OrderTaxExemptionInputCustomer & object, readonly unknown[]>)
-    | (Exclude<OrderTaxExemptionInputNone & object, readonly unknown[]>)
-    | (Exclude<OrderTaxExemptionInputOrder & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Replaced as a whole: send every field you want to keep. Choose customer assessment, no
- * exemption, or a one-off order declaration. Write-only: responses return the exemption that
- * applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns
- * 409 ACTION_NOT_ALLOWED with reason payment_collected.
- */
-export type OrderTaxExemptionRequestInput = ({
-    /**
-     * Merchant's exemption certificate number. Optional for type order. minLength: 1. maxLength:
-     * 255.
-     */
-    "certificate_number"?: string;
-    /**
-     * Replaced as a whole: send every field you want to keep. Required for type order. Covers all
-     * US states or an explicit list of states and DC. Replaced as a whole: send every field you
-     * want to keep. Covers all US states or an explicit list of US states and DC.
-     */
-    "coverage"?: CustomerTaxExemptionCoverageRequestInput;
-    /**
-     * Explanation of the exemption. Required when reason is other; optional for every other
-     * reason. Up to 500 characters. minLength: 1. maxLength: 500.
-     */
-    "description"?: string;
-    /**
-     * Merchant-only reference to the supporting document. Never shown to buyers or printed on
-     * buyer documents. minLength: 1. maxLength: 1024.
-     */
-    "evidence_reference"?: string;
-    /**
-     * Required for type order. other requires description; description is optional for every other
-     * reason. Value enum: "federal_government", "state_or_local_government", "tribal_government",
-     * "foreign_diplomat", "charitable_organization", "religious_organization",
-     * "educational_organization", "resale", "agricultural_production", "industrial_production",
-     * "direct_pay_permit", "direct_mail", "other".
-     */
-    "reason"?: "federal_government"
-        | "state_or_local_government"
-        | "tribal_government"
-        | "foreign_diplomat"
-        | "charitable_organization"
-        | "religious_organization"
-        | "educational_organization"
-        | "resale"
-        | "agricultural_production"
-        | "industrial_production"
-        | "direct_pay_permit"
-        | "direct_mail"
-        | "other";
-    /**
-     * Required selector. customer uses the linked customer; none ignores customer exemptions;
-     * order supplies a declaration. Value enum: "customer", "none", "order".
-     */
-    "type": "customer" | "none" | "order";
-})
-    & ((Exclude<OrderTaxExemptionInputCustomerInput & object, readonly unknown[]>)
-    | (Exclude<OrderTaxExemptionInputNoneInput & object, readonly unknown[]>)
-    | (Exclude<OrderTaxExemptionInputOrderInput & object, readonly unknown[]>));
-/**
- * The taxing jurisdiction of an externally supplied tax component, identified by code, level,
- * name, state, and country.
- */
-export type OrderTaxJurisdictionRequestInput = {
-    /**
-     * Your stable key for the jurisdiction: 1 to 128 letters, digits, `.`, `_`, `:`, or `-`,
-     * starting with a letter or digit. Reports group tax by this code. minLength: 1. maxLength:
-     * 128. pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$.
-     */
-    "code": string;
-    /**
-     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
-     * "US".
-     */
-    "country": string;
-    /**
-     * The level of government that imposes the tax. Value enum: "state", "county", "city",
-     * "district", "country", "province".
-     */
-    "level": "state" | "county" | "city" | "district" | "country" | "province";
-    /**
-     * Name of the jurisdiction, up to 200 characters. minLength: 1. maxLength: 200. pattern:
-     * ^[^\s\x00](?:[^\r\n\x00]*[^\s\x00])?$.
-     */
-    "name": string;
-    /**
-     * Two-letter US state at every level. Elsewhere, the ISO 3166-2 suffix (1 to 3 uppercase
-     * letters or digits), required below country level and omitted at country level. minLength: 1.
-     * maxLength: 3. pattern: ^[A-Z0-9]{1,3}$.
-     */
-    "state"?: string;
-};
-/**
- * The location Flint uses to calculate tax on an order, with its address, address type, and where
- * the address came from.
- */
-export type OrderTaxLocation = {
-    /**
-     * Omitted for a checkout session credential that doesn't act for the customer the buyer
-     * verified. A postal address. Every address has country. Addresses Flint checked as complete
-     * (customer and saved addresses, merchant, location, invoice, order delivery destination, tax
-     * identity, fulfillment recipient and pickup addresses) always have line1 and city, and US
-     * ones always have state and postal_code. Delivery quote destinations, buyer locations and
-     * postal-code tax locations hold only what was provided, such as postal_code and country.
-     */
-    "address"?: Address;
-    /**
-     * Where the tax address came from. Value enum: "provided", "fulfillment", "customer",
-     * "location", "merchant".
-     */
-    "address_source": "provided" | "fulfillment" | "customer" | "location" | "merchant" | (string & {});
-    /**
-     * The kind of address Flint used to calculate tax. Value enum: "postal_code", "tax_address",
-     * "billing_address", "shipping_address", "business_address".
-     */
-    "address_type": "postal_code"
-        | "tax_address"
-        | "billing_address"
-        | "shipping_address"
-        | "business_address"
-        | (string & {});
-    /**
-     * ID of the customer whose saved address Flint used, when `address_source` is `customer`.
-     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * ID of the fulfillment whose shipping address Flint used. Absent when the address is the
-     * order's `delivery_destination`. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: string;
-    /**
-     * ID of the pickup store whose address Flint used, when `address_source` is `location`.
-     * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-};
-/** A full street address you supply as an order's tax location. */
-export type OrderTaxLocationFullAddressRequest = ({
-    /** City. minLength: 1. pattern: \S. */
-    "city": string;
-    /**
-     * ISO 3166-1 alpha-2 country code. External tax accepts any ISO country; automatic tax
-     * supports only AT, AU, BE, BG, CA, CY, CZ, DE, DK, EE, ES, FI, FR, GB, GR, HR, HU, IE, IT,
-     * LT, LU, LV, MT, NL, NZ, PL, PT, RO, SE, SI, SK, US. minLength: 2. maxLength: 2. pattern:
-     * ^[A-Z]{2}$. Example: "US".
-     */
-    "country": string;
-    /** First line of the street address. minLength: 1. pattern: \S. */
-    "line1": string;
-    /** Second line of the street address, such as an apartment or suite. minLength: 1. */
-    "line2"?: string;
-    /**
-     * Postal code. A full address in Ireland may omit it; every other address needs one.
-     * minLength: 1. pattern: \S.
-     */
-    "postal_code"?: string;
-    /**
-     * State or province code, such as `WA` or `ON`. Required for US and Canadian full addresses;
-     * omit it elsewhere when the address has none. minLength: 1. pattern: \S.
-     */
-    "state"?: string;
 });

@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# BuyerReturnPreviewResponse to CategoryUpdatedInstalledMerchantsEvent
+# BuyerReturnPreviewResolution to CategoryDeletedMerchantEvent
 
+- [BuyerReturnPreviewResolution](BuyerReturnPreviewResolution.md)
 - [BuyerReturnPreviewResponse](BuyerReturnPreviewResponse.md)
 - [BuyerReturnReplacementLineItemInputBundle](BuyerReturnReplacementLineItemInputBundle.md)
 - [BuyerReturnReplacementLineItemInputBundleInput](BuyerReturnReplacementLineItemInputBundleInput.md)
@@ -68,6 +69,9 @@
 - [CancelInventoryTransferRequestInput](CancelInventoryTransferRequestInput.md)
 - [CancelMeSubscriptionRequest](CancelMeSubscriptionRequest.md)
 - [CancelMeSubscriptionRequestInput](CancelMeSubscriptionRequestInput.md)
+- [CancelOrderEditRequestInput](CancelOrderEditRequestInput.md)
+- [CancelOrderEditResponse](CancelOrderEditResponse.md)
+- [CancelOrderEditResult](CancelOrderEditResult.md)
 - [CancelOrderPaymentAttemptRequest](CancelOrderPaymentAttemptRequest.md)
 - [CancelOrderPaymentAttemptRequestInput](CancelOrderPaymentAttemptRequestInput.md)
 - [CancelPaymentIntentRequest](CancelPaymentIntentRequest.md)
@@ -98,8 +102,4 @@
 - [CategoryCreatedMerchantEvent](CategoryCreatedMerchantEvent.md)
 - [CategoryDeletedInstalledMerchantsEvent](CategoryDeletedInstalledMerchantsEvent.md)
 - [CategoryDeletedMerchantEvent](CategoryDeletedMerchantEvent.md)
-- [CategoryListResponse](CategoryListResponse.md)
-- [CategoryReference](CategoryReference.md)
-- [CategoryResponse](CategoryResponse.md)
-- [CategoryUpdatedInstalledMerchantsEvent](CategoryUpdatedInstalledMerchantsEvent.md)
 

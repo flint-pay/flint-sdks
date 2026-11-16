@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# BuyerSubscriptionCancellationDetailsInput to CheckoutSavedPaymentDetailsSettingsInput
+# BuyerSubscriptionInput to CheckoutRecoveryEmailSettingsInput
 
+- [BuyerSubscriptionInput](BuyerSubscriptionInput.md)
 - [BuyerSubscriptionCancellationDetailsInput](BuyerSubscriptionCancellationDetailsInput.md)
 - [BuyerSubscriptionInventoryWaitInput](BuyerSubscriptionInventoryWaitInput.md)
 - [BuyerSubscriptionLineItemInput](BuyerSubscriptionLineItemInput.md)
@@ -39,6 +40,9 @@
 - [CancelInventoryCountRequestInput](CancelInventoryCountRequestInput.md)
 - [CancelInventoryTransferRequestInput](CancelInventoryTransferRequestInput.md)
 - [CancelMeSubscriptionRequestInput](CancelMeSubscriptionRequestInput.md)
+- [CancelOrderEditRequestInput](CancelOrderEditRequestInput.md)
+- [CancelOrderEditResponseInput](CancelOrderEditResponseInput.md)
+- [CancelOrderEditResultInput](CancelOrderEditResultInput.md)
 - [CancelOrderPaymentAttemptRequestInput](CancelOrderPaymentAttemptRequestInput.md)
 - [CancelOrderPaymentAttemptResponseInput](CancelOrderPaymentAttemptResponseInput.md)
 - [CancelOrderPaymentAttemptResultInput](CancelOrderPaymentAttemptResultInput.md)
@@ -98,8 +102,4 @@
 - [CheckoutPromotionConfigRequestInput](CheckoutPromotionConfigRequestInput.md)
 - [CheckoutQuickPayItemRequestInput](CheckoutQuickPayItemRequestInput.md)
 - [CheckoutRecoveryEmailSettingsInput](CheckoutRecoveryEmailSettingsInput.md)
-- [CheckoutRecoveryEmailSettingsRequestInput](CheckoutRecoveryEmailSettingsRequestInput.md)
-- [CheckoutRedirectsInput](CheckoutRedirectsInput.md)
-- [CheckoutRedirectsRequestInput](CheckoutRedirectsRequestInput.md)
-- [CheckoutSavedPaymentDetailsSettingsInput](CheckoutSavedPaymentDetailsSettingsInput.md)
 

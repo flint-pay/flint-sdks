@@ -1,23 +1,28 @@
-import type { CheckoutCustomTextConfig, CheckoutPaymentConfig, CheckoutMerchantSupport } from './types-5.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-38.js';
+import type { PartnerWebhookEnvelope } from './types-44.js';
+import type { WebhookPromotion, WebhookReader } from './types-70.js';
+import type { InputValue } from '../runtime.js';
+import type { CreatePromotionRequestInput, CreateReaderRequestInput } from './types-12.js';
+import type { CategoriesDeleteParams, CheckoutCustomTextConfig, CheckoutPaymentConfig, CheckoutMerchantSupport } from './types-5.js';
+import type { DisputesAcceptParams } from './types-23.js';
+import type { UpdatePromotionRequestInput, UpdateReaderRequestInput } from './types-68.js';
 import type { Image } from './types-28.js';
 import type { LegalSettings } from './types-35.js';
 import type { MoneyValue, MoneyValueInput } from './types-39.js';
-import type { PaymentLinkCustomField, PaymentLinkEventConfig, PaymentLinkLineItem, PaymentLinkAvailableVariant } from './types-45.js';
+import type { PaymentLinkCustomField, PaymentLinkAvailableVariant } from './types-45.js';
+import type {
+    PaymentLinkEventConfig,
+    PaymentLinkLineItem,
+    PaymentLinkSubscriptionPreview,
+    PaymentLinkProductOption
+} from './types-46.js';
 import type { ThemeConfig, TextModifierConfigRequest } from './types-65.js';
 import type { ResponseMeta } from './types-54.js';
 import type { CheckoutTheme } from './types-6.js';
-import type { PaymentLinkSubscriptionPreview, PaymentLinkProductOption } from './types-46.js';
 import type { SelectedProductOption } from './types-59.js';
 import type { ReturnPolicyRevisionRequest, ReturnPolicyRevisionRequestInput } from './types-56.js';
 import type { GetReturnPolicyResponse } from './types-26.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-38.js';
-import type { PartnerWebhookEnvelope } from './types-44.js';
-import type { WebhookReader } from './types-70.js';
-import type { InputValue } from '../runtime.js';
-import type { DisputesAcceptParams } from './types-23.js';
-import type { CreateReaderRequestInput } from './types-12.js';
 import type { SimulateReaderRequestInput } from './types-60.js';
-import type { UpdateReaderRequestInput } from './types-67.js';
 import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-29.js';
 import type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from './types-24.js';
 import type { PaymentRefund } from './types-47.js';
@@ -27,6 +32,409 @@ import type {
     RefundTenderAllocation,
     RefundUnissuedGiftCardRecovery
 } from './types-53.js';
+/**
+ * Send only fields to change. Omitted fields keep their stored values. null clears nullable
+ * subfields. An empty object is invalid. minProperties: 1.
+ */
+export type PromotionSchedulePatch = {
+    /**
+     * Time after which the promotion can no longer apply, as an absolute RFC3339 timestamp.
+     * Omission keeps the stored value; null clears it. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "ends_at"?: string | null;
+    /**
+     * Earliest time the promotion can apply, as an absolute RFC3339 timestamp. Omission keeps the
+     * stored value; null clears it. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "starts_at"?: string | null;
+    /**
+     * IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute
+     * timestamps, so this does not change when the promotion starts or ends. Send null to clear
+     * it. minLength: 1. maxLength: 255.
+     */
+    "timezone"?: string | null;
+};
+/**
+ * Send only fields to change. Omitted fields keep their stored values. null clears nullable
+ * subfields. An empty object is invalid. minProperties: 1.
+ */
+export type PromotionSchedulePatchInput = {
+    /**
+     * Time after which the promotion can no longer apply, as an absolute RFC3339 timestamp.
+     * Omission keeps the stored value; null clears it. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "ends_at"?: string | globalThis.Date | null;
+    /**
+     * Earliest time the promotion can apply, as an absolute RFC3339 timestamp. Omission keeps the
+     * stored value; null clears it. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "starts_at"?: string | globalThis.Date | null;
+    /**
+     * IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute
+     * timestamps, so this does not change when the promotion starts or ends. Send null to clear
+     * it. minLength: 1. maxLength: 255.
+     */
+    "timezone"?: string | null;
+};
+/**
+ * When a promotion is active, with a start time, an end time, and the time zone it was entered in.
+ */
+export type PromotionScheduleRequestInput = {
+    /**
+     * Time after which the promotion can no longer apply, as an absolute RFC3339 timestamp.
+     * Omitted when it has no end time. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "ends_at"?: string | globalThis.Date;
+    /**
+     * Earliest time the promotion can apply, as an absolute RFC3339 timestamp. Omitted when it has
+     * no start time. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "starts_at"?: string | globalThis.Date;
+    /**
+     * IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute
+     * timestamps, so this does not change when the promotion starts or ends. minLength: 1.
+     * maxLength: 255.
+     */
+    "timezone"?: string;
+};
+/**
+ * Merchant promotion settings: whether automatic promotions and codes are enabled, and how many
+ * promotions can apply to one order.
+ */
+export type PromotionSettings = {
+    /**
+     * Whether automatic promotions apply to this merchant's orders, checkout sessions and payment
+     * links. Omitted means true. Explicit false stops them everywhere, and a checkout session or
+     * payment link can't turn them back on.
+     */
+    "automatic_enabled"?: boolean;
+    /**
+     * Merchant promotion code redemption policy. Explicit false rejects promotion-code application
+     * even when a checkout or payment link asks to show code entry.
+     */
+    "codes_enabled"?: boolean;
+    /**
+     * Maximum promotion discounts on an order, from 1 to 10, default 2. Manual discounts do not
+     * count. See Promotion for the evaluation order. Format: int32. minimum: 1. maximum: 10.
+     * Default: 2.
+     */
+    "max_promotions_per_order"?: number;
+};
+/**
+ * Merchant promotion settings: whether automatic promotions and codes are enabled, and how many
+ * promotions can apply to one order.
+ */
+export type PromotionSettingsRequestInput = PromotionSettings;
+export type PromotionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookPromotion;
+        "previous_attributes"?: Partial<WebhookPromotion>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "promotion.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookPromotion;
+        "previous_attributes"?: Partial<WebhookPromotion>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "promotion.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "promotion.updated";
+});
+/**
+ * The `promotion.updated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PromotionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookPromotion}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `codes`. previous_attributes (Optional): object. Previous values
+     * of changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events.
+     */
+    "data"?: {
+        /** The resource snapshot, without expansions. Webhooks omit these fields: `codes`. */
+        "object": WebhookPromotion;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<WebhookPromotion>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "promotion.updated". */
+    "event_type"?: "promotion.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `promotion.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type PromotionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookPromotion}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `codes`. previous_attributes (Optional): object. Previous values
+     * of changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events.
+     */
+    "data"?: {
+        /** The resource snapshot, without expansions. Webhooks omit these fields: `codes`. */
+        "object": WebhookPromotion;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<WebhookPromotion>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "promotion.updated". */
+    "event_type"?: "promotion.updated";
+});
+export type PromotionsCreateParams = (InputValue<CreatePromotionRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PromotionsDeleteParams = CategoriesDeleteParams;
+export type PromotionsGetParams = DisputesAcceptParams;
+export type PromotionsListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
+     * "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value):
+     * string. Value enum: "active", "inactive", "archived". anyOf[2] (Value): string. Value enum:
+     * "active", "inactive", "archived".
+     */
+    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
+    /**
+     * Filter by whether a promotion can apply now or why it cannot. available matches available:
+     * true; every other value matches unavailable_reason. This filter is ANDed with status.
+     * Archived promotions still require status=archived. Values are trimmed and deduplicated in
+     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
+     * separate filters are ANDed. [] enum: "available", "inactive", "archived", "not_yet_started",
+     * "expired", "exhausted", "no_active_codes". Value enum: "available", "inactive", "archived",
+     * "not_yet_started", "expired", "exhausted", "no_active_codes". anyOf[1] (Value): Array of
+     * string. minItems: 1. [] enum: "available", "inactive", "archived", "not_yet_started",
+     * "expired", "exhausted", "no_active_codes". anyOf[1][] (Value): string. Value enum:
+     * "available", "inactive", "archived", "not_yet_started", "expired", "exhausted",
+     * "no_active_codes". anyOf[2] (Value): string. Value enum: "available", "inactive",
+     * "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
+     */
+    "availability"?: InputValue<("available"
+        | "inactive"
+        | "archived"
+        | "not_yet_started"
+        | "expired"
+        | "exhausted"
+        | "no_active_codes")
+        | readonly ("available"
+        | "inactive"
+        | "archived"
+        | "not_yet_started"
+        | "expired"
+        | "exhausted"
+        | "no_active_codes")[]>;
+    /**
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842".
+     */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Search across promotion ID, external reference ID, name, display name, description, and
+     * promotion codes. Text fields match any part of the value, and %, _ and \ are ordinary
+     * characters, not wildcards. IDs match from the start and need the type prefix, such as
+     * promo_01.
+     */
+    "query"?: InputValue<string>;
+    /**
+     * Filter to promotions with an explicit product target rule. Universal promotions are not
+     * included by catalog target filters. pattern: ^prod_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: InputValue<string>;
+    /**
+     * Filter to promotions with an explicit variant target rule. Universal promotions are not
+     * included by catalog target filters. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: InputValue<string>;
+    /**
+     * Filter to promotions with an explicit bundle target rule. Universal promotions are not
+     * included by catalog target filters. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: InputValue<string>;
+    /**
+     * Filter to promotions with an explicit category target rule. Universal promotions are not
+     * included by catalog target filters. maxLength: 100. pattern: ^[a-z0-9]+(-[a-z0-9]+)*$.
+     */
+    "category_handle"?: InputValue<string>;
+    /**
+     * Filter by promotion redemption type. Values are trimmed and deduplicated in first-seen
+     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
+     * filters are ANDed. [] enum: "automatic", "code". Value enum: "automatic", "code". anyOf[1]
+     * (Value): Array of string. minItems: 1. [] enum: "automatic", "code". anyOf[1][] (Value):
+     * string. Value enum: "automatic", "code". anyOf[2] (Value): string. Value enum: "automatic",
+     * "code".
+     */
+    "redemption_type"?: InputValue<("automatic" | "code") | readonly ("automatic" | "code")[]>;
+    /**
+     * Filter by promotion discount class. Values are trimmed and deduplicated in first-seen order;
+     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
+     * are ANDed. [] enum: "order", "line_item", "service_charge". Value enum: "order",
+     * "line_item", "service_charge". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "order", "line_item", "service_charge". anyOf[1][] (Value): string. Value enum: "order",
+     * "line_item", "service_charge". anyOf[2] (Value): string. Value enum: "order", "line_item",
+     * "service_charge".
+     */
+    "discount_class"?: InputValue<("order" | "line_item" | "service_charge") | readonly ("order" | "line_item" | "service_charge")[]>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by promotion_id. Default:
+     * "created_at". Value enum: "name", "created_at", "updated_at".
+     */
+    "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PromotionsUpdateParams = (InputValue<UpdatePromotionRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 /** A temporary link for downloading a generated report. */
 export type PublicDownload = {
     /**
@@ -1739,6 +2147,18 @@ export type ReadinessRequirements = {
      * enum: "flint", "payment_processor".
      */
     "rejected_by"?: "flint" | "payment_processor" | (string & {});
+    /**
+     * Flint requirement codes the payment processor will start requiring on `upcoming_due_at`.
+     * Submit them before then; after that they move to `currently_due` or `past_due`. Empty when
+     * nothing is scheduled. New codes can appear; treat an unknown code as
+     * additional_account_information. [] (Value): string.
+     */
+    "upcoming_due": Array<string>;
+    /**
+     * Time at which the `upcoming_due` requirements start to apply, as an RFC 3339 UTC timestamp.
+     * Omitted when none are scheduled. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "upcoming_due_at"?: string;
 };
 /**
  * Adds in-transit stock to the destination location. Optional condition targets split the received
@@ -1912,9 +2332,10 @@ export type Refund = {
      * Why a refund failed or a payment refund was canceled. Failed and canceled amounts become
      * refundable again, except a refund with reason payment_returned that failed with
      * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
-     * payment_returned refund that failed with refund_abandoned cannot be retried through Flint;
-     * the store must arrange repayment outside Flint. Fix the cause, then create a new refund with
-     * a new idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+     * payment_returned refund that failed with refund_abandoned can't be retried through Flint
+     * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another way
+     * if you haven't already. Fix the cause, then create a new refund with a new idempotency key.
+     * Unknown provider values are returned as refund_failed. Value enum:
      * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
      * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
      * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
@@ -2133,2208 +2554,3 @@ export type Refund = {
      */
     "version": number;
 };
-/**
- * Who made a manual tax adjustment on a refund line item and where it came from, for audit
- * purposes.
- */
-export type RefundAdjustmentAudit = {
-    /**
-     * ID you use for whoever made the adjustment, up to 255 characters. minLength: 1. Example:
-     * "usr_01KEZF7C00YC8757ZYP9727JM0".
-     */
-    "actor_id": string;
-    /**
-     * What kind of actor made the adjustment. Example: "user". Value enum: "user", "system",
-     * "admin".
-     */
-    "actor_type": "user" | "system" | "admin" | (string & {});
-    /**
-     * Where the adjustment came from, such as the name of your support tool. 1 to 255 characters.
-     * minLength: 1.
-     */
-    "source": string;
-};
-/**
- * Who made a manual tax adjustment on a refund line item and where it came from, for audit
- * purposes.
- */
-export type RefundAdjustmentAuditInput = {
-    /**
-     * ID you use for whoever made the adjustment, up to 255 characters. minLength: 1. Example:
-     * "usr_01KEZF7C00YC8757ZYP9727JM0".
-     */
-    "actor_id": string;
-    /**
-     * What kind of actor made the adjustment. Example: "user". Value enum: "user", "system",
-     * "admin".
-     */
-    "actor_type": "user" | "system" | "admin";
-    /**
-     * Where the adjustment came from, such as the name of your support tool. 1 to 255 characters.
-     * minLength: 1.
-     */
-    "source": string;
-};
-/**
- * The reason recorded for a refund line item adjustment, as a `code` with an optional description.
- */
-export type RefundAdjustmentReason = {
-    /**
-     * Why the adjustment was made. Value enum: "customer_agreement", "jurisdiction_specific_rule",
-     * "merchant_policy", "customer_request", "restocking_policy", "manual_tax_correction",
-     * "other".
-     */
-    "code": "customer_agreement"
-        | "jurisdiction_specific_rule"
-        | "merchant_policy"
-        | "customer_request"
-        | "restocking_policy"
-        | "manual_tax_correction"
-        | "other"
-        | (string & {});
-    /** Note explaining the reason, up to 1,024 characters. Required when `code` is `other`. */
-    "description"?: string;
-};
-/** The reason to record for a refund adjustment, as a `code` with an optional description. */
-export type RefundAdjustmentReasonRequestInput = {
-    /**
-     * Why the adjustment was made. Value enum: "customer_agreement", "jurisdiction_specific_rule",
-     * "merchant_policy", "customer_request", "restocking_policy", "manual_tax_correction",
-     * "other".
-     */
-    "code": "customer_agreement"
-        | "jurisdiction_specific_rule"
-        | "merchant_policy"
-        | "customer_request"
-        | "restocking_policy"
-        | "manual_tax_correction"
-        | "other";
-    /**
-     * Note explaining the reason, up to 1,024 characters. Required when `code` is `other`.
-     * minLength: 1.
-     */
-    "description"?: string;
-};
-/** An order charge to refund when creating a refund, with an optional amount to refund. */
-export type RefundCharge = {
-    /**
-     * Amount to refund from this charge. Omit it to refund the charge's full remaining amount.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * ID of the order charge to refund. minLength: 1. Example: "och_01KEZF7C00XX8AKACP0GHKFWWT".
-     */
-    "order_charge_id": string;
-};
-/** An order charge to refund when creating a refund, with an optional amount to refund. */
-export type RefundChargeInput = {
-    /**
-     * Amount to refund from this charge. Omit it to refund the charge's full remaining amount.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-    /**
-     * ID of the order charge to refund. minLength: 1. Example: "och_01KEZF7C00XX8AKACP0GHKFWWT".
-     */
-    "order_charge_id": string;
-};
-export type RefundCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "amount_money": MoneyValue;
-            "created_at": string;
-            "credit_note_id"?: string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id"?: string;
-            "external_reference_id"?: string;
-            "failure_reason"?: "expired_or_canceled_card"
-                | "lost_or_stolen_card"
-                | "insufficient_funds"
-                | "insufficient_available_balance"
-                | "declined"
-                | "merchant_request"
-                | "payment_disputed"
-                | "refund_abandoned"
-                | "payment_refund_failed"
-                | "payment_refund_not_attempted"
-                | "refund_failed"
-                | (string & {});
-            "idempotency_key"?: string;
-            "initiated_by": "merchant" | "flint" | (string & {});
-            "invoice_id"?: string;
-            "line_item_allocations"?: Array<RefundLineItemAllocation>;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_edit_id"?: string;
-            "order_id"?: string;
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            "payment_intent_id"?: string;
-            "payment_refunds"?: Array<PaymentRefund>;
-            "payment_review_id"?: string;
-            "pending_reason": "manual_review" | null | (string & {}) | null;
-            "processed_by": "flint" | "merchant" | (string & {});
-            "reason": "duplicate"
-                | "fraudulent"
-                | "requested_by_customer"
-                | "defective_product"
-                | "wrong_item_shipped"
-                | "never_received"
-                | "not_as_described"
-                | "arrived_too_late"
-                | "customer_changed_mind"
-                | "better_price_found"
-                | "accidental_order"
-                | "other"
-                | "out_of_stock"
-                | "payment_returned"
-                | null
-                | (string & {})
-                | null;
-            "reason_message"?: string;
-            "refund_id": string;
-            "refund_platform_fee": boolean;
-            "refund_reference"?: string;
-            "refunded_at"?: string;
-            "refunded_tip_money": MoneyValue;
-            "return_id"?: string;
-            "return_resolution_id"?: string;
-            "status": "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            "succeeded_at"?: string;
-            "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefund>;
-            "tender_allocations"?: Array<RefundTenderAllocation>;
-            "unissued_gift_card_recoveries"?: Array<RefundUnissuedGiftCardRecovery>;
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "refund.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "amount_money": MoneyValue;
-            "created_at": string;
-            "credit_note_id"?: string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id"?: string;
-            "external_reference_id"?: string;
-            "failure_reason"?: "expired_or_canceled_card"
-                | "lost_or_stolen_card"
-                | "insufficient_funds"
-                | "insufficient_available_balance"
-                | "declined"
-                | "merchant_request"
-                | "payment_disputed"
-                | "refund_abandoned"
-                | "payment_refund_failed"
-                | "payment_refund_not_attempted"
-                | "refund_failed"
-                | (string & {});
-            "idempotency_key"?: string;
-            "initiated_by": "merchant" | "flint" | (string & {});
-            "invoice_id"?: string;
-            "line_item_allocations"?: Array<RefundLineItemAllocation>;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_edit_id"?: string;
-            "order_id"?: string;
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            "payment_intent_id"?: string;
-            "payment_refunds"?: Array<PaymentRefund>;
-            "payment_review_id"?: string;
-            "pending_reason": "manual_review" | null | (string & {}) | null;
-            "processed_by": "flint" | "merchant" | (string & {});
-            "reason": "duplicate"
-                | "fraudulent"
-                | "requested_by_customer"
-                | "defective_product"
-                | "wrong_item_shipped"
-                | "never_received"
-                | "not_as_described"
-                | "arrived_too_late"
-                | "customer_changed_mind"
-                | "better_price_found"
-                | "accidental_order"
-                | "other"
-                | "out_of_stock"
-                | "payment_returned"
-                | null
-                | (string & {})
-                | null;
-            "reason_message"?: string;
-            "refund_id": string;
-            "refund_platform_fee": boolean;
-            "refund_reference"?: string;
-            "refunded_at"?: string;
-            "refunded_tip_money": MoneyValue;
-            "return_id"?: string;
-            "return_resolution_id"?: string;
-            "status": "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            "succeeded_at"?: string;
-            "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefund>;
-            "tender_allocations"?: Array<RefundTenderAllocation>;
-            "unissued_gift_card_recoveries"?: Array<RefundUnissuedGiftCardRecovery>;
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "refund.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "refund.created";
-});
-/**
- * The `refund.created` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type RefundCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.amount_money (Required): {@link MoneyValue}. Total refunded across
-     * all tenders, including `refunded_tip_money`. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code. object.created_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.credit_note_id
-     * (Optional): string. ID of the credit note this refund paid out. Present only on refunds
-     * issued through a credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". object.customer
-     * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer. object.customer.anyOf[1]
-     * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of
-     * a customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
-     * object.customer_id (Optional): string. ID of the customer on the refunded order or payment.
-     * Absent when neither has one. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.failure_reason
-     * (Optional): string. Why a refund failed or a payment refund was canceled. Failed and
-     * canceled amounts become refundable again, except a refund with reason payment_returned that
-     * failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-     * refund. A payment_returned refund that failed with refund_abandoned cannot be retried
-     * through Flint; the store must arrange repayment outside Flint. Fix the cause, then create a
-     * new refund with a new idempotency key. Unknown provider values are returned as
-     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-     * "payment_refund_not_attempted", "refund_failed". object.idempotency_key (Optional): string.
-     * The caller's Idempotency-Key when this refund was created, including refunds created by
-     * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-     * object.initiated_by (Required): string. Who decided to make this refund: `merchant` for you
-     * or your integration, `flint` for a refund Flint made on its own to return a payment it
-     * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked.
-     * Read-only. Value enum: "merchant", "flint". object.invoice_id (Optional): string. ID of the
-     * invoice whose credit note this refund paid out. Present only on refunds issued through a
-     * credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.line_item_allocations
-     * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each order
-     * line item it covered, with quantity, tax, and adjustments. object.line_item_allocations[]
-     * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-     * quantity, refunded amount, tax, adjustments, and modifier allocations. object.merchant_id
-     * (Required): string. ID of the merchant this resource belongs to. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}. Stored
-     * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
-     * (Optional): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order. object.order.anyOf[1] (Value):
-     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-     * refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_edit_id (Optional): string. ID of the
-     * paid-order edit that created this refund. Present only on refunds issued through an order
-     * edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". object.order_id (Optional): string. ID of
-     * the order the refund was issued against. For a refund with `reason` `payment_returned`, the
-     * order the returned payment was for; the order never received this money. Absent for a refund
-     * of a payment that has no order, and for a standalone gift card refund. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
-     * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
-     * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
-     * amount, status, and capture method, returned when the payment intent is expanded.
-     * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Optional): string.
-     * ID of the payment the refund was issued against, when it targeted one payment.
-     * `payment_refunds` lists every payment it returned money through. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_refunds (Optional): Array of {@link
-     * PaymentRefund}. The part of the refund returned through each payment, with its own status.
-     * Absent when the refund was all gift card credit or store credit. object.payment_refunds[]
-     * (Value): {@link PaymentRefund}. The part of a refund returned through one payment, with the
-     * amount, tip, status, and any failure reason. object.payment_review_id (Optional): string. ID
-     * of the payment review whose decline created this refund. Present only on refunds issued for
-     * a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.pending_reason
-     * (Required): string or null. Why a pending refund is waiting. `null` when `status` isn't
-     * `pending`, or when the refund is on its way without review. Value enum: "manual_review",
-     * null. object.processed_by (Required): string. Who moved or is moving the money for this
-     * refund. Flint processes refunds through a processor or a gift card; merchant means the
-     * merchant returned the money outside Flint and recorded it here. Existing refunds are
-     * processed by Flint. Value enum: "flint", "merchant". object.reason (Required): string or
-     * null. Why the refund was issued. It never changes how the money moves. The buyer's refund
-     * receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
-     * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
-     * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it can't be
-     * sent in requests. `null` when no reason was recorded. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock", "payment_returned", null. object.reason_message
-     * (Optional): string. Note explaining the refund, up to 1,024 characters. object.refund_id
-     * (Required): string. Unique identifier for this refund, prefixed `ref_`. Example:
-     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". object.refund_platform_fee (Required): boolean. Whether
-     * the request asked to return the platform fee on the payments this refund refunds
-     * (refund_platform_fee). Each payment refund's refunded_platform_fee_money is what it returns.
-     * object.refund_reference (Optional): string. The merchant's opaque check, wire, or other
-     * reference for money returned outside Flint, preserved exactly. Present only when
-     * processed_by is merchant and a reference was supplied. external_reference_id is the
-     * merchant's own refund ID. minLength: 1. maxLength: 255. object.refunded_at (Optional):
-     * string. When the merchant reports that the money was returned outside Flint. Present only
-     * when processed_by is merchant. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.refunded_tip_money (Required): {@link MoneyValue}. Share of `amount_money` that
-     * refunds tips. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. object.return_id (Optional): string. ID of the return this refund paid out. Present
-     * only on refunds issued by a return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_resolution_id (Optional): string. ID of the return resolution that issued this
-     * refund. Present only on refunds issued by a return. Example:
-     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". object.status (Required): string. Summary of
-     * payment_refunds and tender_allocations. Only failed is final: succeeded and
-     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
-     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
-     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
-     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
-     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
-     * "partially_succeeded", "failed". object.succeeded_at (Optional): string. When `status` first
-     * became `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when
-     * the last of them first succeeded, so it equals the latest `succeeded_at` among them. For a
-     * refund Flint processes, it's when Flint recorded the outcome; with `processed_by`
-     * `merchant`, it equals `refunded_at`. Present only while `status` is `succeeded`; absent for
-     * every other status, including `partially_succeeded` and a refund that failed after it
-     * succeeded. A refund that succeeds again shows its first success time. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.tax_breakdown_refunds (Optional): Array of {@link
-     * RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat taxes, one entry per
-     * tax breakdown. Tax reversed on line items is in
-     * `line_item_allocations[].tax_breakdown_refunds`. object.tax_breakdown_refunds[] (Value):
-     * {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an order.
-     * object.tender_allocations (Optional): Array of {@link RefundTenderAllocation}. Every tender
-     * the refund drew from, payment or gift card, with its amount, tip share, status, and
-     * destination. object.tender_allocations[] (Value): {@link RefundTenderAllocation}. One
-     * tender's share of a refund, listed in the refund's tender allocations.
-     * object.unissued_gift_card_recoveries (Optional): Array of {@link
-     * RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase refund
-     * failed. Return it through a new refund against payment_intent_id and order_line_item_id. It
-     * does not issue another card. Source remaining and pending amounts describe the entire
-     * original settlement allocation; repeated entries for that source are not additive.
-     * object.unissued_gift_card_recoveries[] (Value): {@link RefundUnissuedGiftCardRecovery}.
-     * Details of a gift card purchase refunded before the card was issued, including the amounts
-     * recovered. object.updated_at (Required): string. RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
-     * this resource's owned state. Expanded resources and external observations can change
-     * independently. Format: uint64. minimum: 1.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * amount_money (Required): {@link MoneyValue}. Total refunded across all tenders,
-         * including `refunded_tip_money`. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. created_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". credit_note_id (Optional): string. ID of the
-         * credit note this refund paid out. Present only on refunds issued through a credit note.
-         * Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". customer (Optional): {@link
-         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
-         * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Optional): string. ID of the customer on the refunded order or payment. Absent when
-         * neither has one. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". failure_reason (Optional): string. Why a
-         * refund failed or a payment refund was canceled. Failed and canceled amounts become
-         * refundable again, except a refund with reason payment_returned that failed with
-         * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
-         * payment_returned refund that failed with refund_abandoned cannot be retried through
-         * Flint; the store must arrange repayment outside Flint. Fix the cause, then create a new
-         * refund with a new idempotency key. Unknown provider values are returned as
-         * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-         * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-         * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-         * "payment_refund_not_attempted", "refund_failed". idempotency_key (Optional): string. The
-         * caller's Idempotency-Key when this refund was created, including refunds created by
-         * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-         * initiated_by (Required): string. Who decided to make this refund: `merchant` for you or
-         * your integration, `flint` for a refund Flint made on its own to return a payment it
-         * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential
-         * asked. Read-only. Value enum: "merchant", "flint". invoice_id (Optional): string. ID of
-         * the invoice whose credit note this refund paid out. Present only on refunds issued
-         * through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". line_item_allocations
-         * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each
-         * order line item it covered, with quantity, tax, and adjustments. line_item_allocations[]
-         * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-         * quantity, refunded amount, tax, adjustments, and modifier allocations. merchant_id
-         * (Required): string. ID of the merchant this resource belongs to. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Stored
-         * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them. order
-         * (Optional): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
-         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
-         * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-         * refund status, and pricing and settlement amounts, returned when the order is expanded.
-         * order.anyOf[2] (Value): null. order_edit_id (Optional): string. ID of the paid-order
-         * edit that created this refund. Present only on refunds issued through an order edit.
-         * Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". order_id (Optional): string. ID of the order
-         * the refund was issued against. For a refund with `reason` `payment_returned`, the order
-         * the returned payment was for; the order never received this money. Absent for a refund
-         * of a payment that has no order, and for a standalone gift card refund. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". payment_intent (Optional): {@link
-         * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
-         * `payment_intent`; `null` when expanded and there is no related payment intent.
-         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A payment
-         * intent's summary fields, including amount, status, and capture method, returned when the
-         * payment intent is expanded. payment_intent.anyOf[2] (Value): null. payment_intent_id
-         * (Optional): string. ID of the payment the refund was issued against, when it targeted
-         * one payment. `payment_refunds` lists every payment it returned money through. Example:
-         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_refunds (Optional): Array of {@link
-         * PaymentRefund}. The part of the refund returned through each payment, with its own
-         * status. Absent when the refund was all gift card credit or store credit.
-         * payment_refunds[] (Value): {@link PaymentRefund}. The part of a refund returned through
-         * one payment, with the amount, tip, status, and any failure reason. payment_review_id
-         * (Optional): string. ID of the payment review whose decline created this refund. Present
-         * only on refunds issued for a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-         * pending_reason (Required): string or null. Why a pending refund is waiting. `null` when
-         * `status` isn't `pending`, or when the refund is on its way without review. Value enum:
-         * "manual_review", null. processed_by (Required): string. Who moved or is moving the money
-         * for this refund. Flint processes refunds through a processor or a gift card; merchant
-         * means the merchant returned the money outside Flint and recorded it here. Existing
-         * refunds are processed by Flint. Value enum: "flint", "merchant". reason (Required):
-         * string or null. Why the refund was issued. It never changes how the money moves. The
-         * buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`,
-         * `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`,
-         * `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint sets
-         * `payment_returned`, and it can't be sent in requests. `null` when no reason was
-         * recorded. Value enum: "duplicate", "fraudulent", "requested_by_customer",
-         * "defective_product", "wrong_item_shipped", "never_received", "not_as_described",
-         * "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order",
-         * "other", "out_of_stock", "payment_returned", null. reason_message (Optional): string.
-         * Note explaining the refund, up to 1,024 characters. refund_id (Required): string. Unique
-         * identifier for this refund, prefixed `ref_`. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-         * refund_platform_fee (Required): boolean. Whether the request asked to return the
-         * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
-         * refund's refunded_platform_fee_money is what it returns. refund_reference (Optional):
-         * string. The merchant's opaque check, wire, or other reference for money returned outside
-         * Flint, preserved exactly. Present only when processed_by is merchant and a reference was
-         * supplied. external_reference_id is the merchant's own refund ID. minLength: 1.
-         * maxLength: 255. refunded_at (Optional): string. When the merchant reports that the money
-         * was returned outside Flint. Present only when processed_by is merchant. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". refunded_tip_money (Required): {@link
-         * MoneyValue}. Share of `amount_money` that refunds tips. Monetary amount represented as
-         * integer minor units plus an ISO 4217 currency code. return_id (Optional): string. ID of
-         * the return this refund paid out. Present only on refunds issued by a return. Example:
-         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_resolution_id (Optional): string. ID of the
-         * return resolution that issued this refund. Present only on refunds issued by a return.
-         * Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". status (Required): string. Summary of
-         * payment_refunds and tender_allocations. Only failed is final: succeeded and
-         * partially_succeeded can still change when a bank rejects a refund after accepting it. A
-         * refund Flint made to return a payment it couldn't accept goes from succeeded back to
-         * pending, with pending_reason manual_review, when a bank reverses it. Follow
-         * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
-         * refund.failed when its outcome changes, and refund.updated for other changes. Value
-         * enum: "pending", "succeeded", "partially_succeeded", "failed". succeeded_at (Optional):
-         * string. When `status` first became `succeeded`. For a refund with `payment_refunds` or
-         * `tender_allocations`, it's when the last of them first succeeded, so it equals the
-         * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint recorded
-         * the outcome; with `processed_by` `merchant`, it equals `refunded_at`. Present only while
-         * `status` is `succeeded`; absent for every other status, including `partially_succeeded`
-         * and a refund that failed after it succeeded. A refund that succeeds again shows its
-         * first success time. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * tax_breakdown_refunds (Optional): Array of {@link RefundTaxBreakdownRefund}. Tax
-         * reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax
-         * reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`.
-         * tax_breakdown_refunds[] (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for
-         * one tax breakdown on an order. tender_allocations (Optional): Array of {@link
-         * RefundTenderAllocation}. Every tender the refund drew from, payment or gift card, with
-         * its amount, tip share, status, and destination. tender_allocations[] (Value): {@link
-         * RefundTenderAllocation}. One tender's share of a refund, listed in the refund's tender
-         * allocations. unissued_gift_card_recoveries (Optional): Array of {@link
-         * RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
-         * refund failed. Return it through a new refund against payment_intent_id and
-         * order_line_item_id. It does not issue another card. Source remaining and pending amounts
-         * describe the entire original settlement allocation; repeated entries for that source are
-         * not additive. unissued_gift_card_recoveries[] (Value): {@link
-         * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
-         * card was issued, including the amounts recovered. updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * Total refunded across all tenders, including `refunded_tip_money`. Monetary amount
-             * represented as integer minor units plus an ISO 4217 currency code.
-             */
-            "amount_money": MoneyValue;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * ID of the credit note this refund paid out. Present only on refunds issued through a
-             * credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-             */
-            "credit_note_id"?: string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /**
-             * ID of the customer on the refunded order or payment. Absent when neither has one.
-             * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             */
-            "customer_id"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
-             * become refundable again, except a refund with reason payment_returned that failed
-             * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-             * refund. A payment_returned refund that failed with refund_abandoned cannot be
-             * retried through Flint; the store must arrange repayment outside Flint. Fix the
-             * cause, then create a new refund with a new idempotency key. Unknown provider values
-             * are returned as refund_failed. Value enum: "expired_or_canceled_card",
-             * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
-             * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
-             * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
-             */
-            "failure_reason"?: "expired_or_canceled_card"
-                | "lost_or_stolen_card"
-                | "insufficient_funds"
-                | "insufficient_available_balance"
-                | "declined"
-                | "merchant_request"
-                | "payment_disputed"
-                | "refund_abandoned"
-                | "payment_refund_failed"
-                | "payment_refund_not_attempted"
-                | "refund_failed"
-                | (string & {});
-            /**
-             * The caller's Idempotency-Key when this refund was created, including refunds created
-             * by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost
-             * response.
-             */
-            "idempotency_key"?: string;
-            /**
-             * Who decided to make this refund: `merchant` for you or your integration, `flint` for
-             * a refund Flint made on its own to return a payment it couldn't accept. Unlike a
-             * Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value
-             * enum: "merchant", "flint".
-             */
-            "initiated_by": "merchant" | "flint" | (string & {});
-            /**
-             * ID of the invoice whose credit note this refund paid out. Present only on refunds
-             * issued through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-             */
-            "invoice_id"?: string;
-            /**
-             * How the refund applied to each order line item it covered, with quantity, tax, and
-             * adjustments. [] (Value): {@link RefundLineItemAllocation}. How a refund applied to
-             * one order line item: quantity, refunded amount, tax, adjustments, and modifier
-             * allocations.
-             */
-            "line_item_allocations"?: Array<RefundLineItemAllocation>;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-             * are reserved for Flint and are not returned. Writes follow the limits on
-             * MetadataInput and MetadataPatchInput; maps written before those limits may not
-             * satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
-             * fields, including status, payment and refund status, and pricing and settlement
-             * amounts, returned when the order is expanded. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /**
-             * ID of the paid-order edit that created this refund. Present only on refunds issued
-             * through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-             */
-            "order_edit_id"?: string;
-            /**
-             * ID of the order the refund was issued against. For a refund with `reason`
-             * `payment_returned`, the order the returned payment was for; the order never received
-             * this money. Absent for a refund of a payment that has no order, and for a standalone
-             * gift card refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "order_id"?: string;
-            /**
-             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
-             * status, and capture method, returned when the payment intent is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            /**
-             * ID of the payment the refund was issued against, when it targeted one payment.
-             * `payment_refunds` lists every payment it returned money through. Example:
-             * "pi_01KEZF7C00G8H9D509YEV22P7R".
-             */
-            "payment_intent_id"?: string;
-            /**
-             * The part of the refund returned through each payment, with its own status. Absent
-             * when the refund was all gift card credit or store credit. [] (Value): {@link
-             * PaymentRefund}. The part of a refund returned through one payment, with the amount,
-             * tip, status, and any failure reason.
-             */
-            "payment_refunds"?: Array<PaymentRefund>;
-            /**
-             * ID of the payment review whose decline created this refund. Present only on refunds
-             * issued for a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-             */
-            "payment_review_id"?: string;
-            /**
-             * Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
-             * refund is on its way without review. Value enum: "manual_review", null.
-             */
-            "pending_reason": "manual_review" | null | (string & {}) | null;
-            /**
-             * Who moved or is moving the money for this refund. Flint processes refunds through a
-             * processor or a gift card; merchant means the merchant returned the money outside
-             * Flint and recorded it here. Existing refunds are processed by Flint. Value enum:
-             * "flint", "merchant".
-             */
-            "processed_by": "flint" | "merchant" | (string & {});
-            /**
-             * Why the refund was issued. It never changes how the money moves. The buyer's refund
-             * receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
-             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
-             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
-             * can't be sent in requests. `null` when no reason was recorded. Value enum:
-             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
-             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
-             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
-             * "out_of_stock", "payment_returned", null.
-             */
-            "reason": "duplicate"
-                | "fraudulent"
-                | "requested_by_customer"
-                | "defective_product"
-                | "wrong_item_shipped"
-                | "never_received"
-                | "not_as_described"
-                | "arrived_too_late"
-                | "customer_changed_mind"
-                | "better_price_found"
-                | "accidental_order"
-                | "other"
-                | "out_of_stock"
-                | "payment_returned"
-                | null
-                | (string & {})
-                | null;
-            /** Note explaining the refund, up to 1,024 characters. */
-            "reason_message"?: string;
-            /**
-             * Unique identifier for this refund, prefixed `ref_`. Example:
-             * "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-             */
-            "refund_id": string;
-            /**
-             * Whether the request asked to return the platform fee on the payments this refund
-             * refunds (refund_platform_fee). Each payment refund's refunded_platform_fee_money is
-             * what it returns.
-             */
-            "refund_platform_fee": boolean;
-            /**
-             * The merchant's opaque check, wire, or other reference for money returned outside
-             * Flint, preserved exactly. Present only when processed_by is merchant and a reference
-             * was supplied. external_reference_id is the merchant's own refund ID. minLength: 1.
-             * maxLength: 255.
-             */
-            "refund_reference"?: string;
-            /**
-             * When the merchant reports that the money was returned outside Flint. Present only
-             * when processed_by is merchant. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "refunded_at"?: string;
-            /**
-             * Share of `amount_money` that refunds tips. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code.
-             */
-            "refunded_tip_money": MoneyValue;
-            /**
-             * ID of the return this refund paid out. Present only on refunds issued by a return.
-             * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-             */
-            "return_id"?: string;
-            /**
-             * ID of the return resolution that issued this refund. Present only on refunds issued
-             * by a return. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-             */
-            "return_resolution_id"?: string;
-            /**
-             * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded
-             * and partially_succeeded can still change when a bank rejects a refund after
-             * accepting it. A refund Flint made to return a payment it couldn't accept goes from
-             * succeeded back to pending, with pending_reason manual_review, when a bank reverses
-             * it. Follow refund.created when it is accepted, refund.succeeded,
-             * refund.partially_succeeded, or refund.failed when its outcome changes, and
-             * refund.updated for other changes. Value enum: "pending", "succeeded",
-             * "partially_succeeded", "failed".
-             */
-            "status": "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            /**
-             * When `status` first became `succeeded`. For a refund with `payment_refunds` or
-             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
-             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
-             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
-             * Present only while `status` is `succeeded`; absent for every other status, including
-             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
-             * succeeds again shows its first success time. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "succeeded_at"?: string;
-            /**
-             * Tax reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax
-             * reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`. []
-             * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on
-             * an order.
-             */
-            "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefund>;
-            /**
-             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
-             * status, and destination. [] (Value): {@link RefundTenderAllocation}. One tender's
-             * share of a refund, listed in the refund's tender allocations.
-             */
-            "tender_allocations"?: Array<RefundTenderAllocation>;
-            /**
-             * Cash returned after an unissued gift card purchase refund failed. Return it through
-             * a new refund against payment_intent_id and order_line_item_id. It does not issue
-             * another card. Source remaining and pending amounts describe the entire original
-             * settlement allocation; repeated entries for that source are not additive. []
-             * (Value): {@link RefundUnissuedGiftCardRecovery}. Details of a gift card purchase
-             * refunded before the card was issued, including the amounts recovered.
-             */
-            "unissued_gift_card_recoveries"?: Array<RefundUnissuedGiftCardRecovery>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "refund.created". */
-    "event_type"?: "refund.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `refund.created` webhook payload for the `merchant` event source. Fields shared by merchant
- * webhook payloads.
- */
-export type RefundCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.amount_money (Required): {@link MoneyValue}. Total refunded across
-     * all tenders, including `refunded_tip_money`. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code. object.created_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.credit_note_id
-     * (Optional): string. ID of the credit note this refund paid out. Present only on refunds
-     * issued through a credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". object.customer
-     * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer. object.customer.anyOf[1]
-     * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of
-     * a customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
-     * object.customer_id (Optional): string. ID of the customer on the refunded order or payment.
-     * Absent when neither has one. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.failure_reason
-     * (Optional): string. Why a refund failed or a payment refund was canceled. Failed and
-     * canceled amounts become refundable again, except a refund with reason payment_returned that
-     * failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-     * refund. A payment_returned refund that failed with refund_abandoned cannot be retried
-     * through Flint; the store must arrange repayment outside Flint. Fix the cause, then create a
-     * new refund with a new idempotency key. Unknown provider values are returned as
-     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-     * "payment_refund_not_attempted", "refund_failed". object.idempotency_key (Optional): string.
-     * The caller's Idempotency-Key when this refund was created, including refunds created by
-     * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-     * object.initiated_by (Required): string. Who decided to make this refund: `merchant` for you
-     * or your integration, `flint` for a refund Flint made on its own to return a payment it
-     * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked.
-     * Read-only. Value enum: "merchant", "flint". object.invoice_id (Optional): string. ID of the
-     * invoice whose credit note this refund paid out. Present only on refunds issued through a
-     * credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.line_item_allocations
-     * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each order
-     * line item it covered, with quantity, tax, and adjustments. object.line_item_allocations[]
-     * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-     * quantity, refunded amount, tax, adjustments, and modifier allocations. object.merchant_id
-     * (Required): string. ID of the merchant this resource belongs to. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}. Stored
-     * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
-     * (Optional): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order. object.order.anyOf[1] (Value):
-     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-     * refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_edit_id (Optional): string. ID of the
-     * paid-order edit that created this refund. Present only on refunds issued through an order
-     * edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". object.order_id (Optional): string. ID of
-     * the order the refund was issued against. For a refund with `reason` `payment_returned`, the
-     * order the returned payment was for; the order never received this money. Absent for a refund
-     * of a payment that has no order, and for a standalone gift card refund. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
-     * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
-     * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
-     * amount, status, and capture method, returned when the payment intent is expanded.
-     * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Optional): string.
-     * ID of the payment the refund was issued against, when it targeted one payment.
-     * `payment_refunds` lists every payment it returned money through. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_refunds (Optional): Array of {@link
-     * PaymentRefund}. The part of the refund returned through each payment, with its own status.
-     * Absent when the refund was all gift card credit or store credit. object.payment_refunds[]
-     * (Value): {@link PaymentRefund}. The part of a refund returned through one payment, with the
-     * amount, tip, status, and any failure reason. object.payment_review_id (Optional): string. ID
-     * of the payment review whose decline created this refund. Present only on refunds issued for
-     * a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.pending_reason
-     * (Required): string or null. Why a pending refund is waiting. `null` when `status` isn't
-     * `pending`, or when the refund is on its way without review. Value enum: "manual_review",
-     * null. object.processed_by (Required): string. Who moved or is moving the money for this
-     * refund. Flint processes refunds through a processor or a gift card; merchant means the
-     * merchant returned the money outside Flint and recorded it here. Existing refunds are
-     * processed by Flint. Value enum: "flint", "merchant". object.reason (Required): string or
-     * null. Why the refund was issued. It never changes how the money moves. The buyer's refund
-     * receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
-     * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
-     * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it can't be
-     * sent in requests. `null` when no reason was recorded. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock", "payment_returned", null. object.reason_message
-     * (Optional): string. Note explaining the refund, up to 1,024 characters. object.refund_id
-     * (Required): string. Unique identifier for this refund, prefixed `ref_`. Example:
-     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". object.refund_platform_fee (Required): boolean. Whether
-     * the request asked to return the platform fee on the payments this refund refunds
-     * (refund_platform_fee). Each payment refund's refunded_platform_fee_money is what it returns.
-     * object.refund_reference (Optional): string. The merchant's opaque check, wire, or other
-     * reference for money returned outside Flint, preserved exactly. Present only when
-     * processed_by is merchant and a reference was supplied. external_reference_id is the
-     * merchant's own refund ID. minLength: 1. maxLength: 255. object.refunded_at (Optional):
-     * string. When the merchant reports that the money was returned outside Flint. Present only
-     * when processed_by is merchant. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.refunded_tip_money (Required): {@link MoneyValue}. Share of `amount_money` that
-     * refunds tips. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. object.return_id (Optional): string. ID of the return this refund paid out. Present
-     * only on refunds issued by a return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_resolution_id (Optional): string. ID of the return resolution that issued this
-     * refund. Present only on refunds issued by a return. Example:
-     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". object.status (Required): string. Summary of
-     * payment_refunds and tender_allocations. Only failed is final: succeeded and
-     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
-     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
-     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
-     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
-     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
-     * "partially_succeeded", "failed". object.succeeded_at (Optional): string. When `status` first
-     * became `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when
-     * the last of them first succeeded, so it equals the latest `succeeded_at` among them. For a
-     * refund Flint processes, it's when Flint recorded the outcome; with `processed_by`
-     * `merchant`, it equals `refunded_at`. Present only while `status` is `succeeded`; absent for
-     * every other status, including `partially_succeeded` and a refund that failed after it
-     * succeeded. A refund that succeeds again shows its first success time. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.tax_breakdown_refunds (Optional): Array of {@link
-     * RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat taxes, one entry per
-     * tax breakdown. Tax reversed on line items is in
-     * `line_item_allocations[].tax_breakdown_refunds`. object.tax_breakdown_refunds[] (Value):
-     * {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an order.
-     * object.tender_allocations (Optional): Array of {@link RefundTenderAllocation}. Every tender
-     * the refund drew from, payment or gift card, with its amount, tip share, status, and
-     * destination. object.tender_allocations[] (Value): {@link RefundTenderAllocation}. One
-     * tender's share of a refund, listed in the refund's tender allocations.
-     * object.unissued_gift_card_recoveries (Optional): Array of {@link
-     * RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase refund
-     * failed. Return it through a new refund against payment_intent_id and order_line_item_id. It
-     * does not issue another card. Source remaining and pending amounts describe the entire
-     * original settlement allocation; repeated entries for that source are not additive.
-     * object.unissued_gift_card_recoveries[] (Value): {@link RefundUnissuedGiftCardRecovery}.
-     * Details of a gift card purchase refunded before the card was issued, including the amounts
-     * recovered. object.updated_at (Required): string. RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
-     * this resource's owned state. Expanded resources and external observations can change
-     * independently. Format: uint64. minimum: 1.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * amount_money (Required): {@link MoneyValue}. Total refunded across all tenders,
-         * including `refunded_tip_money`. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. created_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". credit_note_id (Optional): string. ID of the
-         * credit note this refund paid out. Present only on refunds issued through a credit note.
-         * Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". customer (Optional): {@link
-         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
-         * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Optional): string. ID of the customer on the refunded order or payment. Absent when
-         * neither has one. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". failure_reason (Optional): string. Why a
-         * refund failed or a payment refund was canceled. Failed and canceled amounts become
-         * refundable again, except a refund with reason payment_returned that failed with
-         * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
-         * payment_returned refund that failed with refund_abandoned cannot be retried through
-         * Flint; the store must arrange repayment outside Flint. Fix the cause, then create a new
-         * refund with a new idempotency key. Unknown provider values are returned as
-         * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-         * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-         * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-         * "payment_refund_not_attempted", "refund_failed". idempotency_key (Optional): string. The
-         * caller's Idempotency-Key when this refund was created, including refunds created by
-         * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-         * initiated_by (Required): string. Who decided to make this refund: `merchant` for you or
-         * your integration, `flint` for a refund Flint made on its own to return a payment it
-         * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential
-         * asked. Read-only. Value enum: "merchant", "flint". invoice_id (Optional): string. ID of
-         * the invoice whose credit note this refund paid out. Present only on refunds issued
-         * through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". line_item_allocations
-         * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each
-         * order line item it covered, with quantity, tax, and adjustments. line_item_allocations[]
-         * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-         * quantity, refunded amount, tax, adjustments, and modifier allocations. merchant_id
-         * (Required): string. ID of the merchant this resource belongs to. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Stored
-         * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them. order
-         * (Optional): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
-         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
-         * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-         * refund status, and pricing and settlement amounts, returned when the order is expanded.
-         * order.anyOf[2] (Value): null. order_edit_id (Optional): string. ID of the paid-order
-         * edit that created this refund. Present only on refunds issued through an order edit.
-         * Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". order_id (Optional): string. ID of the order
-         * the refund was issued against. For a refund with `reason` `payment_returned`, the order
-         * the returned payment was for; the order never received this money. Absent for a refund
-         * of a payment that has no order, and for a standalone gift card refund. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". payment_intent (Optional): {@link
-         * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
-         * `payment_intent`; `null` when expanded and there is no related payment intent.
-         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A payment
-         * intent's summary fields, including amount, status, and capture method, returned when the
-         * payment intent is expanded. payment_intent.anyOf[2] (Value): null. payment_intent_id
-         * (Optional): string. ID of the payment the refund was issued against, when it targeted
-         * one payment. `payment_refunds` lists every payment it returned money through. Example:
-         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_refunds (Optional): Array of {@link
-         * PaymentRefund}. The part of the refund returned through each payment, with its own
-         * status. Absent when the refund was all gift card credit or store credit.
-         * payment_refunds[] (Value): {@link PaymentRefund}. The part of a refund returned through
-         * one payment, with the amount, tip, status, and any failure reason. payment_review_id
-         * (Optional): string. ID of the payment review whose decline created this refund. Present
-         * only on refunds issued for a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-         * pending_reason (Required): string or null. Why a pending refund is waiting. `null` when
-         * `status` isn't `pending`, or when the refund is on its way without review. Value enum:
-         * "manual_review", null. processed_by (Required): string. Who moved or is moving the money
-         * for this refund. Flint processes refunds through a processor or a gift card; merchant
-         * means the merchant returned the money outside Flint and recorded it here. Existing
-         * refunds are processed by Flint. Value enum: "flint", "merchant". reason (Required):
-         * string or null. Why the refund was issued. It never changes how the money moves. The
-         * buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`,
-         * `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`,
-         * `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint sets
-         * `payment_returned`, and it can't be sent in requests. `null` when no reason was
-         * recorded. Value enum: "duplicate", "fraudulent", "requested_by_customer",
-         * "defective_product", "wrong_item_shipped", "never_received", "not_as_described",
-         * "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order",
-         * "other", "out_of_stock", "payment_returned", null. reason_message (Optional): string.
-         * Note explaining the refund, up to 1,024 characters. refund_id (Required): string. Unique
-         * identifier for this refund, prefixed `ref_`. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-         * refund_platform_fee (Required): boolean. Whether the request asked to return the
-         * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
-         * refund's refunded_platform_fee_money is what it returns. refund_reference (Optional):
-         * string. The merchant's opaque check, wire, or other reference for money returned outside
-         * Flint, preserved exactly. Present only when processed_by is merchant and a reference was
-         * supplied. external_reference_id is the merchant's own refund ID. minLength: 1.
-         * maxLength: 255. refunded_at (Optional): string. When the merchant reports that the money
-         * was returned outside Flint. Present only when processed_by is merchant. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". refunded_tip_money (Required): {@link
-         * MoneyValue}. Share of `amount_money` that refunds tips. Monetary amount represented as
-         * integer minor units plus an ISO 4217 currency code. return_id (Optional): string. ID of
-         * the return this refund paid out. Present only on refunds issued by a return. Example:
-         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_resolution_id (Optional): string. ID of the
-         * return resolution that issued this refund. Present only on refunds issued by a return.
-         * Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". status (Required): string. Summary of
-         * payment_refunds and tender_allocations. Only failed is final: succeeded and
-         * partially_succeeded can still change when a bank rejects a refund after accepting it. A
-         * refund Flint made to return a payment it couldn't accept goes from succeeded back to
-         * pending, with pending_reason manual_review, when a bank reverses it. Follow
-         * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
-         * refund.failed when its outcome changes, and refund.updated for other changes. Value
-         * enum: "pending", "succeeded", "partially_succeeded", "failed". succeeded_at (Optional):
-         * string. When `status` first became `succeeded`. For a refund with `payment_refunds` or
-         * `tender_allocations`, it's when the last of them first succeeded, so it equals the
-         * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint recorded
-         * the outcome; with `processed_by` `merchant`, it equals `refunded_at`. Present only while
-         * `status` is `succeeded`; absent for every other status, including `partially_succeeded`
-         * and a refund that failed after it succeeded. A refund that succeeds again shows its
-         * first success time. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * tax_breakdown_refunds (Optional): Array of {@link RefundTaxBreakdownRefund}. Tax
-         * reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax
-         * reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`.
-         * tax_breakdown_refunds[] (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for
-         * one tax breakdown on an order. tender_allocations (Optional): Array of {@link
-         * RefundTenderAllocation}. Every tender the refund drew from, payment or gift card, with
-         * its amount, tip share, status, and destination. tender_allocations[] (Value): {@link
-         * RefundTenderAllocation}. One tender's share of a refund, listed in the refund's tender
-         * allocations. unissued_gift_card_recoveries (Optional): Array of {@link
-         * RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
-         * refund failed. Return it through a new refund against payment_intent_id and
-         * order_line_item_id. It does not issue another card. Source remaining and pending amounts
-         * describe the entire original settlement allocation; repeated entries for that source are
-         * not additive. unissued_gift_card_recoveries[] (Value): {@link
-         * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
-         * card was issued, including the amounts recovered. updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * Total refunded across all tenders, including `refunded_tip_money`. Monetary amount
-             * represented as integer minor units plus an ISO 4217 currency code.
-             */
-            "amount_money": MoneyValue;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * ID of the credit note this refund paid out. Present only on refunds issued through a
-             * credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-             */
-            "credit_note_id"?: string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /**
-             * ID of the customer on the refunded order or payment. Absent when neither has one.
-             * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             */
-            "customer_id"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
-             * become refundable again, except a refund with reason payment_returned that failed
-             * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-             * refund. A payment_returned refund that failed with refund_abandoned cannot be
-             * retried through Flint; the store must arrange repayment outside Flint. Fix the
-             * cause, then create a new refund with a new idempotency key. Unknown provider values
-             * are returned as refund_failed. Value enum: "expired_or_canceled_card",
-             * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
-             * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
-             * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
-             */
-            "failure_reason"?: "expired_or_canceled_card"
-                | "lost_or_stolen_card"
-                | "insufficient_funds"
-                | "insufficient_available_balance"
-                | "declined"
-                | "merchant_request"
-                | "payment_disputed"
-                | "refund_abandoned"
-                | "payment_refund_failed"
-                | "payment_refund_not_attempted"
-                | "refund_failed"
-                | (string & {});
-            /**
-             * The caller's Idempotency-Key when this refund was created, including refunds created
-             * by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost
-             * response.
-             */
-            "idempotency_key"?: string;
-            /**
-             * Who decided to make this refund: `merchant` for you or your integration, `flint` for
-             * a refund Flint made on its own to return a payment it couldn't accept. Unlike a
-             * Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value
-             * enum: "merchant", "flint".
-             */
-            "initiated_by": "merchant" | "flint" | (string & {});
-            /**
-             * ID of the invoice whose credit note this refund paid out. Present only on refunds
-             * issued through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-             */
-            "invoice_id"?: string;
-            /**
-             * How the refund applied to each order line item it covered, with quantity, tax, and
-             * adjustments. [] (Value): {@link RefundLineItemAllocation}. How a refund applied to
-             * one order line item: quantity, refunded amount, tax, adjustments, and modifier
-             * allocations.
-             */
-            "line_item_allocations"?: Array<RefundLineItemAllocation>;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-             * are reserved for Flint and are not returned. Writes follow the limits on
-             * MetadataInput and MetadataPatchInput; maps written before those limits may not
-             * satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
-             * fields, including status, payment and refund status, and pricing and settlement
-             * amounts, returned when the order is expanded. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /**
-             * ID of the paid-order edit that created this refund. Present only on refunds issued
-             * through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-             */
-            "order_edit_id"?: string;
-            /**
-             * ID of the order the refund was issued against. For a refund with `reason`
-             * `payment_returned`, the order the returned payment was for; the order never received
-             * this money. Absent for a refund of a payment that has no order, and for a standalone
-             * gift card refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "order_id"?: string;
-            /**
-             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
-             * status, and capture method, returned when the payment intent is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            /**
-             * ID of the payment the refund was issued against, when it targeted one payment.
-             * `payment_refunds` lists every payment it returned money through. Example:
-             * "pi_01KEZF7C00G8H9D509YEV22P7R".
-             */
-            "payment_intent_id"?: string;
-            /**
-             * The part of the refund returned through each payment, with its own status. Absent
-             * when the refund was all gift card credit or store credit. [] (Value): {@link
-             * PaymentRefund}. The part of a refund returned through one payment, with the amount,
-             * tip, status, and any failure reason.
-             */
-            "payment_refunds"?: Array<PaymentRefund>;
-            /**
-             * ID of the payment review whose decline created this refund. Present only on refunds
-             * issued for a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-             */
-            "payment_review_id"?: string;
-            /**
-             * Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
-             * refund is on its way without review. Value enum: "manual_review", null.
-             */
-            "pending_reason": "manual_review" | null | (string & {}) | null;
-            /**
-             * Who moved or is moving the money for this refund. Flint processes refunds through a
-             * processor or a gift card; merchant means the merchant returned the money outside
-             * Flint and recorded it here. Existing refunds are processed by Flint. Value enum:
-             * "flint", "merchant".
-             */
-            "processed_by": "flint" | "merchant" | (string & {});
-            /**
-             * Why the refund was issued. It never changes how the money moves. The buyer's refund
-             * receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
-             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
-             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
-             * can't be sent in requests. `null` when no reason was recorded. Value enum:
-             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
-             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
-             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
-             * "out_of_stock", "payment_returned", null.
-             */
-            "reason": "duplicate"
-                | "fraudulent"
-                | "requested_by_customer"
-                | "defective_product"
-                | "wrong_item_shipped"
-                | "never_received"
-                | "not_as_described"
-                | "arrived_too_late"
-                | "customer_changed_mind"
-                | "better_price_found"
-                | "accidental_order"
-                | "other"
-                | "out_of_stock"
-                | "payment_returned"
-                | null
-                | (string & {})
-                | null;
-            /** Note explaining the refund, up to 1,024 characters. */
-            "reason_message"?: string;
-            /**
-             * Unique identifier for this refund, prefixed `ref_`. Example:
-             * "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-             */
-            "refund_id": string;
-            /**
-             * Whether the request asked to return the platform fee on the payments this refund
-             * refunds (refund_platform_fee). Each payment refund's refunded_platform_fee_money is
-             * what it returns.
-             */
-            "refund_platform_fee": boolean;
-            /**
-             * The merchant's opaque check, wire, or other reference for money returned outside
-             * Flint, preserved exactly. Present only when processed_by is merchant and a reference
-             * was supplied. external_reference_id is the merchant's own refund ID. minLength: 1.
-             * maxLength: 255.
-             */
-            "refund_reference"?: string;
-            /**
-             * When the merchant reports that the money was returned outside Flint. Present only
-             * when processed_by is merchant. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "refunded_at"?: string;
-            /**
-             * Share of `amount_money` that refunds tips. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code.
-             */
-            "refunded_tip_money": MoneyValue;
-            /**
-             * ID of the return this refund paid out. Present only on refunds issued by a return.
-             * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-             */
-            "return_id"?: string;
-            /**
-             * ID of the return resolution that issued this refund. Present only on refunds issued
-             * by a return. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-             */
-            "return_resolution_id"?: string;
-            /**
-             * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded
-             * and partially_succeeded can still change when a bank rejects a refund after
-             * accepting it. A refund Flint made to return a payment it couldn't accept goes from
-             * succeeded back to pending, with pending_reason manual_review, when a bank reverses
-             * it. Follow refund.created when it is accepted, refund.succeeded,
-             * refund.partially_succeeded, or refund.failed when its outcome changes, and
-             * refund.updated for other changes. Value enum: "pending", "succeeded",
-             * "partially_succeeded", "failed".
-             */
-            "status": "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            /**
-             * When `status` first became `succeeded`. For a refund with `payment_refunds` or
-             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
-             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
-             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
-             * Present only while `status` is `succeeded`; absent for every other status, including
-             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
-             * succeeds again shows its first success time. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "succeeded_at"?: string;
-            /**
-             * Tax reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax
-             * reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`. []
-             * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on
-             * an order.
-             */
-            "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefund>;
-            /**
-             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
-             * status, and destination. [] (Value): {@link RefundTenderAllocation}. One tender's
-             * share of a refund, listed in the refund's tender allocations.
-             */
-            "tender_allocations"?: Array<RefundTenderAllocation>;
-            /**
-             * Cash returned after an unissued gift card purchase refund failed. Return it through
-             * a new refund against payment_intent_id and order_line_item_id. It does not issue
-             * another card. Source remaining and pending amounts describe the entire original
-             * settlement allocation; repeated entries for that source are not additive. []
-             * (Value): {@link RefundUnissuedGiftCardRecovery}. Details of a gift card purchase
-             * refunded before the card was issued, including the amounts recovered.
-             */
-            "unissued_gift_card_recoveries"?: Array<RefundUnissuedGiftCardRecovery>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "refund.created". */
-    "event_type"?: "refund.created";
-});
-/**
- * Default refund destinations for payment intent and gift card redemption allocations planned by
- * Flint. Each tender type defaults to original when omitted.
- */
-export type RefundDestinations = {
-    /**
-     * Where gift card redemption value is refunded. original credits the original gift card;
-     * new_gift_card issues new gift cards, including when the original is closed or cannot accept
-     * the full credit. Default: "original". Value enum: "original", "new_gift_card".
-     */
-    "gift_card_redemption"?: "original" | "new_gift_card" | (string & {});
-    /**
-     * Default destination for every payment intent allocation Flint plans for this refund.
-     * original returns value to the payment; new_gift_card issues store credit on new Flint gift
-     * cards. Payment intent store credit requires a succeeded USD card, Apple Pay, Google Pay, or
-     * Link payment that belongs to an order, with no open chargeback. Affirm, ACH debit, other
-     * payment options, non-USD payments, and payments without an order return INVALID_REQUEST with
-     * a NOT_ALLOWED detail. Payment chargebacks use the existing dispute refusal. Gift card
-     * redemption destinations are unaffected by the payment restrictions. Default: "original".
-     * Value enum: "original", "new_gift_card".
-     */
-    "payment_intent"?: "original" | "new_gift_card" | (string & {});
-};
-/**
- * Default refund destinations for payment intent and gift card redemption allocations planned by
- * Flint. Each tender type defaults to original when omitted.
- */
-export type RefundDestinationsInput = {
-    /**
-     * Where gift card redemption value is refunded. original credits the original gift card;
-     * new_gift_card issues new gift cards, including when the original is closed or cannot accept
-     * the full credit. Default: "original". Value enum: "original", "new_gift_card".
-     */
-    "gift_card_redemption"?: "original" | "new_gift_card";
-    /**
-     * Default destination for every payment intent allocation Flint plans for this refund.
-     * original returns value to the payment; new_gift_card issues store credit on new Flint gift
-     * cards. Payment intent store credit requires a succeeded USD card, Apple Pay, Google Pay, or
-     * Link payment that belongs to an order, with no open chargeback. Affirm, ACH debit, other
-     * payment options, non-USD payments, and payments without an order return INVALID_REQUEST with
-     * a NOT_ALLOWED detail. Payment chargebacks use the existing dispute refusal. Gift card
-     * redemption destinations are unaffected by the payment restrictions. Default: "original".
-     * Value enum: "original", "new_gift_card".
-     */
-    "payment_intent"?: "original" | "new_gift_card";
-};
-export type RefundFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "amount_money": MoneyValue;
-            "created_at": string;
-            "credit_note_id"?: string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id"?: string;
-            "external_reference_id"?: string;
-            "failure_reason"?: "expired_or_canceled_card"
-                | "lost_or_stolen_card"
-                | "insufficient_funds"
-                | "insufficient_available_balance"
-                | "declined"
-                | "merchant_request"
-                | "payment_disputed"
-                | "refund_abandoned"
-                | "payment_refund_failed"
-                | "payment_refund_not_attempted"
-                | "refund_failed"
-                | (string & {});
-            "idempotency_key"?: string;
-            "initiated_by": "merchant" | "flint" | (string & {});
-            "invoice_id"?: string;
-            "line_item_allocations"?: Array<RefundLineItemAllocation>;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_edit_id"?: string;
-            "order_id"?: string;
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            "payment_intent_id"?: string;
-            "payment_refunds"?: Array<PaymentRefund>;
-            "payment_review_id"?: string;
-            "pending_reason": "manual_review" | null | (string & {}) | null;
-            "processed_by": "flint" | "merchant" | (string & {});
-            "reason": "duplicate"
-                | "fraudulent"
-                | "requested_by_customer"
-                | "defective_product"
-                | "wrong_item_shipped"
-                | "never_received"
-                | "not_as_described"
-                | "arrived_too_late"
-                | "customer_changed_mind"
-                | "better_price_found"
-                | "accidental_order"
-                | "other"
-                | "out_of_stock"
-                | "payment_returned"
-                | null
-                | (string & {})
-                | null;
-            "reason_message"?: string;
-            "refund_id": string;
-            "refund_platform_fee": boolean;
-            "refund_reference"?: string;
-            "refunded_at"?: string;
-            "refunded_tip_money": MoneyValue;
-            "return_id"?: string;
-            "return_resolution_id"?: string;
-            "status": "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            "succeeded_at"?: string;
-            "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefund>;
-            "tender_allocations"?: Array<RefundTenderAllocation>;
-            "unissued_gift_card_recoveries"?: Array<RefundUnissuedGiftCardRecovery>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Refund>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "refund.failed";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "amount_money": MoneyValue;
-            "created_at": string;
-            "credit_note_id"?: string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id"?: string;
-            "external_reference_id"?: string;
-            "failure_reason"?: "expired_or_canceled_card"
-                | "lost_or_stolen_card"
-                | "insufficient_funds"
-                | "insufficient_available_balance"
-                | "declined"
-                | "merchant_request"
-                | "payment_disputed"
-                | "refund_abandoned"
-                | "payment_refund_failed"
-                | "payment_refund_not_attempted"
-                | "refund_failed"
-                | (string & {});
-            "idempotency_key"?: string;
-            "initiated_by": "merchant" | "flint" | (string & {});
-            "invoice_id"?: string;
-            "line_item_allocations"?: Array<RefundLineItemAllocation>;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_edit_id"?: string;
-            "order_id"?: string;
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            "payment_intent_id"?: string;
-            "payment_refunds"?: Array<PaymentRefund>;
-            "payment_review_id"?: string;
-            "pending_reason": "manual_review" | null | (string & {}) | null;
-            "processed_by": "flint" | "merchant" | (string & {});
-            "reason": "duplicate"
-                | "fraudulent"
-                | "requested_by_customer"
-                | "defective_product"
-                | "wrong_item_shipped"
-                | "never_received"
-                | "not_as_described"
-                | "arrived_too_late"
-                | "customer_changed_mind"
-                | "better_price_found"
-                | "accidental_order"
-                | "other"
-                | "out_of_stock"
-                | "payment_returned"
-                | null
-                | (string & {})
-                | null;
-            "reason_message"?: string;
-            "refund_id": string;
-            "refund_platform_fee": boolean;
-            "refund_reference"?: string;
-            "refunded_at"?: string;
-            "refunded_tip_money": MoneyValue;
-            "return_id"?: string;
-            "return_resolution_id"?: string;
-            "status": "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            "succeeded_at"?: string;
-            "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefund>;
-            "tender_allocations"?: Array<RefundTenderAllocation>;
-            "unissued_gift_card_recoveries"?: Array<RefundUnissuedGiftCardRecovery>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Refund>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "refund.failed";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "refund.failed";
-});
-/**
- * The `refund.failed` webhook payload for the `installed_merchants` event source. Fields shared by
- * partner webhook payloads.
- */
-export type RefundFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.amount_money (Required): {@link MoneyValue}. Total refunded across
-     * all tenders, including `refunded_tip_money`. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code. object.created_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.credit_note_id
-     * (Optional): string. ID of the credit note this refund paid out. Present only on refunds
-     * issued through a credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". object.customer
-     * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer. object.customer.anyOf[1]
-     * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of
-     * a customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
-     * object.customer_id (Optional): string. ID of the customer on the refunded order or payment.
-     * Absent when neither has one. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.failure_reason
-     * (Optional): string. Why a refund failed or a payment refund was canceled. Failed and
-     * canceled amounts become refundable again, except a refund with reason payment_returned that
-     * failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-     * refund. A payment_returned refund that failed with refund_abandoned cannot be retried
-     * through Flint; the store must arrange repayment outside Flint. Fix the cause, then create a
-     * new refund with a new idempotency key. Unknown provider values are returned as
-     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-     * "payment_refund_not_attempted", "refund_failed". object.idempotency_key (Optional): string.
-     * The caller's Idempotency-Key when this refund was created, including refunds created by
-     * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-     * object.initiated_by (Required): string. Who decided to make this refund: `merchant` for you
-     * or your integration, `flint` for a refund Flint made on its own to return a payment it
-     * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked.
-     * Read-only. Value enum: "merchant", "flint". object.invoice_id (Optional): string. ID of the
-     * invoice whose credit note this refund paid out. Present only on refunds issued through a
-     * credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.line_item_allocations
-     * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each order
-     * line item it covered, with quantity, tax, and adjustments. object.line_item_allocations[]
-     * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-     * quantity, refunded amount, tax, adjustments, and modifier allocations. object.merchant_id
-     * (Required): string. ID of the merchant this resource belongs to. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}. Stored
-     * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
-     * (Optional): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order. object.order.anyOf[1] (Value):
-     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-     * refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_edit_id (Optional): string. ID of the
-     * paid-order edit that created this refund. Present only on refunds issued through an order
-     * edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". object.order_id (Optional): string. ID of
-     * the order the refund was issued against. For a refund with `reason` `payment_returned`, the
-     * order the returned payment was for; the order never received this money. Absent for a refund
-     * of a payment that has no order, and for a standalone gift card refund. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
-     * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
-     * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
-     * amount, status, and capture method, returned when the payment intent is expanded.
-     * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Optional): string.
-     * ID of the payment the refund was issued against, when it targeted one payment.
-     * `payment_refunds` lists every payment it returned money through. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_refunds (Optional): Array of {@link
-     * PaymentRefund}. The part of the refund returned through each payment, with its own status.
-     * Absent when the refund was all gift card credit or store credit. object.payment_refunds[]
-     * (Value): {@link PaymentRefund}. The part of a refund returned through one payment, with the
-     * amount, tip, status, and any failure reason. object.payment_review_id (Optional): string. ID
-     * of the payment review whose decline created this refund. Present only on refunds issued for
-     * a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.pending_reason
-     * (Required): string or null. Why a pending refund is waiting. `null` when `status` isn't
-     * `pending`, or when the refund is on its way without review. Value enum: "manual_review",
-     * null. object.processed_by (Required): string. Who moved or is moving the money for this
-     * refund. Flint processes refunds through a processor or a gift card; merchant means the
-     * merchant returned the money outside Flint and recorded it here. Existing refunds are
-     * processed by Flint. Value enum: "flint", "merchant". object.reason (Required): string or
-     * null. Why the refund was issued. It never changes how the money moves. The buyer's refund
-     * receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
-     * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
-     * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it can't be
-     * sent in requests. `null` when no reason was recorded. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock", "payment_returned", null. object.reason_message
-     * (Optional): string. Note explaining the refund, up to 1,024 characters. object.refund_id
-     * (Required): string. Unique identifier for this refund, prefixed `ref_`. Example:
-     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". object.refund_platform_fee (Required): boolean. Whether
-     * the request asked to return the platform fee on the payments this refund refunds
-     * (refund_platform_fee). Each payment refund's refunded_platform_fee_money is what it returns.
-     * object.refund_reference (Optional): string. The merchant's opaque check, wire, or other
-     * reference for money returned outside Flint, preserved exactly. Present only when
-     * processed_by is merchant and a reference was supplied. external_reference_id is the
-     * merchant's own refund ID. minLength: 1. maxLength: 255. object.refunded_at (Optional):
-     * string. When the merchant reports that the money was returned outside Flint. Present only
-     * when processed_by is merchant. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.refunded_tip_money (Required): {@link MoneyValue}. Share of `amount_money` that
-     * refunds tips. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. object.return_id (Optional): string. ID of the return this refund paid out. Present
-     * only on refunds issued by a return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_resolution_id (Optional): string. ID of the return resolution that issued this
-     * refund. Present only on refunds issued by a return. Example:
-     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". object.status (Required): string. Summary of
-     * payment_refunds and tender_allocations. Only failed is final: succeeded and
-     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
-     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
-     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
-     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
-     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
-     * "partially_succeeded", "failed". object.succeeded_at (Optional): string. When `status` first
-     * became `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when
-     * the last of them first succeeded, so it equals the latest `succeeded_at` among them. For a
-     * refund Flint processes, it's when Flint recorded the outcome; with `processed_by`
-     * `merchant`, it equals `refunded_at`. Present only while `status` is `succeeded`; absent for
-     * every other status, including `partially_succeeded` and a refund that failed after it
-     * succeeded. A refund that succeeds again shows its first success time. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.tax_breakdown_refunds (Optional): Array of {@link
-     * RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat taxes, one entry per
-     * tax breakdown. Tax reversed on line items is in
-     * `line_item_allocations[].tax_breakdown_refunds`. object.tax_breakdown_refunds[] (Value):
-     * {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an order.
-     * object.tender_allocations (Optional): Array of {@link RefundTenderAllocation}. Every tender
-     * the refund drew from, payment or gift card, with its amount, tip share, status, and
-     * destination. object.tender_allocations[] (Value): {@link RefundTenderAllocation}. One
-     * tender's share of a refund, listed in the refund's tender allocations.
-     * object.unissued_gift_card_recoveries (Optional): Array of {@link
-     * RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase refund
-     * failed. Return it through a new refund against payment_intent_id and order_line_item_id. It
-     * does not issue another card. Source remaining and pending amounts describe the entire
-     * original settlement allocation; repeated entries for that source are not additive.
-     * object.unissued_gift_card_recoveries[] (Value): {@link RefundUnissuedGiftCardRecovery}.
-     * Details of a gift card purchase refunded before the card was issued, including the amounts
-     * recovered. object.updated_at (Required): string. RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
-     * this resource's owned state. Expanded resources and external observations can change
-     * independently. Format: uint64. minimum: 1. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * amount_money (Required): {@link MoneyValue}. Total refunded across all tenders,
-         * including `refunded_tip_money`. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. created_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". credit_note_id (Optional): string. ID of the
-         * credit note this refund paid out. Present only on refunds issued through a credit note.
-         * Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". customer (Optional): {@link
-         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
-         * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Optional): string. ID of the customer on the refunded order or payment. Absent when
-         * neither has one. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". failure_reason (Optional): string. Why a
-         * refund failed or a payment refund was canceled. Failed and canceled amounts become
-         * refundable again, except a refund with reason payment_returned that failed with
-         * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
-         * payment_returned refund that failed with refund_abandoned cannot be retried through
-         * Flint; the store must arrange repayment outside Flint. Fix the cause, then create a new
-         * refund with a new idempotency key. Unknown provider values are returned as
-         * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-         * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-         * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-         * "payment_refund_not_attempted", "refund_failed". idempotency_key (Optional): string. The
-         * caller's Idempotency-Key when this refund was created, including refunds created by
-         * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-         * initiated_by (Required): string. Who decided to make this refund: `merchant` for you or
-         * your integration, `flint` for a refund Flint made on its own to return a payment it
-         * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential
-         * asked. Read-only. Value enum: "merchant", "flint". invoice_id (Optional): string. ID of
-         * the invoice whose credit note this refund paid out. Present only on refunds issued
-         * through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". line_item_allocations
-         * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each
-         * order line item it covered, with quantity, tax, and adjustments. line_item_allocations[]
-         * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-         * quantity, refunded amount, tax, adjustments, and modifier allocations. merchant_id
-         * (Required): string. ID of the merchant this resource belongs to. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Stored
-         * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them. order
-         * (Optional): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
-         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
-         * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-         * refund status, and pricing and settlement amounts, returned when the order is expanded.
-         * order.anyOf[2] (Value): null. order_edit_id (Optional): string. ID of the paid-order
-         * edit that created this refund. Present only on refunds issued through an order edit.
-         * Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". order_id (Optional): string. ID of the order
-         * the refund was issued against. For a refund with `reason` `payment_returned`, the order
-         * the returned payment was for; the order never received this money. Absent for a refund
-         * of a payment that has no order, and for a standalone gift card refund. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". payment_intent (Optional): {@link
-         * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
-         * `payment_intent`; `null` when expanded and there is no related payment intent.
-         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A payment
-         * intent's summary fields, including amount, status, and capture method, returned when the
-         * payment intent is expanded. payment_intent.anyOf[2] (Value): null. payment_intent_id
-         * (Optional): string. ID of the payment the refund was issued against, when it targeted
-         * one payment. `payment_refunds` lists every payment it returned money through. Example:
-         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_refunds (Optional): Array of {@link
-         * PaymentRefund}. The part of the refund returned through each payment, with its own
-         * status. Absent when the refund was all gift card credit or store credit.
-         * payment_refunds[] (Value): {@link PaymentRefund}. The part of a refund returned through
-         * one payment, with the amount, tip, status, and any failure reason. payment_review_id
-         * (Optional): string. ID of the payment review whose decline created this refund. Present
-         * only on refunds issued for a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-         * pending_reason (Required): string or null. Why a pending refund is waiting. `null` when
-         * `status` isn't `pending`, or when the refund is on its way without review. Value enum:
-         * "manual_review", null. processed_by (Required): string. Who moved or is moving the money
-         * for this refund. Flint processes refunds through a processor or a gift card; merchant
-         * means the merchant returned the money outside Flint and recorded it here. Existing
-         * refunds are processed by Flint. Value enum: "flint", "merchant". reason (Required):
-         * string or null. Why the refund was issued. It never changes how the money moves. The
-         * buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`,
-         * `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`,
-         * `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint sets
-         * `payment_returned`, and it can't be sent in requests. `null` when no reason was
-         * recorded. Value enum: "duplicate", "fraudulent", "requested_by_customer",
-         * "defective_product", "wrong_item_shipped", "never_received", "not_as_described",
-         * "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order",
-         * "other", "out_of_stock", "payment_returned", null. reason_message (Optional): string.
-         * Note explaining the refund, up to 1,024 characters. refund_id (Required): string. Unique
-         * identifier for this refund, prefixed `ref_`. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-         * refund_platform_fee (Required): boolean. Whether the request asked to return the
-         * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
-         * refund's refunded_platform_fee_money is what it returns. refund_reference (Optional):
-         * string. The merchant's opaque check, wire, or other reference for money returned outside
-         * Flint, preserved exactly. Present only when processed_by is merchant and a reference was
-         * supplied. external_reference_id is the merchant's own refund ID. minLength: 1.
-         * maxLength: 255. refunded_at (Optional): string. When the merchant reports that the money
-         * was returned outside Flint. Present only when processed_by is merchant. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". refunded_tip_money (Required): {@link
-         * MoneyValue}. Share of `amount_money` that refunds tips. Monetary amount represented as
-         * integer minor units plus an ISO 4217 currency code. return_id (Optional): string. ID of
-         * the return this refund paid out. Present only on refunds issued by a return. Example:
-         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_resolution_id (Optional): string. ID of the
-         * return resolution that issued this refund. Present only on refunds issued by a return.
-         * Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". status (Required): string. Summary of
-         * payment_refunds and tender_allocations. Only failed is final: succeeded and
-         * partially_succeeded can still change when a bank rejects a refund after accepting it. A
-         * refund Flint made to return a payment it couldn't accept goes from succeeded back to
-         * pending, with pending_reason manual_review, when a bank reverses it. Follow
-         * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
-         * refund.failed when its outcome changes, and refund.updated for other changes. Value
-         * enum: "pending", "succeeded", "partially_succeeded", "failed". succeeded_at (Optional):
-         * string. When `status` first became `succeeded`. For a refund with `payment_refunds` or
-         * `tender_allocations`, it's when the last of them first succeeded, so it equals the
-         * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint recorded
-         * the outcome; with `processed_by` `merchant`, it equals `refunded_at`. Present only while
-         * `status` is `succeeded`; absent for every other status, including `partially_succeeded`
-         * and a refund that failed after it succeeded. A refund that succeeds again shows its
-         * first success time. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * tax_breakdown_refunds (Optional): Array of {@link RefundTaxBreakdownRefund}. Tax
-         * reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax
-         * reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`.
-         * tax_breakdown_refunds[] (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for
-         * one tax breakdown on an order. tender_allocations (Optional): Array of {@link
-         * RefundTenderAllocation}. Every tender the refund drew from, payment or gift card, with
-         * its amount, tip share, status, and destination. tender_allocations[] (Value): {@link
-         * RefundTenderAllocation}. One tender's share of a refund, listed in the refund's tender
-         * allocations. unissued_gift_card_recoveries (Optional): Array of {@link
-         * RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
-         * refund failed. Return it through a new refund against payment_intent_id and
-         * order_line_item_id. It does not issue another card. Source remaining and pending amounts
-         * describe the entire original settlement allocation; repeated entries for that source are
-         * not additive. unissued_gift_card_recoveries[] (Value): {@link
-         * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
-         * card was issued, including the amounts recovered. updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * Total refunded across all tenders, including `refunded_tip_money`. Monetary amount
-             * represented as integer minor units plus an ISO 4217 currency code.
-             */
-            "amount_money": MoneyValue;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * ID of the credit note this refund paid out. Present only on refunds issued through a
-             * credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-             */
-            "credit_note_id"?: string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /**
-             * ID of the customer on the refunded order or payment. Absent when neither has one.
-             * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             */
-            "customer_id"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
-             * become refundable again, except a refund with reason payment_returned that failed
-             * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-             * refund. A payment_returned refund that failed with refund_abandoned cannot be
-             * retried through Flint; the store must arrange repayment outside Flint. Fix the
-             * cause, then create a new refund with a new idempotency key. Unknown provider values
-             * are returned as refund_failed. Value enum: "expired_or_canceled_card",
-             * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
-             * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
-             * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
-             */
-            "failure_reason"?: "expired_or_canceled_card"
-                | "lost_or_stolen_card"
-                | "insufficient_funds"
-                | "insufficient_available_balance"
-                | "declined"
-                | "merchant_request"
-                | "payment_disputed"
-                | "refund_abandoned"
-                | "payment_refund_failed"
-                | "payment_refund_not_attempted"
-                | "refund_failed"
-                | (string & {});
-            /**
-             * The caller's Idempotency-Key when this refund was created, including refunds created
-             * by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost
-             * response.
-             */
-            "idempotency_key"?: string;
-            /**
-             * Who decided to make this refund: `merchant` for you or your integration, `flint` for
-             * a refund Flint made on its own to return a payment it couldn't accept. Unlike a
-             * Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value
-             * enum: "merchant", "flint".
-             */
-            "initiated_by": "merchant" | "flint" | (string & {});
-            /**
-             * ID of the invoice whose credit note this refund paid out. Present only on refunds
-             * issued through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-             */
-            "invoice_id"?: string;
-            /**
-             * How the refund applied to each order line item it covered, with quantity, tax, and
-             * adjustments. [] (Value): {@link RefundLineItemAllocation}. How a refund applied to
-             * one order line item: quantity, refunded amount, tax, adjustments, and modifier
-             * allocations.
-             */
-            "line_item_allocations"?: Array<RefundLineItemAllocation>;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-             * are reserved for Flint and are not returned. Writes follow the limits on
-             * MetadataInput and MetadataPatchInput; maps written before those limits may not
-             * satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
-             * fields, including status, payment and refund status, and pricing and settlement
-             * amounts, returned when the order is expanded. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /**
-             * ID of the paid-order edit that created this refund. Present only on refunds issued
-             * through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-             */
-            "order_edit_id"?: string;
-            /**
-             * ID of the order the refund was issued against. For a refund with `reason`
-             * `payment_returned`, the order the returned payment was for; the order never received
-             * this money. Absent for a refund of a payment that has no order, and for a standalone
-             * gift card refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "order_id"?: string;
-            /**
-             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
-             * status, and capture method, returned when the payment intent is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            /**
-             * ID of the payment the refund was issued against, when it targeted one payment.
-             * `payment_refunds` lists every payment it returned money through. Example:
-             * "pi_01KEZF7C00G8H9D509YEV22P7R".
-             */
-            "payment_intent_id"?: string;
-            /**
-             * The part of the refund returned through each payment, with its own status. Absent
-             * when the refund was all gift card credit or store credit. [] (Value): {@link
-             * PaymentRefund}. The part of a refund returned through one payment, with the amount,
-             * tip, status, and any failure reason.
-             */
-            "payment_refunds"?: Array<PaymentRefund>;
-            /**
-             * ID of the payment review whose decline created this refund. Present only on refunds
-             * issued for a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-             */
-            "payment_review_id"?: string;
-            /**
-             * Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
-             * refund is on its way without review. Value enum: "manual_review", null.
-             */
-            "pending_reason": "manual_review" | null | (string & {}) | null;
-            /**
-             * Who moved or is moving the money for this refund. Flint processes refunds through a
-             * processor or a gift card; merchant means the merchant returned the money outside
-             * Flint and recorded it here. Existing refunds are processed by Flint. Value enum:
-             * "flint", "merchant".
-             */
-            "processed_by": "flint" | "merchant" | (string & {});
-            /**
-             * Why the refund was issued. It never changes how the money moves. The buyer's refund
-             * receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
-             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
-             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
-             * can't be sent in requests. `null` when no reason was recorded. Value enum:
-             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
-             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
-             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
-             * "out_of_stock", "payment_returned", null.
-             */
-            "reason": "duplicate"
-                | "fraudulent"
-                | "requested_by_customer"
-                | "defective_product"
-                | "wrong_item_shipped"
-                | "never_received"
-                | "not_as_described"
-                | "arrived_too_late"
-                | "customer_changed_mind"
-                | "better_price_found"
-                | "accidental_order"
-                | "other"
-                | "out_of_stock"
-                | "payment_returned"
-                | null
-                | (string & {})
-                | null;
-            /** Note explaining the refund, up to 1,024 characters. */
-            "reason_message"?: string;
-            /**
-             * Unique identifier for this refund, prefixed `ref_`. Example:
-             * "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-             */
-            "refund_id": string;
-            /**
-             * Whether the request asked to return the platform fee on the payments this refund
-             * refunds (refund_platform_fee). Each payment refund's refunded_platform_fee_money is
-             * what it returns.
-             */
-            "refund_platform_fee": boolean;
-            /**
-             * The merchant's opaque check, wire, or other reference for money returned outside
-             * Flint, preserved exactly. Present only when processed_by is merchant and a reference
-             * was supplied. external_reference_id is the merchant's own refund ID. minLength: 1.
-             * maxLength: 255.
-             */
-            "refund_reference"?: string;
-            /**
-             * When the merchant reports that the money was returned outside Flint. Present only
-             * when processed_by is merchant. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "refunded_at"?: string;
-            /**
-             * Share of `amount_money` that refunds tips. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code.
-             */
-            "refunded_tip_money": MoneyValue;
-            /**
-             * ID of the return this refund paid out. Present only on refunds issued by a return.
-             * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-             */
-            "return_id"?: string;
-            /**
-             * ID of the return resolution that issued this refund. Present only on refunds issued
-             * by a return. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-             */
-            "return_resolution_id"?: string;
-            /**
-             * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded
-             * and partially_succeeded can still change when a bank rejects a refund after
-             * accepting it. A refund Flint made to return a payment it couldn't accept goes from
-             * succeeded back to pending, with pending_reason manual_review, when a bank reverses
-             * it. Follow refund.created when it is accepted, refund.succeeded,
-             * refund.partially_succeeded, or refund.failed when its outcome changes, and
-             * refund.updated for other changes. Value enum: "pending", "succeeded",
-             * "partially_succeeded", "failed".
-             */
-            "status": "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            /**
-             * When `status` first became `succeeded`. For a refund with `payment_refunds` or
-             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
-             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
-             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
-             * Present only while `status` is `succeeded`; absent for every other status, including
-             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
-             * succeeds again shows its first success time. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "succeeded_at"?: string;
-            /**
-             * Tax reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax
-             * reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`. []
-             * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on
-             * an order.
-             */
-            "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefund>;
-            /**
-             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
-             * status, and destination. [] (Value): {@link RefundTenderAllocation}. One tender's
-             * share of a refund, listed in the refund's tender allocations.
-             */
-            "tender_allocations"?: Array<RefundTenderAllocation>;
-            /**
-             * Cash returned after an unissued gift card purchase refund failed. Return it through
-             * a new refund against payment_intent_id and order_line_item_id. It does not issue
-             * another card. Source remaining and pending amounts describe the entire original
-             * settlement allocation; repeated entries for that source are not additive. []
-             * (Value): {@link RefundUnissuedGiftCardRecovery}. Details of a gift card purchase
-             * refunded before the card was issued, including the amounts recovered.
-             */
-            "unissued_gift_card_recoveries"?: Array<RefundUnissuedGiftCardRecovery>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<Refund>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "refund.failed". */
-    "event_type"?: "refund.failed";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});

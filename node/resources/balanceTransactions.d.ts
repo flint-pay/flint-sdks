@@ -6,7 +6,7 @@ import type {
     BalanceTransactionsGetParams,
     BalanceTransactionsListParams
 } from '../declarations/types-1.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-54.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
@@ -33,17 +33,17 @@ export type {
 } from '../declarations/types-1.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-54.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { MoneyValue, NextAction, MoneyMovementListMeta, MoneyMovementHistoryMeta } from '../declarations/types-39.js';
 export type { ExpandedOrderSummary } from '../declarations/types-24.js';
 export type { CheckoutBuyerContact } from '../declarations/types-5.js';
 export type { DeferredPromotion } from '../declarations/types-16.js';
-export type { PricingAmounts } from '../declarations/types-49.js';
+export type { PricingAmounts } from '../declarations/types-50.js';
 export type { OrderSettlementAmounts } from '../declarations/types-41.js';
 export type { SettlementAmounts } from '../declarations/types-59.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export interface BalanceTransactionsResource {
     /**
  * Returns one balance transaction by ID, with optional related order expansion.

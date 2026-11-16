@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `action_type` | Required | string | Action to take next. Use its target resource and required_fields to prepare the request. Values: [161 declared values](#nextactioninput-action_type-values). |
+| `action_type` | Required | string | Action to take next. Use its target resource and required_fields to prepare the request. Values: [162 declared values](#nextactioninput-action_type-values). |
 | `expires_at` | Optional | string | When this suggested action expires, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `merchant_account_session` | Optional | [ReadinessMerchantAccountSessionInput](../models/ReadinessMerchantAccountSessionInput.md#readinessmerchantaccountsessioninput) | Request body to send unchanged to POST /v1/merchant-account-sessions when action_type is create_merchant_account_session. When absent, GET merchant readiness and use its recommended session body. Shared request body for `create_merchant_account_session` next actions in readiness, onboarding, errors, and warnings. Send unchanged to POST /v1/merchant-account-sessions; components and collection policy describe which requirements to collect. |
 | `method` | Optional | string | HTTP method for the recovery read. Values: `"GET"`. |
@@ -24,6 +24,7 @@ Request input.
 #### NextActionInput action_type values
 
 - `"add_line_items"`
+- `"cancel_order_edit"`
 - `"cancel_payment_intent"`
 - `"capture_payment_intent"`
 - `"close_checkout_session"`

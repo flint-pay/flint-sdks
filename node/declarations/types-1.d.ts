@@ -21,8 +21,7 @@ import type {
     CheckoutMerchantSupport,
     CheckoutPaymentConfig,
     CheckoutPaymentMethodSave,
-    CheckoutPrefill,
-    CheckoutPromotionConfig
+    CheckoutPrefill
 } from './types-5.js';
 import type { ImageAttachment, Image } from './types-28.js';
 import type { WebhookBundle } from './types-69.js';
@@ -31,7 +30,6 @@ import type { CreateBundleRequestInput } from './types-7.js';
 import type { UpdateBundleRequestInput } from './types-66.js';
 import type {
     BuyerPauseActionOptions,
-    BuyerPayBalanceActionOptions,
     BuyerPauseCapability,
     BuyerPauseCapabilityInput,
     BuyerErrorRemediation,
@@ -40,6 +38,7 @@ import type {
     BuyerCreateReturnResolutionPreviewRequestInput
 } from './types-2.js';
 import type {
+    BuyerPayBalanceActionOptions,
     BuyerRetryPaymentActionOptions,
     BuyerRetentionOffer,
     BuyerSkipCapability,
@@ -50,6 +49,7 @@ import type {
     BuyerSetupCollection
 } from './types-3.js';
 import type {
+    CheckoutPromotionConfig,
     CheckoutRedirects,
     CheckoutSessionTax,
     CheckoutSubscriptionTerms,
@@ -58,7 +58,7 @@ import type {
 } from './types-6.js';
 import type { LegalSettings } from './types-35.js';
 import type { CreateReturnEligibilityPreviewRequest, CreateReturnEligibilityPreviewRequestInput } from './types-12.js';
-import type { ReturnLineItemRequest } from './types-55.js';
+import type { ReturnLineItemRequest } from './types-56.js';
 /** Non-secret metadata for the calling credential, selected by auth_type. */
 export type AuthContext = ({
     /**

@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
     PartnerApp,
     PartnerAppCredential,
@@ -70,6 +70,16 @@ export type {
     PartnerAppsRotateSecretParams,
     PartnerAppWithRotatedSecret,
     PartnerAppsUpdateParams,
+    PartnerAppPlatform,
+    PartnerAppPlatformCapability,
+    PartnerAppPlatformCurrentTerms,
+    PartnerAppPlatformLimits,
+    PartnerAppPlatformUsage,
+    PartnerAppPlatformReserve,
+    PartnerAppPlatformTermsAcceptance,
+    PartnerAppPlatformProfile,
+    PartnerAppPermissionManifestEntryRequestInput,
+    PartnerAppPlatformProfileRequestInput,
     PartnerEnvironmentGrant,
     PartnerEnvironmentGrantPaymentSplits
 } from '../declarations/types-44.js';
@@ -88,17 +98,7 @@ export type {
     PartnerAppMerchantActionRouting,
     PartnerAppPaymentSplits,
     PartnerAppPermissionManifestEntry,
-    PartnerAppPlatform,
-    PartnerAppPlatformCapability,
-    PartnerAppPlatformCurrentTerms,
-    PartnerAppPlatformLimits,
-    PartnerAppPlatformUsage,
-    PartnerAppPlatformReserve,
-    PartnerAppPlatformTermsAcceptance,
-    PartnerAppPlatformProfile,
     PartnerAppPaymentSplitsRequestInput,
-    PartnerAppPermissionManifestEntryRequestInput,
-    PartnerAppPlatformProfileRequestInput,
     PartnerAppCredentialPublicKeyRequestInput,
     PartnerAppCredentialJWKSURLRequestInput,
     PartnerAppCredentialWorkloadIdentityRequestInput,
@@ -115,7 +115,7 @@ export type {
     WorkloadIdentityClaimCondition
 } from '../declarations/types-70.js';
 export type { RotatePartnerAppSecretResponse, RotatePartnerAppSecretRequestInput } from '../declarations/types-59.js';
-export type { ClientOptions, CheckoutSessionsListCustomerVerificationsParams } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { AcceptPartnerAppPlatformTermsRequestInput, AcceptPartnerAppPlatformTermsRequest } from '../declarations/types-0.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
@@ -130,6 +130,7 @@ export type {
     CreatePartnerAppCredentialWorkloadIdentityRequestInput
 } from '../declarations/types-11.js';
 export type { UpdatePartnerAppRequestInput } from '../declarations/types-67.js';
+export type { CheckoutSessionsListCustomerVerificationsParams } from '../declarations/types-6.js';
 export { makeAcceptPartnerAppPlatformTermsRequest } from '../declarations/types-70.js';
 export {
     makeCreatePartnerAppCredentialJWKSURLRequest,
@@ -137,19 +138,22 @@ export {
     makeCreatePartnerAppCredentialRequest,
     makeCreatePartnerAppCredentialWorkloadIdentityRequest,
     makeCreatePartnerAppRequest
-} from '../declarations/types-73.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+} from '../declarations/types-74.js';
 export {
+    makeMoneyValue,
     makePartnerAppCredentialJWKSURLRequest,
     makePartnerAppCredentialPublicKeyRequest,
-    makePartnerAppCredentialWorkloadIdentityRequest,
+    makePartnerAppCredentialWorkloadIdentityRequest
+} from '../declarations/types-79.js';
+export {
     makePartnerAppPaymentSplitsRequest,
     makePartnerAppPermissionManifestEntryRequest,
-    makePartnerAppPlatformProfileRequest
-} from '../declarations/types-79.js';
-export { makePlatformFeeCapRequest } from '../declarations/types-80.js';
+    makePartnerAppPlatformProfileRequest,
+    makePlatformFeeCapRequest
+} from '../declarations/types-80.js';
 export { makeRotatePartnerAppSecretRequest } from '../declarations/types-82.js';
-export { makeUpdatePartnerAppRequest, makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-84.js';
+export { makeUpdatePartnerAppRequest } from '../declarations/types-84.js';
+export { makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-85.js';
 export interface PartnerAppsResource {
     /**
  * Records that the authenticated credential accepted the current version of Flint's platform terms

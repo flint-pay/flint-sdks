@@ -1,5 +1,5 @@
 import type { WithResponseInfo } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
     DeliveryPickupAvailability,
     DeliveryPreview,
@@ -40,7 +40,7 @@ export type {
 } from '../declarations/types-19.js';
 export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-70.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateDeliveryPreviewRequestInput,
     CreateDeliveryOptionsPreviewRequestInput,
@@ -116,7 +116,7 @@ export type {
     OrderLineItemModifierInputCatalog,
     OrderLineItemModifierInputText
 } from '../declarations/types-41.js';
-export type { TextModifierRequestInput, TextModifierRequest, TaxJurisdiction } from '../declarations/types-65.js';
+export type { TextModifierRequestInput, TextModifierRequest, TaxComponentRequest, TaxJurisdiction } from '../declarations/types-65.js';
 export type { SubscribedLineRequestModelInput, SubscribedLineRequest } from '../declarations/types-60.js';
 export type { DimensionsRequestInput, Dimensions } from '../declarations/types-23.js';
 export type { AuthMode } from '../declarations/types-1.js';
@@ -127,7 +127,7 @@ export type { BuyerInstructionsConfig } from '../declarations/types-2.js';
 export type { DeliveryQuoteExecutionLegResource, DeliveryQuoteLineItemResource } from '../declarations/types-20.js';
 export type { DeliveryLocationSummaryResource, DeliveryMerchantDiagnostic } from '../declarations/types-18.js';
 export type { DeliveryRecipientRequirement } from '../declarations/types-21.js';
-export type { TaxCalculationRequest, TaxComponentRequest } from '../declarations/types-64.js';
+export type { TaxCalculationRequest } from '../declarations/types-64.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
 export {
     makeCreateDeliveryOptionsPreviewRequest,
@@ -145,11 +145,11 @@ export {
     makeDeliveryBuyerLocationInputAddress,
     makeDeliveryBuyerLocationInputCoordinate,
     makeDeliveryBuyerLocationRequest,
-    makeDeliveryCoordinateRequest,
-    makeDeliveryPickupAvailabilityMaximumDistanceRequest
+    makeDeliveryCoordinateRequest
 } from '../declarations/types-75.js';
-export { makeDeliveryWindowRequest, makeDimensionsRequest } from '../declarations/types-76.js';
+export { makeDeliveryPickupAvailabilityMaximumDistanceRequest, makeDeliveryWindowRequest } from '../declarations/types-76.js';
 export {
+    makeDimensionsRequest,
     makeGiftCardPurchaseDetailsRequest,
     makeGiftCardPurchaseRecipientRequest,
     makeImageReferenceRequest,
@@ -161,10 +161,10 @@ export {
 export {
     makeLineItemFulfillmentOriginRequestModel,
     makeLineItemFulfillmentRequestModel,
-    makeMetadataRequest,
-    makeMoneyValue
+    makeMetadataRequest
 } from '../declarations/types-78.js';
 export {
+    makeMoneyValue,
     makeOrderDraftLineItemInventoryDemandRequest,
     makeOrderDraftLineItemTaxCalculationRequestModel,
     makeOrderDraftLineItemTaxRequestModel,
@@ -176,7 +176,7 @@ export {
 } from '../declarations/types-79.js';
 export { makeSubscribedLineRequestModel } from '../declarations/types-82.js';
 export { makeTextModifierRequest } from '../declarations/types-83.js';
-export { makeWeightRequest } from '../declarations/types-84.js';
+export { makeWeightRequest } from '../declarations/types-85.js';
 export interface DeliveryPreviewsResource {
     /**
  * Computes delivery options with mode delivery_options or up to 25 pickup locations with mode

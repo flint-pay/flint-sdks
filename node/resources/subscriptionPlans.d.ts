@@ -1,8 +1,10 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-54.js';
-import type { SubscriptionPlan, SubscriptionPlanListResponse, SubscriptionPlanResponse } from '../declarations/types-62.js';
+import type { SubscriptionPlan } from '../declarations/types-62.js';
 import type {
+    SubscriptionPlanListResponse,
+    SubscriptionPlanResponse,
     SubscriptionPlansCreateParams,
     SubscriptionPlansDeleteParams,
     SubscriptionPlansGetParams,
@@ -26,39 +28,40 @@ export type {
 } from '../runtime.js';
 export type {
     SubscriptionPlansCreateParams,
+    SubscriptionPlanResponse,
     SubscriptionPlansDeleteParams,
     SubscriptionPlansGetParams,
     SubscriptionPlansListParams,
-    SubscriptionPlansUpdateParams
-} from '../declarations/types-63.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type {
-    SubscriptionPlan,
-    SubscriptionPlanResponse,
     SubscriptionPlanListResponse,
+    SubscriptionPlansUpdateParams,
     SubscriptionPlanLineItemRequestInput,
     SubscriptionPlanLineItemInputVariantInput,
     SubscriptionPlanLineItemInputBundleInput,
     SubscriptionPlanLineItemInputCustomInput,
-    SubscriptionPlanChangeOptionRequestInput,
-    SubscriptionPlanLineItem,
     SubscriptionPlanSwapVariant,
     SubscriptionPlanLineItemVariant,
+    SubscriptionPlanLineItemCustom
+} from '../declarations/types-63.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type {
+    SubscriptionPlan,
+    SubscriptionIntervalOptionRequestInput,
+    SubscriptionPlanChangeOptionRequestInput,
+    SubscriptionIntervalOption,
+    SubscriptionPlanLineItem,
     SubscriptionPlanLineItemBundle,
-    SubscriptionPlanLineItemCustom,
     SubscriptionPlanChangeOption
 } from '../declarations/types-62.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateSubscriptionPlanRequestInput } from '../declarations/types-13.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-39.js';
 export type {
-    SubscriptionIntervalOptionRequestInput,
     SubscriptionEndAfterCyclesRequestInput,
-    SubscriptionIntervalOption,
     SubscriptionDeliveryMethodCounts,
+    SubscriptionCounts,
     SubscriptionEndAfterCycles
 } from '../declarations/types-61.js';
-export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-39.js';
 export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment, Image } from '../declarations/types-28.js';
 export type {
     InventoryRoutingSourceRequestInput,
@@ -79,7 +82,6 @@ export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, Meta
 export type { TextModifierRequestInput, TextModifierRequest } from '../declarations/types-65.js';
 export type { AuthMode, BundleComponent, BundleComponentVariantSummary } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { SubscriptionCounts } from '../declarations/types-60.js';
 export type { SelectedProductOption } from '../declarations/types-59.js';
 export type { CategoryReference } from '../declarations/types-5.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
@@ -91,7 +93,7 @@ export type {
     UpdateSubscriptionPlanLineItemInputCustomInput
 } from '../declarations/types-68.js';
 export type { DisputesAcceptParams } from '../declarations/types-23.js';
-export { makeCreateSubscriptionPlanRequest } from '../declarations/types-74.js';
+export { makeCreateSubscriptionPlanRequest } from '../declarations/types-75.js';
 export {
     makeImageInputFile,
     makeImageInputSourceURL,
@@ -101,8 +103,9 @@ export {
     makeInventoryRoutingSourceInputPolicyRevision,
     makeInventoryRoutingSourceRequest
 } from '../declarations/types-77.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-78.js';
 export {
+    makeMoneyValue,
     makeOrderLineItemModifierInputCatalogRequest,
     makeOrderLineItemModifierInputTextRequest,
     makeOrderLineItemModifierRequestModel,
@@ -115,9 +118,9 @@ export {
     makeSubscriptionPlanLineItemInputBundle,
     makeSubscriptionPlanLineItemInputCustom,
     makeSubscriptionPlanLineItemInputVariant,
-    makeSubscriptionPlanLineItemRequest
-} from '../declarations/types-82.js';
-export { makeTextModifierRequest } from '../declarations/types-83.js';
+    makeSubscriptionPlanLineItemRequest,
+    makeTextModifierRequest
+} from '../declarations/types-83.js';
 export {
     makeUpdateSubscriptionPlanLineItemInputBundle,
     makeUpdateSubscriptionPlanLineItemInputCustom,

@@ -8,10 +8,10 @@ namespace Flint;
  * @property-read ?string $recipient_email
  * @property-read string|null $return_url
  * @property-read ?bool $sent
- * @property-read string $url
+ * @property-read ?string $url
  * Presence-aware response; omitted optional fields return null. */
 final class CustomerAccessLinkResponseDataLink extends Model {
-    /** @param array{'delivery': string, 'expires_at': string, 'purpose': string, 'recipient_email'?: string, 'return_url': string|null, 'sent'?: bool, 'url': string, ...}|object $values */
+    /** @param array{'delivery': string, 'expires_at': string, 'purpose': string, 'recipient_email'?: string, 'return_url': string|null, 'sent'?: bool, 'url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerAccessLinkResponseDataLink')); }
     /** Whether the credential was returned or emailed. Value enum: "link".
      * @return string
@@ -43,9 +43,9 @@ final class CustomerAccessLinkResponseDataLink extends Model {
      */
     public function getSent(): ?bool { return $this->get('sent'); }
     public function hasSent(): bool { return $this->has('sent'); }
-    /** The single-use bearer URL, present only with link delivery. Format: uri.
-     * @return string
+    /** The single-use bearer URL, present only with link delivery. Returned only to the credential that created it, and omitted when another credential replays the request. Format: uri.
+     * @return ?string
      */
-    public function getUrl(): string { return $this->get('url'); }
+    public function getUrl(): ?string { return $this->get('url'); }
     public function hasUrl(): bool { return $this->has('url'); }
 }

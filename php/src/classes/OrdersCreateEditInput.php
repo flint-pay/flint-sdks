@@ -34,7 +34,7 @@ final class OrdersCreateEditInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** Remove unassigned units from a paid order, add items the removed value and released charges pay for, or do both, and queue any remaining refund atomically.
+    /** Remove unassigned units from a paid order, add items, or do both. Removed value and released charges pay for the additions; with `balance_due_behavior: collect`, the buyer pays the rest. Flint queues any remaining refund atomically.
      * @return mixed
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

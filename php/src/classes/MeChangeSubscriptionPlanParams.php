@@ -5,11 +5,10 @@ namespace Flint;
  * @property-read string $billing_interval
  * @property-read int $billing_interval_count
  * @property-read int $expected_version
- * @property-read int $quantity
  * @property-read string $subscription_plan_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class MeChangeSubscriptionPlanParams extends Model {
-    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'expected_version'?: int, 'quantity'?: int, 'subscription_plan_id': string}|object $values */
+    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'expected_version'?: int, 'subscription_plan_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeChangeSubscriptionPlanParams')); }
     /** Send with billing_interval_count to choose a target plan option. Omit both to keep the current interval if the target offers that pair, otherwise use the target plan's default interval and count. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -29,12 +28,6 @@ final class MeChangeSubscriptionPlanParams extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use line_items for multiple units. Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 1.
-     * @return int
-     * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
-     */
-    public function getQuantity(): int { return $this->get('quantity'); }
-    public function hasQuantity(): bool { return $this->has('quantity'); }
     /** The target subscription plan. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
      * @return string
      * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().

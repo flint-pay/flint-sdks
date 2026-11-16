@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# PaymentLinkLineItemRequest to PayoutDestinationArchivedInstalledMerchantsEvent
+# PaymentLinkLineItemPatchInputBundleInput to PayOrderRequestSetupInput
 
+- [PaymentLinkLineItemPatchInputBundleInput](PaymentLinkLineItemPatchInputBundleInput.md)
+- [PaymentLinkLineItemPatchInputCustomFixed](PaymentLinkLineItemPatchInputCustomFixed.md)
+- [PaymentLinkLineItemPatchInputCustomFixedInput](PaymentLinkLineItemPatchInputCustomFixedInput.md)
+- [PaymentLinkLineItemPatchInputCustomVariable](PaymentLinkLineItemPatchInputCustomVariable.md)
+- [PaymentLinkLineItemPatchInputCustomVariableInput](PaymentLinkLineItemPatchInputCustomVariableInput.md)
+- [PaymentLinkLineItemPatchInputVariant](PaymentLinkLineItemPatchInputVariant.md)
+- [PaymentLinkLineItemPatchInputVariantInput](PaymentLinkLineItemPatchInputVariantInput.md)
+- [PaymentLinkLineItemPatchRequest](PaymentLinkLineItemPatchRequest.md)
+- [PaymentLinkLineItemPatchRequestInput](PaymentLinkLineItemPatchRequestInput.md)
 - [PaymentLinkLineItemRequest](PaymentLinkLineItemRequest.md)
 - [PaymentLinkLineItemRequestInput](PaymentLinkLineItemRequestInput.md)
 - [PaymentLinkLineItemVariant](PaymentLinkLineItemVariant.md)
@@ -93,13 +102,4 @@
 - [PayOrderRequestResumeInput](PayOrderRequestResumeInput.md)
 - [PayOrderRequestSetup](PayOrderRequestSetup.md)
 - [PayOrderRequestSetupInput](PayOrderRequestSetupInput.md)
-- [PayOrderResponse](PayOrderResponse.md)
-- [PayOrderResult](PayOrderResult.md)
-- [Payout](Payout.md)
-- [PayoutCanceledInstalledMerchantsEvent](PayoutCanceledInstalledMerchantsEvent.md)
-- [PayoutCanceledMerchantEvent](PayoutCanceledMerchantEvent.md)
-- [PayoutCreatedInstalledMerchantsEvent](PayoutCreatedInstalledMerchantsEvent.md)
-- [PayoutCreatedMerchantEvent](PayoutCreatedMerchantEvent.md)
-- [PayoutDestination](PayoutDestination.md)
-- [PayoutDestinationArchivedInstalledMerchantsEvent](PayoutDestinationArchivedInstalledMerchantsEvent.md)
 

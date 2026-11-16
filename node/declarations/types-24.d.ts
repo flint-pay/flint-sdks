@@ -1,10 +1,11 @@
 import type { InputValue } from '../runtime.js';
+import type { DisputesAcceptParams, Dispute } from './types-23.js';
 import type { SimulateDisputeRequestInput } from './types-60.js';
 import type { ResponseMeta } from './types-54.js';
 import type { LookupEmailPreferencesRequestInput } from './types-35.js';
 import type { PartnerAppMerchantReadiness, PartnerAppPermissionManifestEntry } from './types-43.js';
 import type { PartnerEnvironmentGrantPaymentSplits, PartnerWebhookEnvelope, PartnerEnvironmentGrant } from './types-44.js';
-import type { PlatformFeeCap, PricingAmounts } from './types-49.js';
+import type { PlatformFeeCap } from './types-49.js';
 import type { CustomDomain } from './types-15.js';
 import type { DeliveryRevocation } from './types-21.js';
 import type { Fulfillment } from './types-25.js';
@@ -14,16 +15,226 @@ import type { Package } from './types-42.js';
 import type { QuotaDetails } from './types-52.js';
 import type { ScopeRequirement, SelectableErrorResource, Shipment } from './types-59.js';
 import type { InvoiceSettlementAmounts } from './types-34.js';
+import type { PricingAmounts } from './types-50.js';
 import type { CheckoutBuyerContact, CardDetails } from './types-5.js';
 import type { DeferredPromotion } from './types-16.js';
 import type { OrderSettlementAmounts } from './types-41.js';
 import type { PaymentSourceSummary } from './types-47.js';
-import type { SubscriptionIntervalOption } from './types-61.js';
-import type { SubscriptionPlanLineItem } from './types-62.js';
+import type { SubscriptionIntervalOption, SubscriptionPlanLineItem } from './types-62.js';
 import type { CreateFeedbackReportRequestInput, CreateFileRequestInput } from './types-9.js';
 import type { CheckoutSessionsListCustomerVerificationsParams } from './types-6.js';
-import type { DisputesAcceptParams, Dispute } from './types-23.js';
 import type { MerchantWebhookEnvelope } from './types-38.js';
+export type DisputesCreateResponseSessionParams = DisputesAcceptParams;
+export type DisputesGetParams = {
+    /**
+     * Include related objects in the response. Supported expansions: customer, order,
+     * payment_intent. Expansion requires payments.disputes.read plus the read scope for each
+     * expanded resource. Limits: at most 10 unique expand paths per request. [] enum: "customer",
+     * "order", "payment_intent". Value enum: "customer", "order", "payment_intent". anyOf[1]
+     * (Value): Array of string. [] enum: "customer", "order", "payment_intent". anyOf[1][]
+     * (Value): string. Value enum: "customer", "order", "payment_intent". anyOf[2] (Value):
+     * string. Value enum: "customer", "order", "payment_intent".
+     */
+    "expand"?: InputValue<("customer" | "order" | "payment_intent") | readonly ("customer" | "order" | "payment_intent")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type DisputesListParams = {
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Optional Flint payment intent ID filter. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: InputValue<string>;
+    /**
+     * Optional Flint order ID filter. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: InputValue<string>;
+    /**
+     * Optional Flint customer ID filter. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: InputValue<string>;
+    /**
+     * Optional dispute status filter. Values are trimmed and deduplicated in first-seen order;
+     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
+     * are ANDed. [] enum: "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+     * "needs_response", "under_review", "won", "lost", "prevented", "other". Value enum:
+     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
+     * "under_review", "won", "lost", "prevented", "other". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+     * "needs_response", "under_review", "won", "lost", "prevented", "other". anyOf[1][] (Value):
+     * string. Value enum: "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+     * "needs_response", "under_review", "won", "lost", "prevented", "other". anyOf[2] (Value):
+     * string. Value enum: "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+     * "needs_response", "under_review", "won", "lost", "prevented", "other".
+     */
+    "status"?: InputValue<("inquiry_needs_response"
+        | "inquiry_under_review"
+        | "inquiry_closed"
+        | "needs_response"
+        | "under_review"
+        | "won"
+        | "lost"
+        | "prevented"
+        | "other")
+        | readonly ("inquiry_needs_response"
+        | "inquiry_under_review"
+        | "inquiry_closed"
+        | "needs_response"
+        | "under_review"
+        | "won"
+        | "lost"
+        | "prevented"
+        | "other")[]>;
+    /**
+     * Optional normalized dispute reason filter. Values are trimmed and deduplicated in first-seen
+     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
+     * filters are ANDed. [] enum: "fraudulent", "unrecognized", "duplicate",
+     * "product_not_received", "product_not_as_described", "refund_not_processed",
+     * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
+     * "bank_account_not_found", "other". Value enum: "fraudulent", "unrecognized", "duplicate",
+     * "product_not_received", "product_not_as_described", "refund_not_processed",
+     * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
+     * "bank_account_not_found", "other". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+     * "product_not_as_described", "refund_not_processed", "subscription_canceled", "noncompliant",
+     * "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other". anyOf[1][]
+     * (Value): string. Value enum: "fraudulent", "unrecognized", "duplicate",
+     * "product_not_received", "product_not_as_described", "refund_not_processed",
+     * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
+     * "bank_account_not_found", "other". anyOf[2] (Value): string. Value enum: "fraudulent",
+     * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
+     * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
+     * "debit_not_authorized", "bank_account_not_found", "other".
+     */
+    "reason"?: InputValue<("fraudulent"
+        | "unrecognized"
+        | "duplicate"
+        | "product_not_received"
+        | "product_not_as_described"
+        | "refund_not_processed"
+        | "subscription_canceled"
+        | "noncompliant"
+        | "insufficient_funds"
+        | "debit_not_authorized"
+        | "bank_account_not_found"
+        | "other")
+        | readonly ("fraudulent"
+        | "unrecognized"
+        | "duplicate"
+        | "product_not_received"
+        | "product_not_as_described"
+        | "refund_not_processed"
+        | "subscription_canceled"
+        | "noncompliant"
+        | "insufficient_funds"
+        | "debit_not_authorized"
+        | "bank_account_not_found"
+        | "other")[]>;
+    /**
+     * Optional dispute case type filter. Values are trimmed and deduplicated in first-seen order;
+     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
+     * are ANDed. [] enum: "inquiry", "chargeback", "compliance", "resolution", "block", "other",
+     * "bank_return". Value enum: "inquiry", "chargeback", "compliance", "resolution", "block",
+     * "other", "bank_return". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "inquiry",
+     * "chargeback", "compliance", "resolution", "block", "other", "bank_return". anyOf[1][]
+     * (Value): string. Value enum: "inquiry", "chargeback", "compliance", "resolution", "block",
+     * "other", "bank_return". anyOf[2] (Value): string. Value enum: "inquiry", "chargeback",
+     * "compliance", "resolution", "block", "other", "bank_return".
+     */
+    "case_type"?: InputValue<("inquiry" | "chargeback" | "compliance" | "resolution" | "block" | "other" | "bank_return")
+        | readonly ("inquiry" | "chargeback" | "compliance" | "resolution" | "block" | "other" | "bank_return")[]>;
+    /**
+     * Filter by whether a merchant response is needed now. True includes needs_response and
+     * inquiry_needs_response disputes that allow evidence and whose evidence deadline has not
+     * passed; false includes the remaining disputes.
+     */
+    "is_action_required"?: InputValue<boolean>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by dispute_id. Default:
+     * "created_at". Value enum: "created_at", "evidence_due_at", "amount_money".
+     */
+    "sort_by"?: InputValue<"created_at" | "evidence_due_at" | "amount_money">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Inclusive lower bound on evidence_due_at. Format: date-time. Example:
+     * "2026-03-17T14:30:00Z".
+     */
+    "evidence_due_after"?: InputValue<string | globalThis.Date>;
+    /**
+     * Exclusive upper bound on evidence_due_at. Format: date-time. Example:
+     * "2026-03-17T14:30:00Z".
+     */
+    "evidence_due_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Include related objects in the response. Supported expansions: customer, order,
+     * payment_intent. Include the requested related resources using scoped batch reads for this
+     * page. Each relationship requires its existing target read scopes. Expansion changes the
+     * representation without changing pagination tokens. Limits: at most 10 unique expand paths
+     * per request. [] enum: "customer", "order", "payment_intent". Value enum: "customer",
+     * "order", "payment_intent". anyOf[1] (Value): Array of string. [] enum: "customer", "order",
+     * "payment_intent". anyOf[1][] (Value): string. Value enum: "customer", "order",
+     * "payment_intent". anyOf[2] (Value): string. Value enum: "customer", "order",
+     * "payment_intent".
+     */
+    "expand"?: InputValue<("customer" | "order" | "payment_intent") | readonly ("customer" | "order" | "payment_intent")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 export type DisputesSimulateParams = (InputValue<SimulateDisputeRequestInput>)
     & {
     /**
@@ -1217,36 +1428,36 @@ export type ErrorDetail = {
      * inventory_wait, invoice_finalized, jwt_signing_not_enabled, managed_by_owner,
      * managed_externally, merchant_hosted_customer_accounts, merchant_managed_email,
      * method_unavailable, minimum_charge, mixed_tax_treatment, not_itemized, not_offered,
-     * not_paused, offer_subscription, on_hold, out_of_order, owner_identity_conflict,
-     * paid_period_required, payload_expired, payment_collected, payment_disputed,
-     * payment_method_not_reusable, payment_required, payment_split_consent_required,
-     * payout_defaults_managed_externally, payout_delay, payout_frequency, period_end_unavailable,
-     * plan_change_scheduled, platform_capability_inactive, platform_fee_consent_required,
-     * platform_onboarding_required, platform_pending_review, platform_rejected,
-     * prepaid_deliveries_remaining, previous_refund_failed, provider_action_unsupported,
-     * quantity_not_carried, reader_offline, reader_type_not_supported, reader_unavailable,
-     * reconciliation_required, refund_created, refund_unavailable, refund_window_expired,
-     * restricted, return_checkout, return_owned, return_tax_mismatch, sandbox_reset_failed,
-     * secret_not_issued, seller_not_ready, simulated_reader_required, status_not_reached,
-     * stock_at_risk, store_credit_unavailable, subscription_owned, subscription_terms_locked,
-     * terminal_status, test_event, trial_in_progress, unsupported_state, variant_not_targeted,
-     * verification_required. When code is ALREADY_EXISTS, one of: dashboard_sign_in_required,
-     * device_reader_already_exists, hardware_fingerprint_already_exists. When code is
-     * CONCURRENT_MODIFICATION, one of: credit_note_refund_retry_exhausted. When code is
-     * DELIVERY_REQUOTE_REQUIRED, one of: calculation_expired, caller_rates_required,
-     * destination_changed, input_required, option_expired, quote_expired, quote_revoked,
-     * quote_stale, selection_changed, selection_expired, window_expired. When code is
-     * EXTERNAL_SERVICE_ERROR, one of: issuer_unavailable, outcome_unknown, rate_callback_failed,
-     * rate_unavailable, tax_callback_failed. When code is FORBIDDEN, one of:
-     * checkout_launch_token_restricted, checkout_recovery_attempt_mismatch,
-     * checkout_recovery_restricted, checkout_session_order_mismatch,
-     * checkout_session_payment_required, context_mismatch, demo_session_route_not_allowed,
-     * direct_owner_required, environment_grant_required, environment_mismatch,
-     * expansion_not_permitted, full_access_required, linked_key_not_allowed, live_mode_required,
-     * merchant_access_required, merchant_credential_required, merchant_role_insufficient,
-     * not_checkout_session, not_permitted, organization_membership_required,
-     * organization_role_insufficient, owner_workflow_required, request_blocked,
-     * role_not_assignable, sandbox_not_accessible, sandbox_selection_forbidden,
+     * not_paused, offer_subscription, on_hold, order_edit_pending, out_of_order,
+     * owner_identity_conflict, paid_period_required, payload_expired, payment_collected,
+     * payment_disputed, payment_method_not_reusable, payment_required,
+     * payment_split_consent_required, payout_defaults_managed_externally, payout_delay,
+     * payout_frequency, period_end_unavailable, plan_change_scheduled,
+     * platform_capability_inactive, platform_fee_consent_required, platform_onboarding_required,
+     * platform_pending_review, platform_rejected, prepaid_deliveries_remaining,
+     * previous_refund_failed, provider_action_unsupported, quantity_not_carried, reader_offline,
+     * reader_type_not_supported, reader_unavailable, reconciliation_required, refund_created,
+     * refund_unavailable, refund_window_expired, restricted, return_checkout, return_owned,
+     * return_tax_mismatch, sandbox_reset_failed, secret_not_issued, seller_not_ready,
+     * simulated_reader_required, status_not_reached, stock_at_risk, store_credit_unavailable,
+     * subscription_owned, subscription_terms_locked, terminal_status, test_event,
+     * trial_in_progress, unsupported_state, variant_not_targeted, verification_required. When code
+     * is ALREADY_EXISTS, one of: dashboard_sign_in_required, device_reader_already_exists,
+     * hardware_fingerprint_already_exists. When code is CONCURRENT_MODIFICATION, one of:
+     * credit_note_refund_retry_exhausted. When code is DELIVERY_REQUOTE_REQUIRED, one of:
+     * calculation_expired, caller_rates_required, destination_changed, input_required,
+     * option_expired, quote_expired, quote_revoked, quote_stale, selection_changed,
+     * selection_expired, window_expired. When code is EXTERNAL_SERVICE_ERROR, one of:
+     * issuer_unavailable, outcome_unknown, rate_callback_failed, rate_unavailable,
+     * tax_callback_failed. When code is FORBIDDEN, one of: checkout_launch_token_restricted,
+     * checkout_recovery_attempt_mismatch, checkout_recovery_restricted,
+     * checkout_session_order_mismatch, checkout_session_payment_required, context_mismatch,
+     * demo_session_route_not_allowed, direct_owner_required, environment_grant_required,
+     * environment_mismatch, expansion_not_permitted, full_access_required, linked_key_not_allowed,
+     * live_mode_required, merchant_access_required, merchant_credential_required,
+     * merchant_role_insufficient, not_checkout_session, not_permitted,
+     * organization_membership_required, organization_role_insufficient, owner_workflow_required,
+     * request_blocked, role_not_assignable, sandbox_not_accessible, sandbox_selection_forbidden,
      * self_role_edit_forbidden, test_mode_required. When code is GIFT_CARD_CHALLENGE_REQUIRED, one
      * of: page_origin_required, proof_rejected, proof_required. When code is
      * IDEMPOTENCY_KEY_REUSED, one of: transport_mismatch. When code is INSUFFICIENT_SCOPE, one of:
@@ -1332,7 +1543,7 @@ export type ErrorDetail = {
      * "no_discountable_balance", "not_checkout_session", "not_combinable", "not_eligible",
      * "not_itemized", "not_offered", "not_paused", "not_permitted", "not_yet_started",
      * "offer_subscription", "on_hold", "onboarding_required", "option_expired",
-     * "order_edit_balance_due", "organization_membership_required",
+     * "order_edit_balance_due", "order_edit_pending", "organization_membership_required",
      * "organization_role_insufficient", "out_of_order", "outcome_unknown", "owned_merchants",
      * "owner_identity_conflict", "owner_workflow_required", "page_origin_required",
      * "paid_period_required", "partner_app_credentials", "partner_app_install_links",
@@ -1503,6 +1714,7 @@ export type ErrorDetail = {
         | "onboarding_required"
         | "option_expired"
         | "order_edit_balance_due"
+        | "order_edit_pending"
         | "organization_membership_required"
         | "organization_role_insufficient"
         | "out_of_order"
@@ -2345,9 +2557,11 @@ export type ExpandedPaymentIntentSummary = {
      * payments list only cancel; subscription payments list none. Order edit payments list confirm
      * while awaiting payment details or action. A listed action can still be refused due to an
      * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. Always
-     * empty for buyer credentials. New actions may be added. [] enum: "confirm", "capture",
-     * "cancel". [] (Value): string. Value enum: "confirm", "capture", "cancel".
+     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
+     * merchant list is credential-independent. Checkout credentials receive that list filtered to
+     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
+     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel". [] (Value):
+     * string. Value enum: "confirm", "capture", "cancel".
      */
     "supported_actions": Array<"confirm" | "capture" | "cancel" | (string & {})>;
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -2659,14 +2873,6 @@ export type ExpandedSubscriptionPlanSummary = {
     "line_items"?: Array<SubscriptionPlanLineItem>;
     /** Name of the plan. Buyers see it at checkout and on their subscription. */
     "name": string;
-    /**
-     * Quantities of the whole subscription that this plan lists, from 1 to 100, in ascending
-     * order. Flint accepts only a subscription quantity of 1, so you can set this list only to
-     * `[1]`. To let buyers choose a seat count, set `allow_quantity_adjustment` on a plan line
-     * item. A plan saved before that rule can still list up to 10 quantities. maxItems: 10.
-     * uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
-     */
-    "quantity_options"?: Array<number>;
     /**
      * One-time fee charged with the first payment of a new subscription, except one that continues
      * an imported paid period. Omitted when the plan has no setup fee. Monetary amount represented
@@ -3394,9 +3600,10 @@ export type FileUpload = {
     "method": "PUT" | (string & {});
     /**
      * A signed upload target. Send the bytes with method and headers verbatim; keep the URL out of
-     * logs. Format: uri. Example: "https://example.com/receipt".
+     * logs. Returned only to the credential that created it, and omitted when another credential
+     * replays the request. Format: uri. Example: "https://example.com/receipt".
      */
-    "url": string;
+    "url"?: string;
 };
 export type FilesCompleteParams = (InputValue<{}> | {})
     & {
@@ -4168,227 +4375,3 @@ export type FraudWarningUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
         "sandbox_id"?: string;
     });
 });
-/**
- * The `fraud_warning.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type FraudWarningUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.created_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.dispute (Optional): {@link Dispute} or
-     * null. Present only when `expand` includes `dispute`; `null` when expanded and there is no
-     * related dispute. object.dispute.anyOf[1] (Value): {@link Dispute}. A challenge to a
-     * collected payment. object.dispute.anyOf[2] (Value): null. object.dispute_id (Required):
-     * string or null. The dispute that opened on this payment after the warning. `null` when no
-     * dispute has opened. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". object.fraud_type (Required):
-     * string. The kind of fraud the card network reported. Value enum: "card_never_received",
-     * "fraudulent_card_application", "made_with_counterfeit_card", "made_with_lost_card",
-     * "made_with_stolen_card", "unauthorized_use_of_card", "other". object.fraud_warning_id
-     * (Required): string. Unique identifier for this fraud warning, prefixed `frw_`. Example:
-     * "frw_01KEZF7C00WD6W4TAFS0FH851W". object.is_actionable (Required): boolean. true until the
-     * payment is refunded in full, a dispute opens on it, or the card network marks the warning
-     * resolved; after that it stays false. A partial refund doesn't change it.
-     * object.payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
-     * when `expand` includes `payment_intent`; `null` when expanded and there is no related
-     * payment intent. object.payment_intent.anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
-     * and capture method, returned when the payment intent is expanded.
-     * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Required): string.
-     * ID of the payment the warning is about. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     * object.payment_summary (Required): {@link FraudWarningPaymentSummary}. The payment's amount,
-     * buyer email, and card, for recognizing it. Payment details shown on a public fraud warning:
-     * amount, buyer email, card brand, and last four digits. object.reported_at (Required):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous values of changed
-     * top-level fields in data.object, at this delivery's API version. Nested changes include the
-     * whole previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". dispute (Optional): {@link Dispute} or null. Present only when
-         * `expand` includes `dispute`; `null` when expanded and there is no related dispute.
-         * dispute.anyOf[1] (Value): {@link Dispute}. A challenge to a collected payment.
-         * dispute.anyOf[2] (Value): null. dispute_id (Required): string or null. The dispute that
-         * opened on this payment after the warning. `null` when no dispute has opened. Example:
-         * "du_01KEZF7C00DEJSF1KTXRT4BBQD". fraud_type (Required): string. The kind of fraud the
-         * card network reported. Value enum: "card_never_received", "fraudulent_card_application",
-         * "made_with_counterfeit_card", "made_with_lost_card", "made_with_stolen_card",
-         * "unauthorized_use_of_card", "other". fraud_warning_id (Required): string. Unique
-         * identifier for this fraud warning, prefixed `frw_`. Example:
-         * "frw_01KEZF7C00WD6W4TAFS0FH851W". is_actionable (Required): boolean. true until the
-         * payment is refunded in full, a dispute opens on it, or the card network marks the
-         * warning resolved; after that it stays false. A partial refund doesn't change it.
-         * payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
-         * when `expand` includes `payment_intent`; `null` when expanded and there is no related
-         * payment intent. payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A
-         * payment intent's summary fields, including amount, status, and capture method, returned
-         * when the payment intent is expanded. payment_intent.anyOf[2] (Value): null.
-         * payment_intent_id (Required): string. ID of the payment the warning is about. Example:
-         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_summary (Required): {@link
-         * FraudWarningPaymentSummary}. The payment's amount, buyer email, and card, for
-         * recognizing it. Payment details shown on a public fraud warning: amount, buyer email,
-         * card brand, and last four digits. reported_at (Required): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at (Required): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Present only when `expand` includes `dispute`; `null` when expanded and there is no
-             * related dispute. anyOf[1] (Value): {@link Dispute}. A challenge to a collected
-             * payment. anyOf[2] (Value): null.
-             */
-            "dispute"?: ((Dispute) | (null));
-            /**
-             * The dispute that opened on this payment after the warning. `null` when no dispute
-             * has opened. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
-             */
-            "dispute_id": string | null;
-            /**
-             * The kind of fraud the card network reported. Value enum: "card_never_received",
-             * "fraudulent_card_application", "made_with_counterfeit_card", "made_with_lost_card",
-             * "made_with_stolen_card", "unauthorized_use_of_card", "other".
-             */
-            "fraud_type": "card_never_received"
-                | "fraudulent_card_application"
-                | "made_with_counterfeit_card"
-                | "made_with_lost_card"
-                | "made_with_stolen_card"
-                | "unauthorized_use_of_card"
-                | "other"
-                | (string & {});
-            /**
-             * Unique identifier for this fraud warning, prefixed `frw_`. Example:
-             * "frw_01KEZF7C00WD6W4TAFS0FH851W".
-             */
-            "fraud_warning_id": string;
-            /**
-             * true until the payment is refunded in full, a dispute opens on it, or the card
-             * network marks the warning resolved; after that it stays false. A partial refund
-             * doesn't change it.
-             */
-            "is_actionable": boolean;
-            /**
-             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
-             * status, and capture method, returned when the payment intent is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            /** ID of the payment the warning is about. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
-            "payment_intent_id": string;
-            /**
-             * The payment's amount, buyer email, and card, for recognizing it. Payment details
-             * shown on a public fraud warning: amount, buyer email, card brand, and last four
-             * digits.
-             */
-            "payment_summary": FraudWarningPaymentSummary;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "reported_at": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<FraudWarning>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "fraud_warning.updated". */
-    "event_type"?: "fraud_warning.updated";
-});
-export type FraudWarningsGetParams = {
-    /**
-     * Include related objects in the response. Supported expansions: dispute, payment_intent.
-     * Expansion requires risk.read plus the read scope for each expanded resource. Limits: at most
-     * 10 unique expand paths per request. [] enum: "dispute", "payment_intent". Value enum:
-     * "dispute", "payment_intent". anyOf[1] (Value): Array of string. [] enum: "dispute",
-     * "payment_intent". anyOf[1][] (Value): string. Value enum: "dispute", "payment_intent".
-     * anyOf[2] (Value): string. Value enum: "dispute", "payment_intent".
-     */
-    "expand"?: InputValue<("dispute" | "payment_intent") | readonly ("dispute" | "payment_intent")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type FraudWarningsListParams = {
-    /** Filter by whether a proactive fraudulent refund can still prevent a dispute. */
-    "is_actionable"?: InputValue<boolean>;
-    /**
-     * Filter by Flint payment intent ID. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id"?: InputValue<string>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Include related objects in the response. Supported expansions: dispute, payment_intent.
-     * Include the requested related resources using scoped batch reads for this page. Each
-     * relationship requires its existing target read scopes. Expansion changes the representation
-     * without changing pagination tokens. Limits: at most 10 unique expand paths per request. []
-     * enum: "dispute", "payment_intent". Value enum: "dispute", "payment_intent". anyOf[1]
-     * (Value): Array of string. [] enum: "dispute", "payment_intent". anyOf[1][] (Value): string.
-     * Value enum: "dispute", "payment_intent". anyOf[2] (Value): string. Value enum: "dispute",
-     * "payment_intent".
-     */
-    "expand"?: InputValue<("dispute" | "payment_intent") | readonly ("dispute" | "payment_intent")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};

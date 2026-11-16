@@ -1,5 +1,11 @@
 import type { ResponseMeta } from './types-54.js';
-import type { RotateGiftCardCodeResult } from './types-58.js';
+import type { RiskRule } from './types-58.js';
+import type { InputValue } from '../runtime.js';
+import type { CreateRiskRuleRequestInput, CreateSandboxRequestInput } from './types-13.js';
+import type { DisputesAcceptParams } from './types-23.js';
+import type { UpdateRiskRuleRequestInput, UpdateSettingsRequestInput } from './types-68.js';
+import type { GiftCardPurchaseRecipient, GiftCardNotificationRecipientInput } from './types-27.js';
+import type { GiftCard, GiftCardNotification } from './types-26.js';
 import type {
     PartnerAppWithRotatedSecret,
     PartnerAppsListParams,
@@ -9,8 +15,6 @@ import type {
     PartnerWebhookEnvelope
 } from './types-44.js';
 import type { CreateDeveloperSandboxResult } from './types-9.js';
-import type { CreateSandboxRequestInput, CreateShipmentRequestInput } from './types-13.js';
-import type { InputValue } from '../runtime.js';
 import type { PaymentMethodWithSetup, PaymentSettings } from './types-47.js';
 import type { MoneyValue } from './types-39.js';
 import type { BrandingSettings } from './types-1.js';
@@ -22,15 +26,279 @@ import type { InvoiceSettings } from './types-34.js';
 import type { LegalSettings } from './types-35.js';
 import type { MetadataMap, MerchantWebhookEnvelope } from './types-38.js';
 import type { PaymentLimitSettings } from './types-45.js';
-import type { PromotionSettings } from './types-51.js';
+import type { PromotionSettings } from './types-52.js';
 import type { SubscriptionSettings } from './types-63.js';
 import type { TaxIdentity, TaxSettings } from './types-65.js';
 import type { TippingSettings } from './types-66.js';
-import type { DisputesAcceptParams } from './types-23.js';
-import type { UpdateSettingsRequestInput, UpdateShipmentRequestInput } from './types-68.js';
 import type { ExpandedOrderSummary, ExpandedPackageSummary } from './types-24.js';
 import type { ReturnHandoffRequirementLineItem } from './types-55.js';
-import type { VoidShipmentRequestInput } from './types-69.js';
+/**
+ * What a valid risk rule uses: its evaluation stage, the attributes and list aliases it
+ * references, and which payments it applies to.
+ */
+export type RiskRuleAnalysis = {
+    /** Which payments the rule applies to. Value enum: "all_payments", "on_session_only". */
+    "applicability": "all_payments" | "on_session_only" | (string & {});
+    /** Names of the payment attributes the rule reads. [] (Value): string. */
+    "attributes_used": Array<string>;
+    /** Aliases of the risk lists the rule references. [] (Value): string. */
+    "list_aliases_used": Array<string>;
+    /**
+     * When Flint evaluates the rule for a payment. Value enum: "pre_authorization",
+     * "post_authorization".
+     */
+    "stage": "pre_authorization" | "post_authorization" | (string & {});
+};
+/**
+ * A problem that stops a saved or proposed risk rule from running, with a `code`, a message, and
+ * the `path` to the part of the rule at fault.
+ */
+export type RiskRuleIssue = {
+    /**
+     * Extensible rule issue code. Accept new codes as they are added. Risk rules and previews
+     * share these issue codes; invalid rule writes use the standard error codes. Value enum:
+     * "invalid_predicate", "invalid_predicate_node", "invalid_predicate_group",
+     * "unknown_predicate_field", "unknown_attribute", "attribute_unavailable", "invalid_operator",
+     * "invalid_operand", "invalid_list_alias", "invalid_money", "invalid_rule_action",
+     * "rule_action_unavailable_at_stage", "list_not_found", "list_archived", "list_type_mismatch".
+     */
+    "code": "invalid_predicate"
+        | "invalid_predicate_node"
+        | "invalid_predicate_group"
+        | "unknown_predicate_field"
+        | "unknown_attribute"
+        | "attribute_unavailable"
+        | "invalid_operator"
+        | "invalid_operand"
+        | "invalid_list_alias"
+        | "invalid_money"
+        | "invalid_rule_action"
+        | "rule_action_unavailable_at_stage"
+        | "list_not_found"
+        | "list_archived"
+        | "list_type_mismatch"
+        | (string & {});
+    /** Description of the rule issue and how to correct it. */
+    "message": string;
+    /**
+     * Public request field path, as used by error param: predicate for the root,
+     * predicate.all[0].attribute for a nested field, or action.
+     */
+    "path": string;
+    /**
+     * Why an attribute is unavailable. Present only for attribute_unavailable issues. Value enum:
+     * "risk_scoring_not_enabled", "ip_geolocation_not_enabled".
+     */
+    "unavailable_reason"?: "risk_scoring_not_enabled" | "ip_geolocation_not_enabled" | (string & {});
+};
+/** A page of `RiskRule` objects. */
+export type RiskRuleListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * RiskRule}. A rule for assessing and handling payment risk.
+     */
+    "data": Array<RiskRule>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `RiskRule` data. */
+export type RiskRuleResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A rule for assessing and
+     * handling payment risk.
+     */
+    "data": RiskRule;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type RiskRulesCreateParams = (InputValue<CreateRiskRuleRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type RiskRulesDeleteParams = {
+    /**
+     * Optional risk rule version last read by the caller. Format: int64. minimum: 1. maximum:
+     * 9007199254740991.
+     */
+    "expected_version"?: InputValue<number>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type RiskRulesGetAttributesParams = DisputesAcceptParams;
+export type RiskRulesGetParams = DisputesAcceptParams;
+export type RiskRulesListParams = {
+    /**
+     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
+     * "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value):
+     * string. Value enum: "active", "inactive", "archived". anyOf[2] (Value): string. Value enum:
+     * "active", "inactive", "archived".
+     */
+    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type RiskRulesUpdateParams = (UpdateRiskRuleRequestInput)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** The request body for: Replace a gift card code. */
+export type RotateGiftCardCodeRequest = {
+    /**
+     * The gift card version last read. The command changes this card only when its current version
+     * matches. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Explicitly send or schedule the replacement code through private recipient access. Requires
+     * commerce.gift_cards.secrets.write. Who receives a gift card notification: their `email`,
+     * optional `name` and `message`, and an optional `send_at` time.
+     */
+    "notification"?: GiftCardPurchaseRecipient;
+};
+/** The request body for: Replace a gift card code. */
+export type RotateGiftCardCodeRequestInput = {
+    /**
+     * The gift card version last read. The command changes this card only when its current version
+     * matches. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Explicitly send or schedule the replacement code through private recipient access. Requires
+     * commerce.gift_cards.secrets.write. Who receives a gift card notification: their `email`,
+     * optional `name` and `message`, and an optional `send_at` time.
+     */
+    "notification"?: GiftCardNotificationRecipientInput;
+};
+/**
+ * The gift card after its code was rotated, with the new `code` while it can be recovered and the
+ * notification sent.
+ */
+export type RotateGiftCardCodeResult = {
+    /**
+     * The full current code. Omitted after the 24-hour recovery window or when this code has been
+     * replaced.
+     */
+    "code"?: string;
+    /**
+     * When recovery of this code expires. Omitted when the code cannot be recovered. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "code_recovery_expires_at"?: string;
+    /**
+     * The gift card after the command. Merchant-issued purchased gift card. Posted balance
+     * includes reserved value; available value is balance minus reservations. Frozen value remains
+     * part of outstanding liability. Gift cards are independent resources and cannot be
+     * transferred across merchants or currencies.
+     */
+    "gift_card": GiftCard;
+    /**
+     * The notification the command created because the request included `notification`. Omitted
+     * otherwise. A message sent to a gift card recipient.
+     */
+    "gift_card_notification"?: GiftCardNotification;
+};
 /** A response containing `RotateGiftCardCodeResult` data. */
 export type RotateGiftCardCodeResultResponse = {
     /**
@@ -1887,968 +2155,4 @@ export type ShipmentListResponse = {
      * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
-};
-/** A response containing `Shipment` data. */
-export type ShipmentResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A shipment carrying
-     * fulfilled order items.
-     */
-    "data": Shipment;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type ShipmentUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at": string;
-            "delivered_at"?: string;
-            "direction": "outbound" | "return" | (string & {});
-            "external_reference_id"?: string;
-            "external_system"?: string;
-            "fulfillment_id": string;
-            "handed_off_at"?: string;
-            "metadata"?: MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string;
-            "package_count": number;
-            "packages"?: Array<ExpandedPackageSummary>;
-            "return_id"?: string;
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            "shipment_id": string;
-            "shipped_at"?: string;
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            "supported_actions": Array<"void" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Shipment>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "shipment.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at": string;
-            "delivered_at"?: string;
-            "direction": "outbound" | "return" | (string & {});
-            "external_reference_id"?: string;
-            "external_system"?: string;
-            "fulfillment_id": string;
-            "handed_off_at"?: string;
-            "metadata"?: MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string;
-            "package_count": number;
-            "packages"?: Array<ExpandedPackageSummary>;
-            "return_id"?: string;
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            "shipment_id": string;
-            "shipped_at"?: string;
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            "supported_actions": Array<"void" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Shipment>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "shipment.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "shipment.updated";
-});
-/**
- * The `shipment.updated` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type ShipmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.created_at (Required): string. Creation timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.delivered_at (Optional): string. When the
-     * shipment was delivered, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.direction (Required): string. Whether the shipment sends
-     * items to the buyer or returns items to the merchant. Value enum: "outbound", "return".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. Requires external_system. External references are not unique. Use
-     * Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
-     * object.external_system (Optional): string. Name of the external system that
-     * external_reference_id belongs to. External references are not unique. Use Idempotency-Key
-     * for retries. object.fulfillment_id (Required): string. Fulfillment associated with this
-     * shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.handed_off_at (Optional):
-     * string. Carrier handoff timestamp for outbound and return shipments, using the recorded
-     * shipped_at when no separate handoff timestamp exists. For return shipments, this can satisfy
-     * an after_handoff execution gate for the declared return_line_items. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned key-value metadata associated with the shipment. Caller-owned key-value data
-     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-     * limits may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null.
-     * Order summary returned when the order relationship is expanded. Present only when `expand`
-     * includes `order`; `null` when expanded and there is no related order. object.order.anyOf[1]
-     * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
-     * and refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
-     * are transported by the shipment. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     * object.package_count (Required): integer. Total number of packages attached to the shipment,
-     * including voided packages. Format: int32. minimum: 0. object.packages (Optional): Array of
-     * {@link ExpandedPackageSummary}. Summaries of the shipment's packages in creation order,
-     * returned when the packages relationship is expanded or when the shipment is created with
-     * packages. object.packages[] (Value): {@link ExpandedPackageSummary}. A package's summary
-     * fields, including carrier, tracking, status, and supported actions, returned when the
-     * package is expanded. object.return_id (Optional): string. Return associated with this
-     * shipment, when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}.
-     * Return lines and quantities allocated to this return shipment. object.return_line_items[]
-     * (Value): {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in
-     * a return shipment or package. object.shipment_id (Required): string. Stable identifier of
-     * the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipped_at (Optional):
-     * string. When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.status (Required): string. Read-only shipment state derived
-     * from the shipment's package states. An empty shipment remains a created draft. - `created`:
-     * The shipment leg exists but has not been packed or handed off. - `packed`: The shipment leg
-     * is packed and awaiting carrier handoff. - `shipped`: The shipment leg was handed to the
-     * carrier. - `in_transit`: The carrier is moving the shipment through its network. -
-     * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The carrier
-     * reported successful delivery. - `delivery_attempted`: The carrier attempted delivery but did
-     * not complete it. Follow the carrier instructions before retrying delivery. - `exception`: A
-     * carrier exception is blocking normal progress. Resolve the carrier-reported issue. -
-     * `returned`: The shipment was returned toward or to its origin. - `voided`: The shipment was
-     * voided and will not continue through delivery. Value enum: "created", "packed", "shipped",
-     * "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided". object.supported_actions (Required): Array of string. Lifecycle
-     * actions Flint accepts now, independent of permissions. Contains void while the shipment and
-     * its fulfillment permit voiding. [] enum: "void". object.supported_actions[] (Value): string.
-     * Value enum: "void". object.updated_at (Required): string. Last update timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Monotonic
-     * shipment version for expected_version checks. Format: uint64. minimum: 1.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * created_at (Required): string. Creation timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". delivered_at (Optional): string. When the shipment was
-         * delivered, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * direction (Required): string. Whether the shipment sends items to the buyer or returns
-         * items to the merchant. Value enum: "outbound", "return". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * Requires external_system. External references are not unique. Use Idempotency-Key for
-         * retries. maxLength: 255. Example: "warehouse-1842". external_system (Optional): string.
-         * Name of the external system that external_reference_id belongs to. External references
-         * are not unique. Use Idempotency-Key for retries. fulfillment_id (Required): string.
-         * Fulfillment associated with this shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-         * handed_off_at (Optional): string. Carrier handoff timestamp for outbound and return
-         * shipments, using the recorded shipped_at when no separate handoff timestamp exists. For
-         * return shipments, this can satisfy an after_handoff execution gate for the declared
-         * return_line_items. Format: date-time. Example: "2026-08-02T16:00:00Z". metadata
-         * (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated with the
-         * shipment. Caller-owned key-value data stored on a resource. Keys starting with flint_
-         * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-         * and MetadataPatchInput; maps written before those limits may not satisfy them. order
-         * (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when the order
-         * relationship is expanded. Present only when `expand` includes `order`; `null` when
-         * expanded and there is no related order. order.anyOf[1] (Value): {@link
-         * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-         * status, and pricing and settlement amounts, returned when the order is expanded.
-         * order.anyOf[2] (Value): null. order_id (Required): string. Order whose items are
-         * transported by the shipment. Example: "ord_01KEZF7C0054GQKJ142A8X367A". package_count
-         * (Required): integer. Total number of packages attached to the shipment, including voided
-         * packages. Format: int32. minimum: 0. packages (Optional): Array of {@link
-         * ExpandedPackageSummary}. Summaries of the shipment's packages in creation order,
-         * returned when the packages relationship is expanded or when the shipment is created with
-         * packages. packages[] (Value): {@link ExpandedPackageSummary}. A package's summary
-         * fields, including carrier, tracking, status, and supported actions, returned when the
-         * package is expanded. return_id (Optional): string. Return associated with this shipment,
-         * when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-         * return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}. Return
-         * lines and quantities allocated to this return shipment. return_line_items[] (Value):
-         * {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a
-         * return shipment or package. shipment_id (Required): string. Stable identifier of the
-         * shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipped_at (Optional): string. When
-         * the shipment was shipped, in RFC3339 format. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Read-only shipment state derived from
-         * the shipment's package states. An empty shipment remains a created draft. - `created`:
-         * The shipment leg exists but has not been packed or handed off. - `packed`: The shipment
-         * leg is packed and awaiting carrier handoff. - `shipped`: The shipment leg was handed to
-         * the carrier. - `in_transit`: The carrier is moving the shipment through its network. -
-         * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The
-         * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-         * delivery but did not complete it. Follow the carrier instructions before retrying
-         * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the
-         * carrier-reported issue. - `returned`: The shipment was returned toward or to its origin.
-         * - `voided`: The shipment was voided and will not continue through delivery. Value enum:
-         * "created", "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-         * "delivery_attempted", "exception", "returned", "voided". supported_actions (Required):
-         * Array of string. Lifecycle actions Flint accepts now, independent of permissions.
-         * Contains void while the shipment and its fulfillment permit voiding. [] enum: "void".
-         * supported_actions[] (Value): string. Value enum: "void". updated_at (Required): string.
-         * Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Monotonic shipment version for expected_version checks. Format:
-         * uint64. minimum: 1.
-         */
-        "object": {
-            /** Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * When the shipment was delivered, in RFC3339 format. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "delivered_at"?: string;
-            /**
-             * Whether the shipment sends items to the buyer or returns items to the merchant.
-             * Value enum: "outbound", "return".
-             */
-            "direction": "outbound" | "return" | (string & {});
-            /**
-             * Caller-owned identifier for this resource in an external system. Requires
-             * external_system. External references are not unique. Use Idempotency-Key for
-             * retries. maxLength: 255. Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Name of the external system that external_reference_id belongs to. External
-             * references are not unique. Use Idempotency-Key for retries.
-             */
-            "external_system"?: string;
-            /**
-             * Fulfillment associated with this shipment. Example:
-             * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-             */
-            "fulfillment_id": string;
-            /**
-             * Carrier handoff timestamp for outbound and return shipments, using the recorded
-             * shipped_at when no separate handoff timestamp exists. For return shipments, this can
-             * satisfy an after_handoff execution gate for the declared return_line_items. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "handed_off_at"?: string;
-            /**
-             * Caller-owned key-value metadata associated with the shipment. Caller-owned key-value
-             * data stored on a resource. Keys starting with flint_ are reserved for Flint and are
-             * not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-             * written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Order summary returned when the order relationship is expanded. Present only when
-             * `expand` includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
-             * status, payment and refund status, and pricing and settlement amounts, returned when
-             * the order is expanded. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /**
-             * Order whose items are transported by the shipment. Example:
-             * "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "order_id": string;
-            /**
-             * Total number of packages attached to the shipment, including voided packages.
-             * Format: int32. minimum: 0.
-             */
-            "package_count": number;
-            /**
-             * Summaries of the shipment's packages in creation order, returned when the packages
-             * relationship is expanded or when the shipment is created with packages. [] (Value):
-             * {@link ExpandedPackageSummary}. A package's summary fields, including carrier,
-             * tracking, status, and supported actions, returned when the package is expanded.
-             */
-            "packages"?: Array<ExpandedPackageSummary>;
-            /**
-             * Return associated with this shipment, when its direction is return. Example:
-             * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-             */
-            "return_id"?: string;
-            /**
-             * Return lines and quantities allocated to this return shipment. [] (Value): {@link
-             * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
-             * shipment or package.
-             */
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            /** Stable identifier of the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
-            "shipment_id": string;
-            /**
-             * When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "shipped_at"?: string;
-            /**
-             * Read-only shipment state derived from the shipment's package states. An empty
-             * shipment remains a created draft. - `created`: The shipment leg exists but has not
-             * been packed or handed off. - `packed`: The shipment leg is packed and awaiting
-             * carrier handoff. - `shipped`: The shipment leg was handed to the carrier. -
-             * `in_transit`: The carrier is moving the shipment through its network. -
-             * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The
-             * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-             * delivery but did not complete it. Follow the carrier instructions before retrying
-             * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve
-             * the carrier-reported issue. - `returned`: The shipment was returned toward or to its
-             * origin. - `voided`: The shipment was voided and will not continue through delivery.
-             * Value enum: "created", "packed", "shipped", "in_transit", "out_for_delivery",
-             * "delivered", "delivery_attempted", "exception", "returned", "voided".
-             */
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            /**
-             * Lifecycle actions Flint accepts now, independent of permissions. Contains void while
-             * the shipment and its fulfillment permit voiding. [] enum: "void". [] (Value):
-             * string. Value enum: "void".
-             */
-            "supported_actions": Array<"void" | (string & {})>;
-            /** Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Monotonic shipment version for expected_version checks. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<Shipment>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "shipment.updated". */
-    "event_type"?: "shipment.updated";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `shipment.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type ShipmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.created_at (Required): string. Creation timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.delivered_at (Optional): string. When the
-     * shipment was delivered, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.direction (Required): string. Whether the shipment sends
-     * items to the buyer or returns items to the merchant. Value enum: "outbound", "return".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. Requires external_system. External references are not unique. Use
-     * Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
-     * object.external_system (Optional): string. Name of the external system that
-     * external_reference_id belongs to. External references are not unique. Use Idempotency-Key
-     * for retries. object.fulfillment_id (Required): string. Fulfillment associated with this
-     * shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.handed_off_at (Optional):
-     * string. Carrier handoff timestamp for outbound and return shipments, using the recorded
-     * shipped_at when no separate handoff timestamp exists. For return shipments, this can satisfy
-     * an after_handoff execution gate for the declared return_line_items. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned key-value metadata associated with the shipment. Caller-owned key-value data
-     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-     * limits may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null.
-     * Order summary returned when the order relationship is expanded. Present only when `expand`
-     * includes `order`; `null` when expanded and there is no related order. object.order.anyOf[1]
-     * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
-     * and refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
-     * are transported by the shipment. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     * object.package_count (Required): integer. Total number of packages attached to the shipment,
-     * including voided packages. Format: int32. minimum: 0. object.packages (Optional): Array of
-     * {@link ExpandedPackageSummary}. Summaries of the shipment's packages in creation order,
-     * returned when the packages relationship is expanded or when the shipment is created with
-     * packages. object.packages[] (Value): {@link ExpandedPackageSummary}. A package's summary
-     * fields, including carrier, tracking, status, and supported actions, returned when the
-     * package is expanded. object.return_id (Optional): string. Return associated with this
-     * shipment, when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}.
-     * Return lines and quantities allocated to this return shipment. object.return_line_items[]
-     * (Value): {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in
-     * a return shipment or package. object.shipment_id (Required): string. Stable identifier of
-     * the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipped_at (Optional):
-     * string. When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.status (Required): string. Read-only shipment state derived
-     * from the shipment's package states. An empty shipment remains a created draft. - `created`:
-     * The shipment leg exists but has not been packed or handed off. - `packed`: The shipment leg
-     * is packed and awaiting carrier handoff. - `shipped`: The shipment leg was handed to the
-     * carrier. - `in_transit`: The carrier is moving the shipment through its network. -
-     * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The carrier
-     * reported successful delivery. - `delivery_attempted`: The carrier attempted delivery but did
-     * not complete it. Follow the carrier instructions before retrying delivery. - `exception`: A
-     * carrier exception is blocking normal progress. Resolve the carrier-reported issue. -
-     * `returned`: The shipment was returned toward or to its origin. - `voided`: The shipment was
-     * voided and will not continue through delivery. Value enum: "created", "packed", "shipped",
-     * "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided". object.supported_actions (Required): Array of string. Lifecycle
-     * actions Flint accepts now, independent of permissions. Contains void while the shipment and
-     * its fulfillment permit voiding. [] enum: "void". object.supported_actions[] (Value): string.
-     * Value enum: "void". object.updated_at (Required): string. Last update timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Monotonic
-     * shipment version for expected_version checks. Format: uint64. minimum: 1.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * created_at (Required): string. Creation timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". delivered_at (Optional): string. When the shipment was
-         * delivered, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * direction (Required): string. Whether the shipment sends items to the buyer or returns
-         * items to the merchant. Value enum: "outbound", "return". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * Requires external_system. External references are not unique. Use Idempotency-Key for
-         * retries. maxLength: 255. Example: "warehouse-1842". external_system (Optional): string.
-         * Name of the external system that external_reference_id belongs to. External references
-         * are not unique. Use Idempotency-Key for retries. fulfillment_id (Required): string.
-         * Fulfillment associated with this shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-         * handed_off_at (Optional): string. Carrier handoff timestamp for outbound and return
-         * shipments, using the recorded shipped_at when no separate handoff timestamp exists. For
-         * return shipments, this can satisfy an after_handoff execution gate for the declared
-         * return_line_items. Format: date-time. Example: "2026-08-02T16:00:00Z". metadata
-         * (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated with the
-         * shipment. Caller-owned key-value data stored on a resource. Keys starting with flint_
-         * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-         * and MetadataPatchInput; maps written before those limits may not satisfy them. order
-         * (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when the order
-         * relationship is expanded. Present only when `expand` includes `order`; `null` when
-         * expanded and there is no related order. order.anyOf[1] (Value): {@link
-         * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-         * status, and pricing and settlement amounts, returned when the order is expanded.
-         * order.anyOf[2] (Value): null. order_id (Required): string. Order whose items are
-         * transported by the shipment. Example: "ord_01KEZF7C0054GQKJ142A8X367A". package_count
-         * (Required): integer. Total number of packages attached to the shipment, including voided
-         * packages. Format: int32. minimum: 0. packages (Optional): Array of {@link
-         * ExpandedPackageSummary}. Summaries of the shipment's packages in creation order,
-         * returned when the packages relationship is expanded or when the shipment is created with
-         * packages. packages[] (Value): {@link ExpandedPackageSummary}. A package's summary
-         * fields, including carrier, tracking, status, and supported actions, returned when the
-         * package is expanded. return_id (Optional): string. Return associated with this shipment,
-         * when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-         * return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}. Return
-         * lines and quantities allocated to this return shipment. return_line_items[] (Value):
-         * {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a
-         * return shipment or package. shipment_id (Required): string. Stable identifier of the
-         * shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipped_at (Optional): string. When
-         * the shipment was shipped, in RFC3339 format. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Read-only shipment state derived from
-         * the shipment's package states. An empty shipment remains a created draft. - `created`:
-         * The shipment leg exists but has not been packed or handed off. - `packed`: The shipment
-         * leg is packed and awaiting carrier handoff. - `shipped`: The shipment leg was handed to
-         * the carrier. - `in_transit`: The carrier is moving the shipment through its network. -
-         * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The
-         * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-         * delivery but did not complete it. Follow the carrier instructions before retrying
-         * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the
-         * carrier-reported issue. - `returned`: The shipment was returned toward or to its origin.
-         * - `voided`: The shipment was voided and will not continue through delivery. Value enum:
-         * "created", "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-         * "delivery_attempted", "exception", "returned", "voided". supported_actions (Required):
-         * Array of string. Lifecycle actions Flint accepts now, independent of permissions.
-         * Contains void while the shipment and its fulfillment permit voiding. [] enum: "void".
-         * supported_actions[] (Value): string. Value enum: "void". updated_at (Required): string.
-         * Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Monotonic shipment version for expected_version checks. Format:
-         * uint64. minimum: 1.
-         */
-        "object": {
-            /** Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * When the shipment was delivered, in RFC3339 format. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "delivered_at"?: string;
-            /**
-             * Whether the shipment sends items to the buyer or returns items to the merchant.
-             * Value enum: "outbound", "return".
-             */
-            "direction": "outbound" | "return" | (string & {});
-            /**
-             * Caller-owned identifier for this resource in an external system. Requires
-             * external_system. External references are not unique. Use Idempotency-Key for
-             * retries. maxLength: 255. Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Name of the external system that external_reference_id belongs to. External
-             * references are not unique. Use Idempotency-Key for retries.
-             */
-            "external_system"?: string;
-            /**
-             * Fulfillment associated with this shipment. Example:
-             * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-             */
-            "fulfillment_id": string;
-            /**
-             * Carrier handoff timestamp for outbound and return shipments, using the recorded
-             * shipped_at when no separate handoff timestamp exists. For return shipments, this can
-             * satisfy an after_handoff execution gate for the declared return_line_items. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "handed_off_at"?: string;
-            /**
-             * Caller-owned key-value metadata associated with the shipment. Caller-owned key-value
-             * data stored on a resource. Keys starting with flint_ are reserved for Flint and are
-             * not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-             * written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Order summary returned when the order relationship is expanded. Present only when
-             * `expand` includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
-             * status, payment and refund status, and pricing and settlement amounts, returned when
-             * the order is expanded. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /**
-             * Order whose items are transported by the shipment. Example:
-             * "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "order_id": string;
-            /**
-             * Total number of packages attached to the shipment, including voided packages.
-             * Format: int32. minimum: 0.
-             */
-            "package_count": number;
-            /**
-             * Summaries of the shipment's packages in creation order, returned when the packages
-             * relationship is expanded or when the shipment is created with packages. [] (Value):
-             * {@link ExpandedPackageSummary}. A package's summary fields, including carrier,
-             * tracking, status, and supported actions, returned when the package is expanded.
-             */
-            "packages"?: Array<ExpandedPackageSummary>;
-            /**
-             * Return associated with this shipment, when its direction is return. Example:
-             * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-             */
-            "return_id"?: string;
-            /**
-             * Return lines and quantities allocated to this return shipment. [] (Value): {@link
-             * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
-             * shipment or package.
-             */
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            /** Stable identifier of the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
-            "shipment_id": string;
-            /**
-             * When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "shipped_at"?: string;
-            /**
-             * Read-only shipment state derived from the shipment's package states. An empty
-             * shipment remains a created draft. - `created`: The shipment leg exists but has not
-             * been packed or handed off. - `packed`: The shipment leg is packed and awaiting
-             * carrier handoff. - `shipped`: The shipment leg was handed to the carrier. -
-             * `in_transit`: The carrier is moving the shipment through its network. -
-             * `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The
-             * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-             * delivery but did not complete it. Follow the carrier instructions before retrying
-             * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve
-             * the carrier-reported issue. - `returned`: The shipment was returned toward or to its
-             * origin. - `voided`: The shipment was voided and will not continue through delivery.
-             * Value enum: "created", "packed", "shipped", "in_transit", "out_for_delivery",
-             * "delivered", "delivery_attempted", "exception", "returned", "voided".
-             */
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            /**
-             * Lifecycle actions Flint accepts now, independent of permissions. Contains void while
-             * the shipment and its fulfillment permit voiding. [] enum: "void". [] (Value):
-             * string. Value enum: "void".
-             */
-            "supported_actions": Array<"void" | (string & {})>;
-            /** Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Monotonic shipment version for expected_version checks. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<Shipment>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "shipment.updated". */
-    "event_type"?: "shipment.updated";
-});
-export type ShipmentsCreateParams = (CreateShipmentRequestInput)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ShipmentsGetParams = {
-    /**
-     * Include related objects in the response. Supported expansions: order, packages. Expansion
-     * requires commerce.orders.read. Limits: at most 10 unique expand paths per request. To-many
-     * expansions are capped at 20 related objects per path. [] enum: "order", "packages". Value
-     * enum: "order", "packages". anyOf[1] (Value): Array of string. [] enum: "order", "packages".
-     * anyOf[1][] (Value): string. Value enum: "order", "packages". anyOf[2] (Value): string. Value
-     * enum: "order", "packages".
-     */
-    "expand"?: InputValue<("order" | "packages") | readonly ("order" | "packages")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ShipmentsListParams = {
-    /**
-     * Optional order ID filter. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: InputValue<string>;
-    /**
-     * Optional fulfillment ID filter. pattern: ^ful_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: InputValue<string>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /** Filter by external system identifier. */
-    "external_system"?: InputValue<string>;
-    /**
-     * Exact match on the shipment's `external_reference_id`. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842".
-     */
-    "external_reference_id"?: InputValue<string>;
-    /**
-     * Search across shipment ID and external reference ID. Text fields match any part of the
-     * value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and
-     * need the type prefix, such as shp_01.
-     */
-    "query"?: InputValue<string>;
-    /**
-     * Filter by linked Return ID. pattern: ^ret_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id"?: InputValue<string>;
-    /**
-     * Inclusive lower bound on handed_off_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
-     */
-    "handed_off_after"?: InputValue<string | globalThis.Date>;
-    /**
-     * Exclusive upper bound on handed_off_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
-     */
-    "handed_off_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Filter by package-derived shipment status. Values within this filter are combined with OR.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "created", "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-     * "delivery_attempted", "exception", "returned", "voided". Value enum: "created", "packed",
-     * "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "created",
-     * "packed", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted",
-     * "exception", "returned", "voided". anyOf[1][] (Value): string. Value enum: "created",
-     * "packed", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted",
-     * "exception", "returned", "voided". anyOf[2] (Value): string. Value enum: "created",
-     * "packed", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted",
-     * "exception", "returned", "voided".
-     */
-    "status"?: InputValue<("created"
-        | "packed"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "exception"
-        | "returned"
-        | "voided")
-        | readonly ("created"
-        | "packed"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "exception"
-        | "returned"
-        | "voided")[]>;
-    /**
-     * Filter by shipment direction. Values within this filter are combined with OR. Values are
-     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
-     * within this filter are ORed; separate filters are ANDed. [] enum: "outbound", "return".
-     * Value enum: "outbound", "return". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "outbound", "return". anyOf[1][] (Value): string. Value enum: "outbound", "return". anyOf[2]
-     * (Value): string. Value enum: "outbound", "return".
-     */
-    "direction"?: InputValue<("outbound" | "return") | readonly ("outbound" | "return")[]>;
-    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Include related objects in the response. Supported expansions: order. Include the requested
-     * related resources using scoped batch reads for this page. Each relationship requires its
-     * existing target read scopes. Expansion changes the representation without changing
-     * pagination tokens. Limits: at most 10 unique expand paths per request. [] enum: "order".
-     * Value enum: "order". anyOf[1] (Value): Array of string. [] enum: "order". anyOf[1][]
-     * (Value): string. Value enum: "order". anyOf[2] (Value): string. Value enum: "order".
-     */
-    "expand"?: InputValue<("order") | readonly ("order")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ShipmentsUpdateParams = (InputValue<UpdateShipmentRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ShipmentsVoidParams = (InputValue<VoidShipmentRequestInput>
-    | {
-    "buyer_notification_behavior"?: never;
-    "expected_version"?: never;
-    "occurred_at"?: never;
-    "reason_message"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/** The request body for: Sign a sandbox webhook delivery. */
-export type SignWebhookEndpointDeliveryRequest = {
-    /**
-     * Retained merchant event in the endpoint's sandbox. The endpoint must subscribe to its event
-     * type. minLength: 1. Example: "whev_01KEZF7C00362MS3HV970TRZGS".
-     */
-    "webhook_event_id": string;
-};
-/** The request body for: Sign a sandbox webhook delivery. */
-export type SignWebhookEndpointDeliveryRequestInput = SignWebhookEndpointDeliveryRequest;
-/** Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-export type SignedMoneyRequestInput = {
-    /**
-     * Signed amount in the currency's minor unit, such as cents for USD. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64.
-     */
-    "amount": `${bigint}` | bigint;
-    /**
-     * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     * Example: "USD".
-     */
-    "currency": string;
-};
-/**
- * A transient signed delivery for the caller's sandbox endpoint. Forward body bytes and headers
- * unchanged; this is not a persisted delivery or HTTP dispatch.
- */
-export type SignedWebhookEndpointDelivery = {
-    /** Exact UTF-8 JSON delivery bytes. Do not parse and reserialize before forwarding. */
-    "body": string;
-    /**
-     * JWT expiry, 300 seconds after signing. Existing receiver clock skew rules apply. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "expires_at": string;
-    /**
-     * Application headers from the real sender, including Authorization and any configured HMAC
-     * signature. Never log these credentials. * (Value): string.
-     */
-    "headers": Record<string, string>;
-    /**
-     * The authorized sandbox endpoint and JWT audience. Example:
-     * "whep_01KEZF7C006FXYTAJRZCGCBJTN".
-     */
-    "webhook_endpoint_id": string;
-    /**
-     * The event ID, also sent as webhook-id for receiver deduplication. Example:
-     * "whev_01KEZF7C00362MS3HV970TRZGS".
-     */
-    "webhook_event_id": string;
 };

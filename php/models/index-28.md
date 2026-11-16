@@ -1,7 +1,17 @@
 [Model index](../MODELS.md)
 
-# UpdateDeliveryProfileRequestInput to WebhookEndpointInput
+# UpdateCategoryRequestInput to WebhookBundleInput
 
+- [UpdateCategoryRequestInput](UpdateCategoryRequestInput.md)
+- [UpdateCheckoutSessionRequestInput](UpdateCheckoutSessionRequestInput.md)
+- [UpdateCreditNoteRequestInput](UpdateCreditNoteRequestInput.md)
+- [UpdateCustomerAddressRequestInput](UpdateCustomerAddressRequestInput.md)
+- [UpdateCustomerEmailPreferencesRequestInput](UpdateCustomerEmailPreferencesRequestInput.md)
+- [UpdateCustomerRequestInput](UpdateCustomerRequestInput.md)
+- [UpdateCustomerTaxExemptionRequestInput](UpdateCustomerTaxExemptionRequestInput.md)
+- [UpdateDeliveryFulfillmentDetailsInput](UpdateDeliveryFulfillmentDetailsInput.md)
+- [UpdateDeliveryLocationSetRequestInput](UpdateDeliveryLocationSetRequestInput.md)
+- [UpdateDeliveryMethodRequestInput](UpdateDeliveryMethodRequestInput.md)
 - [UpdateDeliveryProfileRequestInput](UpdateDeliveryProfileRequestInput.md)
 - [UpdateDeliveryRateCallbackRequestInput](UpdateDeliveryRateCallbackRequestInput.md)
 - [UpdateDeliveryZoneRequestInput](UpdateDeliveryZoneRequestInput.md)
@@ -92,14 +102,4 @@
 - [WaiveReturnLineInspectionRequestInput](WaiveReturnLineInspectionRequestInput.md)
 - [WaiveReturnLineInspectionResponseInput](WaiveReturnLineInspectionResponseInput.md)
 - [WebhookBundleInput](WebhookBundleInput.md)
-- [WebhookCheckoutSessionInput](WebhookCheckoutSessionInput.md)
-- [WebhookDeliveryInput](WebhookDeliveryInput.md)
-- [WebhookDeliveryActionInput](WebhookDeliveryActionInput.md)
-- [WebhookDeliveryActionResponseInput](WebhookDeliveryActionResponseInput.md)
-- [WebhookDeliveryAttemptInput](WebhookDeliveryAttemptInput.md)
-- [WebhookDeliveryAttemptListResponseInput](WebhookDeliveryAttemptListResponseInput.md)
-- [WebhookDeliveryListResponseInput](WebhookDeliveryListResponseInput.md)
-- [WebhookDeliveryProfileInput](WebhookDeliveryProfileInput.md)
-- [WebhookDeliveryResponseInput](WebhookDeliveryResponseInput.md)
-- [WebhookEndpointInput](WebhookEndpointInput.md)
 

@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# RotateGiftCardCodeRequest to SubscriptionBillingStartInputImported
+# RiskPredicateNodeRequest to SubscriptionBillingScheduleRequestInput
 
+- [RiskPredicateNodeRequest](RiskPredicateNodeRequest.md)
+- [RiskPredicateNodeRequestInput](RiskPredicateNodeRequestInput.md)
+- [RiskPreview](RiskPreview.md)
+- [RiskPreviewResponse](RiskPreviewResponse.md)
+- [RiskRule](RiskRule.md)
+- [RiskRuleAnalysis](RiskRuleAnalysis.md)
+- [RiskRuleIssue](RiskRuleIssue.md)
+- [RiskRuleListResponse](RiskRuleListResponse.md)
+- [RiskRuleResponse](RiskRuleResponse.md)
 - [RotateGiftCardCodeRequest](RotateGiftCardCodeRequest.md)
 - [RotateGiftCardCodeRequestInput](RotateGiftCardCodeRequestInput.md)
 - [RotateGiftCardCodeResult](RotateGiftCardCodeResult.md)
@@ -93,13 +102,4 @@
 - [SubscriptionBillingScheduleInputFlintInput](SubscriptionBillingScheduleInputFlintInput.md)
 - [SubscriptionBillingScheduleRequest](SubscriptionBillingScheduleRequest.md)
 - [SubscriptionBillingScheduleRequestInput](SubscriptionBillingScheduleRequestInput.md)
-- [SubscriptionBillingScheduleUpdateInputExternal](SubscriptionBillingScheduleUpdateInputExternal.md)
-- [SubscriptionBillingScheduleUpdateInputExternalInput](SubscriptionBillingScheduleUpdateInputExternalInput.md)
-- [SubscriptionBillingScheduleUpdateInputFlint](SubscriptionBillingScheduleUpdateInputFlint.md)
-- [SubscriptionBillingScheduleUpdateInputFlintInput](SubscriptionBillingScheduleUpdateInputFlintInput.md)
-- [SubscriptionBillingScheduleUpdateRequest](SubscriptionBillingScheduleUpdateRequest.md)
-- [SubscriptionBillingScheduleUpdateRequestInput](SubscriptionBillingScheduleUpdateRequestInput.md)
-- [SubscriptionBillingStartInputImmediate](SubscriptionBillingStartInputImmediate.md)
-- [SubscriptionBillingStartInputImmediateInput](SubscriptionBillingStartInputImmediateInput.md)
-- [SubscriptionBillingStartInputImported](SubscriptionBillingStartInputImported.md)
 

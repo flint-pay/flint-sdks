@@ -56,7 +56,7 @@ final class OrderLineItemFulfillmentQuantitiesInput extends Model {
      */
     public function getRequiredQuantity(): int { return $this->get('required_quantity'); }
     public function hasRequiredQuantity(): bool { return $this->has('required_quantity'); }
-    /** Whole-number quantity; fractional quantities are not supported. Required quantity still available for assignment to a fulfillment, in any resolution mode. Includes quantity released by a failed fulfillment. Format: int64.
+    /** Whole-number quantity; fractional quantities are not supported. Required quantity still available for assignment to a fulfillment, in any resolution mode. Includes quantity released by a failed fulfillment. Units reserved by pending_order_edit_id's edit can't be assigned until that edit ends. Format: int64.
      * @return int
      * @throws SdkError When unassigned_quantity is omitted; use hasUnassignedQuantity() or valueOrDefault().
      */

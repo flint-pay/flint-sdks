@@ -1,0 +1,1 @@
+{"shared":"OrderEditCompletedInstalledMerchantsEvent","dependencies":["MoneyValue","OrderEditChargeRefund","OrderEditCompletedInstalledMerchantsEvent","OrderEditLineAddition","OrderEditLineRemoval","SharedCodec10","SharedCodec1072","SharedCodec1074","SharedCodec1150","SharedCodec27","SharedCodec28","SharedCodec31","SharedCodec7","WebhookEventSource","WebhookOrderEdit"]}

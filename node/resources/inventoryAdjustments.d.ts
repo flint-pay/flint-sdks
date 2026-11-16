@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
     InventoryAdjustment,
     InventoryAdjustmentListResponse,
@@ -42,15 +42,17 @@ export type {
 } from '../declarations/types-28.js';
 export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { ClientOptions } from '../declarations/types-6.js';
-export type { CreateInventoryAdjustmentRequestInput } from '../declarations/types-10.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type {
+    CreateInventoryAdjustmentRequestInput,
     CreateInventoryAdjustmentQuantityRequestInput,
+    CreateInventoryAdjustmentCountedRequestInput
+} from '../declarations/types-10.js';
+export type { InventorySourceSystemRequestInput, InventorySourceSystem } from '../declarations/types-30.js';
+export type {
     CreateInventoryAdjustmentConditionChangeRequestInput,
-    CreateInventoryAdjustmentCountedRequestInput,
     CreateInventoryAdjustmentCorrectionRequestInput
 } from '../declarations/types-9.js';
-export type { InventorySourceSystemRequestInput, InventorySourceSystem } from '../declarations/types-30.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { InventoryLevel, InventoryItem } from '../declarations/types-29.js';
@@ -71,7 +73,7 @@ export {
     makeInventoryAdjustmentSetLineRequest,
     makeInventorySourceSystemRequest
 } from '../declarations/types-77.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export interface InventoryAdjustmentsResource {
     /**
  * Record a stock change by what happened: stock received, returned, sold, stolen, lost, or moved

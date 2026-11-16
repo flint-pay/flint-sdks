@@ -1,29 +1,31 @@
-import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-38.js';
+import type { PromotionRefRequestInput } from './types-51.js';
 import type {
-    SubscriptionBillingScheduleRequest,
-    SubscriptionBillingStartRequest,
-    SubscriptionBillingScheduleRequestInput,
-    SubscriptionBillingStartRequestInput
-} from './types-60.js';
-import type {
-    SubscriptionDeliveryRequest,
-    SubscriptionEndAfterRequest,
-    SubscriptionGiftRecipientRequest,
-    SubscriptionDeliveryRequestInput,
-    SubscriptionEndAfterRequestInput,
-    SubscriptionGiftRecipientRequestInput
-} from './types-61.js';
-import type {
+    SubscriptionQuantityChangeLineItemRequest,
+    SubscriptionQuantityChangeLineItemRequestInput,
     SubscriptionPromotionRequest,
     SubscriptionServiceLocationRequest,
+    SubscriptionPromotionRequestInput,
+    SubscriptionServiceLocationRequestInput
+} from './types-63.js';
+import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-38.js';
+import type { SubscriptionBillingScheduleRequest, SubscriptionBillingScheduleRequestInput } from './types-60.js';
+import type {
+    SubscriptionBillingStartRequest,
+    SubscriptionDeliveryRequest,
+    SubscriptionEndAfterRequest,
+    SubscriptionBillingStartRequestInput,
+    SubscriptionDeliveryRequestInput,
+    SubscriptionEndAfterRequestInput
+} from './types-61.js';
+import type { SubscriptionGiftRecipientRequest, SubscriptionGiftRecipientRequestInput } from './types-62.js';
+import type {
     SubscriptionTaxRequest,
     SubscriptionTermsRequest,
-    SubscriptionPromotionRequestInput,
-    SubscriptionServiceLocationRequestInput,
     SubscriptionTaxRequestInput,
-    SubscriptionTermsRequestInput
-} from './types-63.js';
-import type { TaxCalculationCallbackConfiguration, TaxCalculationCallbackConfigurationRequestInput } from './types-64.js';
+    SubscriptionTermsRequestInput,
+    TaxCalculationCallbackConfiguration,
+    TaxCalculationCallbackConfigurationRequestInput
+} from './types-64.js';
 import type {
     WebhookSigningMethod,
     WebhookSigningMethodInput,
@@ -39,6 +41,84 @@ import type { ResponseMeta } from './types-54.js';
 import type { Invoice } from './types-31.js';
 import type { CreateCreditNoteAllocationRequestInput, CreateCreditNoteRequestInput } from './types-8.js';
 import type { DisputesAcceptParams } from './types-23.js';
+/** The `promotion_apply` variant of `CreateSubscriptionPreviewRequest`. */
+export type CreateSubscriptionPreviewRequestPromotionApplyInput = {
+    /**
+     * First charged cycle eligible for this promotion. Defaults to the next cycle without a
+     * renewal order, which is also the minimum: completed_cycles + 1, or completed_cycles + 2
+     * while past_due. The maximum is completed_cycles + 120. The unpaid past_due order keeps its
+     * price. Format: uint64. minimum: 1.
+     */
+    "first_cycle"?: number;
+    /**
+     * Preview applying a promotion to an existing subscription without saving changes. Value enum:
+     * "promotion_apply".
+     */
+    "mode": "promotion_apply";
+    /**
+     * Promotion to attach. Reattaching a removed promotion freezes its current terms and keeps its
+     * consumed cycles. Identifies the promotion to apply, by promotion code or by promotion ID.
+     */
+    "promotion": PromotionRefRequestInput;
+    /**
+     * Active or scheduled promotion to replace. It stops applying from first_cycle and continues
+     * to apply to earlier cycles. Must differ from the new promotion. An offer's own promotion
+     * cannot be replaced. minLength: 1. pattern: ^promo_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+     */
+    "replace_promotion_id"?: string;
+    /**
+     * ID of the subscription to preview. minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "subscription_id": string;
+};
+/** The `quantity_change` variant of `CreateSubscriptionPreviewRequest`. */
+export type CreateSubscriptionPreviewRequestQuantityChange = {
+    /**
+     * Charge the prorated difference now while keeping the period and anchor. Value enum:
+     * "prorated_now".
+     */
+    "billing_starts": "prorated_now" | (string & {});
+    /** Reject the request if the subscription version has changed. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
+     * quantities. line_items is required. minItems: 1. maxItems: 50. [] (Value): {@link
+     * SubscriptionQuantityChangeLineItemRequest}. Quantity for an existing subscription line.
+     */
+    "line_items": Array<SubscriptionQuantityChangeLineItemRequest>;
+    /** The kind of subscription pricing estimate to create. Value enum: "quantity_change". */
+    "mode": "quantity_change" | (string & {});
+    /**
+     * The subscription whose quantities will change. minLength: 1. pattern:
+     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "subscription_id": string;
+};
+/** The `quantity_change` variant of `CreateSubscriptionPreviewRequest`. */
+export type CreateSubscriptionPreviewRequestQuantityChangeInput = {
+    /**
+     * Charge the prorated difference now while keeping the period and anchor. Value enum:
+     * "prorated_now".
+     */
+    "billing_starts": "prorated_now";
+    /** Reject the request if the subscription version has changed. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
+     * quantities. line_items is required. minItems: 1. maxItems: 50. [] (Value): {@link
+     * SubscriptionQuantityChangeLineItemRequestInput}. Quantity for an existing subscription line.
+     */
+    "line_items": Array<SubscriptionQuantityChangeLineItemRequestInput>;
+    /** The kind of subscription pricing estimate to create. Value enum: "quantity_change". */
+    "mode": "quantity_change";
+    /**
+     * The subscription whose quantities will change. minLength: 1. pattern:
+     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "subscription_id": string;
+};
 /** The request body for: Create subscription. */
 export type CreateSubscriptionRequest = {
     /**
@@ -743,7 +823,8 @@ export type CreateWebhookTestEventRequest = {
      * "modifier_set.updated", "order.closed", "order.created",
      * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
      * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "order_edit.created", "package.created", "package.updated", "partner_app.platform_approved",
+     * "order_edit.canceled", "order_edit.completed", "order_edit.created", "order_edit.updated",
+     * "package.created", "package.updated", "partner_app.platform_approved",
      * "partner_app.platform_limited", "partner_app.platform_rejected", "partner_app.updated",
      * "partner_app_install.created", "partner_app_install.permissions_updated",
      * "partner_app_install.revoked", "partner_app_install.updated",
@@ -946,7 +1027,10 @@ export type CreateWebhookTestEventRequest = {
         | "order.partially_refunded"
         | "order.refunded"
         | "order.updated"
+        | "order_edit.canceled"
+        | "order_edit.completed"
         | "order_edit.created"
+        | "order_edit.updated"
         | "package.created"
         | "package.updated"
         | "partner_app.platform_approved"
@@ -1145,7 +1229,8 @@ export type CreateWebhookTestEventRequestInput = {
      * "modifier_set.updated", "order.closed", "order.created",
      * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
      * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "order_edit.created", "package.created", "package.updated", "partner_app.platform_approved",
+     * "order_edit.canceled", "order_edit.completed", "order_edit.created", "order_edit.updated",
+     * "package.created", "package.updated", "partner_app.platform_approved",
      * "partner_app.platform_limited", "partner_app.platform_rejected", "partner_app.updated",
      * "partner_app_install.created", "partner_app_install.permissions_updated",
      * "partner_app_install.revoked", "partner_app_install.updated",
@@ -1348,7 +1433,10 @@ export type CreateWebhookTestEventRequestInput = {
         | "order.partially_refunded"
         | "order.refunded"
         | "order.updated"
+        | "order_edit.canceled"
+        | "order_edit.completed"
         | "order_edit.created"
+        | "order_edit.updated"
         | "package.created"
         | "package.updated"
         | "partner_app.platform_approved"
@@ -6325,34 +6413,3 @@ export type CreditNotesCreateParams = (InputValue<CreateCreditNoteRequestInput>)
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
 export type CreditNotesGetAllocationParams = DisputesAcceptParams;
-export type CreditNotesGetPDFParams = DisputesAcceptParams;
-export type CreditNotesGetPDFResponse = Uint8Array;
-export type CreditNotesGetParams = {
-    /**
-     * Include related objects in the response. Supported expansions: invoice. Include the source
-     * invoice summary with expand=invoice. Requires commerce.credit_notes.read and
-     * commerce.invoices.read. Limits: at most 10 unique expand paths per request. [] enum:
-     * "invoice". Value enum: "invoice". anyOf[1] (Value): Array of string. [] enum: "invoice".
-     * anyOf[1][] (Value): string. Value enum: "invoice". anyOf[2] (Value): string. Value enum:
-     * "invoice".
-     */
-    "expand"?: InputValue<("invoice") | readonly ("invoice")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};

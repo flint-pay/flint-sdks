@@ -1,0 +1,1 @@
+{"shared":"OrderEditUpdatedMerchantEvent","dependencies":["MoneyValue","OrderEditChargeRefund","OrderEditLineAddition","OrderEditLineRemoval","OrderEditUpdatedMerchantEvent","SharedCodec10","SharedCodec1072","SharedCodec1079","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9","WebhookOrderEdit"]}

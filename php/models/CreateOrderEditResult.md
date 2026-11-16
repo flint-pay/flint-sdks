@@ -2,14 +2,14 @@
 
 ## CreateOrderEditResult
 
-The completed edit, current order, and refunds created so far.
+The pending or completed edit, current order, and refunds created so far.
 
 Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `order` | Required | [Order](../models/Order.md#order) | The order after the edit. A customer's purchase and its payment and fulfillment progress. `order`: [field definitions](../models/CreateOrderEditResult.md#createordereditresultorder). |
-| `order_edit` | Required | [OrderEdit](../models/OrderEdit.md#orderedit) | The committed edit, even when refund processing is pending. Nested child of an order: immutable, completed item changes with frozen values and refund amounts. Refund completion is tracked on the refunds. `order_edit`: [field definitions](../models/CreateOrderEditResult.md#createordereditresultorder_edit). |
+| `order_edit` | Required | [OrderEdit](../models/OrderEdit.md#orderedit) | The pending or completed edit, even when payment or refund processing is pending. Nested child of an order with frozen item changes, balance and refund amounts. A pending edit changes the order only when its balance payment succeeds. Refund completion is tracked on the refunds. `order_edit`: [field definitions](../models/CreateOrderEditResult.md#createordereditresultorder_edit). |
 | `refunds` | Required | Array of [Refund](../models/Refund.md#refund) | Refunds created so far. Empty for zero-value edits or while refund processing has not created them yet; refund.created follows when a refund is created. `refunds[]`: [field definitions](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsrefunds). |
 
 ### CreateOrderEditResult.order
@@ -66,6 +66,7 @@ The order after the edit. A customer's purchase and its payment and fulfillment 
 | `payment_intents` | Optional | Array of [ExpandedPaymentIntentSummary](../models/ExpandedPaymentIntentSummary.md#expandedpaymentintentsummary) | Payment intents included when `expand` names `payment_intents`. `payment_intents[]`: [field definitions](../models/OrderResponse.md#orderresponsedatapayment_intents). |
 | `payment_link_id` | Optional | string | Payment link whose checkout created this order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders. Example: `"pl_01KEZF7C007WDMA5P9BPZ8J2AM"`. |
 | `payment_status` | Required | string | Collection progress. An invoice write-off also completes collection without receiving the written-off amount. Values: `"unpaid"`, `"partially_paid"`, `"paid"`. |
+| `pending_order_edit_id` | Required | string or null | The order edit waiting for its balance payment. While it is set, the units that edit removes can't join a fulfillment and the order refuses another edit. `null` when there is none. Omitted for buyer credentials. Example: `"oed_01KEZF7C00A6BQ4TBGWFDJ944A"`. |
 | `prepayment_order_id` | Required | string or null | Order that paid for this prepaid delivery. Null when this is not a prepaid delivery order. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
 | `pricing_amounts` | Required | [PricingAmounts](../models/PricingAmounts.md#pricingamounts) | The order's money totals: subtotal, discounts, charges, tax, requested tip, and total. The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and total. |
 | `refund_ids` | Required | Array of string | IDs of the refunds that name this order. This includes refunds Flint makes to return a payment it couldn't accept (`reason` `payment_returned`), which never count toward `refund_status` or the order's refunded amounts. Items: Example: `"ref_01KEZF7C003DTD59WKYHEXYQ1K"`. |
@@ -200,7 +201,7 @@ Field definitions: [OrderResponse.data.tips[]](../models/OrderResponse.md#orderr
 
 ### CreateOrderEditResult.order_edit
 
-The committed edit, even when refund processing is pending. Nested child of an order: immutable, completed item changes with frozen values and refund amounts. Refund completion is tracked on the refunds.
+The pending or completed edit, even when payment or refund processing is pending. Nested child of an order with frozen item changes, balance and refund amounts. A pending edit changes the order only when its balance payment succeeds. Refund completion is tracked on the refunds.
 
 Field definitions: [shared fields](OrderEditResponse.md#ordereditresponsedata).
 

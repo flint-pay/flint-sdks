@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/customers.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import r0 from '../descriptors/resources/customers.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import settings from '../descriptors/settings.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelCustomerEmailChangeRequest"]:r0,["createCustomer"]:r0,["createCustomerAccessLink"]:r0,["createCustomerAddress"]:r0,["createCustomerEmailChangeRequest"]:r0,["createCustomerTaxExemption"]:r0,["deleteCustomerAddress"]:r0,["deleteCustomerTaxExemption"]:r0,["getCustomer"]:r0,["getCustomerAddress"]:r0,["getCustomerEmailChangeRequest"]:r0,["getCustomerEmailPreferences"]:r0,["getCustomerTaxExemption"]:r0,["linkCustomerGuestPurchases"]:r0,["listCustomerAddresses"]:r0,["listCustomerEmailChangeRequests"]:r0,["listCustomers"]:r0,["listCustomerTaxExemptions"]:r0,["revokeCustomerSessions"]:r0,["updateCustomer"]:r0,["updateCustomerAddress"]:r0,["updateCustomerTaxExemption"]:r0});
 export class Client {

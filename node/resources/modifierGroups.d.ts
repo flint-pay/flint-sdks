@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type {
     ModifierGroup,
     ModifierGroupListResponse,
@@ -44,7 +44,7 @@ export type {
 } from '../declarations/types-38.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateModifierGroupRequestInput, CreateModifierRequestInput } from '../declarations/types-10.js';
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-39.js';
 export type {
@@ -61,12 +61,10 @@ export type { UpdateModifierGroupRequestInput } from '../declarations/types-67.j
 export type { DisputesAcceptParams } from '../declarations/types-23.js';
 export type { CreateInlineModifierGroupRequestInput } from '../declarations/types-9.js';
 export { makeCreateInlineModifierGroupRequest, makeCreateModifierGroupRequest, makeCreateModifierRequest } from '../declarations/types-73.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierRequest, makeMoneyValue } from '../declarations/types-78.js';
-export {
-    makeTextModifierConfigPatchRequest,
-    makeTextModifierConfigRequest,
-    makeUpdateModifierGroupRequest
-} from '../declarations/types-83.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-78.js';
+export { makeModifierRequest, makeMoneyValue } from '../declarations/types-79.js';
+export { makeTextModifierConfigPatchRequest, makeTextModifierConfigRequest } from '../declarations/types-83.js';
+export { makeUpdateModifierGroupRequest } from '../declarations/types-84.js';
 export interface ModifierGroupsResource {
     /**
  * Creates a modifier group, a set of choices that customize an item, such as toppings or a custom

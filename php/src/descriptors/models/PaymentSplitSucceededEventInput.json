@@ -1,1 +1,1 @@
-{"shared":"PaymentSplitSucceededEvent","dependencies":["MoneyValue","PaymentSplit","PaymentSplitReversal","PaymentSplitSucceededEvent","ResourceReference","ResourceType","SharedCodec10","SharedCodec1233","SharedCodec1237","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9"]}
+{"shared":"PaymentSplitSucceededEvent","dependencies":["MoneyValue","PaymentSplit","PaymentSplitReversal","PaymentSplitSucceededEvent","ResourceReference","ResourceType","SharedCodec10","SharedCodec1240","SharedCodec1244","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9"]}

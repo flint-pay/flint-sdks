@@ -24,8 +24,10 @@ Response model.
 | `customer_presence` | Required | string | Whether you took part in the latest charge. absent means the store charged your saved card while you weren't there, such as for a renewal or a fee. Each payment attempt sets it again. Values: `"present"`, `"absent"`. |
 | `fulfillment_hold` | Optional | [PaymentFulfillmentHold](../models/PaymentFulfillmentHold.md#paymentfulfillmenthold) | Present when a payment provider asked Flint to pause fulfillment for this payment. While its status is active, open fulfillments are on hold. A hold on fulfillment tied to a payment, with the reason, the action required, and whether the hold is active or released. `fulfillment_hold`: [field definitions](../models/BuyerPaymentIntentResponse.md#buyerpaymentintentresponsedatafulfillment_hold). |
 | `invoice_id` | Optional | string | Bill this payment collects, when it pays a bill. |
+| `invoice_schedule_entry_id` | Optional | string | The bill installment this payment collects. |
 | `last_payment_error` | Required | [PaymentErrorSummary](../models/PaymentErrorSummary.md#paymenterrorsummary) or null | Most recent payment error. Null when no payment error is recorded. |
 | `merchant_id` | Optional | string | Merchant that owns this payment intent. |
+| `order_edit_id` | Optional | string | The edit whose added balance this payment collects. Omitted when this payment doesn't collect an edit's balance. |
 | `order_id` | Optional | string | Order this payment belongs to. |
 | `payment_flow` | Required | string | How the payment was started. Fixed when the payment is created. Values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. |
 | `payment_intent_id` | Required | string | Flint payment intent ID. |

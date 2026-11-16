@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# OrderPaymentSourceSelectionInput to PartnerAppPlatformTermsAcceptance
+# OrderPaymentAttempt to PartnerAppPlatformApprovedEvent
 
+- [OrderPaymentAttempt](OrderPaymentAttempt.md)
+- [OrderPaymentAttemptListResponse](OrderPaymentAttemptListResponse.md)
+- [OrderPaymentAttemptPaymentMethodSave](OrderPaymentAttemptPaymentMethodSave.md)
+- [OrderPaymentAttemptResponse](OrderPaymentAttemptResponse.md)
+- [OrderPaymentIntentSelection](OrderPaymentIntentSelection.md)
+- [OrderPaymentIntentSelectionInput](OrderPaymentIntentSelectionInput.md)
+- [OrderPaymentSourceCardSelection](OrderPaymentSourceCardSelection.md)
+- [OrderPaymentSourceCardSelectionInput](OrderPaymentSourceCardSelectionInput.md)
+- [OrderPaymentSourceSelection](OrderPaymentSourceSelection.md)
 - [OrderPaymentSourceSelectionInput](OrderPaymentSourceSelectionInput.md)
 - [OrderRefundedInstalledMerchantsEvent](OrderRefundedInstalledMerchantsEvent.md)
 - [OrderRefundedMerchantEvent](OrderRefundedMerchantEvent.md)
@@ -93,13 +102,4 @@
 - [PartnerAppPermissionManifestEntryRequestInput](PartnerAppPermissionManifestEntryRequestInput.md)
 - [PartnerAppPlatform](PartnerAppPlatform.md)
 - [PartnerAppPlatformApprovedEvent](PartnerAppPlatformApprovedEvent.md)
-- [PartnerAppPlatformCapability](PartnerAppPlatformCapability.md)
-- [PartnerAppPlatformCurrentTerms](PartnerAppPlatformCurrentTerms.md)
-- [PartnerAppPlatformLimitedEvent](PartnerAppPlatformLimitedEvent.md)
-- [PartnerAppPlatformLimits](PartnerAppPlatformLimits.md)
-- [PartnerAppPlatformProfile](PartnerAppPlatformProfile.md)
-- [PartnerAppPlatformProfileRequestInput](PartnerAppPlatformProfileRequestInput.md)
-- [PartnerAppPlatformRejectedEvent](PartnerAppPlatformRejectedEvent.md)
-- [PartnerAppPlatformReserve](PartnerAppPlatformReserve.md)
-- [PartnerAppPlatformTermsAcceptance](PartnerAppPlatformTermsAcceptance.md)
 

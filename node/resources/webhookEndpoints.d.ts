@@ -1,8 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-54.js';
-import type { SignedWebhookEndpointDelivery } from '../declarations/types-59.js';
-import type { SignedWebhookEndpointDeliveryResponse } from '../declarations/types-60.js';
+import type { SignedWebhookEndpointDelivery, SignedWebhookEndpointDeliveryResponse } from '../declarations/types-60.js';
 import type {
     WebhookDeliveryAction,
     WebhookDeliveryActionResponse,
@@ -50,28 +49,29 @@ export type {
     WebhookEndpointListResponse,
     WebhookEndpointsRotateSecretParams,
     WebhookEndpointsSignDeliveryParams,
-    WebhookEndpointsUpdateParams
+    WebhookEndpointsUpdateParams,
+    UpdateWebhookEndpointRequestInput
 } from '../declarations/types-69.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
 export type { _SdkWithoutIdempotency, WebhookSigningMethodInput } from '../declarations/types-70.js';
 export type {
     SignedWebhookEndpointDelivery,
-    RotateWebhookSecretRequestInput,
+    SignedWebhookEndpointDeliveryResponse,
     SignWebhookEndpointDeliveryRequestInput,
     SignWebhookEndpointDeliveryRequest
-} from '../declarations/types-59.js';
-export type { SignedWebhookEndpointDeliveryResponse } from '../declarations/types-60.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+} from '../declarations/types-60.js';
+export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateWebhookEndpointRequestInput, Credentials, CreateWebhookTestEventRequestInput } from '../declarations/types-14.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { NextAction, MoneyValue } from '../declarations/types-39.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { UpdateWebhookEndpointRequestInput } from '../declarations/types-68.js';
+export type { RotateWebhookSecretRequestInput } from '../declarations/types-59.js';
 export type { DisputesAcceptParams } from '../declarations/types-23.js';
 export { makeCreateWebhookEndpointRequest, makeCreateWebhookTestEventRequest } from '../declarations/types-75.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export { makeRotateWebhookSecretRequest, makeSignWebhookEndpointDeliveryRequest } from '../declarations/types-82.js';
-export { makeUpdateWebhookEndpointRequest, makeWebhookSigningMethod } from '../declarations/types-84.js';
+export { makeUpdateWebhookEndpointRequest } from '../declarations/types-84.js';
+export { makeWebhookSigningMethod } from '../declarations/types-85.js';
 export interface WebhookEndpointsResource {
     /**
  * Creates a webhook endpoint. signing_methods defaults to ["jwt"]. A shared secret is issued and

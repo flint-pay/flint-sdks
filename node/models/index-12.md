@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# DeliveryPricingStrategyCreateInputTiered to DeliveryRateEvaluationOutcomeAvailableInput
+# DeliveryPricingStrategyCreateInputFixedInput to DeliveryRateEvaluationOutcome
 
+- [DeliveryPricingStrategyCreateInputFixedInput](DeliveryPricingStrategyCreateInputFixedInput.md)
+- [DeliveryPricingStrategyCreateInputRateTable](DeliveryPricingStrategyCreateInputRateTable.md)
+- [DeliveryPricingStrategyCreateInputRateTableInput](DeliveryPricingStrategyCreateInputRateTableInput.md)
 - [DeliveryPricingStrategyCreateInputTiered](DeliveryPricingStrategyCreateInputTiered.md)
 - [DeliveryPricingStrategyCreateInputTieredInput](DeliveryPricingStrategyCreateInputTieredInput.md)
 - [DeliveryPricingStrategyCreateRequest](DeliveryPricingStrategyCreateRequest.md)
@@ -99,7 +102,4 @@
 - [DeliveryRateEvaluationMethodOutcome](DeliveryRateEvaluationMethodOutcome.md)
 - [DeliveryRateEvaluationMethodOutcomeInput](DeliveryRateEvaluationMethodOutcomeInput.md)
 - [DeliveryRateEvaluationOutcome](DeliveryRateEvaluationOutcome.md)
-- [DeliveryRateEvaluationOutcomeInput](DeliveryRateEvaluationOutcomeInput.md)
-- [DeliveryRateEvaluationOutcomeAvailable](DeliveryRateEvaluationOutcomeAvailable.md)
-- [DeliveryRateEvaluationOutcomeAvailableInput](DeliveryRateEvaluationOutcomeAvailableInput.md)
 

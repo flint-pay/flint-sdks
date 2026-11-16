@@ -2,13 +2,23 @@
 
 ## OrderEditLineAddition
 
-An order line added by the enclosing edit, with its value frozen at commit.
+An order line added by the enclosing edit, with its value frozen at creation.
 
 Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_line_item_id` | Required | string | The order line created by this edit. |
-| `quantity` | Required | integer | Whole-number quantity added; fractional quantities are not supported. Format: `int64`. minimum: `1`. |
-| `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The cost of these added units, including additive tax, frozen when the edit committed. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `bundle_id` | Optional | string | The catalog bundle, for a bundle line. |
+| `discount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Always zero: promotions aren't re-evaluated for added lines. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `name` | Required | string | The line's name. |
+| `order_line_item_id` | Required | string | The order line reserved by this edit. While pending, the line isn't on the order yet. |
+| `product_id` | Optional | string | ID of the catalog product the item was sold from. Absent on bundle and custom lines. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Units to add. Format: `int64`. minimum: `1`. |
+| `sku` | Optional | string | The line's SKU, when it has one. |
+| `subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Unit price times quantity, including modifiers. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `tax_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Tax on the line, calculated through the order's tax settings. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | What the line costs: subtotal_money minus discount_money plus additive tax. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `type` | Required | string | The kind of line, as in the request. Values: `"variant"`, `"bundle"`, `"custom"`. |
+| `unit_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The unit price from the catalog, price list, customer pricing or request. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `variant_id` | Optional | string | The catalog variant, for a variant line. |
 

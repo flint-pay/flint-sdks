@@ -10,7 +10,7 @@ The request body for: Create webhook test event.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [291 declared values](#createwebhooktesteventrequest-event_type-values). |
+| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [294 declared values](#createwebhooktesteventrequest-event_type-values). |
 
 #### CreateWebhookTestEventRequest event_type values
 
@@ -168,7 +168,10 @@ The request body for: Create webhook test event.
 - `"order.partially_refunded"`
 - `"order.refunded"`
 - `"order.updated"`
+- `"order_edit.canceled"`
+- `"order_edit.completed"`
 - `"order_edit.created"`
+- `"order_edit.updated"`
 - `"package.created"`
 - `"package.updated"`
 - `"partner_app.platform_approved"`

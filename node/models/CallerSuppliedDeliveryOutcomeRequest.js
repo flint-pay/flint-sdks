@@ -1,9 +1,9 @@
-import { d6619 as c0, d6623 as c1, d6624 as c3, d6625 as c4, d6626 as c5, d6627 as c6, d6628 as c7, d6629 as c8, d6630 as c9, d6631 as c10, d6632 as c11 } from '../descriptors/data/306.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d5784 as c2 } from '../descriptors/data/258.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d6633 as c12, d6634 as c13 } from '../descriptors/data/307.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d6619 as d6619 } from '../descriptors/data/306.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d6649 as c0, d6653 as c1, d6654 as c3, d6655 as c4, d6656 as c5, d6657 as c6, d6658 as c7, d6659 as c8, d6660 as c9, d6661 as c10, d6662 as c11 } from '../descriptors/data/307.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d5814 as c2 } from '../descriptors/data/259.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d6663 as c12, d6664 as c13 } from '../descriptors/data/308.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d6649 as d6649 } from '../descriptors/data/307.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d6619;
+const read = d6649;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["CallerSuppliedDeliveryOutcomeRequest"]:c0(),["DeliveryWindowRequest"]:c1(),["MoneyValue"]:c2(),["SharedCodec122"]:c3(),["SharedCodec123"]:c4(),["SharedCodec124"]:c5(),["SharedCodec125"]:c6(),["SharedCodec126"]:c7(),["SharedCodec127"]:c8(),["SharedCodec128"]:c9(),["SharedCodec129"]:c10(),["SharedCodec130"]:c11(),["SharedCodec131"]:c12(),["SharedCodec132"]:c13()}); }
 export { codec as _validate };

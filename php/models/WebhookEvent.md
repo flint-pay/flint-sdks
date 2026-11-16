@@ -13,7 +13,7 @@ Response model.
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `data` | Optional | object | The delivered envelope's data, including its payload-version-specific shape. Omitted from list responses and from detail responses when the caller lacks read access to the attributed resource or the payload has expired after 14 days. |
 | `event_source` | Optional | string | Envelope discriminator identifying merchant events, partner app lifecycle events, or events forwarded from installed merchants. Values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. |
-| `event_type` | Required | string | Type of event Flint recorded, using the current event type name. Values: [291 declared values](CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
+| `event_type` | Required | string | Type of event Flint recorded, using the current event type name. Values: [294 declared values](CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
 | `merchant_id` | Optional | string | ID of the merchant this resource belongs to. |
 | `mode` | Optional | string | Environment used for this resource or request. Values: `"test"`, `"live"`. |
 | `partner_app_id` | Optional | string | ID of the partner app that owns this partner event. Omitted for merchant events. |
