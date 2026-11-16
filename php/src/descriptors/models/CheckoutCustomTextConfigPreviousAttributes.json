@@ -1,0 +1,1 @@
+{"shared":"CheckoutCustomTextConfigPreviousAttributes","phpRepresentation":{"kind":"record","fields":{"order_summary_message":{"kind":"nullable","value":{"kind":"value","type":"string"}},"shipping_address_label":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["CheckoutCustomTextConfigPreviousAttributes","SharedCodec0"]}

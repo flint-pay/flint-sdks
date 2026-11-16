@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read Address|null $address
+ * @property-read AddressPreviousAttributes|null $address
  * @property-read string|null $api_version
  * @property-read string|null $api_version_changed_at
  * @property-read string|null $api_version_pinned_at
@@ -11,13 +11,13 @@ namespace Flint;
  * @property-read string|null $business_name
  * @property-read string|null $business_type
  * @property-read string|null $created_at
- * @property-read mixed $email
- * @property-read ImageAttachment|null $icon
- * @property-read ImageAttachment|null $logo
+ * @property-read string|null $email
+ * @property-read ImageAttachmentPreviousAttributes|null $icon
+ * @property-read ImageAttachmentPreviousAttributes|null $logo
  * @property-read string|null $merchant_id
  * @property-read array<array-key, string>|null $metadata
  * @property-read string|null $phone
- * @property-read MerchantReadiness|null $readiness
+ * @property-read MerchantReadinessPreviousAttributes|null $readiness
  * @property-read string|null $status
  * @property-read string|null $support_email
  * @property-read string|null $support_phone
@@ -30,10 +30,10 @@ namespace Flint;
 final class MerchantUpdatedMerchantEventDataPreviousAttributes extends Model {
     /** @param array{'address'?: mixed, 'api_version'?: mixed, 'api_version_changed_at'?: mixed, 'api_version_pinned_at'?: mixed, 'api_version_previous'?: mixed, 'api_version_rollback_expires_at'?: mixed, 'business_name'?: mixed, 'business_type'?: mixed, 'created_at'?: mixed, 'email'?: mixed, 'icon'?: mixed, 'logo'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'phone'?: mixed, 'readiness'?: mixed, 'status'?: mixed, 'support_email'?: mixed, 'support_phone'?: mixed, 'support_url'?: mixed, 'timezone'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, 'website_url'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantUpdatedMerchantEventDataPreviousAttributes')); }
-    /** The merchant's business address. anyOf[1] (Value): {@see Address}. The merchant's business address. anyOf[2] (Value): null.
-     * @return Address|null
+    /** The merchant's business address. anyOf[1] (Value): {@see AddressPreviousAttributes}. anyOf[2] (Value): null.
+     * @return AddressPreviousAttributes|null
      */
-    public function getAddress(): Address|null { return $this->get('address'); }
+    public function getAddress(): AddressPreviousAttributes|null { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
     /** Default API version for requests without a Flint-Version header. Shared across live and test environments. anyOf[1] (Value): string. Default API version for requests without a Flint-Version header. Shared across live and test environments. anyOf[2] (Value): null.
      * @return string|null
@@ -75,27 +75,27 @@ final class MerchantUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** The account's contact email address. A new account starts with the sign-up email. `null` when none is set. anyOf[1] (Value): string or null. The account's contact email address. A new account starts with the sign-up email. `null` when none is set. anyOf[2] (Value): null.
-     * @return mixed
+    /** The account's contact email address. A new account starts with the sign-up email. `null` when none is set. anyOf[1] (Value): string. The account's contact email address. A new account starts with the sign-up email. `null` when none is set. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getEmail(): mixed { return $this->get('email'); }
+    public function getEmail(): string|null { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. anyOf[1] (Value): {@see ImageAttachment}. A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. anyOf[2] (Value): null.
-     * @return ImageAttachment|null
+    /** A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. anyOf[1] (Value): {@see ImageAttachmentPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ImageAttachmentPreviousAttributes|null
      */
-    public function getIcon(): ImageAttachment|null { return $this->get('icon'); }
+    public function getIcon(): ImageAttachmentPreviousAttributes|null { return $this->get('icon'); }
     public function hasIcon(): bool { return $this->has('icon'); }
-    /** The merchant's public brand mark. anyOf[1] (Value): {@see ImageAttachment}. The merchant's public brand mark. anyOf[2] (Value): null.
-     * @return ImageAttachment|null
+    /** The merchant's public brand mark. anyOf[1] (Value): {@see ImageAttachmentPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ImageAttachmentPreviousAttributes|null
      */
-    public function getLogo(): ImageAttachment|null { return $this->get('logo'); }
+    public function getLogo(): ImageAttachmentPreviousAttributes|null { return $this->get('logo'); }
     public function hasLogo(): bool { return $this->has('logo'); }
     /** Stable identifier of the merchant. anyOf[1] (Value): string. Stable identifier of the merchant. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
      * @return array<array-key, string>|null
      */
     public function getMetadata(): array|null { return $this->get('metadata'); }
@@ -105,10 +105,10 @@ final class MerchantUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getPhone(): string|null { return $this->get('phone'); }
     public function hasPhone(): bool { return $this->has('phone'); }
-    /** Whether the merchant can accept payments and receive payouts, and what is still needed. anyOf[1] (Value): {@see MerchantReadiness}. Whether the merchant can accept payments and receive payouts, and what is still needed. anyOf[2] (Value): null.
-     * @return MerchantReadiness|null
+    /** Whether the merchant can accept payments and receive payouts, and what is still needed. anyOf[1] (Value): {@see MerchantReadinessPreviousAttributes}. anyOf[2] (Value): null.
+     * @return MerchantReadinessPreviousAttributes|null
      */
-    public function getReadiness(): MerchantReadiness|null { return $this->get('readiness'); }
+    public function getReadiness(): MerchantReadinessPreviousAttributes|null { return $this->get('readiness'); }
     public function hasReadiness(): bool { return $this->has('readiness'); }
     /** Whether Flint lets the account operate. `readiness` says whether payments and payouts are available. Value enum: "active", "suspended", "restricted", "closed". anyOf[1] (Value): string. Whether Flint lets the account operate. `readiness` says whether payments and payouts are available. Value enum: "active", "suspended", "restricted", "closed". anyOf[2] (Value): null.
      * @return string|null
@@ -130,7 +130,7 @@ final class MerchantUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getSupportUrl(): string|null { return $this->get('support_url'); }
     public function hasSupportUrl(): bool { return $this->has('support_url'); }
-    /** Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies. Existing resources keep their saved time zone. anyOf[1] (Value): string. Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies. Existing resources keep their saved time zone. anyOf[2] (Value): null.
+    /** Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone. anyOf[1] (Value): string. Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getTimezone(): string|null { return $this->get('timezone'); }

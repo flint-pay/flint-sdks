@@ -1,11 +1,11 @@
-import { d702 as c0 } from '../descriptors/data/38.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
-import { d7747 as c1, d7748 as c2, d7749 as c3, d7750 as c4 } from '../descriptors/data/361.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
-import { d7751 as c5, d7752 as c6, d7753 as c7, d7754 as c8, d7755 as c9, d7756 as c10, d7757 as c11, d7758 as c12, d7759 as c13, d7760 as c14, d7761 as c15, d7762 as c16, d7763 as c17 } from '../descriptors/data/362.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
-import { d702 as d702 } from '../descriptors/data/38.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
+import { d866 as c0 } from '../descriptors/data/47.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d8773 as c1 } from '../descriptors/data/394.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d8774 as c2, d8775 as c3, d8776 as c4, d8777 as c5, d8778 as c6, d8779 as c7, d8780 as c8, d8781 as c9, d8782 as c10, d8783 as c11, d8784 as c12, d8785 as c13, d8786 as c14, d8787 as c15, d8788 as c16, d8789 as c17 } from '../descriptors/data/395.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d866 as d866 } from '../descriptors/data/47.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d702;
+const read = d866;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["GiftCardFundingSourceRequest"]:c0(),["SharedCodec360"]:c1(),["SharedCodec361"]:c2(),["SharedCodec362"]:c3(),["SharedCodec363"]:c4(),["SharedCodec364"]:c5(),["SharedCodec365"]:c6(),["SharedCodec366"]:c7(),["SharedCodec367"]:c8(),["SharedCodec368"]:c9(),["SharedCodec369"]:c10(),["SharedCodec370"]:c11(),["SharedCodec371"]:c12(),["SharedCodec372"]:c13(),["SharedCodec373"]:c14(),["SharedCodec374"]:c15(),["SharedCodec375"]:c16(),["SharedCodec376"]:c17()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["GiftCardFundingSourceRequest"]:c0(),["SharedCodec417"]:c1(),["SharedCodec418"]:c2(),["SharedCodec419"]:c3(),["SharedCodec420"]:c4(),["SharedCodec421"]:c5(),["SharedCodec422"]:c6(),["SharedCodec423"]:c7(),["SharedCodec424"]:c8(),["SharedCodec425"]:c9(),["SharedCodec426"]:c10(),["SharedCodec427"]:c11(),["SharedCodec428"]:c12(),["SharedCodec429"]:c13(),["SharedCodec430"]:c14(),["SharedCodec431"]:c15(),["SharedCodec432"]:c16(),["SharedCodec433"]:c17()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeGiftCardFundingSourceRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

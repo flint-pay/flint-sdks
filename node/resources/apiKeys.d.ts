@@ -10,9 +10,10 @@ import type {
     ApiKeysRevokeParams,
     ApiKeysUpdateParams
 } from '../declarations/types-0.js';
-import type { ClientOptions, CreateAPIKeyResponse } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+import type { ClientOptions } from '../declarations/types-7.js';
+import type { CreateAPIKeyResponse } from '../declarations/types-8.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,31 +39,30 @@ export type {
     ApiKeysRevokeParams,
     ApiKeysUpdateParams
 } from '../declarations/types-0.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
 export type {
     CreateAPIKeyResponse,
-    ClientOptions,
     CreateAPIKeyRequestInput,
     CreateAPIKeyRequestFullInput,
     CreateAPIKeyRequestReadOnlyInput,
-    CreateAPIKeyRequestRestrictedInput,
-    ConfigurationVersionRequestInput
-} from '../declarations/types-7.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+    CreateAPIKeyRequestRestrictedInput
+} from '../declarations/types-8.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { ClientOptions, ConfigurationVersionRequestInput } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-39.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { UpdateAPIKeyRequestInput } from '../declarations/types-66.js';
-export { makeConfigurationVersionRequest } from '../declarations/types-71.js';
+export type { NextAction, MoneyValue } from '../declarations/types-42.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { UpdateAPIKeyRequestInput } from '../declarations/types-73.js';
+export { makeConfigurationVersionRequest } from '../declarations/types-78.js';
 export {
     makeCreateAPIKeyRequest,
     makeCreateAPIKeyRequestFull,
     makeCreateAPIKeyRequestReadOnly,
     makeCreateAPIKeyRequestRestricted
-} from '../declarations/types-72.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
-export { makeUpdateAPIKeyRequest } from '../declarations/types-83.js';
+} from '../declarations/types-79.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
+export { makeUpdateAPIKeyRequest } from '../declarations/types-90.js';
 export interface ApiKeysResource {
     /**
  * Creates a merchant-bound external API key. A live credential creates a live key, or a test key
@@ -84,7 +84,8 @@ export interface ApiKeysResource {
     create(params: ApiKeysCreateParams, options?: RequestOptions<"merchant" | "onboarding">): Promise<WithResponseInfo<APIKeyWithSecret, CreateAPIKeyResponse>>;
     /**
  * Returns external API key metadata. Secrets, internal keys, and demo-session keys are not
- * returned.
+ * returned. Dashboard sessions can manage only live keys in live mode or keys in the selected
+ * sandbox in test mode. A key outside that environment returns 404 RESOURCE_NOT_FOUND.
  *
  * `GET /v1/api-keys/{api_key_id}`
  * @param api_key_id Flint API key ID.
@@ -95,8 +96,10 @@ export interface ApiKeysResource {
  */
     get(api_key_id: InputValue<string>, params?: ApiKeysGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<APIKey, APIKeyResponse>>;
     /**
- * Returns merchant-bound external API key metadata. Internal keys, demo-session keys, and secrets
- * are never returned. Default order: created_at descending, then api_key_id descending.
+ * Returns merchant-bound external API key metadata. Live callers list only live keys; test callers
+ * list only keys in their selected sandbox. Dashboard sessions use the mode and sandbox selected
+ * by the request. Internal keys, demo-session keys, and secrets are never returned. Default order:
+ * created_at descending, then api_key_id descending.
  *
  * `GET /v1/api-keys`
  * @see https://developers.withflintpay.com/docs/api/api-keys#listAPIKeys
@@ -114,7 +117,11 @@ export interface ApiKeysResource {
      */
     listItems(params?: ApiKeysListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<APIKey>;
     /**
- * Permanently revokes an external API key and returns metadata with status revoked.
+ * Permanently revokes an external API key and returns metadata with status revoked. A CLI login
+ * with accounts.api_keys.write can revoke a key in its own merchant and environment context even
+ * when the key holds broader scopes. API keys and workload credentials must also hold the target
+ * key's scopes. Dashboard sessions can manage only live keys in live mode or keys in the selected
+ * sandbox in test mode. A key outside that environment returns 404 RESOURCE_NOT_FOUND.
  *
  * `POST /v1/api-keys/{api_key_id}/revoke`
  * @param api_key_id Flint API key ID.
@@ -130,7 +137,9 @@ export interface ApiKeysResource {
     /**
  * Updates an API key's name, access, scopes, or expires_at. Expired keys can be updated, and a
  * future expires_at reactivates one. A revoked key can't be updated. An API key caller may grant
- * only scopes it holds and can manage only keys whose scopes it holds.
+ * only scopes it holds and can manage only keys whose scopes it holds. Dashboard sessions can
+ * manage only live keys in live mode or keys in the selected sandbox in test mode. A key outside
+ * that environment returns 404 RESOURCE_NOT_FOUND.
  *
  * `PATCH /v1/api-keys/{api_key_id}`
  * @param api_key_id Flint API key ID.

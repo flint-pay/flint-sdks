@@ -7,9 +7,9 @@ import type {
     InventoryLevelsGetParams,
     InventoryLevelsListParams,
     InventoryLevelsUpdateParams
-} from '../declarations/types-29.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-32.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -32,18 +32,18 @@ export type {
     InventoryLevelListResponse,
     InventoryLevelsUpdateParams,
     InventoryItem
-} from '../declarations/types-29.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+} from '../declarations/types-32.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { MetadataMap } from '../declarations/types-38.js';
-export type { NextAction, MoneyValue } from '../declarations/types-39.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { UpdateInventoryLevelRequestInput, UpdateInventoryLevelRequest } from '../declarations/types-67.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
-export { makeUpdateInventoryLevelRequest } from '../declarations/types-84.js';
+export type { MetadataMap } from '../declarations/types-41.js';
+export type { NextAction, MoneyValue } from '../declarations/types-42.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { UpdateInventoryLevelRequestInput, UpdateInventoryLevelRequest } from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
+export { makeUpdateInventoryLevelRequest } from '../declarations/types-91.js';
 export interface InventoryLevelsResource {
     /**
  * Retrieve an inventory level's current quantities and version by ID.

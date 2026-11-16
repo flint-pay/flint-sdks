@@ -28,7 +28,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/ReturnReceiptCreatedInstalledMerchantsEventInput.md#returnreceiptcreatedinstalledmerchantseventinputdataobject). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/ReturnReceiptSupersededInstalledMerchantsEventInput.md#returnreceiptsupersededinstalledmerchantseventinputdataprevious_attributes). |
+| `previous_attributes` | Optional | object and [ReturnReceiptPreviousAttributesInput](../models/ReturnReceiptPreviousAttributesInput.md#returnreceiptpreviousattributesinput) | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/ReturnReceiptSupersededInstalledMerchantsEventInput.md#returnreceiptsupersededinstalledmerchantseventinputdataprevious_attributes). |
 
 ### ReturnReceiptSupersededInstalledMerchantsEventInput.data.object
 
@@ -38,27 +38,7 @@ Field definitions: [ReturnReceiptCreatedInstalledMerchantsEventInput.data.object
 
 Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `correction_reason` | Optional | string or null | Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Values: `"entry_error"`, `"duplicate_observation"`, `"source_correction"`, `"reconciliation_correction"`, `"other"`. `correction_reason`: [declared alternatives](../models/ReturnInspectionAcceptanceDecidedInstalledMerchantsEventInput.md#returninspectionacceptancedecidedinstalledmerchantseventinputdataprevious_attributescorrection_reason). |
-| `correction_reason_message` | Optional | string or null | Detail about `correction_reason`. `correction_reason_message`: [declared alternatives](../models/ReturnInspectionAcceptanceDecidedInstalledMerchantsEventInput.md#returninspectionacceptancedecidedinstalledmerchantseventinputdataprevious_attributescorrection_reason_message). |
-| `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
-| `external_actor_id` | Optional | string or null | Your identifier for the actor who recorded the event. Don't put secrets in this field. `external_actor_id`: [declared alternatives](../models/ReturnInspectionAcceptanceDecidedInstalledMerchantsEventInput.md#returninspectionacceptancedecidedinstalledmerchantseventinputdataprevious_attributesexternal_actor_id). |
-| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEventInput.md#bundlearchivedinstalledmerchantseventinputdataprevious_attributesexternal_reference_id). |
-| `generated_dispositions` | Optional | Array of [ReturnDispositionInput](../models/ReturnDispositionInput.md#returndispositioninput) or null | Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. `generated_dispositions`: [declared alternatives](../models/ReturnInspectionAcceptanceDecidedInstalledMerchantsEventInput.md#returninspectionacceptancedecidedinstalledmerchantseventinputdataprevious_attributesgenerated_dispositions). |
-| `line_items` | Optional | Array of [ReturnReceiptLineItemInput](../models/ReturnReceiptLineItemInput.md#returnreceiptlineiteminput) or null | The lines recorded. `line_items`: [declared alternatives](../models/ReturnReceiptSupersededInstalledMerchantsEventInput.md#returnreceiptsupersededinstalledmerchantseventinputdataprevious_attributesline_items). |
-| `received_at` | Optional | string or null | RFC3339 timestamp. `received_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
-| `receiving_location_id` | Optional | string or null | ID of the Location that received the goods. `receiving_location_id`: [declared alternatives](../models/ReturnReceiptSupersededInstalledMerchantsEventInput.md#returnreceiptsupersededinstalledmerchantseventinputdataprevious_attributesreceiving_location_id). |
-| `return_id` | Optional | string or null | ID of the Return the goods belong to. `return_id`: [declared alternatives](../models/ReturnInspectionAcceptanceDecidedInstalledMerchantsEventInput.md#returninspectionacceptancedecidedinstalledmerchantseventinputdataprevious_attributesreturn_id). |
-| `return_receipt_id` | Optional | string or null | Unique identifier for this return receipt, prefixed `retrc_`. `return_receipt_id`: [declared alternatives](../models/ReturnReceiptSupersededInstalledMerchantsEventInput.md#returnreceiptsupersededinstalledmerchantseventinputdataprevious_attributesreturn_receipt_id). |
-| `shipment_id` | Optional | string or null | ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a shipment. `shipment_id`: [declared alternatives](../models/ReturnReceiptSupersededInstalledMerchantsEventInput.md#returnreceiptsupersededinstalledmerchantseventinputdataprevious_attributesshipment_id). |
-| `source_system` | Optional | [ReturnSourceSystemInput](../models/ReturnSourceSystemInput.md#returnsourcesysteminput) or null or null | System that recorded the observation. `null` when no source system was recorded. |
-| `status` | Optional | string or null | Whether this is the current observation of these units or a correction replaced it. Values: `"current"`, `"superseded"`. `status`: [declared alternatives](../models/ReturnInspectionAcceptanceDecidedInstalledMerchantsEventInput.md#returninspectionacceptancedecidedinstalledmerchantseventinputdataprevious_attributesstatus). |
-| `superseded_at` | Optional | string or null | RFC3339 timestamp. `superseded_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
-| `superseded_by_return_receipt_id` | Optional | string or null | ID of the receipt that corrected this one. Absent while it is current. `superseded_by_return_receipt_id`: [declared alternatives](../models/ReturnReceiptSupersededInstalledMerchantsEventInput.md#returnreceiptsupersededinstalledmerchantseventinputdataprevious_attributessuperseded_by_return_receipt_id). |
-| `supersedes_return_receipt_id` | Optional | string or null | ID of the receipt this one corrects. `supersedes_return_receipt_id`: [declared alternatives](../models/ReturnReceiptSupersededInstalledMerchantsEventInput.md#returnreceiptsupersededinstalledmerchantseventinputdataprevious_attributessupersedes_return_receipt_id). |
-| `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
-| `version` | Optional | integer or null | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. `version`: [declared alternatives](../models/ReturnInspectionAcceptanceDecidedInstalledMerchantsEventInput.md#returninspectionacceptancedecidedinstalledmerchantseventinputdataprevious_attributesversion). |
+Field definitions: [shared fields](ReturnReceiptPreviousAttributesInput.md#returnreceiptpreviousattributesinput).
 
 ### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.correction_reason
 
@@ -74,7 +54,7 @@ Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created
 
 ### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.external_actor_id
 
-Declared alternatives: [ReturnInspectionAcceptanceDecidedInstalledMerchantsEventInput.data.previous_attributes.external_actor_id](../models/ReturnInspectionAcceptanceDecidedInstalledMerchantsEventInput.md#returninspectionacceptancedecidedinstalledmerchantseventinputdataprevious_attributesexternal_actor_id).
+Declared alternatives: [InventoryCountObservationProvenancePreviousAttributesInput.external_actor_id](../models/InventoryCountObservationProvenancePreviousAttributesInput.md#inventorycountobservationprovenancepreviousattributesinputexternal_actor_id).
 
 ### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.external_reference_id
 
@@ -86,17 +66,7 @@ Declared alternatives: [ReturnInspectionAcceptanceDecidedInstalledMerchantsEvent
 
 ### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.line_items
 
-### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.line_items variant 1
-
-anyOf variant 1: The lines recorded..
-
-- Value shape: Array of [ReturnReceiptLineItemInput](../models/ReturnReceiptLineItemInput.md#returnreceiptlineiteminput). The lines recorded. 
-
-### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.line_items variant 2
-
-anyOf variant 2.
-
-- Value shape: null. The lines recorded. 
+Declared alternatives: [ReturnReceiptPreviousAttributesInput.line_items](../models/ReturnReceiptPreviousAttributesInput.md#returnreceiptpreviousattributesinputline_items).
 
 ### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.received_at
 
@@ -104,17 +74,7 @@ Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created
 
 ### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.receiving_location_id
 
-### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.receiving_location_id variant 1
-
-anyOf variant 1: ID of the Location that received the goods..
-
-- Value shape: string. ID of the Location that received the goods. ID of the Location that received the goods. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. 
-
-### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.receiving_location_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. ID of the Location that received the goods. 
+Declared alternatives: [ReturnReceiptPreviousAttributesInput.receiving_location_id](../models/ReturnReceiptPreviousAttributesInput.md#returnreceiptpreviousattributesinputreceiving_location_id).
 
 ### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.return_id
 
@@ -122,31 +82,11 @@ Declared alternatives: [ReturnInspectionAcceptanceDecidedInstalledMerchantsEvent
 
 ### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.return_receipt_id
 
-### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.return_receipt_id variant 1
-
-anyOf variant 1: Unique identifier for this return receipt, prefixed `retrc_`..
-
-- Value shape: string. Unique identifier for this return receipt, prefixed `retrc_`. Unique identifier for this return receipt, prefixed `retrc_`. Example: `"retrc_01KEZF7C0052GWDW41D9AJAVJZ"`. 
-
-### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.return_receipt_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Unique identifier for this return receipt, prefixed `retrc_`. 
+Declared alternatives: [ReturnReceiptPreviousAttributesInput.return_receipt_id](../models/ReturnReceiptPreviousAttributesInput.md#returnreceiptpreviousattributesinputreturn_receipt_id).
 
 ### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.shipment_id
 
-### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.shipment_id variant 1
-
-anyOf variant 1: ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a shipment..
-
-- Value shape: string. ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a shipment. ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a shipment. Example: `"shp_01KEZF7C00Q2AFXWXHMCDR3F68"`. 
-
-### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.shipment_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a shipment. 
+Declared alternatives: [ReturnReceiptPreviousAttributesInput.shipment_id](../models/ReturnReceiptPreviousAttributesInput.md#returnreceiptpreviousattributesinputshipment_id).
 
 ### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.status
 
@@ -158,31 +98,11 @@ Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created
 
 ### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.superseded_by_return_receipt_id
 
-### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.superseded_by_return_receipt_id variant 1
-
-anyOf variant 1: ID of the receipt that corrected this one. Absent while it is current..
-
-- Value shape: string. ID of the receipt that corrected this one. Absent while it is current. ID of the receipt that corrected this one. Absent while it is current. Example: `"retrc_01KEZF7C0052GWDW41D9AJAVJZ"`. 
-
-### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.superseded_by_return_receipt_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. ID of the receipt that corrected this one. Absent while it is current. 
+Declared alternatives: [ReturnReceiptPreviousAttributesInput.superseded_by_return_receipt_id](../models/ReturnReceiptPreviousAttributesInput.md#returnreceiptpreviousattributesinputsuperseded_by_return_receipt_id).
 
 ### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.supersedes_return_receipt_id
 
-### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.supersedes_return_receipt_id variant 1
-
-anyOf variant 1: ID of the receipt this one corrects..
-
-- Value shape: string. ID of the receipt this one corrects. ID of the receipt this one corrects. Example: `"retrc_01KEZF7C0052GWDW41D9AJAVJZ"`. 
-
-### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.supersedes_return_receipt_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. ID of the receipt this one corrects. 
+Declared alternatives: [ReturnReceiptPreviousAttributesInput.supersedes_return_receipt_id](../models/ReturnReceiptPreviousAttributesInput.md#returnreceiptpreviousattributesinputsupersedes_return_receipt_id).
 
 ### ReturnReceiptSupersededInstalledMerchantsEventInput.data.previous_attributes.updated_at
 

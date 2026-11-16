@@ -1,0 +1,1 @@
+{"shared":"SignedMoneyPreviousAttributes","phpRepresentation":{"kind":"record","fields":{"amount":{"kind":"nullable","value":{"kind":"value","type":"string"}},"currency":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["SharedCodec2740","SharedCodec53","SignedMoneyPreviousAttributes"]}

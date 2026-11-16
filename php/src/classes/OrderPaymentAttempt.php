@@ -81,7 +81,7 @@ final class OrderPaymentAttempt extends Model {
      */
     public function getStartedAt(): ?string { return $this->get('started_at'); }
     public function hasStartedAt(): bool { return $this->has('started_at'); }
-    /** Where the attempt is in collecting payment or saving a payment method. `partially_succeeded`, `succeeded`, `failed`, `canceled`, and `expired` are final. Value enum: "processing", "requires_action", "requires_capture", "partially_succeeded", "requires_retry", "finalizing", "succeeded", "failed", "expired", "canceled".
+    /** Where the attempt is in collecting payment or saving a payment method. `partially_succeeded`, `succeeded`, `failed`, `canceled`, and `expired` are final. Value enum: "processing", "requires_action", "requires_capture", "partially_succeeded", "succeeded", "failed", "expired", "canceled".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
@@ -91,7 +91,7 @@ final class OrderPaymentAttempt extends Model {
      */
     public function getStatusReason(): ?string { return $this->get('status_reason'); }
     public function hasStatusReason(): bool { return $this->has('status_reason'); }
-    /** Lifecycle actions accepted now. Cancel is available during collection until a payment leg succeeds. Finalizing and terminal attempts list no actions. Always present with merchant credentials. [] enum: "cancel". [] (Value): string.  Value enum: "cancel".
+    /** Lifecycle actions accepted now. Cancel is available during collection until a payment leg succeeds. Attempts applying their outcome to the order and terminal attempts list no actions. Always present with merchant credentials. [] enum: "cancel". [] (Value): string.  Value enum: "cancel".
      * @return ?list<string>
      */
     public function getSupportedActions(): ?array { return $this->get('supported_actions'); }

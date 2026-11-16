@@ -14,7 +14,7 @@ Rules governing whether and how purchased items can be returned.
 | `current_return_policy_revision_id` | Required | string | ID of the revision Flint judges new requests by. Example: `"rpolv_01KEZF7C007AWH6P4QC14Q25TC"`. |
 | `current_revision` | Optional | [ReturnPolicyRevision](../models/ReturnPolicyRevision.md#returnpolicyrevision) or null | Present only when `expand` includes `current_revision`; `null` when expanded and there is no related return policy revision. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. Example: `"warehouse-1842"`. |
-| `metadata` | Required | [MetadataMap](../models/MetadataMap.md#metadatamap) | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/CheckoutSession.md#checkoutsessionmetadata). |
+| `metadata` | Required | [MetadataMap](../models/MetadataMap.md#metadatamap) | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/CancelOrderEditResult.md#cancelordereditresultordermetadata). |
 | `name` | Required | string | Name of the policy. |
 | `return_policy_id` | Required | string | Unique identifier for this return policy, prefixed `rpol_`. Example: `"rpol_01KEZF7C00H8C042BEK6HBRANX"`. |
 | `status` | Required | string | active policies apply to new Returns; inactive policies do not. Toggle active and inactive with PATCH status. Retire either with DELETE /v1/return-policies/{return_policy_id}. Values: `"active"`, `"inactive"`, `"archived"`. |
@@ -23,5 +23,5 @@ Rules governing whether and how purchased items can be returned.
 
 ### ReturnPolicy.metadata
 
-Field definitions: [CheckoutSession.metadata](../models/CheckoutSession.md#checkoutsessionmetadata).
+Field definitions: [CancelOrderEditResult.order.metadata](../models/CancelOrderEditResult.md#cancelordereditresultordermetadata).
 

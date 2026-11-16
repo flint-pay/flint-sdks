@@ -98,11 +98,15 @@ Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousA
 
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.collection_block_status
 
-Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.collection_block_status](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributescollection_block_status).
+Declared alternatives: [ExpandedInvoiceSummaryPreviousAttributes.collection_block_status](../models/ExpandedInvoiceSummaryPreviousAttributes.md#expandedinvoicesummarypreviousattributescollection_block_status).
 
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.created_at
 
-Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.created_at](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributescreated_at).
+Declared alternatives: [ExpandedInvoiceSummaryPreviousAttributes.created_at](../models/ExpandedInvoiceSummaryPreviousAttributes.md#expandedinvoicesummarypreviousattributescreated_at).
+
+### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.customer
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.customer](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributescustomer).
 
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.customer_id
 
@@ -114,7 +118,7 @@ Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousA
 
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.due_date
 
-Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.due_date](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesdue_date).
+Declared alternatives: [ExpandedInvoiceSummaryPreviousAttributes.due_date](../models/ExpandedInvoiceSummaryPreviousAttributes.md#expandedinvoicesummarypreviousattributesdue_date).
 
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.external_reference_id
 
@@ -126,7 +130,7 @@ Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousA
 
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.invoice_id
 
-Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.invoice_id](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesinvoice_id).
+Declared alternatives: [ExpandedInvoiceSummaryPreviousAttributes.invoice_id](../models/ExpandedInvoiceSummaryPreviousAttributes.md#expandedinvoicesummarypreviousattributesinvoice_id).
 
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.invoice_number
 
@@ -156,6 +160,10 @@ Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousA
 
 Declared alternatives: [DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.metadata](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributesmetadata).
 
+### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.order
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.order](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesorder).
+
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.order_id
 
 Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.order_id](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesorder_id).
@@ -167,6 +175,10 @@ Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousA
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.payment_due
 
 Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.payment_due](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributespayment_due).
+
+### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.payment_terms_snapshot
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.payment_terms_snapshot](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributespayment_terms_snapshot).
 
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.po_number
 
@@ -182,7 +194,7 @@ Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousA
 
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.refund_status
 
-Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.refund_status](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesrefund_status).
+Declared alternatives: [ExpandedInvoiceSummaryPreviousAttributes.refund_status](../models/ExpandedInvoiceSummaryPreviousAttributes.md#expandedinvoicesummarypreviousattributesrefund_status).
 
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.reminders_paused
 
@@ -191,6 +203,10 @@ Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousA
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.reminders_paused_at
 
 Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.reminders_paused_at](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesreminders_paused_at).
+
+### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.remit_to_address
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.remit_to_address](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesremit_to_address).
 
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.schedule_entries
 
@@ -206,7 +222,7 @@ Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousA
 
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.status
 
-Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.status](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesstatus).
+Declared alternatives: [ExpandedInvoiceSummaryPreviousAttributes.status](../models/ExpandedInvoiceSummaryPreviousAttributes.md#expandedinvoicesummarypreviousattributesstatus).
 
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.subscription_id
 
@@ -214,7 +230,7 @@ Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousA
 
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.supported_actions
 
-Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.supported_actions](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributessupported_actions).
+Declared alternatives: [ExpandedInvoiceSummaryPreviousAttributes.supported_actions](../models/ExpandedInvoiceSummaryPreviousAttributes.md#expandedinvoicesummarypreviousattributessupported_actions).
 
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.timezone
 

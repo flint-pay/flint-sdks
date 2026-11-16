@@ -1,427 +1,62 @@
-import type { MoneyValue, MoneyValueInput } from './types-39.js';
-import type { Address, AddressRequest, AddressRequestInput, AdvanceTestClockRequestInput } from './types-0.js';
+import type { ResponseWarning, ResponseMeta, ResourceReference } from './types-60.js';
 import type { InputValue } from '../runtime.js';
-import type { ConnectTaxConnectionRequestInput } from './types-7.js';
-import type { CreateTaxRegistrationRequestInput, CreateTestClockRequestInput } from './types-14.js';
-import type { DisconnectTaxConnectionRequestInput } from './types-23.js';
-import type { ResponseMeta } from './types-54.js';
-import type { UpdateTaxRegistrationRequestInput } from './types-69.js';
-import type { MerchantWebhookEnvelope } from './types-38.js';
-import type { DocumentTaxID, DocumentTaxIDRequestInput, ExpandedOrderSummary } from './types-24.js';
-import type { CustomerTaxID } from './types-16.js';
-import type { PartnerWebhookEnvelope } from './types-44.js';
+import type { CreateRiskPreviewRequestInput, CreateRiskRuleRequestInput, CreateSandboxRequestInput } from './types-13.js';
+import type { RiskPredicateNode } from './types-64.js';
+import type { DisputesAcceptParams } from './types-25.js';
+import type { UpdateRiskRuleRequestInput, UpdateSettingsRequestInput } from './types-75.js';
+import type { GiftCardPurchaseRecipient, GiftCardNotificationRecipientInput, GiftCardNotification } from './types-29.js';
+import type { GiftCard, FulfillmentSettings } from './types-28.js';
+import type { PartnerAppWithRotatedSecret, PartnerAppsListParams } from './types-48.js';
+import type { CreateDeveloperSandboxResult } from './types-9.js';
+import type { PaymentMethodWithSetup, PaymentSettings } from './types-52.js';
+import type { MoneyValue, MoneyValuePreviousAttributes } from './types-42.js';
+import type { PaymentCollection, PaymentErrorSummary, PaymentErrorSummaryPreviousAttributes } from './types-49.js';
+import type { SetupCollectionPreviousAttributes } from './types-66.js';
+import type { BrandingSettings } from './types-1.js';
+import type { CheckoutSettings } from './types-7.js';
+import type { CustomerAccountSettings, CustomerEmailDeliverySettings } from './types-16.js';
+import type { InventorySettings } from './types-33.js';
+import type { InvoiceSettings, LegalSettings } from './types-38.js';
+import type { MetadataMap } from './types-41.js';
+import type { PaymentLimitSettings } from './types-50.js';
+import type { PromotionSettings } from './types-57.js';
+import type { SubscriptionSettings } from './types-70.js';
+import type { TaxIdentity, TaxSettings } from './types-72.js';
+import type { TippingSettings } from './types-73.js';
 /**
- * Tax you calculated yourself for a line or charge: whether prices include tax, and the tax
- * components.
+ * The result of validating a proposed risk rule: whether it is valid, any issues found, warnings,
+ * and an analysis of the rule.
  */
-export type TaxCalculationRequestRequestInput = {
+export type RiskPreview = {
     /**
-     * The tax for this line item or charge, one component per jurisdiction and tax type. Each is a
-     * `percentage` tax. minItems: 1. [] (Value): {@link TaxComponentRequestRequestInput}. One tax
-     * component in a `TaxCalculationInput`: a jurisdiction, tax type, and percent.
+     * Rule analysis. Null when the proposed rule is invalid. anyOf[1] (Value): {@link
+     * RiskRuleAnalysis}. What a valid risk rule uses: its evaluation stage, the attributes and
+     * list aliases it references, and which payments it applies to. anyOf[2] (Value): null.
      */
-    "components": Array<TaxComponentRequestRequestInput>;
+    "analysis": ((RiskRuleAnalysis) | (null));
+    /** Whether the proposed rule is valid. */
+    "is_valid": boolean;
     /**
-     * Whether the price this tax applies to already includes the tax. Value enum: "additive",
-     * "inclusive".
+     * Every rule validation issue in validation order. Empty when the rule is valid. [] (Value):
+     * {@link RiskRuleIssue}. A problem that stops a saved or proposed risk rule from running, with
+     * a `code`, a message, and the `path` to the part of the rule at fault.
      */
-    "price_mode": "additive" | "inclusive";
+    "issues": Array<RiskRuleIssue>;
+    /**
+     * Advisory warnings. Empty when the proposed rule is invalid. [] (Value): {@link
+     * ResponseWarning}. A non-blocking condition reported with a response. The `code` identifies
+     * the condition and `severity` says how urgent it is.
+     */
+    "warnings": Array<ResponseWarning>;
 };
-/** One tax component in a `TaxCalculationInput`: a jurisdiction, tax type, and percent. */
-export type TaxComponentRequest = ({
+/** A response containing `RiskPreview` data. */
+export type RiskPreviewResponse = {
     /**
-     * How the tax is figured: a percentage of the taxable amount, or a fixed amount. Value enum:
-     * "percentage".
+     * Resource, collection, or operation result returned by this request. The result of validating
+     * a proposed risk rule: whether it is valid, any issues found, warnings, and an analysis of
+     * the rule.
      */
-    "calculation_type"?: "percentage" | (string & {});
-    /**
-     * The fixed tax amount in the order currency. Send it with a `flat_amount` component; a
-     * `percentage` component doesn't take it. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "flat_money"?: MoneyValue;
-    /**
-     * The taxing jurisdiction this component's tax is owed to. A taxing jurisdiction with its
-     * level, such as state or city, name, state, and country.
-     */
-    "jurisdiction": TaxJurisdiction;
-    /**
-     * Tax rate in percentage points, from 0 to 100 with up to four decimal places: `6.5` is 6.5%.
-     * Send it with a `percentage` component; a `flat_amount` component doesn't take it. minimum:
-     * 0. maximum: 100. multipleOf: 0.0001.
-     */
-    "percent": number;
-    /**
-     * The kind of tax this component collects. Value enum: "sales_tax", "use_tax", "vat", "gst",
-     * "hst", "pst", "qst".
-     */
-    "tax_type": "sales_tax" | "use_tax" | "vat" | "gst" | "hst" | "pst" | "qst" | (string & {});
-    /**
-     * Optional reverse-charge treatment. Requires percent 0 and a non-US jurisdiction. Value enum:
-     * "reverse_charge".
-     */
-    "taxability_reason"?: "reverse_charge" | (string & {});
-});
-/** One tax component in a `TaxCalculationInput`: a jurisdiction, tax type, and percent. */
-export type TaxComponentRequestModelInput = ({
-    /**
-     * How the tax is figured: a percentage of the taxable amount, or a fixed amount. Default:
-     * "percentage". Value enum: "percentage".
-     */
-    "calculation_type"?: "percentage";
-    /**
-     * The fixed tax amount in the order currency. Send it with a `flat_amount` component; a
-     * `percentage` component doesn't take it. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "flat_money"?: MoneyValueInput;
-    /**
-     * The taxing jurisdiction this component's tax is owed to. A taxing jurisdiction with its
-     * level, such as state or city, name, state, and country.
-     */
-    "jurisdiction": TaxJurisdictionRequestModelInput;
-    /**
-     * Tax rate in percentage points, from 0 to 100 with up to four decimal places: `6.5` is 6.5%.
-     * Send it with a `percentage` component; a `flat_amount` component doesn't take it. minimum:
-     * 0. maximum: 100. multipleOf: 0.0001.
-     */
-    "percent": number;
-    /**
-     * The kind of tax this component collects. Value enum: "sales_tax", "use_tax", "vat", "gst",
-     * "hst", "pst", "qst".
-     */
-    "tax_type": "sales_tax" | "use_tax" | "vat" | "gst" | "hst" | "pst" | "qst";
-    /**
-     * Optional reverse-charge treatment. Requires percent 0 and a non-US jurisdiction. Value enum:
-     * "reverse_charge".
-     */
-    "taxability_reason"?: "reverse_charge";
-})
-    & ({
-    "flat_money"?: never;
-});
-/** One tax component in a `TaxCalculationInput`: a jurisdiction, tax type, and percent. */
-export type TaxComponentRequestRequestInput = ({
-    /**
-     * How the tax is figured: a percentage of the taxable amount, or a fixed amount. Value enum:
-     * "percentage".
-     */
-    "calculation_type"?: "percentage";
-    /**
-     * The fixed tax amount in the order currency. Send it with a `flat_amount` component; a
-     * `percentage` component doesn't take it. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "flat_money"?: MoneyValueInput;
-    /**
-     * The taxing jurisdiction this component's tax is owed to. A taxing jurisdiction with its
-     * level, such as state or city, name, state, and country.
-     */
-    "jurisdiction": TaxJurisdictionRequestInput;
-    /**
-     * Tax rate in percentage points, from 0 to 100 with up to four decimal places: `6.5` is 6.5%.
-     * Send it with a `percentage` component; a `flat_amount` component doesn't take it. minimum:
-     * 0. maximum: 100. multipleOf: 0.0001.
-     */
-    "percent": number;
-    /**
-     * The kind of tax this component collects. Value enum: "sales_tax", "use_tax", "vat", "gst",
-     * "hst", "pst", "qst".
-     */
-    "tax_type": "sales_tax" | "use_tax" | "vat" | "gst" | "hst" | "pst" | "qst";
-    /**
-     * Optional reverse-charge treatment. Requires percent 0 and a non-US jurisdiction. Value enum:
-     * "reverse_charge".
-     */
-    "taxability_reason"?: "reverse_charge";
-})
-    & ({
-    "flat_money"?: never;
-});
-/**
- * The environment's automatic sales tax connection. Before a record exists, identity, version and
- * timestamps are omitted. Read-time business-detail changes and provider pauses do not advance
- * version or send webhooks. Status_reason and supported_actions can also change with the clock as
- * registrations end, without a version change or webhook.
- */
-export type TaxConnection = {
-    /**
-     * Current automatic-tax coverage, independent of the seller's registrations. Sorted by
-     * country. Unsupported countries or categories require external tax. [] (Value): {@link
-     * TaxCountryCoverage}. A country and the categories automatic tax can calculate there.
-     */
-    "coverage": Array<TaxCountryCoverage>;
-    /**
-     * When the connection record was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "created_at"?: string;
-    /**
-     * Current statements the seller must agree to before connecting. Ordered seller disclosure
-     * rendered with the merchant's effective automatic tax fee.
-     */
-    "disclosure": TaxConnectionDisclosure;
-    /**
-     * Legal business address used as the tax origin. In live mode, comes from processor-verified
-     * onboarding details before connect and the tax account snapshot once connected. In sandboxes,
-     * comes from the merchant profile. `null` when no legal address is available or the sandbox
-     * profile address is incomplete. anyOf[1] (Value): {@link Address}. A postal address. Every
-     * address has country. Addresses Flint checked as complete (customer and saved addresses,
-     * merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient
-     * and pickup addresses) always have line1 and city, and US ones always have state and
-     * postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold
-     * only what was provided, such as postal_code and country. anyOf[2] (Value): null.
-     */
-    "legal_address": ((Address) | (null));
-    /**
-     * Legal business name verified by the payment processor, which can differ from the
-     * merchant-entered Merchant.business_name. Before connect, comes from verified onboarding
-     * details; once connected, comes from the tax account snapshot. In sandboxes, comes from the
-     * merchant profile. Omitted when no name is available.
-     */
-    "legal_business_name"?: string;
-    /**
-     * The seller's recorded agreement to the disclosure. `null` when no connect has recorded one.
-     * anyOf[1] (Value): {@link TaxConnectionSellerAttestation}. The disclosure the seller agreed
-     * to and when Flint recorded that agreement. anyOf[2] (Value): null.
-     */
-    "seller_attestation": ((TaxConnectionSellerAttestation) | (null));
-    /**
-     * Whether automatic tax is connected and can calculate tax. Value enum: "not_connected",
-     * "provisioning", "active", "attention_required", "disabled".
-     */
-    "status": "not_connected" | "provisioning" | "active" | "attention_required" | "disabled" | (string & {});
-    /**
-     * Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason
-     * applies. Unknown reasons normalize to `other`. Value enum: "not_offered",
-     * "onboarding_required", "tax_category_required", "registration_required",
-     * "temporarily_unavailable", "setup_incomplete", "registration_rejected",
-     * "business_details_changed", "support_required", "disconnected", "other", null.
-     */
-    "status_reason": "not_offered"
-        | "onboarding_required"
-        | "tax_category_required"
-        | "registration_required"
-        | "temporarily_unavailable"
-        | "setup_incomplete"
-        | "registration_rejected"
-        | "business_details_changed"
-        | "support_required"
-        | "disconnected"
-        | "other"
-        | null
-        | (string & {})
-        | null;
-    /**
-     * Lists connect when setup can complete and disconnect when automatic tax can be turned off,
-     * based on the connection state for every credential. An empty array means neither action is
-     * available. Performing either action requires settings.write. [] enum: "connect",
-     * "disconnect". [] (Value): string. Value enum: "connect", "disconnect".
-     */
-    "supported_actions": Array<"connect" | "disconnect" | (string & {})>;
-    /**
-     * Flint tax connection ID. Present once the first registration or connection creates a record.
-     * Example: "tcn_01KEZF7C007Y42FMVNHV3P27QN".
-     */
-    "tax_connection_id"?: string;
-    /**
-     * When the connection record's public state last changed. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "updated_at"?: string;
-    /**
-     * Current resource version. Send as expected_version to reject a write based on an older
-     * version. Format: uint64. minimum: 1.
-     */
-    "version"?: number;
-};
-export type TaxConnectionConnectParams = (InputValue<ConnectTaxConnectionRequestInput>);
-export type TaxConnectionCreateRegistrationParams = (InputValue<CreateTaxRegistrationRequestInput>);
-export type TaxConnectionDeleteRegistrationParams = {
-    /**
-     * Registration version last read by the caller. Omit to delete the current registration.
-     * Format: uint64. minimum: 1. maximum: 9007199254740991.
-     */
-    "expected_version"?: InputValue<number>;
-};
-/** Ordered seller disclosure rendered with the merchant's effective automatic tax fee. */
-export type TaxConnectionDisclosure = {
-    /**
-     * Statements in display order. The seller must agree to every statement. [] (Value): {@link
-     * TaxDisclosureStatement}. One statement of the seller disclosure.
-     */
-    "statements": Array<TaxDisclosureStatement>;
-    /** Opaque version of the exact rendered statements. Do not parse it. */
-    "version": string;
-};
-export type TaxConnectionDisconnectParams = (InputValue<DisconnectTaxConnectionRequestInput>);
-export type TaxConnectionGetParams = {};
-export type TaxConnectionGetRegistrationParams = {};
-export type TaxConnectionListRegistrationsParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 100. minimum: 1. maximum:
-     * 100. Default: 100.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Return registrations with these statuses. Removed registrations never list. Values are
-     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
-     * within this filter are ORed; separate filters are ANDed. [] enum: "pending", "scheduled",
-     * "active", "ended", "rejected", "removed". Value enum: "pending", "scheduled", "active",
-     * "ended", "rejected", "removed". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "pending", "scheduled", "active", "ended", "rejected", "removed". anyOf[1][] (Value):
-     * string. Value enum: "pending", "scheduled", "active", "ended", "rejected", "removed".
-     * anyOf[2] (Value): string. Value enum: "pending", "scheduled", "active", "ended", "rejected",
-     * "removed".
-     */
-    "status"?: InputValue<("pending" | "scheduled" | "active" | "ended" | "rejected" | "removed")
-        | readonly ("pending" | "scheduled" | "active" | "ended" | "rejected" | "removed")[]>;
-    /**
-     * Return registrations in these US states, given by two-letter ISO 3166-2 code without the
-     * `US-` prefix. Values match case-sensitively and intersect the status filter. Values are
-     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
-     * within this filter are ORed; separate filters are ANDed. [] enum: "BC", "MB", "QC", "SK",
-     * "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA",
-     * "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "NE", "NV", "NJ", "NM", "NY",
-     * "NC", "ND", "OH", "OK", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV",
-     * "WI", "WY". Value enum: "BC", "MB", "QC", "SK", "AL", "AK", "AZ", "AR", "CA", "CO", "CT",
-     * "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",
-     * "MN", "MS", "MO", "NE", "NV", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "PA", "RI", "SC",
-     * "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[1] (Value): Array of
-     * string. minItems: 1. [] enum: "BC", "MB", "QC", "SK", "AL", "AK", "AZ", "AR", "CA", "CO",
-     * "CT", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA",
-     * "MI", "MN", "MS", "MO", "NE", "NV", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "PA", "RI",
-     * "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[1][] (Value):
-     * string. A US state, given by its two-letter ISO 3166-2 code without the `US-` prefix. Value
-     * enum: "BC", "MB", "QC", "SK", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "FL", "GA",
-     * "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO",
-     * "NE", "NV", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "PA", "RI", "SC", "SD", "TN", "TX",
-     * "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[2] (Value): string. A US state, given by its
-     * two-letter ISO 3166-2 code without the `US-` prefix. Value enum: "BC", "MB", "QC", "SK",
-     * "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA",
-     * "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "NE", "NV", "NJ", "NM", "NY",
-     * "NC", "ND", "OH", "OK", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV",
-     * "WI", "WY".
-     */
-    "state"?: InputValue<("BC"
-        | "MB"
-        | "QC"
-        | "SK"
-        | "AL"
-        | "AK"
-        | "AZ"
-        | "AR"
-        | "CA"
-        | "CO"
-        | "CT"
-        | "DC"
-        | "FL"
-        | "GA"
-        | "HI"
-        | "ID"
-        | "IL"
-        | "IN"
-        | "IA"
-        | "KS"
-        | "KY"
-        | "LA"
-        | "ME"
-        | "MD"
-        | "MA"
-        | "MI"
-        | "MN"
-        | "MS"
-        | "MO"
-        | "NE"
-        | "NV"
-        | "NJ"
-        | "NM"
-        | "NY"
-        | "NC"
-        | "ND"
-        | "OH"
-        | "OK"
-        | "PA"
-        | "RI"
-        | "SC"
-        | "SD"
-        | "TN"
-        | "TX"
-        | "UT"
-        | "VT"
-        | "VA"
-        | "WA"
-        | "WV"
-        | "WI"
-        | "WY")
-        | readonly ("BC"
-        | "MB"
-        | "QC"
-        | "SK"
-        | "AL"
-        | "AK"
-        | "AZ"
-        | "AR"
-        | "CA"
-        | "CO"
-        | "CT"
-        | "DC"
-        | "FL"
-        | "GA"
-        | "HI"
-        | "ID"
-        | "IL"
-        | "IN"
-        | "IA"
-        | "KS"
-        | "KY"
-        | "LA"
-        | "ME"
-        | "MD"
-        | "MA"
-        | "MI"
-        | "MN"
-        | "MS"
-        | "MO"
-        | "NE"
-        | "NV"
-        | "NJ"
-        | "NM"
-        | "NY"
-        | "NC"
-        | "ND"
-        | "OH"
-        | "OK"
-        | "PA"
-        | "RI"
-        | "SC"
-        | "SD"
-        | "TN"
-        | "TX"
-        | "UT"
-        | "VT"
-        | "VA"
-        | "WA"
-        | "WV"
-        | "WI"
-        | "WY")[]>;
-};
-/** A response containing `TaxConnection` data. */
-export type TaxConnectionResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The environment's
-     * automatic sales tax connection. Before a record exists, identity, version and timestamps are
-     * omitted. Read-time business-detail changes and provider pauses do not advance version or
-     * send webhooks. Status_reason and supported_actions can also change with the clock as
-     * registrations end, without a version change or webhook.
-     */
-    "data": TaxConnection;
+    "data": RiskPreview;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -433,896 +68,154 @@ export type TaxConnectionResponse = {
      */
     "request_id": string;
 };
-/** The disclosure the seller agreed to and when Flint recorded that agreement. */
-export type TaxConnectionSellerAttestation = {
+export type RiskPreviewsCreateParams = (CreateRiskPreviewRequestInput)
+    & {
     /**
-     * When Flint recorded the seller's agreement. Format: date-time. Example:
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** A rule for assessing and handling payment risk. */
+export type RiskRule = {
+    /**
+     * What Flint does with a payment the rule matches. Value enum: "allow", "block", "review",
+     * "require_3ds".
+     */
+    "action": "allow" | "block" | "review" | "require_3ds" | (string & {});
+    /** Which payments the rule applies to. Value enum: "all_payments", "on_session_only". */
+    "applicability": "all_payments" | "on_session_only" | (string & {});
+    /**
+     * RFC3339 timestamp. `null` when the resource isn't archived. Format: date-time. Example:
      * "2026-08-02T16:00:00Z".
      */
-    "attested_at": string;
-    /** Opaque version of the disclosure the seller agreed to. */
-    "disclosure_version": string;
-};
-export type TaxConnectionUpdateRegistrationParams = (UpdateTaxRegistrationRequestInput);
-export type TaxConnectionUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "coverage": Array<TaxCountryCoverage>;
-            "created_at"?: string;
-            "disclosure": TaxConnectionDisclosure;
-            "legal_address": ((Address) | (null));
-            "legal_business_name"?: string;
-            "seller_attestation": ((TaxConnectionSellerAttestation) | (null));
-            "status": "not_connected" | "provisioning" | "active" | "attention_required" | "disabled" | (string & {});
-            "status_reason": "not_offered"
-                | "onboarding_required"
-                | "tax_category_required"
-                | "registration_required"
-                | "temporarily_unavailable"
-                | "setup_incomplete"
-                | "registration_rejected"
-                | "business_details_changed"
-                | "support_required"
-                | "disconnected"
-                | "other"
-                | null
-                | (string & {})
-                | null;
-            "supported_actions": Array<"connect" | "disconnect" | (string & {})>;
-            "tax_connection_id"?: string;
-            "updated_at"?: string;
-            "version"?: number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "coverage"?: ((Array<TaxCountryCoverage>) | (null));
-            "created_at"?: ((string) | (null));
-            "disclosure"?: ((TaxConnectionDisclosure) | (null));
-            "legal_address"?: ((((Address) | (null))) | (null) | (unknown));
-            "legal_business_name"?: ((string) | (null));
-            "seller_attestation"?: ((((TaxConnectionSellerAttestation) | (null))) | (null) | (unknown));
-            "status"?: (("not_connected" | "provisioning" | "active" | "attention_required" | "disabled" | (string & {}))
-                | (null));
-            "status_reason"?: (("not_offered"
-                | "onboarding_required"
-                | "tax_category_required"
-                | "registration_required"
-                | "temporarily_unavailable"
-                | "setup_incomplete"
-                | "registration_rejected"
-                | "business_details_changed"
-                | "support_required"
-                | "disconnected"
-                | "other"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
-            "supported_actions"?: ((Array<"connect" | "disconnect" | (string & {})>) | (null));
-            "tax_connection_id"?: ((string) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: "merchant" | (string & {});
-    "event_type"?: "tax_connection.updated";
-})
-    & {
-    "event_type": "tax_connection.updated";
-});
-/** A country and the categories automatic tax can calculate there. */
-export type TaxCountryCoverage = {
-    /**
-     * all covers supported line and charge categories; digital covers digital_goods, software and
-     * saas. Canada, EU member states, GB, AU and NZ use digital, so they do not cover services,
-     * professional_services or taxable charges. Value enum: "all", "digital".
-     */
-    "category_scope": "all" | "digital" | (string & {});
-    /**
-     * ISO 3166-1 alpha-2 destination country. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$.
-     * Example: "US".
-     */
-    "country": string;
-};
-/** VAT on an issued document converted into the currency of the country whose VAT is charged. */
-export type TaxCurrencyConversion = {
-    /**
-     * ISO 4217 code of the currency the VAT is stated in: the euro or the member state's national
-     * currency in the EU, sterling in the UK. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     * Example: "USD".
-     */
-    "currency": string;
-    /**
-     * Units of currency for one unit of the invoice currency, rounded half up to at most 10
-     * decimal places. tax_money and taxable_money are calculated from this value.
-     * exclusiveMinimum: 0.
-     */
-    "exchange_rate": number;
-    /**
-     * The ECB reference day, or the first day of the month an HMRC rate covers. Format: date.
-     * Example: "2026-08-02".
-     */
-    "rate_date": string;
-    /** Who published the rate. Ignore values you don't recognize. Value enum: "ecb", "hmrc". */
-    "rate_source": "ecb" | "hmrc" | (string & {});
-    /**
-     * The document's VAT for this currency: VAT summed in the invoice currency, times
-     * exchange_rate, rounded half up to the currency's minor units. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "tax_money": MoneyValue;
-    /**
-     * The amount the VAT was charged on, converted the same way. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "taxable_money": MoneyValue;
-};
-/** The calculation an order uses when its request leaves `tax.calculation` unset. */
-export type TaxDefaultCalculation = {
-    /**
-     * Where an external order's components come from: `provided` (the default) when you send them,
-     * or `callback` when Flint asks the selected tax calculation callback. Present only with mode
-     * `external`. Value enum: "provided", "callback".
-     */
-    "components_source"?: "provided" | "callback" | (string & {});
-    /**
-     * `automatic` calculates tax through the tax connection. `external` uses tax components from
-     * `components_source`. Value enum: "automatic", "external".
-     */
-    "mode": "automatic" | "external" | (string & {});
-};
-/** The calculation an order uses when its request leaves `tax.calculation` unset. */
-export type TaxDefaultCalculationRequestInput = {
-    /**
-     * Where an external order's components come from: `provided` (the default) when you send them,
-     * or `callback` when Flint asks the selected tax calculation callback. Present only with mode
-     * `external`. Value enum: "provided", "callback".
-     */
-    "components_source"?: "provided" | "callback";
-    /**
-     * `automatic` calculates tax through the tax connection. `external` uses tax components from
-     * `components_source`. Value enum: "automatic", "external".
-     */
-    "mode": "automatic" | "external";
-};
-/** One statement of the seller disclosure. */
-export type TaxDisclosureStatement = {
-    /** Text to show the seller verbatim. */
-    "text": string;
-};
-/**
- * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not verify
- * IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its
- * tax provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs
- * are an owned collection in display order; replacing the array requires the parent's
- * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or
- * omit its ID to add one.
- */
-export type TaxIdentity = {
-    /**
-     * The merchant's legal name, printed on invoices and credit notes. `null` when no legal name
-     * is set. minLength: 1. maxLength: 255.
-     */
-    "legal_name": string | null;
-    /**
-     * The merchant's registered business address, printed on invoices and credit notes. `null`
-     * when no address is set. anyOf[1] (Value): {@link Address}. A postal address. Every address
-     * has country. Addresses Flint checked as complete (customer and saved addresses, merchant,
-     * location, invoice, order delivery destination, tax identity, fulfillment recipient and
-     * pickup addresses) always have line1 and city, and US ones always have state and postal_code.
-     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
-     * was provided, such as postal_code and country. anyOf[2] (Value): null.
-     */
-    "registered_address": ((Address) | (null));
-    /**
-     * Tax IDs printed on invoices and credit notes, in display order. Empty when none are set.
-     * maxItems: 20. [] (Value): {@link DocumentTaxID}. A tax identifier printed on documents, with
-     * its country, optional region, identifier type, and value. Flint does not verify the value.
-     */
-    "tax_ids": Array<DocumentTaxID>;
-};
-/**
- * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not verify
- * IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its
- * tax provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs
- * are an owned collection in display order; replacing the array requires the parent's
- * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or
- * omit its ID to add one.
- */
-export type TaxIdentityPatch = {
-    /**
-     * The merchant's legal name, printed on invoices and credit notes. minLength: 1. maxLength:
-     * 255.
-     */
-    "legal_name"?: string | null;
-    /**
-     * Replaced as a whole: send every field you want to keep. The merchant's registered business
-     * address, printed on invoices and credit notes. anyOf[1] (Value): {@link AddressRequest}. A
-     * complete postal address. State and postal_code are required for US addresses and optional
-     * for other countries. Send null or omit line2, state, and postal_code when the address has
-     * none. anyOf[2] (Value): null.
-     */
-    "registered_address"?: ((AddressRequest) | (null));
-    /**
-     * Tax IDs printed on invoices and credit notes, in display order. The list you send replaces
-     * the stored one: keep an entry by sending its `document_tax_id`, add one by omitting it, and
-     * remove one by leaving the entry out. Send `[]` to remove every tax ID. maxItems: 20. []
-     * (Value): {@link DocumentTaxID}. A tax identifier printed on documents, with its country,
-     * optional region, identifier type, and value. Flint does not verify the value.
-     */
-    "tax_ids"?: Array<DocumentTaxID>;
-};
-/**
- * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not verify
- * IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its
- * tax provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs
- * are an owned collection in display order; replacing the array requires the parent's
- * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or
- * omit its ID to add one.
- */
-export type TaxIdentityPatchInput = {
-    /**
-     * The merchant's legal name, printed on invoices and credit notes. minLength: 1. maxLength:
-     * 255.
-     */
-    "legal_name"?: string | null;
-    /**
-     * Replaced as a whole: send every field you want to keep. The merchant's registered business
-     * address, printed on invoices and credit notes. anyOf[1] (Value): {@link
-     * AddressRequestInput}. A complete postal address. State and postal_code are required for US
-     * addresses and optional for other countries. Send null or omit line2, state, and postal_code
-     * when the address has none. anyOf[2] (Value): null.
-     */
-    "registered_address"?: ((AddressRequestInput) | (null));
-    /**
-     * Tax IDs printed on invoices and credit notes, in display order. The list you send replaces
-     * the stored one: keep an entry by sending its `document_tax_id`, add one by omitting it, and
-     * remove one by leaving the entry out. Send `[]` to remove every tax ID. maxItems: 20. []
-     * (Value): {@link DocumentTaxIDRequestInput}. A tax identifier printed on documents, with its
-     * country, optional region, identifier type, and value. Flint does not verify the value.
-     */
-    "tax_ids"?: Array<DocumentTaxIDRequestInput>;
-};
-/**
- * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not verify
- * IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its
- * tax provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs
- * are an owned collection in display order; replacing the array requires the parent's
- * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or
- * omit its ID to add one.
- */
-export type TaxIdentityRequestInput = TaxIdentityPatchInput;
-/** A taxing jurisdiction with its level, such as state or city, name, state, and country. */
-export type TaxJurisdiction = {
-    /** Stable opaque Flint jurisdiction key used for equality and report grouping. minLength: 1. */
-    "code": string;
-    /** ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. */
-    "country": string;
-    /**
-     * The level of government that imposes the tax. Value enum: "state", "county", "city",
-     * "district", "country", "province".
-     */
-    "level": "state" | "county" | "city" | "district" | "country" | "province" | (string & {});
-    /** Name of the jurisdiction, up to 200 characters. minLength: 1. */
-    "name": string;
-    /**
-     * Two-letter US state at every level. Elsewhere, the ISO 3166-2 suffix (1 to 3 uppercase
-     * letters or digits), required below country level and omitted at country level. minLength: 1.
-     */
-    "state"?: string;
-};
-/** A taxing jurisdiction with its level, such as state or city, name, state, and country. */
-export type TaxJurisdictionRequestInput = {
-    /** Stable opaque Flint jurisdiction key used for equality and report grouping. minLength: 1. */
-    "code": string;
-    /** ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. */
-    "country": string;
-    /**
-     * The level of government that imposes the tax. Value enum: "state", "county", "city",
-     * "district", "country", "province".
-     */
-    "level": "state" | "county" | "city" | "district" | "country" | "province";
-    /** Name of the jurisdiction, up to 200 characters. minLength: 1. */
-    "name": string;
-    /**
-     * Two-letter US state at every level. Elsewhere, the ISO 3166-2 suffix (1 to 3 uppercase
-     * letters or digits), required below country level and omitted at country level. minLength: 1.
-     */
-    "state"?: string;
-};
-/** A taxing jurisdiction with its level, such as state or city, name, state, and country. */
-export type TaxJurisdictionRequestModelInput = {
-    /** Stable opaque Flint jurisdiction key used for equality and report grouping. minLength: 1. */
-    "code": string;
-    /**
-     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
-     * "US".
-     */
-    "country": string;
-    /**
-     * The level of government that imposes the tax. Value enum: "state", "county", "city",
-     * "district", "country", "province".
-     */
-    "level": "state" | "county" | "city" | "district" | "country" | "province";
-    /** Name of the jurisdiction, up to 200 characters. minLength: 1. */
-    "name": string;
-    /**
-     * Two-letter US state at every level. Elsewhere, the ISO 3166-2 suffix (1 to 3 uppercase
-     * letters or digits), required below country level and omitted at country level. minLength: 1.
-     */
-    "state"?: string;
-};
-/**
- * An independent registration for a country and optional subdivision, with a non-overlapping date
- * window. Scheduled and ended are derived from the UTC date at read time without advancing version
- * or sending a webhook. Removed is a final DELETE snapshot and is never listed.
- */
-export type TaxRegistration = {
-    /**
-     * Country of registration: US, CA, GB, AU or NZ, or EU for a non-Union OSS registration that
-     * covers all 27 member states. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength:
-     * 2. pattern: ^[A-Z]{2}$. Example: "US". Value enum: "US", "CA", "EU", "GB", "AU", "NZ".
-     */
-    "country": "US" | "CA" | "EU" | "GB" | "AU" | "NZ" | (string & {});
-    /** When this registration was saved. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "archived_at": string | null;
+    /** Names of the payment attributes the rule reads. [] (Value): string. */
+    "attributes_used": Array<string>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "created_at": string;
     /**
-     * Last day the registration applies, inclusive. Flint checks it against each sale's local
-     * date. Status and validation use the UTC date. `null` when the registration has no end date.
-     * Format: date. Example: "2026-08-02".
-     */
-    "end_date": string | null;
-    /** Last four characters of the registration number. The complete number is never returned. */
-    "registration_number_last4": string;
-    /**
-     * First day the registration applies, inclusive. Flint checks it against each sale's local
-     * date. Status and validation use the UTC date. May be up to 365 days in the future. Format:
-     * date. Example: "2026-08-02".
-     */
-    "start_date": string;
-    /**
-     * US state code or DC, or CA province BC, MB, QC or SK. Null when the registration is a
-     * Canadian federal GST/HST registration or an EU, GB, AU or NZ registration. Date windows must
-     * not overlap for the same country and state. Uses the US postal abbreviation from ISO
-     * 3166-2:US (without the US- prefix). Value enum: "BC", "MB", "QC", "SK", "AL", "AK", "AZ",
-     * "AR", "CA", "CO", "CT", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA",
-     * "ME", "MD", "MA", "MI", "MN", "MS", "MO", "NE", "NV", "NJ", "NM", "NY", "NC", "ND", "OH",
-     * "OK", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", null.
-     */
-    "state": "BC"
-        | "MB"
-        | "QC"
-        | "SK"
-        | "AL"
-        | "AK"
-        | "AZ"
-        | "AR"
-        | "CA"
-        | "CO"
-        | "CT"
-        | "DC"
-        | "FL"
-        | "GA"
-        | "HI"
-        | "ID"
-        | "IL"
-        | "IN"
-        | "IA"
-        | "KS"
-        | "KY"
-        | "LA"
-        | "ME"
-        | "MD"
-        | "MA"
-        | "MI"
-        | "MN"
-        | "MS"
-        | "MO"
-        | "NE"
-        | "NV"
-        | "NJ"
-        | "NM"
-        | "NY"
-        | "NC"
-        | "ND"
-        | "OH"
-        | "OK"
-        | "PA"
-        | "RI"
-        | "SC"
-        | "SD"
-        | "TN"
-        | "TX"
-        | "UT"
-        | "VT"
-        | "VA"
-        | "WA"
-        | "WV"
-        | "WI"
-        | "WY"
-        | null
-        | (string & {})
-        | null;
-    /**
-     * Pending until confirmed; then scheduled before start_date, active within the inclusive date
-     * window, and ended after end_date. Rejected when verification fails. Removed is returned only
-     * by DELETE in its final snapshot. Value enum: "pending", "scheduled", "active", "ended",
-     * "rejected", "removed".
-     */
-    "status": "pending" | "scheduled" | "active" | "ended" | "rejected" | "removed" | (string & {});
-    /** Flint tax registration ID. Example: "trg_01KEZF7C008JBM8XMQB3J1FK7J". */
-    "tax_registration_id": string;
-    /** When this registration last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Current resource version. Send as expected_version to reject a write based on an older
-     * version. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
-/** A page of `TaxRegistration` objects. */
-export type TaxRegistrationListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * TaxRegistration}. An independent registration for a country and optional subdivision, with a
-     * non-overlapping date window. Scheduled and ended are derived from the UTC date at read time
-     * without advancing version or sending a webhook. Removed is a final DELETE snapshot and is
-     * never listed.
-     */
-    "data": Array<TaxRegistration>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `TaxRegistration` data. */
-export type TaxRegistrationResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. An independent
-     * registration for a country and optional subdivision, with a non-overlapping date window.
-     * Scheduled and ended are derived from the UTC date at read time without advancing version or
-     * sending a webhook. Removed is a final DELETE snapshot and is never listed.
-     */
-    "data": TaxRegistration;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * The buyer accounts for the tax under the reverse charge. Rows that carry it have
- * `taxability_reason` `reverse_charge` and no tax.
- */
-export type TaxReverseCharge = {
-    /**
-     * The customer's tax ID the reverse charge relied on. Frozen once the order is paid;
-     * recalculating tax before payment reads the customer's current tax IDs again. `null` when
-     * external tax sent a reverse charge and the customer has no tax ID for that country. anyOf[1]
-     * (Value): {@link CustomerTaxID}. A copy of one of the customer's `tax_identity.tax_ids`.
-     * Frozen once the order is paid; recalculating tax before payment reads the customer again.
+     * The credential that created this rule. Null when Flint created it, as for Flint's default
+     * rules. The reference may name an API key in the other mode. anyOf[1] (Value): {@link
+     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
      * anyOf[2] (Value): null.
      */
-    "customer_tax_id": ((CustomerTaxID) | (null));
-};
-/**
- * Tax settings: whether tax is calculated by default and the default tax categories for line items
- * and delivery charges.
- */
-export type TaxSettings = {
+    "created_by": ((ResourceReference) | (null));
+    /** Your note on what the rule is for. Leading and trailing whitespace is trimmed. */
+    "description": string;
     /**
-     * The active tax calculation callback selected for this merchant and environment. Switching
-     * IDs is atomic. Omitted when no callback is selected. minLength: 1. Example:
-     * "tcb_01KEZF7C00N7SER74Y2E6D1ZGT".
+     * Problems that stop Flint from evaluating this rule. Empty when the rule can run. An active
+     * rule with issues is skipped on every payment and protects nothing until you fix it. An
+     * inactive rule with issues can't be activated until you fix it. [] (Value): {@link
+     * RiskRuleIssue}. A problem that stops a saved or proposed risk rule from running, with a
+     * `code`, a message, and the `path` to the part of the rule at fault.
      */
-    "calculation_callback_id"?: string | null;
+    "issues": Array<RiskRuleIssue>;
     /**
-     * Replaced as a whole: send every field you want to keep. The calculation an order uses when
-     * nothing sets its own: an order created with `POST /v1/orders` without `tax.calculation`, and
-     * the orders of checkout sessions, payment links, and subscriptions that set none. A
-     * `provided` default applies only to orders you create; the orders Flint creates use automatic
-     * tax under it. Omitted when unset, which means automatic. The calculation an order uses when
-     * its request leaves `tax.calculation` unset.
+     * Whether Flint manages the rule or you created it. Value enum: "system_default", "merchant".
      */
-    "default_calculation"?: TaxDefaultCalculation;
+    "origin": "system_default" | "merchant" | (string & {});
     /**
-     * Charge category inherited by delivery methods that omit charge_tax_category. `null` when no
-     * default is set; the category then follows the method type: shipping for shipments, delivery
-     * for local delivery, and service_fee for pickup. Value enum: "service_fee", "shipping",
-     * "delivery", "handling", "surcharge", null.
+     * The condition a payment must meet for the rule to match. A node in a risk rule condition: a
+     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
      */
-    "default_delivery_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null | (string & {}) | null;
+    "predicate": RiskPredicateNode;
+    /** ID of the saved rule to check. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". */
+    "risk_rule_id": string;
     /**
-     * Taxability of delivery charges for delivery methods that don't set `taxable`. Defaults to
-     * true.
+     * When Flint evaluates the rule for a payment. Value enum: "pre_authorization",
+     * "post_authorization".
      */
-    "default_delivery_taxable"?: boolean;
-    /**
-     * Whether new checkouts and orders calculate tax by default. This does not decide whether an
-     * individual line item or delivery charge is taxable. Turning it on, or changing the default
-     * calculation while it is on, needs what the default calculation uses: a selected tax
-     * calculation callback for an external `callback` default, and an active tax connection for
-     * any other, because the orders Flint creates use automatic tax under an automatic or
-     * `provided` default.
-     */
-    "default_enabled"?: boolean;
-    /**
-     * Flint line-item tax category. Effective settings return general when unset, matching the tax
-     * engine fallback. Value enum: "general", "physical_goods", "digital_goods", "software",
-     * "saas", "services", "professional_services", "food", "prepared_food", "clothing",
-     * "medical_goods", "admission".
-     */
-    "default_line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission"
-        | (string & {});
-    /**
-     * Price mode an order takes when it starts calculating tax without its own tax.calculation:
-     * when it is created, from a checkout session or payment link, or when tax is turned on later.
-     * additive (the default) adds tax to prices, and inclusive treats every line item and charge
-     * price as including its tax. Subscription orders, including renewals, stay additive, and
-     * orders that already calculate tax keep their mode. Value enum: "additive", "inclusive".
-     */
-    "default_price_mode"?: "additive" | "inclusive" | (string & {});
-    /**
-     * Automatic tax basis for delivery-method charges. Defaults to full_charge.
-     * taxable_items_share taxes the charge in proportion to discounted gross taxable merchandise
-     * in its fulfillment group, rounded half up. Explicit taxable:false wins. Direct order charges
-     * and external tax are unchanged. Saved values take effect only when Flint enables this
-     * capability; until then the full charge is used. Open orders use the setting at their next
-     * calculation; committed tax keeps its basis. Value enum: "full_charge",
-     * "taxable_items_share".
-     */
-    "delivery_charge_tax_basis"?: "full_charge" | "taxable_items_share" | (string & {});
-};
-/** Tax settings to change when updating settings. Send null for a category to clear it. */
-export type TaxSettingsRequest = {
-    /**
-     * The active tax calculation callback selected for this merchant and environment. Switching
-     * IDs is atomic. Omit to preserve the selection; send null to clear it. minLength: 1. Example:
-     * "tcb_01KEZF7C00N7SER74Y2E6D1ZGT".
-     */
-    "calculation_callback_id"?: string | null;
-    /**
-     * Replaced as a whole: send every field you want to keep. The calculation an order uses when
-     * nothing sets its own: an order created with `POST /v1/orders` without `tax.calculation`, and
-     * the orders of checkout sessions, payment links, and subscriptions that set none. A
-     * `provided` default applies only to orders you create; the orders Flint creates use automatic
-     * tax under it. Send null to clear it, which means automatic. While `default_enabled` is on, a
-     * `callback` default needs a selected tax calculation callback, and clearing
-     * `calculation_callback_id` is refused; any other default needs an active tax connection.
-     * anyOf[1] (Value): {@link TaxDefaultCalculation}. The calculation an order uses when its
-     * request leaves `tax.calculation` unset. anyOf[2] (Value): null.
-     */
-    "default_calculation"?: ((TaxDefaultCalculation) | (null));
-    /**
-     * Charge category inherited by delivery methods that omit charge_tax_category. `null` when no
-     * default is set; the category then follows the method type: shipping for shipments, delivery
-     * for local delivery, and service_fee for pickup. Send null to clear it. Value enum:
-     * "service_fee", "shipping", "delivery", "handling", "surcharge", null.
-     */
-    "default_delivery_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null | (string & {}) | null;
-    /**
-     * Taxability of delivery charges for delivery methods that don't set `taxable`. Defaults to
-     * true.
-     */
-    "default_delivery_taxable"?: boolean;
-    /**
-     * Whether new checkouts and orders calculate tax by default. This does not decide whether an
-     * individual line item or delivery charge is taxable. Turning it on, or changing the default
-     * calculation while it is on, needs what the default calculation uses: a selected tax
-     * calculation callback for an external `callback` default, and an active tax connection for
-     * any other, because the orders Flint creates use automatic tax under an automatic or
-     * `provided` default.
-     */
-    "default_enabled"?: boolean;
-    /**
-     * Flint line-item tax category. Effective settings return general when unset, matching the tax
-     * engine fallback. Send null to clear it. Value enum: "general", "physical_goods",
-     * "digital_goods", "software", "saas", "services", "professional_services", "food",
-     * "prepared_food", "clothing", "medical_goods", "admission", null.
-     */
-    "default_line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission"
-        | null
-        | (string & {})
-        | null;
-    /**
-     * Price mode an order takes when it starts calculating tax without its own tax.calculation:
-     * when it is created, from a checkout session or payment link, or when tax is turned on later.
-     * additive (the default) adds tax to prices, and inclusive treats every line item and charge
-     * price as including its tax. Subscription orders, including renewals, stay additive, and
-     * orders that already calculate tax keep their mode. Value enum: "additive", "inclusive".
-     */
-    "default_price_mode"?: "additive" | "inclusive" | (string & {});
-    /**
-     * Automatic tax basis for delivery-method charges. Defaults to full_charge.
-     * taxable_items_share taxes the charge in proportion to discounted gross taxable merchandise
-     * in its fulfillment group, rounded half up. Explicit taxable:false wins. Direct order charges
-     * and external tax are unchanged. Saved values take effect only when Flint enables this
-     * capability; until then the full charge is used. Open orders use the setting at their next
-     * calculation; committed tax keeps its basis. Value enum: "full_charge",
-     * "taxable_items_share".
-     */
-    "delivery_charge_tax_basis"?: "full_charge" | "taxable_items_share" | (string & {});
-};
-/** Tax settings to change when updating settings. Send null for a category to clear it. */
-export type TaxSettingsRequestInput = {
-    /**
-     * The active tax calculation callback selected for this merchant and environment. Switching
-     * IDs is atomic. Omit to preserve the selection; send null to clear it. minLength: 1. Example:
-     * "tcb_01KEZF7C00N7SER74Y2E6D1ZGT".
-     */
-    "calculation_callback_id"?: string | null;
-    /**
-     * Replaced as a whole: send every field you want to keep. The calculation an order uses when
-     * nothing sets its own: an order created with `POST /v1/orders` without `tax.calculation`, and
-     * the orders of checkout sessions, payment links, and subscriptions that set none. A
-     * `provided` default applies only to orders you create; the orders Flint creates use automatic
-     * tax under it. Send null to clear it, which means automatic. While `default_enabled` is on, a
-     * `callback` default needs a selected tax calculation callback, and clearing
-     * `calculation_callback_id` is refused; any other default needs an active tax connection.
-     * anyOf[1] (Value): {@link TaxDefaultCalculationRequestInput}. The calculation an order uses
-     * when its request leaves `tax.calculation` unset. anyOf[2] (Value): null.
-     */
-    "default_calculation"?: ((TaxDefaultCalculationRequestInput) | (null));
-    /**
-     * Charge category inherited by delivery methods that omit charge_tax_category. `null` when no
-     * default is set; the category then follows the method type: shipping for shipments, delivery
-     * for local delivery, and service_fee for pickup. Send null to clear it. Value enum:
-     * "service_fee", "shipping", "delivery", "handling", "surcharge", null.
-     */
-    "default_delivery_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null;
-    /**
-     * Taxability of delivery charges for delivery methods that don't set `taxable`. Defaults to
-     * true.
-     */
-    "default_delivery_taxable"?: boolean;
-    /**
-     * Whether new checkouts and orders calculate tax by default. This does not decide whether an
-     * individual line item or delivery charge is taxable. Turning it on, or changing the default
-     * calculation while it is on, needs what the default calculation uses: a selected tax
-     * calculation callback for an external `callback` default, and an active tax connection for
-     * any other, because the orders Flint creates use automatic tax under an automatic or
-     * `provided` default.
-     */
-    "default_enabled"?: boolean;
-    /**
-     * Flint line-item tax category. Effective settings return general when unset, matching the tax
-     * engine fallback. Send null to clear it. Value enum: "general", "physical_goods",
-     * "digital_goods", "software", "saas", "services", "professional_services", "food",
-     * "prepared_food", "clothing", "medical_goods", "admission", null.
-     */
-    "default_line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission"
-        | null;
-    /**
-     * Price mode an order takes when it starts calculating tax without its own tax.calculation:
-     * when it is created, from a checkout session or payment link, or when tax is turned on later.
-     * additive (the default) adds tax to prices, and inclusive treats every line item and charge
-     * price as including its tax. Subscription orders, including renewals, stay additive, and
-     * orders that already calculate tax keep their mode. Value enum: "additive", "inclusive".
-     */
-    "default_price_mode"?: "additive" | "inclusive";
-    /**
-     * Automatic tax basis for delivery-method charges. Defaults to full_charge.
-     * taxable_items_share taxes the charge in proportion to discounted gross taxable merchandise
-     * in its fulfillment group, rounded half up. Explicit taxable:false wins. Direct order charges
-     * and external tax are unchanged. Saved values take effect only when Flint enables this
-     * capability; until then the full charge is used. Open orders use the setting at their next
-     * calculation; committed tax keeps its basis. Value enum: "full_charge",
-     * "taxable_items_share".
-     */
-    "delivery_charge_tax_basis"?: "full_charge" | "taxable_items_share";
-};
-/**
- * A sandbox clock that customers created on it, and their subscriptions, read as the current time.
- */
-export type TestClock = {
-    /**
-     * When the test clock was created, in real time. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "created_at": string;
-    /**
-     * The time the test clock shows. Customers created on the clock, and their subscriptions,
-     * treat it as the current time. After you advance the clock, `frozen_at` is the time you
-     * advanced it to, while `status` is `advancing` and after. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "frozen_at": string;
-    /**
-     * Your label for the test clock. Omitted when you didn't set one. minLength: 1. maxLength:
-     * 255.
-     */
-    "name"?: string;
-    /**
-     * Where the test clock is in its lifecycle. Read it before advancing, and after an advance
-     * until it's `ready` or `failed`. Value enum: "ready", "advancing", "failed", "archived".
-     */
-    "status": "ready" | "advancing" | "failed" | "archived" | (string & {});
-    /** Unique identifier for the test clock. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". */
-    "test_clock_id": string;
-    /**
-     * When the test clock last changed, in real time. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
+    "stage": "pre_authorization" | "post_authorization" | (string & {});
+    /** Whether the rule runs. Value enum: "active", "inactive", "archived". */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "updated_at": string;
     /**
-     * Persisted version of this resource's owned state. Expanded resources and external
-     * observations can change independently. Format: uint64. minimum: 1.
+     * Increases on every change to the rule. Send it as expected_version to avoid overwriting
+     * someone else's change. Format: int64.
      */
     "version": number;
 };
-export type TestClockAdvancingEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at": string;
-            "frozen_at": string;
-            "name"?: string;
-            "status": "ready" | "advancing" | "failed" | "archived" | (string & {});
-            "test_clock_id": string;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "created_at"?: ((string) | (null));
-            "frozen_at"?: ((string) | (null));
-            "name"?: ((string) | (null));
-            "status"?: (("ready" | "advancing" | "failed" | "archived" | (string & {})) | (null));
-            "test_clock_id"?: ((string) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: "merchant" | (string & {});
-    "event_type"?: "test_clock.advancing";
-})
-    & {
-    "event_type": "test_clock.advancing";
-});
-export type TestClockArchivedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at": string;
-            "frozen_at": string;
-            "name"?: string;
-            "status": "ready" | "advancing" | "failed" | "archived" | (string & {});
-            "test_clock_id": string;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "created_at"?: ((string) | (null));
-            "frozen_at"?: ((string) | (null));
-            "name"?: ((string) | (null));
-            "status"?: (("ready" | "advancing" | "failed" | "archived" | (string & {})) | (null));
-            "test_clock_id"?: ((string) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: "merchant" | (string & {});
-    "event_type"?: "test_clock.archived";
-})
-    & {
-    "event_type": "test_clock.archived";
-});
-export type TestClockCreatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at": string;
-            "frozen_at": string;
-            "name"?: string;
-            "status": "ready" | "advancing" | "failed" | "archived" | (string & {});
-            "test_clock_id": string;
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: "merchant" | (string & {});
-    "event_type"?: "test_clock.created";
-})
-    & {
-    "event_type": "test_clock.created";
-});
-export type TestClockFailedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at": string;
-            "frozen_at": string;
-            "name"?: string;
-            "status": "ready" | "advancing" | "failed" | "archived" | (string & {});
-            "test_clock_id": string;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "created_at"?: ((string) | (null));
-            "frozen_at"?: ((string) | (null));
-            "name"?: ((string) | (null));
-            "status"?: (("ready" | "advancing" | "failed" | "archived" | (string & {})) | (null));
-            "test_clock_id"?: ((string) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: "merchant" | (string & {});
-    "event_type"?: "test_clock.failed";
-})
-    & {
-    "event_type": "test_clock.failed";
-});
-/** A page of `TestClock` objects. */
-export type TestClockListResponse = {
+/**
+ * What a valid risk rule uses: its evaluation stage, the attributes and list aliases it
+ * references, and which payments it applies to.
+ */
+export type RiskRuleAnalysis = {
+    /** Which payments the rule applies to. Value enum: "all_payments", "on_session_only". */
+    "applicability": "all_payments" | "on_session_only" | (string & {});
+    /** Names of the payment attributes the rule reads. [] (Value): string. */
+    "attributes_used": Array<string>;
+    /** Aliases of the risk lists the rule references. [] (Value): string. */
+    "list_aliases_used": Array<string>;
+    /**
+     * When Flint evaluates the rule for a payment. Value enum: "pre_authorization",
+     * "post_authorization".
+     */
+    "stage": "pre_authorization" | "post_authorization" | (string & {});
+};
+/**
+ * A problem that stops a saved or proposed risk rule from running, with a `code`, a message, and
+ * the `path` to the part of the rule at fault.
+ */
+export type RiskRuleIssue = {
+    /**
+     * Extensible rule issue code. Accept new codes as they are added. Risk rules and previews
+     * share these issue codes; invalid rule writes use the standard error codes. Value enum:
+     * "invalid_predicate", "invalid_predicate_node", "invalid_predicate_group",
+     * "unknown_predicate_field", "unknown_attribute", "attribute_unavailable", "invalid_operator",
+     * "invalid_operand", "invalid_list_alias", "invalid_money", "invalid_rule_action",
+     * "rule_action_unavailable_at_stage", "list_not_found", "list_archived", "list_type_mismatch".
+     */
+    "code": "invalid_predicate"
+        | "invalid_predicate_node"
+        | "invalid_predicate_group"
+        | "unknown_predicate_field"
+        | "unknown_attribute"
+        | "attribute_unavailable"
+        | "invalid_operator"
+        | "invalid_operand"
+        | "invalid_list_alias"
+        | "invalid_money"
+        | "invalid_rule_action"
+        | "rule_action_unavailable_at_stage"
+        | "list_not_found"
+        | "list_archived"
+        | "list_type_mismatch"
+        | (string & {});
+    /** Description of the rule issue and how to correct it. */
+    "message": string;
+    /**
+     * Public request field path, as used by error param: predicate for the root,
+     * predicate.all[0].attribute for a nested field, or action.
+     */
+    "path": string;
+    /**
+     * Why an attribute is unavailable. Present only for attribute_unavailable issues. Value enum:
+     * "risk_scoring_not_enabled", "ip_geolocation_not_enabled".
+     */
+    "unavailable_reason"?: "risk_scoring_not_enabled" | "ip_geolocation_not_enabled" | (string & {});
+};
+/** A page of `RiskRule` objects. */
+export type RiskRuleListResponse = {
     /**
      * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * TestClock}. A sandbox clock that customers created on it, and their subscriptions, read as
-     * the current time.
+     * RiskRule}. A rule for assessing and handling payment risk.
      */
-    "data": Array<TestClock>;
+    "data": Array<RiskRule>;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -1339,44 +232,13 @@ export type TestClockListResponse = {
      */
     "request_id": string;
 };
-export type TestClockReadyEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at": string;
-            "frozen_at": string;
-            "name"?: string;
-            "status": "ready" | "advancing" | "failed" | "archived" | (string & {});
-            "test_clock_id": string;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "created_at"?: ((string) | (null));
-            "frozen_at"?: ((string) | (null));
-            "name"?: ((string) | (null));
-            "status"?: (("ready" | "advancing" | "failed" | "archived" | (string & {})) | (null));
-            "test_clock_id"?: ((string) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: "merchant" | (string & {});
-    "event_type"?: "test_clock.ready";
-})
-    & {
-    "event_type": "test_clock.ready";
-});
-/** A response containing `TestClock` data. */
-export type TestClockResponse = {
+/** A response containing `RiskRule` data. */
+export type RiskRuleResponse = {
     /**
-     * Resource, collection, or operation result returned by this request. A sandbox clock that
-     * customers created on it, and their subscriptions, read as the current time.
+     * Resource, collection, or operation result returned by this request. A rule for assessing and
+     * handling payment risk.
      */
-    "data": TestClock;
+    "data": RiskRule;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -1388,29 +250,65 @@ export type TestClockResponse = {
      */
     "request_id": string;
 };
-export type TestClocksAdvanceParams = (InputValue<AdvanceTestClockRequestInput>);
-export type TestClocksCreateParams = (InputValue<CreateTestClockRequestInput>);
-export type TestClocksDeleteParams = {
+export type RiskRulesCreateParams = (InputValue<CreateRiskRuleRequestInput>)
+    & {
     /**
-     * Optional version most recently read. A stale value fails with `VERSION_CONFLICT` and the
-     * current version. Format: int64. minimum: 1. maximum: 9007199254740991.
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type RiskRulesDeleteParams = {
+    /**
+     * Optional risk rule version last read by the caller. Format: int64. minimum: 1. maximum:
+     * 9007199254740991.
      */
     "expected_version"?: InputValue<number>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type TestClocksGetParams = {};
-export type TestClocksListParams = {
+export type RiskRulesGetAttributesParams = DisputesAcceptParams;
+export type RiskRulesGetParams = DisputesAcceptParams;
+export type RiskRulesListParams = {
     /**
      * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
      * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "ready",
-     * "advancing", "failed", "archived". Value enum: "ready", "advancing", "failed", "archived".
-     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "ready", "advancing", "failed",
-     * "archived". anyOf[1][] (Value): string. Value enum: "ready", "advancing", "failed",
-     * "archived". anyOf[2] (Value): string. Value enum: "ready", "advancing", "failed",
-     * "archived".
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
+     * "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value):
+     * string. Value enum: "active", "inactive", "archived". anyOf[2] (Value): string. Value enum:
+     * "active", "inactive", "archived".
      */
-    "status"?: InputValue<("ready" | "advancing" | "failed" | "archived")
-        | readonly ("ready" | "advancing" | "failed" | "archived")[]>;
+    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
      * 100. Default: 20.
@@ -1423,1435 +321,1256 @@ export type TestClocksListParams = {
      * invalid, expired, or mismatched token returns a validation error.
      */
     "page_token"?: InputValue<string>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type RiskRulesUpdateParams = (UpdateRiskRuleRequestInput)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** The request body for: Replace a gift card code. */
+export type RotateGiftCardCodeRequest = {
+    /**
+     * The gift card version last read. The command changes this card only when its current version
+     * matches. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Explicitly send or schedule the replacement code through private recipient access. Requires
+     * commerce.gift_cards.secrets.write. Who receives a gift card notification: their `email`,
+     * optional `name` and `message`, and an optional `send_at` time.
+     */
+    "notification"?: GiftCardPurchaseRecipient;
+};
+/** The request body for: Replace a gift card code. */
+export type RotateGiftCardCodeRequestInput = {
+    /**
+     * The gift card version last read. The command changes this card only when its current version
+     * matches. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Explicitly send or schedule the replacement code through private recipient access. Requires
+     * commerce.gift_cards.secrets.write. Who receives a gift card notification: their `email`,
+     * optional `name` and `message`, and an optional `send_at` time.
+     */
+    "notification"?: GiftCardNotificationRecipientInput;
 };
 /**
- * Settings for a text modifier group: whether input is required or multiline, and its length
- * limits.
+ * The gift card after its code was rotated, with the new `code` while it can be recovered and the
+ * notification sent.
  */
-export type TextModifierConfig = {
+export type RotateGiftCardCodeResult = {
     /**
-     * Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
-     * Format: int32.
+     * The full current code. Omitted after the 24-hour recovery window or when this code has been
+     * replaced.
      */
-    "max_length"?: number;
+    "code"?: string;
     /**
-     * Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
-     * Format: int32.
+     * When recovery of this code expires. Omitted when the code cannot be recovered. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
      */
-    "min_length"?: number;
-    /** Whether the buyer's text can include line breaks. */
-    "multiline": boolean;
+    "code_recovery_expires_at"?: string;
     /**
-     * Whether buyers must enter text for this group. A modifier set's required override takes
-     * precedence.
+     * The gift card after the command. Merchant-issued purchased gift card. Posted balance
+     * includes reserved value; available value is balance minus reservations. Frozen value remains
+     * part of outstanding liability. Gift cards are independent resources and cannot be
+     * transferred across merchants or currencies.
      */
-    "required": boolean;
+    "gift_card": GiftCard;
+    /**
+     * The notification the command created because the request included `notification`. Omitted
+     * otherwise. A message sent to a gift card recipient.
+     */
+    "gift_card_notification"?: GiftCardNotification;
 };
-/**
- * Send only text fields to change. Omitted fields keep their stored values. null clears min_length
- * or max_length. An empty object is invalid. The merged configuration is validated. minProperties:
- * 1.
- */
-export type TextModifierConfigPatchRequest = {
+/** A response containing `RotateGiftCardCodeResult` data. */
+export type RotateGiftCardCodeResultResponse = {
     /**
-     * Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
-     * Omit it to keep the current limit; send null to clear it. Format: int32. minimum: 1.
-     * maximum: 500.
+     * Resource, collection, or operation result returned by this request. The gift card after its
+     * code was rotated, with the new `code` while it can be recovered and the notification sent.
      */
-    "max_length"?: number | null;
+    "data": RotateGiftCardCodeResult;
     /**
-     * Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
-     * Omit it to keep the current minimum; send null to clear it. Format: int32. minimum: 0.
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
-    "min_length"?: number | null;
-    /** Whether the buyer's text can include line breaks. */
-    "multiline"?: boolean;
+    "meta"?: ResponseMeta;
     /**
-     * Whether buyers must enter text for this group. A modifier set's required override takes
-     * precedence.
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "required"?: boolean;
+    "request_id": string;
 };
-/**
- * Send only text fields to change. Omitted fields keep their stored values. null clears min_length
- * or max_length. An empty object is invalid. The merged configuration is validated. minProperties:
- * 1.
- */
-export type TextModifierConfigPatchRequestInput = TextModifierConfigPatchRequest;
-/**
- * Settings for a text modifier group when creating or updating one: required, multiline, and
- * length limits.
- */
-export type TextModifierConfigRequest = {
+/** The request body for: Rotate partner app secret. */
+export type RotatePartnerAppSecretRequestInput = {
     /**
-     * Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace,
-     * from 1 to 500. Format: int32. minimum: 1. maximum: 500.
+     * Rotate only if this matches the app's current version. A mismatch returns HTTP 409
+     * VERSION_CONFLICT. Format: uint64. minimum: 1.
      */
-    "max_length"?: number;
-    /**
-     * Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
-     * Must be 0 or more, and no more than `max_length`. Format: int32. minimum: 0.
-     */
-    "min_length"?: number;
-    /** Whether the buyer's text can include line breaks. Default: false. */
-    "multiline"?: boolean;
-    /**
-     * Whether buyers must enter text for this group. A modifier set's required override takes
-     * precedence. Default: false.
-     */
-    "required"?: boolean;
+    "expected_version"?: number;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "expire_previous_secret_at"?: string | globalThis.Date;
 };
-/**
- * Settings for a text modifier group when creating or updating one: required, multiline, and
- * length limits.
- */
-export type TextModifierConfigRequestInput = TextModifierConfigRequest;
-/** Text a buyer entered for a text modifier group on an order line item. */
-export type TextModifierRequest = {
+/** A response containing `PartnerAppWithRotatedSecret` data. */
+export type RotatePartnerAppSecretResponse = {
     /**
-     * Identifier of the text modifier group. For a group a modifier set owns (source: inline),
-     * read it through GET /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return
-     * it. minLength: 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     * Resource, collection, or operation result returned by this request. A partner app returned
+     * with its newly issued client secret after rotation. An application that merchants can
+     * authorize to access their accounts.
      */
-    "modifier_group_id": string;
+    "data": PartnerAppWithRotatedSecret;
     /**
-     * Text the buyer entered. Flint trims surrounding whitespace, then checks the length in UTF-8
-     * bytes against the group's `text.min_length` and `text.max_length`. Line breaks are allowed
-     * only when the group's `text.multiline` is true. minLength: 1.
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
-    "value": string;
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
 };
-/** Text a buyer entered for a text modifier group on an order line item. */
-export type TextModifierRequestInput = TextModifierRequest;
-/** Colors and title applied to a payment link's checkout page. */
-export type ThemeConfig = {
-    /** Accent color of the checkout, such as #1A73E8. */
-    "accent_color"?: string;
-    /** Primary color of the checkout, such as #1A73E8. */
-    "primary_color"?: string;
-    /** Title shown in place of the merchant's business name. */
-    "title"?: string;
+/** The request body for: Rotate webhook secret. */
+export type RotateWebhookSecretRequest = {
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * When the replaced secret stops signing. Omit for a 24-hour overlap; send a time at or before
+     * now to stop it immediately. Must be no later than 7 days from now. Null is not accepted.
+     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expire_previous_secret_at"?: string;
 };
-/** Colors and title to apply to a checkout session's page. */
-export type ThemeConfigRequestInput = {
-    /** Accent color of the checkout, such as #1A73E8. minLength: 1. */
-    "accent_color"?: string;
-    /** Primary color of the checkout, such as #1A73E8. minLength: 1. */
-    "primary_color"?: string;
-    /** Title shown in place of the merchant's business name. minLength: 1. */
-    "title"?: string;
+/** The request body for: Rotate webhook secret. */
+export type RotateWebhookSecretRequestInput = {
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * When the replaced secret stops signing. Omit for a 24-hour overlap; send a time at or before
+     * now to stop it immediately. Must be no later than 7 days from now. Null is not accepted.
+     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expire_previous_secret_at"?: string | globalThis.Date;
 };
-/**
- * An individual admission, a top-level child of an order. Merchant reads and webhooks never
- * include the bearer admission code.
- */
-export type Ticket = {
-    /**
-     * The ticket's 16-character Crockford base32 admission code, the value its QR code holds. A
-     * bearer secret: only the paid checkout session's own paying credential receives it, on its
-     * own order's tickets that aren't voided. A checkout credential from a launch URL a merchant
-     * reads or requests after payment never does. Returned only to the checkout credential; never
-     * in webhook payloads. minLength: 16.
-     */
-    "admission_code"?: string;
-    /** Last four characters of the current admission code. */
-    "admission_code_last4": string;
-    /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
-    "attendee_name": string | null;
-    /**
-     * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
-     * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
-     * "manual". anyOf[2] (Value): null.
-     */
-    "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
-    /**
-     * When the ticket was admitted. Null when the ticket is not checked in. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "checked_in_at": string | null;
-    /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+/** An isolated environment for testing an integration. */
+export type Sandbox = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "created_at": string;
     /**
-     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
-     * summary fields, including status, payment and refund status, and pricing and settlement
-     * amounts, returned when the order is expanded.
+     * The onboarding state the sandbox starts in, and returns to when you reset it. `complete`
+     * prefills a verified test identity; `not_started` leaves requirements due so you can rehearse
+     * onboarding. Value enum: "complete", "not_started".
      */
-    "order"?: ExpandedOrderSummary;
-    /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
-    "order_id": string;
-    /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
-    "order_line_item_id": string;
-    /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
-    "payment_link_id": string;
-    /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
-    "status": "issued" | "checked_in" | "voided" | (string & {});
+    "initial_onboarding": "complete" | "not_started" | (string & {});
     /**
-     * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in", "void". []
-     * (Value): string. Value enum: "check_in", "undo_check_in", "void".
+     * Whether this is the merchant's one default sandbox. It can be reset but cannot be archived.
      */
-    "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
-    /** Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". */
-    "ticket_id": string;
+    "is_default": boolean;
+    /** Sandbox name. Archiving appends (Archived XXXXXXXX) to free the original name for reuse. */
+    "name": string;
     /**
-     * The event prefix and sequence, such as GAL001. Numbers are never reused and do not authorize
-     * entry.
+     * When the last reset stopped after repeated failures. Before data deletion starts, the
+     * sandbox keeps its previous data and remains usable. Once deletion starts, requests are
+     * blocked until you retry the reset or archive a non-default sandbox. Null when no reset has
+     * failed or a later reset succeeded. Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
-    "ticket_number": string;
-    /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "reset_failed_at": string | null;
+    /**
+     * Unique identifier for this sandbox, prefixed `test_`. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "sandbox_id": string;
+    /**
+     * Sandbox availability. Active sandboxes accept test requests. Archived sandboxes are retired,
+     * with their API keys revoked; reset preserves an active sandbox and its credentials. Value
+     * enum: "active", "archived".
+     */
+    "status": "active" | "archived" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+};
+/** A page of `Sandbox` objects. */
+export type SandboxListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * Sandbox}. An isolated environment for testing an integration.
+     */
+    "data": Array<Sandbox>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `Sandbox` data. */
+export type SandboxResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. An isolated environment
+     * for testing an integration.
+     */
+    "data": Sandbox;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `CreateDeveloperSandboxResult` data. */
+export type SandboxWithAPIKeyResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The created sandbox is
+     * the primary resource, with the API key and one-time secret_key when issue_test_key is true.
+     */
+    "data": CreateDeveloperSandboxResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type SandboxesCreateParams = (CreateSandboxRequestInput);
+export type SandboxesDeleteParams = {};
+export type SandboxesGetParams = {};
+export type SandboxesListParams = PartnerAppsListParams;
+export type SandboxesResetParams = {};
+/** The request body for: Save a gift card to your account. */
+export type SaveMeGiftCardRequest = ({
+    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
+    "code"?: string;
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "code", "recipient_access".
+     */
+    "credential_type": "code" | "recipient_access" | (string & {});
+    /**
+     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
+     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
+     */
+    "grant_id"?: string;
+    /** Token from the fragment of the private recipient link. minLength: 1. */
+    "recipient_access_token"?: string;
+})
+    & ((Exclude<SaveMeGiftCardRequestCode & object, readonly unknown[]>)
+    | (Exclude<SaveMeGiftCardRequestRecipientAccess & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `code` variant of `SaveMeGiftCardRequest`. */
+export type SaveMeGiftCardRequestCode = ({
+    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
+    "code": string;
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "code".
+     */
+    "credential_type": "code" | (string & {});
+    /**
+     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
+     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
+     */
+    "grant_id"?: string;
+    /** Token from the fragment of the private recipient link. minLength: 1. */
+    "recipient_access_token"?: string;
+})
+    & (({
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "code".
+     */
+    "credential_type": unknown;
+    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
+    "code": string;
+}));
+/** The `code` variant of `SaveMeGiftCardRequest`. */
+export type SaveMeGiftCardRequestCodeInput = ({
+    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
+    "code": string;
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "code".
+     */
+    "credential_type": "code";
+    /**
+     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
+     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
+     */
+    "grant_id"?: string;
+    /** Token from the fragment of the private recipient link. minLength: 1. */
+    "recipient_access_token"?: string;
+})
+    & (({
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "code".
+     */
+    "credential_type": ("code") & ("code");
+    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
+    "code": string;
+})
+    & (({
+    "grant_id"?: never;
+}) & ({
+    "recipient_access_token"?: never;
+})));
+/** The request body for: Save a gift card to your account. */
+export type SaveMeGiftCardRequestInput = ({
+    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
+    "code"?: string;
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "code", "recipient_access".
+     */
+    "credential_type": "code" | "recipient_access";
+    /**
+     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
+     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
+     */
+    "grant_id"?: string;
+    /** Token from the fragment of the private recipient link. minLength: 1. */
+    "recipient_access_token"?: string;
+})
+    & ((Exclude<SaveMeGiftCardRequestCodeInput & object, readonly unknown[]>)
+    | (Exclude<SaveMeGiftCardRequestRecipientAccessInput & object, readonly unknown[]>));
+/** The `recipient_access` variant of `SaveMeGiftCardRequest`. */
+export type SaveMeGiftCardRequestRecipientAccess = ({
+    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
+    "code"?: string;
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "recipient_access".
+     */
+    "credential_type": "recipient_access" | (string & {});
+    /**
+     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
+     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
+     */
+    "grant_id": string;
+    /** Token from the fragment of the private recipient link. minLength: 1. */
+    "recipient_access_token": string;
+})
+    & (({
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "recipient_access".
+     */
+    "credential_type": unknown;
+    /**
+     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
+     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
+     */
+    "grant_id": string;
+    /** Token from the fragment of the private recipient link. minLength: 1. */
+    "recipient_access_token": string;
+}));
+/** The `recipient_access` variant of `SaveMeGiftCardRequest`. */
+export type SaveMeGiftCardRequestRecipientAccessInput = ({
+    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
+    "code"?: string;
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "recipient_access".
+     */
+    "credential_type": "recipient_access";
+    /**
+     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
+     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
+     */
+    "grant_id": string;
+    /** Token from the fragment of the private recipient link. minLength: 1. */
+    "recipient_access_token": string;
+})
+    & (({
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "recipient_access".
+     */
+    "credential_type": ("recipient_access") & ("recipient_access");
+    /**
+     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
+     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
+     */
+    "grant_id": string;
+    /** Token from the fragment of the private recipient link. minLength: 1. */
+    "recipient_access_token": string;
+})
+    & ({
+    "code"?: never;
+}));
+/** The request body for: Create a payment method for the current buyer. */
+export type SaveMePaymentMethodRequest = {
+    /**
+     * Kind of payment method to save. card is the only value and the default. Value enum: "card".
+     */
+    "type"?: "card" | (string & {});
+};
+/** The request body for: Create a payment method for the current buyer. */
+export type SaveMePaymentMethodRequestInput = {
+    /**
+     * Kind of payment method to save. card is the only value and the default. Value enum: "card".
+     */
+    "type"?: "card";
+};
+/** The request body for: Create a payment method. */
+export type SavePaymentMethodRequest = {
+    /**
+     * The customer to save the payment method for. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * Kind of payment method to save. card is the only value and the default. Value enum: "card".
+     */
+    "type"?: "card" | (string & {});
+};
+/** The request body for: Create a payment method. */
+export type SavePaymentMethodRequestInput = {
+    /**
+     * The customer to save the payment method for. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * Kind of payment method to save. card is the only value and the default. Value enum: "card".
+     */
+    "type"?: "card";
+};
+/** A response containing `PaymentMethodWithSetup` data. */
+export type SavePaymentMethodResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The saved payment
+     * method, with `client_setup` when the buyer must still complete processor setup before the
+     * payment method can be used. A customer's saved payment details.
+     */
+    "data": PaymentMethodWithSetup;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** Sets the start and end of a service fulfillment's appointment window. */
+export type ScheduleFulfillmentRequest = {
+    /**
+     * Whether to send or suppress the buyer notification for this action. Value enum: "send",
+     * "suppress".
+     */
+    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+    /** Resource version the caller last read. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * When the action occurred, as an RFC 3339 timestamp. On complete, also records completion
+     * evidence. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string;
+    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
+    "reason_message"?: string;
+    /**
+     * End of the service appointment window, after scheduled_start_at, as an RFC 3339 timestamp.
+     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "scheduled_end_at": string;
+    /**
+     * Start of the service appointment window, as an RFC 3339 timestamp. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "scheduled_start_at": string;
+    /** IANA timezone of the service appointment. minLength: 1. */
+    "timezone"?: string;
+};
+/** Sets the start and end of a service fulfillment's appointment window. */
+export type ScheduleFulfillmentRequestInput = {
+    /**
+     * Whether to send or suppress the buyer notification for this action. Value enum: "send",
+     * "suppress".
+     */
+    "buyer_notification_behavior"?: "send" | "suppress";
+    /** Resource version the caller last read. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * When the action occurred, as an RFC 3339 timestamp. On complete, also records completion
+     * evidence. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string | globalThis.Date;
+    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
+    "reason_message"?: string;
+    /**
+     * End of the service appointment window, after scheduled_start_at, as an RFC 3339 timestamp.
+     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "scheduled_end_at": string | globalThis.Date;
+    /**
+     * Start of the service appointment window, as an RFC 3339 timestamp. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "scheduled_start_at": string | globalThis.Date;
+    /** IANA timezone of the service appointment. minLength: 1. */
+    "timezone"?: string;
+};
+/**
+ * The scopes an authorization decision required and whether `all` or `any` of them were needed,
+ * returned in error details.
+ */
+export type ScopeRequirement = {
+    /**
+     * How the required scopes are evaluated. all requires every listed scope; any requires at
+     * least one listed scope. Example: "all". Value enum: "all", "any".
+     */
+    "mode": "all" | "any" | (string & {});
+    /**
+     * Canonical public scope names evaluated for this authorization decision. Example:
+     * ["developer.sandboxes.write","accounts.api_keys.write"]. [] (Value): string.
+     */
+    "scopes": Array<string>;
+};
+/** A resource the caller can select for a request field. */
+export type SelectableErrorResource = {
+    /**
+     * Amount for this choice when available. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /** Resource display name when available. */
+    "display_name"?: string;
+    /**
+     * Most recent payment failure when available. A summary of why a payment attempt failed, with
+     * a normalized error code, a message, the failure time, and remediation.
+     */
+    "last_payment_error"?: PaymentErrorSummary;
+    /**
+     * Payment collection details when available. Client-side details for collecting payment from
+     * the buyer, such as the Stripe settings to initialize Stripe.js.
+     */
+    "payment_collection"?: PaymentCollection;
+    /**
+     * Public Flint ID to submit in the refused request field. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "resource_id": string;
+    /**
+     * Stable public resource name for this choice. Example: "order". Value enum: "api_key",
+     * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component",
+     * "category", "checkout_session", "checkout_session_customer_verification", "credit_note",
+     * "credit_note_allocation", "custom_domain", "customer", "customer_address",
+     * "customer_deletion_request", "customer_email_preferences", "customer_session",
+     * "customer_tax_exemption", "customer_verification", "delivery_choice_group",
+     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
+     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
+     * "delivery_zone", "demo_session", "device", "discount", "dispute", "email_change_request",
+     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
+     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
+     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
+     * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
+     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
+     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
+     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
+     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
+     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
+     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
+     * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
+     * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
+     * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
+     * "partner_app", "partner_app_credential", "partner_app_install", "payment_intent",
+     * "payment_link", "payment_link_custom_field", "payment_link_line_item", "payment_method",
+     * "payment_method_domain", "payment_review", "payment_split", "payout", "payout_destination",
+     * "payout_settings", "platform_fee", "platform_fee_balance_transaction",
+     * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
+     * "product_option_value", "product_variant", "promotion", "promotion_code",
+     * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
+     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
+     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
+     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
+     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
+     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
+     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
+     * "tax_calculation_callback", "tax_connection", "tax_registration", "test_clock", "ticket",
+     * "user", "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
+     */
+    "resource_type": "api_key"
+        | "api_request_log"
+        | "balance"
+        | "balance_transaction"
+        | "bundle"
+        | "bundle_component"
+        | "category"
+        | "checkout_session"
+        | "checkout_session_customer_verification"
+        | "credit_note"
+        | "credit_note_allocation"
+        | "custom_domain"
+        | "customer"
+        | "customer_address"
+        | "customer_deletion_request"
+        | "customer_email_preferences"
+        | "customer_session"
+        | "customer_tax_exemption"
+        | "customer_verification"
+        | "delivery_choice_group"
+        | "delivery_location_set"
+        | "delivery_method"
+        | "delivery_profile"
+        | "delivery_quote"
+        | "delivery_rate"
+        | "delivery_rate_callback"
+        | "delivery_revocation"
+        | "delivery_selection"
+        | "delivery_zone"
+        | "demo_session"
+        | "device"
+        | "discount"
+        | "dispute"
+        | "email_change_request"
+        | "environment_grant"
+        | "feedback_report"
+        | "file"
+        | "flint_wallet"
+        | "flint_wallet_card"
+        | "fraud_warning"
+        | "fulfillment"
+        | "fulfillment_event"
+        | "fulfillment_notification"
+        | "gift_card"
+        | "gift_card_funding_disposition"
+        | "gift_card_load"
+        | "gift_card_notification"
+        | "gift_card_redemption"
+        | "gift_card_transaction"
+        | "image"
+        | "inventory_adjustment"
+        | "inventory_allocation_policy"
+        | "inventory_allocation_policy_revision"
+        | "inventory_count"
+        | "inventory_item"
+        | "inventory_level"
+        | "inventory_movement"
+        | "inventory_receipt"
+        | "inventory_reservation"
+        | "inventory_reservation_line"
+        | "inventory_transfer"
+        | "inventory_transfer_line"
+        | "invoice"
+        | "invoice_delivery_attempt"
+        | "invoice_late_fee"
+        | "invoice_line_item"
+        | "invoice_manual_payment"
+        | "invoice_payment_attempt"
+        | "invoice_payment_term"
+        | "location"
+        | "merchant"
+        | "merchant_billing_balance"
+        | "merchant_billing_entry"
+        | "merchant_billing_invoice"
+        | "merchant_signup"
+        | "modifier"
+        | "modifier_group"
+        | "modifier_set"
+        | "order"
+        | "order_charge"
+        | "order_edit"
+        | "order_line_item"
+        | "order_line_item_modifier"
+        | "order_payment_attempt"
+        | "package"
+        | "package_item"
+        | "partner_app"
+        | "partner_app_credential"
+        | "partner_app_install"
+        | "payment_intent"
+        | "payment_link"
+        | "payment_link_custom_field"
+        | "payment_link_line_item"
+        | "payment_method"
+        | "payment_method_domain"
+        | "payment_review"
+        | "payment_split"
+        | "payout"
+        | "payout_destination"
+        | "payout_settings"
+        | "platform_fee"
+        | "platform_fee_balance_transaction"
+        | "platform_fee_payout"
+        | "price_list"
+        | "price_list_price"
+        | "product"
+        | "product_option"
+        | "product_option_value"
+        | "product_variant"
+        | "promotion"
+        | "promotion_code"
+        | "purchase_refund_allocation"
+        | "reader"
+        | "refund"
+        | "refund_allocation"
+        | "refund_line_item_adjustment"
+        | "remembered_buyer"
+        | "report"
+        | "report_download"
+        | "return"
+        | "return_activity"
+        | "return_disposition"
+        | "return_inspection"
+        | "return_inspection_line_item"
+        | "return_line_item"
+        | "return_policy"
+        | "return_policy_revision"
+        | "return_reason"
+        | "return_receipt"
+        | "return_receipt_line_item"
+        | "return_resolution"
+        | "risk_list"
+        | "risk_list_item"
+        | "risk_rule"
+        | "sandbox"
+        | "settings"
+        | "shipment"
+        | "subscription"
+        | "subscription_delivery_migration"
+        | "subscription_line_item"
+        | "subscription_offer"
+        | "subscription_payment_retry"
+        | "subscription_plan"
+        | "subscription_plan_line_item"
+        | "tax_calculation_callback"
+        | "tax_connection"
+        | "tax_registration"
+        | "test_clock"
+        | "ticket"
+        | "user"
+        | "webhook_delivery"
+        | "webhook_endpoint"
+        | "webhook_event"
+        | "workload_identity"
+        | (string & {});
+    /** Current public status when available. */
+    "status"?: string;
+    /**
+     * Actions offered for this resource when the request was refused. An empty array means no
+     * action is offered; an omitted field means actions were not reported. [] (Value): string.
+     */
+    "supported_actions"?: Array<string>;
+    /**
+     * Tip for this choice when available. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "tip_money"?: MoneyValue;
+};
+/**
+ * A payment intent on an order the caller can pick, with its amount, status, and last payment
+ * error.
+ */
+export type SelectableOrderPaymentIntent = {
+    /**
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Most recent payment failure, when one is recorded. A summary of why a payment attempt
+     * failed, with a normalized error code, a message, the failure time, and remediation.
+     */
+    "last_payment_error"?: PaymentErrorSummary;
+    /**
+     * Client setup details for collecting this payment. Client-side details for collecting payment
+     * from the buyer, such as the Stripe settings to initialize Stripe.js.
+     */
+    "payment_collection"?: PaymentCollection;
+    /** Flint payment intent ID. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+    "payment_intent_id": string;
+    /**
+     * Lifecycle status. requires_payment_method covers both a new payment intent and one whose
+     * last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired
+     * are final. Refunds and disputes never change status. Value enum: "requires_payment_method",
+     * "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled",
+     * "succeeded", "expired".
+     */
+    "status": "requires_payment_method"
+        | "requires_confirmation"
+        | "requires_action"
+        | "processing"
+        | "requires_capture"
+        | "canceled"
+        | "succeeded"
+        | "expired"
+        | (string & {});
+    /**
+     * Portion of this payment's amount allocated to a tip. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "tip_money": MoneyValue;
+};
+export type SelectableOrderPaymentIntentPreviousAttributes = {
+    /**
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money. anyOf[1] (Value):
+     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Most recent payment failure, when one is recorded. anyOf[1] (Value): {@link
+     * PaymentErrorSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "last_payment_error"?: ((PaymentErrorSummaryPreviousAttributes) | (null));
+    /**
+     * Client setup details for collecting this payment. anyOf[1] (Value): {@link
+     * SetupCollectionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+    /**
+     * Flint payment intent ID. anyOf[1] (Value): string. Flint payment intent ID. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+     */
+    "payment_intent_id"?: ((string) | (null));
+    /**
+     * Lifecycle status. requires_payment_method covers both a new payment intent and one whose
+     * last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired
+     * are final. Refunds and disputes never change status. Value enum: "requires_payment_method",
+     * "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled",
+     * "succeeded", "expired". anyOf[1] (Value): string. Lifecycle status. requires_payment_method
+     * covers both a new payment intent and one whose last attempt failed, so read
+     * last_payment_error with it. succeeded, canceled, and expired are final. Refunds and disputes
+     * never change status. Value enum: "requires_payment_method", "requires_confirmation",
+     * "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired".
+     * anyOf[2] (Value): null.
+     */
+    "status"?: (("requires_payment_method"
+        | "requires_confirmation"
+        | "requires_action"
+        | "processing"
+        | "requires_capture"
+        | "canceled"
+        | "succeeded"
+        | "expired"
+        | (string & {}))
+        | (null));
+    /**
+     * Portion of this payment's amount allocated to a tip. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "tip_money"?: ((MoneyValuePreviousAttributes) | (null));
+};
+/** An option and value chosen for a product variant, such as size Large. */
+export type SelectedProductOption = {
+    /** Identifier of the selected product option. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8". */
+    "option_id": string;
+    /** Name of the selected product option. */
+    "option_name": string;
+    /** Identifier of the selected option value. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F". */
+    "option_value_id": string;
+    /** Selected value of the product option. */
+    "value": string;
+};
+export type SelectedProductOptionPreviousAttributes = {
+    /**
+     * Identifier of the selected product option. anyOf[1] (Value): string. Identifier of the
+     * selected product option. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8". anyOf[2] (Value): null.
+     */
+    "option_id"?: ((string) | (null));
+    /**
+     * Name of the selected product option. anyOf[1] (Value): string. Name of the selected product
+     * option. anyOf[2] (Value): null.
+     */
+    "option_name"?: ((string) | (null));
+    /**
+     * Identifier of the selected option value. anyOf[1] (Value): string. Identifier of the
+     * selected option value. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F". anyOf[2] (Value): null.
+     */
+    "option_value_id"?: ((string) | (null));
+    /**
+     * Selected value of the product option. anyOf[1] (Value): string. Selected value of the
+     * product option. anyOf[2] (Value): null.
+     */
+    "value"?: ((string) | (null));
+};
+/**
+ * The seller's agreement to the current automatic sales tax disclosure, recorded when connect
+ * succeeds.
+ */
+export type SellerTaxAttestationRequest = {
+    /**
+     * Current disclosure version from GET /v1/tax-connection. Send only after the seller agrees to
+     * every rendered statement. minLength: 1.
+     */
+    "disclosure_version": string;
+};
+/**
+ * The seller's agreement to the current automatic sales tax disclosure, recorded when connect
+ * succeeds.
+ */
+export type SellerTaxAttestationRequestInput = SellerTaxAttestationRequest;
+/** The request body for: Send an order receipt. */
+export type SendOrderReceiptRequest = {
+    /**
+     * Receipt email, limited to 254 characters (Unicode code points) after trimming surrounding
+     * whitespace. Format: email. minLength: 1. maxLength: 254. Example: "buyer@example.com".
+     */
+    "email"?: string;
+};
+/** The request body for: Send an order receipt. */
+export type SendOrderReceiptRequestInput = SendOrderReceiptRequest;
+/** The request body for: Send a payment receipt. */
+export type SendPaymentIntentReceiptRequestInput = {
+    /**
+     * Email address that receives the receipt. Omit to use the order's receipt address for an
+     * order-owned intent, or receipt_email then the customer's email for a standalone intent.
+     * Format: email. minLength: 1. maxLength: 254. Example: "buyer@example.com".
+     */
+    "email"?: string;
+};
+/**
+ * Details of a service fulfillment: the scheduled start and end, timezone, completion time, and
+ * notes.
+ */
+export type ServiceFulfillmentDetails = {
+    /**
+     * When the service was completed, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "completed_at"?: string;
+    /** Additional instructions or notes for performing the service. */
+    "notes"?: string;
+    /**
+     * Scheduled end of the service, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "scheduled_end_at"?: string;
+    /**
+     * Scheduled start of the service, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "scheduled_start_at"?: string;
+    /** Timezone used to display the service appointment. Uses an IANA time zone name. */
+    "timezone"?: string;
+};
+export type ServiceFulfillmentDetailsPreviousAttributes = {
+    /**
+     * When the service was completed, in RFC3339 format. anyOf[1] (Value): string. When the
+     * service was completed, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "completed_at"?: ((string) | (null));
+    /**
+     * Additional instructions or notes for performing the service. anyOf[1] (Value): string.
+     * Additional instructions or notes for performing the service. anyOf[2] (Value): null.
+     */
+    "notes"?: ((string) | (null));
+    /**
+     * Scheduled end of the service, in RFC3339 format. anyOf[1] (Value): string. Scheduled end of
+     * the service, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
+     * (Value): null.
+     */
+    "scheduled_end_at"?: ((string) | (null));
+    /**
+     * Scheduled start of the service, in RFC3339 format. anyOf[1] (Value): string. Scheduled start
+     * of the service, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * anyOf[2] (Value): null.
+     */
+    "scheduled_start_at"?: ((string) | (null));
+    /**
+     * Timezone used to display the service appointment. Uses an IANA time zone name. anyOf[1]
+     * (Value): string. Timezone used to display the service appointment. Uses an IANA time zone
+     * name. anyOf[2] (Value): null.
+     */
+    "timezone"?: ((string) | (null));
+};
+/** The settings for one merchant environment. */
+export type Settings = {
+    /**
+     * Colors, font, and corner radius of hosted checkout, receipts, and links. Omitted until you
+     * save a value in this section; effective settings fill in Flint's defaults. A merchant's
+     * branding settings: colors, corner radius, and font family. Checkout uses them as its default
+     * theme.
+     */
+    "branding"?: BrandingSettings;
+    /**
+     * Defaults for hosted checkout. Omitted until you save a value in this section; effective
+     * settings fill in Flint's defaults. Merchant defaults for checkout: delivery methods,
+     * expiration, payment options, required contact fields, promotion codes, recovery email, and
+     * saved payment details.
+     */
+    "checkout"?: CheckoutSettings;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The customer account where buyers manage their orders, subscriptions, returns, and invoices.
+     * Omitted until you save a value in this section; effective settings fill in Flint's defaults.
+     * Customer account settings: hosted mode, merchant account URL, presentation, route templates,
+     * and what buyers may do to their own subscriptions.
+     */
+    "customer_account"?: CustomerAccountSettings;
+    /**
+     * Whether Flint or you send each kind of buyer email. Omitted until you save a value in this
+     * section; effective settings fill in Flint's defaults. For each kind of customer email,
+     * whether Flint sends it or the merchant sends it.
+     */
+    "customer_email_delivery"?: CustomerEmailDeliverySettings;
+    /**
+     * Fulfillment workflow defaults. Omitted until you save a value in this section; effective
+     * settings fill in Flint's defaults. Merchant fulfillment settings, including whether
+     * fulfillments require approval (`approval_required`).
+     */
+    "fulfillment"?: FulfillmentSettings;
+    /**
+     * Inventory defaults, such as the low stock threshold and what happens when stock can't cover
+     * a paid order. Omitted until you save a value in this section; effective settings fill in
+     * Flint's defaults. Inventory settings: the `low_stock_threshold`, how inventory failures are
+     * handled for each order source, and the `default_routing_source` for requests that omit one.
+     */
+    "inventory"?: InventorySettings;
+    /**
+     * Defaults and policies for the invoices you issue. Omitted until you save a value in this
+     * section; effective settings fill in Flint's defaults. Merchant defaults for invoices,
+     * including numbering prefixes, default memo and footer, collection mode, reminders, and
+     * autopay retries.
+     */
+    "invoices"?: InvoiceSettings;
+    /**
+     * Legal links and terms acceptance that checkout shows. Omitted until you save a value in this
+     * section; effective settings fill in Flint's defaults. Merchant legal links and terms
+     * settings: contract, refund policy, shipping policy, and terms of service URLs, and whether
+     * buyers must accept the terms.
+     */
+    "legal"?: LegalSettings;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Your own lower and upper limits on payment amounts. Omitted until you save a value in this
+     * section; effective settings fill in Flint's defaults. Optional merchant limits that can
+     * lower Flint's payment-option and surface policy limits.
+     */
+    "payment_limits"?: PaymentLimitSettings;
+    /**
+     * Statement text for new payments. Omitted until you save a value in this section; effective
+     * settings fill in Flint's defaults. Settings for the statement text on new payments.
+     */
+    "payments"?: PaymentSettings;
+    /**
+     * Whether automatic promotions and promotion codes apply, and how many discounts one order can
+     * stack. Omitted until you save a value in this section; effective settings fill in Flint's
+     * defaults. Merchant promotion settings: whether automatic promotions and codes are enabled,
+     * and how many promotions can apply to one order.
+     */
+    "promotions"?: PromotionSettings;
+    /**
+     * Unique identifier for this settings, prefixed `set_`. Example:
+     * "set_01KEZF7C00SA6XKHH6GVZ1JMC2".
+     */
+    "settings_id": string;
+    /**
+     * Subscription billing behavior, such as what happens when payment retries run out. Omitted
+     * until you save a value in this section; effective settings fill in Flint's defaults.
+     * Subscription settings: the default billing schedule owner, dunning retry days and end
+     * action, and the backorder email.
+     */
+    "subscriptions"?: SubscriptionSettings;
+    /**
+     * Default tax behavior for new checkouts and orders. Omitted until you save a value in this
+     * section; effective settings fill in Flint's defaults. Tax settings: whether tax is
+     * calculated by default and the default tax categories for line items and delivery charges.
+     */
+    "tax"?: TaxSettings;
+    /**
+     * The merchant's legal identity, printed on invoices and credit notes. `null` when none is
+     * set. anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on
+     * invoices and credit notes. Flint does not verify IDs. On a customer, automatic tax sends the
+     * tax ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
+     * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in display
+     * order; replacing the array requires the parent's expected_version. Existing entries retain
+     * their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2]
+     * (Value): null.
+     */
+    "tax_identity": ((TaxIdentity) | (null));
+    /**
+     * How tips work at checkout. Omitted until you save a value in this section; effective
+     * settings fill in Flint's defaults. Tipping settings: percent and fixed tip options, the
+     * preselected tip, and whether custom tips are allowed.
+     */
+    "tipping"?: TippingSettings;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "updated_at": string;
     /**
-     * Persisted version of this resource's owned state. Expanded resources and external
-     * observations can change independently. Format: uint64. minimum: 1.
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: uint64. minimum: 1.
      */
     "version": number;
-    /**
-     * When the ticket was permanently voided. Null when the ticket has not been voided. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "voided_at": string | null;
 };
-export type TicketCheckedInEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "admission_code"?: string;
-            "admission_code_last4": string;
-            "attendee_name": string | null;
-            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
-            "checked_in_at": string | null;
-            "created_at": string;
-            "order"?: ExpandedOrderSummary;
-            "order_id": string;
-            "order_line_item_id": string;
-            "payment_link_id": string;
-            "status": "issued" | "checked_in" | "voided" | (string & {});
-            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
-            "ticket_id": string;
-            "ticket_number": string;
-            "updated_at": string;
-            "version": number;
-            "voided_at": string | null;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "admission_code"?: ((string) | (null));
-            "admission_code_last4"?: ((string) | (null));
-            "attendee_name"?: ((string | null) | (null) | (unknown));
-            "check_in_method"?: (((("admission_code" | "manual" | (string & {})) | (null))) | (null) | (unknown));
-            "checked_in_at"?: ((string | null) | (null) | (unknown));
-            "created_at"?: ((string) | (null));
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id"?: ((string) | (null));
-            "order_line_item_id"?: ((string) | (null));
-            "payment_link_id"?: ((string) | (null));
-            "status"?: (("issued" | "checked_in" | "voided" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"check_in" | "undo_check_in" | "void" | (string & {})>) | (null));
-            "ticket_id"?: ((string) | (null));
-            "ticket_number"?: ((string) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-            "voided_at"?: ((string | null) | (null) | (unknown));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "ticket.checked_in";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "admission_code"?: string;
-            "admission_code_last4": string;
-            "attendee_name": string | null;
-            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
-            "checked_in_at": string | null;
-            "created_at": string;
-            "order"?: ExpandedOrderSummary;
-            "order_id": string;
-            "order_line_item_id": string;
-            "payment_link_id": string;
-            "status": "issued" | "checked_in" | "voided" | (string & {});
-            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
-            "ticket_id": string;
-            "ticket_number": string;
-            "updated_at": string;
-            "version": number;
-            "voided_at": string | null;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "admission_code"?: ((string) | (null));
-            "admission_code_last4"?: ((string) | (null));
-            "attendee_name"?: ((string | null) | (null) | (unknown));
-            "check_in_method"?: (((("admission_code" | "manual" | (string & {})) | (null))) | (null) | (unknown));
-            "checked_in_at"?: ((string | null) | (null) | (unknown));
-            "created_at"?: ((string) | (null));
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id"?: ((string) | (null));
-            "order_line_item_id"?: ((string) | (null));
-            "payment_link_id"?: ((string) | (null));
-            "status"?: (("issued" | "checked_in" | "voided" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"check_in" | "undo_check_in" | "void" | (string & {})>) | (null));
-            "ticket_id"?: ((string) | (null));
-            "ticket_number"?: ((string) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-            "voided_at"?: ((string | null) | (null) | (unknown));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "ticket.checked_in";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
+export type SettingsGetEffectiveParams = DisputesAcceptParams;
+export type SettingsGetParams = DisputesAcceptParams;
+/** A response containing `Settings` data. */
+export type SettingsResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The settings for one
+     * merchant environment.
+     */
+    "data": Settings;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type SettingsUpdateParams = (InputValue<UpdateSettingsRequestInput>)
     & {
-    "event_type": "ticket.checked_in";
-});
-/**
- * The `ticket.checked_in` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type TicketCheckedInInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
-     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
-     * checkout session's own paying credential receives it, on its own order's tickets that aren't
-     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
-     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
-     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
-     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
-     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
-     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
-     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
-     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
-     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
-     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
-     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
-     * summary fields, including status, payment and refund status, and pricing and settlement
-     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
-     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
-     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
-     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
-     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
-     * object.supported_actions (Required): Array of string. Actions currently offered for this
-     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
-     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
-     * string. Unique ticket identity with the tkt_ prefix. Example:
-     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
-     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
-     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
-     * this resource's owned state. Expanded resources and external observations can change
-     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
-     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.admission_code (Optional): string or null. The
-     * ticket's 16-character Crockford base32 admission code, the value its QR code holds. A bearer
-     * secret: only the paid checkout session's own paying credential receives it, on its own
-     * order's tickets that aren't voided. A checkout credential from a launch URL a merchant reads
-     * or requests after payment never does. Returned only to the checkout credential; never in
-     * webhook payloads. previous_attributes.admission_code.anyOf[1] (Value): string. The ticket's
-     * 16-character Crockford base32 admission code, the value its QR code holds. A bearer secret:
-     * only the paid checkout session's own paying credential receives it, on its own order's
-     * tickets that aren't voided. A checkout credential from a launch URL a merchant reads or
-     * requests after payment never does. Returned only to the checkout credential; never in
-     * webhook payloads. minLength: 16. previous_attributes.admission_code.anyOf[2] (Value): null.
-     * previous_attributes.admission_code_last4 (Optional): string or null. Last four characters of
-     * the current admission code. previous_attributes.admission_code_last4.anyOf[1] (Value):
-     * string. Last four characters of the current admission code.
-     * previous_attributes.admission_code_last4.anyOf[2] (Value): null.
-     * previous_attributes.attendee_name (Optional): string or null or null. Optional attendee
-     * name. Null when not supplied. previous_attributes.attendee_name.anyOf[1] (Value): string or
-     * null. Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200.
-     * previous_attributes.attendee_name.anyOf[2] (Value): null.
-     * previous_attributes.check_in_method (Optional): string or null or null. How the ticket was
-     * admitted. Null when the ticket is not checked in. Value enum: "admission_code", "manual".
-     * previous_attributes.check_in_method.anyOf[1] (Value): string or null. How the ticket was
-     * admitted. Null when the ticket is not checked in. Value enum: "admission_code", "manual".
-     * previous_attributes.check_in_method.anyOf[1].anyOf[1] (Value): string. Value enum:
-     * "admission_code", "manual". previous_attributes.check_in_method.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.check_in_method.anyOf[2] (Value): null.
-     * previous_attributes.checked_in_at (Optional): string or null or null. When the ticket was
-     * admitted. Null when the ticket is not checked in. previous_attributes.checked_in_at.anyOf[1]
-     * (Value): string or null. When the ticket was admitted. Null when the ticket is not checked
-     * in. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.checked_in_at.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. When the ticket was issued.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the ticket was issued. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.order (Optional): {@link ExpandedOrderSummary} or null. Order
-     * summary, present only with expand=order. Requires commerce.orders.read.
-     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. Order summary,
-     * present only with expand=order. Requires commerce.orders.read.
-     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
-     * string or null. The order that purchased this ticket. previous_attributes.order_id.anyOf[1]
-     * (Value): string. The order that purchased this ticket. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.order_line_item_id (Optional): string or null. The purchased ticket
-     * tier. previous_attributes.order_line_item_id.anyOf[1] (Value): string. The purchased ticket
-     * tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
-     * previous_attributes.order_line_item_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_link_id (Optional): string or null. The event payment link.
-     * previous_attributes.payment_link_id.anyOf[1] (Value): string. The event payment link.
-     * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2]
-     * (Value): null. previous_attributes.status (Optional): string or null. The admission
-     * lifecycle. Value enum: "issued", "checked_in", "voided". previous_attributes.status.anyOf[1]
-     * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in", "voided".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
-     * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
-     * "check_in", "undo_check_in", "void". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Actions currently offered for this ticket. [] enum: "check_in",
-     * "undo_check_in", "void". previous_attributes.supported_actions.anyOf[1][] (Value): string.
-     * Value enum: "check_in", "undo_check_in", "void".
-     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.ticket_id
-     * (Optional): string or null. Unique ticket identity with the tkt_ prefix.
-     * previous_attributes.ticket_id.anyOf[1] (Value): string. Unique ticket identity with the tkt_
-     * prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". previous_attributes.ticket_id.anyOf[2]
-     * (Value): null. previous_attributes.ticket_number (Optional): string or null. The event
-     * prefix and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
-     * previous_attributes.ticket_number.anyOf[1] (Value): string. The event prefix and sequence,
-     * such as GAL001. Numbers are never reused and do not authorize entry.
-     * previous_attributes.ticket_number.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. When the ticket last changed.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. When the ticket last changed.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
-     * (Value): null. previous_attributes.version (Optional): integer or null. Persisted version of
-     * this resource's owned state. Expanded resources and external observations can change
-     * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
-     * this resource's owned state. Expanded resources and external observations can change
-     * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
-     * null. previous_attributes.voided_at (Optional): string or null or null. When the ticket was
-     * permanently voided. Null when the ticket has not been voided.
-     * previous_attributes.voided_at.anyOf[1] (Value): string or null. When the ticket was
-     * permanently voided. Null when the ticket has not been voided. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value): null.
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
-         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
-         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
-         * credential from a launch URL a merchant reads or requests after payment never does.
-         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
-         * admission_code_last4 (Required): string. Last four characters of the current admission
-         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
-         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
-         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
-         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
-         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
-         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
-         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
-         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
-         * expand=order. Requires commerce.orders.read. An order's summary fields, including
-         * status, payment and refund status, and pricing and settlement amounts, returned when the
-         * order is expanded. order_id (Required): string. The order that purchased this ticket.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
-         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
-         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
-         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
-         * "voided". supported_actions (Required): Array of string. Actions currently offered for
-         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
-         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
-         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
-         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
-         * are never reused and do not authorize entry. updated_at (Required): string. When the
-         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Persisted version of this resource's owned state. Expanded
-         * resources and external observations can change independently. Format: uint64. minimum:
-         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
-         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * The ticket's 16-character Crockford base32 admission code, the value its QR code
-             * holds. A bearer secret: only the paid checkout session's own paying credential
-             * receives it, on its own order's tickets that aren't voided. A checkout credential
-             * from a launch URL a merchant reads or requests after payment never does. Returned
-             * only to the checkout credential; never in webhook payloads. minLength: 16.
-             */
-            "admission_code"?: string;
-            /** Last four characters of the current admission code. */
-            "admission_code_last4": string;
-            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
-            "attendee_name": string | null;
-            /**
-             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
-             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
-             * "manual". anyOf[2] (Value): null.
-             */
-            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
-            /**
-             * When the ticket was admitted. Null when the ticket is not checked in. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "checked_in_at": string | null;
-            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Order summary, present only with expand=order. Requires commerce.orders.read. An
-             * order's summary fields, including status, payment and refund status, and pricing and
-             * settlement amounts, returned when the order is expanded.
-             */
-            "order"?: ExpandedOrderSummary;
-            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
-            "order_id": string;
-            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
-            "order_line_item_id": string;
-            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
-            "payment_link_id": string;
-            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
-            "status": "issued" | "checked_in" | "voided" | (string & {});
-            /**
-             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
-             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
-             */
-            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
-            /**
-             * Unique ticket identity with the tkt_ prefix. Example:
-             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
-             */
-            "ticket_id": string;
-            /**
-             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
-             * authorize entry.
-             */
-            "ticket_number": string;
-            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. Format: uint64. minimum: 1.
-             */
-            "version": number;
-            /**
-             * When the ticket was permanently voided. Null when the ticket has not been voided.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "voided_at": string | null;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. admission_code (Optional): string or null. The
-         * ticket's 16-character Crockford base32 admission code, the value its QR code holds. A
-         * bearer secret: only the paid checkout session's own paying credential receives it, on
-         * its own order's tickets that aren't voided. A checkout credential from a launch URL a
-         * merchant reads or requests after payment never does. Returned only to the checkout
-         * credential; never in webhook payloads. admission_code.anyOf[1] (Value): string. The
-         * ticket's 16-character Crockford base32 admission code, the value its QR code holds. A
-         * bearer secret: only the paid checkout session's own paying credential receives it, on
-         * its own order's tickets that aren't voided. A checkout credential from a launch URL a
-         * merchant reads or requests after payment never does. Returned only to the checkout
-         * credential; never in webhook payloads. minLength: 16. admission_code.anyOf[2] (Value):
-         * null. admission_code_last4 (Optional): string or null. Last four characters of the
-         * current admission code. admission_code_last4.anyOf[1] (Value): string. Last four
-         * characters of the current admission code. admission_code_last4.anyOf[2] (Value): null.
-         * attendee_name (Optional): string or null or null. Optional attendee name. Null when not
-         * supplied. attendee_name.anyOf[1] (Value): string or null. Optional attendee name. Null
-         * when not supplied. minLength: 1. maxLength: 200. attendee_name.anyOf[2] (Value): null.
-         * check_in_method (Optional): string or null or null. How the ticket was admitted. Null
-         * when the ticket is not checked in. Value enum: "admission_code", "manual".
-         * check_in_method.anyOf[1] (Value): string or null. How the ticket was admitted. Null when
-         * the ticket is not checked in. Value enum: "admission_code", "manual".
-         * check_in_method.anyOf[1].anyOf[1] (Value): string. Value enum: "admission_code",
-         * "manual". check_in_method.anyOf[1].anyOf[2] (Value): null. check_in_method.anyOf[2]
-         * (Value): null. checked_in_at (Optional): string or null or null. When the ticket was
-         * admitted. Null when the ticket is not checked in. checked_in_at.anyOf[1] (Value): string
-         * or null. When the ticket was admitted. Null when the ticket is not checked in. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". checked_in_at.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. When the ticket was issued. created_at.anyOf[1]
-         * (Value): string. When the ticket was issued. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. order (Optional): {@link
-         * ExpandedOrderSummary} or null. Order summary, present only with expand=order. Requires
-         * commerce.orders.read. order.anyOf[1] (Value): {@link ExpandedOrderSummary}. Order
-         * summary, present only with expand=order. Requires commerce.orders.read. order.anyOf[2]
-         * (Value): null. order_id (Optional): string or null. The order that purchased this
-         * ticket. order_id.anyOf[1] (Value): string. The order that purchased this ticket.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * order_line_item_id (Optional): string or null. The purchased ticket tier.
-         * order_line_item_id.anyOf[1] (Value): string. The purchased ticket tier. Example:
-         * "li_01KEZF7C008YPRCK7VDKTGWR31". order_line_item_id.anyOf[2] (Value): null.
-         * payment_link_id (Optional): string or null. The event payment link.
-         * payment_link_id.anyOf[1] (Value): string. The event payment link. Example:
-         * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null. status
-         * (Optional): string or null. The admission lifecycle. Value enum: "issued", "checked_in",
-         * "voided". status.anyOf[1] (Value): string. The admission lifecycle. Value enum:
-         * "issued", "checked_in", "voided". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
-         * "check_in", "undo_check_in", "void". supported_actions.anyOf[1] (Value): Array of
-         * string. Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
-         * "void". supported_actions.anyOf[1][] (Value): string. Value enum: "check_in",
-         * "undo_check_in", "void". supported_actions.anyOf[2] (Value): null. ticket_id (Optional):
-         * string or null. Unique ticket identity with the tkt_ prefix. ticket_id.anyOf[1] (Value):
-         * string. Unique ticket identity with the tkt_ prefix. Example:
-         * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". ticket_id.anyOf[2] (Value): null. ticket_number
-         * (Optional): string or null. The event prefix and sequence, such as GAL001. Numbers are
-         * never reused and do not authorize entry. ticket_number.anyOf[1] (Value): string. The
-         * event prefix and sequence, such as GAL001. Numbers are never reused and do not authorize
-         * entry. ticket_number.anyOf[2] (Value): null. updated_at (Optional): string or null. When
-         * the ticket last changed. updated_at.anyOf[1] (Value): string. When the ticket last
-         * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
-         * (Value): null. version (Optional): integer or null. Persisted version of this resource's
-         * owned state. Expanded resources and external observations can change independently.
-         * version.anyOf[1] (Value): integer. Persisted version of this resource's owned state.
-         * Expanded resources and external observations can change independently. Format: uint64.
-         * minimum: 1. version.anyOf[2] (Value): null. voided_at (Optional): string or null or
-         * null. When the ticket was permanently voided. Null when the ticket has not been voided.
-         * voided_at.anyOf[1] (Value): string or null. When the ticket was permanently voided. Null
-         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * voided_at.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * The ticket's 16-character Crockford base32 admission code, the value its QR code
-             * holds. A bearer secret: only the paid checkout session's own paying credential
-             * receives it, on its own order's tickets that aren't voided. A checkout credential
-             * from a launch URL a merchant reads or requests after payment never does. Returned
-             * only to the checkout credential; never in webhook payloads. anyOf[1] (Value):
-             * string. The ticket's 16-character Crockford base32 admission code, the value its QR
-             * code holds. A bearer secret: only the paid checkout session's own paying credential
-             * receives it, on its own order's tickets that aren't voided. A checkout credential
-             * from a launch URL a merchant reads or requests after payment never does. Returned
-             * only to the checkout credential; never in webhook payloads. minLength: 16. anyOf[2]
-             * (Value): null.
-             */
-            "admission_code"?: ((string) | (null));
-            /**
-             * Last four characters of the current admission code. anyOf[1] (Value): string. Last
-             * four characters of the current admission code. anyOf[2] (Value): null.
-             */
-            "admission_code_last4"?: ((string) | (null));
-            /**
-             * Optional attendee name. Null when not supplied. anyOf[1] (Value): string or null.
-             * Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200.
-             * anyOf[2] (Value): null.
-             */
-            "attendee_name"?: ((string | null) | (null) | (unknown));
-            /**
-             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
-             * "admission_code", "manual". anyOf[1] (Value): string or null. How the ticket was
-             * admitted. Null when the ticket is not checked in. Value enum: "admission_code",
-             * "manual". anyOf[1].anyOf[1] (Value): string. Value enum: "admission_code", "manual".
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "check_in_method"?: (((("admission_code" | "manual" | (string & {})) | (null))) | (null) | (unknown));
-            /**
-             * When the ticket was admitted. Null when the ticket is not checked in. anyOf[1]
-             * (Value): string or null. When the ticket was admitted. Null when the ticket is not
-             * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
-             * null.
-             */
-            "checked_in_at"?: ((string | null) | (null) | (unknown));
-            /**
-             * When the ticket was issued. anyOf[1] (Value): string. When the ticket was issued.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Order summary, present only with expand=order. Requires commerce.orders.read.
-             * anyOf[1] (Value): {@link ExpandedOrderSummary}. Order summary, present only with
-             * expand=order. Requires commerce.orders.read. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /**
-             * The order that purchased this ticket. anyOf[1] (Value): string. The order that
-             * purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
-             * null.
-             */
-            "order_id"?: ((string) | (null));
-            /**
-             * The purchased ticket tier. anyOf[1] (Value): string. The purchased ticket tier.
-             * Example: "li_01KEZF7C008YPRCK7VDKTGWR31". anyOf[2] (Value): null.
-             */
-            "order_line_item_id"?: ((string) | (null));
-            /**
-             * The event payment link. anyOf[1] (Value): string. The event payment link. Example:
-             * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". anyOf[2] (Value): null.
-             */
-            "payment_link_id"?: ((string) | (null));
-            /**
-             * The admission lifecycle. Value enum: "issued", "checked_in", "voided". anyOf[1]
-             * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in",
-             * "voided". anyOf[2] (Value): null.
-             */
-            "status"?: (("issued" | "checked_in" | "voided" | (string & {})) | (null));
-            /**
-             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
-             * "void". anyOf[1] (Value): Array of string. Actions currently offered for this
-             * ticket. [] enum: "check_in", "undo_check_in", "void". anyOf[1][] (Value): string.
-             * Value enum: "check_in", "undo_check_in", "void". anyOf[2] (Value): null.
-             */
-            "supported_actions"?: ((Array<"check_in" | "undo_check_in" | "void" | (string & {})>) | (null));
-            /**
-             * Unique ticket identity with the tkt_ prefix. anyOf[1] (Value): string. Unique ticket
-             * identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". anyOf[2]
-             * (Value): null.
-             */
-            "ticket_id"?: ((string) | (null));
-            /**
-             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
-             * authorize entry. anyOf[1] (Value): string. The event prefix and sequence, such as
-             * GAL001. Numbers are never reused and do not authorize entry. anyOf[2] (Value): null.
-             */
-            "ticket_number"?: ((string) | (null));
-            /**
-             * When the ticket last changed. anyOf[1] (Value): string. When the ticket last
-             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. anyOf[1] (Value): integer. Persisted version
-             * of this resource's owned state. Expanded resources and external observations can
-             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-            /**
-             * When the ticket was permanently voided. Null when the ticket has not been voided.
-             * anyOf[1] (Value): string or null. When the ticket was permanently voided. Null when
-             * the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             * anyOf[2] (Value): null.
-             */
-            "voided_at"?: ((string | null) | (null) | (unknown));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "ticket.checked_in". */
-    "event_type"?: "ticket.checked_in";
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `ticket.checked_in` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type TicketCheckedInMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
+    "Flint-Mode"?: InputValue<"test" | "live">;
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
-     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
-     * checkout session's own paying credential receives it, on its own order's tickets that aren't
-     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
-     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
-     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
-     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
-     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
-     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
-     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
-     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
-     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
-     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
-     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
-     * summary fields, including status, payment and refund status, and pricing and settlement
-     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
-     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
-     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
-     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
-     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
-     * object.supported_actions (Required): Array of string. Actions currently offered for this
-     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
-     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
-     * string. Unique ticket identity with the tkt_ prefix. Example:
-     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
-     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
-     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
-     * this resource's owned state. Expanded resources and external observations can change
-     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
-     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.admission_code (Optional): string or null. The
-     * ticket's 16-character Crockford base32 admission code, the value its QR code holds. A bearer
-     * secret: only the paid checkout session's own paying credential receives it, on its own
-     * order's tickets that aren't voided. A checkout credential from a launch URL a merchant reads
-     * or requests after payment never does. Returned only to the checkout credential; never in
-     * webhook payloads. previous_attributes.admission_code.anyOf[1] (Value): string. The ticket's
-     * 16-character Crockford base32 admission code, the value its QR code holds. A bearer secret:
-     * only the paid checkout session's own paying credential receives it, on its own order's
-     * tickets that aren't voided. A checkout credential from a launch URL a merchant reads or
-     * requests after payment never does. Returned only to the checkout credential; never in
-     * webhook payloads. minLength: 16. previous_attributes.admission_code.anyOf[2] (Value): null.
-     * previous_attributes.admission_code_last4 (Optional): string or null. Last four characters of
-     * the current admission code. previous_attributes.admission_code_last4.anyOf[1] (Value):
-     * string. Last four characters of the current admission code.
-     * previous_attributes.admission_code_last4.anyOf[2] (Value): null.
-     * previous_attributes.attendee_name (Optional): string or null or null. Optional attendee
-     * name. Null when not supplied. previous_attributes.attendee_name.anyOf[1] (Value): string or
-     * null. Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200.
-     * previous_attributes.attendee_name.anyOf[2] (Value): null.
-     * previous_attributes.check_in_method (Optional): string or null or null. How the ticket was
-     * admitted. Null when the ticket is not checked in. Value enum: "admission_code", "manual".
-     * previous_attributes.check_in_method.anyOf[1] (Value): string or null. How the ticket was
-     * admitted. Null when the ticket is not checked in. Value enum: "admission_code", "manual".
-     * previous_attributes.check_in_method.anyOf[1].anyOf[1] (Value): string. Value enum:
-     * "admission_code", "manual". previous_attributes.check_in_method.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.check_in_method.anyOf[2] (Value): null.
-     * previous_attributes.checked_in_at (Optional): string or null or null. When the ticket was
-     * admitted. Null when the ticket is not checked in. previous_attributes.checked_in_at.anyOf[1]
-     * (Value): string or null. When the ticket was admitted. Null when the ticket is not checked
-     * in. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.checked_in_at.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. When the ticket was issued.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the ticket was issued. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.order (Optional): {@link ExpandedOrderSummary} or null. Order
-     * summary, present only with expand=order. Requires commerce.orders.read.
-     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. Order summary,
-     * present only with expand=order. Requires commerce.orders.read.
-     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
-     * string or null. The order that purchased this ticket. previous_attributes.order_id.anyOf[1]
-     * (Value): string. The order that purchased this ticket. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.order_line_item_id (Optional): string or null. The purchased ticket
-     * tier. previous_attributes.order_line_item_id.anyOf[1] (Value): string. The purchased ticket
-     * tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
-     * previous_attributes.order_line_item_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_link_id (Optional): string or null. The event payment link.
-     * previous_attributes.payment_link_id.anyOf[1] (Value): string. The event payment link.
-     * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2]
-     * (Value): null. previous_attributes.status (Optional): string or null. The admission
-     * lifecycle. Value enum: "issued", "checked_in", "voided". previous_attributes.status.anyOf[1]
-     * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in", "voided".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
-     * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
-     * "check_in", "undo_check_in", "void". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Actions currently offered for this ticket. [] enum: "check_in",
-     * "undo_check_in", "void". previous_attributes.supported_actions.anyOf[1][] (Value): string.
-     * Value enum: "check_in", "undo_check_in", "void".
-     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.ticket_id
-     * (Optional): string or null. Unique ticket identity with the tkt_ prefix.
-     * previous_attributes.ticket_id.anyOf[1] (Value): string. Unique ticket identity with the tkt_
-     * prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". previous_attributes.ticket_id.anyOf[2]
-     * (Value): null. previous_attributes.ticket_number (Optional): string or null. The event
-     * prefix and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
-     * previous_attributes.ticket_number.anyOf[1] (Value): string. The event prefix and sequence,
-     * such as GAL001. Numbers are never reused and do not authorize entry.
-     * previous_attributes.ticket_number.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. When the ticket last changed.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. When the ticket last changed.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
-     * (Value): null. previous_attributes.version (Optional): integer or null. Persisted version of
-     * this resource's owned state. Expanded resources and external observations can change
-     * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
-     * this resource's owned state. Expanded resources and external observations can change
-     * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
-     * null. previous_attributes.voided_at (Optional): string or null or null. When the ticket was
-     * permanently voided. Null when the ticket has not been voided.
-     * previous_attributes.voided_at.anyOf[1] (Value): string or null. When the ticket was
-     * permanently voided. Null when the ticket has not been voided. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value): null.
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
-         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
-         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
-         * credential from a launch URL a merchant reads or requests after payment never does.
-         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
-         * admission_code_last4 (Required): string. Last four characters of the current admission
-         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
-         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
-         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
-         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
-         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
-         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
-         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
-         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
-         * expand=order. Requires commerce.orders.read. An order's summary fields, including
-         * status, payment and refund status, and pricing and settlement amounts, returned when the
-         * order is expanded. order_id (Required): string. The order that purchased this ticket.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
-         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
-         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
-         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
-         * "voided". supported_actions (Required): Array of string. Actions currently offered for
-         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
-         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
-         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
-         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
-         * are never reused and do not authorize entry. updated_at (Required): string. When the
-         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Persisted version of this resource's owned state. Expanded
-         * resources and external observations can change independently. Format: uint64. minimum:
-         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
-         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * The ticket's 16-character Crockford base32 admission code, the value its QR code
-             * holds. A bearer secret: only the paid checkout session's own paying credential
-             * receives it, on its own order's tickets that aren't voided. A checkout credential
-             * from a launch URL a merchant reads or requests after payment never does. Returned
-             * only to the checkout credential; never in webhook payloads. minLength: 16.
-             */
-            "admission_code"?: string;
-            /** Last four characters of the current admission code. */
-            "admission_code_last4": string;
-            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
-            "attendee_name": string | null;
-            /**
-             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
-             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
-             * "manual". anyOf[2] (Value): null.
-             */
-            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
-            /**
-             * When the ticket was admitted. Null when the ticket is not checked in. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "checked_in_at": string | null;
-            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Order summary, present only with expand=order. Requires commerce.orders.read. An
-             * order's summary fields, including status, payment and refund status, and pricing and
-             * settlement amounts, returned when the order is expanded.
-             */
-            "order"?: ExpandedOrderSummary;
-            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
-            "order_id": string;
-            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
-            "order_line_item_id": string;
-            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
-            "payment_link_id": string;
-            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
-            "status": "issued" | "checked_in" | "voided" | (string & {});
-            /**
-             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
-             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
-             */
-            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
-            /**
-             * Unique ticket identity with the tkt_ prefix. Example:
-             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
-             */
-            "ticket_id": string;
-            /**
-             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
-             * authorize entry.
-             */
-            "ticket_number": string;
-            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. Format: uint64. minimum: 1.
-             */
-            "version": number;
-            /**
-             * When the ticket was permanently voided. Null when the ticket has not been voided.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "voided_at": string | null;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. admission_code (Optional): string or null. The
-         * ticket's 16-character Crockford base32 admission code, the value its QR code holds. A
-         * bearer secret: only the paid checkout session's own paying credential receives it, on
-         * its own order's tickets that aren't voided. A checkout credential from a launch URL a
-         * merchant reads or requests after payment never does. Returned only to the checkout
-         * credential; never in webhook payloads. admission_code.anyOf[1] (Value): string. The
-         * ticket's 16-character Crockford base32 admission code, the value its QR code holds. A
-         * bearer secret: only the paid checkout session's own paying credential receives it, on
-         * its own order's tickets that aren't voided. A checkout credential from a launch URL a
-         * merchant reads or requests after payment never does. Returned only to the checkout
-         * credential; never in webhook payloads. minLength: 16. admission_code.anyOf[2] (Value):
-         * null. admission_code_last4 (Optional): string or null. Last four characters of the
-         * current admission code. admission_code_last4.anyOf[1] (Value): string. Last four
-         * characters of the current admission code. admission_code_last4.anyOf[2] (Value): null.
-         * attendee_name (Optional): string or null or null. Optional attendee name. Null when not
-         * supplied. attendee_name.anyOf[1] (Value): string or null. Optional attendee name. Null
-         * when not supplied. minLength: 1. maxLength: 200. attendee_name.anyOf[2] (Value): null.
-         * check_in_method (Optional): string or null or null. How the ticket was admitted. Null
-         * when the ticket is not checked in. Value enum: "admission_code", "manual".
-         * check_in_method.anyOf[1] (Value): string or null. How the ticket was admitted. Null when
-         * the ticket is not checked in. Value enum: "admission_code", "manual".
-         * check_in_method.anyOf[1].anyOf[1] (Value): string. Value enum: "admission_code",
-         * "manual". check_in_method.anyOf[1].anyOf[2] (Value): null. check_in_method.anyOf[2]
-         * (Value): null. checked_in_at (Optional): string or null or null. When the ticket was
-         * admitted. Null when the ticket is not checked in. checked_in_at.anyOf[1] (Value): string
-         * or null. When the ticket was admitted. Null when the ticket is not checked in. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". checked_in_at.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. When the ticket was issued. created_at.anyOf[1]
-         * (Value): string. When the ticket was issued. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. order (Optional): {@link
-         * ExpandedOrderSummary} or null. Order summary, present only with expand=order. Requires
-         * commerce.orders.read. order.anyOf[1] (Value): {@link ExpandedOrderSummary}. Order
-         * summary, present only with expand=order. Requires commerce.orders.read. order.anyOf[2]
-         * (Value): null. order_id (Optional): string or null. The order that purchased this
-         * ticket. order_id.anyOf[1] (Value): string. The order that purchased this ticket.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * order_line_item_id (Optional): string or null. The purchased ticket tier.
-         * order_line_item_id.anyOf[1] (Value): string. The purchased ticket tier. Example:
-         * "li_01KEZF7C008YPRCK7VDKTGWR31". order_line_item_id.anyOf[2] (Value): null.
-         * payment_link_id (Optional): string or null. The event payment link.
-         * payment_link_id.anyOf[1] (Value): string. The event payment link. Example:
-         * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null. status
-         * (Optional): string or null. The admission lifecycle. Value enum: "issued", "checked_in",
-         * "voided". status.anyOf[1] (Value): string. The admission lifecycle. Value enum:
-         * "issued", "checked_in", "voided". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
-         * "check_in", "undo_check_in", "void". supported_actions.anyOf[1] (Value): Array of
-         * string. Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
-         * "void". supported_actions.anyOf[1][] (Value): string. Value enum: "check_in",
-         * "undo_check_in", "void". supported_actions.anyOf[2] (Value): null. ticket_id (Optional):
-         * string or null. Unique ticket identity with the tkt_ prefix. ticket_id.anyOf[1] (Value):
-         * string. Unique ticket identity with the tkt_ prefix. Example:
-         * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". ticket_id.anyOf[2] (Value): null. ticket_number
-         * (Optional): string or null. The event prefix and sequence, such as GAL001. Numbers are
-         * never reused and do not authorize entry. ticket_number.anyOf[1] (Value): string. The
-         * event prefix and sequence, such as GAL001. Numbers are never reused and do not authorize
-         * entry. ticket_number.anyOf[2] (Value): null. updated_at (Optional): string or null. When
-         * the ticket last changed. updated_at.anyOf[1] (Value): string. When the ticket last
-         * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
-         * (Value): null. version (Optional): integer or null. Persisted version of this resource's
-         * owned state. Expanded resources and external observations can change independently.
-         * version.anyOf[1] (Value): integer. Persisted version of this resource's owned state.
-         * Expanded resources and external observations can change independently. Format: uint64.
-         * minimum: 1. version.anyOf[2] (Value): null. voided_at (Optional): string or null or
-         * null. When the ticket was permanently voided. Null when the ticket has not been voided.
-         * voided_at.anyOf[1] (Value): string or null. When the ticket was permanently voided. Null
-         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * voided_at.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * The ticket's 16-character Crockford base32 admission code, the value its QR code
-             * holds. A bearer secret: only the paid checkout session's own paying credential
-             * receives it, on its own order's tickets that aren't voided. A checkout credential
-             * from a launch URL a merchant reads or requests after payment never does. Returned
-             * only to the checkout credential; never in webhook payloads. anyOf[1] (Value):
-             * string. The ticket's 16-character Crockford base32 admission code, the value its QR
-             * code holds. A bearer secret: only the paid checkout session's own paying credential
-             * receives it, on its own order's tickets that aren't voided. A checkout credential
-             * from a launch URL a merchant reads or requests after payment never does. Returned
-             * only to the checkout credential; never in webhook payloads. minLength: 16. anyOf[2]
-             * (Value): null.
-             */
-            "admission_code"?: ((string) | (null));
-            /**
-             * Last four characters of the current admission code. anyOf[1] (Value): string. Last
-             * four characters of the current admission code. anyOf[2] (Value): null.
-             */
-            "admission_code_last4"?: ((string) | (null));
-            /**
-             * Optional attendee name. Null when not supplied. anyOf[1] (Value): string or null.
-             * Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200.
-             * anyOf[2] (Value): null.
-             */
-            "attendee_name"?: ((string | null) | (null) | (unknown));
-            /**
-             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
-             * "admission_code", "manual". anyOf[1] (Value): string or null. How the ticket was
-             * admitted. Null when the ticket is not checked in. Value enum: "admission_code",
-             * "manual". anyOf[1].anyOf[1] (Value): string. Value enum: "admission_code", "manual".
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "check_in_method"?: (((("admission_code" | "manual" | (string & {})) | (null))) | (null) | (unknown));
-            /**
-             * When the ticket was admitted. Null when the ticket is not checked in. anyOf[1]
-             * (Value): string or null. When the ticket was admitted. Null when the ticket is not
-             * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
-             * null.
-             */
-            "checked_in_at"?: ((string | null) | (null) | (unknown));
-            /**
-             * When the ticket was issued. anyOf[1] (Value): string. When the ticket was issued.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Order summary, present only with expand=order. Requires commerce.orders.read.
-             * anyOf[1] (Value): {@link ExpandedOrderSummary}. Order summary, present only with
-             * expand=order. Requires commerce.orders.read. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /**
-             * The order that purchased this ticket. anyOf[1] (Value): string. The order that
-             * purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
-             * null.
-             */
-            "order_id"?: ((string) | (null));
-            /**
-             * The purchased ticket tier. anyOf[1] (Value): string. The purchased ticket tier.
-             * Example: "li_01KEZF7C008YPRCK7VDKTGWR31". anyOf[2] (Value): null.
-             */
-            "order_line_item_id"?: ((string) | (null));
-            /**
-             * The event payment link. anyOf[1] (Value): string. The event payment link. Example:
-             * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". anyOf[2] (Value): null.
-             */
-            "payment_link_id"?: ((string) | (null));
-            /**
-             * The admission lifecycle. Value enum: "issued", "checked_in", "voided". anyOf[1]
-             * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in",
-             * "voided". anyOf[2] (Value): null.
-             */
-            "status"?: (("issued" | "checked_in" | "voided" | (string & {})) | (null));
-            /**
-             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
-             * "void". anyOf[1] (Value): Array of string. Actions currently offered for this
-             * ticket. [] enum: "check_in", "undo_check_in", "void". anyOf[1][] (Value): string.
-             * Value enum: "check_in", "undo_check_in", "void". anyOf[2] (Value): null.
-             */
-            "supported_actions"?: ((Array<"check_in" | "undo_check_in" | "void" | (string & {})>) | (null));
-            /**
-             * Unique ticket identity with the tkt_ prefix. anyOf[1] (Value): string. Unique ticket
-             * identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". anyOf[2]
-             * (Value): null.
-             */
-            "ticket_id"?: ((string) | (null));
-            /**
-             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
-             * authorize entry. anyOf[1] (Value): string. The event prefix and sequence, such as
-             * GAL001. Numbers are never reused and do not authorize entry. anyOf[2] (Value): null.
-             */
-            "ticket_number"?: ((string) | (null));
-            /**
-             * When the ticket last changed. anyOf[1] (Value): string. When the ticket last
-             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. anyOf[1] (Value): integer. Persisted version
-             * of this resource's owned state. Expanded resources and external observations can
-             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-            /**
-             * When the ticket was permanently voided. Null when the ticket has not been voided.
-             * anyOf[1] (Value): string or null. When the ticket was permanently voided. Null when
-             * the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             * anyOf[2] (Value): null.
-             */
-            "voided_at"?: ((string | null) | (null) | (unknown));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "ticket.checked_in". */
-    "event_type"?: "ticket.checked_in";
-});
-export type TicketCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "admission_code"?: string;
-            "admission_code_last4": string;
-            "attendee_name": string | null;
-            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
-            "checked_in_at": string | null;
-            "created_at": string;
-            "order"?: ExpandedOrderSummary;
-            "order_id": string;
-            "order_line_item_id": string;
-            "payment_link_id": string;
-            "status": "issued" | "checked_in" | "voided" | (string & {});
-            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
-            "ticket_id": string;
-            "ticket_number": string;
-            "updated_at": string;
-            "version": number;
-            "voided_at": string | null;
-        };
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "ticket.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "admission_code"?: string;
-            "admission_code_last4": string;
-            "attendee_name": string | null;
-            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
-            "checked_in_at": string | null;
-            "created_at": string;
-            "order"?: ExpandedOrderSummary;
-            "order_id": string;
-            "order_line_item_id": string;
-            "payment_link_id": string;
-            "status": "issued" | "checked_in" | "voided" | (string & {});
-            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
-            "ticket_id": string;
-            "ticket_number": string;
-            "updated_at": string;
-            "version": number;
-            "voided_at": string | null;
-        };
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "ticket.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "ticket.created";
-});
-/**
- * The `ticket.created` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type TicketCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** Money collected, returned, waived, and still owed on a bill. */
+export type SettlementAmounts = {
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
-     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
-     * checkout session's own paying credential receives it, on its own order's tickets that aren't
-     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
-     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
-     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
-     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
-     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
-     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
-     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
-     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
-     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
-     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
-     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
-     * summary fields, including status, payment and refund status, and pricing and settlement
-     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
-     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
-     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
-     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
-     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
-     * object.supported_actions (Required): Array of string. Actions currently offered for this
-     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
-     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
-     * string. Unique ticket identity with the tkt_ prefix. Example:
-     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
-     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
-     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
-     * this resource's owned state. Expanded resources and external observations can change
-     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
-     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
+     * paid_money minus refunded_money and, on orders, dispute_lost_money, never below zero.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
-         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
-         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
-         * credential from a launch URL a merchant reads or requests after payment never does.
-         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
-         * admission_code_last4 (Required): string. Last four characters of the current admission
-         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
-         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
-         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
-         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
-         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
-         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
-         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
-         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
-         * expand=order. Requires commerce.orders.read. An order's summary fields, including
-         * status, payment and refund status, and pricing and settlement amounts, returned when the
-         * order is expanded. order_id (Required): string. The order that purchased this ticket.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
-         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
-         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
-         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
-         * "voided". supported_actions (Required): Array of string. Actions currently offered for
-         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
-         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
-         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
-         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
-         * are never reused and do not authorize entry. updated_at (Required): string. When the
-         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Persisted version of this resource's owned state. Expanded
-         * resources and external observations can change independently. Format: uint64. minimum:
-         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
-         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * The ticket's 16-character Crockford base32 admission code, the value its QR code
-             * holds. A bearer secret: only the paid checkout session's own paying credential
-             * receives it, on its own order's tickets that aren't voided. A checkout credential
-             * from a launch URL a merchant reads or requests after payment never does. Returned
-             * only to the checkout credential; never in webhook payloads. minLength: 16.
-             */
-            "admission_code"?: string;
-            /** Last four characters of the current admission code. */
-            "admission_code_last4": string;
-            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
-            "attendee_name": string | null;
-            /**
-             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
-             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
-             * "manual". anyOf[2] (Value): null.
-             */
-            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
-            /**
-             * When the ticket was admitted. Null when the ticket is not checked in. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "checked_in_at": string | null;
-            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Order summary, present only with expand=order. Requires commerce.orders.read. An
-             * order's summary fields, including status, payment and refund status, and pricing and
-             * settlement amounts, returned when the order is expanded.
-             */
-            "order"?: ExpandedOrderSummary;
-            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
-            "order_id": string;
-            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
-            "order_line_item_id": string;
-            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
-            "payment_link_id": string;
-            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
-            "status": "issued" | "checked_in" | "voided" | (string & {});
-            /**
-             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
-             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
-             */
-            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
-            /**
-             * Unique ticket identity with the tkt_ prefix. Example:
-             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
-             */
-            "ticket_id": string;
-            /**
-             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
-             * authorize entry.
-             */
-            "ticket_number": string;
-            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. Format: uint64. minimum: 1.
-             */
-            "version": number;
-            /**
-             * When the ticket was permanently voided. Null when the ticket has not been voided.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "voided_at": string | null;
-        };
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "ticket.created". */
-    "event_type"?: "ticket.created";
+    "net_collected_money": MoneyValue;
     /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     * Money still owed on the bill, never below zero. Refunds return money already collected and
+     * do not add to it. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
      */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
+    "outstanding_money": MoneyValue;
+    /**
+     * Money collected toward the bill, net of reversed payments. Excludes written-off debt. On
+     * orders, dispute losses do not reduce this amount. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "paid_money": MoneyValue;
+    /**
+     * Money returned to the buyer from what was collected toward the bill. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "refunded_money": MoneyValue;
+    /**
+     * Owed money waived as uncollectible. Reduces outstanding_money without increasing paid_money
+     * or net_collected_money. Cannot be refunded or used to fund an exchange. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "written_off_money": MoneyValue;
+};
+export type SettlementAmountsPreviousAttributes = {
+    /**
+     * paid_money minus refunded_money and, on orders, dispute_lost_money, never below zero.
+     * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "net_collected_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Money still owed on the bill, never below zero. Refunds return money already collected and
+     * do not add to it. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value):
+     * null.
+     */
+    "outstanding_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Money collected toward the bill, net of reversed payments. Excludes written-off debt. On
+     * orders, dispute losses do not reduce this amount. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "paid_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Money returned to the buyer from what was collected toward the bill. anyOf[1] (Value):
+     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Owed money waived as uncollectible. Reduces outstanding_money without increasing paid_money
+     * or net_collected_money. Cannot be refunded or used to fund an exchange. anyOf[1] (Value):
+     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "written_off_money"?: ((MoneyValuePreviousAttributes) | (null));
+};

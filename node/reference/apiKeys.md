@@ -91,7 +91,7 @@ const result = await client.apiKeys.create({access: "restricted", expires_at: "2
 
 ### apiKeys.get
 
-Returns external API key metadata. Secrets, internal keys, and demo-session keys are not returned.
+Returns external API key metadata. Secrets, internal keys, and demo-session keys are not returned. Dashboard sessions can manage only live keys in live mode or keys in the selected sandbox in test mode. A key outside that environment returns 404 RESOURCE_NOT_FOUND.
 
 `GET /v1/api-keys/{api_key_id}`
 
@@ -140,7 +140,7 @@ const result = await client.apiKeys.get("key_01KEZF7C008CTC2G5V6J08M6S7", {}, { 
 
 ### apiKeys.list
 
-Returns merchant-bound external API key metadata. Internal keys, demo-session keys, and secrets are never returned. Default order: created_at descending, then api_key_id descending.
+Returns merchant-bound external API key metadata. Live callers list only live keys; test callers list only keys in their selected sandbox. Dashboard sessions use the mode and sandbox selected by the request. Internal keys, demo-session keys, and secrets are never returned. Default order: created_at descending, then api_key_id descending.
 
 `GET /v1/api-keys`
 
@@ -201,7 +201,7 @@ const result = await client.apiKeys.list({}, {  });
 
 ### apiKeys.revoke
 
-Permanently revokes an external API key and returns metadata with status revoked.
+Permanently revokes an external API key and returns metadata with status revoked. A CLI login with accounts.api_keys.write can revoke a key in its own merchant and environment context even when the key holds broader scopes. API keys and workload credentials must also hold the target key's scopes. Dashboard sessions can manage only live keys in live mode or keys in the selected sandbox in test mode. A key outside that environment returns 404 RESOURCE_NOT_FOUND.
 
 `POST /v1/api-keys/{api_key_id}/revoke`
 
@@ -264,7 +264,7 @@ const result = await client.apiKeys.revoke("key_01KEZF7C008CTC2G5V6J08M6S7", und
 
 ### apiKeys.update
 
-Updates an API key's name, access, scopes, or expires_at. Expired keys can be updated, and a future expires_at reactivates one. A revoked key can't be updated. An API key caller may grant only scopes it holds and can manage only keys whose scopes it holds.
+Updates an API key's name, access, scopes, or expires_at. Expired keys can be updated, and a future expires_at reactivates one. A revoked key can't be updated. An API key caller may grant only scopes it holds and can manage only keys whose scopes it holds. Dashboard sessions can manage only live keys in live mode or keys in the selected sandbox in test mode. A key outside that environment returns 404 RESOURCE_NOT_FOUND.
 
 `PATCH /v1/api-keys/{api_key_id}`
 

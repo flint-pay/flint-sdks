@@ -56,26 +56,26 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `available_credit_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Account credit Flint holds for you that hasn't been applied yet, unsigned. Each application lowers both amounts and records a credit_applied entry. `available_credit_money`: [declared alternatives](../models/MerchantBillingBalanceUpdatedEvent.md#merchantbillingbalanceupdatedeventdataprevious_attributesavailable_credit_money). |
+| `available_credit_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Account credit Flint holds for you that hasn't been applied yet, unsigned. Each application lowers both amounts and records a credit_applied entry. `available_credit_money`: [declared alternatives](../models/MerchantBillingBalanceUpdatedEvent.md#merchantbillingbalanceupdatedeventdataprevious_attributesavailable_credit_money). |
 | `currency` | Optional | string or null | ISO 4217 currency code. `currency`: [declared alternatives](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributescurrency). |
 | `merchant_billing_balance_id` | Optional | string or null | Stable identifier for this billing account and currency balance projection. `merchant_billing_balance_id`: [declared alternatives](../models/MerchantBillingBalanceUpdatedEvent.md#merchantbillingbalanceupdatedeventdataprevious_attributesmerchant_billing_balance_id). |
 | `observed_at` | Optional | string or null | RFC3339 timestamp for the balance snapshot. `observed_at`: [declared alternatives](../models/MerchantBillingBalanceUpdatedEvent.md#merchantbillingbalanceupdatedeventdataprevious_attributesobserved_at). |
-| `outstanding_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | What you owe Flint now, unsigned. Available credit isn't subtracted: credit lowers this amount only when Flint applies it, which records a credit_applied entry. `outstanding_money`: [declared alternatives](../models/MerchantBillingBalanceUpdatedEvent.md#merchantbillingbalanceupdatedeventdataprevious_attributesoutstanding_money). |
+| `outstanding_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | What you owe Flint now, unsigned. Available credit isn't subtracted: credit lowers this amount only when Flint applies it, which records a credit_applied entry. `outstanding_money`: [declared alternatives](../models/MerchantBillingBalanceUpdatedEvent.md#merchantbillingbalanceupdatedeventdataprevious_attributesoutstanding_money). |
 | `past_due_at` | Optional | string or null | Due date of the oldest unpaid past-due amount, as an RFC 3339 UTC timestamp. Omitted when nothing is past due. `past_due_at`: [declared alternatives](../models/MerchantBillingBalanceUpdatedEvent.md#merchantbillingbalanceupdatedeventdataprevious_attributespast_due_at). |
-| `past_due_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Amount that is past its due date and still unpaid. Zero when nothing is past due. `past_due_money`: [declared alternatives](../models/MerchantBillingBalanceUpdatedEvent.md#merchantbillingbalanceupdatedeventdataprevious_attributespast_due_money). |
+| `past_due_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Amount that is past its due date and still unpaid. Zero when nothing is past due. `past_due_money`: [declared alternatives](../models/MerchantBillingBalanceUpdatedEvent.md#merchantbillingbalanceupdatedeventdataprevious_attributespast_due_money). |
 | `payout_hold_at` | Optional | string or null | Time at which Flint holds payouts if the past-due amount is still unpaid, as an RFC 3339 UTC timestamp. The hold can begin later than this while a collection is in progress. Payouts are actually held when `readiness.payouts.status_reason` on the Merchant is `billing_suspended`. Omitted when no hold is scheduled, for example when the only past-due amounts never hold payouts. `payout_hold_at`: [declared alternatives](../models/MerchantBillingBalanceUpdatedEvent.md#merchantbillingbalanceupdatedeventdataprevious_attributespayout_hold_at). |
 
 ### MerchantBillingBalanceUpdatedEvent.data.previous_attributes.available_credit_money
 
 Account credit Flint holds for you that hasn't been applied yet, unsigned. Each application lowers both amounts and records a credit_applied entry.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### MerchantBillingBalanceUpdatedEvent.data.previous_attributes.available_credit_money variant 1
 
-anyOf MoneyValue: Account credit Flint holds for you that hasn't been applied yet, unsigned. Each application lowers both amounts and records a credit_applied entry..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### MerchantBillingBalanceUpdatedEvent.data.previous_attributes.available_credit_money variant 2
 
@@ -83,6 +83,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Account credit Flint holds for you that hasn't been applied yet, unsigned. Each application lowers both amounts and records a credit_applied entry. 
+
+### MerchantBillingBalanceUpdatedEvent.data.previous_attributes.available_credit_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### MerchantBillingBalanceUpdatedEvent.data.previous_attributes.available_credit_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### MerchantBillingBalanceUpdatedEvent.data.previous_attributes.currency
 
@@ -120,13 +128,13 @@ anyOf variant 2.
 
 What you owe Flint now, unsigned. Available credit isn't subtracted: credit lowers this amount only when Flint applies it, which records a credit_applied entry.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### MerchantBillingBalanceUpdatedEvent.data.previous_attributes.outstanding_money variant 1
 
-anyOf MoneyValue: What you owe Flint now, unsigned. Available credit isn't subtracted: credit lowers this amount only when Flint applies it, which records a credit_applied entry..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### MerchantBillingBalanceUpdatedEvent.data.previous_attributes.outstanding_money variant 2
 
@@ -134,6 +142,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. What you owe Flint now, unsigned. Available credit isn't subtracted: credit lowers this amount only when Flint applies it, which records a credit_applied entry. 
+
+### MerchantBillingBalanceUpdatedEvent.data.previous_attributes.outstanding_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### MerchantBillingBalanceUpdatedEvent.data.previous_attributes.outstanding_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### MerchantBillingBalanceUpdatedEvent.data.previous_attributes.past_due_at
 
@@ -153,13 +169,13 @@ anyOf variant 2.
 
 Amount that is past its due date and still unpaid. Zero when nothing is past due.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### MerchantBillingBalanceUpdatedEvent.data.previous_attributes.past_due_money variant 1
 
-anyOf MoneyValue: Amount that is past its due date and still unpaid. Zero when nothing is past due..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### MerchantBillingBalanceUpdatedEvent.data.previous_attributes.past_due_money variant 2
 
@@ -167,6 +183,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Amount that is past its due date and still unpaid. Zero when nothing is past due. 
+
+### MerchantBillingBalanceUpdatedEvent.data.previous_attributes.past_due_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### MerchantBillingBalanceUpdatedEvent.data.previous_attributes.past_due_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### MerchantBillingBalanceUpdatedEvent.data.previous_attributes.payout_hold_at
 

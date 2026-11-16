@@ -1,1 +1,1 @@
-{"shared":"CreateOrderTipPercent","dependencies":["CreateOrderTipPercent","MetadataRequest","MoneyValue","SharedCodec175","SharedCodec442"]}
+{"shared":"CreateOrderTipPercent","dependencies":["CreateOrderTipPercent","MetadataRequest","MoneyValue","SharedCodec211","SharedCodec499"]}

@@ -194,7 +194,7 @@ final class OrderClosedInstalledMerchantsEventDataObject extends Model {
      */
     public function getGiftCardSettlements(): array { return $this->get('gift_card_settlements'); }
     public function hasGiftCardSettlements(): bool { return $this->has('gift_card_settlements'); }
-    /** Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes, are not subscription purchases, and whose merchant has at least one gift card that is not closed in this environment. Recomputed on each read; a spent but open card still counts.
+    /** Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes, are not subscription purchases, and whose merchant has at least one gift card that is not closed in this environment. Gift cards cannot fund gift card purchases; this is false when those purchases leave no amount eligible for gift card tender. Recomputed on each read; a spent but open card still counts.
      * @return bool
      */
     public function getGiftCardTenderEnabled(): bool { return $this->get('gift_card_tender_enabled'); }

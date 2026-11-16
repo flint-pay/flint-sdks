@@ -1,1 +1,1 @@
-{"shared":"ExpandedInvoiceSummary","dependencies":["ExpandedInvoiceSummary","InvoiceSettlementAmounts","MoneyValue","PricingAmounts","SharedCodec1180"]}
+{"shared":"ExpandedInvoiceSummary","dependencies":["ExpandedInvoiceSummary","InvoiceSettlementAmounts","MoneyValue","PricingAmounts","SharedCodec1706"]}

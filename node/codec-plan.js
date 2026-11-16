@@ -189,7 +189,7 @@ export function nullOnlySchema(schema, depth = 0) {
 /** Nullable wrappers describe one known value, rather than future response variants.
  * Stay conservative: require one explicitly non-null branch and a provably null-only branch.
  */
-export function nullableAlternative(schema) {
+export function nullableAlternative(schema, definitions = {}) {
     if (schema.oneOf && schema.anyOf)
         return undefined;
     const branches = schema.oneOf ?? schema.anyOf;
@@ -200,7 +200,17 @@ export function nullableAlternative(schema) {
     if (nullIndex < 0)
         return undefined;
     const index = nullIndex === 0 ? 1 : 0;
-    const branch = branches[index];
+    let branch = branches[index];
+    const seen = new Set();
+    while (branch?.['x-sdk-ref']) {
+        const reference = branch['x-sdk-ref'];
+        const target = definitions[reference];
+        if (!target || seen.has(reference))
+            return undefined;
+        seen.add(reference);
+        const { 'x-sdk-ref': _reference, ...siblings } = branch;
+        branch = { ...target, ...siblings };
+    }
     if (!branch ||
         typeof branch.type !== 'string' ||
         !['boolean', 'string', 'number', 'integer', 'object', 'array'].includes(branch.type) ||

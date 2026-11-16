@@ -10,12 +10,12 @@ namespace Flint;
  * @property-read string|null $fulfillment_id
  * @property-read string|null $handed_off_at
  * @property-read array<array-key, string>|null $metadata
- * @property-read mixed $order
+ * @property-read ExpandedOrderSummaryPreviousAttributes|null $order
  * @property-read string|null $order_id
  * @property-read int|null $package_count
- * @property-read list<ExpandedPackageSummary>|null $packages
+ * @property-read list<ExpandedPackageSummaryPreviousAttributes>|null $packages
  * @property-read string|null $return_id
- * @property-read list<ReturnShipmentLineItemAllocation>|null $return_line_items
+ * @property-read list<ReturnShipmentLineItemAllocationPreviousAttributes>|null $return_line_items
  * @property-read string|null $shipment_id
  * @property-read string|null $shipped_at
  * @property-read string|null $status
@@ -61,15 +61,15 @@ final class ShipmentUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getHandedOffAt(): string|null { return $this->get('handed_off_at'); }
     public function hasHandedOffAt(): bool { return $this->has('handed_off_at'); }
-    /** Caller-owned key-value metadata associated with the shipment. anyOf[1] (Value): {@see MetadataMap}. Caller-owned key-value metadata associated with the shipment. anyOf[2] (Value): null.
+    /** Caller-owned key-value metadata associated with the shipment. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
      * @return array<array-key, string>|null
      */
     public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Order summary returned when the order relationship is expanded. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummary} or null. Order summary returned when the order relationship is expanded. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummary}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Order summary returned when the order relationship is expanded. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ExpandedOrderSummaryPreviousAttributes|null
      */
-    public function getOrder(): mixed { return $this->get('order'); }
+    public function getOrder(): ExpandedOrderSummaryPreviousAttributes|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
     /** Order whose items are transported by the shipment. anyOf[1] (Value): string. Order whose items are transported by the shipment. anyOf[2] (Value): null.
      * @return string|null
@@ -81,8 +81,8 @@ final class ShipmentUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getPackageCount(): int|null { return $this->get('package_count'); }
     public function hasPackageCount(): bool { return $this->has('package_count'); }
-    /** Summaries of the shipment's packages in creation order, returned when the packages relationship is expanded or when the shipment is created with packages. anyOf[1] (Value): Array of {@see ExpandedPackageSummary}. Summaries of the shipment's packages in creation order, returned when the packages relationship is expanded or when the shipment is created with packages. anyOf[1][] (Value): {@see ExpandedPackageSummary}. A package's summary fields, including carrier, tracking, status, and supported actions, returned when the package is expanded. anyOf[2] (Value): null.
-     * @return list<ExpandedPackageSummary>|null
+    /** Summaries of the shipment's packages in creation order, returned when the packages relationship is expanded or when the shipment is created with packages. anyOf[1] (Value): Array of {@see ExpandedPackageSummaryPreviousAttributes}. Summaries of the shipment's packages in creation order, returned when the packages relationship is expanded or when the shipment is created with packages. anyOf[1][] (Value): {@see ExpandedPackageSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ExpandedPackageSummaryPreviousAttributes>|null
      */
     public function getPackages(): array|null { return $this->get('packages'); }
     public function hasPackages(): bool { return $this->has('packages'); }
@@ -91,8 +91,8 @@ final class ShipmentUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getReturnId(): string|null { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Return lines and quantities allocated to this return shipment. anyOf[1] (Value): Array of {@see ReturnShipmentLineItemAllocation}. Return lines and quantities allocated to this return shipment. anyOf[1][] (Value): {@see ReturnShipmentLineItemAllocation}. A return line and the quantity placed in a return shipment or package. anyOf[2] (Value): null.
-     * @return list<ReturnShipmentLineItemAllocation>|null
+    /** Return lines and quantities allocated to this return shipment. anyOf[1] (Value): Array of {@see ReturnShipmentLineItemAllocationPreviousAttributes}. Return lines and quantities allocated to this return shipment. anyOf[1][] (Value): {@see ReturnShipmentLineItemAllocationPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ReturnShipmentLineItemAllocationPreviousAttributes>|null
      */
     public function getReturnLineItems(): array|null { return $this->get('return_line_items'); }
     public function hasReturnLineItems(): bool { return $this->has('return_line_items'); }

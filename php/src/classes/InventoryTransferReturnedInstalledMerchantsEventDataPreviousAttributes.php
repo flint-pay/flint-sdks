@@ -3,14 +3,14 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $closed_at
- * @property-read mixed $closed_reason
+ * @property-read string|null $closed_reason
  * @property-read string|null $created_at
  * @property-read string|null $departed_at
  * @property-read string|null $destination_location_id
  * @property-read string|null $external_reference_id
  * @property-read string|null $idempotency_key
  * @property-read string|null $inventory_transfer_id
- * @property-read list<InventoryTransferLine>|null $lines
+ * @property-read list<InventoryTransferLinePreviousAttributes>|null $lines
  * @property-read string|null $note
  * @property-read string|null $origin_location_id
  * @property-read string|null $received_at
@@ -27,10 +27,10 @@ final class InventoryTransferReturnedInstalledMerchantsEventDataPreviousAttribut
      */
     public function getClosedAt(): string|null { return $this->get('closed_at'); }
     public function hasClosedAt(): bool { return $this->has('closed_at'); }
-    /** How the transfer ended. `null` when the transfer isn't closed. Value enum: "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[1] (Value): string or null. How the transfer ended. `null` when the transfer isn't closed. Value enum: "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[2] (Value): null.
-     * @return mixed
+    /** How the transfer ended. `null` when the transfer isn't closed. Value enum: "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[1] (Value): string. How the transfer ended. `null` when the transfer isn't closed. Value enum: "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getClosedReason(): mixed { return $this->get('closed_reason'); }
+    public function getClosedReason(): string|null { return $this->get('closed_reason'); }
     public function hasClosedReason(): bool { return $this->has('closed_reason'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -62,8 +62,8 @@ final class InventoryTransferReturnedInstalledMerchantsEventDataPreviousAttribut
      */
     public function getInventoryTransferId(): string|null { return $this->get('inventory_transfer_id'); }
     public function hasInventoryTransferId(): bool { return $this->has('inventory_transfer_id'); }
-    /** Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. anyOf[1] (Value): Array of {@see InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. anyOf[1][] (Value): {@see InventoryTransferLine}. One line of an inventory transfer, with its quantities. anyOf[2] (Value): null.
-     * @return list<InventoryTransferLine>|null
+    /** Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. anyOf[1] (Value): Array of {@see InventoryTransferLinePreviousAttributes}. Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. anyOf[1][] (Value): {@see InventoryTransferLinePreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<InventoryTransferLinePreviousAttributes>|null
      */
     public function getLines(): array|null { return $this->get('lines'); }
     public function hasLines(): bool { return $this->has('lines'); }

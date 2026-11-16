@@ -1,4 +1,4 @@
-// Derive the retry and idempotency settings in spec/profiles/full-common-sdk.json from
+// Derive the timeout, retry and idempotency settings in spec/profiles/full-common-sdk.json from
 // the pinned OpenAPI export, following the Idempotency and Errors sections of Flint's
 // public API contract (docs/public-api-contract.md in flint-pay/flint):
 //
@@ -66,7 +66,9 @@ export function idempotencyClass(verb, operation, api) {
       ? api?.components?.parameters?.[parameter.$ref.slice(prefix.length)]
       : undefined;
     if (!resolved || resolved.$ref)
-      fail(`${operation.operationId} has an unresolved parameter ${parameter.$ref}`);
+      fail(
+        `${operation.operationId} has an unresolved parameter ${parameter.$ref}`,
+      );
     return resolved;
   });
   const headers = parameters.filter(
@@ -102,6 +104,16 @@ export function idempotencySetting(cls) {
   return cls === "optional"
     ? { auto: true, autoKeyPrefix: AUTO_KEY_PREFIX }
     : { auto: false, retention: RETENTION.required };
+}
+
+// Provider calls can outlast the global 10 s attempt / 30 s deadline.
+// Use the contract classification, including subscription charges and refunds.
+export function operationDefaults(operation) {
+  return ["payment", "external_provider_action"].includes(
+    operation["x-flint-route-class"],
+  )
+    ? { timeoutMs: 150000, deadlineMs: 300000 }
+    : {};
 }
 
 export function retrySetting(verb, cls) {
@@ -197,14 +209,24 @@ export function deriveProfile(api, profile) {
     const id = operation.operationId;
     seen.add(id);
     const cls = idempotencyClass(verb, operation, api);
+    // Recompute owned budgets so changing a route class cannot retain stale values.
+    const {
+      timeoutMs: _timeout,
+      deadlineMs: _deadline,
+      ...otherOperationDefaults
+    } = derived.operations[id]?.defaults ?? {};
+    const defaults = {
+      ...otherOperationDefaults,
+      ...operationDefaults(operation),
+    };
+    const { defaults: _defaults, ...otherOperationSettings } =
+      derived.operations[id] ?? {};
     // Assigning existing keys keeps their position, so regeneration diffs stay small.
-    derived.operations[id] = Object.assign(
-      { ...derived.operations[id] },
-      {
-        idempotency: idempotencySetting(cls),
-        retry: retrySetting(verb, cls),
-      },
-    );
+    derived.operations[id] = Object.assign(otherOperationSettings, {
+      idempotency: idempotencySetting(cls),
+      retry: retrySetting(verb, cls),
+      ...(Object.keys(defaults).length ? { defaults } : {}),
+    });
   }
   for (const id of Object.keys(derived.operations))
     if (!seen.has(id)) fail(`profile operation ${id} is not in the export`);

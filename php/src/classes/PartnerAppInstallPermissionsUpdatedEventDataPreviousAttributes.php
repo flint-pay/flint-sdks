@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $created_at
- * @property-read list<PartnerEnvironmentGrant>|null $environment_grants
+ * @property-read list<PartnerEnvironmentGrantPreviousAttributes>|null $environment_grants
  * @property-read string|null $installed_by_user_id
  * @property-read string|null $merchant_id
  * @property-read string|null $merchant_signup_id
@@ -25,8 +25,8 @@ final class PartnerAppInstallPermissionsUpdatedEventDataPreviousAttributes exten
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** The install's environment grants, at most one for each mode, live and test, that the merchant approved. Omitted when the install has none. anyOf[1] (Value): Array of {@see PartnerEnvironmentGrant}. The install's environment grants, at most one for each mode, live and test, that the merchant approved. Omitted when the install has none. anyOf[1][] (Value): {@see PartnerEnvironmentGrant}. A partner application's authorization to access an environment. anyOf[2] (Value): null.
-     * @return list<PartnerEnvironmentGrant>|null
+    /** The install's environment grants, at most one for each mode, live and test, that the merchant approved. Omitted when the install has none. anyOf[1] (Value): Array of {@see PartnerEnvironmentGrantPreviousAttributes}. The install's environment grants, at most one for each mode, live and test, that the merchant approved. Omitted when the install has none. anyOf[1][] (Value): {@see PartnerEnvironmentGrantPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<PartnerEnvironmentGrantPreviousAttributes>|null
      */
     public function getEnvironmentGrants(): array|null { return $this->get('environment_grants'); }
     public function hasEnvironmentGrants(): bool { return $this->has('environment_grants'); }

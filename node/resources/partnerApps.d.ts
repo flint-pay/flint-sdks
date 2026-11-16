@@ -7,12 +7,12 @@ import type {
     PartnerAppCredentialResponse,
     PartnerAppInstall,
     PartnerAppInstallListResponse,
-    PartnerAppInstallResponse,
+    PartnerAppInstallResponse
+} from '../declarations/types-47.js';
+import type {
     PartnerAppInstallWithEndedAccess,
     PartnerAppInstallWithEndedAccessResponse,
-    PartnerAppListResponse
-} from '../declarations/types-43.js';
-import type {
+    PartnerAppListResponse,
     PartnerAppResponse,
     PartnerAppWithRotatedSecret,
     PartnerAppWithSecret,
@@ -32,10 +32,10 @@ import type {
     PartnerAppsRevokeInstallParams,
     PartnerAppsRotateSecretParams,
     PartnerAppsUpdateParams
-} from '../declarations/types-44.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { RotatePartnerAppSecretResponse } from '../declarations/types-59.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-48.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { RotatePartnerAppSecretResponse } from '../declarations/types-65.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -65,11 +65,17 @@ export type {
     PartnerAppsListCredentialsParams,
     PartnerAppsListInstallsParams,
     PartnerAppsListParams,
+    PartnerAppListResponse,
     PartnerAppsRevokeEnvironmentGrantParams,
+    PartnerAppInstallWithEndedAccess,
+    PartnerAppInstallWithEndedAccessResponse,
     PartnerAppsRevokeInstallParams,
     PartnerAppsRotateSecretParams,
     PartnerAppWithRotatedSecret,
     PartnerAppsUpdateParams,
+    PartnerAppMerchantActionRouting,
+    PartnerAppPaymentSplits,
+    PartnerAppPermissionManifestEntry,
     PartnerAppPlatform,
     PartnerAppPlatformCapability,
     PartnerAppPlatformCurrentTerms,
@@ -78,12 +84,15 @@ export type {
     PartnerAppPlatformReserve,
     PartnerAppPlatformTermsAcceptance,
     PartnerAppPlatformProfile,
+    PartnerAppPaymentSplitsRequestInput,
     PartnerAppPermissionManifestEntryRequestInput,
     PartnerAppPlatformProfileRequestInput,
     PartnerEnvironmentGrant,
+    PartnerAppMerchantReadiness,
+    PartnerAppMerchantReadinessAxis,
     PartnerEnvironmentGrantPaymentSplits
-} from '../declarations/types-44.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-54.js';
+} from '../declarations/types-48.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-60.js';
 export type {
     PartnerApp,
     PartnerAppCredential,
@@ -92,68 +101,55 @@ export type {
     PartnerAppInstallResponse,
     PartnerAppCredentialListResponse,
     PartnerAppInstallListResponse,
-    PartnerAppListResponse,
-    PartnerAppInstallWithEndedAccess,
-    PartnerAppInstallWithEndedAccessResponse,
-    PartnerAppMerchantActionRouting,
-    PartnerAppPaymentSplits,
-    PartnerAppPermissionManifestEntry,
-    PartnerAppPaymentSplitsRequestInput,
     PartnerAppCredentialPublicKeyRequestInput,
     PartnerAppCredentialJWKSURLRequestInput,
     PartnerAppCredentialWorkloadIdentityRequestInput,
     PartnerAppCredentialJWKSURL,
     PartnerAppCredentialPublicKey,
     PartnerAppCredentialWorkloadIdentity,
-    PartnerAppMerchantReadiness,
-    PartnerAppMerchantReadinessAxis,
     PartnerAppCredentialPublicKeyRequest
-} from '../declarations/types-43.js';
+} from '../declarations/types-47.js';
 export type {
     _SdkWithoutIdempotency,
     WorkloadIdentityClaimConditionRequestInput,
     WorkloadIdentityClaimCondition
-} from '../declarations/types-70.js';
-export type { RotatePartnerAppSecretResponse, RotatePartnerAppSecretRequestInput } from '../declarations/types-59.js';
-export type { ClientOptions } from '../declarations/types-7.js';
+} from '../declarations/types-77.js';
+export type { RotatePartnerAppSecretResponse, RotatePartnerAppSecretRequestInput } from '../declarations/types-65.js';
+export type { ClientOptions, CheckoutSessionsListCustomerVerificationsParams } from '../declarations/types-7.js';
 export type { AcceptPartnerAppPlatformTermsRequestInput, AcceptPartnerAppPlatformTermsRequest } from '../declarations/types-0.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-39.js';
-export type { PlatformFeeCap, PlatformFeeCapRequestInput } from '../declarations/types-49.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-42.js';
+export type { PlatformFeeCap, PlatformFeeCapRequestInput } from '../declarations/types-54.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
 export type {
     CreatePartnerAppRequestInput,
     CreatePartnerAppCredentialRequestInput,
     CreatePartnerAppCredentialPublicKeyRequestInput,
     CreatePartnerAppCredentialJWKSURLRequestInput,
     CreatePartnerAppCredentialWorkloadIdentityRequestInput
-} from '../declarations/types-11.js';
-export type { UpdatePartnerAppRequestInput } from '../declarations/types-67.js';
-export type { CheckoutSessionsListCustomerVerificationsParams } from '../declarations/types-6.js';
-export { makeAcceptPartnerAppPlatformTermsRequest } from '../declarations/types-70.js';
+} from '../declarations/types-12.js';
+export type { UpdatePartnerAppRequestInput } from '../declarations/types-74.js';
+export { makeAcceptPartnerAppPlatformTermsRequest } from '../declarations/types-77.js';
 export {
     makeCreatePartnerAppCredentialJWKSURLRequest,
     makeCreatePartnerAppCredentialPublicKeyRequest,
     makeCreatePartnerAppCredentialRequest,
     makeCreatePartnerAppCredentialWorkloadIdentityRequest,
     makeCreatePartnerAppRequest
-} from '../declarations/types-74.js';
+} from '../declarations/types-81.js';
 export {
     makeMoneyValue,
     makePartnerAppCredentialJWKSURLRequest,
     makePartnerAppCredentialPublicKeyRequest,
-    makePartnerAppCredentialWorkloadIdentityRequest
-} from '../declarations/types-79.js';
-export {
+    makePartnerAppCredentialWorkloadIdentityRequest,
     makePartnerAppPaymentSplitsRequest,
-    makePartnerAppPermissionManifestEntryRequest,
-    makePartnerAppPlatformProfileRequest,
-    makePlatformFeeCapRequest
-} from '../declarations/types-80.js';
-export { makeRotatePartnerAppSecretRequest } from '../declarations/types-82.js';
-export { makeUpdatePartnerAppRequest } from '../declarations/types-84.js';
-export { makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-85.js';
+    makePartnerAppPermissionManifestEntryRequest
+} from '../declarations/types-86.js';
+export { makePartnerAppPlatformProfileRequest, makePlatformFeeCapRequest } from '../declarations/types-87.js';
+export { makeRotatePartnerAppSecretRequest } from '../declarations/types-89.js';
+export { makeUpdatePartnerAppRequest } from '../declarations/types-91.js';
+export { makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-92.js';
 export interface PartnerAppsResource {
     /**
  * Records that the authenticated credential accepted the current version of Flint's platform terms

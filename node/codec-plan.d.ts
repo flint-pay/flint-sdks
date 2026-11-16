@@ -112,7 +112,7 @@ export declare function nullOnlySchema(schema: Schema, depth?: number): boolean;
 /** Nullable wrappers describe one known value, rather than future response variants.
  * Stay conservative: require one explicitly non-null branch and a provably null-only branch.
  */
-export declare function nullableAlternative(schema: Schema): 0 | 1 | undefined;
+export declare function nullableAlternative(schema: Schema, definitions?: Readonly<Record<string, Schema>>): 0 | 1 | undefined;
 export declare const ANY_CODEC: CodecPlan;
 /** Validate serialized instructions at an ingestion boundary, without executing values. */
 export declare function assertCodecPlan(value: unknown, path?: string, depth?: number): asserts value is CodecPlan;

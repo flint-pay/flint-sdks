@@ -50,7 +50,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | --- | --- | --- | --- |
 | `circuit_failure_count` | Optional | integer or null | Consecutive failed requests to the endpoint for the current revision. A valid response resets it. `circuit_failure_count`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdataprevious_attributescircuit_failure_count). |
 | `circuit_state` | Optional | string or null | Whether Flint is calling the endpoint, for the current revision. - `closed`: Flint calls the endpoint. - `open`: Flint stopped calling the endpoint after 30 consecutive failed requests. - `half_open`: 30 seconds after opening, the next request is a probe: a valid response closes the circuit, and a failure opens it again. Values: `"closed"`, `"open"`, `"half_open"`. `circuit_state`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdataprevious_attributescircuit_state). |
-| `configuration` | Optional | [TaxCalculationCallbackConfiguration](../models/TaxCalculationCallbackConfiguration.md#taxcalculationcallbackconfiguration) or null | The endpoint URL and request limits. `configuration`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdataprevious_attributesconfiguration). |
+| `configuration` | Optional | [TaxCalculationCallbackConfigurationPreviousAttributes](../models/TaxCalculationCallbackConfigurationPreviousAttributes.md#taxcalculationcallbackconfigurationpreviousattributes) or null | The endpoint URL and request limits. |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `current_tax_calculation_callback_revision_id` | Optional | string or null | ID of the callback's current revision, beginning with `tcbr_`. It changes whenever `configuration` or `signing_methods` changes, and each revision has its own circuit. `current_tax_calculation_callback_revision_id`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdataprevious_attributescurrent_tax_calculation_callback_revision_id). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesexternal_reference_id). |
@@ -93,32 +93,6 @@ anyOf variant 1: Whether Flint is calling the endpoint, for the current revision
 anyOf variant 2.
 
 - Value shape: null. Whether Flint is calling the endpoint, for the current revision. - `closed`: Flint calls the endpoint. - `open`: Flint stopped calling the endpoint after 30 consecutive failed requests. - `half_open`: 30 seconds after opening, the next request is a probe: a valid response closes the circuit, and a failure opens it again. 
-
-### TaxCalculationCallbackActivatedEvent.data.previous_attributes.configuration
-
-The endpoint URL and request limits.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `maximum_request_bytes` | Conditional | integer | Largest request body Flint sends to your endpoint, in bytes, from 1 to 1048576. Defaults to 262144. minimum: `1`. maximum: `1048576`. Default: `262144`. |
-| `maximum_response_bytes` | Conditional | integer | Largest response body Flint accepts from your endpoint, in bytes, from 1 to 1048576. Defaults to 262144. minimum: `1`. maximum: `1048576`. Default: `262144`. |
-| `redirect_policy` | Conditional | string | How Flint treats a redirect from your endpoint. Flint never follows redirects, so `reject` is the only value. Default: `"reject"`. Values: `"reject"`. |
-| `request_timeout_seconds` | Conditional | number | How long Flint waits for each request to your endpoint, in seconds, from 0.1 to 10. Defaults to 3. minimum: `0.1`. maximum: `10`. Default: `3`. |
-| `url` | Conditional | string | HTTPS endpoint that receives signed callback requests. Format: `uri`. minLength: `1`. pattern: `^https://`. Example: `"https://example.com/receipt"`. |
-
-### TaxCalculationCallbackActivatedEvent.data.previous_attributes.configuration variant 1: `redirect_policy` = `"reject"`
-
-anyOf TaxCalculationCallbackConfiguration: The endpoint URL and request limits..
-
-- Required: `url`.
-- Optional: `maximum_request_bytes`, `maximum_response_bytes`, `redirect_policy`, `request_timeout_seconds`.
-
-### TaxCalculationCallbackActivatedEvent.data.previous_attributes.configuration variant 2
-
-anyOf variant 2.
-
-- Undeclared: `maximum_request_bytes`, `maximum_response_bytes`, `redirect_policy`, `request_timeout_seconds`, `url`.
-- Value shape: null. The endpoint URL and request limits. 
 
 ### TaxCalculationCallbackActivatedEvent.data.previous_attributes.created_at
 

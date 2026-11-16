@@ -1,1090 +1,71 @@
-import type {
-    CustomerTaxExemptionCoverage,
-    CustomerTaxExemptionCoverageRequestInput,
-    DeferredPromotion,
-    CustomersListAddressesParams
-} from './types-16.js';
-import type {
-    Address,
-    ApplyDiscountRequestInput,
-    ApplyOrderGiftCardRequestInput,
-    AddOrderChargeRequestInput,
-    AddLineItemsRequestInput
-} from './types-0.js';
-import type { DeliveryChargeTaxCalculationRequest, DeliveryChargeTaxCalculationRequestModelInput } from './types-17.js';
-import type {
-    OrderTaxCalculationRequest,
-    OrderTaxCalculationRequestInput,
-    OrderLineItemTaxAssignment,
-    OrderLineItemTaxAssignmentInput,
-    OrderGiftCardSettlement,
-    OrderHandover,
-    OrderLineItem,
-    OrderReturnCreditSettlement,
-    OrderSettlementAmounts,
-    OrderTax
-} from './types-41.js';
-import type {
-    OrderChargeTaxAssignment,
-    OrderChargeTaxAssignmentInput,
-    OrderCharge,
-    OrderDeliveryDestination,
-    OrderDeliverySummary,
-    OrderDiscount,
-    OrderGiftCardEstimate,
-    OrderGiftCardSelection
-} from './types-40.js';
-import type { CheckoutBuyerContact } from './types-5.js';
-import type { CustomFieldAnswer } from './types-15.js';
-import type {
-    ExpandedCustomerSummary,
-    ExpandedPaymentIntentSummary,
-    ExpandedSubscriptionPlanSummary,
-    ExpandedSubscriptionSummary,
-    FilesCompleteParams,
-    ExpandedOrderSummary
-} from './types-24.js';
-import type { Fulfillment } from './types-25.js';
-import type { InventoryRoutingSource } from './types-30.js';
-import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-38.js';
-import type { OrderAuthorizationAmounts } from './types-39.js';
-import type { PartnerWebhookEnvelope, PayOrderRequestInput } from './types-44.js';
-import type { PricingAmounts } from './types-50.js';
-import type { TicketedEvent, Tip } from './types-66.js';
-import type { WebhookOrder, Weight, WeightRequestInput } from './types-70.js';
+import type { MerchantWebhookEnvelope, MetadataMap, Modifier, ModifierGroup, MetadataRequestInput } from './types-41.js';
+import type { PartnerWebhookEnvelope } from './types-49.js';
+import type { TextModifierConfig, TextModifierConfigPreviousAttributes } from './types-72.js';
+import type { ResponseMeta, ResponseWarning, ResourceReference, ResourceReferencePreviousAttributes } from './types-60.js';
 import type { InputValue } from '../runtime.js';
-import type { CancelOrderEditRequestInput, CancelOrderPaymentAttemptRequestInput } from './types-4.js';
-import type { CloseOrderRequestInput } from './types-7.js';
-import type {
-    CreateOrderEditRequestInput,
-    CreateOrderRequestInput,
-    CreatePackageItemRequest,
-    CreatePackageItemRequestInput
-} from './types-11.js';
-import type { DisputesAcceptParams, Dimensions, DimensionsRequestInput } from './types-23.js';
-import type {
-    RemoveDiscountsRequestInput,
-    RepriceDiscountsRequestInput,
-    ResolveOrderInventoryExceptionRequestInput,
-    RetryOrderEditRefundRequestInput
-} from './types-54.js';
-import type { SendOrderReceiptRequestInput } from './types-59.js';
-import type { UpdateOrderChargeRequestInput, UpdateLineItemRequestInput, UpdateOrderRequestInput } from './types-67.js';
-import type { ReturnHandoffRequirementLineItem } from './types-55.js';
-import type { ReturnResolutionLineItemRequest, ReturnShipmentLineItemAllocationRequestInput } from './types-57.js';
-/**
- * The exemption assessment recorded for an order or invoice, frozen when tax commits. Fields
- * absent from historical snapshots stay omitted.
- */
-export type OrderTaxExemption = {
-    /** Certificate number recorded at assessment. Omitted when none was recorded. */
-    "certificate_number"?: string;
-    /**
-     * Jurisdictions covered by the exemption at assessment. Omitted when no coverage was recorded.
-     * Replaced as a whole: send every field you want to keep. Covers all US states or an explicit
-     * list of US states and DC.
-     */
-    "coverage"?: CustomerTaxExemptionCoverage;
-    /**
-     * ID of the customer the exemption was assessed from, when one was linked. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Customer exemption record used for this assessment. Omitted for blanket flags, order
-     * declarations, and older snapshots. Example: "ctex_01KEZF7C009N0YTK0NMWP1XZPW".
-     */
-    "customer_tax_exemption_id"?: string;
-    /**
-     * Last day of the selected record's exemption, inclusive. Omitted when no end date was
-     * recorded. Format: date. Example: "2026-08-02".
-     */
-    "end_date"?: string;
-    /**
-     * Merchant-only reference to supporting evidence recorded at assessment. Buyer views omit it.
-     * Never printed on buyer documents.
-     */
-    "evidence_reference"?: string;
-    /**
-     * Exemption reason recorded at assessment. Omitted when no reason was recorded. Value enum:
-     * "federal_government", "state_or_local_government", "tribal_government", "foreign_diplomat",
-     * "charitable_organization", "religious_organization", "educational_organization", "resale",
-     * "agricultural_production", "industrial_production", "direct_pay_permit", "direct_mail",
-     * "other".
-     */
-    "reason"?: "federal_government"
-        | "state_or_local_government"
-        | "tribal_government"
-        | "foreign_diplomat"
-        | "charitable_organization"
-        | "religious_organization"
-        | "educational_organization"
-        | "resale"
-        | "agricultural_production"
-        | "industrial_production"
-        | "direct_pay_permit"
-        | "direct_mail"
-        | "other"
-        | (string & {});
-    /**
-     * The source of the tax exemption assessment. Omitted when the source has not been
-     * established. Value enum: "none", "customer", "order".
-     */
-    "source"?: "none" | "customer" | "order" | (string & {});
-    /**
-     * First day of the selected record's exemption, inclusive. Omitted when no date was recorded.
-     * Format: date. Example: "2026-08-02".
-     */
-    "start_date"?: string;
-    /**
-     * Whether an exemption applied to this sale. An exempt sale has zero tax and taxability_reason
-     * customer_exempt.
-     */
-    "tax_exempt": boolean;
-};
-/**
- * Replaced as a whole: send every field you want to keep. Choose customer assessment, no
- * exemption, or a one-off order declaration. Write-only: responses return the exemption that
- * applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns
- * 409 ACTION_NOT_ALLOWED with reason payment_collected.
- */
-export type OrderTaxExemptionInputCustomer = ({}) & (({
-    /** Value enum: "customer". */
-    "type"?: "customer" | (string & {});
-}));
-/**
- * Replaced as a whole: send every field you want to keep. Choose customer assessment, no
- * exemption, or a one-off order declaration. Write-only: responses return the exemption that
- * applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns
- * 409 ACTION_NOT_ALLOWED with reason payment_collected.
- */
-export type OrderTaxExemptionInputCustomerInput = ({
-    /**
-     * Required selector. customer uses the linked customer; none ignores customer exemptions;
-     * order supplies a declaration. Value enum: "customer".
-     */
-    "type": "customer";
-})
-    & (({
-    /** Value enum: "customer". */
-    "type"?: "customer";
-})
-    & (({
-    "reason"?: never;
-})
-    & ({
-    "coverage"?: never;
-})
-    & ({
-    "certificate_number"?: never;
-})
-    & ({
-    "description"?: never;
-})
-    & ({
-    "evidence_reference"?: never;
-})));
-/**
- * Replaced as a whole: send every field you want to keep. Choose customer assessment, no
- * exemption, or a one-off order declaration. Write-only: responses return the exemption that
- * applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns
- * 409 ACTION_NOT_ALLOWED with reason payment_collected.
- */
-export type OrderTaxExemptionInputNone = ({}) & (({
-    /** Value enum: "none". */
-    "type"?: "none" | (string & {});
-}));
-/**
- * Replaced as a whole: send every field you want to keep. Choose customer assessment, no
- * exemption, or a one-off order declaration. Write-only: responses return the exemption that
- * applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns
- * 409 ACTION_NOT_ALLOWED with reason payment_collected.
- */
-export type OrderTaxExemptionInputNoneInput = ({
-    /**
-     * Required selector. customer uses the linked customer; none ignores customer exemptions;
-     * order supplies a declaration. Value enum: "none".
-     */
-    "type": "none";
-})
-    & (({
-    /** Value enum: "none". */
-    "type"?: "none";
-})
-    & (({
-    "reason"?: never;
-})
-    & ({
-    "coverage"?: never;
-})
-    & ({
-    "certificate_number"?: never;
-})
-    & ({
-    "description"?: never;
-})
-    & ({
-    "evidence_reference"?: never;
-})));
-/**
- * Replaced as a whole: send every field you want to keep. Choose customer assessment, no
- * exemption, or a one-off order declaration. Write-only: responses return the exemption that
- * applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns
- * 409 ACTION_NOT_ALLOWED with reason payment_collected.
- */
-export type OrderTaxExemptionInputOrder = ({}) & ({
-    /** Value enum: "order". */
-    "type"?: "order" | (string & {});
-});
-/**
- * Replaced as a whole: send every field you want to keep. Choose customer assessment, no
- * exemption, or a one-off order declaration. Write-only: responses return the exemption that
- * applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns
- * 409 ACTION_NOT_ALLOWED with reason payment_collected.
- */
-export type OrderTaxExemptionInputOrderInput = ({
-    /**
-     * Merchant's exemption certificate number. Optional for type order. minLength: 1. maxLength:
-     * 255.
-     */
-    "certificate_number"?: string;
-    /**
-     * Replaced as a whole: send every field you want to keep. Required for type order. Covers all
-     * US states or an explicit list of states and DC. Replaced as a whole: send every field you
-     * want to keep. Covers all US states or an explicit list of US states and DC.
-     */
-    "coverage": CustomerTaxExemptionCoverageRequestInput;
-    /**
-     * Explanation of the exemption. Required when reason is other; optional for every other
-     * reason. Up to 500 characters. minLength: 1. maxLength: 500.
-     */
-    "description"?: string;
-    /**
-     * Merchant-only reference to the supporting document. Never shown to buyers or printed on
-     * buyer documents. minLength: 1. maxLength: 1024.
-     */
-    "evidence_reference"?: string;
-    /**
-     * Required for type order. other requires description; description is optional for every other
-     * reason. Value enum: "federal_government", "state_or_local_government", "tribal_government",
-     * "foreign_diplomat", "charitable_organization", "religious_organization",
-     * "educational_organization", "resale", "agricultural_production", "industrial_production",
-     * "direct_pay_permit", "direct_mail", "other".
-     */
-    "reason": "federal_government"
-        | "state_or_local_government"
-        | "tribal_government"
-        | "foreign_diplomat"
-        | "charitable_organization"
-        | "religious_organization"
-        | "educational_organization"
-        | "resale"
-        | "agricultural_production"
-        | "industrial_production"
-        | "direct_pay_permit"
-        | "direct_mail"
-        | "other";
-    /**
-     * Required selector. customer uses the linked customer; none ignores customer exemptions;
-     * order supplies a declaration. Value enum: "order".
-     */
-    "type": "order";
-})
-    & ({
-    /** Value enum: "order". */
-    "type"?: "order";
-    /**
-     * Required for type order. other requires description; description is optional for every other
-     * reason. Value enum: "federal_government", "state_or_local_government", "tribal_government",
-     * "foreign_diplomat", "charitable_organization", "religious_organization",
-     * "educational_organization", "resale", "agricultural_production", "industrial_production",
-     * "direct_pay_permit", "direct_mail", "other".
-     */
-    "reason": "federal_government"
-        | "state_or_local_government"
-        | "tribal_government"
-        | "foreign_diplomat"
-        | "charitable_organization"
-        | "religious_organization"
-        | "educational_organization"
-        | "resale"
-        | "agricultural_production"
-        | "industrial_production"
-        | "direct_pay_permit"
-        | "direct_mail"
-        | "other";
-    /**
-     * Replaced as a whole: send every field you want to keep. Required for type order. Covers all
-     * US states or an explicit list of states and DC. Replaced as a whole: send every field you
-     * want to keep. Covers all US states or an explicit list of US states and DC.
-     */
-    "coverage": CustomerTaxExemptionCoverageRequestInput;
-});
-/**
- * Replaced as a whole: send every field you want to keep. Choose customer assessment, no
- * exemption, or a one-off order declaration. Write-only: responses return the exemption that
- * applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns
- * 409 ACTION_NOT_ALLOWED with reason payment_collected.
- */
-export type OrderTaxExemptionRequest = ({
-    /**
-     * Merchant's exemption certificate number. Optional for type order. minLength: 1. maxLength:
-     * 255.
-     */
-    "certificate_number"?: string;
-    /**
-     * Replaced as a whole: send every field you want to keep. Required for type order. Covers all
-     * US states or an explicit list of states and DC. Replaced as a whole: send every field you
-     * want to keep. Covers all US states or an explicit list of US states and DC.
-     */
-    "coverage"?: CustomerTaxExemptionCoverage;
-    /**
-     * Explanation of the exemption. Required when reason is other; optional for every other
-     * reason. Up to 500 characters. minLength: 1. maxLength: 500.
-     */
-    "description"?: string;
-    /**
-     * Merchant-only reference to the supporting document. Never shown to buyers or printed on
-     * buyer documents. minLength: 1. maxLength: 1024.
-     */
-    "evidence_reference"?: string;
-    /**
-     * Required for type order. other requires description; description is optional for every other
-     * reason. Value enum: "federal_government", "state_or_local_government", "tribal_government",
-     * "foreign_diplomat", "charitable_organization", "religious_organization",
-     * "educational_organization", "resale", "agricultural_production", "industrial_production",
-     * "direct_pay_permit", "direct_mail", "other".
-     */
-    "reason"?: "federal_government"
-        | "state_or_local_government"
-        | "tribal_government"
-        | "foreign_diplomat"
-        | "charitable_organization"
-        | "religious_organization"
-        | "educational_organization"
-        | "resale"
-        | "agricultural_production"
-        | "industrial_production"
-        | "direct_pay_permit"
-        | "direct_mail"
-        | "other"
-        | (string & {});
-})
-    & ((Exclude<OrderTaxExemptionInputCustomer & object, readonly unknown[]>)
-    | (Exclude<OrderTaxExemptionInputNone & object, readonly unknown[]>)
-    | (Exclude<OrderTaxExemptionInputOrder & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Replaced as a whole: send every field you want to keep. Choose customer assessment, no
- * exemption, or a one-off order declaration. Write-only: responses return the exemption that
- * applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns
- * 409 ACTION_NOT_ALLOWED with reason payment_collected.
- */
-export type OrderTaxExemptionRequestInput = ({
-    /**
-     * Merchant's exemption certificate number. Optional for type order. minLength: 1. maxLength:
-     * 255.
-     */
-    "certificate_number"?: string;
-    /**
-     * Replaced as a whole: send every field you want to keep. Required for type order. Covers all
-     * US states or an explicit list of states and DC. Replaced as a whole: send every field you
-     * want to keep. Covers all US states or an explicit list of US states and DC.
-     */
-    "coverage"?: CustomerTaxExemptionCoverageRequestInput;
-    /**
-     * Explanation of the exemption. Required when reason is other; optional for every other
-     * reason. Up to 500 characters. minLength: 1. maxLength: 500.
-     */
-    "description"?: string;
-    /**
-     * Merchant-only reference to the supporting document. Never shown to buyers or printed on
-     * buyer documents. minLength: 1. maxLength: 1024.
-     */
-    "evidence_reference"?: string;
-    /**
-     * Required for type order. other requires description; description is optional for every other
-     * reason. Value enum: "federal_government", "state_or_local_government", "tribal_government",
-     * "foreign_diplomat", "charitable_organization", "religious_organization",
-     * "educational_organization", "resale", "agricultural_production", "industrial_production",
-     * "direct_pay_permit", "direct_mail", "other".
-     */
-    "reason"?: "federal_government"
-        | "state_or_local_government"
-        | "tribal_government"
-        | "foreign_diplomat"
-        | "charitable_organization"
-        | "religious_organization"
-        | "educational_organization"
-        | "resale"
-        | "agricultural_production"
-        | "industrial_production"
-        | "direct_pay_permit"
-        | "direct_mail"
-        | "other";
-    /**
-     * Required selector. customer uses the linked customer; none ignores customer exemptions;
-     * order supplies a declaration. Value enum: "customer", "none", "order".
-     */
-    "type": "customer" | "none" | "order";
-})
-    & ((Exclude<OrderTaxExemptionInputCustomerInput & object, readonly unknown[]>)
-    | (Exclude<OrderTaxExemptionInputNoneInput & object, readonly unknown[]>)
-    | (Exclude<OrderTaxExemptionInputOrderInput & object, readonly unknown[]>));
-/**
- * The taxing jurisdiction of an externally supplied tax component, identified by code, level,
- * name, state, and country.
- */
-export type OrderTaxJurisdictionRequestInput = {
-    /**
-     * Your stable key for the jurisdiction: 1 to 128 letters, digits, `.`, `_`, `:`, or `-`,
-     * starting with a letter or digit. Reports group tax by this code. minLength: 1. maxLength:
-     * 128. pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$.
-     */
-    "code": string;
-    /**
-     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
-     * "US".
-     */
-    "country": string;
-    /**
-     * The level of government that imposes the tax. Value enum: "state", "county", "city",
-     * "district", "country", "province".
-     */
-    "level": "state" | "county" | "city" | "district" | "country" | "province";
-    /**
-     * Name of the jurisdiction, up to 200 characters. minLength: 1. maxLength: 200. pattern:
-     * ^[^\s\x00](?:[^\r\n\x00]*[^\s\x00])?$.
-     */
-    "name": string;
-    /**
-     * Two-letter US state at every level. Elsewhere, the ISO 3166-2 suffix (1 to 3 uppercase
-     * letters or digits), required below country level and omitted at country level. minLength: 1.
-     * maxLength: 3. pattern: ^[A-Z0-9]{1,3}$.
-     */
-    "state"?: string;
-};
-/**
- * The location Flint uses to calculate tax on an order, with its address, address type, and where
- * the address came from.
- */
-export type OrderTaxLocation = {
-    /**
-     * Omitted for a checkout session credential that doesn't act for the customer the buyer
-     * verified. A postal address. Every address has country. Addresses Flint checked as complete
-     * (customer and saved addresses, merchant, location, invoice, order delivery destination, tax
-     * identity, fulfillment recipient and pickup addresses) always have line1 and city, and US
-     * ones always have state and postal_code. Delivery quote destinations, buyer locations and
-     * postal-code tax locations hold only what was provided, such as postal_code and country.
-     */
-    "address"?: Address;
-    /**
-     * Where the tax address came from. Value enum: "provided", "fulfillment", "customer",
-     * "location", "merchant".
-     */
-    "address_source": "provided" | "fulfillment" | "customer" | "location" | "merchant" | (string & {});
-    /**
-     * The kind of address Flint used to calculate tax. Value enum: "postal_code", "tax_address",
-     * "billing_address", "shipping_address", "business_address".
-     */
-    "address_type": "postal_code"
-        | "tax_address"
-        | "billing_address"
-        | "shipping_address"
-        | "business_address"
-        | (string & {});
-    /**
-     * ID of the customer whose saved address Flint used, when `address_source` is `customer`.
-     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * ID of the fulfillment whose shipping address Flint used. Absent when the address is the
-     * order's `delivery_destination`. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: string;
-    /**
-     * ID of the pickup store whose address Flint used, when `address_source` is `location`.
-     * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-};
-/** A full street address you supply as an order's tax location. */
-export type OrderTaxLocationFullAddressRequest = ({
-    /** City. minLength: 1. pattern: \S. */
-    "city": string;
-    /**
-     * ISO 3166-1 alpha-2 country code. External tax accepts any ISO country; automatic tax
-     * supports only AT, AU, BE, BG, CA, CY, CZ, DE, DK, EE, ES, FI, FR, GB, GR, HR, HU, IE, IT,
-     * LT, LU, LV, MT, NL, NZ, PL, PT, RO, SE, SI, SK, US. minLength: 2. maxLength: 2. pattern:
-     * ^[A-Z]{2}$. Example: "US".
-     */
-    "country": string;
-    /** First line of the street address. minLength: 1. pattern: \S. */
-    "line1": string;
-    /** Second line of the street address, such as an apartment or suite. minLength: 1. */
-    "line2"?: string;
-    /**
-     * Postal code. A full address in Ireland may omit it; every other address needs one.
-     * minLength: 1. pattern: \S.
-     */
-    "postal_code"?: string;
-    /**
-     * State or province code, such as `WA` or `ON`. Required for US and Canadian full addresses;
-     * omit it elsewhere when the address has none. minLength: 1. pattern: \S.
-     */
-    "state"?: string;
-});
-/** A full street address you supply as an order's tax location. */
-export type OrderTaxLocationFullAddressRequestInput = OrderTaxLocationFullAddressRequest;
-/**
- * The `billing_address` variant of `OrderTaxLocationInput`. The `shipping_address` variant of
- * `OrderTaxLocationInput`. The `tax_address` variant of `OrderTaxLocationInput`.
- */
-export type OrderTaxLocationInputFullAddress = {
-    /**
-     * The address to calculate tax from. A full street address you supply as an order's tax
-     * location.
-     */
-    "address": OrderTaxLocationFullAddressRequest;
-    /**
-     * Where the tax address comes from. The only accepted value is provided, which is the default.
-     * Default: "provided". Value enum: "provided".
-     */
-    "address_source"?: "provided" | (string & {});
-    /**
-     * The kind of address you are sending. Value enum: "tax_address", "billing_address",
-     * "shipping_address".
-     */
-    "address_type": "tax_address" | "billing_address" | "shipping_address" | (string & {});
-};
-/**
- * The `billing_address` variant of `OrderTaxLocationInput`. The `shipping_address` variant of
- * `OrderTaxLocationInput`. The `tax_address` variant of `OrderTaxLocationInput`.
- */
-export type OrderTaxLocationInputFullAddressInput = {
-    /**
-     * The address to calculate tax from. A full street address you supply as an order's tax
-     * location.
-     */
-    "address": OrderTaxLocationFullAddressRequestInput;
-    /**
-     * Where the tax address comes from. The only accepted value is provided, which is the default.
-     * Default: "provided". Value enum: "provided".
-     */
-    "address_source"?: "provided";
-    /**
-     * The kind of address you are sending. Value enum: "tax_address", "billing_address",
-     * "shipping_address".
-     */
-    "address_type": "tax_address" | "billing_address" | "shipping_address";
-};
-/** The `postal_code` variant of `OrderTaxLocationInput`. */
-export type OrderTaxLocationInputPostalCode = {
-    /**
-     * The address to calculate tax from. A postal code, with an optional country, you supply as an
-     * order's tax location.
-     */
-    "address": OrderTaxLocationPostalAddressRequest;
-    /**
-     * Where the tax address comes from. The only accepted value is provided, which is the default.
-     * Default: "provided". Value enum: "provided".
-     */
-    "address_source"?: "provided" | (string & {});
-    /** The kind of address you are sending. Value enum: "postal_code". */
-    "address_type": "postal_code" | (string & {});
-};
-/** The `postal_code` variant of `OrderTaxLocationInput`. */
-export type OrderTaxLocationInputPostalCodeInput = {
-    /**
-     * The address to calculate tax from. A postal code, with an optional country, you supply as an
-     * order's tax location.
-     */
-    "address": OrderTaxLocationPostalAddressRequestInput;
-    /**
-     * Where the tax address comes from. The only accepted value is provided, which is the default.
-     * Default: "provided". Value enum: "provided".
-     */
-    "address_source"?: "provided";
-    /** The kind of address you are sending. Value enum: "postal_code". */
-    "address_type": "postal_code";
-};
-/** A postal code, with an optional country, you supply as an order's tax location. */
-export type OrderTaxLocationPostalAddressRequest = {
-    /**
-     * ISO 3166-1 alpha-2 country code. External tax accepts any ISO country; automatic tax
-     * supports only AT, AU, BE, BG, CA, CY, CZ, DE, DK, EE, ES, FI, FR, GB, GR, HR, HU, IE, IT,
-     * LT, LU, LV, MT, NL, NZ, PL, PT, RO, SE, SI, SK, US. minLength: 2. maxLength: 2. pattern:
-     * ^[A-Z]{2}$. Default: "US". Example: "US".
-     */
-    "country"?: string;
-    /**
-     * Postal code. A full address in Ireland may omit it; every other address needs one.
-     * minLength: 1. pattern: \S.
-     */
-    "postal_code": string;
-};
-/** A postal code, with an optional country, you supply as an order's tax location. */
-export type OrderTaxLocationPostalAddressRequestInput = OrderTaxLocationPostalAddressRequest;
-/**
- * The tax location you supply for an order, as a postal code or a full address, with or without an
- * address type.
- */
-export type OrderTaxLocationRequest = ((OrderTaxLocationInputPostalCode) | (OrderTaxLocationInputFullAddress) | (Record<string, unknown>));
-/**
- * The tax location you supply for an order, as a postal code or a full address, with or without an
- * address type.
- */
-export type OrderTaxLocationRequestInput = ((OrderTaxLocationInputPostalCodeInput) | (OrderTaxLocationInputFullAddressInput));
-/**
- * Tax settings for a new order: whether tax is enabled, its calculation, location, and exemption
- * selection.
- */
-export type OrderTaxRequest = ({
-    /**
-     * How tax is calculated: automatically through Flint's tax connection, or from components you
-     * supply. How tax is calculated on an order: automatically, or externally with the tax
-     * components you supply.
-     */
-    "calculation"?: OrderTaxCalculationRequest;
-    /**
-     * Percentage tax template copied onto every positive delivery charge generated by checkout,
-     * including paid pickup. Allowed only with external tax. Changing it leaves existing charges
-     * unchanged; use tax.charge_calculations to override those. A new selection copies the
-     * template again. Set it before issuing an invoice; the invoice freezes it with the order. A
-     * percentage tax template for the delivery charges checkout generates, including paid pickup:
-     * whether the charge includes the tax, and the tax components. Allowed only on orders that use
-     * external tax.
-     */
-    "delivery_charge_calculation"?: DeliveryChargeTaxCalculationRequest;
-    /**
-     * Whether Flint calculates tax. When exemption is the only tax field, omission uses the
-     * merchant's tax defaults. Other tax inputs default to true. When false, calculation,
-     * location, delivery_charge_calculation, and exemption must be omitted.
-     */
-    "enabled"?: boolean;
-    /**
-     * Replaced as a whole: send every field you want to keep. Defaults to customer assessment on
-     * create: the customer's blanket tax_exempt flag, then applicable exemption records. Cannot be
-     * null. Replaced as a whole: send every field you want to keep. Choose customer assessment, no
-     * exemption, or a one-off order declaration. Write-only: responses return the exemption that
-     * applied in tax.exemption, not this selection. Cannot change after tax commits; a change
-     * returns 409 ACTION_NOT_ALLOWED with reason payment_collected.
-     */
-    "exemption"?: OrderTaxExemptionRequest;
-    /**
-     * The address Flint calculates automatic tax at for items and charges without a fulfillment
-     * destination of their own. The tax location you supply for an order, as a postal code or a
-     * full address, with or without an address type.
-     */
-    "location"?: OrderTaxLocationRequest;
-});
-/**
- * Tax settings for a new order: whether tax is enabled, its calculation, location, and exemption
- * selection.
- */
-export type OrderTaxRequestInput = ({
-    /**
-     * How tax is calculated: automatically through Flint's tax connection, or from components you
-     * supply. How tax is calculated on an order: automatically, or externally with the tax
-     * components you supply.
-     */
-    "calculation"?: OrderTaxCalculationRequestInput;
-    /**
-     * Percentage tax template copied onto every positive delivery charge generated by checkout,
-     * including paid pickup. Allowed only with external tax. Changing it leaves existing charges
-     * unchanged; use tax.charge_calculations to override those. A new selection copies the
-     * template again. Set it before issuing an invoice; the invoice freezes it with the order. A
-     * percentage tax template for the delivery charges checkout generates, including paid pickup:
-     * whether the charge includes the tax, and the tax components. Allowed only on orders that use
-     * external tax.
-     */
-    "delivery_charge_calculation"?: DeliveryChargeTaxCalculationRequestModelInput;
-    /**
-     * Whether Flint calculates tax. When exemption is the only tax field, omission uses the
-     * merchant's tax defaults. Other tax inputs default to true. When false, calculation,
-     * location, delivery_charge_calculation, and exemption must be omitted.
-     */
-    "enabled"?: boolean;
-    /**
-     * Replaced as a whole: send every field you want to keep. Defaults to customer assessment on
-     * create: the customer's blanket tax_exempt flag, then applicable exemption records. Cannot be
-     * null. Replaced as a whole: send every field you want to keep. Choose customer assessment, no
-     * exemption, or a one-off order declaration. Write-only: responses return the exemption that
-     * applied in tax.exemption, not this selection. Cannot change after tax commits; a change
-     * returns 409 ACTION_NOT_ALLOWED with reason payment_collected.
-     */
-    "exemption"?: OrderTaxExemptionRequestInput;
-    /**
-     * The address Flint calculates automatic tax at for items and charges without a fulfillment
-     * destination of their own. The tax location you supply for an order, as a postal code or a
-     * full address, with or without an address type.
-     */
-    "location"?: OrderTaxLocationRequestInput;
-});
-/**
- * Changes to an order's tax settings: whether tax is enabled, the calculation, the location, the
- * exemption selection, and per-line-item or per-charge calculations.
- */
-export type OrderTaxUpdateRequest = ({
-    /**
-     * How tax is calculated: automatically through Flint's tax connection, or from components you
-     * supply. How tax is calculated on an order: automatically, or externally with the tax
-     * components you supply.
-     */
-    "calculation"?: OrderTaxCalculationRequest;
-    /**
-     * Replace calculations for the listed components and keep unlisted calculations. Allowed only
-     * when the order uses external tax, including a switch in this request. Settled components
-     * cannot be changed. [] (Value): {@link OrderChargeTaxAssignment}. An externally calculated
-     * tax you assign to one order charge.
-     */
-    "charge_calculations"?: Array<OrderChargeTaxAssignment>;
-    /**
-     * Percentage tax template copied onto every positive delivery charge generated by checkout,
-     * including paid pickup. Allowed only with external tax. Changing it leaves existing charges
-     * unchanged; use tax.charge_calculations to override those. A new selection copies the
-     * template again. Set it before issuing an invoice; the invoice freezes it with the order.
-     * Send null to clear it. anyOf[1] (Value): {@link DeliveryChargeTaxCalculationRequest}. A
-     * percentage tax template for the delivery charges checkout generates, including paid pickup:
-     * whether the charge includes the tax, and the tax components. Allowed only on orders that use
-     * external tax. anyOf[2] (Value): null.
-     */
-    "delivery_charge_calculation"?: ((DeliveryChargeTaxCalculationRequest) | (null));
-    /**
-     * Whether Flint calculates tax. When exemption is the only tax field, omission keeps the
-     * order's current value. Other tax inputs default to true. When you send false, calculation,
-     * location, delivery_charge_calculation, exemption, and calculation assignments must be
-     * omitted.
-     */
-    "enabled"?: boolean;
-    /**
-     * Replaced as a whole: send every field you want to keep. Omission preserves the prior
-     * selection; null is rejected. Cannot change after tax commits; a change returns 409
-     * ACTION_NOT_ALLOWED with reason payment_collected. Replaced as a whole: send every field you
-     * want to keep. Choose customer assessment, no exemption, or a one-off order declaration.
-     * Write-only: responses return the exemption that applied in tax.exemption, not this
-     * selection. Cannot change after tax commits; a change returns 409 ACTION_NOT_ALLOWED with
-     * reason payment_collected.
-     */
-    "exemption"?: OrderTaxExemptionRequest;
-    /**
-     * Replace calculations for the listed components and keep unlisted calculations. Allowed only
-     * when the order uses external tax, including a switch in this request. Settled components
-     * cannot be changed. [] (Value): {@link OrderLineItemTaxAssignment}. An externally calculated
-     * tax you assign to one order line item.
-     */
-    "line_item_calculations"?: Array<OrderLineItemTaxAssignment>;
-    /**
-     * The address Flint calculates automatic tax at for items and charges without a fulfillment
-     * destination of their own. The tax location you supply for an order, as a postal code or a
-     * full address, with or without an address type.
-     */
-    "location"?: OrderTaxLocationRequest;
-});
-/**
- * Changes to an order's tax settings: whether tax is enabled, the calculation, the location, the
- * exemption selection, and per-line-item or per-charge calculations.
- */
-export type OrderTaxUpdateRequestInput = ({
-    /**
-     * How tax is calculated: automatically through Flint's tax connection, or from components you
-     * supply. How tax is calculated on an order: automatically, or externally with the tax
-     * components you supply.
-     */
-    "calculation"?: OrderTaxCalculationRequestInput;
-    /**
-     * Replace calculations for the listed components and keep unlisted calculations. Allowed only
-     * when the order uses external tax, including a switch in this request. Settled components
-     * cannot be changed. [] (Value): {@link OrderChargeTaxAssignmentInput}. An externally
-     * calculated tax you assign to one order charge.
-     */
-    "charge_calculations"?: Array<OrderChargeTaxAssignmentInput>;
-    /**
-     * Percentage tax template copied onto every positive delivery charge generated by checkout,
-     * including paid pickup. Allowed only with external tax. Changing it leaves existing charges
-     * unchanged; use tax.charge_calculations to override those. A new selection copies the
-     * template again. Set it before issuing an invoice; the invoice freezes it with the order.
-     * Send null to clear it. anyOf[1] (Value): {@link
-     * DeliveryChargeTaxCalculationRequestModelInput}. A percentage tax template for the delivery
-     * charges checkout generates, including paid pickup: whether the charge includes the tax, and
-     * the tax components. Allowed only on orders that use external tax. anyOf[2] (Value): null.
-     */
-    "delivery_charge_calculation"?: ((DeliveryChargeTaxCalculationRequestModelInput) | (null));
-    /**
-     * Whether Flint calculates tax. When exemption is the only tax field, omission keeps the
-     * order's current value. Other tax inputs default to true. When you send false, calculation,
-     * location, delivery_charge_calculation, exemption, and calculation assignments must be
-     * omitted.
-     */
-    "enabled"?: boolean;
-    /**
-     * Replaced as a whole: send every field you want to keep. Omission preserves the prior
-     * selection; null is rejected. Cannot change after tax commits; a change returns 409
-     * ACTION_NOT_ALLOWED with reason payment_collected. Replaced as a whole: send every field you
-     * want to keep. Choose customer assessment, no exemption, or a one-off order declaration.
-     * Write-only: responses return the exemption that applied in tax.exemption, not this
-     * selection. Cannot change after tax commits; a change returns 409 ACTION_NOT_ALLOWED with
-     * reason payment_collected.
-     */
-    "exemption"?: OrderTaxExemptionRequestInput;
-    /**
-     * Replace calculations for the listed components and keep unlisted calculations. Allowed only
-     * when the order uses external tax, including a switch in this request. Settled components
-     * cannot be changed. [] (Value): {@link OrderLineItemTaxAssignmentInput}. An externally
-     * calculated tax you assign to one order line item.
-     */
-    "line_item_calculations"?: Array<OrderLineItemTaxAssignmentInput>;
-    /**
-     * The address Flint calculates automatic tax at for items and charges without a fulfillment
-     * destination of their own. The tax location you supply for an order, as a postal code or a
-     * full address, with or without an address type.
-     */
-    "location"?: OrderTaxLocationRequestInput;
-});
-export type OrderUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+import type { CreateModifierGroupRequestInput, CreateModifierSetRequestInput } from './types-11.js';
+import type { DisputesAcceptParams } from './types-25.js';
+import type { UpdateModifierGroupRequestInput, UpdateModifierSetRequestInput } from './types-74.js';
+import type { InlineModifierGroupRequest, InlineModifierGroupRequestInput } from './types-31.js';
+import type { ReadinessMerchantAccountSession, ReadinessMerchantAccountSessionPreviousAttributes } from './types-58.js';
+import type { OAuthTokenRequestRefreshToken, OAuthTokenRequestTokenExchange } from './types-43.js';
+export type ModifierGroupCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": WebhookOrder;
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "active_payment_review_id"?: ((string | null) | (null) | (unknown));
-            "authorization_amounts"?: ((OrderAuthorizationAmounts) | (null));
-            "buyer_contact"?: ((CheckoutBuyerContact) | (null));
-            "buyer_note"?: ((string) | (null));
-            "charges"?: ((Array<OrderCharge>) | (null));
-            "checkout_session_ids"?: ((Array<string>) | (null));
-            "client_reference"?: ((string | null) | (null) | (unknown));
-            "closed_at"?: ((string) | (null));
-            "closed_reason"?: (("invoice_voided"
-                | "paid"
-                | "closed_by_merchant"
-                | "checkout_expired"
-                | "written_off"
-                | "superseded"
-                | "return_resolution_canceled"
-                | "other"
-                | (string & {}))
-                | (null));
-            "closed_reason_message"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "custom_field_answers"?: ((Array<CustomFieldAnswer>) | (null));
-            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
-            "customer_id"?: ((string) | (null));
-            "deferred_promotions"?: ((Array<DeferredPromotion>) | (null));
-            "delivery"?: ((OrderDeliverySummary) | (null));
-            "delivery_destination"?: ((OrderDeliveryDestination) | (null));
-            "discounts"?: ((Array<OrderDiscount>) | (null));
-            "dispute_status"?: (("none"
-                | "inquiry_needs_response"
-                | "inquiry_under_review"
-                | "inquiry_closed"
-                | "needs_response"
-                | "under_review"
-                | "won"
-                | "lost"
-                | "prevented"
-                | "other"
-                | (string & {}))
-                | (null));
-            "external_reference_id"?: ((string) | (null));
-            "fulfillment_status"?: (("not_fulfilled"
-                | "partially_fulfilled"
-                | "fulfilled"
-                | "canceled"
-                | "not_applicable"
-                | "closed"
-                | (string & {}))
-                | (null));
-            "fulfillments"?: ((Array<Fulfillment>) | (null));
-            "gift_card_estimate"?: ((OrderGiftCardEstimate) | (null));
-            "gift_card_settlements"?: ((Array<OrderGiftCardSettlement>) | (null));
-            "gift_card_tender_enabled"?: ((boolean) | (null));
-            "gift_cards"?: ((Array<OrderGiftCardSelection>) | (null));
-            "governing_delivery_selection_id"?: ((string | null) | (null) | (unknown));
-            "handover"?: ((OrderHandover) | (null));
-            "internal_note"?: ((string) | (null));
-            "inventory_exception_reason"?: (("inventory_deduction_failed"
-                | "inventory_handoff_failed"
-                | "auto_refund_required"
-                | "auto_refund_failed"
-                | "policy_resolution_failed"
-                | "other"
-                | (string & {}))
-                | (null));
-            "inventory_exception_resolution_message"?: ((string) | (null));
-            "inventory_exception_status"?: (("paid_inventory_failed" | "resolved" | (string & {})) | (null));
-            "inventory_reservation_id"?: ((string) | (null));
-            "inventory_routing_source"?: ((InventoryRoutingSource) | (null));
-            "invoice_id"?: ((string | null) | (null) | (unknown));
-            "line_items"?: ((Array<OrderLineItem>) | (null));
-            "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "order_id"?: ((string) | (null));
-            "order_number"?: ((string) | (null));
-            "origin"?: (("virtual_terminal"
-                | "payment_link"
-                | "checkout"
-                | "api"
-                | "subscription"
-                | "invoice"
-                | (string & {}))
-                | (null));
-            "paid_at"?: ((string | null) | (null) | (unknown));
-            "payment_intent_ids"?: ((Array<string>) | (null));
-            "payment_intents"?: ((Array<ExpandedPaymentIntentSummary>) | (null));
-            "payment_link_id"?: ((string) | (null));
-            "payment_status"?: (("unpaid" | "partially_paid" | "paid" | (string & {})) | (null));
-            "pending_order_edit_id"?: ((string | null) | (null) | (unknown));
-            "prepayment_order_id"?: ((string | null) | (null) | (unknown));
-            "pricing_amounts"?: ((PricingAmounts) | (null));
-            "refund_ids"?: ((Array<string>) | (null));
-            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
-            "return_credit_settlements"?: ((Array<OrderReturnCreditSettlement>) | (null));
-            "return_resolution_id"?: ((string) | (null));
-            "settlement_amounts"?: ((OrderSettlementAmounts) | (null));
-            "status"?: (("open" | "closed" | (string & {})) | (null));
-            "subscription"?: ((((ExpandedSubscriptionSummary) | (null))) | (null) | (unknown));
-            "subscription_cycle"?: ((number) | (null));
-            "subscription_delivery_changed_at"?: ((string) | (null));
-            "subscription_delivery_number"?: ((number | null) | (null) | (unknown));
-            "subscription_id"?: ((string) | (null));
-            "subscription_plan"?: ((((ExpandedSubscriptionPlanSummary) | (null))) | (null) | (unknown));
-            "subscription_plan_id"?: ((string) | (null));
-            "supported_actions"?: ((Array<"close" | "pay" | "resolve_inventory_exception" | (string & {})>) | (null));
-            "tax"?: ((OrderTax) | (null));
-            "ticketed_event"?: ((TicketedEvent) | (null));
-            "tips"?: ((Array<Tip>) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
+        "object": {
+            "allow_quantities": boolean;
+            "created_at"?: string;
+            "external_reference_id"?: string;
+            "max_quantity"?: number;
+            "max_selected"?: number;
+            "max_total_quantity"?: number;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "min_quantity"?: number;
+            "min_selected"?: number;
+            "modifier_group_id": string;
+            "modifier_group_type": "list" | "text" | (string & {});
+            "modifiers": Array<Modifier>;
+            "name": string;
+            "show_on_fulfillment": boolean;
+            "show_on_receipt": boolean;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "text"?: TextModifierConfig;
+            "updated_at"?: string;
+            "version": number;
+        };
     };
     "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "order.updated";
+    "event_type"?: "modifier_group.created";
 }))
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": WebhookOrder;
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "active_payment_review_id"?: ((string | null) | (null) | (unknown));
-            "authorization_amounts"?: ((OrderAuthorizationAmounts) | (null));
-            "buyer_contact"?: ((CheckoutBuyerContact) | (null));
-            "buyer_note"?: ((string) | (null));
-            "charges"?: ((Array<OrderCharge>) | (null));
-            "checkout_session_ids"?: ((Array<string>) | (null));
-            "client_reference"?: ((string | null) | (null) | (unknown));
-            "closed_at"?: ((string) | (null));
-            "closed_reason"?: (("invoice_voided"
-                | "paid"
-                | "closed_by_merchant"
-                | "checkout_expired"
-                | "written_off"
-                | "superseded"
-                | "return_resolution_canceled"
-                | "other"
-                | (string & {}))
-                | (null));
-            "closed_reason_message"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "custom_field_answers"?: ((Array<CustomFieldAnswer>) | (null));
-            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
-            "customer_id"?: ((string) | (null));
-            "deferred_promotions"?: ((Array<DeferredPromotion>) | (null));
-            "delivery"?: ((OrderDeliverySummary) | (null));
-            "delivery_destination"?: ((OrderDeliveryDestination) | (null));
-            "discounts"?: ((Array<OrderDiscount>) | (null));
-            "dispute_status"?: (("none"
-                | "inquiry_needs_response"
-                | "inquiry_under_review"
-                | "inquiry_closed"
-                | "needs_response"
-                | "under_review"
-                | "won"
-                | "lost"
-                | "prevented"
-                | "other"
-                | (string & {}))
-                | (null));
-            "external_reference_id"?: ((string) | (null));
-            "fulfillment_status"?: (("not_fulfilled"
-                | "partially_fulfilled"
-                | "fulfilled"
-                | "canceled"
-                | "not_applicable"
-                | "closed"
-                | (string & {}))
-                | (null));
-            "fulfillments"?: ((Array<Fulfillment>) | (null));
-            "gift_card_estimate"?: ((OrderGiftCardEstimate) | (null));
-            "gift_card_settlements"?: ((Array<OrderGiftCardSettlement>) | (null));
-            "gift_card_tender_enabled"?: ((boolean) | (null));
-            "gift_cards"?: ((Array<OrderGiftCardSelection>) | (null));
-            "governing_delivery_selection_id"?: ((string | null) | (null) | (unknown));
-            "handover"?: ((OrderHandover) | (null));
-            "internal_note"?: ((string) | (null));
-            "inventory_exception_reason"?: (("inventory_deduction_failed"
-                | "inventory_handoff_failed"
-                | "auto_refund_required"
-                | "auto_refund_failed"
-                | "policy_resolution_failed"
-                | "other"
-                | (string & {}))
-                | (null));
-            "inventory_exception_resolution_message"?: ((string) | (null));
-            "inventory_exception_status"?: (("paid_inventory_failed" | "resolved" | (string & {})) | (null));
-            "inventory_reservation_id"?: ((string) | (null));
-            "inventory_routing_source"?: ((InventoryRoutingSource) | (null));
-            "invoice_id"?: ((string | null) | (null) | (unknown));
-            "line_items"?: ((Array<OrderLineItem>) | (null));
-            "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "order_id"?: ((string) | (null));
-            "order_number"?: ((string) | (null));
-            "origin"?: (("virtual_terminal"
-                | "payment_link"
-                | "checkout"
-                | "api"
-                | "subscription"
-                | "invoice"
-                | (string & {}))
-                | (null));
-            "paid_at"?: ((string | null) | (null) | (unknown));
-            "payment_intent_ids"?: ((Array<string>) | (null));
-            "payment_intents"?: ((Array<ExpandedPaymentIntentSummary>) | (null));
-            "payment_link_id"?: ((string) | (null));
-            "payment_status"?: (("unpaid" | "partially_paid" | "paid" | (string & {})) | (null));
-            "pending_order_edit_id"?: ((string | null) | (null) | (unknown));
-            "prepayment_order_id"?: ((string | null) | (null) | (unknown));
-            "pricing_amounts"?: ((PricingAmounts) | (null));
-            "refund_ids"?: ((Array<string>) | (null));
-            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
-            "return_credit_settlements"?: ((Array<OrderReturnCreditSettlement>) | (null));
-            "return_resolution_id"?: ((string) | (null));
-            "settlement_amounts"?: ((OrderSettlementAmounts) | (null));
-            "status"?: (("open" | "closed" | (string & {})) | (null));
-            "subscription"?: ((((ExpandedSubscriptionSummary) | (null))) | (null) | (unknown));
-            "subscription_cycle"?: ((number) | (null));
-            "subscription_delivery_changed_at"?: ((string) | (null));
-            "subscription_delivery_number"?: ((number | null) | (null) | (unknown));
-            "subscription_id"?: ((string) | (null));
-            "subscription_plan"?: ((((ExpandedSubscriptionPlanSummary) | (null))) | (null) | (unknown));
-            "subscription_plan_id"?: ((string) | (null));
-            "supported_actions"?: ((Array<"close" | "pay" | "resolve_inventory_exception" | (string & {})>) | (null));
-            "tax"?: ((OrderTax) | (null));
-            "ticketed_event"?: ((TicketedEvent) | (null));
-            "tips"?: ((Array<Tip>) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
+        "object": {
+            "allow_quantities": boolean;
+            "created_at"?: string;
+            "external_reference_id"?: string;
+            "max_quantity"?: number;
+            "max_selected"?: number;
+            "max_total_quantity"?: number;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "min_quantity"?: number;
+            "min_selected"?: number;
+            "modifier_group_id": string;
+            "modifier_group_type": "list" | "text" | (string & {});
+            "modifiers": Array<Modifier>;
+            "name": string;
+            "show_on_fulfillment": boolean;
+            "show_on_receipt": boolean;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "text"?: TextModifierConfig;
+            "updated_at"?: string;
+            "version": number;
+        };
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "order.updated";
+    "event_type"?: "modifier_group.created";
     "source"?: ({
         "environment_grant_id": string;
         "merchant_id": string;
@@ -1094,1603 +75,216 @@ export type OrderUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, re
     });
 })))
     & {
-    "event_type": "order.updated";
+    "event_type": "modifier_group.created";
 });
 /**
- * The `order.updated` webhook payload for the `installed_merchants` event source. Fields shared by
- * partner webhook payloads.
+ * The `modifier_group.created` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
  */
-export type OrderUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type ModifierGroupCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): {@link WebhookOrder}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `active_payment_attempt`, `payment_collection`,
-     * `setup_collection`. previous_attributes (Optional): object. Previous values of changed
-     * top-level fields in data.object, at this delivery's API version. Nested changes include the
-     * whole previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.active_payment_review_id (Optional): string or null or null. The
-     * earliest open or resolving payment review on this order's counted payments. `null` when no
-     * review is open or resolving. List reviews with GET
-     * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present
-     * with merchant credentials. previous_attributes.active_payment_review_id.anyOf[1] (Value):
-     * string or null. The earliest open or resolving payment review on this order's counted
-     * payments. `null` when no review is open or resolving. List reviews with GET
-     * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present
-     * with merchant credentials. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-     * previous_attributes.active_payment_review_id.anyOf[2] (Value): null.
-     * previous_attributes.authorization_amounts (Optional): {@link OrderAuthorizationAmounts} or
-     * null. The amounts authorized and still capturable on the order's payments.
-     * previous_attributes.authorization_amounts.anyOf[1] (Value): {@link
-     * OrderAuthorizationAmounts}. The amounts authorized and still capturable on the order's
-     * payments. previous_attributes.authorization_amounts.anyOf[2] (Value): null.
-     * previous_attributes.buyer_contact (Optional): {@link CheckoutBuyerContact} or null. Email
-     * and phone saved when payment started, from the pay request's buyer_contact or the paying
-     * checkout session's saved contact. It does not change the linked customer.
-     * previous_attributes.buyer_contact.anyOf[1] (Value): {@link CheckoutBuyerContact}. Email and
-     * phone saved when payment started, from the pay request's buyer_contact or the paying
-     * checkout session's saved contact. It does not change the linked customer.
-     * previous_attributes.buyer_contact.anyOf[2] (Value): null. previous_attributes.buyer_note
-     * (Optional): string or null. A note to the buyer. previous_attributes.buyer_note.anyOf[1]
-     * (Value): string. A note to the buyer. previous_attributes.buyer_note.anyOf[2] (Value): null.
-     * previous_attributes.charges (Optional): Array of {@link OrderCharge} or null. Charges added
-     * to the order, such as delivery or service fees, each with its applied amount, tax, and
-     * refunded amount. previous_attributes.charges.anyOf[1] (Value): Array of {@link OrderCharge}.
-     * Charges added to the order, such as delivery or service fees, each with its applied amount,
-     * tax, and refunded amount. previous_attributes.charges.anyOf[1][] (Value): {@link
-     * OrderCharge}. An additional charge applied to an order. previous_attributes.charges.anyOf[2]
-     * (Value): null. previous_attributes.checkout_session_ids (Optional): Array of string or null.
-     * IDs of the checkout sessions opened for this order.
-     * previous_attributes.checkout_session_ids.anyOf[1] (Value): Array of string. IDs of the
-     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1][]
-     * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-     * previous_attributes.checkout_session_ids.anyOf[2] (Value): null.
-     * previous_attributes.client_reference (Optional): string or null or null. The reference the
-     * payment link URL or resolve request carried, such as your user ID. `null` when none was sent
-     * or checkout did not start from a payment link. Returned only to merchant credentials;
-     * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
-     * of identity. Always present with merchant credentials.
-     * previous_attributes.client_reference.anyOf[1] (Value): string or null. The reference the
-     * payment link URL or resolve request carried, such as your user ID. `null` when none was sent
-     * or checkout did not start from a payment link. Returned only to merchant credentials;
-     * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
-     * of identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
-     * previous_attributes.client_reference.anyOf[2] (Value): null. previous_attributes.closed_at
-     * (Optional): string or null. When the order closed. Present exactly when status is closed.
-     * Set once at the transition and never changed. previous_attributes.closed_at.anyOf[1]
-     * (Value): string. When the order closed. Present exactly when status is closed. Set once at
-     * the transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.closed_at.anyOf[2] (Value): null. previous_attributes.closed_reason
-     * (Optional): string or null. Why the order closed. Present exactly when status is closed. Set
-     * once at closure. Unrecognized reasons are returned as other; new values may be added. Value
-     * enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-     * "superseded", "return_resolution_canceled", "other".
-     * previous_attributes.closed_reason.anyOf[1] (Value): string. Why the order closed. Present
-     * exactly when status is closed. Set once at closure. Unrecognized reasons are returned as
-     * other; new values may be added. Value enum: "invoice_voided", "paid", "closed_by_merchant",
-     * "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
-     * previous_attributes.closed_reason.anyOf[2] (Value): null.
-     * previous_attributes.closed_reason_message (Optional): string or null. The caller note
-     * supplied when closing the order. System closures leave it absent. It is not shown to the
-     * buyer. previous_attributes.closed_reason_message.anyOf[1] (Value): string. The caller note
-     * supplied when closing the order. System closures leave it absent. It is not shown to the
-     * buyer. previous_attributes.closed_reason_message.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.custom_field_answers (Optional): Array of {@link
-     * CustomFieldAnswer} or null. The buyer's answers to the payment link's custom fields,
-     * recorded when checkout started, in the order the link showed the fields. Each answer keeps
-     * the field's key, label, and type from that moment, so later changes to the link don't change
-     * it. Optional fields the buyer left blank are left out. Read-only. Empty when the order
-     * didn't come from a payment link, the link had no custom fields, or the buyer answered none.
-     * Orders created before Flint recorded answers here also return an empty list and keep their
-     * answers in `metadata` as `custom_field_<key>`. Deleting the customer removes the answers.
-     * Returned only to merchant credentials; omitted for buyer credentials. Always present with
-     * merchant credentials. previous_attributes.custom_field_answers.anyOf[1] (Value): Array of
-     * {@link CustomFieldAnswer}. The buyer's answers to the payment link's custom fields, recorded
-     * when checkout started, in the order the link showed the fields. Each answer keeps the
-     * field's key, label, and type from that moment, so later changes to the link don't change it.
-     * Optional fields the buyer left blank are left out. Read-only. Empty when the order didn't
-     * come from a payment link, the link had no custom fields, or the buyer answered none. Orders
-     * created before Flint recorded answers here also return an empty list and keep their answers
-     * in `metadata` as `custom_field_<key>`. Deleting the customer removes the answers. Returned
-     * only to merchant credentials; omitted for buyer credentials. Always present with merchant
-     * credentials. maxItems: 20. previous_attributes.custom_field_answers.anyOf[1][] (Value):
-     * {@link CustomFieldAnswer}. One answer to a payment link custom field, with the field as it
-     * was when checkout started. `custom_field_type` determines the type of `value`.
-     * previous_attributes.custom_field_answers.anyOf[2] (Value): null.
-     * previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or null or null.
-     * Customer summary included when `expand` names `customer`; `null` when expanded and no
-     * customer is linked. Present only when `expand` includes `customer`; `null` when expanded and
-     * there is no related customer. previous_attributes.customer.anyOf[1] (Value): {@link
-     * ExpandedCustomerSummary} or null. Customer summary included when `expand` names `customer`;
-     * `null` when expanded and no customer is linked. Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
-     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
-     * previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
-     * (Optional): string or null. ID of the customer this order belongs to.
-     * previous_attributes.customer_id.anyOf[1] (Value): string. ID of the customer this order
-     * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.deferred_promotions (Optional): Array of {@link DeferredPromotion} or
-     * null. Promotions accepted at subscription signup. They attach when the subscription is
-     * provisioned and first discount its first charged cycle. They do not discount this order and
-     * are separate from discounts and order totals. Always present; empty when no promotions are
-     * deferred. previous_attributes.deferred_promotions.anyOf[1] (Value): Array of {@link
-     * DeferredPromotion}. Promotions accepted at subscription signup. They attach when the
-     * subscription is provisioned and first discount its first charged cycle. They do not discount
-     * this order and are separate from discounts and order totals. Always present; empty when no
-     * promotions are deferred. previous_attributes.deferred_promotions.anyOf[1][] (Value): {@link
-     * DeferredPromotion}. A promotion accepted at subscription signup for the subscription's first
-     * charged cycle. It does not discount the signup order.
-     * previous_attributes.deferred_promotions.anyOf[2] (Value): null. previous_attributes.delivery
-     * (Optional): {@link OrderDeliverySummary} or null. Method, type and recipient of
-     * governing_delivery_selection_id. The address remains in delivery_destination. Omitted when
-     * no shipment or local-delivery selection governs the order.
-     * previous_attributes.delivery.anyOf[1] (Value): {@link OrderDeliverySummary}. Method, type
-     * and recipient of governing_delivery_selection_id. The address remains in
-     * delivery_destination. Omitted when no shipment or local-delivery selection governs the
-     * order. previous_attributes.delivery.anyOf[2] (Value): null.
-     * previous_attributes.delivery_destination (Optional): {@link OrderDeliveryDestination} or
-     * null. The shipment or local-delivery destination committed for this order. Payment freezes
-     * this value; fulfillment recipient changes do not replace it. Omitted for a checkout session
-     * credential that doesn't act for the customer the buyer verified.
-     * previous_attributes.delivery_destination.anyOf[1] (Value): {@link OrderDeliveryDestination}.
-     * The shipment or local-delivery destination committed for this order. Payment freezes this
-     * value; fulfillment recipient changes do not replace it. Omitted for a checkout session
-     * credential that doesn't act for the customer the buyer verified.
-     * previous_attributes.delivery_destination.anyOf[2] (Value): null.
-     * previous_attributes.discounts (Optional): Array of {@link OrderDiscount} or null. Discounts
-     * applied to the order, each with its amount, status, and the line items and charges it
-     * covers. previous_attributes.discounts.anyOf[1] (Value): Array of {@link OrderDiscount}.
-     * Discounts applied to the order, each with its amount, status, and the line items and charges
-     * it covers. previous_attributes.discounts.anyOf[1][] (Value): {@link OrderDiscount}. A
-     * discount applied to an order, with its amount, status, and the line items and charges it
-     * covers. It comes from a manual discount or a promotion.
-     * previous_attributes.discounts.anyOf[2] (Value): null. previous_attributes.dispute_status
-     * (Optional): string or null. Aggregate dispute state across the order's counted payment
-     * intents, excluding payment_returned. Always returned to merchant credentials and omitted
-     * from buyer reads. Open states take precedence in this order: needs_response, under_review,
-     * inquiry_needs_response, inquiry_under_review, other. Otherwise the most severe closed state
-     * wins: lost, won, prevented, inquiry_closed; none when no disputes count. List individual
-     * cases with GET /v1/disputes?order_id={order_id}. Always present with merchant credentials.
-     * Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
-     * "needs_response", "under_review", "won", "lost", "prevented", "other".
-     * previous_attributes.dispute_status.anyOf[1] (Value): string. Aggregate dispute state across
-     * the order's counted payment intents, excluding payment_returned. Always returned to merchant
-     * credentials and omitted from buyer reads. Open states take precedence in this order:
-     * needs_response, under_review, inquiry_needs_response, inquiry_under_review, other. Otherwise
-     * the most severe closed state wins: lost, won, prevented, inquiry_closed; none when no
-     * disputes count. List individual cases with GET /v1/disputes?order_id={order_id}. Always
-     * present with merchant credentials. Value enum: "none", "inquiry_needs_response",
-     * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost",
-     * "prevented", "other". previous_attributes.dispute_status.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
-     * identifier for this resource in an external system.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.fulfillment_status (Optional): string or null. Aggregate progress across
-     * the order's fulfillment quantities. Value enum: "not_fulfilled", "partially_fulfilled",
-     * "fulfilled", "canceled", "not_applicable", "closed".
-     * previous_attributes.fulfillment_status.anyOf[1] (Value): string. Aggregate progress across
-     * the order's fulfillment quantities. Value enum: "not_fulfilled", "partially_fulfilled",
-     * "fulfilled", "canceled", "not_applicable", "closed".
-     * previous_attributes.fulfillment_status.anyOf[2] (Value): null.
-     * previous_attributes.fulfillments (Optional): Array of {@link Fulfillment} or null.
-     * Fulfillments created for the order, each covering a set of its line items.
-     * previous_attributes.fulfillments.anyOf[1] (Value): Array of {@link Fulfillment}.
-     * Fulfillments created for the order, each covering a set of its line items.
-     * previous_attributes.fulfillments.anyOf[1][] (Value): {@link Fulfillment}. Work required to
-     * deliver an order's items. previous_attributes.fulfillments.anyOf[2] (Value): null.
-     * previous_attributes.gift_card_estimate (Optional): {@link OrderGiftCardEstimate} or null. An
-     * estimate of how the order balance splits between gift cards and the payment processor.
-     * previous_attributes.gift_card_estimate.anyOf[1] (Value): {@link OrderGiftCardEstimate}. An
-     * estimate of how the order balance splits between gift cards and the payment processor.
-     * previous_attributes.gift_card_estimate.anyOf[2] (Value): null.
-     * previous_attributes.gift_card_settlements (Optional): Array of {@link
-     * OrderGiftCardSettlement} or null. The gift card redemptions applied to the order's payments.
-     * previous_attributes.gift_card_settlements.anyOf[1] (Value): Array of {@link
-     * OrderGiftCardSettlement}. The gift card redemptions applied to the order's payments.
-     * previous_attributes.gift_card_settlements.anyOf[1][] (Value): {@link
-     * OrderGiftCardSettlement}. A gift card redemption applied to an order payment, with the
-     * amount, tip, and gift card. previous_attributes.gift_card_settlements.anyOf[2] (Value):
-     * null. previous_attributes.gift_card_tender_enabled (Optional): boolean or null. Whether gift
-     * cards can pay for this order now. Gift cards pay only USD orders that still accept changes,
-     * are not subscription purchases, and whose merchant has at least one gift card that is not
-     * closed in this environment. Recomputed on each read; a spent but open card still counts.
-     * previous_attributes.gift_card_tender_enabled.anyOf[1] (Value): boolean. Whether gift cards
-     * can pay for this order now. Gift cards pay only USD orders that still accept changes, are
-     * not subscription purchases, and whose merchant has at least one gift card that is not closed
-     * in this environment. Recomputed on each read; a spent but open card still counts.
-     * previous_attributes.gift_card_tender_enabled.anyOf[2] (Value): null.
-     * previous_attributes.gift_cards (Optional): Array of {@link OrderGiftCardSelection} or null.
-     * Gift cards available to pay the order, with each card's available balance.
-     * previous_attributes.gift_cards.anyOf[1] (Value): Array of {@link OrderGiftCardSelection}.
-     * Gift cards available to pay the order, with each card's available balance.
-     * previous_attributes.gift_cards.anyOf[1][] (Value): {@link OrderGiftCardSelection}. A gift
-     * card available to pay an order, with its available balance and the last four characters of
-     * its code. previous_attributes.gift_cards.anyOf[2] (Value): null.
-     * previous_attributes.governing_delivery_selection_id (Optional): string or null or null. ID
-     * of the delivery selection that governs this order, including pickup choices without a
-     * delivery destination: the checkout's provisional selection before payment, and the selection
-     * a payment committed after. Read it with GET /v1/delivery-selections/{delivery_selection_id}.
-     * Null when no selection governs the order. While set, change the destination through the
-     * delivery selection. previous_attributes.governing_delivery_selection_id.anyOf[1] (Value):
-     * string or null. ID of the delivery selection that governs this order, including pickup
-     * choices without a delivery destination: the checkout's provisional selection before payment,
-     * and the selection a payment committed after. Read it with GET
-     * /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs the order.
-     * While set, change the destination through the delivery selection. Example:
-     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
-     * previous_attributes.governing_delivery_selection_id.anyOf[2] (Value): null.
-     * previous_attributes.handover (Optional): {@link OrderHandover} or null. Carry-out handover:
-     * every physical item is handed to the buyer at this location when the order is paid, in place
-     * of a delivery selection. Payment then creates one completed `handover` fulfillment. Absent
-     * without a handover. previous_attributes.handover.anyOf[1] (Value): {@link OrderHandover}.
-     * Carry-out handover: every physical item is handed to the buyer at this location when the
-     * order is paid, in place of a delivery selection. Payment then creates one completed
-     * `handover` fulfillment. Absent without a handover. previous_attributes.handover.anyOf[2]
-     * (Value): null. previous_attributes.internal_note (Optional): string or null. A note for your
-     * team. Buyer reads leave it out. previous_attributes.internal_note.anyOf[1] (Value): string.
-     * A note for your team. Buyer reads leave it out. previous_attributes.internal_note.anyOf[2]
-     * (Value): null. previous_attributes.inventory_exception_reason (Optional): string or null.
-     * Why inventory could not be committed after payment. The cause remains after resolution.
-     * Omitted when no reason was recorded. Unrecognized reasons are returned as other; new values
-     * may be added. Value enum: "inventory_deduction_failed", "inventory_handoff_failed",
-     * "auto_refund_required", "auto_refund_failed", "policy_resolution_failed", "other".
-     * previous_attributes.inventory_exception_reason.anyOf[1] (Value): string. Why inventory could
-     * not be committed after payment. The cause remains after resolution. Omitted when no reason
-     * was recorded. Unrecognized reasons are returned as other; new values may be added. Value
-     * enum: "inventory_deduction_failed", "inventory_handoff_failed", "auto_refund_required",
-     * "auto_refund_failed", "policy_resolution_failed", "other".
-     * previous_attributes.inventory_exception_reason.anyOf[2] (Value): null.
-     * previous_attributes.inventory_exception_resolution_message (Optional): string or null. The
-     * merchant note supplied when resolving the inventory exception. It is not shown to the buyer.
-     * previous_attributes.inventory_exception_resolution_message.anyOf[1] (Value): string. The
-     * merchant note supplied when resolving the inventory exception. It is not shown to the buyer.
-     * previous_attributes.inventory_exception_resolution_message.anyOf[2] (Value): null.
-     * previous_attributes.inventory_exception_status (Optional): string or null. Whether an
-     * inventory problem after payment needs attention. Value enum: "paid_inventory_failed",
-     * "resolved". previous_attributes.inventory_exception_status.anyOf[1] (Value): string. Whether
-     * an inventory problem after payment needs attention. Value enum: "paid_inventory_failed",
-     * "resolved". previous_attributes.inventory_exception_status.anyOf[2] (Value): null.
-     * previous_attributes.inventory_reservation_id (Optional): string or null. The reservation
-     * holding stock for this order, when one exists.
-     * previous_attributes.inventory_reservation_id.anyOf[1] (Value): string. The reservation
-     * holding stock for this order, when one exists. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-     * previous_attributes.inventory_reservation_id.anyOf[2] (Value): null.
-     * previous_attributes.inventory_routing_source (Optional): {@link InventoryRoutingSource} or
-     * null. Where this order's tracked demand is routed. Required before an order containing
-     * tracked variants can hold stock. previous_attributes.inventory_routing_source.anyOf[1]
-     * (Value): {@link InventoryRoutingSource}. Where this order's tracked demand is routed.
-     * Required before an order containing tracked variants can hold stock.
-     * previous_attributes.inventory_routing_source.anyOf[2] (Value): null.
-     * previous_attributes.invoice_id (Optional): string or null or null. The invoice associated
-     * with this order. Null when the order has no invoice. A replacement invoice replaces this ID;
-     * voiding an invoice preserves it. previous_attributes.invoice_id.anyOf[1] (Value): string or
-     * null. The invoice associated with this order. Null when the order has no invoice. A
-     * replacement invoice replaces this ID; voiding an invoice preserves it. Example:
-     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
-     * previous_attributes.line_items (Optional): Array of {@link OrderLineItem} or null. Items the
-     * order sells, each with its pricing, tax, and fulfillment quantities.
-     * previous_attributes.line_items.anyOf[1] (Value): Array of {@link OrderLineItem}. Items the
-     * order sells, each with its pricing, tax, and fulfillment quantities.
-     * previous_attributes.line_items.anyOf[1][] (Value): {@link OrderLineItem}. An item purchased
-     * in an order. previous_attributes.line_items.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
-     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
-     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
-     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
-     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
-     * (Value): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for
-     * key, value, and size rules. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.order_id (Optional): string or null. Unique identifier for this order,
-     * prefixed `ord_`. previous_attributes.order_id.anyOf[1] (Value): string. Unique identifier
-     * for this order, prefixed `ord_`. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     * previous_attributes.order_id.anyOf[2] (Value): null. previous_attributes.order_number
-     * (Optional): string or null. Human-readable order number for receipts and merchant reference.
-     * previous_attributes.order_number.anyOf[1] (Value): string. Human-readable order number for
-     * receipts and merchant reference. previous_attributes.order_number.anyOf[2] (Value): null.
-     * previous_attributes.origin (Optional): string or null. How the order was created. invoice
-     * means a Quick Pay invoice created the order; attaching an invoice to an existing order
-     * preserves its origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
-     * "subscription", "invoice". previous_attributes.origin.anyOf[1] (Value): string. How the
-     * order was created. invoice means a Quick Pay invoice created the order; attaching an invoice
-     * to an existing order preserves its origin. Value enum: "virtual_terminal", "payment_link",
-     * "checkout", "api", "subscription", "invoice". previous_attributes.origin.anyOf[2] (Value):
-     * null. previous_attributes.paid_at (Optional): string or null or null. When `payment_status`
-     * became `paid`, including a final capture that releases the remaining balance. Set once and
-     * never changed, including after refunds. `null` when `payment_status` isn't `paid`, including
-     * an order whose balance was written off without being paid.
-     * previous_attributes.paid_at.anyOf[1] (Value): string or null. When `payment_status` became
-     * `paid`, including a final capture that releases the remaining balance. Set once and never
-     * changed, including after refunds. `null` when `payment_status` isn't `paid`, including an
-     * order whose balance was written off without being paid. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.paid_at.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent_ids (Optional): Array of string or null. IDs of the
-     * payment intents created to collect this order.
-     * previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment
-     * intents created to collect this order. previous_attributes.payment_intent_ids.anyOf[1][]
-     * (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     * previous_attributes.payment_intent_ids.anyOf[2] (Value): null.
-     * previous_attributes.payment_intents (Optional): Array of {@link
-     * ExpandedPaymentIntentSummary} or null. Payment intents included when `expand` names
-     * `payment_intents`. previous_attributes.payment_intents.anyOf[1] (Value): Array of {@link
-     * ExpandedPaymentIntentSummary}. Payment intents included when `expand` names
-     * `payment_intents`. previous_attributes.payment_intents.anyOf[1][] (Value): {@link
-     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
-     * and capture method, returned when the payment intent is expanded.
-     * previous_attributes.payment_intents.anyOf[2] (Value): null.
-     * previous_attributes.payment_link_id (Optional): string or null. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
-     * /v1/orders by payment_link_id to list a link's orders.
-     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
-     * /v1/orders by payment_link_id to list a link's orders. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_status (Optional): string or null. Collection progress. An
-     * invoice write-off also completes collection without receiving the written-off amount. Value
-     * enum: "unpaid", "partially_paid", "paid". previous_attributes.payment_status.anyOf[1]
-     * (Value): string. Collection progress. An invoice write-off also completes collection without
-     * receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-     * previous_attributes.payment_status.anyOf[2] (Value): null.
-     * previous_attributes.pending_order_edit_id (Optional): string or null or null. The order edit
-     * waiting for its balance payment. While it is set, the units that edit removes can't join a
-     * fulfillment and the order refuses another edit. `null` when there is none. Omitted for buyer
-     * credentials. Always present with merchant credentials.
-     * previous_attributes.pending_order_edit_id.anyOf[1] (Value): string or null. The order edit
-     * waiting for its balance payment. While it is set, the units that edit removes can't join a
-     * fulfillment and the order refuses another edit. `null` when there is none. Omitted for buyer
-     * credentials. Always present with merchant credentials. Example:
-     * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". previous_attributes.pending_order_edit_id.anyOf[2]
-     * (Value): null. previous_attributes.prepayment_order_id (Optional): string or null or null.
-     * Order that paid for this prepaid delivery. Null when this is not a prepaid delivery order.
-     * previous_attributes.prepayment_order_id.anyOf[1] (Value): string or null. Order that paid
-     * for this prepaid delivery. Null when this is not a prepaid delivery order. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.prepayment_order_id.anyOf[2] (Value):
-     * null. previous_attributes.pricing_amounts (Optional): {@link PricingAmounts} or null. The
-     * order's money totals: subtotal, discounts, charges, tax, requested tip, and total.
-     * previous_attributes.pricing_amounts.anyOf[1] (Value): {@link PricingAmounts}. The order's
-     * money totals: subtotal, discounts, charges, tax, requested tip, and total.
-     * previous_attributes.pricing_amounts.anyOf[2] (Value): null. previous_attributes.refund_ids
-     * (Optional): Array of string or null. IDs of the refunds that name this order. This includes
-     * refunds Flint makes to return a payment it couldn't accept (`reason` `payment_returned`),
-     * which never count toward `refund_status` or the order's refunded amounts.
-     * previous_attributes.refund_ids.anyOf[1] (Value): Array of string. IDs of the refunds that
-     * name this order. This includes refunds Flint makes to return a payment it couldn't accept
-     * (`reason` `payment_returned`), which never count toward `refund_status` or the order's
-     * refunded amounts. previous_attributes.refund_ids.anyOf[1][] (Value): string. Example:
-     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_ids.anyOf[2] (Value): null.
-     * previous_attributes.refund_status (Optional): string or null. Refund progress for collected
-     * money. Refunds with `reason` `payment_returned` return money the order never received and
-     * don't count. Value enum: "none", "partially_refunded", "refunded".
-     * previous_attributes.refund_status.anyOf[1] (Value): string. Refund progress for collected
-     * money. Refunds with `reason` `payment_returned` return money the order never received and
-     * don't count. Value enum: "none", "partially_refunded", "refunded".
-     * previous_attributes.refund_status.anyOf[2] (Value): null.
-     * previous_attributes.return_credit_settlements (Optional): Array of {@link
-     * OrderReturnCreditSettlement} or null. Value applied to this order from items the buyer
-     * returned, such as an exchange's replacement order. Included in
-     * settlement_amounts.paid_money. previous_attributes.return_credit_settlements.anyOf[1]
-     * (Value): Array of {@link OrderReturnCreditSettlement}. Value applied to this order from
-     * items the buyer returned, such as an exchange's replacement order. Included in
-     * settlement_amounts.paid_money. previous_attributes.return_credit_settlements.anyOf[1][]
-     * (Value): {@link OrderReturnCreditSettlement}. A return credit applied to an order payment,
-     * with the amount and the return and resolution it came from.
-     * previous_attributes.return_credit_settlements.anyOf[2] (Value): null.
-     * previous_attributes.return_resolution_id (Optional): string or null. ID of the return
-     * resolution that created this order as a replacement. Omitted for orders a return did not
-     * create. previous_attributes.return_resolution_id.anyOf[1] (Value): string. ID of the return
-     * resolution that created this order as a replacement. Omitted for orders a return did not
-     * create. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     * previous_attributes.return_resolution_id.anyOf[2] (Value): null.
-     * previous_attributes.settlement_amounts (Optional): {@link OrderSettlementAmounts} or null.
-     * How much of the order has been paid, refunded, credited, written off, and settled as tips,
-     * and what is still outstanding. previous_attributes.settlement_amounts.anyOf[1] (Value):
-     * {@link OrderSettlementAmounts}. How much of the order has been paid, refunded, credited,
-     * written off, and settled as tips, and what is still outstanding. Money collected, returned,
-     * waived, and still owed on a bill. previous_attributes.settlement_amounts.anyOf[2] (Value):
-     * null. previous_attributes.status (Optional): string or null. Whether the order still accepts
-     * changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or note
-     * edits continue on a closed order. Value enum: "open", "closed".
-     * previous_attributes.status.anyOf[1] (Value): string. Whether the order still accepts changes
-     * and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits
-     * continue on a closed order. Value enum: "open", "closed".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription
-     * (Optional): {@link ExpandedSubscriptionSummary} or null or null. Subscription summary
-     * included when `expand` names `subscription`; `null` when expanded and this order does not
-     * bill a subscription. Present only when `expand` includes `subscription`; `null` when
-     * expanded and there is no related subscription. previous_attributes.subscription.anyOf[1]
-     * (Value): {@link ExpandedSubscriptionSummary} or null. Subscription summary included when
-     * `expand` names `subscription`; `null` when expanded and this order does not bill a
-     * subscription. Present only when `expand` includes `subscription`; `null` when expanded and
-     * there is no related subscription. previous_attributes.subscription.anyOf[1].anyOf[1]
-     * (Value): {@link ExpandedSubscriptionSummary}. A subscription's summary fields, including
-     * status, billing period, and next billing time, returned when the subscription is expanded.
-     * previous_attributes.subscription.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.subscription.anyOf[2] (Value): null.
-     * previous_attributes.subscription_cycle (Optional): integer or null. Charged subscription
-     * cycle associated with this order. Signup is cycle 1; unpaid retries and skipped renewals do
-     * not advance the cycle. previous_attributes.subscription_cycle.anyOf[1] (Value): integer.
-     * Charged subscription cycle associated with this order. Signup is cycle 1; unpaid retries and
-     * skipped renewals do not advance the cycle. Format: uint64. minimum: 0.
-     * previous_attributes.subscription_cycle.anyOf[2] (Value): null.
-     * previous_attributes.subscription_delivery_changed_at (Optional): string or null. Time the
-     * subscriber changed delivery after this paid renewal was prepared. The order keeps its
-     * committed destination until you correct it or refund and replace it.
-     * previous_attributes.subscription_delivery_changed_at.anyOf[1] (Value): string. Time the
-     * subscriber changed delivery after this paid renewal was prepared. The order keeps its
-     * committed destination until you correct it or refund and replace it. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.subscription_delivery_changed_at.anyOf[2] (Value): null.
-     * previous_attributes.subscription_delivery_number (Optional): integer or null or null.
-     * Position of this delivery among the deliveries one charge paid for, starting at 2. Null when
-     * this is not a prepaid delivery order.
-     * previous_attributes.subscription_delivery_number.anyOf[1] (Value): integer or null. Position
-     * of this delivery among the deliveries one charge paid for, starting at 2. Null when this is
-     * not a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
-     * previous_attributes.subscription_delivery_number.anyOf[2] (Value): null.
-     * previous_attributes.subscription_id (Optional): string or null. ID of the subscription this
-     * order bills. Absent on an order that isn't from a subscription.
-     * previous_attributes.subscription_id.anyOf[1] (Value): string. ID of the subscription this
-     * order bills. Absent on an order that isn't from a subscription. Example:
-     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". previous_attributes.subscription_id.anyOf[2] (Value):
-     * null. previous_attributes.subscription_plan (Optional): {@link
-     * ExpandedSubscriptionPlanSummary} or null or null. Plan summary included when `expand` names
-     * `subscription_plan`; `null` when expanded and this order does not bill a subscription plan.
-     * Present only when `expand` includes `subscription_plan`; `null` when expanded and there is
-     * no related subscription plan. previous_attributes.subscription_plan.anyOf[1] (Value): {@link
-     * ExpandedSubscriptionPlanSummary} or null. Plan summary included when `expand` names
-     * `subscription_plan`; `null` when expanded and this order does not bill a subscription plan.
-     * Present only when `expand` includes `subscription_plan`; `null` when expanded and there is
-     * no related subscription plan. previous_attributes.subscription_plan.anyOf[1].anyOf[1]
-     * (Value): {@link ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields,
-     * including name, billing interval, currency, and status, returned when the plan is expanded.
-     * previous_attributes.subscription_plan.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.subscription_plan.anyOf[2] (Value): null.
-     * previous_attributes.subscription_plan_id (Optional): string or null. ID of the subscription
-     * plan this order bills. Absent on an order that isn't from a subscription.
-     * previous_attributes.subscription_plan_id.anyOf[1] (Value): string. ID of the subscription
-     * plan this order bills. Absent on an order that isn't from a subscription. Example:
-     * "plan_01KEZF7C004CY5ZR33XST2AASV". previous_attributes.subscription_plan_id.anyOf[2]
-     * (Value): null. previous_attributes.supported_actions (Optional): Array of string or null.
-     * Lifecycle actions Flint accepts now, independent of permissions. Includes close when closure
-     * is allowed, and pay while open without an active attempt and with an outstanding balance or
-     * payment-method setup available. Always present with merchant credentials. [] enum: "close",
-     * "pay", "resolve_inventory_exception". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Lifecycle actions Flint accepts now, independent of permissions.
-     * Includes close when closure is allowed, and pay while open without an active attempt and
-     * with an outstanding balance or payment-method setup available. Always present with merchant
-     * credentials. [] enum: "close", "pay", "resolve_inventory_exception".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "close",
-     * "pay", "resolve_inventory_exception". previous_attributes.supported_actions.anyOf[2]
-     * (Value): null. previous_attributes.tax (Optional): {@link OrderTax} or null. The order's tax
-     * state: whether tax is enabled, its status, location, exemption, and per-jurisdiction rows.
-     * previous_attributes.tax.anyOf[1] (Value): {@link OrderTax}. The order's tax state: whether
-     * tax is enabled, its status, location, exemption, and per-jurisdiction rows.
-     * previous_attributes.tax.anyOf[2] (Value): null. previous_attributes.ticketed_event
-     * (Optional): {@link TicketedEvent} or null. Event and tickets this order sold through an
-     * event payment link. Absent on other orders. previous_attributes.ticketed_event.anyOf[1]
-     * (Value): {@link TicketedEvent}. Event and tickets this order sold through an event payment
-     * link. Absent on other orders. previous_attributes.ticketed_event.anyOf[2] (Value): null.
-     * previous_attributes.tips (Optional): Array of {@link Tip} or null. Tips on the order, each
-     * with its requested, settled, and refunded amounts. A tip cleared before payment stays listed
-     * as canceled. previous_attributes.tips.anyOf[1] (Value): Array of {@link Tip}. Tips on the
-     * order, each with its requested, settled, and refunded amounts. A tip cleared before payment
-     * stays listed as canceled. previous_attributes.tips.anyOf[1][] (Value): {@link Tip}. A tip on
-     * an order, with its requested, settled, and refunded amounts, status, and how it was paid.
-     * previous_attributes.tips.anyOf[2] (Value): null. previous_attributes.updated_at (Optional):
-     * string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Order version for optimistic concurrency. Send this value as
-     * the expected version when changing the order. Increases with every change to the order.
-     * Ignore an order webhook snapshot whose version is lower than one you have already applied.
-     * previous_attributes.version.anyOf[1] (Value): integer. Order version for optimistic
-     * concurrency. Send this value as the expected version when changing the order. Increases with
-     * every change to the order. Ignore an order webhook snapshot whose version is lower than one
-     * you have already applied. Format: int64. previous_attributes.version.anyOf[2] (Value): null.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.allow_quantities (Required): boolean. Whether buyers can select
+     * more than one unit of a list modifier. object.created_at (Optional): string. When the
+     * modifier group was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
+     * identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842". object.max_quantity (Optional): integer. Maximum whole-number quantity for
+     * each selected list modifier when allow_quantities is true; fractional quantities are not
+     * supported. Format: int64. object.max_selected (Optional): integer. Maximum number of
+     * distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier set
+     * can override this value. Format: int32. object.max_total_quantity (Optional): integer.
+     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
+     * are not supported. Format: int64. object.merchant_id (Optional): string. Identifier of the
+     * merchant that owns this modifier group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be
+     * empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and
+     * cannot be written through the public API. Caller-owned key-value data stored on a resource.
+     * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+     * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+     * satisfy them. object.min_quantity (Optional): integer. Minimum whole-number quantity for
+     * each selected list modifier when allow_quantities is true; fractional quantities are not
+     * supported. Format: int64. object.min_selected (Optional): integer. Minimum number of
+     * distinct modifiers buyers must select from a list group. Omit it to require no selections. A
+     * modifier set can override this value. Format: int32. object.modifier_group_id (Required):
+     * string. Stable identifier of the modifier group. For a group a modifier set owns (`source:
+     * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups`
+     * doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". object.modifier_group_type
+     * (Required): string. Whether buyers choose from a list of modifiers or enter text. On create,
+     * inferred as text when text configuration is supplied, otherwise list. Value enum: "list",
+     * "text". object.modifiers (Required): Array of {@link Modifier}. Choices in a list group.
+     * Only active modifiers whose set override's available is not false are offered to buyers.
+     * Text groups do not have choices. object.modifiers[] (Value): {@link Modifier}. A purchasable
+     * customization choice. object.name (Required): string. Name of the modifier group shown to
+     * buyers. object.show_on_fulfillment (Required): boolean. Whether selections from this group
+     * appear in fulfillment details unless overridden for a modifier set. object.show_on_receipt
+     * (Required): boolean. Whether selections from this group appear on buyer receipts unless
+     * overridden for a modifier set. object.status (Required): string. Lifecycle status of the
+     * modifier group. Only active groups can be offered to buyers; archived groups remain readable
+     * and cannot be edited. Value enum: "active", "inactive", "archived". object.text (Optional):
+     * {@link TextModifierConfig}. Text entry rules for a text group. Use text.required to require
+     * a value; list groups use min_selected instead. Settings for a text modifier group: whether
+     * input is required or multiline, and its length limits. object.updated_at (Optional): string.
+     * When the modifier group or its modifiers last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
+     * the modifier group and its modifiers. Format: uint64. minimum: 1.
      */
     "data"?: {
         /**
-         * The resource snapshot, without expansions. Webhooks omit these fields:
-         * `active_payment_attempt`, `payment_collection`, `setup_collection`.
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * allow_quantities (Required): boolean. Whether buyers can select more than one unit of a
+         * list modifier. created_at (Optional): string. When the modifier group was created, as an
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
+         * an external system. maxLength: 255. Example: "warehouse-1842". max_quantity (Optional):
+         * integer. Maximum whole-number quantity for each selected list modifier when
+         * allow_quantities is true; fractional quantities are not supported. Format: int64.
+         * max_selected (Optional): integer. Maximum number of distinct modifiers buyers can select
+         * from a list group. Omit it for no limit. A modifier set can override this value. Format:
+         * int32. max_total_quantity (Optional): integer. Maximum combined whole-number quantity
+         * across selected list modifiers; fractional quantities are not supported. Format: int64.
+         * merchant_id (Optional): string. Identifier of the merchant that owns this modifier
+         * group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
+         * MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with
+         * flint_ are reserved for Flint, are not returned, and cannot be written through the
+         * public API. Caller-owned key-value data stored on a resource. Keys starting with flint_
+         * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput
+         * and MetadataPatchInput; maps written before those limits may not satisfy them.
+         * min_quantity (Optional): integer. Minimum whole-number quantity for each selected list
+         * modifier when allow_quantities is true; fractional quantities are not supported. Format:
+         * int64. min_selected (Optional): integer. Minimum number of distinct modifiers buyers
+         * must select from a list group. Omit it to require no selections. A modifier set can
+         * override this value. Format: int32. modifier_group_id (Required): string. Stable
+         * identifier of the modifier group. For a group a modifier set owns (`source: inline`),
+         * read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
+         * return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". modifier_group_type (Required):
+         * string. Whether buyers choose from a list of modifiers or enter text. On create,
+         * inferred as text when text configuration is supplied, otherwise list. Value enum:
+         * "list", "text". modifiers (Required): Array of {@link Modifier}. Choices in a list
+         * group. Only active modifiers whose set override's available is not false are offered to
+         * buyers. Text groups do not have choices. modifiers[] (Value): {@link Modifier}. A
+         * purchasable customization choice. name (Required): string. Name of the modifier group
+         * shown to buyers. show_on_fulfillment (Required): boolean. Whether selections from this
+         * group appear in fulfillment details unless overridden for a modifier set.
+         * show_on_receipt (Required): boolean. Whether selections from this group appear on buyer
+         * receipts unless overridden for a modifier set. status (Required): string. Lifecycle
+         * status of the modifier group. Only active groups can be offered to buyers; archived
+         * groups remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". text (Optional): {@link TextModifierConfig}. Text entry rules for a text
+         * group. Use text.required to require a value; list groups use min_selected instead.
+         * Settings for a text modifier group: whether input is required or multiline, and its
+         * length limits. updated_at (Optional): string. When the modifier group or its modifiers
+         * last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier group and
+         * its modifiers. Format: uint64. minimum: 1.
          */
-        "object": WebhookOrder;
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. active_payment_review_id (Optional): string or
-         * null or null. The earliest open or resolving payment review on this order's counted
-         * payments. `null` when no review is open or resolving. List reviews with GET
-         * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present
-         * with merchant credentials. active_payment_review_id.anyOf[1] (Value): string or null.
-         * The earliest open or resolving payment review on this order's counted payments. `null`
-         * when no review is open or resolving. List reviews with GET
-         * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present
-         * with merchant credentials. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-         * active_payment_review_id.anyOf[2] (Value): null. authorization_amounts (Optional):
-         * {@link OrderAuthorizationAmounts} or null. The amounts authorized and still capturable
-         * on the order's payments. authorization_amounts.anyOf[1] (Value): {@link
-         * OrderAuthorizationAmounts}. The amounts authorized and still capturable on the order's
-         * payments. authorization_amounts.anyOf[2] (Value): null. buyer_contact (Optional): {@link
-         * CheckoutBuyerContact} or null. Email and phone saved when payment started, from the pay
-         * request's buyer_contact or the paying checkout session's saved contact. It does not
-         * change the linked customer. buyer_contact.anyOf[1] (Value): {@link
-         * CheckoutBuyerContact}. Email and phone saved when payment started, from the pay
-         * request's buyer_contact or the paying checkout session's saved contact. It does not
-         * change the linked customer. buyer_contact.anyOf[2] (Value): null. buyer_note (Optional):
-         * string or null. A note to the buyer. buyer_note.anyOf[1] (Value): string. A note to the
-         * buyer. buyer_note.anyOf[2] (Value): null. charges (Optional): Array of {@link
-         * OrderCharge} or null. Charges added to the order, such as delivery or service fees, each
-         * with its applied amount, tax, and refunded amount. charges.anyOf[1] (Value): Array of
-         * {@link OrderCharge}. Charges added to the order, such as delivery or service fees, each
-         * with its applied amount, tax, and refunded amount. charges.anyOf[1][] (Value): {@link
-         * OrderCharge}. An additional charge applied to an order. charges.anyOf[2] (Value): null.
-         * checkout_session_ids (Optional): Array of string or null. IDs of the checkout sessions
-         * opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string. IDs of
-         * the checkout sessions opened for this order. checkout_session_ids.anyOf[1][] (Value):
-         * string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2] (Value):
-         * null. client_reference (Optional): string or null or null. The reference the payment
-         * link URL or resolve request carried, such as your user ID. `null` when none was sent or
-         * checkout did not start from a payment link. Returned only to merchant credentials;
-         * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not
-         * proof of identity. Always present with merchant credentials. client_reference.anyOf[1]
-         * (Value): string or null. The reference the payment link URL or resolve request carried,
-         * such as your user ID. `null` when none was sent or checkout did not start from a payment
-         * link. Returned only to merchant credentials; omitted for buyer credentials. Set by the
-         * buyer's browser, so treat it as a claim, not proof of identity. Always present with
-         * merchant credentials. minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value):
-         * null. closed_at (Optional): string or null. When the order closed. Present exactly when
-         * status is closed. Set once at the transition and never changed. closed_at.anyOf[1]
-         * (Value): string. When the order closed. Present exactly when status is closed. Set once
-         * at the transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * closed_at.anyOf[2] (Value): null. closed_reason (Optional): string or null. Why the
-         * order closed. Present exactly when status is closed. Set once at closure. Unrecognized
-         * reasons are returned as other; new values may be added. Value enum: "invoice_voided",
-         * "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded",
-         * "return_resolution_canceled", "other". closed_reason.anyOf[1] (Value): string. Why the
-         * order closed. Present exactly when status is closed. Set once at closure. Unrecognized
-         * reasons are returned as other; new values may be added. Value enum: "invoice_voided",
-         * "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded",
-         * "return_resolution_canceled", "other". closed_reason.anyOf[2] (Value): null.
-         * closed_reason_message (Optional): string or null. The caller note supplied when closing
-         * the order. System closures leave it absent. It is not shown to the buyer.
-         * closed_reason_message.anyOf[1] (Value): string. The caller note supplied when closing
-         * the order. System closures leave it absent. It is not shown to the buyer.
-         * closed_reason_message.anyOf[2] (Value): null. created_at (Optional): string or null.
-         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
-         * custom_field_answers (Optional): Array of {@link CustomFieldAnswer} or null. The buyer's
-         * answers to the payment link's custom fields, recorded when checkout started, in the
-         * order the link showed the fields. Each answer keeps the field's key, label, and type
-         * from that moment, so later changes to the link don't change it. Optional fields the
-         * buyer left blank are left out. Read-only. Empty when the order didn't come from a
-         * payment link, the link had no custom fields, or the buyer answered none. Orders created
-         * before Flint recorded answers here also return an empty list and keep their answers in
-         * `metadata` as `custom_field_<key>`. Deleting the customer removes the answers. Returned
-         * only to merchant credentials; omitted for buyer credentials. Always present with
-         * merchant credentials. custom_field_answers.anyOf[1] (Value): Array of {@link
-         * CustomFieldAnswer}. The buyer's answers to the payment link's custom fields, recorded
-         * when checkout started, in the order the link showed the fields. Each answer keeps the
-         * field's key, label, and type from that moment, so later changes to the link don't change
-         * it. Optional fields the buyer left blank are left out. Read-only. Empty when the order
-         * didn't come from a payment link, the link had no custom fields, or the buyer answered
-         * none. Orders created before Flint recorded answers here also return an empty list and
-         * keep their answers in `metadata` as `custom_field_<key>`. Deleting the customer removes
-         * the answers. Returned only to merchant credentials; omitted for buyer credentials.
-         * Always present with merchant credentials. maxItems: 20. custom_field_answers.anyOf[1][]
-         * (Value): {@link CustomFieldAnswer}. One answer to a payment link custom field, with the
-         * field as it was when checkout started. `custom_field_type` determines the type of
-         * `value`. custom_field_answers.anyOf[2] (Value): null. customer (Optional): {@link
-         * ExpandedCustomerSummary} or null or null. Customer summary included when `expand` names
-         * `customer`; `null` when expanded and no customer is linked. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Customer summary
-         * included when `expand` names `customer`; `null` when expanded and no customer is linked.
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
-         * customer's summary fields, returned in place of a customer ID when the customer is
-         * expanded. customer.anyOf[1].anyOf[2] (Value): null. customer.anyOf[2] (Value): null.
-         * customer_id (Optional): string or null. ID of the customer this order belongs to.
-         * customer_id.anyOf[1] (Value): string. ID of the customer this order belongs to. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
-         * deferred_promotions (Optional): Array of {@link DeferredPromotion} or null. Promotions
-         * accepted at subscription signup. They attach when the subscription is provisioned and
-         * first discount its first charged cycle. They do not discount this order and are separate
-         * from discounts and order totals. Always present; empty when no promotions are deferred.
-         * deferred_promotions.anyOf[1] (Value): Array of {@link DeferredPromotion}. Promotions
-         * accepted at subscription signup. They attach when the subscription is provisioned and
-         * first discount its first charged cycle. They do not discount this order and are separate
-         * from discounts and order totals. Always present; empty when no promotions are deferred.
-         * deferred_promotions.anyOf[1][] (Value): {@link DeferredPromotion}. A promotion accepted
-         * at subscription signup for the subscription's first charged cycle. It does not discount
-         * the signup order. deferred_promotions.anyOf[2] (Value): null. delivery (Optional):
-         * {@link OrderDeliverySummary} or null. Method, type and recipient of
-         * governing_delivery_selection_id. The address remains in delivery_destination. Omitted
-         * when no shipment or local-delivery selection governs the order. delivery.anyOf[1]
-         * (Value): {@link OrderDeliverySummary}. Method, type and recipient of
-         * governing_delivery_selection_id. The address remains in delivery_destination. Omitted
-         * when no shipment or local-delivery selection governs the order. delivery.anyOf[2]
-         * (Value): null. delivery_destination (Optional): {@link OrderDeliveryDestination} or
-         * null. The shipment or local-delivery destination committed for this order. Payment
-         * freezes this value; fulfillment recipient changes do not replace it. Omitted for a
-         * checkout session credential that doesn't act for the customer the buyer verified.
-         * delivery_destination.anyOf[1] (Value): {@link OrderDeliveryDestination}. The shipment or
-         * local-delivery destination committed for this order. Payment freezes this value;
-         * fulfillment recipient changes do not replace it. Omitted for a checkout session
-         * credential that doesn't act for the customer the buyer verified.
-         * delivery_destination.anyOf[2] (Value): null. discounts (Optional): Array of {@link
-         * OrderDiscount} or null. Discounts applied to the order, each with its amount, status,
-         * and the line items and charges it covers. discounts.anyOf[1] (Value): Array of {@link
-         * OrderDiscount}. Discounts applied to the order, each with its amount, status, and the
-         * line items and charges it covers. discounts.anyOf[1][] (Value): {@link OrderDiscount}. A
-         * discount applied to an order, with its amount, status, and the line items and charges it
-         * covers. It comes from a manual discount or a promotion. discounts.anyOf[2] (Value):
-         * null. dispute_status (Optional): string or null. Aggregate dispute state across the
-         * order's counted payment intents, excluding payment_returned. Always returned to merchant
-         * credentials and omitted from buyer reads. Open states take precedence in this order:
-         * needs_response, under_review, inquiry_needs_response, inquiry_under_review, other.
-         * Otherwise the most severe closed state wins: lost, won, prevented, inquiry_closed; none
-         * when no disputes count. List individual cases with GET /v1/disputes?order_id={order_id}.
-         * Always present with merchant credentials. Value enum: "none", "inquiry_needs_response",
-         * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won",
-         * "lost", "prevented", "other". dispute_status.anyOf[1] (Value): string. Aggregate dispute
-         * state across the order's counted payment intents, excluding payment_returned. Always
-         * returned to merchant credentials and omitted from buyer reads. Open states take
-         * precedence in this order: needs_response, under_review, inquiry_needs_response,
-         * inquiry_under_review, other. Otherwise the most severe closed state wins: lost, won,
-         * prevented, inquiry_closed; none when no disputes count. List individual cases with GET
-         * /v1/disputes?order_id={order_id}. Always present with merchant credentials. Value enum:
-         * "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
-         * "needs_response", "under_review", "won", "lost", "prevented", "other".
-         * dispute_status.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
-         * Caller-owned identifier for this resource in an external system.
-         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
-         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
-         * external_reference_id.anyOf[2] (Value): null. fulfillment_status (Optional): string or
-         * null. Aggregate progress across the order's fulfillment quantities. Value enum:
-         * "not_fulfilled", "partially_fulfilled", "fulfilled", "canceled", "not_applicable",
-         * "closed". fulfillment_status.anyOf[1] (Value): string. Aggregate progress across the
-         * order's fulfillment quantities. Value enum: "not_fulfilled", "partially_fulfilled",
-         * "fulfilled", "canceled", "not_applicable", "closed". fulfillment_status.anyOf[2]
-         * (Value): null. fulfillments (Optional): Array of {@link Fulfillment} or null.
-         * Fulfillments created for the order, each covering a set of its line items.
-         * fulfillments.anyOf[1] (Value): Array of {@link Fulfillment}. Fulfillments created for
-         * the order, each covering a set of its line items. fulfillments.anyOf[1][] (Value):
-         * {@link Fulfillment}. Work required to deliver an order's items. fulfillments.anyOf[2]
-         * (Value): null. gift_card_estimate (Optional): {@link OrderGiftCardEstimate} or null. An
-         * estimate of how the order balance splits between gift cards and the payment processor.
-         * gift_card_estimate.anyOf[1] (Value): {@link OrderGiftCardEstimate}. An estimate of how
-         * the order balance splits between gift cards and the payment processor.
-         * gift_card_estimate.anyOf[2] (Value): null. gift_card_settlements (Optional): Array of
-         * {@link OrderGiftCardSettlement} or null. The gift card redemptions applied to the
-         * order's payments. gift_card_settlements.anyOf[1] (Value): Array of {@link
-         * OrderGiftCardSettlement}. The gift card redemptions applied to the order's payments.
-         * gift_card_settlements.anyOf[1][] (Value): {@link OrderGiftCardSettlement}. A gift card
-         * redemption applied to an order payment, with the amount, tip, and gift card.
-         * gift_card_settlements.anyOf[2] (Value): null. gift_card_tender_enabled (Optional):
-         * boolean or null. Whether gift cards can pay for this order now. Gift cards pay only USD
-         * orders that still accept changes, are not subscription purchases, and whose merchant has
-         * at least one gift card that is not closed in this environment. Recomputed on each read;
-         * a spent but open card still counts. gift_card_tender_enabled.anyOf[1] (Value): boolean.
-         * Whether gift cards can pay for this order now. Gift cards pay only USD orders that still
-         * accept changes, are not subscription purchases, and whose merchant has at least one gift
-         * card that is not closed in this environment. Recomputed on each read; a spent but open
-         * card still counts. gift_card_tender_enabled.anyOf[2] (Value): null. gift_cards
-         * (Optional): Array of {@link OrderGiftCardSelection} or null. Gift cards available to pay
-         * the order, with each card's available balance. gift_cards.anyOf[1] (Value): Array of
-         * {@link OrderGiftCardSelection}. Gift cards available to pay the order, with each card's
-         * available balance. gift_cards.anyOf[1][] (Value): {@link OrderGiftCardSelection}. A gift
-         * card available to pay an order, with its available balance and the last four characters
-         * of its code. gift_cards.anyOf[2] (Value): null. governing_delivery_selection_id
-         * (Optional): string or null or null. ID of the delivery selection that governs this
-         * order, including pickup choices without a delivery destination: the checkout's
-         * provisional selection before payment, and the selection a payment committed after. Read
-         * it with GET /v1/delivery-selections/{delivery_selection_id}. Null when no selection
-         * governs the order. While set, change the destination through the delivery selection.
-         * governing_delivery_selection_id.anyOf[1] (Value): string or null. ID of the delivery
-         * selection that governs this order, including pickup choices without a delivery
-         * destination: the checkout's provisional selection before payment, and the selection a
-         * payment committed after. Read it with GET
-         * /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs the
-         * order. While set, change the destination through the delivery selection. Example:
-         * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". governing_delivery_selection_id.anyOf[2] (Value):
-         * null. handover (Optional): {@link OrderHandover} or null. Carry-out handover: every
-         * physical item is handed to the buyer at this location when the order is paid, in place
-         * of a delivery selection. Payment then creates one completed `handover` fulfillment.
-         * Absent without a handover. handover.anyOf[1] (Value): {@link OrderHandover}. Carry-out
-         * handover: every physical item is handed to the buyer at this location when the order is
-         * paid, in place of a delivery selection. Payment then creates one completed `handover`
-         * fulfillment. Absent without a handover. handover.anyOf[2] (Value): null. internal_note
-         * (Optional): string or null. A note for your team. Buyer reads leave it out.
-         * internal_note.anyOf[1] (Value): string. A note for your team. Buyer reads leave it out.
-         * internal_note.anyOf[2] (Value): null. inventory_exception_reason (Optional): string or
-         * null. Why inventory could not be committed after payment. The cause remains after
-         * resolution. Omitted when no reason was recorded. Unrecognized reasons are returned as
-         * other; new values may be added. Value enum: "inventory_deduction_failed",
-         * "inventory_handoff_failed", "auto_refund_required", "auto_refund_failed",
-         * "policy_resolution_failed", "other". inventory_exception_reason.anyOf[1] (Value):
-         * string. Why inventory could not be committed after payment. The cause remains after
-         * resolution. Omitted when no reason was recorded. Unrecognized reasons are returned as
-         * other; new values may be added. Value enum: "inventory_deduction_failed",
-         * "inventory_handoff_failed", "auto_refund_required", "auto_refund_failed",
-         * "policy_resolution_failed", "other". inventory_exception_reason.anyOf[2] (Value): null.
-         * inventory_exception_resolution_message (Optional): string or null. The merchant note
-         * supplied when resolving the inventory exception. It is not shown to the buyer.
-         * inventory_exception_resolution_message.anyOf[1] (Value): string. The merchant note
-         * supplied when resolving the inventory exception. It is not shown to the buyer.
-         * inventory_exception_resolution_message.anyOf[2] (Value): null.
-         * inventory_exception_status (Optional): string or null. Whether an inventory problem
-         * after payment needs attention. Value enum: "paid_inventory_failed", "resolved".
-         * inventory_exception_status.anyOf[1] (Value): string. Whether an inventory problem after
-         * payment needs attention. Value enum: "paid_inventory_failed", "resolved".
-         * inventory_exception_status.anyOf[2] (Value): null. inventory_reservation_id (Optional):
-         * string or null. The reservation holding stock for this order, when one exists.
-         * inventory_reservation_id.anyOf[1] (Value): string. The reservation holding stock for
-         * this order, when one exists. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-         * inventory_reservation_id.anyOf[2] (Value): null. inventory_routing_source (Optional):
-         * {@link InventoryRoutingSource} or null. Where this order's tracked demand is routed.
-         * Required before an order containing tracked variants can hold stock.
-         * inventory_routing_source.anyOf[1] (Value): {@link InventoryRoutingSource}. Where this
-         * order's tracked demand is routed. Required before an order containing tracked variants
-         * can hold stock. inventory_routing_source.anyOf[2] (Value): null. invoice_id (Optional):
-         * string or null or null. The invoice associated with this order. Null when the order has
-         * no invoice. A replacement invoice replaces this ID; voiding an invoice preserves it.
-         * invoice_id.anyOf[1] (Value): string or null. The invoice associated with this order.
-         * Null when the order has no invoice. A replacement invoice replaces this ID; voiding an
-         * invoice preserves it. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
-         * (Value): null. line_items (Optional): Array of {@link OrderLineItem} or null. Items the
-         * order sells, each with its pricing, tax, and fulfillment quantities. line_items.anyOf[1]
-         * (Value): Array of {@link OrderLineItem}. Items the order sells, each with its pricing,
-         * tax, and fulfillment quantities. line_items.anyOf[1][] (Value): {@link OrderLineItem}.
-         * An item purchased in an order. line_items.anyOf[2] (Value): null. merchant_id
-         * (Optional): string or null. ID of the merchant this resource belongs to.
-         * merchant_id.anyOf[1] (Value): string. ID of the merchant this resource belongs to.
-         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
-         * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
-         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
-         * and size rules. metadata.anyOf[2] (Value): null. order_id (Optional): string or null.
-         * Unique identifier for this order, prefixed `ord_`. order_id.anyOf[1] (Value): string.
-         * Unique identifier for this order, prefixed `ord_`. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. order_number
-         * (Optional): string or null. Human-readable order number for receipts and merchant
-         * reference. order_number.anyOf[1] (Value): string. Human-readable order number for
-         * receipts and merchant reference. order_number.anyOf[2] (Value): null. origin (Optional):
-         * string or null. How the order was created. invoice means a Quick Pay invoice created the
-         * order; attaching an invoice to an existing order preserves its origin. Value enum:
-         * "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
-         * origin.anyOf[1] (Value): string. How the order was created. invoice means a Quick Pay
-         * invoice created the order; attaching an invoice to an existing order preserves its
-         * origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
-         * "subscription", "invoice". origin.anyOf[2] (Value): null. paid_at (Optional): string or
-         * null or null. When `payment_status` became `paid`, including a final capture that
-         * releases the remaining balance. Set once and never changed, including after refunds.
-         * `null` when `payment_status` isn't `paid`, including an order whose balance was written
-         * off without being paid. paid_at.anyOf[1] (Value): string or null. When `payment_status`
-         * became `paid`, including a final capture that releases the remaining balance. Set once
-         * and never changed, including after refunds. `null` when `payment_status` isn't `paid`,
-         * including an order whose balance was written off without being paid. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". paid_at.anyOf[2] (Value): null. payment_intent_ids
-         * (Optional): Array of string or null. IDs of the payment intents created to collect this
-         * order. payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment intents
-         * created to collect this order. payment_intent_ids.anyOf[1][] (Value): string. Example:
-         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_ids.anyOf[2] (Value): null.
-         * payment_intents (Optional): Array of {@link ExpandedPaymentIntentSummary} or null.
-         * Payment intents included when `expand` names `payment_intents`. payment_intents.anyOf[1]
-         * (Value): Array of {@link ExpandedPaymentIntentSummary}. Payment intents included when
-         * `expand` names `payment_intents`. payment_intents.anyOf[1][] (Value): {@link
-         * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
-         * status, and capture method, returned when the payment intent is expanded.
-         * payment_intents.anyOf[2] (Value): null. payment_link_id (Optional): string or null.
-         * Payment link whose checkout created this order. Absent for orders that did not come from
-         * a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders.
-         * payment_link_id.anyOf[1] (Value): string. Payment link whose checkout created this
-         * order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by
-         * payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
-         * payment_link_id.anyOf[2] (Value): null. payment_status (Optional): string or null.
-         * Collection progress. An invoice write-off also completes collection without receiving
-         * the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-         * payment_status.anyOf[1] (Value): string. Collection progress. An invoice write-off also
-         * completes collection without receiving the written-off amount. Value enum: "unpaid",
-         * "partially_paid", "paid". payment_status.anyOf[2] (Value): null. pending_order_edit_id
-         * (Optional): string or null or null. The order edit waiting for its balance payment.
-         * While it is set, the units that edit removes can't join a fulfillment and the order
-         * refuses another edit. `null` when there is none. Omitted for buyer credentials. Always
-         * present with merchant credentials. pending_order_edit_id.anyOf[1] (Value): string or
-         * null. The order edit waiting for its balance payment. While it is set, the units that
-         * edit removes can't join a fulfillment and the order refuses another edit. `null` when
-         * there is none. Omitted for buyer credentials. Always present with merchant credentials.
-         * Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". pending_order_edit_id.anyOf[2] (Value): null.
-         * prepayment_order_id (Optional): string or null or null. Order that paid for this prepaid
-         * delivery. Null when this is not a prepaid delivery order. prepayment_order_id.anyOf[1]
-         * (Value): string or null. Order that paid for this prepaid delivery. Null when this is
-         * not a prepaid delivery order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-         * prepayment_order_id.anyOf[2] (Value): null. pricing_amounts (Optional): {@link
-         * PricingAmounts} or null. The order's money totals: subtotal, discounts, charges, tax,
-         * requested tip, and total. pricing_amounts.anyOf[1] (Value): {@link PricingAmounts}. The
-         * order's money totals: subtotal, discounts, charges, tax, requested tip, and total.
-         * pricing_amounts.anyOf[2] (Value): null. refund_ids (Optional): Array of string or null.
-         * IDs of the refunds that name this order. This includes refunds Flint makes to return a
-         * payment it couldn't accept (`reason` `payment_returned`), which never count toward
-         * `refund_status` or the order's refunded amounts. refund_ids.anyOf[1] (Value): Array of
-         * string. IDs of the refunds that name this order. This includes refunds Flint makes to
-         * return a payment it couldn't accept (`reason` `payment_returned`), which never count
-         * toward `refund_status` or the order's refunded amounts. refund_ids.anyOf[1][] (Value):
-         * string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null.
-         * refund_status (Optional): string or null. Refund progress for collected money. Refunds
-         * with `reason` `payment_returned` return money the order never received and don't count.
-         * Value enum: "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value):
-         * string. Refund progress for collected money. Refunds with `reason` `payment_returned`
-         * return money the order never received and don't count. Value enum: "none",
-         * "partially_refunded", "refunded". refund_status.anyOf[2] (Value): null.
-         * return_credit_settlements (Optional): Array of {@link OrderReturnCreditSettlement} or
-         * null. Value applied to this order from items the buyer returned, such as an exchange's
-         * replacement order. Included in settlement_amounts.paid_money.
-         * return_credit_settlements.anyOf[1] (Value): Array of {@link
-         * OrderReturnCreditSettlement}. Value applied to this order from items the buyer returned,
-         * such as an exchange's replacement order. Included in settlement_amounts.paid_money.
-         * return_credit_settlements.anyOf[1][] (Value): {@link OrderReturnCreditSettlement}. A
-         * return credit applied to an order payment, with the amount and the return and resolution
-         * it came from. return_credit_settlements.anyOf[2] (Value): null. return_resolution_id
-         * (Optional): string or null. ID of the return resolution that created this order as a
-         * replacement. Omitted for orders a return did not create. return_resolution_id.anyOf[1]
-         * (Value): string. ID of the return resolution that created this order as a replacement.
-         * Omitted for orders a return did not create. Example:
-         * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_id.anyOf[2] (Value): null.
-         * settlement_amounts (Optional): {@link OrderSettlementAmounts} or null. How much of the
-         * order has been paid, refunded, credited, written off, and settled as tips, and what is
-         * still outstanding. settlement_amounts.anyOf[1] (Value): {@link OrderSettlementAmounts}.
-         * How much of the order has been paid, refunded, credited, written off, and settled as
-         * tips, and what is still outstanding. Money collected, returned, waived, and still owed
-         * on a bill. settlement_amounts.anyOf[2] (Value): null. status (Optional): string or null.
-         * Whether the order still accepts changes and new payments. Refunds, fulfillment,
-         * disputes, returns, and metadata or note edits continue on a closed order. Value enum:
-         * "open", "closed". status.anyOf[1] (Value): string. Whether the order still accepts
-         * changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or note
-         * edits continue on a closed order. Value enum: "open", "closed". status.anyOf[2] (Value):
-         * null. subscription (Optional): {@link ExpandedSubscriptionSummary} or null or null.
-         * Subscription summary included when `expand` names `subscription`; `null` when expanded
-         * and this order does not bill a subscription. Present only when `expand` includes
-         * `subscription`; `null` when expanded and there is no related subscription.
-         * subscription.anyOf[1] (Value): {@link ExpandedSubscriptionSummary} or null. Subscription
-         * summary included when `expand` names `subscription`; `null` when expanded and this order
-         * does not bill a subscription. Present only when `expand` includes `subscription`; `null`
-         * when expanded and there is no related subscription. subscription.anyOf[1].anyOf[1]
-         * (Value): {@link ExpandedSubscriptionSummary}. A subscription's summary fields, including
-         * status, billing period, and next billing time, returned when the subscription is
-         * expanded. subscription.anyOf[1].anyOf[2] (Value): null. subscription.anyOf[2] (Value):
-         * null. subscription_cycle (Optional): integer or null. Charged subscription cycle
-         * associated with this order. Signup is cycle 1; unpaid retries and skipped renewals do
-         * not advance the cycle. subscription_cycle.anyOf[1] (Value): integer. Charged
-         * subscription cycle associated with this order. Signup is cycle 1; unpaid retries and
-         * skipped renewals do not advance the cycle. Format: uint64. minimum: 0.
-         * subscription_cycle.anyOf[2] (Value): null. subscription_delivery_changed_at (Optional):
-         * string or null. Time the subscriber changed delivery after this paid renewal was
-         * prepared. The order keeps its committed destination until you correct it or refund and
-         * replace it. subscription_delivery_changed_at.anyOf[1] (Value): string. Time the
-         * subscriber changed delivery after this paid renewal was prepared. The order keeps its
-         * committed destination until you correct it or refund and replace it. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". subscription_delivery_changed_at.anyOf[2] (Value):
-         * null. subscription_delivery_number (Optional): integer or null or null. Position of this
-         * delivery among the deliveries one charge paid for, starting at 2. Null when this is not
-         * a prepaid delivery order. subscription_delivery_number.anyOf[1] (Value): integer or
-         * null. Position of this delivery among the deliveries one charge paid for, starting at 2.
-         * Null when this is not a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
-         * subscription_delivery_number.anyOf[2] (Value): null. subscription_id (Optional): string
-         * or null. ID of the subscription this order bills. Absent on an order that isn't from a
-         * subscription. subscription_id.anyOf[1] (Value): string. ID of the subscription this
-         * order bills. Absent on an order that isn't from a subscription. Example:
-         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
-         * subscription_plan (Optional): {@link ExpandedSubscriptionPlanSummary} or null or null.
-         * Plan summary included when `expand` names `subscription_plan`; `null` when expanded and
-         * this order does not bill a subscription plan. Present only when `expand` includes
-         * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-         * subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary} or null.
-         * Plan summary included when `expand` names `subscription_plan`; `null` when expanded and
-         * this order does not bill a subscription plan. Present only when `expand` includes
-         * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-         * subscription_plan.anyOf[1].anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-         * subscription plan's summary fields, including name, billing interval, currency, and
-         * status, returned when the plan is expanded. subscription_plan.anyOf[1].anyOf[2] (Value):
-         * null. subscription_plan.anyOf[2] (Value): null. subscription_plan_id (Optional): string
-         * or null. ID of the subscription plan this order bills. Absent on an order that isn't
-         * from a subscription. subscription_plan_id.anyOf[1] (Value): string. ID of the
-         * subscription plan this order bills. Absent on an order that isn't from a subscription.
-         * Example: "plan_01KEZF7C004CY5ZR33XST2AASV". subscription_plan_id.anyOf[2] (Value): null.
-         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
-         * now, independent of permissions. Includes close when closure is allowed, and pay while
-         * open without an active attempt and with an outstanding balance or payment-method setup
-         * available. Always present with merchant credentials. [] enum: "close", "pay",
-         * "resolve_inventory_exception". supported_actions.anyOf[1] (Value): Array of string.
-         * Lifecycle actions Flint accepts now, independent of permissions. Includes close when
-         * closure is allowed, and pay while open without an active attempt and with an outstanding
-         * balance or payment-method setup available. Always present with merchant credentials. []
-         * enum: "close", "pay", "resolve_inventory_exception". supported_actions.anyOf[1][]
-         * (Value): string. Value enum: "close", "pay", "resolve_inventory_exception".
-         * supported_actions.anyOf[2] (Value): null. tax (Optional): {@link OrderTax} or null. The
-         * order's tax state: whether tax is enabled, its status, location, exemption, and
-         * per-jurisdiction rows. tax.anyOf[1] (Value): {@link OrderTax}. The order's tax state:
-         * whether tax is enabled, its status, location, exemption, and per-jurisdiction rows.
-         * tax.anyOf[2] (Value): null. ticketed_event (Optional): {@link TicketedEvent} or null.
-         * Event and tickets this order sold through an event payment link. Absent on other orders.
-         * ticketed_event.anyOf[1] (Value): {@link TicketedEvent}. Event and tickets this order
-         * sold through an event payment link. Absent on other orders. ticketed_event.anyOf[2]
-         * (Value): null. tips (Optional): Array of {@link Tip} or null. Tips on the order, each
-         * with its requested, settled, and refunded amounts. A tip cleared before payment stays
-         * listed as canceled. tips.anyOf[1] (Value): Array of {@link Tip}. Tips on the order, each
-         * with its requested, settled, and refunded amounts. A tip cleared before payment stays
-         * listed as canceled. tips.anyOf[1][] (Value): {@link Tip}. A tip on an order, with its
-         * requested, settled, and refunded amounts, status, and how it was paid. tips.anyOf[2]
-         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
-         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
-         * or null. Order version for optimistic concurrency. Send this value as the expected
-         * version when changing the order. Increases with every change to the order. Ignore an
-         * order webhook snapshot whose version is lower than one you have already applied.
-         * version.anyOf[1] (Value): integer. Order version for optimistic concurrency. Send this
-         * value as the expected version when changing the order. Increases with every change to
-         * the order. Ignore an order webhook snapshot whose version is lower than one you have
-         * already applied. Format: int64. version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
+        "object": {
+            /** Whether buyers can select more than one unit of a list modifier. */
+            "allow_quantities": boolean;
             /**
-             * The earliest open or resolving payment review on this order's counted payments.
-             * `null` when no review is open or resolving. List reviews with GET
-             * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always
-             * present with merchant credentials. anyOf[1] (Value): string or null. The earliest
-             * open or resolving payment review on this order's counted payments. `null` when no
-             * review is open or resolving. List reviews with GET
-             * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always
-             * present with merchant credentials. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-             * anyOf[2] (Value): null.
+             * When the modifier group was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
              */
-            "active_payment_review_id"?: ((string | null) | (null) | (unknown));
+            "created_at"?: string;
             /**
-             * The amounts authorized and still capturable on the order's payments. anyOf[1]
-             * (Value): {@link OrderAuthorizationAmounts}. The amounts authorized and still
-             * capturable on the order's payments. anyOf[2] (Value): null.
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
              */
-            "authorization_amounts"?: ((OrderAuthorizationAmounts) | (null));
+            "external_reference_id"?: string;
             /**
-             * Email and phone saved when payment started, from the pay request's buyer_contact or
-             * the paying checkout session's saved contact. It does not change the linked customer.
-             * anyOf[1] (Value): {@link CheckoutBuyerContact}. Email and phone saved when payment
-             * started, from the pay request's buyer_contact or the paying checkout session's saved
-             * contact. It does not change the linked customer. anyOf[2] (Value): null.
+             * Maximum whole-number quantity for each selected list modifier when allow_quantities
+             * is true; fractional quantities are not supported. Format: int64.
              */
-            "buyer_contact"?: ((CheckoutBuyerContact) | (null));
+            "max_quantity"?: number;
             /**
-             * A note to the buyer. anyOf[1] (Value): string. A note to the buyer. anyOf[2]
-             * (Value): null.
+             * Maximum number of distinct modifiers buyers can select from a list group. Omit it
+             * for no limit. A modifier set can override this value. Format: int32.
              */
-            "buyer_note"?: ((string) | (null));
+            "max_selected"?: number;
             /**
-             * Charges added to the order, such as delivery or service fees, each with its applied
-             * amount, tax, and refunded amount. anyOf[1] (Value): Array of {@link OrderCharge}.
-             * Charges added to the order, such as delivery or service fees, each with its applied
-             * amount, tax, and refunded amount. anyOf[1][] (Value): {@link OrderCharge}. An
-             * additional charge applied to an order. anyOf[2] (Value): null.
+             * Maximum combined whole-number quantity across selected list modifiers; fractional
+             * quantities are not supported. Format: int64.
              */
-            "charges"?: ((Array<OrderCharge>) | (null));
+            "max_total_quantity"?: number;
             /**
-             * IDs of the checkout sessions opened for this order. anyOf[1] (Value): Array of
-             * string. IDs of the checkout sessions opened for this order. anyOf[1][] (Value):
-             * string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". anyOf[2] (Value): null.
+             * Identifier of the merchant that owns this modifier group. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
              */
-            "checkout_session_ids"?: ((Array<string>) | (null));
+            "merchant_id"?: string;
             /**
-             * The reference the payment link URL or resolve request carried, such as your user ID.
-             * `null` when none was sent or checkout did not start from a payment link. Returned
-             * only to merchant credentials; omitted for buyer credentials. Set by the buyer's
-             * browser, so treat it as a claim, not proof of identity. Always present with merchant
-             * credentials. anyOf[1] (Value): string or null. The reference the payment link URL or
-             * resolve request carried, such as your user ID. `null` when none was sent or checkout
-             * did not start from a payment link. Returned only to merchant credentials; omitted
-             * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
-             * of identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
-             * anyOf[2] (Value): null.
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
+             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
+             * and MetadataPatchInput; maps written before those limits may not satisfy them.
              */
-            "client_reference"?: ((string | null) | (null) | (unknown));
+            "metadata"?: MetadataMap;
             /**
-             * When the order closed. Present exactly when status is closed. Set once at the
-             * transition and never changed. anyOf[1] (Value): string. When the order closed.
-             * Present exactly when status is closed. Set once at the transition and never changed.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * Minimum whole-number quantity for each selected list modifier when allow_quantities
+             * is true; fractional quantities are not supported. Format: int64.
              */
-            "closed_at"?: ((string) | (null));
+            "min_quantity"?: number;
             /**
-             * Why the order closed. Present exactly when status is closed. Set once at closure.
-             * Unrecognized reasons are returned as other; new values may be added. Value enum:
-             * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-             * "superseded", "return_resolution_canceled", "other". anyOf[1] (Value): string. Why
-             * the order closed. Present exactly when status is closed. Set once at closure.
-             * Unrecognized reasons are returned as other; new values may be added. Value enum:
-             * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-             * "superseded", "return_resolution_canceled", "other". anyOf[2] (Value): null.
+             * Minimum number of distinct modifiers buyers must select from a list group. Omit it
+             * to require no selections. A modifier set can override this value. Format: int32.
              */
-            "closed_reason"?: (("invoice_voided"
-                | "paid"
-                | "closed_by_merchant"
-                | "checkout_expired"
-                | "written_off"
-                | "superseded"
-                | "return_resolution_canceled"
-                | "other"
-                | (string & {}))
-                | (null));
+            "min_selected"?: number;
             /**
-             * The caller note supplied when closing the order. System closures leave it absent. It
-             * is not shown to the buyer. anyOf[1] (Value): string. The caller note supplied when
-             * closing the order. System closures leave it absent. It is not shown to the buyer.
-             * anyOf[2] (Value): null.
+             * Stable identifier of the modifier group. For a group a modifier set owns (`source:
+             * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`;
+             * `/v1/modifier-groups` doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
              */
-            "closed_reason_message"?: ((string) | (null));
+            "modifier_group_id": string;
             /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * Whether buyers choose from a list of modifiers or enter text. On create, inferred as
+             * text when text configuration is supplied, otherwise list. Value enum: "list",
+             * "text".
              */
-            "created_at"?: ((string) | (null));
+            "modifier_group_type": "list" | "text" | (string & {});
             /**
-             * The buyer's answers to the payment link's custom fields, recorded when checkout
-             * started, in the order the link showed the fields. Each answer keeps the field's key,
-             * label, and type from that moment, so later changes to the link don't change it.
-             * Optional fields the buyer left blank are left out. Read-only. Empty when the order
-             * didn't come from a payment link, the link had no custom fields, or the buyer
-             * answered none. Orders created before Flint recorded answers here also return an
-             * empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting
-             * the customer removes the answers. Returned only to merchant credentials; omitted for
-             * buyer credentials. Always present with merchant credentials. anyOf[1] (Value): Array
-             * of {@link CustomFieldAnswer}. The buyer's answers to the payment link's custom
-             * fields, recorded when checkout started, in the order the link showed the fields.
-             * Each answer keeps the field's key, label, and type from that moment, so later
-             * changes to the link don't change it. Optional fields the buyer left blank are left
-             * out. Read-only. Empty when the order didn't come from a payment link, the link had
-             * no custom fields, or the buyer answered none. Orders created before Flint recorded
-             * answers here also return an empty list and keep their answers in `metadata` as
-             * `custom_field_<key>`. Deleting the customer removes the answers. Returned only to
-             * merchant credentials; omitted for buyer credentials. Always present with merchant
-             * credentials. maxItems: 20. anyOf[1][] (Value): {@link CustomFieldAnswer}. One answer
-             * to a payment link custom field, with the field as it was when checkout started.
-             * `custom_field_type` determines the type of `value`. anyOf[2] (Value): null.
+             * Choices in a list group. Only active modifiers whose set override's available is not
+             * false are offered to buyers. Text groups do not have choices. [] (Value): {@link
+             * Modifier}. A purchasable customization choice.
              */
-            "custom_field_answers"?: ((Array<CustomFieldAnswer>) | (null));
+            "modifiers": Array<Modifier>;
+            /** Name of the modifier group shown to buyers. */
+            "name": string;
             /**
-             * Customer summary included when `expand` names `customer`; `null` when expanded and
-             * no customer is linked. Present only when `expand` includes `customer`; `null` when
-             * expanded and there is no related customer. anyOf[1] (Value): {@link
-             * ExpandedCustomerSummary} or null. Customer summary included when `expand` names
-             * `customer`; `null` when expanded and no customer is linked. Present only when
-             * `expand` includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
-             * fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * Whether selections from this group appear in fulfillment details unless overridden
+             * for a modifier set.
              */
-            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "show_on_fulfillment": boolean;
             /**
-             * ID of the customer this order belongs to. anyOf[1] (Value): string. ID of the
-             * customer this order belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
-             * (Value): null.
+             * Whether selections from this group appear on buyer receipts unless overridden for a
+             * modifier set.
              */
-            "customer_id"?: ((string) | (null));
+            "show_on_receipt": boolean;
             /**
-             * Promotions accepted at subscription signup. They attach when the subscription is
-             * provisioned and first discount its first charged cycle. They do not discount this
-             * order and are separate from discounts and order totals. Always present; empty when
-             * no promotions are deferred. anyOf[1] (Value): Array of {@link DeferredPromotion}.
-             * Promotions accepted at subscription signup. They attach when the subscription is
-             * provisioned and first discount its first charged cycle. They do not discount this
-             * order and are separate from discounts and order totals. Always present; empty when
-             * no promotions are deferred. anyOf[1][] (Value): {@link DeferredPromotion}. A
-             * promotion accepted at subscription signup for the subscription's first charged
-             * cycle. It does not discount the signup order. anyOf[2] (Value): null.
+             * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
+             * archived groups remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived".
              */
-            "deferred_promotions"?: ((Array<DeferredPromotion>) | (null));
+            "status": "active" | "inactive" | "archived" | (string & {});
             /**
-             * Method, type and recipient of governing_delivery_selection_id. The address remains
-             * in delivery_destination. Omitted when no shipment or local-delivery selection
-             * governs the order. anyOf[1] (Value): {@link OrderDeliverySummary}. Method, type and
-             * recipient of governing_delivery_selection_id. The address remains in
-             * delivery_destination. Omitted when no shipment or local-delivery selection governs
-             * the order. anyOf[2] (Value): null.
+             * Text entry rules for a text group. Use text.required to require a value; list groups
+             * use min_selected instead. Settings for a text modifier group: whether input is
+             * required or multiline, and its length limits.
              */
-            "delivery"?: ((OrderDeliverySummary) | (null));
+            "text"?: TextModifierConfig;
             /**
-             * The shipment or local-delivery destination committed for this order. Payment freezes
-             * this value; fulfillment recipient changes do not replace it. Omitted for a checkout
-             * session credential that doesn't act for the customer the buyer verified. anyOf[1]
-             * (Value): {@link OrderDeliveryDestination}. The shipment or local-delivery
-             * destination committed for this order. Payment freezes this value; fulfillment
-             * recipient changes do not replace it. Omitted for a checkout session credential that
-             * doesn't act for the customer the buyer verified. anyOf[2] (Value): null.
+             * When the modifier group or its modifiers last changed, as an RFC3339 timestamp.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
              */
-            "delivery_destination"?: ((OrderDeliveryDestination) | (null));
-            /**
-             * Discounts applied to the order, each with its amount, status, and the line items and
-             * charges it covers. anyOf[1] (Value): Array of {@link OrderDiscount}. Discounts
-             * applied to the order, each with its amount, status, and the line items and charges
-             * it covers. anyOf[1][] (Value): {@link OrderDiscount}. A discount applied to an
-             * order, with its amount, status, and the line items and charges it covers. It comes
-             * from a manual discount or a promotion. anyOf[2] (Value): null.
-             */
-            "discounts"?: ((Array<OrderDiscount>) | (null));
-            /**
-             * Aggregate dispute state across the order's counted payment intents, excluding
-             * payment_returned. Always returned to merchant credentials and omitted from buyer
-             * reads. Open states take precedence in this order: needs_response, under_review,
-             * inquiry_needs_response, inquiry_under_review, other. Otherwise the most severe
-             * closed state wins: lost, won, prevented, inquiry_closed; none when no disputes
-             * count. List individual cases with GET /v1/disputes?order_id={order_id}. Always
-             * present with merchant credentials. Value enum: "none", "inquiry_needs_response",
-             * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won",
-             * "lost", "prevented", "other". anyOf[1] (Value): string. Aggregate dispute state
-             * across the order's counted payment intents, excluding payment_returned. Always
-             * returned to merchant credentials and omitted from buyer reads. Open states take
-             * precedence in this order: needs_response, under_review, inquiry_needs_response,
-             * inquiry_under_review, other. Otherwise the most severe closed state wins: lost, won,
-             * prevented, inquiry_closed; none when no disputes count. List individual cases with
-             * GET /v1/disputes?order_id={order_id}. Always present with merchant credentials.
-             * Value enum: "none", "inquiry_needs_response", "inquiry_under_review",
-             * "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented",
-             * "other". anyOf[2] (Value): null.
-             */
-            "dispute_status"?: (("none"
-                | "inquiry_needs_response"
-                | "inquiry_under_review"
-                | "inquiry_closed"
-                | "needs_response"
-                | "under_review"
-                | "won"
-                | "lost"
-                | "prevented"
-                | "other"
-                | (string & {}))
-                | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
-             * string. Caller-owned identifier for this resource in an external system. maxLength:
-             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string) | (null));
-            /**
-             * Aggregate progress across the order's fulfillment quantities. Value enum:
-             * "not_fulfilled", "partially_fulfilled", "fulfilled", "canceled", "not_applicable",
-             * "closed". anyOf[1] (Value): string. Aggregate progress across the order's
-             * fulfillment quantities. Value enum: "not_fulfilled", "partially_fulfilled",
-             * "fulfilled", "canceled", "not_applicable", "closed". anyOf[2] (Value): null.
-             */
-            "fulfillment_status"?: (("not_fulfilled"
-                | "partially_fulfilled"
-                | "fulfilled"
-                | "canceled"
-                | "not_applicable"
-                | "closed"
-                | (string & {}))
-                | (null));
-            /**
-             * Fulfillments created for the order, each covering a set of its line items. anyOf[1]
-             * (Value): Array of {@link Fulfillment}. Fulfillments created for the order, each
-             * covering a set of its line items. anyOf[1][] (Value): {@link Fulfillment}. Work
-             * required to deliver an order's items. anyOf[2] (Value): null.
-             */
-            "fulfillments"?: ((Array<Fulfillment>) | (null));
-            /**
-             * An estimate of how the order balance splits between gift cards and the payment
-             * processor. anyOf[1] (Value): {@link OrderGiftCardEstimate}. An estimate of how the
-             * order balance splits between gift cards and the payment processor. anyOf[2] (Value):
-             * null.
-             */
-            "gift_card_estimate"?: ((OrderGiftCardEstimate) | (null));
-            /**
-             * The gift card redemptions applied to the order's payments. anyOf[1] (Value): Array
-             * of {@link OrderGiftCardSettlement}. The gift card redemptions applied to the order's
-             * payments. anyOf[1][] (Value): {@link OrderGiftCardSettlement}. A gift card
-             * redemption applied to an order payment, with the amount, tip, and gift card.
-             * anyOf[2] (Value): null.
-             */
-            "gift_card_settlements"?: ((Array<OrderGiftCardSettlement>) | (null));
-            /**
-             * Whether gift cards can pay for this order now. Gift cards pay only USD orders that
-             * still accept changes, are not subscription purchases, and whose merchant has at
-             * least one gift card that is not closed in this environment. Recomputed on each read;
-             * a spent but open card still counts. anyOf[1] (Value): boolean. Whether gift cards
-             * can pay for this order now. Gift cards pay only USD orders that still accept
-             * changes, are not subscription purchases, and whose merchant has at least one gift
-             * card that is not closed in this environment. Recomputed on each read; a spent but
-             * open card still counts. anyOf[2] (Value): null.
-             */
-            "gift_card_tender_enabled"?: ((boolean) | (null));
-            /**
-             * Gift cards available to pay the order, with each card's available balance. anyOf[1]
-             * (Value): Array of {@link OrderGiftCardSelection}. Gift cards available to pay the
-             * order, with each card's available balance. anyOf[1][] (Value): {@link
-             * OrderGiftCardSelection}. A gift card available to pay an order, with its available
-             * balance and the last four characters of its code. anyOf[2] (Value): null.
-             */
-            "gift_cards"?: ((Array<OrderGiftCardSelection>) | (null));
-            /**
-             * ID of the delivery selection that governs this order, including pickup choices
-             * without a delivery destination: the checkout's provisional selection before payment,
-             * and the selection a payment committed after. Read it with GET
-             * /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs the
-             * order. While set, change the destination through the delivery selection. anyOf[1]
-             * (Value): string or null. ID of the delivery selection that governs this order,
-             * including pickup choices without a delivery destination: the checkout's provisional
-             * selection before payment, and the selection a payment committed after. Read it with
-             * GET /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs
-             * the order. While set, change the destination through the delivery selection.
-             * Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2] (Value): null.
-             */
-            "governing_delivery_selection_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * Carry-out handover: every physical item is handed to the buyer at this location when
-             * the order is paid, in place of a delivery selection. Payment then creates one
-             * completed `handover` fulfillment. Absent without a handover. anyOf[1] (Value):
-             * {@link OrderHandover}. Carry-out handover: every physical item is handed to the
-             * buyer at this location when the order is paid, in place of a delivery selection.
-             * Payment then creates one completed `handover` fulfillment. Absent without a
-             * handover. anyOf[2] (Value): null.
-             */
-            "handover"?: ((OrderHandover) | (null));
-            /**
-             * A note for your team. Buyer reads leave it out. anyOf[1] (Value): string. A note for
-             * your team. Buyer reads leave it out. anyOf[2] (Value): null.
-             */
-            "internal_note"?: ((string) | (null));
-            /**
-             * Why inventory could not be committed after payment. The cause remains after
-             * resolution. Omitted when no reason was recorded. Unrecognized reasons are returned
-             * as other; new values may be added. Value enum: "inventory_deduction_failed",
-             * "inventory_handoff_failed", "auto_refund_required", "auto_refund_failed",
-             * "policy_resolution_failed", "other". anyOf[1] (Value): string. Why inventory could
-             * not be committed after payment. The cause remains after resolution. Omitted when no
-             * reason was recorded. Unrecognized reasons are returned as other; new values may be
-             * added. Value enum: "inventory_deduction_failed", "inventory_handoff_failed",
-             * "auto_refund_required", "auto_refund_failed", "policy_resolution_failed", "other".
-             * anyOf[2] (Value): null.
-             */
-            "inventory_exception_reason"?: (("inventory_deduction_failed"
-                | "inventory_handoff_failed"
-                | "auto_refund_required"
-                | "auto_refund_failed"
-                | "policy_resolution_failed"
-                | "other"
-                | (string & {}))
-                | (null));
-            /**
-             * The merchant note supplied when resolving the inventory exception. It is not shown
-             * to the buyer. anyOf[1] (Value): string. The merchant note supplied when resolving
-             * the inventory exception. It is not shown to the buyer. anyOf[2] (Value): null.
-             */
-            "inventory_exception_resolution_message"?: ((string) | (null));
-            /**
-             * Whether an inventory problem after payment needs attention. Value enum:
-             * "paid_inventory_failed", "resolved". anyOf[1] (Value): string. Whether an inventory
-             * problem after payment needs attention. Value enum: "paid_inventory_failed",
-             * "resolved". anyOf[2] (Value): null.
-             */
-            "inventory_exception_status"?: (("paid_inventory_failed" | "resolved" | (string & {})) | (null));
-            /**
-             * The reservation holding stock for this order, when one exists. anyOf[1] (Value):
-             * string. The reservation holding stock for this order, when one exists. Example:
-             * "invr_01KEZF7C0041ENRR0C2NF3AP12". anyOf[2] (Value): null.
-             */
-            "inventory_reservation_id"?: ((string) | (null));
-            /**
-             * Where this order's tracked demand is routed. Required before an order containing
-             * tracked variants can hold stock. anyOf[1] (Value): {@link InventoryRoutingSource}.
-             * Where this order's tracked demand is routed. Required before an order containing
-             * tracked variants can hold stock. anyOf[2] (Value): null.
-             */
-            "inventory_routing_source"?: ((InventoryRoutingSource) | (null));
-            /**
-             * The invoice associated with this order. Null when the order has no invoice. A
-             * replacement invoice replaces this ID; voiding an invoice preserves it. anyOf[1]
-             * (Value): string or null. The invoice associated with this order. Null when the order
-             * has no invoice. A replacement invoice replaces this ID; voiding an invoice preserves
-             * it. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
-             */
-            "invoice_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * Items the order sells, each with its pricing, tax, and fulfillment quantities.
-             * anyOf[1] (Value): Array of {@link OrderLineItem}. Items the order sells, each with
-             * its pricing, tax, and fulfillment quantities. anyOf[1][] (Value): {@link
-             * OrderLineItem}. An item purchased in an order. anyOf[2] (Value): null.
-             */
-            "line_items"?: ((Array<OrderLineItem>) | (null));
-            /**
-             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
-             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             * anyOf[2] (Value): null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
-             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
-             */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * Unique identifier for this order, prefixed `ord_`. anyOf[1] (Value): string. Unique
-             * identifier for this order, prefixed `ord_`. Example:
-             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
-             */
-            "order_id"?: ((string) | (null));
-            /**
-             * Human-readable order number for receipts and merchant reference. anyOf[1] (Value):
-             * string. Human-readable order number for receipts and merchant reference. anyOf[2]
-             * (Value): null.
-             */
-            "order_number"?: ((string) | (null));
-            /**
-             * How the order was created. invoice means a Quick Pay invoice created the order;
-             * attaching an invoice to an existing order preserves its origin. Value enum:
-             * "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
-             * anyOf[1] (Value): string. How the order was created. invoice means a Quick Pay
-             * invoice created the order; attaching an invoice to an existing order preserves its
-             * origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
-             * "subscription", "invoice". anyOf[2] (Value): null.
-             */
-            "origin"?: (("virtual_terminal"
-                | "payment_link"
-                | "checkout"
-                | "api"
-                | "subscription"
-                | "invoice"
-                | (string & {}))
-                | (null));
-            /**
-             * When `payment_status` became `paid`, including a final capture that releases the
-             * remaining balance. Set once and never changed, including after refunds. `null` when
-             * `payment_status` isn't `paid`, including an order whose balance was written off
-             * without being paid. anyOf[1] (Value): string or null. When `payment_status` became
-             * `paid`, including a final capture that releases the remaining balance. Set once and
-             * never changed, including after refunds. `null` when `payment_status` isn't `paid`,
-             * including an order whose balance was written off without being paid. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "paid_at"?: ((string | null) | (null) | (unknown));
-            /**
-             * IDs of the payment intents created to collect this order. anyOf[1] (Value): Array of
-             * string. IDs of the payment intents created to collect this order. anyOf[1][]
-             * (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
-             */
-            "payment_intent_ids"?: ((Array<string>) | (null));
-            /**
-             * Payment intents included when `expand` names `payment_intents`. anyOf[1] (Value):
-             * Array of {@link ExpandedPaymentIntentSummary}. Payment intents included when
-             * `expand` names `payment_intents`. anyOf[1][] (Value): {@link
-             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
-             * status, and capture method, returned when the payment intent is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_intents"?: ((Array<ExpandedPaymentIntentSummary>) | (null));
-            /**
-             * Payment link whose checkout created this order. Absent for orders that did not come
-             * from a payment link. Filter GET /v1/orders by payment_link_id to list a link's
-             * orders. anyOf[1] (Value): string. Payment link whose checkout created this order.
-             * Absent for orders that did not come from a payment link. Filter GET /v1/orders by
-             * payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
-             * anyOf[2] (Value): null.
-             */
-            "payment_link_id"?: ((string) | (null));
-            /**
-             * Collection progress. An invoice write-off also completes collection without
-             * receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-             * anyOf[1] (Value): string. Collection progress. An invoice write-off also completes
-             * collection without receiving the written-off amount. Value enum: "unpaid",
-             * "partially_paid", "paid". anyOf[2] (Value): null.
-             */
-            "payment_status"?: (("unpaid" | "partially_paid" | "paid" | (string & {})) | (null));
-            /**
-             * The order edit waiting for its balance payment. While it is set, the units that edit
-             * removes can't join a fulfillment and the order refuses another edit. `null` when
-             * there is none. Omitted for buyer credentials. Always present with merchant
-             * credentials. anyOf[1] (Value): string or null. The order edit waiting for its
-             * balance payment. While it is set, the units that edit removes can't join a
-             * fulfillment and the order refuses another edit. `null` when there is none. Omitted
-             * for buyer credentials. Always present with merchant credentials. Example:
-             * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". anyOf[2] (Value): null.
-             */
-            "pending_order_edit_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * Order that paid for this prepaid delivery. Null when this is not a prepaid delivery
-             * order. anyOf[1] (Value): string or null. Order that paid for this prepaid delivery.
-             * Null when this is not a prepaid delivery order. Example:
-             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
-             */
-            "prepayment_order_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * The order's money totals: subtotal, discounts, charges, tax, requested tip, and
-             * total. anyOf[1] (Value): {@link PricingAmounts}. The order's money totals: subtotal,
-             * discounts, charges, tax, requested tip, and total. anyOf[2] (Value): null.
-             */
-            "pricing_amounts"?: ((PricingAmounts) | (null));
-            /**
-             * IDs of the refunds that name this order. This includes refunds Flint makes to return
-             * a payment it couldn't accept (`reason` `payment_returned`), which never count toward
-             * `refund_status` or the order's refunded amounts. anyOf[1] (Value): Array of string.
-             * IDs of the refunds that name this order. This includes refunds Flint makes to return
-             * a payment it couldn't accept (`reason` `payment_returned`), which never count toward
-             * `refund_status` or the order's refunded amounts. anyOf[1][] (Value): string.
-             * Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
-             */
-            "refund_ids"?: ((Array<string>) | (null));
-            /**
-             * Refund progress for collected money. Refunds with `reason` `payment_returned` return
-             * money the order never received and don't count. Value enum: "none",
-             * "partially_refunded", "refunded". anyOf[1] (Value): string. Refund progress for
-             * collected money. Refunds with `reason` `payment_returned` return money the order
-             * never received and don't count. Value enum: "none", "partially_refunded",
-             * "refunded". anyOf[2] (Value): null.
-             */
-            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
-            /**
-             * Value applied to this order from items the buyer returned, such as an exchange's
-             * replacement order. Included in settlement_amounts.paid_money. anyOf[1] (Value):
-             * Array of {@link OrderReturnCreditSettlement}. Value applied to this order from items
-             * the buyer returned, such as an exchange's replacement order. Included in
-             * settlement_amounts.paid_money. anyOf[1][] (Value): {@link
-             * OrderReturnCreditSettlement}. A return credit applied to an order payment, with the
-             * amount and the return and resolution it came from. anyOf[2] (Value): null.
-             */
-            "return_credit_settlements"?: ((Array<OrderReturnCreditSettlement>) | (null));
-            /**
-             * ID of the return resolution that created this order as a replacement. Omitted for
-             * orders a return did not create. anyOf[1] (Value): string. ID of the return
-             * resolution that created this order as a replacement. Omitted for orders a return did
-             * not create. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2] (Value): null.
-             */
-            "return_resolution_id"?: ((string) | (null));
-            /**
-             * How much of the order has been paid, refunded, credited, written off, and settled as
-             * tips, and what is still outstanding. anyOf[1] (Value): {@link
-             * OrderSettlementAmounts}. How much of the order has been paid, refunded, credited,
-             * written off, and settled as tips, and what is still outstanding. Money collected,
-             * returned, waived, and still owed on a bill. anyOf[2] (Value): null.
-             */
-            "settlement_amounts"?: ((OrderSettlementAmounts) | (null));
-            /**
-             * Whether the order still accepts changes and new payments. Refunds, fulfillment,
-             * disputes, returns, and metadata or note edits continue on a closed order. Value
-             * enum: "open", "closed". anyOf[1] (Value): string. Whether the order still accepts
-             * changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or
-             * note edits continue on a closed order. Value enum: "open", "closed". anyOf[2]
-             * (Value): null.
-             */
-            "status"?: (("open" | "closed" | (string & {})) | (null));
-            /**
-             * Subscription summary included when `expand` names `subscription`; `null` when
-             * expanded and this order does not bill a subscription. Present only when `expand`
-             * includes `subscription`; `null` when expanded and there is no related subscription.
-             * anyOf[1] (Value): {@link ExpandedSubscriptionSummary} or null. Subscription summary
-             * included when `expand` names `subscription`; `null` when expanded and this order
-             * does not bill a subscription. Present only when `expand` includes `subscription`;
-             * `null` when expanded and there is no related subscription. anyOf[1].anyOf[1]
-             * (Value): {@link ExpandedSubscriptionSummary}. A subscription's summary fields,
-             * including status, billing period, and next billing time, returned when the
-             * subscription is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "subscription"?: ((((ExpandedSubscriptionSummary) | (null))) | (null) | (unknown));
-            /**
-             * Charged subscription cycle associated with this order. Signup is cycle 1; unpaid
-             * retries and skipped renewals do not advance the cycle. anyOf[1] (Value): integer.
-             * Charged subscription cycle associated with this order. Signup is cycle 1; unpaid
-             * retries and skipped renewals do not advance the cycle. Format: uint64. minimum: 0.
-             * anyOf[2] (Value): null.
-             */
-            "subscription_cycle"?: ((number) | (null));
-            /**
-             * Time the subscriber changed delivery after this paid renewal was prepared. The order
-             * keeps its committed destination until you correct it or refund and replace it.
-             * anyOf[1] (Value): string. Time the subscriber changed delivery after this paid
-             * renewal was prepared. The order keeps its committed destination until you correct it
-             * or refund and replace it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             * anyOf[2] (Value): null.
-             */
-            "subscription_delivery_changed_at"?: ((string) | (null));
-            /**
-             * Position of this delivery among the deliveries one charge paid for, starting at 2.
-             * Null when this is not a prepaid delivery order. anyOf[1] (Value): integer or null.
-             * Position of this delivery among the deliveries one charge paid for, starting at 2.
-             * Null when this is not a prepaid delivery order. Format: uint32. minimum: 2. maximum:
-             * 24. anyOf[2] (Value): null.
-             */
-            "subscription_delivery_number"?: ((number | null) | (null) | (unknown));
-            /**
-             * ID of the subscription this order bills. Absent on an order that isn't from a
-             * subscription. anyOf[1] (Value): string. ID of the subscription this order bills.
-             * Absent on an order that isn't from a subscription. Example:
-             * "sub_01KEZF7C00BVRE8YDBXQB74BBM". anyOf[2] (Value): null.
-             */
-            "subscription_id"?: ((string) | (null));
-            /**
-             * Plan summary included when `expand` names `subscription_plan`; `null` when expanded
-             * and this order does not bill a subscription plan. Present only when `expand`
-             * includes `subscription_plan`; `null` when expanded and there is no related
-             * subscription plan. anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary} or
-             * null. Plan summary included when `expand` names `subscription_plan`; `null` when
-             * expanded and this order does not bill a subscription plan. Present only when
-             * `expand` includes `subscription_plan`; `null` when expanded and there is no related
-             * subscription plan. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
-             * name, billing interval, currency, and status, returned when the plan is expanded.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "subscription_plan"?: ((((ExpandedSubscriptionPlanSummary) | (null))) | (null) | (unknown));
-            /**
-             * ID of the subscription plan this order bills. Absent on an order that isn't from a
-             * subscription. anyOf[1] (Value): string. ID of the subscription plan this order
-             * bills. Absent on an order that isn't from a subscription. Example:
-             * "plan_01KEZF7C004CY5ZR33XST2AASV". anyOf[2] (Value): null.
-             */
-            "subscription_plan_id"?: ((string) | (null));
-            /**
-             * Lifecycle actions Flint accepts now, independent of permissions. Includes close when
-             * closure is allowed, and pay while open without an active attempt and with an
-             * outstanding balance or payment-method setup available. Always present with merchant
-             * credentials. [] enum: "close", "pay", "resolve_inventory_exception". anyOf[1]
-             * (Value): Array of string. Lifecycle actions Flint accepts now, independent of
-             * permissions. Includes close when closure is allowed, and pay while open without an
-             * active attempt and with an outstanding balance or payment-method setup available.
-             * Always present with merchant credentials. [] enum: "close", "pay",
-             * "resolve_inventory_exception". anyOf[1][] (Value): string. Value enum: "close",
-             * "pay", "resolve_inventory_exception". anyOf[2] (Value): null.
-             */
-            "supported_actions"?: ((Array<"close" | "pay" | "resolve_inventory_exception" | (string & {})>) | (null));
-            /**
-             * The order's tax state: whether tax is enabled, its status, location, exemption, and
-             * per-jurisdiction rows. anyOf[1] (Value): {@link OrderTax}. The order's tax state:
-             * whether tax is enabled, its status, location, exemption, and per-jurisdiction rows.
-             * anyOf[2] (Value): null.
-             */
-            "tax"?: ((OrderTax) | (null));
-            /**
-             * Event and tickets this order sold through an event payment link. Absent on other
-             * orders. anyOf[1] (Value): {@link TicketedEvent}. Event and tickets this order sold
-             * through an event payment link. Absent on other orders. anyOf[2] (Value): null.
-             */
-            "ticketed_event"?: ((TicketedEvent) | (null));
-            /**
-             * Tips on the order, each with its requested, settled, and refunded amounts. A tip
-             * cleared before payment stays listed as canceled. anyOf[1] (Value): Array of {@link
-             * Tip}. Tips on the order, each with its requested, settled, and refunded amounts. A
-             * tip cleared before payment stays listed as canceled. anyOf[1][] (Value): {@link
-             * Tip}. A tip on an order, with its requested, settled, and refunded amounts, status,
-             * and how it was paid. anyOf[2] (Value): null.
-             */
-            "tips"?: ((Array<Tip>) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Order version for optimistic concurrency. Send this value as the expected version
-             * when changing the order. Increases with every change to the order. Ignore an order
-             * webhook snapshot whose version is lower than one you have already applied. anyOf[1]
-             * (Value): integer. Order version for optimistic concurrency. Send this value as the
-             * expected version when changing the order. Increases with every change to the order.
-             * Ignore an order webhook snapshot whose version is lower than one you have already
-             * applied. Format: int64. anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
+            "updated_at"?: string;
+            /** Version of the modifier group and its modifiers. Format: uint64. minimum: 1. */
+            "version": number;
+        };
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "order.updated". */
-    "event_type"?: "order.updated";
+    /** Value enum: "modifier_group.created". */
+    "event_type"?: "modifier_group.created";
     /**
      *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
      * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
@@ -2727,1165 +321,922 @@ export type OrderUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
     });
 });
 /**
- * The `order.updated` webhook payload for the `merchant` event source. Fields shared by merchant
- * webhook payloads.
+ * The `modifier_group.created` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
  */
-export type OrderUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type ModifierGroupCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): {@link WebhookOrder}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `active_payment_attempt`, `payment_collection`,
-     * `setup_collection`. previous_attributes (Optional): object. Previous values of changed
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.allow_quantities (Required): boolean. Whether buyers can select
+     * more than one unit of a list modifier. object.created_at (Optional): string. When the
+     * modifier group was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
+     * identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842". object.max_quantity (Optional): integer. Maximum whole-number quantity for
+     * each selected list modifier when allow_quantities is true; fractional quantities are not
+     * supported. Format: int64. object.max_selected (Optional): integer. Maximum number of
+     * distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier set
+     * can override this value. Format: int32. object.max_total_quantity (Optional): integer.
+     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
+     * are not supported. Format: int64. object.merchant_id (Optional): string. Identifier of the
+     * merchant that owns this modifier group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be
+     * empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and
+     * cannot be written through the public API. Caller-owned key-value data stored on a resource.
+     * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+     * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+     * satisfy them. object.min_quantity (Optional): integer. Minimum whole-number quantity for
+     * each selected list modifier when allow_quantities is true; fractional quantities are not
+     * supported. Format: int64. object.min_selected (Optional): integer. Minimum number of
+     * distinct modifiers buyers must select from a list group. Omit it to require no selections. A
+     * modifier set can override this value. Format: int32. object.modifier_group_id (Required):
+     * string. Stable identifier of the modifier group. For a group a modifier set owns (`source:
+     * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups`
+     * doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". object.modifier_group_type
+     * (Required): string. Whether buyers choose from a list of modifiers or enter text. On create,
+     * inferred as text when text configuration is supplied, otherwise list. Value enum: "list",
+     * "text". object.modifiers (Required): Array of {@link Modifier}. Choices in a list group.
+     * Only active modifiers whose set override's available is not false are offered to buyers.
+     * Text groups do not have choices. object.modifiers[] (Value): {@link Modifier}. A purchasable
+     * customization choice. object.name (Required): string. Name of the modifier group shown to
+     * buyers. object.show_on_fulfillment (Required): boolean. Whether selections from this group
+     * appear in fulfillment details unless overridden for a modifier set. object.show_on_receipt
+     * (Required): boolean. Whether selections from this group appear on buyer receipts unless
+     * overridden for a modifier set. object.status (Required): string. Lifecycle status of the
+     * modifier group. Only active groups can be offered to buyers; archived groups remain readable
+     * and cannot be edited. Value enum: "active", "inactive", "archived". object.text (Optional):
+     * {@link TextModifierConfig}. Text entry rules for a text group. Use text.required to require
+     * a value; list groups use min_selected instead. Settings for a text modifier group: whether
+     * input is required or multiline, and its length limits. object.updated_at (Optional): string.
+     * When the modifier group or its modifiers last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
+     * the modifier group and its modifiers. Format: uint64. minimum: 1.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * allow_quantities (Required): boolean. Whether buyers can select more than one unit of a
+         * list modifier. created_at (Optional): string. When the modifier group was created, as an
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
+         * an external system. maxLength: 255. Example: "warehouse-1842". max_quantity (Optional):
+         * integer. Maximum whole-number quantity for each selected list modifier when
+         * allow_quantities is true; fractional quantities are not supported. Format: int64.
+         * max_selected (Optional): integer. Maximum number of distinct modifiers buyers can select
+         * from a list group. Omit it for no limit. A modifier set can override this value. Format:
+         * int32. max_total_quantity (Optional): integer. Maximum combined whole-number quantity
+         * across selected list modifiers; fractional quantities are not supported. Format: int64.
+         * merchant_id (Optional): string. Identifier of the merchant that owns this modifier
+         * group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
+         * MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with
+         * flint_ are reserved for Flint, are not returned, and cannot be written through the
+         * public API. Caller-owned key-value data stored on a resource. Keys starting with flint_
+         * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput
+         * and MetadataPatchInput; maps written before those limits may not satisfy them.
+         * min_quantity (Optional): integer. Minimum whole-number quantity for each selected list
+         * modifier when allow_quantities is true; fractional quantities are not supported. Format:
+         * int64. min_selected (Optional): integer. Minimum number of distinct modifiers buyers
+         * must select from a list group. Omit it to require no selections. A modifier set can
+         * override this value. Format: int32. modifier_group_id (Required): string. Stable
+         * identifier of the modifier group. For a group a modifier set owns (`source: inline`),
+         * read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
+         * return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". modifier_group_type (Required):
+         * string. Whether buyers choose from a list of modifiers or enter text. On create,
+         * inferred as text when text configuration is supplied, otherwise list. Value enum:
+         * "list", "text". modifiers (Required): Array of {@link Modifier}. Choices in a list
+         * group. Only active modifiers whose set override's available is not false are offered to
+         * buyers. Text groups do not have choices. modifiers[] (Value): {@link Modifier}. A
+         * purchasable customization choice. name (Required): string. Name of the modifier group
+         * shown to buyers. show_on_fulfillment (Required): boolean. Whether selections from this
+         * group appear in fulfillment details unless overridden for a modifier set.
+         * show_on_receipt (Required): boolean. Whether selections from this group appear on buyer
+         * receipts unless overridden for a modifier set. status (Required): string. Lifecycle
+         * status of the modifier group. Only active groups can be offered to buyers; archived
+         * groups remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". text (Optional): {@link TextModifierConfig}. Text entry rules for a text
+         * group. Use text.required to require a value; list groups use min_selected instead.
+         * Settings for a text modifier group: whether input is required or multiline, and its
+         * length limits. updated_at (Optional): string. When the modifier group or its modifiers
+         * last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier group and
+         * its modifiers. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /** Whether buyers can select more than one unit of a list modifier. */
+            "allow_quantities": boolean;
+            /**
+             * When the modifier group was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Maximum whole-number quantity for each selected list modifier when allow_quantities
+             * is true; fractional quantities are not supported. Format: int64.
+             */
+            "max_quantity"?: number;
+            /**
+             * Maximum number of distinct modifiers buyers can select from a list group. Omit it
+             * for no limit. A modifier set can override this value. Format: int32.
+             */
+            "max_selected"?: number;
+            /**
+             * Maximum combined whole-number quantity across selected list modifiers; fractional
+             * quantities are not supported. Format: int64.
+             */
+            "max_total_quantity"?: number;
+            /**
+             * Identifier of the merchant that owns this modifier group. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
+             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
+             * and MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Minimum whole-number quantity for each selected list modifier when allow_quantities
+             * is true; fractional quantities are not supported. Format: int64.
+             */
+            "min_quantity"?: number;
+            /**
+             * Minimum number of distinct modifiers buyers must select from a list group. Omit it
+             * to require no selections. A modifier set can override this value. Format: int32.
+             */
+            "min_selected"?: number;
+            /**
+             * Stable identifier of the modifier group. For a group a modifier set owns (`source:
+             * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`;
+             * `/v1/modifier-groups` doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+             */
+            "modifier_group_id": string;
+            /**
+             * Whether buyers choose from a list of modifiers or enter text. On create, inferred as
+             * text when text configuration is supplied, otherwise list. Value enum: "list",
+             * "text".
+             */
+            "modifier_group_type": "list" | "text" | (string & {});
+            /**
+             * Choices in a list group. Only active modifiers whose set override's available is not
+             * false are offered to buyers. Text groups do not have choices. [] (Value): {@link
+             * Modifier}. A purchasable customization choice.
+             */
+            "modifiers": Array<Modifier>;
+            /** Name of the modifier group shown to buyers. */
+            "name": string;
+            /**
+             * Whether selections from this group appear in fulfillment details unless overridden
+             * for a modifier set.
+             */
+            "show_on_fulfillment": boolean;
+            /**
+             * Whether selections from this group appear on buyer receipts unless overridden for a
+             * modifier set.
+             */
+            "show_on_receipt": boolean;
+            /**
+             * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
+             * archived groups remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * Text entry rules for a text group. Use text.required to require a value; list groups
+             * use min_selected instead. Settings for a text modifier group: whether input is
+             * required or multiline, and its length limits.
+             */
+            "text"?: TextModifierConfig;
+            /**
+             * When the modifier group or its modifiers last changed, as an RFC3339 timestamp.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /** Version of the modifier group and its modifiers. Format: uint64. minimum: 1. */
+            "version": number;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "modifier_group.created". */
+    "event_type"?: "modifier_group.created";
+});
+/** A page of `ModifierGroup` objects. */
+export type ModifierGroupListResponse = {
+    /**
+     * Modifier groups matching the request filters for this page. [] (Value): {@link
+     * ModifierGroup}. A group of choices that customize an item.
+     */
+    "data": Array<ModifierGroup>;
+    /**
+     * Response metadata, including API version, trace identifier, and warnings when present.
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Pass this token as page_token to read the next page with the same filters. Absent when there
+     * are no more results.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, useful when contacting Flint support. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type ModifierGroupPreviousAttributes = {
+    /**
+     * Whether buyers can select more than one unit of a list modifier. anyOf[1] (Value): boolean.
+     * Whether buyers can select more than one unit of a list modifier. anyOf[2] (Value): null.
+     */
+    "allow_quantities"?: ((boolean) | (null));
+    /**
+     * When the modifier group was created, as an RFC3339 timestamp. anyOf[1] (Value): string. When
+     * the modifier group was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * Caller-owned identifier for this resource in an external system. anyOf[1] (Value): string.
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_reference_id"?: ((string) | (null));
+    /**
+     * Maximum whole-number quantity for each selected list modifier when allow_quantities is true;
+     * fractional quantities are not supported. anyOf[1] (Value): integer. Maximum whole-number
+     * quantity for each selected list modifier when allow_quantities is true; fractional
+     * quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     */
+    "max_quantity"?: ((number) | (null));
+    /**
+     * Maximum number of distinct modifiers buyers can select from a list group. Omit it for no
+     * limit. A modifier set can override this value. anyOf[1] (Value): integer. Maximum number of
+     * distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier set
+     * can override this value. Format: int32. anyOf[2] (Value): null.
+     */
+    "max_selected"?: ((number) | (null));
+    /**
+     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
+     * are not supported. anyOf[1] (Value): integer. Maximum combined whole-number quantity across
+     * selected list modifiers; fractional quantities are not supported. Format: int64. anyOf[2]
+     * (Value): null.
+     */
+    "max_total_quantity"?: ((number) | (null));
+    /**
+     * Identifier of the merchant that owns this modifier group. anyOf[1] (Value): string.
+     * Identifier of the merchant that owns this modifier group. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+     */
+    "merchant_id"?: ((string) | (null));
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. anyOf[1] (Value):
+     * {@link MetadataMap}. anyOf[2] (Value): null.
+     */
+    "metadata"?: ((MetadataMap) | (null));
+    /**
+     * Minimum whole-number quantity for each selected list modifier when allow_quantities is true;
+     * fractional quantities are not supported. anyOf[1] (Value): integer. Minimum whole-number
+     * quantity for each selected list modifier when allow_quantities is true; fractional
+     * quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     */
+    "min_quantity"?: ((number) | (null));
+    /**
+     * Minimum number of distinct modifiers buyers must select from a list group. Omit it to
+     * require no selections. A modifier set can override this value. anyOf[1] (Value): integer.
+     * Minimum number of distinct modifiers buyers must select from a list group. Omit it to
+     * require no selections. A modifier set can override this value. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "min_selected"?: ((number) | (null));
+    /**
+     * Stable identifier of the modifier group. For a group a modifier set owns (`source: inline`),
+     * read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
+     * return it. anyOf[1] (Value): string. Stable identifier of the modifier group. For a group a
+     * modifier set owns (`source: inline`), read it through `GET
+     * /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it. Example:
+     * "mg_01KEZF7C00XKJJATARG7KDBYM9". anyOf[2] (Value): null.
+     */
+    "modifier_group_id"?: ((string) | (null));
+    /**
+     * Whether buyers choose from a list of modifiers or enter text. On create, inferred as text
+     * when text configuration is supplied, otherwise list. Value enum: "list", "text". anyOf[1]
+     * (Value): string. Whether buyers choose from a list of modifiers or enter text. On create,
+     * inferred as text when text configuration is supplied, otherwise list. Value enum: "list",
+     * "text". anyOf[2] (Value): null.
+     */
+    "modifier_group_type"?: (("list" | "text" | (string & {})) | (null));
+    /**
+     * Choices in a list group. Only active modifiers whose set override's available is not false
+     * are offered to buyers. Text groups do not have choices. anyOf[1] (Value): Array of {@link
+     * ModifierPreviousAttributes}. Choices in a list group. Only active modifiers whose set
+     * override's available is not false are offered to buyers. Text groups do not have choices.
+     * anyOf[1][] (Value): {@link ModifierPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "modifiers"?: ((Array<ModifierPreviousAttributes>) | (null));
+    /**
+     * Name of the modifier group shown to buyers. anyOf[1] (Value): string. Name of the modifier
+     * group shown to buyers. anyOf[2] (Value): null.
+     */
+    "name"?: ((string) | (null));
+    /**
+     * Whether selections from this group appear in fulfillment details unless overridden for a
+     * modifier set. anyOf[1] (Value): boolean. Whether selections from this group appear in
+     * fulfillment details unless overridden for a modifier set. anyOf[2] (Value): null.
+     */
+    "show_on_fulfillment"?: ((boolean) | (null));
+    /**
+     * Whether selections from this group appear on buyer receipts unless overridden for a modifier
+     * set. anyOf[1] (Value): boolean. Whether selections from this group appear on buyer receipts
+     * unless overridden for a modifier set. anyOf[2] (Value): null.
+     */
+    "show_on_receipt"?: ((boolean) | (null));
+    /**
+     * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
+     * archived groups remain readable and cannot be edited. Value enum: "active", "inactive",
+     * "archived". anyOf[1] (Value): string. Lifecycle status of the modifier group. Only active
+     * groups can be offered to buyers; archived groups remain readable and cannot be edited. Value
+     * enum: "active", "inactive", "archived". anyOf[2] (Value): null.
+     */
+    "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+    /**
+     * Text entry rules for a text group. Use text.required to require a value; list groups use
+     * min_selected instead. anyOf[1] (Value): {@link TextModifierConfigPreviousAttributes}.
+     * anyOf[2] (Value): null.
+     */
+    "text"?: ((TextModifierConfigPreviousAttributes) | (null));
+    /**
+     * When the modifier group or its modifiers last changed, as an RFC3339 timestamp. anyOf[1]
+     * (Value): string. When the modifier group or its modifiers last changed, as an RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "updated_at"?: ((string) | (null));
+    /**
+     * Version of the modifier group and its modifiers. anyOf[1] (Value): integer. Version of the
+     * modifier group and its modifiers. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+     */
+    "version"?: ((number) | (null));
+};
+/** A response containing `ModifierGroup` data. */
+export type ModifierGroupResponse = {
+    /** The modifier group returned by this operation. A group of choices that customize an item. */
+    "data": ModifierGroup;
+    /**
+     * Response metadata, including API version, trace identifier, and warnings when present.
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, useful when contacting Flint support. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type ModifierGroupUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "allow_quantities": boolean;
+            "created_at"?: string;
+            "external_reference_id"?: string;
+            "max_quantity"?: number;
+            "max_selected"?: number;
+            "max_total_quantity"?: number;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "min_quantity"?: number;
+            "min_selected"?: number;
+            "modifier_group_id": string;
+            "modifier_group_type": "list" | "text" | (string & {});
+            "modifiers": Array<Modifier>;
+            "name": string;
+            "show_on_fulfillment": boolean;
+            "show_on_receipt": boolean;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "text"?: TextModifierConfig;
+            "updated_at"?: string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "allow_quantities"?: ((boolean) | (null));
+            "created_at"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "max_quantity"?: ((number) | (null));
+            "max_selected"?: ((number) | (null));
+            "max_total_quantity"?: ((number) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "min_quantity"?: ((number) | (null));
+            "min_selected"?: ((number) | (null));
+            "modifier_group_id"?: ((string) | (null));
+            "modifier_group_type"?: (("list" | "text" | (string & {})) | (null));
+            "modifiers"?: ((Array<ModifierPreviousAttributes>) | (null));
+            "name"?: ((string) | (null));
+            "show_on_fulfillment"?: ((boolean) | (null));
+            "show_on_receipt"?: ((boolean) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "text"?: ((TextModifierConfigPreviousAttributes) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "modifier_group.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "allow_quantities": boolean;
+            "created_at"?: string;
+            "external_reference_id"?: string;
+            "max_quantity"?: number;
+            "max_selected"?: number;
+            "max_total_quantity"?: number;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "min_quantity"?: number;
+            "min_selected"?: number;
+            "modifier_group_id": string;
+            "modifier_group_type": "list" | "text" | (string & {});
+            "modifiers": Array<Modifier>;
+            "name": string;
+            "show_on_fulfillment": boolean;
+            "show_on_receipt": boolean;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "text"?: TextModifierConfig;
+            "updated_at"?: string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "allow_quantities"?: ((boolean) | (null));
+            "created_at"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "max_quantity"?: ((number) | (null));
+            "max_selected"?: ((number) | (null));
+            "max_total_quantity"?: ((number) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "min_quantity"?: ((number) | (null));
+            "min_selected"?: ((number) | (null));
+            "modifier_group_id"?: ((string) | (null));
+            "modifier_group_type"?: (("list" | "text" | (string & {})) | (null));
+            "modifiers"?: ((Array<ModifierPreviousAttributes>) | (null));
+            "name"?: ((string) | (null));
+            "show_on_fulfillment"?: ((boolean) | (null));
+            "show_on_receipt"?: ((boolean) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "text"?: ((TextModifierConfigPreviousAttributes) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "modifier_group.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "modifier_group.updated";
+});
+/**
+ * The `modifier_group.updated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type ModifierGroupUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.allow_quantities (Required): boolean. Whether buyers can select
+     * more than one unit of a list modifier. object.created_at (Optional): string. When the
+     * modifier group was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
+     * identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842". object.max_quantity (Optional): integer. Maximum whole-number quantity for
+     * each selected list modifier when allow_quantities is true; fractional quantities are not
+     * supported. Format: int64. object.max_selected (Optional): integer. Maximum number of
+     * distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier set
+     * can override this value. Format: int32. object.max_total_quantity (Optional): integer.
+     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
+     * are not supported. Format: int64. object.merchant_id (Optional): string. Identifier of the
+     * merchant that owns this modifier group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be
+     * empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and
+     * cannot be written through the public API. Caller-owned key-value data stored on a resource.
+     * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+     * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+     * satisfy them. object.min_quantity (Optional): integer. Minimum whole-number quantity for
+     * each selected list modifier when allow_quantities is true; fractional quantities are not
+     * supported. Format: int64. object.min_selected (Optional): integer. Minimum number of
+     * distinct modifiers buyers must select from a list group. Omit it to require no selections. A
+     * modifier set can override this value. Format: int32. object.modifier_group_id (Required):
+     * string. Stable identifier of the modifier group. For a group a modifier set owns (`source:
+     * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups`
+     * doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". object.modifier_group_type
+     * (Required): string. Whether buyers choose from a list of modifiers or enter text. On create,
+     * inferred as text when text configuration is supplied, otherwise list. Value enum: "list",
+     * "text". object.modifiers (Required): Array of {@link Modifier}. Choices in a list group.
+     * Only active modifiers whose set override's available is not false are offered to buyers.
+     * Text groups do not have choices. object.modifiers[] (Value): {@link Modifier}. A purchasable
+     * customization choice. object.name (Required): string. Name of the modifier group shown to
+     * buyers. object.show_on_fulfillment (Required): boolean. Whether selections from this group
+     * appear in fulfillment details unless overridden for a modifier set. object.show_on_receipt
+     * (Required): boolean. Whether selections from this group appear on buyer receipts unless
+     * overridden for a modifier set. object.status (Required): string. Lifecycle status of the
+     * modifier group. Only active groups can be offered to buyers; archived groups remain readable
+     * and cannot be edited. Value enum: "active", "inactive", "archived". object.text (Optional):
+     * {@link TextModifierConfig}. Text entry rules for a text group. Use text.required to require
+     * a value; list groups use min_selected instead. Settings for a text modifier group: whether
+     * input is required or multiline, and its length limits. object.updated_at (Optional): string.
+     * When the modifier group or its modifiers last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
+     * the modifier group and its modifiers. Format: uint64. minimum: 1. previous_attributes
+     * (Optional): object and {@link ModifierGroupPreviousAttributes}. Previous values of changed
      * top-level fields in data.object, at this delivery's API version. Nested changes include the
      * whole previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.active_payment_review_id (Optional): string or null or null. The
-     * earliest open or resolving payment review on this order's counted payments. `null` when no
-     * review is open or resolving. List reviews with GET
-     * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present
-     * with merchant credentials. previous_attributes.active_payment_review_id.anyOf[1] (Value):
-     * string or null. The earliest open or resolving payment review on this order's counted
-     * payments. `null` when no review is open or resolving. List reviews with GET
-     * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present
-     * with merchant credentials. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-     * previous_attributes.active_payment_review_id.anyOf[2] (Value): null.
-     * previous_attributes.authorization_amounts (Optional): {@link OrderAuthorizationAmounts} or
-     * null. The amounts authorized and still capturable on the order's payments.
-     * previous_attributes.authorization_amounts.anyOf[1] (Value): {@link
-     * OrderAuthorizationAmounts}. The amounts authorized and still capturable on the order's
-     * payments. previous_attributes.authorization_amounts.anyOf[2] (Value): null.
-     * previous_attributes.buyer_contact (Optional): {@link CheckoutBuyerContact} or null. Email
-     * and phone saved when payment started, from the pay request's buyer_contact or the paying
-     * checkout session's saved contact. It does not change the linked customer.
-     * previous_attributes.buyer_contact.anyOf[1] (Value): {@link CheckoutBuyerContact}. Email and
-     * phone saved when payment started, from the pay request's buyer_contact or the paying
-     * checkout session's saved contact. It does not change the linked customer.
-     * previous_attributes.buyer_contact.anyOf[2] (Value): null. previous_attributes.buyer_note
-     * (Optional): string or null. A note to the buyer. previous_attributes.buyer_note.anyOf[1]
-     * (Value): string. A note to the buyer. previous_attributes.buyer_note.anyOf[2] (Value): null.
-     * previous_attributes.charges (Optional): Array of {@link OrderCharge} or null. Charges added
-     * to the order, such as delivery or service fees, each with its applied amount, tax, and
-     * refunded amount. previous_attributes.charges.anyOf[1] (Value): Array of {@link OrderCharge}.
-     * Charges added to the order, such as delivery or service fees, each with its applied amount,
-     * tax, and refunded amount. previous_attributes.charges.anyOf[1][] (Value): {@link
-     * OrderCharge}. An additional charge applied to an order. previous_attributes.charges.anyOf[2]
-     * (Value): null. previous_attributes.checkout_session_ids (Optional): Array of string or null.
-     * IDs of the checkout sessions opened for this order.
-     * previous_attributes.checkout_session_ids.anyOf[1] (Value): Array of string. IDs of the
-     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1][]
-     * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-     * previous_attributes.checkout_session_ids.anyOf[2] (Value): null.
-     * previous_attributes.client_reference (Optional): string or null or null. The reference the
-     * payment link URL or resolve request carried, such as your user ID. `null` when none was sent
-     * or checkout did not start from a payment link. Returned only to merchant credentials;
-     * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
-     * of identity. Always present with merchant credentials.
-     * previous_attributes.client_reference.anyOf[1] (Value): string or null. The reference the
-     * payment link URL or resolve request carried, such as your user ID. `null` when none was sent
-     * or checkout did not start from a payment link. Returned only to merchant credentials;
-     * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
-     * of identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
-     * previous_attributes.client_reference.anyOf[2] (Value): null. previous_attributes.closed_at
-     * (Optional): string or null. When the order closed. Present exactly when status is closed.
-     * Set once at the transition and never changed. previous_attributes.closed_at.anyOf[1]
-     * (Value): string. When the order closed. Present exactly when status is closed. Set once at
-     * the transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.closed_at.anyOf[2] (Value): null. previous_attributes.closed_reason
-     * (Optional): string or null. Why the order closed. Present exactly when status is closed. Set
-     * once at closure. Unrecognized reasons are returned as other; new values may be added. Value
-     * enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-     * "superseded", "return_resolution_canceled", "other".
-     * previous_attributes.closed_reason.anyOf[1] (Value): string. Why the order closed. Present
-     * exactly when status is closed. Set once at closure. Unrecognized reasons are returned as
-     * other; new values may be added. Value enum: "invoice_voided", "paid", "closed_by_merchant",
-     * "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
-     * previous_attributes.closed_reason.anyOf[2] (Value): null.
-     * previous_attributes.closed_reason_message (Optional): string or null. The caller note
-     * supplied when closing the order. System closures leave it absent. It is not shown to the
-     * buyer. previous_attributes.closed_reason_message.anyOf[1] (Value): string. The caller note
-     * supplied when closing the order. System closures leave it absent. It is not shown to the
-     * buyer. previous_attributes.closed_reason_message.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.custom_field_answers (Optional): Array of {@link
-     * CustomFieldAnswer} or null. The buyer's answers to the payment link's custom fields,
-     * recorded when checkout started, in the order the link showed the fields. Each answer keeps
-     * the field's key, label, and type from that moment, so later changes to the link don't change
-     * it. Optional fields the buyer left blank are left out. Read-only. Empty when the order
-     * didn't come from a payment link, the link had no custom fields, or the buyer answered none.
-     * Orders created before Flint recorded answers here also return an empty list and keep their
-     * answers in `metadata` as `custom_field_<key>`. Deleting the customer removes the answers.
-     * Returned only to merchant credentials; omitted for buyer credentials. Always present with
-     * merchant credentials. previous_attributes.custom_field_answers.anyOf[1] (Value): Array of
-     * {@link CustomFieldAnswer}. The buyer's answers to the payment link's custom fields, recorded
-     * when checkout started, in the order the link showed the fields. Each answer keeps the
-     * field's key, label, and type from that moment, so later changes to the link don't change it.
-     * Optional fields the buyer left blank are left out. Read-only. Empty when the order didn't
-     * come from a payment link, the link had no custom fields, or the buyer answered none. Orders
-     * created before Flint recorded answers here also return an empty list and keep their answers
-     * in `metadata` as `custom_field_<key>`. Deleting the customer removes the answers. Returned
-     * only to merchant credentials; omitted for buyer credentials. Always present with merchant
-     * credentials. maxItems: 20. previous_attributes.custom_field_answers.anyOf[1][] (Value):
-     * {@link CustomFieldAnswer}. One answer to a payment link custom field, with the field as it
-     * was when checkout started. `custom_field_type` determines the type of `value`.
-     * previous_attributes.custom_field_answers.anyOf[2] (Value): null.
-     * previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or null or null.
-     * Customer summary included when `expand` names `customer`; `null` when expanded and no
-     * customer is linked. Present only when `expand` includes `customer`; `null` when expanded and
-     * there is no related customer. previous_attributes.customer.anyOf[1] (Value): {@link
-     * ExpandedCustomerSummary} or null. Customer summary included when `expand` names `customer`;
-     * `null` when expanded and no customer is linked. Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
-     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
-     * previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
-     * (Optional): string or null. ID of the customer this order belongs to.
-     * previous_attributes.customer_id.anyOf[1] (Value): string. ID of the customer this order
-     * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.deferred_promotions (Optional): Array of {@link DeferredPromotion} or
-     * null. Promotions accepted at subscription signup. They attach when the subscription is
-     * provisioned and first discount its first charged cycle. They do not discount this order and
-     * are separate from discounts and order totals. Always present; empty when no promotions are
-     * deferred. previous_attributes.deferred_promotions.anyOf[1] (Value): Array of {@link
-     * DeferredPromotion}. Promotions accepted at subscription signup. They attach when the
-     * subscription is provisioned and first discount its first charged cycle. They do not discount
-     * this order and are separate from discounts and order totals. Always present; empty when no
-     * promotions are deferred. previous_attributes.deferred_promotions.anyOf[1][] (Value): {@link
-     * DeferredPromotion}. A promotion accepted at subscription signup for the subscription's first
-     * charged cycle. It does not discount the signup order.
-     * previous_attributes.deferred_promotions.anyOf[2] (Value): null. previous_attributes.delivery
-     * (Optional): {@link OrderDeliverySummary} or null. Method, type and recipient of
-     * governing_delivery_selection_id. The address remains in delivery_destination. Omitted when
-     * no shipment or local-delivery selection governs the order.
-     * previous_attributes.delivery.anyOf[1] (Value): {@link OrderDeliverySummary}. Method, type
-     * and recipient of governing_delivery_selection_id. The address remains in
-     * delivery_destination. Omitted when no shipment or local-delivery selection governs the
-     * order. previous_attributes.delivery.anyOf[2] (Value): null.
-     * previous_attributes.delivery_destination (Optional): {@link OrderDeliveryDestination} or
-     * null. The shipment or local-delivery destination committed for this order. Payment freezes
-     * this value; fulfillment recipient changes do not replace it. Omitted for a checkout session
-     * credential that doesn't act for the customer the buyer verified.
-     * previous_attributes.delivery_destination.anyOf[1] (Value): {@link OrderDeliveryDestination}.
-     * The shipment or local-delivery destination committed for this order. Payment freezes this
-     * value; fulfillment recipient changes do not replace it. Omitted for a checkout session
-     * credential that doesn't act for the customer the buyer verified.
-     * previous_attributes.delivery_destination.anyOf[2] (Value): null.
-     * previous_attributes.discounts (Optional): Array of {@link OrderDiscount} or null. Discounts
-     * applied to the order, each with its amount, status, and the line items and charges it
-     * covers. previous_attributes.discounts.anyOf[1] (Value): Array of {@link OrderDiscount}.
-     * Discounts applied to the order, each with its amount, status, and the line items and charges
-     * it covers. previous_attributes.discounts.anyOf[1][] (Value): {@link OrderDiscount}. A
-     * discount applied to an order, with its amount, status, and the line items and charges it
-     * covers. It comes from a manual discount or a promotion.
-     * previous_attributes.discounts.anyOf[2] (Value): null. previous_attributes.dispute_status
-     * (Optional): string or null. Aggregate dispute state across the order's counted payment
-     * intents, excluding payment_returned. Always returned to merchant credentials and omitted
-     * from buyer reads. Open states take precedence in this order: needs_response, under_review,
-     * inquiry_needs_response, inquiry_under_review, other. Otherwise the most severe closed state
-     * wins: lost, won, prevented, inquiry_closed; none when no disputes count. List individual
-     * cases with GET /v1/disputes?order_id={order_id}. Always present with merchant credentials.
-     * Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
-     * "needs_response", "under_review", "won", "lost", "prevented", "other".
-     * previous_attributes.dispute_status.anyOf[1] (Value): string. Aggregate dispute state across
-     * the order's counted payment intents, excluding payment_returned. Always returned to merchant
-     * credentials and omitted from buyer reads. Open states take precedence in this order:
-     * needs_response, under_review, inquiry_needs_response, inquiry_under_review, other. Otherwise
-     * the most severe closed state wins: lost, won, prevented, inquiry_closed; none when no
-     * disputes count. List individual cases with GET /v1/disputes?order_id={order_id}. Always
-     * present with merchant credentials. Value enum: "none", "inquiry_needs_response",
-     * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost",
-     * "prevented", "other". previous_attributes.dispute_status.anyOf[2] (Value): null.
+     * previous_attributes.allow_quantities (Optional): boolean or null. Whether buyers can select
+     * more than one unit of a list modifier. previous_attributes.allow_quantities.anyOf[1]
+     * (Value): boolean. Whether buyers can select more than one unit of a list modifier.
+     * previous_attributes.allow_quantities.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. When the modifier group was created, as an RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When the modifier group was
+     * created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null.
      * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
      * identifier for this resource in an external system.
      * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
      * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.fulfillment_status (Optional): string or null. Aggregate progress across
-     * the order's fulfillment quantities. Value enum: "not_fulfilled", "partially_fulfilled",
-     * "fulfilled", "canceled", "not_applicable", "closed".
-     * previous_attributes.fulfillment_status.anyOf[1] (Value): string. Aggregate progress across
-     * the order's fulfillment quantities. Value enum: "not_fulfilled", "partially_fulfilled",
-     * "fulfilled", "canceled", "not_applicable", "closed".
-     * previous_attributes.fulfillment_status.anyOf[2] (Value): null.
-     * previous_attributes.fulfillments (Optional): Array of {@link Fulfillment} or null.
-     * Fulfillments created for the order, each covering a set of its line items.
-     * previous_attributes.fulfillments.anyOf[1] (Value): Array of {@link Fulfillment}.
-     * Fulfillments created for the order, each covering a set of its line items.
-     * previous_attributes.fulfillments.anyOf[1][] (Value): {@link Fulfillment}. Work required to
-     * deliver an order's items. previous_attributes.fulfillments.anyOf[2] (Value): null.
-     * previous_attributes.gift_card_estimate (Optional): {@link OrderGiftCardEstimate} or null. An
-     * estimate of how the order balance splits between gift cards and the payment processor.
-     * previous_attributes.gift_card_estimate.anyOf[1] (Value): {@link OrderGiftCardEstimate}. An
-     * estimate of how the order balance splits between gift cards and the payment processor.
-     * previous_attributes.gift_card_estimate.anyOf[2] (Value): null.
-     * previous_attributes.gift_card_settlements (Optional): Array of {@link
-     * OrderGiftCardSettlement} or null. The gift card redemptions applied to the order's payments.
-     * previous_attributes.gift_card_settlements.anyOf[1] (Value): Array of {@link
-     * OrderGiftCardSettlement}. The gift card redemptions applied to the order's payments.
-     * previous_attributes.gift_card_settlements.anyOf[1][] (Value): {@link
-     * OrderGiftCardSettlement}. A gift card redemption applied to an order payment, with the
-     * amount, tip, and gift card. previous_attributes.gift_card_settlements.anyOf[2] (Value):
-     * null. previous_attributes.gift_card_tender_enabled (Optional): boolean or null. Whether gift
-     * cards can pay for this order now. Gift cards pay only USD orders that still accept changes,
-     * are not subscription purchases, and whose merchant has at least one gift card that is not
-     * closed in this environment. Recomputed on each read; a spent but open card still counts.
-     * previous_attributes.gift_card_tender_enabled.anyOf[1] (Value): boolean. Whether gift cards
-     * can pay for this order now. Gift cards pay only USD orders that still accept changes, are
-     * not subscription purchases, and whose merchant has at least one gift card that is not closed
-     * in this environment. Recomputed on each read; a spent but open card still counts.
-     * previous_attributes.gift_card_tender_enabled.anyOf[2] (Value): null.
-     * previous_attributes.gift_cards (Optional): Array of {@link OrderGiftCardSelection} or null.
-     * Gift cards available to pay the order, with each card's available balance.
-     * previous_attributes.gift_cards.anyOf[1] (Value): Array of {@link OrderGiftCardSelection}.
-     * Gift cards available to pay the order, with each card's available balance.
-     * previous_attributes.gift_cards.anyOf[1][] (Value): {@link OrderGiftCardSelection}. A gift
-     * card available to pay an order, with its available balance and the last four characters of
-     * its code. previous_attributes.gift_cards.anyOf[2] (Value): null.
-     * previous_attributes.governing_delivery_selection_id (Optional): string or null or null. ID
-     * of the delivery selection that governs this order, including pickup choices without a
-     * delivery destination: the checkout's provisional selection before payment, and the selection
-     * a payment committed after. Read it with GET /v1/delivery-selections/{delivery_selection_id}.
-     * Null when no selection governs the order. While set, change the destination through the
-     * delivery selection. previous_attributes.governing_delivery_selection_id.anyOf[1] (Value):
-     * string or null. ID of the delivery selection that governs this order, including pickup
-     * choices without a delivery destination: the checkout's provisional selection before payment,
-     * and the selection a payment committed after. Read it with GET
-     * /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs the order.
-     * While set, change the destination through the delivery selection. Example:
-     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
-     * previous_attributes.governing_delivery_selection_id.anyOf[2] (Value): null.
-     * previous_attributes.handover (Optional): {@link OrderHandover} or null. Carry-out handover:
-     * every physical item is handed to the buyer at this location when the order is paid, in place
-     * of a delivery selection. Payment then creates one completed `handover` fulfillment. Absent
-     * without a handover. previous_attributes.handover.anyOf[1] (Value): {@link OrderHandover}.
-     * Carry-out handover: every physical item is handed to the buyer at this location when the
-     * order is paid, in place of a delivery selection. Payment then creates one completed
-     * `handover` fulfillment. Absent without a handover. previous_attributes.handover.anyOf[2]
-     * (Value): null. previous_attributes.internal_note (Optional): string or null. A note for your
-     * team. Buyer reads leave it out. previous_attributes.internal_note.anyOf[1] (Value): string.
-     * A note for your team. Buyer reads leave it out. previous_attributes.internal_note.anyOf[2]
-     * (Value): null. previous_attributes.inventory_exception_reason (Optional): string or null.
-     * Why inventory could not be committed after payment. The cause remains after resolution.
-     * Omitted when no reason was recorded. Unrecognized reasons are returned as other; new values
-     * may be added. Value enum: "inventory_deduction_failed", "inventory_handoff_failed",
-     * "auto_refund_required", "auto_refund_failed", "policy_resolution_failed", "other".
-     * previous_attributes.inventory_exception_reason.anyOf[1] (Value): string. Why inventory could
-     * not be committed after payment. The cause remains after resolution. Omitted when no reason
-     * was recorded. Unrecognized reasons are returned as other; new values may be added. Value
-     * enum: "inventory_deduction_failed", "inventory_handoff_failed", "auto_refund_required",
-     * "auto_refund_failed", "policy_resolution_failed", "other".
-     * previous_attributes.inventory_exception_reason.anyOf[2] (Value): null.
-     * previous_attributes.inventory_exception_resolution_message (Optional): string or null. The
-     * merchant note supplied when resolving the inventory exception. It is not shown to the buyer.
-     * previous_attributes.inventory_exception_resolution_message.anyOf[1] (Value): string. The
-     * merchant note supplied when resolving the inventory exception. It is not shown to the buyer.
-     * previous_attributes.inventory_exception_resolution_message.anyOf[2] (Value): null.
-     * previous_attributes.inventory_exception_status (Optional): string or null. Whether an
-     * inventory problem after payment needs attention. Value enum: "paid_inventory_failed",
-     * "resolved". previous_attributes.inventory_exception_status.anyOf[1] (Value): string. Whether
-     * an inventory problem after payment needs attention. Value enum: "paid_inventory_failed",
-     * "resolved". previous_attributes.inventory_exception_status.anyOf[2] (Value): null.
-     * previous_attributes.inventory_reservation_id (Optional): string or null. The reservation
-     * holding stock for this order, when one exists.
-     * previous_attributes.inventory_reservation_id.anyOf[1] (Value): string. The reservation
-     * holding stock for this order, when one exists. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-     * previous_attributes.inventory_reservation_id.anyOf[2] (Value): null.
-     * previous_attributes.inventory_routing_source (Optional): {@link InventoryRoutingSource} or
-     * null. Where this order's tracked demand is routed. Required before an order containing
-     * tracked variants can hold stock. previous_attributes.inventory_routing_source.anyOf[1]
-     * (Value): {@link InventoryRoutingSource}. Where this order's tracked demand is routed.
-     * Required before an order containing tracked variants can hold stock.
-     * previous_attributes.inventory_routing_source.anyOf[2] (Value): null.
-     * previous_attributes.invoice_id (Optional): string or null or null. The invoice associated
-     * with this order. Null when the order has no invoice. A replacement invoice replaces this ID;
-     * voiding an invoice preserves it. previous_attributes.invoice_id.anyOf[1] (Value): string or
-     * null. The invoice associated with this order. Null when the order has no invoice. A
-     * replacement invoice replaces this ID; voiding an invoice preserves it. Example:
-     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
-     * previous_attributes.line_items (Optional): Array of {@link OrderLineItem} or null. Items the
-     * order sells, each with its pricing, tax, and fulfillment quantities.
-     * previous_attributes.line_items.anyOf[1] (Value): Array of {@link OrderLineItem}. Items the
-     * order sells, each with its pricing, tax, and fulfillment quantities.
-     * previous_attributes.line_items.anyOf[1][] (Value): {@link OrderLineItem}. An item purchased
-     * in an order. previous_attributes.line_items.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
-     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
-     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
-     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
-     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
-     * (Value): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for
-     * key, value, and size rules. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.order_id (Optional): string or null. Unique identifier for this order,
-     * prefixed `ord_`. previous_attributes.order_id.anyOf[1] (Value): string. Unique identifier
-     * for this order, prefixed `ord_`. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     * previous_attributes.order_id.anyOf[2] (Value): null. previous_attributes.order_number
-     * (Optional): string or null. Human-readable order number for receipts and merchant reference.
-     * previous_attributes.order_number.anyOf[1] (Value): string. Human-readable order number for
-     * receipts and merchant reference. previous_attributes.order_number.anyOf[2] (Value): null.
-     * previous_attributes.origin (Optional): string or null. How the order was created. invoice
-     * means a Quick Pay invoice created the order; attaching an invoice to an existing order
-     * preserves its origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
-     * "subscription", "invoice". previous_attributes.origin.anyOf[1] (Value): string. How the
-     * order was created. invoice means a Quick Pay invoice created the order; attaching an invoice
-     * to an existing order preserves its origin. Value enum: "virtual_terminal", "payment_link",
-     * "checkout", "api", "subscription", "invoice". previous_attributes.origin.anyOf[2] (Value):
-     * null. previous_attributes.paid_at (Optional): string or null or null. When `payment_status`
-     * became `paid`, including a final capture that releases the remaining balance. Set once and
-     * never changed, including after refunds. `null` when `payment_status` isn't `paid`, including
-     * an order whose balance was written off without being paid.
-     * previous_attributes.paid_at.anyOf[1] (Value): string or null. When `payment_status` became
-     * `paid`, including a final capture that releases the remaining balance. Set once and never
-     * changed, including after refunds. `null` when `payment_status` isn't `paid`, including an
-     * order whose balance was written off without being paid. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.paid_at.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent_ids (Optional): Array of string or null. IDs of the
-     * payment intents created to collect this order.
-     * previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment
-     * intents created to collect this order. previous_attributes.payment_intent_ids.anyOf[1][]
-     * (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     * previous_attributes.payment_intent_ids.anyOf[2] (Value): null.
-     * previous_attributes.payment_intents (Optional): Array of {@link
-     * ExpandedPaymentIntentSummary} or null. Payment intents included when `expand` names
-     * `payment_intents`. previous_attributes.payment_intents.anyOf[1] (Value): Array of {@link
-     * ExpandedPaymentIntentSummary}. Payment intents included when `expand` names
-     * `payment_intents`. previous_attributes.payment_intents.anyOf[1][] (Value): {@link
-     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
-     * and capture method, returned when the payment intent is expanded.
-     * previous_attributes.payment_intents.anyOf[2] (Value): null.
-     * previous_attributes.payment_link_id (Optional): string or null. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
-     * /v1/orders by payment_link_id to list a link's orders.
-     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
-     * /v1/orders by payment_link_id to list a link's orders. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_status (Optional): string or null. Collection progress. An
-     * invoice write-off also completes collection without receiving the written-off amount. Value
-     * enum: "unpaid", "partially_paid", "paid". previous_attributes.payment_status.anyOf[1]
-     * (Value): string. Collection progress. An invoice write-off also completes collection without
-     * receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-     * previous_attributes.payment_status.anyOf[2] (Value): null.
-     * previous_attributes.pending_order_edit_id (Optional): string or null or null. The order edit
-     * waiting for its balance payment. While it is set, the units that edit removes can't join a
-     * fulfillment and the order refuses another edit. `null` when there is none. Omitted for buyer
-     * credentials. Always present with merchant credentials.
-     * previous_attributes.pending_order_edit_id.anyOf[1] (Value): string or null. The order edit
-     * waiting for its balance payment. While it is set, the units that edit removes can't join a
-     * fulfillment and the order refuses another edit. `null` when there is none. Omitted for buyer
-     * credentials. Always present with merchant credentials. Example:
-     * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". previous_attributes.pending_order_edit_id.anyOf[2]
-     * (Value): null. previous_attributes.prepayment_order_id (Optional): string or null or null.
-     * Order that paid for this prepaid delivery. Null when this is not a prepaid delivery order.
-     * previous_attributes.prepayment_order_id.anyOf[1] (Value): string or null. Order that paid
-     * for this prepaid delivery. Null when this is not a prepaid delivery order. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.prepayment_order_id.anyOf[2] (Value):
-     * null. previous_attributes.pricing_amounts (Optional): {@link PricingAmounts} or null. The
-     * order's money totals: subtotal, discounts, charges, tax, requested tip, and total.
-     * previous_attributes.pricing_amounts.anyOf[1] (Value): {@link PricingAmounts}. The order's
-     * money totals: subtotal, discounts, charges, tax, requested tip, and total.
-     * previous_attributes.pricing_amounts.anyOf[2] (Value): null. previous_attributes.refund_ids
-     * (Optional): Array of string or null. IDs of the refunds that name this order. This includes
-     * refunds Flint makes to return a payment it couldn't accept (`reason` `payment_returned`),
-     * which never count toward `refund_status` or the order's refunded amounts.
-     * previous_attributes.refund_ids.anyOf[1] (Value): Array of string. IDs of the refunds that
-     * name this order. This includes refunds Flint makes to return a payment it couldn't accept
-     * (`reason` `payment_returned`), which never count toward `refund_status` or the order's
-     * refunded amounts. previous_attributes.refund_ids.anyOf[1][] (Value): string. Example:
-     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_ids.anyOf[2] (Value): null.
-     * previous_attributes.refund_status (Optional): string or null. Refund progress for collected
-     * money. Refunds with `reason` `payment_returned` return money the order never received and
-     * don't count. Value enum: "none", "partially_refunded", "refunded".
-     * previous_attributes.refund_status.anyOf[1] (Value): string. Refund progress for collected
-     * money. Refunds with `reason` `payment_returned` return money the order never received and
-     * don't count. Value enum: "none", "partially_refunded", "refunded".
-     * previous_attributes.refund_status.anyOf[2] (Value): null.
-     * previous_attributes.return_credit_settlements (Optional): Array of {@link
-     * OrderReturnCreditSettlement} or null. Value applied to this order from items the buyer
-     * returned, such as an exchange's replacement order. Included in
-     * settlement_amounts.paid_money. previous_attributes.return_credit_settlements.anyOf[1]
-     * (Value): Array of {@link OrderReturnCreditSettlement}. Value applied to this order from
-     * items the buyer returned, such as an exchange's replacement order. Included in
-     * settlement_amounts.paid_money. previous_attributes.return_credit_settlements.anyOf[1][]
-     * (Value): {@link OrderReturnCreditSettlement}. A return credit applied to an order payment,
-     * with the amount and the return and resolution it came from.
-     * previous_attributes.return_credit_settlements.anyOf[2] (Value): null.
-     * previous_attributes.return_resolution_id (Optional): string or null. ID of the return
-     * resolution that created this order as a replacement. Omitted for orders a return did not
-     * create. previous_attributes.return_resolution_id.anyOf[1] (Value): string. ID of the return
-     * resolution that created this order as a replacement. Omitted for orders a return did not
-     * create. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     * previous_attributes.return_resolution_id.anyOf[2] (Value): null.
-     * previous_attributes.settlement_amounts (Optional): {@link OrderSettlementAmounts} or null.
-     * How much of the order has been paid, refunded, credited, written off, and settled as tips,
-     * and what is still outstanding. previous_attributes.settlement_amounts.anyOf[1] (Value):
-     * {@link OrderSettlementAmounts}. How much of the order has been paid, refunded, credited,
-     * written off, and settled as tips, and what is still outstanding. Money collected, returned,
-     * waived, and still owed on a bill. previous_attributes.settlement_amounts.anyOf[2] (Value):
-     * null. previous_attributes.status (Optional): string or null. Whether the order still accepts
-     * changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or note
-     * edits continue on a closed order. Value enum: "open", "closed".
-     * previous_attributes.status.anyOf[1] (Value): string. Whether the order still accepts changes
-     * and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits
-     * continue on a closed order. Value enum: "open", "closed".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription
-     * (Optional): {@link ExpandedSubscriptionSummary} or null or null. Subscription summary
-     * included when `expand` names `subscription`; `null` when expanded and this order does not
-     * bill a subscription. Present only when `expand` includes `subscription`; `null` when
-     * expanded and there is no related subscription. previous_attributes.subscription.anyOf[1]
-     * (Value): {@link ExpandedSubscriptionSummary} or null. Subscription summary included when
-     * `expand` names `subscription`; `null` when expanded and this order does not bill a
-     * subscription. Present only when `expand` includes `subscription`; `null` when expanded and
-     * there is no related subscription. previous_attributes.subscription.anyOf[1].anyOf[1]
-     * (Value): {@link ExpandedSubscriptionSummary}. A subscription's summary fields, including
-     * status, billing period, and next billing time, returned when the subscription is expanded.
-     * previous_attributes.subscription.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.subscription.anyOf[2] (Value): null.
-     * previous_attributes.subscription_cycle (Optional): integer or null. Charged subscription
-     * cycle associated with this order. Signup is cycle 1; unpaid retries and skipped renewals do
-     * not advance the cycle. previous_attributes.subscription_cycle.anyOf[1] (Value): integer.
-     * Charged subscription cycle associated with this order. Signup is cycle 1; unpaid retries and
-     * skipped renewals do not advance the cycle. Format: uint64. minimum: 0.
-     * previous_attributes.subscription_cycle.anyOf[2] (Value): null.
-     * previous_attributes.subscription_delivery_changed_at (Optional): string or null. Time the
-     * subscriber changed delivery after this paid renewal was prepared. The order keeps its
-     * committed destination until you correct it or refund and replace it.
-     * previous_attributes.subscription_delivery_changed_at.anyOf[1] (Value): string. Time the
-     * subscriber changed delivery after this paid renewal was prepared. The order keeps its
-     * committed destination until you correct it or refund and replace it. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.subscription_delivery_changed_at.anyOf[2] (Value): null.
-     * previous_attributes.subscription_delivery_number (Optional): integer or null or null.
-     * Position of this delivery among the deliveries one charge paid for, starting at 2. Null when
-     * this is not a prepaid delivery order.
-     * previous_attributes.subscription_delivery_number.anyOf[1] (Value): integer or null. Position
-     * of this delivery among the deliveries one charge paid for, starting at 2. Null when this is
-     * not a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
-     * previous_attributes.subscription_delivery_number.anyOf[2] (Value): null.
-     * previous_attributes.subscription_id (Optional): string or null. ID of the subscription this
-     * order bills. Absent on an order that isn't from a subscription.
-     * previous_attributes.subscription_id.anyOf[1] (Value): string. ID of the subscription this
-     * order bills. Absent on an order that isn't from a subscription. Example:
-     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". previous_attributes.subscription_id.anyOf[2] (Value):
-     * null. previous_attributes.subscription_plan (Optional): {@link
-     * ExpandedSubscriptionPlanSummary} or null or null. Plan summary included when `expand` names
-     * `subscription_plan`; `null` when expanded and this order does not bill a subscription plan.
-     * Present only when `expand` includes `subscription_plan`; `null` when expanded and there is
-     * no related subscription plan. previous_attributes.subscription_plan.anyOf[1] (Value): {@link
-     * ExpandedSubscriptionPlanSummary} or null. Plan summary included when `expand` names
-     * `subscription_plan`; `null` when expanded and this order does not bill a subscription plan.
-     * Present only when `expand` includes `subscription_plan`; `null` when expanded and there is
-     * no related subscription plan. previous_attributes.subscription_plan.anyOf[1].anyOf[1]
-     * (Value): {@link ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields,
-     * including name, billing interval, currency, and status, returned when the plan is expanded.
-     * previous_attributes.subscription_plan.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.subscription_plan.anyOf[2] (Value): null.
-     * previous_attributes.subscription_plan_id (Optional): string or null. ID of the subscription
-     * plan this order bills. Absent on an order that isn't from a subscription.
-     * previous_attributes.subscription_plan_id.anyOf[1] (Value): string. ID of the subscription
-     * plan this order bills. Absent on an order that isn't from a subscription. Example:
-     * "plan_01KEZF7C004CY5ZR33XST2AASV". previous_attributes.subscription_plan_id.anyOf[2]
-     * (Value): null. previous_attributes.supported_actions (Optional): Array of string or null.
-     * Lifecycle actions Flint accepts now, independent of permissions. Includes close when closure
-     * is allowed, and pay while open without an active attempt and with an outstanding balance or
-     * payment-method setup available. Always present with merchant credentials. [] enum: "close",
-     * "pay", "resolve_inventory_exception". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Lifecycle actions Flint accepts now, independent of permissions.
-     * Includes close when closure is allowed, and pay while open without an active attempt and
-     * with an outstanding balance or payment-method setup available. Always present with merchant
-     * credentials. [] enum: "close", "pay", "resolve_inventory_exception".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "close",
-     * "pay", "resolve_inventory_exception". previous_attributes.supported_actions.anyOf[2]
-     * (Value): null. previous_attributes.tax (Optional): {@link OrderTax} or null. The order's tax
-     * state: whether tax is enabled, its status, location, exemption, and per-jurisdiction rows.
-     * previous_attributes.tax.anyOf[1] (Value): {@link OrderTax}. The order's tax state: whether
-     * tax is enabled, its status, location, exemption, and per-jurisdiction rows.
-     * previous_attributes.tax.anyOf[2] (Value): null. previous_attributes.ticketed_event
-     * (Optional): {@link TicketedEvent} or null. Event and tickets this order sold through an
-     * event payment link. Absent on other orders. previous_attributes.ticketed_event.anyOf[1]
-     * (Value): {@link TicketedEvent}. Event and tickets this order sold through an event payment
-     * link. Absent on other orders. previous_attributes.ticketed_event.anyOf[2] (Value): null.
-     * previous_attributes.tips (Optional): Array of {@link Tip} or null. Tips on the order, each
-     * with its requested, settled, and refunded amounts. A tip cleared before payment stays listed
-     * as canceled. previous_attributes.tips.anyOf[1] (Value): Array of {@link Tip}. Tips on the
-     * order, each with its requested, settled, and refunded amounts. A tip cleared before payment
-     * stays listed as canceled. previous_attributes.tips.anyOf[1][] (Value): {@link Tip}. A tip on
-     * an order, with its requested, settled, and refunded amounts, status, and how it was paid.
-     * previous_attributes.tips.anyOf[2] (Value): null. previous_attributes.updated_at (Optional):
-     * string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Order version for optimistic concurrency. Send this value as
-     * the expected version when changing the order. Increases with every change to the order.
-     * Ignore an order webhook snapshot whose version is lower than one you have already applied.
-     * previous_attributes.version.anyOf[1] (Value): integer. Order version for optimistic
-     * concurrency. Send this value as the expected version when changing the order. Increases with
-     * every change to the order. Ignore an order webhook snapshot whose version is lower than one
-     * you have already applied. Format: int64. previous_attributes.version.anyOf[2] (Value): null.
+     * previous_attributes.max_quantity (Optional): integer or null. Maximum whole-number quantity
+     * for each selected list modifier when allow_quantities is true; fractional quantities are not
+     * supported. previous_attributes.max_quantity.anyOf[1] (Value): integer. Maximum whole-number
+     * quantity for each selected list modifier when allow_quantities is true; fractional
+     * quantities are not supported. Format: int64. previous_attributes.max_quantity.anyOf[2]
+     * (Value): null. previous_attributes.max_selected (Optional): integer or null. Maximum number
+     * of distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier
+     * set can override this value. previous_attributes.max_selected.anyOf[1] (Value): integer.
+     * Maximum number of distinct modifiers buyers can select from a list group. Omit it for no
+     * limit. A modifier set can override this value. Format: int32.
+     * previous_attributes.max_selected.anyOf[2] (Value): null.
+     * previous_attributes.max_total_quantity (Optional): integer or null. Maximum combined
+     * whole-number quantity across selected list modifiers; fractional quantities are not
+     * supported. previous_attributes.max_total_quantity.anyOf[1] (Value): integer. Maximum
+     * combined whole-number quantity across selected list modifiers; fractional quantities are not
+     * supported. Format: int64. previous_attributes.max_total_quantity.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this modifier group. previous_attributes.merchant_id.anyOf[1] (Value): string.
+     * Identifier of the merchant that owns this modifier group. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
+     * returned, and cannot be written through the public API.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.min_quantity
+     * (Optional): integer or null. Minimum whole-number quantity for each selected list modifier
+     * when allow_quantities is true; fractional quantities are not supported.
+     * previous_attributes.min_quantity.anyOf[1] (Value): integer. Minimum whole-number quantity
+     * for each selected list modifier when allow_quantities is true; fractional quantities are not
+     * supported. Format: int64. previous_attributes.min_quantity.anyOf[2] (Value): null.
+     * previous_attributes.min_selected (Optional): integer or null. Minimum number of distinct
+     * modifiers buyers must select from a list group. Omit it to require no selections. A modifier
+     * set can override this value. previous_attributes.min_selected.anyOf[1] (Value): integer.
+     * Minimum number of distinct modifiers buyers must select from a list group. Omit it to
+     * require no selections. A modifier set can override this value. Format: int32.
+     * previous_attributes.min_selected.anyOf[2] (Value): null.
+     * previous_attributes.modifier_group_id (Optional): string or null. Stable identifier of the
+     * modifier group. For a group a modifier set owns (`source: inline`), read it through `GET
+     * /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it.
+     * previous_attributes.modifier_group_id.anyOf[1] (Value): string. Stable identifier of the
+     * modifier group. For a group a modifier set owns (`source: inline`), read it through `GET
+     * /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it. Example:
+     * "mg_01KEZF7C00XKJJATARG7KDBYM9". previous_attributes.modifier_group_id.anyOf[2] (Value):
+     * null. previous_attributes.modifier_group_type (Optional): string or null. Whether buyers
+     * choose from a list of modifiers or enter text. On create, inferred as text when text
+     * configuration is supplied, otherwise list. Value enum: "list", "text".
+     * previous_attributes.modifier_group_type.anyOf[1] (Value): string. Whether buyers choose from
+     * a list of modifiers or enter text. On create, inferred as text when text configuration is
+     * supplied, otherwise list. Value enum: "list", "text".
+     * previous_attributes.modifier_group_type.anyOf[2] (Value): null.
+     * previous_attributes.modifiers (Optional): Array of {@link ModifierPreviousAttributes} or
+     * null. Choices in a list group. Only active modifiers whose set override's available is not
+     * false are offered to buyers. Text groups do not have choices.
+     * previous_attributes.modifiers.anyOf[1] (Value): Array of {@link ModifierPreviousAttributes}.
+     * Choices in a list group. Only active modifiers whose set override's available is not false
+     * are offered to buyers. Text groups do not have choices.
+     * previous_attributes.modifiers.anyOf[1][] (Value): {@link ModifierPreviousAttributes}.
+     * previous_attributes.modifiers.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Name of the modifier group shown to buyers.
+     * previous_attributes.name.anyOf[1] (Value): string. Name of the modifier group shown to
+     * buyers. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.show_on_fulfillment (Optional): boolean or null. Whether selections from
+     * this group appear in fulfillment details unless overridden for a modifier set.
+     * previous_attributes.show_on_fulfillment.anyOf[1] (Value): boolean. Whether selections from
+     * this group appear in fulfillment details unless overridden for a modifier set.
+     * previous_attributes.show_on_fulfillment.anyOf[2] (Value): null.
+     * previous_attributes.show_on_receipt (Optional): boolean or null. Whether selections from
+     * this group appear on buyer receipts unless overridden for a modifier set.
+     * previous_attributes.show_on_receipt.anyOf[1] (Value): boolean. Whether selections from this
+     * group appear on buyer receipts unless overridden for a modifier set.
+     * previous_attributes.show_on_receipt.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Lifecycle status of the modifier group. Only active groups can
+     * be offered to buyers; archived groups remain readable and cannot be edited. Value enum:
+     * "active", "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string.
+     * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
+     * archived groups remain readable and cannot be edited. Value enum: "active", "inactive",
+     * "archived". previous_attributes.status.anyOf[2] (Value): null. previous_attributes.text
+     * (Optional): {@link TextModifierConfigPreviousAttributes} or null. Text entry rules for a
+     * text group. Use text.required to require a value; list groups use min_selected instead.
+     * previous_attributes.text.anyOf[1] (Value): {@link TextModifierConfigPreviousAttributes}.
+     * previous_attributes.text.anyOf[2] (Value): null. previous_attributes.updated_at (Optional):
+     * string or null. When the modifier group or its modifiers last changed, as an RFC3339
+     * timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When the modifier group
+     * or its modifiers last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Version of the modifier group and
+     * its modifiers. previous_attributes.version.anyOf[1] (Value): integer. Version of the
+     * modifier group and its modifiers. Format: uint64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
-         * The resource snapshot, without expansions. Webhooks omit these fields:
-         * `active_payment_attempt`, `payment_collection`, `setup_collection`.
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * allow_quantities (Required): boolean. Whether buyers can select more than one unit of a
+         * list modifier. created_at (Optional): string. When the modifier group was created, as an
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
+         * an external system. maxLength: 255. Example: "warehouse-1842". max_quantity (Optional):
+         * integer. Maximum whole-number quantity for each selected list modifier when
+         * allow_quantities is true; fractional quantities are not supported. Format: int64.
+         * max_selected (Optional): integer. Maximum number of distinct modifiers buyers can select
+         * from a list group. Omit it for no limit. A modifier set can override this value. Format:
+         * int32. max_total_quantity (Optional): integer. Maximum combined whole-number quantity
+         * across selected list modifiers; fractional quantities are not supported. Format: int64.
+         * merchant_id (Optional): string. Identifier of the merchant that owns this modifier
+         * group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
+         * MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with
+         * flint_ are reserved for Flint, are not returned, and cannot be written through the
+         * public API. Caller-owned key-value data stored on a resource. Keys starting with flint_
+         * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput
+         * and MetadataPatchInput; maps written before those limits may not satisfy them.
+         * min_quantity (Optional): integer. Minimum whole-number quantity for each selected list
+         * modifier when allow_quantities is true; fractional quantities are not supported. Format:
+         * int64. min_selected (Optional): integer. Minimum number of distinct modifiers buyers
+         * must select from a list group. Omit it to require no selections. A modifier set can
+         * override this value. Format: int32. modifier_group_id (Required): string. Stable
+         * identifier of the modifier group. For a group a modifier set owns (`source: inline`),
+         * read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
+         * return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". modifier_group_type (Required):
+         * string. Whether buyers choose from a list of modifiers or enter text. On create,
+         * inferred as text when text configuration is supplied, otherwise list. Value enum:
+         * "list", "text". modifiers (Required): Array of {@link Modifier}. Choices in a list
+         * group. Only active modifiers whose set override's available is not false are offered to
+         * buyers. Text groups do not have choices. modifiers[] (Value): {@link Modifier}. A
+         * purchasable customization choice. name (Required): string. Name of the modifier group
+         * shown to buyers. show_on_fulfillment (Required): boolean. Whether selections from this
+         * group appear in fulfillment details unless overridden for a modifier set.
+         * show_on_receipt (Required): boolean. Whether selections from this group appear on buyer
+         * receipts unless overridden for a modifier set. status (Required): string. Lifecycle
+         * status of the modifier group. Only active groups can be offered to buyers; archived
+         * groups remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". text (Optional): {@link TextModifierConfig}. Text entry rules for a text
+         * group. Use text.required to require a value; list groups use min_selected instead.
+         * Settings for a text modifier group: whether input is required or multiline, and its
+         * length limits. updated_at (Optional): string. When the modifier group or its modifiers
+         * last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier group and
+         * its modifiers. Format: uint64. minimum: 1.
          */
-        "object": WebhookOrder;
+        "object": {
+            /** Whether buyers can select more than one unit of a list modifier. */
+            "allow_quantities": boolean;
+            /**
+             * When the modifier group was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Maximum whole-number quantity for each selected list modifier when allow_quantities
+             * is true; fractional quantities are not supported. Format: int64.
+             */
+            "max_quantity"?: number;
+            /**
+             * Maximum number of distinct modifiers buyers can select from a list group. Omit it
+             * for no limit. A modifier set can override this value. Format: int32.
+             */
+            "max_selected"?: number;
+            /**
+             * Maximum combined whole-number quantity across selected list modifiers; fractional
+             * quantities are not supported. Format: int64.
+             */
+            "max_total_quantity"?: number;
+            /**
+             * Identifier of the merchant that owns this modifier group. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
+             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
+             * and MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Minimum whole-number quantity for each selected list modifier when allow_quantities
+             * is true; fractional quantities are not supported. Format: int64.
+             */
+            "min_quantity"?: number;
+            /**
+             * Minimum number of distinct modifiers buyers must select from a list group. Omit it
+             * to require no selections. A modifier set can override this value. Format: int32.
+             */
+            "min_selected"?: number;
+            /**
+             * Stable identifier of the modifier group. For a group a modifier set owns (`source:
+             * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`;
+             * `/v1/modifier-groups` doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+             */
+            "modifier_group_id": string;
+            /**
+             * Whether buyers choose from a list of modifiers or enter text. On create, inferred as
+             * text when text configuration is supplied, otherwise list. Value enum: "list",
+             * "text".
+             */
+            "modifier_group_type": "list" | "text" | (string & {});
+            /**
+             * Choices in a list group. Only active modifiers whose set override's available is not
+             * false are offered to buyers. Text groups do not have choices. [] (Value): {@link
+             * Modifier}. A purchasable customization choice.
+             */
+            "modifiers": Array<Modifier>;
+            /** Name of the modifier group shown to buyers. */
+            "name": string;
+            /**
+             * Whether selections from this group appear in fulfillment details unless overridden
+             * for a modifier set.
+             */
+            "show_on_fulfillment": boolean;
+            /**
+             * Whether selections from this group appear on buyer receipts unless overridden for a
+             * modifier set.
+             */
+            "show_on_receipt": boolean;
+            /**
+             * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
+             * archived groups remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * Text entry rules for a text group. Use text.required to require a value; list groups
+             * use min_selected instead. Settings for a text modifier group: whether input is
+             * required or multiline, and its length limits.
+             */
+            "text"?: TextModifierConfig;
+            /**
+             * When the modifier group or its modifiers last changed, as an RFC3339 timestamp.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /** Version of the modifier group and its modifiers. Format: uint64. minimum: 1. */
+            "version": number;
+        };
         /**
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. active_payment_review_id (Optional): string or
-         * null or null. The earliest open or resolving payment review on this order's counted
-         * payments. `null` when no review is open or resolving. List reviews with GET
-         * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present
-         * with merchant credentials. active_payment_review_id.anyOf[1] (Value): string or null.
-         * The earliest open or resolving payment review on this order's counted payments. `null`
-         * when no review is open or resolving. List reviews with GET
-         * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present
-         * with merchant credentials. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-         * active_payment_review_id.anyOf[2] (Value): null. authorization_amounts (Optional):
-         * {@link OrderAuthorizationAmounts} or null. The amounts authorized and still capturable
-         * on the order's payments. authorization_amounts.anyOf[1] (Value): {@link
-         * OrderAuthorizationAmounts}. The amounts authorized and still capturable on the order's
-         * payments. authorization_amounts.anyOf[2] (Value): null. buyer_contact (Optional): {@link
-         * CheckoutBuyerContact} or null. Email and phone saved when payment started, from the pay
-         * request's buyer_contact or the paying checkout session's saved contact. It does not
-         * change the linked customer. buyer_contact.anyOf[1] (Value): {@link
-         * CheckoutBuyerContact}. Email and phone saved when payment started, from the pay
-         * request's buyer_contact or the paying checkout session's saved contact. It does not
-         * change the linked customer. buyer_contact.anyOf[2] (Value): null. buyer_note (Optional):
-         * string or null. A note to the buyer. buyer_note.anyOf[1] (Value): string. A note to the
-         * buyer. buyer_note.anyOf[2] (Value): null. charges (Optional): Array of {@link
-         * OrderCharge} or null. Charges added to the order, such as delivery or service fees, each
-         * with its applied amount, tax, and refunded amount. charges.anyOf[1] (Value): Array of
-         * {@link OrderCharge}. Charges added to the order, such as delivery or service fees, each
-         * with its applied amount, tax, and refunded amount. charges.anyOf[1][] (Value): {@link
-         * OrderCharge}. An additional charge applied to an order. charges.anyOf[2] (Value): null.
-         * checkout_session_ids (Optional): Array of string or null. IDs of the checkout sessions
-         * opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string. IDs of
-         * the checkout sessions opened for this order. checkout_session_ids.anyOf[1][] (Value):
-         * string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2] (Value):
-         * null. client_reference (Optional): string or null or null. The reference the payment
-         * link URL or resolve request carried, such as your user ID. `null` when none was sent or
-         * checkout did not start from a payment link. Returned only to merchant credentials;
-         * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not
-         * proof of identity. Always present with merchant credentials. client_reference.anyOf[1]
-         * (Value): string or null. The reference the payment link URL or resolve request carried,
-         * such as your user ID. `null` when none was sent or checkout did not start from a payment
-         * link. Returned only to merchant credentials; omitted for buyer credentials. Set by the
-         * buyer's browser, so treat it as a claim, not proof of identity. Always present with
-         * merchant credentials. minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value):
-         * null. closed_at (Optional): string or null. When the order closed. Present exactly when
-         * status is closed. Set once at the transition and never changed. closed_at.anyOf[1]
-         * (Value): string. When the order closed. Present exactly when status is closed. Set once
-         * at the transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * closed_at.anyOf[2] (Value): null. closed_reason (Optional): string or null. Why the
-         * order closed. Present exactly when status is closed. Set once at closure. Unrecognized
-         * reasons are returned as other; new values may be added. Value enum: "invoice_voided",
-         * "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded",
-         * "return_resolution_canceled", "other". closed_reason.anyOf[1] (Value): string. Why the
-         * order closed. Present exactly when status is closed. Set once at closure. Unrecognized
-         * reasons are returned as other; new values may be added. Value enum: "invoice_voided",
-         * "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded",
-         * "return_resolution_canceled", "other". closed_reason.anyOf[2] (Value): null.
-         * closed_reason_message (Optional): string or null. The caller note supplied when closing
-         * the order. System closures leave it absent. It is not shown to the buyer.
-         * closed_reason_message.anyOf[1] (Value): string. The caller note supplied when closing
-         * the order. System closures leave it absent. It is not shown to the buyer.
-         * closed_reason_message.anyOf[2] (Value): null. created_at (Optional): string or null.
-         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
-         * custom_field_answers (Optional): Array of {@link CustomFieldAnswer} or null. The buyer's
-         * answers to the payment link's custom fields, recorded when checkout started, in the
-         * order the link showed the fields. Each answer keeps the field's key, label, and type
-         * from that moment, so later changes to the link don't change it. Optional fields the
-         * buyer left blank are left out. Read-only. Empty when the order didn't come from a
-         * payment link, the link had no custom fields, or the buyer answered none. Orders created
-         * before Flint recorded answers here also return an empty list and keep their answers in
-         * `metadata` as `custom_field_<key>`. Deleting the customer removes the answers. Returned
-         * only to merchant credentials; omitted for buyer credentials. Always present with
-         * merchant credentials. custom_field_answers.anyOf[1] (Value): Array of {@link
-         * CustomFieldAnswer}. The buyer's answers to the payment link's custom fields, recorded
-         * when checkout started, in the order the link showed the fields. Each answer keeps the
-         * field's key, label, and type from that moment, so later changes to the link don't change
-         * it. Optional fields the buyer left blank are left out. Read-only. Empty when the order
-         * didn't come from a payment link, the link had no custom fields, or the buyer answered
-         * none. Orders created before Flint recorded answers here also return an empty list and
-         * keep their answers in `metadata` as `custom_field_<key>`. Deleting the customer removes
-         * the answers. Returned only to merchant credentials; omitted for buyer credentials.
-         * Always present with merchant credentials. maxItems: 20. custom_field_answers.anyOf[1][]
-         * (Value): {@link CustomFieldAnswer}. One answer to a payment link custom field, with the
-         * field as it was when checkout started. `custom_field_type` determines the type of
-         * `value`. custom_field_answers.anyOf[2] (Value): null. customer (Optional): {@link
-         * ExpandedCustomerSummary} or null or null. Customer summary included when `expand` names
-         * `customer`; `null` when expanded and no customer is linked. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Customer summary
-         * included when `expand` names `customer`; `null` when expanded and no customer is linked.
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
-         * customer's summary fields, returned in place of a customer ID when the customer is
-         * expanded. customer.anyOf[1].anyOf[2] (Value): null. customer.anyOf[2] (Value): null.
-         * customer_id (Optional): string or null. ID of the customer this order belongs to.
-         * customer_id.anyOf[1] (Value): string. ID of the customer this order belongs to. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
-         * deferred_promotions (Optional): Array of {@link DeferredPromotion} or null. Promotions
-         * accepted at subscription signup. They attach when the subscription is provisioned and
-         * first discount its first charged cycle. They do not discount this order and are separate
-         * from discounts and order totals. Always present; empty when no promotions are deferred.
-         * deferred_promotions.anyOf[1] (Value): Array of {@link DeferredPromotion}. Promotions
-         * accepted at subscription signup. They attach when the subscription is provisioned and
-         * first discount its first charged cycle. They do not discount this order and are separate
-         * from discounts and order totals. Always present; empty when no promotions are deferred.
-         * deferred_promotions.anyOf[1][] (Value): {@link DeferredPromotion}. A promotion accepted
-         * at subscription signup for the subscription's first charged cycle. It does not discount
-         * the signup order. deferred_promotions.anyOf[2] (Value): null. delivery (Optional):
-         * {@link OrderDeliverySummary} or null. Method, type and recipient of
-         * governing_delivery_selection_id. The address remains in delivery_destination. Omitted
-         * when no shipment or local-delivery selection governs the order. delivery.anyOf[1]
-         * (Value): {@link OrderDeliverySummary}. Method, type and recipient of
-         * governing_delivery_selection_id. The address remains in delivery_destination. Omitted
-         * when no shipment or local-delivery selection governs the order. delivery.anyOf[2]
-         * (Value): null. delivery_destination (Optional): {@link OrderDeliveryDestination} or
-         * null. The shipment or local-delivery destination committed for this order. Payment
-         * freezes this value; fulfillment recipient changes do not replace it. Omitted for a
-         * checkout session credential that doesn't act for the customer the buyer verified.
-         * delivery_destination.anyOf[1] (Value): {@link OrderDeliveryDestination}. The shipment or
-         * local-delivery destination committed for this order. Payment freezes this value;
-         * fulfillment recipient changes do not replace it. Omitted for a checkout session
-         * credential that doesn't act for the customer the buyer verified.
-         * delivery_destination.anyOf[2] (Value): null. discounts (Optional): Array of {@link
-         * OrderDiscount} or null. Discounts applied to the order, each with its amount, status,
-         * and the line items and charges it covers. discounts.anyOf[1] (Value): Array of {@link
-         * OrderDiscount}. Discounts applied to the order, each with its amount, status, and the
-         * line items and charges it covers. discounts.anyOf[1][] (Value): {@link OrderDiscount}. A
-         * discount applied to an order, with its amount, status, and the line items and charges it
-         * covers. It comes from a manual discount or a promotion. discounts.anyOf[2] (Value):
-         * null. dispute_status (Optional): string or null. Aggregate dispute state across the
-         * order's counted payment intents, excluding payment_returned. Always returned to merchant
-         * credentials and omitted from buyer reads. Open states take precedence in this order:
-         * needs_response, under_review, inquiry_needs_response, inquiry_under_review, other.
-         * Otherwise the most severe closed state wins: lost, won, prevented, inquiry_closed; none
-         * when no disputes count. List individual cases with GET /v1/disputes?order_id={order_id}.
-         * Always present with merchant credentials. Value enum: "none", "inquiry_needs_response",
-         * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won",
-         * "lost", "prevented", "other". dispute_status.anyOf[1] (Value): string. Aggregate dispute
-         * state across the order's counted payment intents, excluding payment_returned. Always
-         * returned to merchant credentials and omitted from buyer reads. Open states take
-         * precedence in this order: needs_response, under_review, inquiry_needs_response,
-         * inquiry_under_review, other. Otherwise the most severe closed state wins: lost, won,
-         * prevented, inquiry_closed; none when no disputes count. List individual cases with GET
-         * /v1/disputes?order_id={order_id}. Always present with merchant credentials. Value enum:
-         * "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
-         * "needs_response", "under_review", "won", "lost", "prevented", "other".
-         * dispute_status.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
-         * Caller-owned identifier for this resource in an external system.
-         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
-         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
-         * external_reference_id.anyOf[2] (Value): null. fulfillment_status (Optional): string or
-         * null. Aggregate progress across the order's fulfillment quantities. Value enum:
-         * "not_fulfilled", "partially_fulfilled", "fulfilled", "canceled", "not_applicable",
-         * "closed". fulfillment_status.anyOf[1] (Value): string. Aggregate progress across the
-         * order's fulfillment quantities. Value enum: "not_fulfilled", "partially_fulfilled",
-         * "fulfilled", "canceled", "not_applicable", "closed". fulfillment_status.anyOf[2]
-         * (Value): null. fulfillments (Optional): Array of {@link Fulfillment} or null.
-         * Fulfillments created for the order, each covering a set of its line items.
-         * fulfillments.anyOf[1] (Value): Array of {@link Fulfillment}. Fulfillments created for
-         * the order, each covering a set of its line items. fulfillments.anyOf[1][] (Value):
-         * {@link Fulfillment}. Work required to deliver an order's items. fulfillments.anyOf[2]
-         * (Value): null. gift_card_estimate (Optional): {@link OrderGiftCardEstimate} or null. An
-         * estimate of how the order balance splits between gift cards and the payment processor.
-         * gift_card_estimate.anyOf[1] (Value): {@link OrderGiftCardEstimate}. An estimate of how
-         * the order balance splits between gift cards and the payment processor.
-         * gift_card_estimate.anyOf[2] (Value): null. gift_card_settlements (Optional): Array of
-         * {@link OrderGiftCardSettlement} or null. The gift card redemptions applied to the
-         * order's payments. gift_card_settlements.anyOf[1] (Value): Array of {@link
-         * OrderGiftCardSettlement}. The gift card redemptions applied to the order's payments.
-         * gift_card_settlements.anyOf[1][] (Value): {@link OrderGiftCardSettlement}. A gift card
-         * redemption applied to an order payment, with the amount, tip, and gift card.
-         * gift_card_settlements.anyOf[2] (Value): null. gift_card_tender_enabled (Optional):
-         * boolean or null. Whether gift cards can pay for this order now. Gift cards pay only USD
-         * orders that still accept changes, are not subscription purchases, and whose merchant has
-         * at least one gift card that is not closed in this environment. Recomputed on each read;
-         * a spent but open card still counts. gift_card_tender_enabled.anyOf[1] (Value): boolean.
-         * Whether gift cards can pay for this order now. Gift cards pay only USD orders that still
-         * accept changes, are not subscription purchases, and whose merchant has at least one gift
-         * card that is not closed in this environment. Recomputed on each read; a spent but open
-         * card still counts. gift_card_tender_enabled.anyOf[2] (Value): null. gift_cards
-         * (Optional): Array of {@link OrderGiftCardSelection} or null. Gift cards available to pay
-         * the order, with each card's available balance. gift_cards.anyOf[1] (Value): Array of
-         * {@link OrderGiftCardSelection}. Gift cards available to pay the order, with each card's
-         * available balance. gift_cards.anyOf[1][] (Value): {@link OrderGiftCardSelection}. A gift
-         * card available to pay an order, with its available balance and the last four characters
-         * of its code. gift_cards.anyOf[2] (Value): null. governing_delivery_selection_id
-         * (Optional): string or null or null. ID of the delivery selection that governs this
-         * order, including pickup choices without a delivery destination: the checkout's
-         * provisional selection before payment, and the selection a payment committed after. Read
-         * it with GET /v1/delivery-selections/{delivery_selection_id}. Null when no selection
-         * governs the order. While set, change the destination through the delivery selection.
-         * governing_delivery_selection_id.anyOf[1] (Value): string or null. ID of the delivery
-         * selection that governs this order, including pickup choices without a delivery
-         * destination: the checkout's provisional selection before payment, and the selection a
-         * payment committed after. Read it with GET
-         * /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs the
-         * order. While set, change the destination through the delivery selection. Example:
-         * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". governing_delivery_selection_id.anyOf[2] (Value):
-         * null. handover (Optional): {@link OrderHandover} or null. Carry-out handover: every
-         * physical item is handed to the buyer at this location when the order is paid, in place
-         * of a delivery selection. Payment then creates one completed `handover` fulfillment.
-         * Absent without a handover. handover.anyOf[1] (Value): {@link OrderHandover}. Carry-out
-         * handover: every physical item is handed to the buyer at this location when the order is
-         * paid, in place of a delivery selection. Payment then creates one completed `handover`
-         * fulfillment. Absent without a handover. handover.anyOf[2] (Value): null. internal_note
-         * (Optional): string or null. A note for your team. Buyer reads leave it out.
-         * internal_note.anyOf[1] (Value): string. A note for your team. Buyer reads leave it out.
-         * internal_note.anyOf[2] (Value): null. inventory_exception_reason (Optional): string or
-         * null. Why inventory could not be committed after payment. The cause remains after
-         * resolution. Omitted when no reason was recorded. Unrecognized reasons are returned as
-         * other; new values may be added. Value enum: "inventory_deduction_failed",
-         * "inventory_handoff_failed", "auto_refund_required", "auto_refund_failed",
-         * "policy_resolution_failed", "other". inventory_exception_reason.anyOf[1] (Value):
-         * string. Why inventory could not be committed after payment. The cause remains after
-         * resolution. Omitted when no reason was recorded. Unrecognized reasons are returned as
-         * other; new values may be added. Value enum: "inventory_deduction_failed",
-         * "inventory_handoff_failed", "auto_refund_required", "auto_refund_failed",
-         * "policy_resolution_failed", "other". inventory_exception_reason.anyOf[2] (Value): null.
-         * inventory_exception_resolution_message (Optional): string or null. The merchant note
-         * supplied when resolving the inventory exception. It is not shown to the buyer.
-         * inventory_exception_resolution_message.anyOf[1] (Value): string. The merchant note
-         * supplied when resolving the inventory exception. It is not shown to the buyer.
-         * inventory_exception_resolution_message.anyOf[2] (Value): null.
-         * inventory_exception_status (Optional): string or null. Whether an inventory problem
-         * after payment needs attention. Value enum: "paid_inventory_failed", "resolved".
-         * inventory_exception_status.anyOf[1] (Value): string. Whether an inventory problem after
-         * payment needs attention. Value enum: "paid_inventory_failed", "resolved".
-         * inventory_exception_status.anyOf[2] (Value): null. inventory_reservation_id (Optional):
-         * string or null. The reservation holding stock for this order, when one exists.
-         * inventory_reservation_id.anyOf[1] (Value): string. The reservation holding stock for
-         * this order, when one exists. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-         * inventory_reservation_id.anyOf[2] (Value): null. inventory_routing_source (Optional):
-         * {@link InventoryRoutingSource} or null. Where this order's tracked demand is routed.
-         * Required before an order containing tracked variants can hold stock.
-         * inventory_routing_source.anyOf[1] (Value): {@link InventoryRoutingSource}. Where this
-         * order's tracked demand is routed. Required before an order containing tracked variants
-         * can hold stock. inventory_routing_source.anyOf[2] (Value): null. invoice_id (Optional):
-         * string or null or null. The invoice associated with this order. Null when the order has
-         * no invoice. A replacement invoice replaces this ID; voiding an invoice preserves it.
-         * invoice_id.anyOf[1] (Value): string or null. The invoice associated with this order.
-         * Null when the order has no invoice. A replacement invoice replaces this ID; voiding an
-         * invoice preserves it. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
-         * (Value): null. line_items (Optional): Array of {@link OrderLineItem} or null. Items the
-         * order sells, each with its pricing, tax, and fulfillment quantities. line_items.anyOf[1]
-         * (Value): Array of {@link OrderLineItem}. Items the order sells, each with its pricing,
-         * tax, and fulfillment quantities. line_items.anyOf[1][] (Value): {@link OrderLineItem}.
-         * An item purchased in an order. line_items.anyOf[2] (Value): null. merchant_id
-         * (Optional): string or null. ID of the merchant this resource belongs to.
-         * merchant_id.anyOf[1] (Value): string. ID of the merchant this resource belongs to.
-         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
-         * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
-         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
-         * and size rules. metadata.anyOf[2] (Value): null. order_id (Optional): string or null.
-         * Unique identifier for this order, prefixed `ord_`. order_id.anyOf[1] (Value): string.
-         * Unique identifier for this order, prefixed `ord_`. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. order_number
-         * (Optional): string or null. Human-readable order number for receipts and merchant
-         * reference. order_number.anyOf[1] (Value): string. Human-readable order number for
-         * receipts and merchant reference. order_number.anyOf[2] (Value): null. origin (Optional):
-         * string or null. How the order was created. invoice means a Quick Pay invoice created the
-         * order; attaching an invoice to an existing order preserves its origin. Value enum:
-         * "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
-         * origin.anyOf[1] (Value): string. How the order was created. invoice means a Quick Pay
-         * invoice created the order; attaching an invoice to an existing order preserves its
-         * origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
-         * "subscription", "invoice". origin.anyOf[2] (Value): null. paid_at (Optional): string or
-         * null or null. When `payment_status` became `paid`, including a final capture that
-         * releases the remaining balance. Set once and never changed, including after refunds.
-         * `null` when `payment_status` isn't `paid`, including an order whose balance was written
-         * off without being paid. paid_at.anyOf[1] (Value): string or null. When `payment_status`
-         * became `paid`, including a final capture that releases the remaining balance. Set once
-         * and never changed, including after refunds. `null` when `payment_status` isn't `paid`,
-         * including an order whose balance was written off without being paid. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". paid_at.anyOf[2] (Value): null. payment_intent_ids
-         * (Optional): Array of string or null. IDs of the payment intents created to collect this
-         * order. payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment intents
-         * created to collect this order. payment_intent_ids.anyOf[1][] (Value): string. Example:
-         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_ids.anyOf[2] (Value): null.
-         * payment_intents (Optional): Array of {@link ExpandedPaymentIntentSummary} or null.
-         * Payment intents included when `expand` names `payment_intents`. payment_intents.anyOf[1]
-         * (Value): Array of {@link ExpandedPaymentIntentSummary}. Payment intents included when
-         * `expand` names `payment_intents`. payment_intents.anyOf[1][] (Value): {@link
-         * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
-         * status, and capture method, returned when the payment intent is expanded.
-         * payment_intents.anyOf[2] (Value): null. payment_link_id (Optional): string or null.
-         * Payment link whose checkout created this order. Absent for orders that did not come from
-         * a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders.
-         * payment_link_id.anyOf[1] (Value): string. Payment link whose checkout created this
-         * order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by
-         * payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
-         * payment_link_id.anyOf[2] (Value): null. payment_status (Optional): string or null.
-         * Collection progress. An invoice write-off also completes collection without receiving
-         * the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-         * payment_status.anyOf[1] (Value): string. Collection progress. An invoice write-off also
-         * completes collection without receiving the written-off amount. Value enum: "unpaid",
-         * "partially_paid", "paid". payment_status.anyOf[2] (Value): null. pending_order_edit_id
-         * (Optional): string or null or null. The order edit waiting for its balance payment.
-         * While it is set, the units that edit removes can't join a fulfillment and the order
-         * refuses another edit. `null` when there is none. Omitted for buyer credentials. Always
-         * present with merchant credentials. pending_order_edit_id.anyOf[1] (Value): string or
-         * null. The order edit waiting for its balance payment. While it is set, the units that
-         * edit removes can't join a fulfillment and the order refuses another edit. `null` when
-         * there is none. Omitted for buyer credentials. Always present with merchant credentials.
-         * Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". pending_order_edit_id.anyOf[2] (Value): null.
-         * prepayment_order_id (Optional): string or null or null. Order that paid for this prepaid
-         * delivery. Null when this is not a prepaid delivery order. prepayment_order_id.anyOf[1]
-         * (Value): string or null. Order that paid for this prepaid delivery. Null when this is
-         * not a prepaid delivery order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-         * prepayment_order_id.anyOf[2] (Value): null. pricing_amounts (Optional): {@link
-         * PricingAmounts} or null. The order's money totals: subtotal, discounts, charges, tax,
-         * requested tip, and total. pricing_amounts.anyOf[1] (Value): {@link PricingAmounts}. The
-         * order's money totals: subtotal, discounts, charges, tax, requested tip, and total.
-         * pricing_amounts.anyOf[2] (Value): null. refund_ids (Optional): Array of string or null.
-         * IDs of the refunds that name this order. This includes refunds Flint makes to return a
-         * payment it couldn't accept (`reason` `payment_returned`), which never count toward
-         * `refund_status` or the order's refunded amounts. refund_ids.anyOf[1] (Value): Array of
-         * string. IDs of the refunds that name this order. This includes refunds Flint makes to
-         * return a payment it couldn't accept (`reason` `payment_returned`), which never count
-         * toward `refund_status` or the order's refunded amounts. refund_ids.anyOf[1][] (Value):
-         * string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null.
-         * refund_status (Optional): string or null. Refund progress for collected money. Refunds
-         * with `reason` `payment_returned` return money the order never received and don't count.
-         * Value enum: "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value):
-         * string. Refund progress for collected money. Refunds with `reason` `payment_returned`
-         * return money the order never received and don't count. Value enum: "none",
-         * "partially_refunded", "refunded". refund_status.anyOf[2] (Value): null.
-         * return_credit_settlements (Optional): Array of {@link OrderReturnCreditSettlement} or
-         * null. Value applied to this order from items the buyer returned, such as an exchange's
-         * replacement order. Included in settlement_amounts.paid_money.
-         * return_credit_settlements.anyOf[1] (Value): Array of {@link
-         * OrderReturnCreditSettlement}. Value applied to this order from items the buyer returned,
-         * such as an exchange's replacement order. Included in settlement_amounts.paid_money.
-         * return_credit_settlements.anyOf[1][] (Value): {@link OrderReturnCreditSettlement}. A
-         * return credit applied to an order payment, with the amount and the return and resolution
-         * it came from. return_credit_settlements.anyOf[2] (Value): null. return_resolution_id
-         * (Optional): string or null. ID of the return resolution that created this order as a
-         * replacement. Omitted for orders a return did not create. return_resolution_id.anyOf[1]
-         * (Value): string. ID of the return resolution that created this order as a replacement.
-         * Omitted for orders a return did not create. Example:
-         * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_id.anyOf[2] (Value): null.
-         * settlement_amounts (Optional): {@link OrderSettlementAmounts} or null. How much of the
-         * order has been paid, refunded, credited, written off, and settled as tips, and what is
-         * still outstanding. settlement_amounts.anyOf[1] (Value): {@link OrderSettlementAmounts}.
-         * How much of the order has been paid, refunded, credited, written off, and settled as
-         * tips, and what is still outstanding. Money collected, returned, waived, and still owed
-         * on a bill. settlement_amounts.anyOf[2] (Value): null. status (Optional): string or null.
-         * Whether the order still accepts changes and new payments. Refunds, fulfillment,
-         * disputes, returns, and metadata or note edits continue on a closed order. Value enum:
-         * "open", "closed". status.anyOf[1] (Value): string. Whether the order still accepts
-         * changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or note
-         * edits continue on a closed order. Value enum: "open", "closed". status.anyOf[2] (Value):
-         * null. subscription (Optional): {@link ExpandedSubscriptionSummary} or null or null.
-         * Subscription summary included when `expand` names `subscription`; `null` when expanded
-         * and this order does not bill a subscription. Present only when `expand` includes
-         * `subscription`; `null` when expanded and there is no related subscription.
-         * subscription.anyOf[1] (Value): {@link ExpandedSubscriptionSummary} or null. Subscription
-         * summary included when `expand` names `subscription`; `null` when expanded and this order
-         * does not bill a subscription. Present only when `expand` includes `subscription`; `null`
-         * when expanded and there is no related subscription. subscription.anyOf[1].anyOf[1]
-         * (Value): {@link ExpandedSubscriptionSummary}. A subscription's summary fields, including
-         * status, billing period, and next billing time, returned when the subscription is
-         * expanded. subscription.anyOf[1].anyOf[2] (Value): null. subscription.anyOf[2] (Value):
-         * null. subscription_cycle (Optional): integer or null. Charged subscription cycle
-         * associated with this order. Signup is cycle 1; unpaid retries and skipped renewals do
-         * not advance the cycle. subscription_cycle.anyOf[1] (Value): integer. Charged
-         * subscription cycle associated with this order. Signup is cycle 1; unpaid retries and
-         * skipped renewals do not advance the cycle. Format: uint64. minimum: 0.
-         * subscription_cycle.anyOf[2] (Value): null. subscription_delivery_changed_at (Optional):
-         * string or null. Time the subscriber changed delivery after this paid renewal was
-         * prepared. The order keeps its committed destination until you correct it or refund and
-         * replace it. subscription_delivery_changed_at.anyOf[1] (Value): string. Time the
-         * subscriber changed delivery after this paid renewal was prepared. The order keeps its
-         * committed destination until you correct it or refund and replace it. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". subscription_delivery_changed_at.anyOf[2] (Value):
-         * null. subscription_delivery_number (Optional): integer or null or null. Position of this
-         * delivery among the deliveries one charge paid for, starting at 2. Null when this is not
-         * a prepaid delivery order. subscription_delivery_number.anyOf[1] (Value): integer or
-         * null. Position of this delivery among the deliveries one charge paid for, starting at 2.
-         * Null when this is not a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
-         * subscription_delivery_number.anyOf[2] (Value): null. subscription_id (Optional): string
-         * or null. ID of the subscription this order bills. Absent on an order that isn't from a
-         * subscription. subscription_id.anyOf[1] (Value): string. ID of the subscription this
-         * order bills. Absent on an order that isn't from a subscription. Example:
-         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
-         * subscription_plan (Optional): {@link ExpandedSubscriptionPlanSummary} or null or null.
-         * Plan summary included when `expand` names `subscription_plan`; `null` when expanded and
-         * this order does not bill a subscription plan. Present only when `expand` includes
-         * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-         * subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary} or null.
-         * Plan summary included when `expand` names `subscription_plan`; `null` when expanded and
-         * this order does not bill a subscription plan. Present only when `expand` includes
-         * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-         * subscription_plan.anyOf[1].anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-         * subscription plan's summary fields, including name, billing interval, currency, and
-         * status, returned when the plan is expanded. subscription_plan.anyOf[1].anyOf[2] (Value):
-         * null. subscription_plan.anyOf[2] (Value): null. subscription_plan_id (Optional): string
-         * or null. ID of the subscription plan this order bills. Absent on an order that isn't
-         * from a subscription. subscription_plan_id.anyOf[1] (Value): string. ID of the
-         * subscription plan this order bills. Absent on an order that isn't from a subscription.
-         * Example: "plan_01KEZF7C004CY5ZR33XST2AASV". subscription_plan_id.anyOf[2] (Value): null.
-         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
-         * now, independent of permissions. Includes close when closure is allowed, and pay while
-         * open without an active attempt and with an outstanding balance or payment-method setup
-         * available. Always present with merchant credentials. [] enum: "close", "pay",
-         * "resolve_inventory_exception". supported_actions.anyOf[1] (Value): Array of string.
-         * Lifecycle actions Flint accepts now, independent of permissions. Includes close when
-         * closure is allowed, and pay while open without an active attempt and with an outstanding
-         * balance or payment-method setup available. Always present with merchant credentials. []
-         * enum: "close", "pay", "resolve_inventory_exception". supported_actions.anyOf[1][]
-         * (Value): string. Value enum: "close", "pay", "resolve_inventory_exception".
-         * supported_actions.anyOf[2] (Value): null. tax (Optional): {@link OrderTax} or null. The
-         * order's tax state: whether tax is enabled, its status, location, exemption, and
-         * per-jurisdiction rows. tax.anyOf[1] (Value): {@link OrderTax}. The order's tax state:
-         * whether tax is enabled, its status, location, exemption, and per-jurisdiction rows.
-         * tax.anyOf[2] (Value): null. ticketed_event (Optional): {@link TicketedEvent} or null.
-         * Event and tickets this order sold through an event payment link. Absent on other orders.
-         * ticketed_event.anyOf[1] (Value): {@link TicketedEvent}. Event and tickets this order
-         * sold through an event payment link. Absent on other orders. ticketed_event.anyOf[2]
-         * (Value): null. tips (Optional): Array of {@link Tip} or null. Tips on the order, each
-         * with its requested, settled, and refunded amounts. A tip cleared before payment stays
-         * listed as canceled. tips.anyOf[1] (Value): Array of {@link Tip}. Tips on the order, each
-         * with its requested, settled, and refunded amounts. A tip cleared before payment stays
-         * listed as canceled. tips.anyOf[1][] (Value): {@link Tip}. A tip on an order, with its
-         * requested, settled, and refunded amounts, status, and how it was paid. tips.anyOf[2]
-         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
-         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
-         * or null. Order version for optimistic concurrency. Send this value as the expected
-         * version when changing the order. Increases with every change to the order. Ignore an
-         * order webhook snapshot whose version is lower than one you have already applied.
-         * version.anyOf[1] (Value): integer. Order version for optimistic concurrency. Send this
-         * value as the expected version when changing the order. Increases with every change to
-         * the order. Ignore an order webhook snapshot whose version is lower than one you have
-         * already applied. Format: int64. version.anyOf[2] (Value): null.
+         * state, including synthetic test events. allow_quantities (Optional): boolean or null.
+         * Whether buyers can select more than one unit of a list modifier.
+         * allow_quantities.anyOf[1] (Value): boolean. Whether buyers can select more than one unit
+         * of a list modifier. allow_quantities.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. When the modifier group was created, as an RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. When the modifier group was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. external_reference_id (Optional): string or null. Caller-owned identifier
+         * for this resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. max_quantity
+         * (Optional): integer or null. Maximum whole-number quantity for each selected list
+         * modifier when allow_quantities is true; fractional quantities are not supported.
+         * max_quantity.anyOf[1] (Value): integer. Maximum whole-number quantity for each selected
+         * list modifier when allow_quantities is true; fractional quantities are not supported.
+         * Format: int64. max_quantity.anyOf[2] (Value): null. max_selected (Optional): integer or
+         * null. Maximum number of distinct modifiers buyers can select from a list group. Omit it
+         * for no limit. A modifier set can override this value. max_selected.anyOf[1] (Value):
+         * integer. Maximum number of distinct modifiers buyers can select from a list group. Omit
+         * it for no limit. A modifier set can override this value. Format: int32.
+         * max_selected.anyOf[2] (Value): null. max_total_quantity (Optional): integer or null.
+         * Maximum combined whole-number quantity across selected list modifiers; fractional
+         * quantities are not supported. max_total_quantity.anyOf[1] (Value): integer. Maximum
+         * combined whole-number quantity across selected list modifiers; fractional quantities are
+         * not supported. Format: int64. max_total_quantity.anyOf[2] (Value): null. merchant_id
+         * (Optional): string or null. Identifier of the merchant that owns this modifier group.
+         * merchant_id.anyOf[1] (Value): string. Identifier of the merchant that owns this modifier
+         * group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null.
+         * metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be
+         * empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and
+         * cannot be written through the public API. metadata.anyOf[1] (Value): {@link
+         * MetadataMap}. metadata.anyOf[2] (Value): null. min_quantity (Optional): integer or null.
+         * Minimum whole-number quantity for each selected list modifier when allow_quantities is
+         * true; fractional quantities are not supported. min_quantity.anyOf[1] (Value): integer.
+         * Minimum whole-number quantity for each selected list modifier when allow_quantities is
+         * true; fractional quantities are not supported. Format: int64. min_quantity.anyOf[2]
+         * (Value): null. min_selected (Optional): integer or null. Minimum number of distinct
+         * modifiers buyers must select from a list group. Omit it to require no selections. A
+         * modifier set can override this value. min_selected.anyOf[1] (Value): integer. Minimum
+         * number of distinct modifiers buyers must select from a list group. Omit it to require no
+         * selections. A modifier set can override this value. Format: int32. min_selected.anyOf[2]
+         * (Value): null. modifier_group_id (Optional): string or null. Stable identifier of the
+         * modifier group. For a group a modifier set owns (`source: inline`), read it through `GET
+         * /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it.
+         * modifier_group_id.anyOf[1] (Value): string. Stable identifier of the modifier group. For
+         * a group a modifier set owns (`source: inline`), read it through `GET
+         * /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it. Example:
+         * "mg_01KEZF7C00XKJJATARG7KDBYM9". modifier_group_id.anyOf[2] (Value): null.
+         * modifier_group_type (Optional): string or null. Whether buyers choose from a list of
+         * modifiers or enter text. On create, inferred as text when text configuration is
+         * supplied, otherwise list. Value enum: "list", "text". modifier_group_type.anyOf[1]
+         * (Value): string. Whether buyers choose from a list of modifiers or enter text. On
+         * create, inferred as text when text configuration is supplied, otherwise list. Value
+         * enum: "list", "text". modifier_group_type.anyOf[2] (Value): null. modifiers (Optional):
+         * Array of {@link ModifierPreviousAttributes} or null. Choices in a list group. Only
+         * active modifiers whose set override's available is not false are offered to buyers. Text
+         * groups do not have choices. modifiers.anyOf[1] (Value): Array of {@link
+         * ModifierPreviousAttributes}. Choices in a list group. Only active modifiers whose set
+         * override's available is not false are offered to buyers. Text groups do not have
+         * choices. modifiers.anyOf[1][] (Value): {@link ModifierPreviousAttributes}.
+         * modifiers.anyOf[2] (Value): null. name (Optional): string or null. Name of the modifier
+         * group shown to buyers. name.anyOf[1] (Value): string. Name of the modifier group shown
+         * to buyers. name.anyOf[2] (Value): null. show_on_fulfillment (Optional): boolean or null.
+         * Whether selections from this group appear in fulfillment details unless overridden for a
+         * modifier set. show_on_fulfillment.anyOf[1] (Value): boolean. Whether selections from
+         * this group appear in fulfillment details unless overridden for a modifier set.
+         * show_on_fulfillment.anyOf[2] (Value): null. show_on_receipt (Optional): boolean or null.
+         * Whether selections from this group appear on buyer receipts unless overridden for a
+         * modifier set. show_on_receipt.anyOf[1] (Value): boolean. Whether selections from this
+         * group appear on buyer receipts unless overridden for a modifier set.
+         * show_on_receipt.anyOf[2] (Value): null. status (Optional): string or null. Lifecycle
+         * status of the modifier group. Only active groups can be offered to buyers; archived
+         * groups remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". status.anyOf[1] (Value): string. Lifecycle status of the modifier group.
+         * Only active groups can be offered to buyers; archived groups remain readable and cannot
+         * be edited. Value enum: "active", "inactive", "archived". status.anyOf[2] (Value): null.
+         * text (Optional): {@link TextModifierConfigPreviousAttributes} or null. Text entry rules
+         * for a text group. Use text.required to require a value; list groups use min_selected
+         * instead. text.anyOf[1] (Value): {@link TextModifierConfigPreviousAttributes}.
+         * text.anyOf[2] (Value): null. updated_at (Optional): string or null. When the modifier
+         * group or its modifiers last changed, as an RFC3339 timestamp. updated_at.anyOf[1]
+         * (Value): string. When the modifier group or its modifiers last changed, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
+         * (Value): null. version (Optional): integer or null. Version of the modifier group and
+         * its modifiers. version.anyOf[1] (Value): integer. Version of the modifier group and its
+         * modifiers. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
         })
             & ({
             /**
-             * The earliest open or resolving payment review on this order's counted payments.
-             * `null` when no review is open or resolving. List reviews with GET
-             * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always
-             * present with merchant credentials. anyOf[1] (Value): string or null. The earliest
-             * open or resolving payment review on this order's counted payments. `null` when no
-             * review is open or resolving. List reviews with GET
-             * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always
-             * present with merchant credentials. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-             * anyOf[2] (Value): null.
-             */
-            "active_payment_review_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * The amounts authorized and still capturable on the order's payments. anyOf[1]
-             * (Value): {@link OrderAuthorizationAmounts}. The amounts authorized and still
-             * capturable on the order's payments. anyOf[2] (Value): null.
-             */
-            "authorization_amounts"?: ((OrderAuthorizationAmounts) | (null));
-            /**
-             * Email and phone saved when payment started, from the pay request's buyer_contact or
-             * the paying checkout session's saved contact. It does not change the linked customer.
-             * anyOf[1] (Value): {@link CheckoutBuyerContact}. Email and phone saved when payment
-             * started, from the pay request's buyer_contact or the paying checkout session's saved
-             * contact. It does not change the linked customer. anyOf[2] (Value): null.
-             */
-            "buyer_contact"?: ((CheckoutBuyerContact) | (null));
-            /**
-             * A note to the buyer. anyOf[1] (Value): string. A note to the buyer. anyOf[2]
+             * Whether buyers can select more than one unit of a list modifier. anyOf[1] (Value):
+             * boolean. Whether buyers can select more than one unit of a list modifier. anyOf[2]
              * (Value): null.
              */
-            "buyer_note"?: ((string) | (null));
+            "allow_quantities"?: ((boolean) | (null));
             /**
-             * Charges added to the order, such as delivery or service fees, each with its applied
-             * amount, tax, and refunded amount. anyOf[1] (Value): Array of {@link OrderCharge}.
-             * Charges added to the order, such as delivery or service fees, each with its applied
-             * amount, tax, and refunded amount. anyOf[1][] (Value): {@link OrderCharge}. An
-             * additional charge applied to an order. anyOf[2] (Value): null.
-             */
-            "charges"?: ((Array<OrderCharge>) | (null));
-            /**
-             * IDs of the checkout sessions opened for this order. anyOf[1] (Value): Array of
-             * string. IDs of the checkout sessions opened for this order. anyOf[1][] (Value):
-             * string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". anyOf[2] (Value): null.
-             */
-            "checkout_session_ids"?: ((Array<string>) | (null));
-            /**
-             * The reference the payment link URL or resolve request carried, such as your user ID.
-             * `null` when none was sent or checkout did not start from a payment link. Returned
-             * only to merchant credentials; omitted for buyer credentials. Set by the buyer's
-             * browser, so treat it as a claim, not proof of identity. Always present with merchant
-             * credentials. anyOf[1] (Value): string or null. The reference the payment link URL or
-             * resolve request carried, such as your user ID. `null` when none was sent or checkout
-             * did not start from a payment link. Returned only to merchant credentials; omitted
-             * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
-             * of identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
-             * anyOf[2] (Value): null.
-             */
-            "client_reference"?: ((string | null) | (null) | (unknown));
-            /**
-             * When the order closed. Present exactly when status is closed. Set once at the
-             * transition and never changed. anyOf[1] (Value): string. When the order closed.
-             * Present exactly when status is closed. Set once at the transition and never changed.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "closed_at"?: ((string) | (null));
-            /**
-             * Why the order closed. Present exactly when status is closed. Set once at closure.
-             * Unrecognized reasons are returned as other; new values may be added. Value enum:
-             * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-             * "superseded", "return_resolution_canceled", "other". anyOf[1] (Value): string. Why
-             * the order closed. Present exactly when status is closed. Set once at closure.
-             * Unrecognized reasons are returned as other; new values may be added. Value enum:
-             * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-             * "superseded", "return_resolution_canceled", "other". anyOf[2] (Value): null.
-             */
-            "closed_reason"?: (("invoice_voided"
-                | "paid"
-                | "closed_by_merchant"
-                | "checkout_expired"
-                | "written_off"
-                | "superseded"
-                | "return_resolution_canceled"
-                | "other"
-                | (string & {}))
-                | (null));
-            /**
-             * The caller note supplied when closing the order. System closures leave it absent. It
-             * is not shown to the buyer. anyOf[1] (Value): string. The caller note supplied when
-             * closing the order. System closures leave it absent. It is not shown to the buyer.
-             * anyOf[2] (Value): null.
-             */
-            "closed_reason_message"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * When the modifier group was created, as an RFC3339 timestamp. anyOf[1] (Value):
+             * string. When the modifier group was created, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "created_at"?: ((string) | (null));
-            /**
-             * The buyer's answers to the payment link's custom fields, recorded when checkout
-             * started, in the order the link showed the fields. Each answer keeps the field's key,
-             * label, and type from that moment, so later changes to the link don't change it.
-             * Optional fields the buyer left blank are left out. Read-only. Empty when the order
-             * didn't come from a payment link, the link had no custom fields, or the buyer
-             * answered none. Orders created before Flint recorded answers here also return an
-             * empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting
-             * the customer removes the answers. Returned only to merchant credentials; omitted for
-             * buyer credentials. Always present with merchant credentials. anyOf[1] (Value): Array
-             * of {@link CustomFieldAnswer}. The buyer's answers to the payment link's custom
-             * fields, recorded when checkout started, in the order the link showed the fields.
-             * Each answer keeps the field's key, label, and type from that moment, so later
-             * changes to the link don't change it. Optional fields the buyer left blank are left
-             * out. Read-only. Empty when the order didn't come from a payment link, the link had
-             * no custom fields, or the buyer answered none. Orders created before Flint recorded
-             * answers here also return an empty list and keep their answers in `metadata` as
-             * `custom_field_<key>`. Deleting the customer removes the answers. Returned only to
-             * merchant credentials; omitted for buyer credentials. Always present with merchant
-             * credentials. maxItems: 20. anyOf[1][] (Value): {@link CustomFieldAnswer}. One answer
-             * to a payment link custom field, with the field as it was when checkout started.
-             * `custom_field_type` determines the type of `value`. anyOf[2] (Value): null.
-             */
-            "custom_field_answers"?: ((Array<CustomFieldAnswer>) | (null));
-            /**
-             * Customer summary included when `expand` names `customer`; `null` when expanded and
-             * no customer is linked. Present only when `expand` includes `customer`; `null` when
-             * expanded and there is no related customer. anyOf[1] (Value): {@link
-             * ExpandedCustomerSummary} or null. Customer summary included when `expand` names
-             * `customer`; `null` when expanded and no customer is linked. Present only when
-             * `expand` includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
-             * fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
-            /**
-             * ID of the customer this order belongs to. anyOf[1] (Value): string. ID of the
-             * customer this order belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
-             * (Value): null.
-             */
-            "customer_id"?: ((string) | (null));
-            /**
-             * Promotions accepted at subscription signup. They attach when the subscription is
-             * provisioned and first discount its first charged cycle. They do not discount this
-             * order and are separate from discounts and order totals. Always present; empty when
-             * no promotions are deferred. anyOf[1] (Value): Array of {@link DeferredPromotion}.
-             * Promotions accepted at subscription signup. They attach when the subscription is
-             * provisioned and first discount its first charged cycle. They do not discount this
-             * order and are separate from discounts and order totals. Always present; empty when
-             * no promotions are deferred. anyOf[1][] (Value): {@link DeferredPromotion}. A
-             * promotion accepted at subscription signup for the subscription's first charged
-             * cycle. It does not discount the signup order. anyOf[2] (Value): null.
-             */
-            "deferred_promotions"?: ((Array<DeferredPromotion>) | (null));
-            /**
-             * Method, type and recipient of governing_delivery_selection_id. The address remains
-             * in delivery_destination. Omitted when no shipment or local-delivery selection
-             * governs the order. anyOf[1] (Value): {@link OrderDeliverySummary}. Method, type and
-             * recipient of governing_delivery_selection_id. The address remains in
-             * delivery_destination. Omitted when no shipment or local-delivery selection governs
-             * the order. anyOf[2] (Value): null.
-             */
-            "delivery"?: ((OrderDeliverySummary) | (null));
-            /**
-             * The shipment or local-delivery destination committed for this order. Payment freezes
-             * this value; fulfillment recipient changes do not replace it. Omitted for a checkout
-             * session credential that doesn't act for the customer the buyer verified. anyOf[1]
-             * (Value): {@link OrderDeliveryDestination}. The shipment or local-delivery
-             * destination committed for this order. Payment freezes this value; fulfillment
-             * recipient changes do not replace it. Omitted for a checkout session credential that
-             * doesn't act for the customer the buyer verified. anyOf[2] (Value): null.
-             */
-            "delivery_destination"?: ((OrderDeliveryDestination) | (null));
-            /**
-             * Discounts applied to the order, each with its amount, status, and the line items and
-             * charges it covers. anyOf[1] (Value): Array of {@link OrderDiscount}. Discounts
-             * applied to the order, each with its amount, status, and the line items and charges
-             * it covers. anyOf[1][] (Value): {@link OrderDiscount}. A discount applied to an
-             * order, with its amount, status, and the line items and charges it covers. It comes
-             * from a manual discount or a promotion. anyOf[2] (Value): null.
-             */
-            "discounts"?: ((Array<OrderDiscount>) | (null));
-            /**
-             * Aggregate dispute state across the order's counted payment intents, excluding
-             * payment_returned. Always returned to merchant credentials and omitted from buyer
-             * reads. Open states take precedence in this order: needs_response, under_review,
-             * inquiry_needs_response, inquiry_under_review, other. Otherwise the most severe
-             * closed state wins: lost, won, prevented, inquiry_closed; none when no disputes
-             * count. List individual cases with GET /v1/disputes?order_id={order_id}. Always
-             * present with merchant credentials. Value enum: "none", "inquiry_needs_response",
-             * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won",
-             * "lost", "prevented", "other". anyOf[1] (Value): string. Aggregate dispute state
-             * across the order's counted payment intents, excluding payment_returned. Always
-             * returned to merchant credentials and omitted from buyer reads. Open states take
-             * precedence in this order: needs_response, under_review, inquiry_needs_response,
-             * inquiry_under_review, other. Otherwise the most severe closed state wins: lost, won,
-             * prevented, inquiry_closed; none when no disputes count. List individual cases with
-             * GET /v1/disputes?order_id={order_id}. Always present with merchant credentials.
-             * Value enum: "none", "inquiry_needs_response", "inquiry_under_review",
-             * "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented",
-             * "other". anyOf[2] (Value): null.
-             */
-            "dispute_status"?: (("none"
-                | "inquiry_needs_response"
-                | "inquiry_under_review"
-                | "inquiry_closed"
-                | "needs_response"
-                | "under_review"
-                | "won"
-                | "lost"
-                | "prevented"
-                | "other"
-                | (string & {}))
-                | (null));
             /**
              * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
              * string. Caller-owned identifier for this resource in an external system. maxLength:
@@ -3893,436 +1244,718 @@ export type OrderUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
              */
             "external_reference_id"?: ((string) | (null));
             /**
-             * Aggregate progress across the order's fulfillment quantities. Value enum:
-             * "not_fulfilled", "partially_fulfilled", "fulfilled", "canceled", "not_applicable",
-             * "closed". anyOf[1] (Value): string. Aggregate progress across the order's
-             * fulfillment quantities. Value enum: "not_fulfilled", "partially_fulfilled",
-             * "fulfilled", "canceled", "not_applicable", "closed". anyOf[2] (Value): null.
+             * Maximum whole-number quantity for each selected list modifier when allow_quantities
+             * is true; fractional quantities are not supported. anyOf[1] (Value): integer. Maximum
+             * whole-number quantity for each selected list modifier when allow_quantities is true;
+             * fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
              */
-            "fulfillment_status"?: (("not_fulfilled"
-                | "partially_fulfilled"
-                | "fulfilled"
-                | "canceled"
-                | "not_applicable"
-                | "closed"
-                | (string & {}))
-                | (null));
+            "max_quantity"?: ((number) | (null));
             /**
-             * Fulfillments created for the order, each covering a set of its line items. anyOf[1]
-             * (Value): Array of {@link Fulfillment}. Fulfillments created for the order, each
-             * covering a set of its line items. anyOf[1][] (Value): {@link Fulfillment}. Work
-             * required to deliver an order's items. anyOf[2] (Value): null.
+             * Maximum number of distinct modifiers buyers can select from a list group. Omit it
+             * for no limit. A modifier set can override this value. anyOf[1] (Value): integer.
+             * Maximum number of distinct modifiers buyers can select from a list group. Omit it
+             * for no limit. A modifier set can override this value. Format: int32. anyOf[2]
+             * (Value): null.
              */
-            "fulfillments"?: ((Array<Fulfillment>) | (null));
+            "max_selected"?: ((number) | (null));
             /**
-             * An estimate of how the order balance splits between gift cards and the payment
-             * processor. anyOf[1] (Value): {@link OrderGiftCardEstimate}. An estimate of how the
-             * order balance splits between gift cards and the payment processor. anyOf[2] (Value):
-             * null.
+             * Maximum combined whole-number quantity across selected list modifiers; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. Maximum combined
+             * whole-number quantity across selected list modifiers; fractional quantities are not
+             * supported. Format: int64. anyOf[2] (Value): null.
              */
-            "gift_card_estimate"?: ((OrderGiftCardEstimate) | (null));
+            "max_total_quantity"?: ((number) | (null));
             /**
-             * The gift card redemptions applied to the order's payments. anyOf[1] (Value): Array
-             * of {@link OrderGiftCardSettlement}. The gift card redemptions applied to the order's
-             * payments. anyOf[1][] (Value): {@link OrderGiftCardSettlement}. A gift card
-             * redemption applied to an order payment, with the amount, tip, and gift card.
-             * anyOf[2] (Value): null.
-             */
-            "gift_card_settlements"?: ((Array<OrderGiftCardSettlement>) | (null));
-            /**
-             * Whether gift cards can pay for this order now. Gift cards pay only USD orders that
-             * still accept changes, are not subscription purchases, and whose merchant has at
-             * least one gift card that is not closed in this environment. Recomputed on each read;
-             * a spent but open card still counts. anyOf[1] (Value): boolean. Whether gift cards
-             * can pay for this order now. Gift cards pay only USD orders that still accept
-             * changes, are not subscription purchases, and whose merchant has at least one gift
-             * card that is not closed in this environment. Recomputed on each read; a spent but
-             * open card still counts. anyOf[2] (Value): null.
-             */
-            "gift_card_tender_enabled"?: ((boolean) | (null));
-            /**
-             * Gift cards available to pay the order, with each card's available balance. anyOf[1]
-             * (Value): Array of {@link OrderGiftCardSelection}. Gift cards available to pay the
-             * order, with each card's available balance. anyOf[1][] (Value): {@link
-             * OrderGiftCardSelection}. A gift card available to pay an order, with its available
-             * balance and the last four characters of its code. anyOf[2] (Value): null.
-             */
-            "gift_cards"?: ((Array<OrderGiftCardSelection>) | (null));
-            /**
-             * ID of the delivery selection that governs this order, including pickup choices
-             * without a delivery destination: the checkout's provisional selection before payment,
-             * and the selection a payment committed after. Read it with GET
-             * /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs the
-             * order. While set, change the destination through the delivery selection. anyOf[1]
-             * (Value): string or null. ID of the delivery selection that governs this order,
-             * including pickup choices without a delivery destination: the checkout's provisional
-             * selection before payment, and the selection a payment committed after. Read it with
-             * GET /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs
-             * the order. While set, change the destination through the delivery selection.
-             * Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2] (Value): null.
-             */
-            "governing_delivery_selection_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * Carry-out handover: every physical item is handed to the buyer at this location when
-             * the order is paid, in place of a delivery selection. Payment then creates one
-             * completed `handover` fulfillment. Absent without a handover. anyOf[1] (Value):
-             * {@link OrderHandover}. Carry-out handover: every physical item is handed to the
-             * buyer at this location when the order is paid, in place of a delivery selection.
-             * Payment then creates one completed `handover` fulfillment. Absent without a
-             * handover. anyOf[2] (Value): null.
-             */
-            "handover"?: ((OrderHandover) | (null));
-            /**
-             * A note for your team. Buyer reads leave it out. anyOf[1] (Value): string. A note for
-             * your team. Buyer reads leave it out. anyOf[2] (Value): null.
-             */
-            "internal_note"?: ((string) | (null));
-            /**
-             * Why inventory could not be committed after payment. The cause remains after
-             * resolution. Omitted when no reason was recorded. Unrecognized reasons are returned
-             * as other; new values may be added. Value enum: "inventory_deduction_failed",
-             * "inventory_handoff_failed", "auto_refund_required", "auto_refund_failed",
-             * "policy_resolution_failed", "other". anyOf[1] (Value): string. Why inventory could
-             * not be committed after payment. The cause remains after resolution. Omitted when no
-             * reason was recorded. Unrecognized reasons are returned as other; new values may be
-             * added. Value enum: "inventory_deduction_failed", "inventory_handoff_failed",
-             * "auto_refund_required", "auto_refund_failed", "policy_resolution_failed", "other".
-             * anyOf[2] (Value): null.
-             */
-            "inventory_exception_reason"?: (("inventory_deduction_failed"
-                | "inventory_handoff_failed"
-                | "auto_refund_required"
-                | "auto_refund_failed"
-                | "policy_resolution_failed"
-                | "other"
-                | (string & {}))
-                | (null));
-            /**
-             * The merchant note supplied when resolving the inventory exception. It is not shown
-             * to the buyer. anyOf[1] (Value): string. The merchant note supplied when resolving
-             * the inventory exception. It is not shown to the buyer. anyOf[2] (Value): null.
-             */
-            "inventory_exception_resolution_message"?: ((string) | (null));
-            /**
-             * Whether an inventory problem after payment needs attention. Value enum:
-             * "paid_inventory_failed", "resolved". anyOf[1] (Value): string. Whether an inventory
-             * problem after payment needs attention. Value enum: "paid_inventory_failed",
-             * "resolved". anyOf[2] (Value): null.
-             */
-            "inventory_exception_status"?: (("paid_inventory_failed" | "resolved" | (string & {})) | (null));
-            /**
-             * The reservation holding stock for this order, when one exists. anyOf[1] (Value):
-             * string. The reservation holding stock for this order, when one exists. Example:
-             * "invr_01KEZF7C0041ENRR0C2NF3AP12". anyOf[2] (Value): null.
-             */
-            "inventory_reservation_id"?: ((string) | (null));
-            /**
-             * Where this order's tracked demand is routed. Required before an order containing
-             * tracked variants can hold stock. anyOf[1] (Value): {@link InventoryRoutingSource}.
-             * Where this order's tracked demand is routed. Required before an order containing
-             * tracked variants can hold stock. anyOf[2] (Value): null.
-             */
-            "inventory_routing_source"?: ((InventoryRoutingSource) | (null));
-            /**
-             * The invoice associated with this order. Null when the order has no invoice. A
-             * replacement invoice replaces this ID; voiding an invoice preserves it. anyOf[1]
-             * (Value): string or null. The invoice associated with this order. Null when the order
-             * has no invoice. A replacement invoice replaces this ID; voiding an invoice preserves
-             * it. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
-             */
-            "invoice_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * Items the order sells, each with its pricing, tax, and fulfillment quantities.
-             * anyOf[1] (Value): Array of {@link OrderLineItem}. Items the order sells, each with
-             * its pricing, tax, and fulfillment quantities. anyOf[1][] (Value): {@link
-             * OrderLineItem}. An item purchased in an order. anyOf[2] (Value): null.
-             */
-            "line_items"?: ((Array<OrderLineItem>) | (null));
-            /**
-             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
-             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             * anyOf[2] (Value): null.
+             * Identifier of the merchant that owns this modifier group. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this modifier group. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
              */
             "merchant_id"?: ((string) | (null));
             /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
-             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
             "metadata"?: ((MetadataMap) | (null));
             /**
-             * Unique identifier for this order, prefixed `ord_`. anyOf[1] (Value): string. Unique
-             * identifier for this order, prefixed `ord_`. Example:
-             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             * Minimum whole-number quantity for each selected list modifier when allow_quantities
+             * is true; fractional quantities are not supported. anyOf[1] (Value): integer. Minimum
+             * whole-number quantity for each selected list modifier when allow_quantities is true;
+             * fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
              */
-            "order_id"?: ((string) | (null));
+            "min_quantity"?: ((number) | (null));
             /**
-             * Human-readable order number for receipts and merchant reference. anyOf[1] (Value):
-             * string. Human-readable order number for receipts and merchant reference. anyOf[2]
+             * Minimum number of distinct modifiers buyers must select from a list group. Omit it
+             * to require no selections. A modifier set can override this value. anyOf[1] (Value):
+             * integer. Minimum number of distinct modifiers buyers must select from a list group.
+             * Omit it to require no selections. A modifier set can override this value. Format:
+             * int32. anyOf[2] (Value): null.
+             */
+            "min_selected"?: ((number) | (null));
+            /**
+             * Stable identifier of the modifier group. For a group a modifier set owns (`source:
+             * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`;
+             * `/v1/modifier-groups` doesn't return it. anyOf[1] (Value): string. Stable identifier
+             * of the modifier group. For a group a modifier set owns (`source: inline`), read it
+             * through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
+             * return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". anyOf[2] (Value): null.
+             */
+            "modifier_group_id"?: ((string) | (null));
+            /**
+             * Whether buyers choose from a list of modifiers or enter text. On create, inferred as
+             * text when text configuration is supplied, otherwise list. Value enum: "list",
+             * "text". anyOf[1] (Value): string. Whether buyers choose from a list of modifiers or
+             * enter text. On create, inferred as text when text configuration is supplied,
+             * otherwise list. Value enum: "list", "text". anyOf[2] (Value): null.
+             */
+            "modifier_group_type"?: (("list" | "text" | (string & {})) | (null));
+            /**
+             * Choices in a list group. Only active modifiers whose set override's available is not
+             * false are offered to buyers. Text groups do not have choices. anyOf[1] (Value):
+             * Array of {@link ModifierPreviousAttributes}. Choices in a list group. Only active
+             * modifiers whose set override's available is not false are offered to buyers. Text
+             * groups do not have choices. anyOf[1][] (Value): {@link ModifierPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "modifiers"?: ((Array<ModifierPreviousAttributes>) | (null));
+            /**
+             * Name of the modifier group shown to buyers. anyOf[1] (Value): string. Name of the
+             * modifier group shown to buyers. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Whether selections from this group appear in fulfillment details unless overridden
+             * for a modifier set. anyOf[1] (Value): boolean. Whether selections from this group
+             * appear in fulfillment details unless overridden for a modifier set. anyOf[2]
              * (Value): null.
              */
-            "order_number"?: ((string) | (null));
+            "show_on_fulfillment"?: ((boolean) | (null));
             /**
-             * How the order was created. invoice means a Quick Pay invoice created the order;
-             * attaching an invoice to an existing order preserves its origin. Value enum:
-             * "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
-             * anyOf[1] (Value): string. How the order was created. invoice means a Quick Pay
-             * invoice created the order; attaching an invoice to an existing order preserves its
-             * origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
-             * "subscription", "invoice". anyOf[2] (Value): null.
+             * Whether selections from this group appear on buyer receipts unless overridden for a
+             * modifier set. anyOf[1] (Value): boolean. Whether selections from this group appear
+             * on buyer receipts unless overridden for a modifier set. anyOf[2] (Value): null.
              */
-            "origin"?: (("virtual_terminal"
-                | "payment_link"
-                | "checkout"
-                | "api"
-                | "subscription"
-                | "invoice"
-                | (string & {}))
-                | (null));
+            "show_on_receipt"?: ((boolean) | (null));
             /**
-             * When `payment_status` became `paid`, including a final capture that releases the
-             * remaining balance. Set once and never changed, including after refunds. `null` when
-             * `payment_status` isn't `paid`, including an order whose balance was written off
-             * without being paid. anyOf[1] (Value): string or null. When `payment_status` became
-             * `paid`, including a final capture that releases the remaining balance. Set once and
-             * never changed, including after refunds. `null` when `payment_status` isn't `paid`,
-             * including an order whose balance was written off without being paid. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "paid_at"?: ((string | null) | (null) | (unknown));
-            /**
-             * IDs of the payment intents created to collect this order. anyOf[1] (Value): Array of
-             * string. IDs of the payment intents created to collect this order. anyOf[1][]
-             * (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
-             */
-            "payment_intent_ids"?: ((Array<string>) | (null));
-            /**
-             * Payment intents included when `expand` names `payment_intents`. anyOf[1] (Value):
-             * Array of {@link ExpandedPaymentIntentSummary}. Payment intents included when
-             * `expand` names `payment_intents`. anyOf[1][] (Value): {@link
-             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
-             * status, and capture method, returned when the payment intent is expanded. anyOf[2]
+             * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
+             * archived groups remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived". anyOf[1] (Value): string. Lifecycle status of the modifier
+             * group. Only active groups can be offered to buyers; archived groups remain readable
+             * and cannot be edited. Value enum: "active", "inactive", "archived". anyOf[2]
              * (Value): null.
              */
-            "payment_intents"?: ((Array<ExpandedPaymentIntentSummary>) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
             /**
-             * Payment link whose checkout created this order. Absent for orders that did not come
-             * from a payment link. Filter GET /v1/orders by payment_link_id to list a link's
-             * orders. anyOf[1] (Value): string. Payment link whose checkout created this order.
-             * Absent for orders that did not come from a payment link. Filter GET /v1/orders by
-             * payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
-             * anyOf[2] (Value): null.
+             * Text entry rules for a text group. Use text.required to require a value; list groups
+             * use min_selected instead. anyOf[1] (Value): {@link
+             * TextModifierConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payment_link_id"?: ((string) | (null));
+            "text"?: ((TextModifierConfigPreviousAttributes) | (null));
             /**
-             * Collection progress. An invoice write-off also completes collection without
-             * receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-             * anyOf[1] (Value): string. Collection progress. An invoice write-off also completes
-             * collection without receiving the written-off amount. Value enum: "unpaid",
-             * "partially_paid", "paid". anyOf[2] (Value): null.
-             */
-            "payment_status"?: (("unpaid" | "partially_paid" | "paid" | (string & {})) | (null));
-            /**
-             * The order edit waiting for its balance payment. While it is set, the units that edit
-             * removes can't join a fulfillment and the order refuses another edit. `null` when
-             * there is none. Omitted for buyer credentials. Always present with merchant
-             * credentials. anyOf[1] (Value): string or null. The order edit waiting for its
-             * balance payment. While it is set, the units that edit removes can't join a
-             * fulfillment and the order refuses another edit. `null` when there is none. Omitted
-             * for buyer credentials. Always present with merchant credentials. Example:
-             * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". anyOf[2] (Value): null.
-             */
-            "pending_order_edit_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * Order that paid for this prepaid delivery. Null when this is not a prepaid delivery
-             * order. anyOf[1] (Value): string or null. Order that paid for this prepaid delivery.
-             * Null when this is not a prepaid delivery order. Example:
-             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
-             */
-            "prepayment_order_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * The order's money totals: subtotal, discounts, charges, tax, requested tip, and
-             * total. anyOf[1] (Value): {@link PricingAmounts}. The order's money totals: subtotal,
-             * discounts, charges, tax, requested tip, and total. anyOf[2] (Value): null.
-             */
-            "pricing_amounts"?: ((PricingAmounts) | (null));
-            /**
-             * IDs of the refunds that name this order. This includes refunds Flint makes to return
-             * a payment it couldn't accept (`reason` `payment_returned`), which never count toward
-             * `refund_status` or the order's refunded amounts. anyOf[1] (Value): Array of string.
-             * IDs of the refunds that name this order. This includes refunds Flint makes to return
-             * a payment it couldn't accept (`reason` `payment_returned`), which never count toward
-             * `refund_status` or the order's refunded amounts. anyOf[1][] (Value): string.
-             * Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
-             */
-            "refund_ids"?: ((Array<string>) | (null));
-            /**
-             * Refund progress for collected money. Refunds with `reason` `payment_returned` return
-             * money the order never received and don't count. Value enum: "none",
-             * "partially_refunded", "refunded". anyOf[1] (Value): string. Refund progress for
-             * collected money. Refunds with `reason` `payment_returned` return money the order
-             * never received and don't count. Value enum: "none", "partially_refunded",
-             * "refunded". anyOf[2] (Value): null.
-             */
-            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
-            /**
-             * Value applied to this order from items the buyer returned, such as an exchange's
-             * replacement order. Included in settlement_amounts.paid_money. anyOf[1] (Value):
-             * Array of {@link OrderReturnCreditSettlement}. Value applied to this order from items
-             * the buyer returned, such as an exchange's replacement order. Included in
-             * settlement_amounts.paid_money. anyOf[1][] (Value): {@link
-             * OrderReturnCreditSettlement}. A return credit applied to an order payment, with the
-             * amount and the return and resolution it came from. anyOf[2] (Value): null.
-             */
-            "return_credit_settlements"?: ((Array<OrderReturnCreditSettlement>) | (null));
-            /**
-             * ID of the return resolution that created this order as a replacement. Omitted for
-             * orders a return did not create. anyOf[1] (Value): string. ID of the return
-             * resolution that created this order as a replacement. Omitted for orders a return did
-             * not create. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2] (Value): null.
-             */
-            "return_resolution_id"?: ((string) | (null));
-            /**
-             * How much of the order has been paid, refunded, credited, written off, and settled as
-             * tips, and what is still outstanding. anyOf[1] (Value): {@link
-             * OrderSettlementAmounts}. How much of the order has been paid, refunded, credited,
-             * written off, and settled as tips, and what is still outstanding. Money collected,
-             * returned, waived, and still owed on a bill. anyOf[2] (Value): null.
-             */
-            "settlement_amounts"?: ((OrderSettlementAmounts) | (null));
-            /**
-             * Whether the order still accepts changes and new payments. Refunds, fulfillment,
-             * disputes, returns, and metadata or note edits continue on a closed order. Value
-             * enum: "open", "closed". anyOf[1] (Value): string. Whether the order still accepts
-             * changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or
-             * note edits continue on a closed order. Value enum: "open", "closed". anyOf[2]
+             * When the modifier group or its modifiers last changed, as an RFC3339 timestamp.
+             * anyOf[1] (Value): string. When the modifier group or its modifiers last changed, as
+             * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
              * (Value): null.
-             */
-            "status"?: (("open" | "closed" | (string & {})) | (null));
-            /**
-             * Subscription summary included when `expand` names `subscription`; `null` when
-             * expanded and this order does not bill a subscription. Present only when `expand`
-             * includes `subscription`; `null` when expanded and there is no related subscription.
-             * anyOf[1] (Value): {@link ExpandedSubscriptionSummary} or null. Subscription summary
-             * included when `expand` names `subscription`; `null` when expanded and this order
-             * does not bill a subscription. Present only when `expand` includes `subscription`;
-             * `null` when expanded and there is no related subscription. anyOf[1].anyOf[1]
-             * (Value): {@link ExpandedSubscriptionSummary}. A subscription's summary fields,
-             * including status, billing period, and next billing time, returned when the
-             * subscription is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "subscription"?: ((((ExpandedSubscriptionSummary) | (null))) | (null) | (unknown));
-            /**
-             * Charged subscription cycle associated with this order. Signup is cycle 1; unpaid
-             * retries and skipped renewals do not advance the cycle. anyOf[1] (Value): integer.
-             * Charged subscription cycle associated with this order. Signup is cycle 1; unpaid
-             * retries and skipped renewals do not advance the cycle. Format: uint64. minimum: 0.
-             * anyOf[2] (Value): null.
-             */
-            "subscription_cycle"?: ((number) | (null));
-            /**
-             * Time the subscriber changed delivery after this paid renewal was prepared. The order
-             * keeps its committed destination until you correct it or refund and replace it.
-             * anyOf[1] (Value): string. Time the subscriber changed delivery after this paid
-             * renewal was prepared. The order keeps its committed destination until you correct it
-             * or refund and replace it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             * anyOf[2] (Value): null.
-             */
-            "subscription_delivery_changed_at"?: ((string) | (null));
-            /**
-             * Position of this delivery among the deliveries one charge paid for, starting at 2.
-             * Null when this is not a prepaid delivery order. anyOf[1] (Value): integer or null.
-             * Position of this delivery among the deliveries one charge paid for, starting at 2.
-             * Null when this is not a prepaid delivery order. Format: uint32. minimum: 2. maximum:
-             * 24. anyOf[2] (Value): null.
-             */
-            "subscription_delivery_number"?: ((number | null) | (null) | (unknown));
-            /**
-             * ID of the subscription this order bills. Absent on an order that isn't from a
-             * subscription. anyOf[1] (Value): string. ID of the subscription this order bills.
-             * Absent on an order that isn't from a subscription. Example:
-             * "sub_01KEZF7C00BVRE8YDBXQB74BBM". anyOf[2] (Value): null.
-             */
-            "subscription_id"?: ((string) | (null));
-            /**
-             * Plan summary included when `expand` names `subscription_plan`; `null` when expanded
-             * and this order does not bill a subscription plan. Present only when `expand`
-             * includes `subscription_plan`; `null` when expanded and there is no related
-             * subscription plan. anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary} or
-             * null. Plan summary included when `expand` names `subscription_plan`; `null` when
-             * expanded and this order does not bill a subscription plan. Present only when
-             * `expand` includes `subscription_plan`; `null` when expanded and there is no related
-             * subscription plan. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
-             * name, billing interval, currency, and status, returned when the plan is expanded.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "subscription_plan"?: ((((ExpandedSubscriptionPlanSummary) | (null))) | (null) | (unknown));
-            /**
-             * ID of the subscription plan this order bills. Absent on an order that isn't from a
-             * subscription. anyOf[1] (Value): string. ID of the subscription plan this order
-             * bills. Absent on an order that isn't from a subscription. Example:
-             * "plan_01KEZF7C004CY5ZR33XST2AASV". anyOf[2] (Value): null.
-             */
-            "subscription_plan_id"?: ((string) | (null));
-            /**
-             * Lifecycle actions Flint accepts now, independent of permissions. Includes close when
-             * closure is allowed, and pay while open without an active attempt and with an
-             * outstanding balance or payment-method setup available. Always present with merchant
-             * credentials. [] enum: "close", "pay", "resolve_inventory_exception". anyOf[1]
-             * (Value): Array of string. Lifecycle actions Flint accepts now, independent of
-             * permissions. Includes close when closure is allowed, and pay while open without an
-             * active attempt and with an outstanding balance or payment-method setup available.
-             * Always present with merchant credentials. [] enum: "close", "pay",
-             * "resolve_inventory_exception". anyOf[1][] (Value): string. Value enum: "close",
-             * "pay", "resolve_inventory_exception". anyOf[2] (Value): null.
-             */
-            "supported_actions"?: ((Array<"close" | "pay" | "resolve_inventory_exception" | (string & {})>) | (null));
-            /**
-             * The order's tax state: whether tax is enabled, its status, location, exemption, and
-             * per-jurisdiction rows. anyOf[1] (Value): {@link OrderTax}. The order's tax state:
-             * whether tax is enabled, its status, location, exemption, and per-jurisdiction rows.
-             * anyOf[2] (Value): null.
-             */
-            "tax"?: ((OrderTax) | (null));
-            /**
-             * Event and tickets this order sold through an event payment link. Absent on other
-             * orders. anyOf[1] (Value): {@link TicketedEvent}. Event and tickets this order sold
-             * through an event payment link. Absent on other orders. anyOf[2] (Value): null.
-             */
-            "ticketed_event"?: ((TicketedEvent) | (null));
-            /**
-             * Tips on the order, each with its requested, settled, and refunded amounts. A tip
-             * cleared before payment stays listed as canceled. anyOf[1] (Value): Array of {@link
-             * Tip}. Tips on the order, each with its requested, settled, and refunded amounts. A
-             * tip cleared before payment stays listed as canceled. anyOf[1][] (Value): {@link
-             * Tip}. A tip on an order, with its requested, settled, and refunded amounts, status,
-             * and how it was paid. anyOf[2] (Value): null.
-             */
-            "tips"?: ((Array<Tip>) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "updated_at"?: ((string) | (null));
             /**
-             * Order version for optimistic concurrency. Send this value as the expected version
-             * when changing the order. Increases with every change to the order. Ignore an order
-             * webhook snapshot whose version is lower than one you have already applied. anyOf[1]
-             * (Value): integer. Order version for optimistic concurrency. Send this value as the
-             * expected version when changing the order. Increases with every change to the order.
-             * Ignore an order webhook snapshot whose version is lower than one you have already
-             * applied. Format: int64. anyOf[2] (Value): null.
+             * Version of the modifier group and its modifiers. anyOf[1] (Value): integer. Version
+             * of the modifier group and its modifiers. Format: uint64. minimum: 1. anyOf[2]
+             * (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "modifier_group.updated". */
+    "event_type"?: "modifier_group.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `modifier_group.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type ModifierGroupUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.allow_quantities (Required): boolean. Whether buyers can select
+     * more than one unit of a list modifier. object.created_at (Optional): string. When the
+     * modifier group was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
+     * identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842". object.max_quantity (Optional): integer. Maximum whole-number quantity for
+     * each selected list modifier when allow_quantities is true; fractional quantities are not
+     * supported. Format: int64. object.max_selected (Optional): integer. Maximum number of
+     * distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier set
+     * can override this value. Format: int32. object.max_total_quantity (Optional): integer.
+     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
+     * are not supported. Format: int64. object.merchant_id (Optional): string. Identifier of the
+     * merchant that owns this modifier group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be
+     * empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and
+     * cannot be written through the public API. Caller-owned key-value data stored on a resource.
+     * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+     * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+     * satisfy them. object.min_quantity (Optional): integer. Minimum whole-number quantity for
+     * each selected list modifier when allow_quantities is true; fractional quantities are not
+     * supported. Format: int64. object.min_selected (Optional): integer. Minimum number of
+     * distinct modifiers buyers must select from a list group. Omit it to require no selections. A
+     * modifier set can override this value. Format: int32. object.modifier_group_id (Required):
+     * string. Stable identifier of the modifier group. For a group a modifier set owns (`source:
+     * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups`
+     * doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". object.modifier_group_type
+     * (Required): string. Whether buyers choose from a list of modifiers or enter text. On create,
+     * inferred as text when text configuration is supplied, otherwise list. Value enum: "list",
+     * "text". object.modifiers (Required): Array of {@link Modifier}. Choices in a list group.
+     * Only active modifiers whose set override's available is not false are offered to buyers.
+     * Text groups do not have choices. object.modifiers[] (Value): {@link Modifier}. A purchasable
+     * customization choice. object.name (Required): string. Name of the modifier group shown to
+     * buyers. object.show_on_fulfillment (Required): boolean. Whether selections from this group
+     * appear in fulfillment details unless overridden for a modifier set. object.show_on_receipt
+     * (Required): boolean. Whether selections from this group appear on buyer receipts unless
+     * overridden for a modifier set. object.status (Required): string. Lifecycle status of the
+     * modifier group. Only active groups can be offered to buyers; archived groups remain readable
+     * and cannot be edited. Value enum: "active", "inactive", "archived". object.text (Optional):
+     * {@link TextModifierConfig}. Text entry rules for a text group. Use text.required to require
+     * a value; list groups use min_selected instead. Settings for a text modifier group: whether
+     * input is required or multiline, and its length limits. object.updated_at (Optional): string.
+     * When the modifier group or its modifiers last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
+     * the modifier group and its modifiers. Format: uint64. minimum: 1. previous_attributes
+     * (Optional): object and {@link ModifierGroupPreviousAttributes}. Previous values of changed
+     * top-level fields in data.object, at this delivery's API version. Nested changes include the
+     * whole previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.allow_quantities (Optional): boolean or null. Whether buyers can select
+     * more than one unit of a list modifier. previous_attributes.allow_quantities.anyOf[1]
+     * (Value): boolean. Whether buyers can select more than one unit of a list modifier.
+     * previous_attributes.allow_quantities.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. When the modifier group was created, as an RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When the modifier group was
+     * created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.max_quantity (Optional): integer or null. Maximum whole-number quantity
+     * for each selected list modifier when allow_quantities is true; fractional quantities are not
+     * supported. previous_attributes.max_quantity.anyOf[1] (Value): integer. Maximum whole-number
+     * quantity for each selected list modifier when allow_quantities is true; fractional
+     * quantities are not supported. Format: int64. previous_attributes.max_quantity.anyOf[2]
+     * (Value): null. previous_attributes.max_selected (Optional): integer or null. Maximum number
+     * of distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier
+     * set can override this value. previous_attributes.max_selected.anyOf[1] (Value): integer.
+     * Maximum number of distinct modifiers buyers can select from a list group. Omit it for no
+     * limit. A modifier set can override this value. Format: int32.
+     * previous_attributes.max_selected.anyOf[2] (Value): null.
+     * previous_attributes.max_total_quantity (Optional): integer or null. Maximum combined
+     * whole-number quantity across selected list modifiers; fractional quantities are not
+     * supported. previous_attributes.max_total_quantity.anyOf[1] (Value): integer. Maximum
+     * combined whole-number quantity across selected list modifiers; fractional quantities are not
+     * supported. Format: int64. previous_attributes.max_total_quantity.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this modifier group. previous_attributes.merchant_id.anyOf[1] (Value): string.
+     * Identifier of the merchant that owns this modifier group. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
+     * returned, and cannot be written through the public API.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.min_quantity
+     * (Optional): integer or null. Minimum whole-number quantity for each selected list modifier
+     * when allow_quantities is true; fractional quantities are not supported.
+     * previous_attributes.min_quantity.anyOf[1] (Value): integer. Minimum whole-number quantity
+     * for each selected list modifier when allow_quantities is true; fractional quantities are not
+     * supported. Format: int64. previous_attributes.min_quantity.anyOf[2] (Value): null.
+     * previous_attributes.min_selected (Optional): integer or null. Minimum number of distinct
+     * modifiers buyers must select from a list group. Omit it to require no selections. A modifier
+     * set can override this value. previous_attributes.min_selected.anyOf[1] (Value): integer.
+     * Minimum number of distinct modifiers buyers must select from a list group. Omit it to
+     * require no selections. A modifier set can override this value. Format: int32.
+     * previous_attributes.min_selected.anyOf[2] (Value): null.
+     * previous_attributes.modifier_group_id (Optional): string or null. Stable identifier of the
+     * modifier group. For a group a modifier set owns (`source: inline`), read it through `GET
+     * /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it.
+     * previous_attributes.modifier_group_id.anyOf[1] (Value): string. Stable identifier of the
+     * modifier group. For a group a modifier set owns (`source: inline`), read it through `GET
+     * /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it. Example:
+     * "mg_01KEZF7C00XKJJATARG7KDBYM9". previous_attributes.modifier_group_id.anyOf[2] (Value):
+     * null. previous_attributes.modifier_group_type (Optional): string or null. Whether buyers
+     * choose from a list of modifiers or enter text. On create, inferred as text when text
+     * configuration is supplied, otherwise list. Value enum: "list", "text".
+     * previous_attributes.modifier_group_type.anyOf[1] (Value): string. Whether buyers choose from
+     * a list of modifiers or enter text. On create, inferred as text when text configuration is
+     * supplied, otherwise list. Value enum: "list", "text".
+     * previous_attributes.modifier_group_type.anyOf[2] (Value): null.
+     * previous_attributes.modifiers (Optional): Array of {@link ModifierPreviousAttributes} or
+     * null. Choices in a list group. Only active modifiers whose set override's available is not
+     * false are offered to buyers. Text groups do not have choices.
+     * previous_attributes.modifiers.anyOf[1] (Value): Array of {@link ModifierPreviousAttributes}.
+     * Choices in a list group. Only active modifiers whose set override's available is not false
+     * are offered to buyers. Text groups do not have choices.
+     * previous_attributes.modifiers.anyOf[1][] (Value): {@link ModifierPreviousAttributes}.
+     * previous_attributes.modifiers.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Name of the modifier group shown to buyers.
+     * previous_attributes.name.anyOf[1] (Value): string. Name of the modifier group shown to
+     * buyers. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.show_on_fulfillment (Optional): boolean or null. Whether selections from
+     * this group appear in fulfillment details unless overridden for a modifier set.
+     * previous_attributes.show_on_fulfillment.anyOf[1] (Value): boolean. Whether selections from
+     * this group appear in fulfillment details unless overridden for a modifier set.
+     * previous_attributes.show_on_fulfillment.anyOf[2] (Value): null.
+     * previous_attributes.show_on_receipt (Optional): boolean or null. Whether selections from
+     * this group appear on buyer receipts unless overridden for a modifier set.
+     * previous_attributes.show_on_receipt.anyOf[1] (Value): boolean. Whether selections from this
+     * group appear on buyer receipts unless overridden for a modifier set.
+     * previous_attributes.show_on_receipt.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Lifecycle status of the modifier group. Only active groups can
+     * be offered to buyers; archived groups remain readable and cannot be edited. Value enum:
+     * "active", "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string.
+     * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
+     * archived groups remain readable and cannot be edited. Value enum: "active", "inactive",
+     * "archived". previous_attributes.status.anyOf[2] (Value): null. previous_attributes.text
+     * (Optional): {@link TextModifierConfigPreviousAttributes} or null. Text entry rules for a
+     * text group. Use text.required to require a value; list groups use min_selected instead.
+     * previous_attributes.text.anyOf[1] (Value): {@link TextModifierConfigPreviousAttributes}.
+     * previous_attributes.text.anyOf[2] (Value): null. previous_attributes.updated_at (Optional):
+     * string or null. When the modifier group or its modifiers last changed, as an RFC3339
+     * timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When the modifier group
+     * or its modifiers last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Version of the modifier group and
+     * its modifiers. previous_attributes.version.anyOf[1] (Value): integer. Version of the
+     * modifier group and its modifiers. Format: uint64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * allow_quantities (Required): boolean. Whether buyers can select more than one unit of a
+         * list modifier. created_at (Optional): string. When the modifier group was created, as an
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
+         * an external system. maxLength: 255. Example: "warehouse-1842". max_quantity (Optional):
+         * integer. Maximum whole-number quantity for each selected list modifier when
+         * allow_quantities is true; fractional quantities are not supported. Format: int64.
+         * max_selected (Optional): integer. Maximum number of distinct modifiers buyers can select
+         * from a list group. Omit it for no limit. A modifier set can override this value. Format:
+         * int32. max_total_quantity (Optional): integer. Maximum combined whole-number quantity
+         * across selected list modifiers; fractional quantities are not supported. Format: int64.
+         * merchant_id (Optional): string. Identifier of the merchant that owns this modifier
+         * group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
+         * MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with
+         * flint_ are reserved for Flint, are not returned, and cannot be written through the
+         * public API. Caller-owned key-value data stored on a resource. Keys starting with flint_
+         * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput
+         * and MetadataPatchInput; maps written before those limits may not satisfy them.
+         * min_quantity (Optional): integer. Minimum whole-number quantity for each selected list
+         * modifier when allow_quantities is true; fractional quantities are not supported. Format:
+         * int64. min_selected (Optional): integer. Minimum number of distinct modifiers buyers
+         * must select from a list group. Omit it to require no selections. A modifier set can
+         * override this value. Format: int32. modifier_group_id (Required): string. Stable
+         * identifier of the modifier group. For a group a modifier set owns (`source: inline`),
+         * read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
+         * return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". modifier_group_type (Required):
+         * string. Whether buyers choose from a list of modifiers or enter text. On create,
+         * inferred as text when text configuration is supplied, otherwise list. Value enum:
+         * "list", "text". modifiers (Required): Array of {@link Modifier}. Choices in a list
+         * group. Only active modifiers whose set override's available is not false are offered to
+         * buyers. Text groups do not have choices. modifiers[] (Value): {@link Modifier}. A
+         * purchasable customization choice. name (Required): string. Name of the modifier group
+         * shown to buyers. show_on_fulfillment (Required): boolean. Whether selections from this
+         * group appear in fulfillment details unless overridden for a modifier set.
+         * show_on_receipt (Required): boolean. Whether selections from this group appear on buyer
+         * receipts unless overridden for a modifier set. status (Required): string. Lifecycle
+         * status of the modifier group. Only active groups can be offered to buyers; archived
+         * groups remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". text (Optional): {@link TextModifierConfig}. Text entry rules for a text
+         * group. Use text.required to require a value; list groups use min_selected instead.
+         * Settings for a text modifier group: whether input is required or multiline, and its
+         * length limits. updated_at (Optional): string. When the modifier group or its modifiers
+         * last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier group and
+         * its modifiers. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /** Whether buyers can select more than one unit of a list modifier. */
+            "allow_quantities": boolean;
+            /**
+             * When the modifier group was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Maximum whole-number quantity for each selected list modifier when allow_quantities
+             * is true; fractional quantities are not supported. Format: int64.
+             */
+            "max_quantity"?: number;
+            /**
+             * Maximum number of distinct modifiers buyers can select from a list group. Omit it
+             * for no limit. A modifier set can override this value. Format: int32.
+             */
+            "max_selected"?: number;
+            /**
+             * Maximum combined whole-number quantity across selected list modifiers; fractional
+             * quantities are not supported. Format: int64.
+             */
+            "max_total_quantity"?: number;
+            /**
+             * Identifier of the merchant that owns this modifier group. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
+             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
+             * and MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Minimum whole-number quantity for each selected list modifier when allow_quantities
+             * is true; fractional quantities are not supported. Format: int64.
+             */
+            "min_quantity"?: number;
+            /**
+             * Minimum number of distinct modifiers buyers must select from a list group. Omit it
+             * to require no selections. A modifier set can override this value. Format: int32.
+             */
+            "min_selected"?: number;
+            /**
+             * Stable identifier of the modifier group. For a group a modifier set owns (`source:
+             * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`;
+             * `/v1/modifier-groups` doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+             */
+            "modifier_group_id": string;
+            /**
+             * Whether buyers choose from a list of modifiers or enter text. On create, inferred as
+             * text when text configuration is supplied, otherwise list. Value enum: "list",
+             * "text".
+             */
+            "modifier_group_type": "list" | "text" | (string & {});
+            /**
+             * Choices in a list group. Only active modifiers whose set override's available is not
+             * false are offered to buyers. Text groups do not have choices. [] (Value): {@link
+             * Modifier}. A purchasable customization choice.
+             */
+            "modifiers": Array<Modifier>;
+            /** Name of the modifier group shown to buyers. */
+            "name": string;
+            /**
+             * Whether selections from this group appear in fulfillment details unless overridden
+             * for a modifier set.
+             */
+            "show_on_fulfillment": boolean;
+            /**
+             * Whether selections from this group appear on buyer receipts unless overridden for a
+             * modifier set.
+             */
+            "show_on_receipt": boolean;
+            /**
+             * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
+             * archived groups remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * Text entry rules for a text group. Use text.required to require a value; list groups
+             * use min_selected instead. Settings for a text modifier group: whether input is
+             * required or multiline, and its length limits.
+             */
+            "text"?: TextModifierConfig;
+            /**
+             * When the modifier group or its modifiers last changed, as an RFC3339 timestamp.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /** Version of the modifier group and its modifiers. Format: uint64. minimum: 1. */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. allow_quantities (Optional): boolean or null.
+         * Whether buyers can select more than one unit of a list modifier.
+         * allow_quantities.anyOf[1] (Value): boolean. Whether buyers can select more than one unit
+         * of a list modifier. allow_quantities.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. When the modifier group was created, as an RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. When the modifier group was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. external_reference_id (Optional): string or null. Caller-owned identifier
+         * for this resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. max_quantity
+         * (Optional): integer or null. Maximum whole-number quantity for each selected list
+         * modifier when allow_quantities is true; fractional quantities are not supported.
+         * max_quantity.anyOf[1] (Value): integer. Maximum whole-number quantity for each selected
+         * list modifier when allow_quantities is true; fractional quantities are not supported.
+         * Format: int64. max_quantity.anyOf[2] (Value): null. max_selected (Optional): integer or
+         * null. Maximum number of distinct modifiers buyers can select from a list group. Omit it
+         * for no limit. A modifier set can override this value. max_selected.anyOf[1] (Value):
+         * integer. Maximum number of distinct modifiers buyers can select from a list group. Omit
+         * it for no limit. A modifier set can override this value. Format: int32.
+         * max_selected.anyOf[2] (Value): null. max_total_quantity (Optional): integer or null.
+         * Maximum combined whole-number quantity across selected list modifiers; fractional
+         * quantities are not supported. max_total_quantity.anyOf[1] (Value): integer. Maximum
+         * combined whole-number quantity across selected list modifiers; fractional quantities are
+         * not supported. Format: int64. max_total_quantity.anyOf[2] (Value): null. merchant_id
+         * (Optional): string or null. Identifier of the merchant that owns this modifier group.
+         * merchant_id.anyOf[1] (Value): string. Identifier of the merchant that owns this modifier
+         * group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null.
+         * metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be
+         * empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and
+         * cannot be written through the public API. metadata.anyOf[1] (Value): {@link
+         * MetadataMap}. metadata.anyOf[2] (Value): null. min_quantity (Optional): integer or null.
+         * Minimum whole-number quantity for each selected list modifier when allow_quantities is
+         * true; fractional quantities are not supported. min_quantity.anyOf[1] (Value): integer.
+         * Minimum whole-number quantity for each selected list modifier when allow_quantities is
+         * true; fractional quantities are not supported. Format: int64. min_quantity.anyOf[2]
+         * (Value): null. min_selected (Optional): integer or null. Minimum number of distinct
+         * modifiers buyers must select from a list group. Omit it to require no selections. A
+         * modifier set can override this value. min_selected.anyOf[1] (Value): integer. Minimum
+         * number of distinct modifiers buyers must select from a list group. Omit it to require no
+         * selections. A modifier set can override this value. Format: int32. min_selected.anyOf[2]
+         * (Value): null. modifier_group_id (Optional): string or null. Stable identifier of the
+         * modifier group. For a group a modifier set owns (`source: inline`), read it through `GET
+         * /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it.
+         * modifier_group_id.anyOf[1] (Value): string. Stable identifier of the modifier group. For
+         * a group a modifier set owns (`source: inline`), read it through `GET
+         * /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it. Example:
+         * "mg_01KEZF7C00XKJJATARG7KDBYM9". modifier_group_id.anyOf[2] (Value): null.
+         * modifier_group_type (Optional): string or null. Whether buyers choose from a list of
+         * modifiers or enter text. On create, inferred as text when text configuration is
+         * supplied, otherwise list. Value enum: "list", "text". modifier_group_type.anyOf[1]
+         * (Value): string. Whether buyers choose from a list of modifiers or enter text. On
+         * create, inferred as text when text configuration is supplied, otherwise list. Value
+         * enum: "list", "text". modifier_group_type.anyOf[2] (Value): null. modifiers (Optional):
+         * Array of {@link ModifierPreviousAttributes} or null. Choices in a list group. Only
+         * active modifiers whose set override's available is not false are offered to buyers. Text
+         * groups do not have choices. modifiers.anyOf[1] (Value): Array of {@link
+         * ModifierPreviousAttributes}. Choices in a list group. Only active modifiers whose set
+         * override's available is not false are offered to buyers. Text groups do not have
+         * choices. modifiers.anyOf[1][] (Value): {@link ModifierPreviousAttributes}.
+         * modifiers.anyOf[2] (Value): null. name (Optional): string or null. Name of the modifier
+         * group shown to buyers. name.anyOf[1] (Value): string. Name of the modifier group shown
+         * to buyers. name.anyOf[2] (Value): null. show_on_fulfillment (Optional): boolean or null.
+         * Whether selections from this group appear in fulfillment details unless overridden for a
+         * modifier set. show_on_fulfillment.anyOf[1] (Value): boolean. Whether selections from
+         * this group appear in fulfillment details unless overridden for a modifier set.
+         * show_on_fulfillment.anyOf[2] (Value): null. show_on_receipt (Optional): boolean or null.
+         * Whether selections from this group appear on buyer receipts unless overridden for a
+         * modifier set. show_on_receipt.anyOf[1] (Value): boolean. Whether selections from this
+         * group appear on buyer receipts unless overridden for a modifier set.
+         * show_on_receipt.anyOf[2] (Value): null. status (Optional): string or null. Lifecycle
+         * status of the modifier group. Only active groups can be offered to buyers; archived
+         * groups remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". status.anyOf[1] (Value): string. Lifecycle status of the modifier group.
+         * Only active groups can be offered to buyers; archived groups remain readable and cannot
+         * be edited. Value enum: "active", "inactive", "archived". status.anyOf[2] (Value): null.
+         * text (Optional): {@link TextModifierConfigPreviousAttributes} or null. Text entry rules
+         * for a text group. Use text.required to require a value; list groups use min_selected
+         * instead. text.anyOf[1] (Value): {@link TextModifierConfigPreviousAttributes}.
+         * text.anyOf[2] (Value): null. updated_at (Optional): string or null. When the modifier
+         * group or its modifiers last changed, as an RFC3339 timestamp. updated_at.anyOf[1]
+         * (Value): string. When the modifier group or its modifiers last changed, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
+         * (Value): null. version (Optional): integer or null. Version of the modifier group and
+         * its modifiers. version.anyOf[1] (Value): integer. Version of the modifier group and its
+         * modifiers. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Whether buyers can select more than one unit of a list modifier. anyOf[1] (Value):
+             * boolean. Whether buyers can select more than one unit of a list modifier. anyOf[2]
+             * (Value): null.
+             */
+            "allow_quantities"?: ((boolean) | (null));
+            /**
+             * When the modifier group was created, as an RFC3339 timestamp. anyOf[1] (Value):
+             * string. When the modifier group was created, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Maximum whole-number quantity for each selected list modifier when allow_quantities
+             * is true; fractional quantities are not supported. anyOf[1] (Value): integer. Maximum
+             * whole-number quantity for each selected list modifier when allow_quantities is true;
+             * fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "max_quantity"?: ((number) | (null));
+            /**
+             * Maximum number of distinct modifiers buyers can select from a list group. Omit it
+             * for no limit. A modifier set can override this value. anyOf[1] (Value): integer.
+             * Maximum number of distinct modifiers buyers can select from a list group. Omit it
+             * for no limit. A modifier set can override this value. Format: int32. anyOf[2]
+             * (Value): null.
+             */
+            "max_selected"?: ((number) | (null));
+            /**
+             * Maximum combined whole-number quantity across selected list modifiers; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. Maximum combined
+             * whole-number quantity across selected list modifiers; fractional quantities are not
+             * supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "max_total_quantity"?: ((number) | (null));
+            /**
+             * Identifier of the merchant that owns this modifier group. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this modifier group. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Minimum whole-number quantity for each selected list modifier when allow_quantities
+             * is true; fractional quantities are not supported. anyOf[1] (Value): integer. Minimum
+             * whole-number quantity for each selected list modifier when allow_quantities is true;
+             * fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "min_quantity"?: ((number) | (null));
+            /**
+             * Minimum number of distinct modifiers buyers must select from a list group. Omit it
+             * to require no selections. A modifier set can override this value. anyOf[1] (Value):
+             * integer. Minimum number of distinct modifiers buyers must select from a list group.
+             * Omit it to require no selections. A modifier set can override this value. Format:
+             * int32. anyOf[2] (Value): null.
+             */
+            "min_selected"?: ((number) | (null));
+            /**
+             * Stable identifier of the modifier group. For a group a modifier set owns (`source:
+             * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`;
+             * `/v1/modifier-groups` doesn't return it. anyOf[1] (Value): string. Stable identifier
+             * of the modifier group. For a group a modifier set owns (`source: inline`), read it
+             * through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
+             * return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". anyOf[2] (Value): null.
+             */
+            "modifier_group_id"?: ((string) | (null));
+            /**
+             * Whether buyers choose from a list of modifiers or enter text. On create, inferred as
+             * text when text configuration is supplied, otherwise list. Value enum: "list",
+             * "text". anyOf[1] (Value): string. Whether buyers choose from a list of modifiers or
+             * enter text. On create, inferred as text when text configuration is supplied,
+             * otherwise list. Value enum: "list", "text". anyOf[2] (Value): null.
+             */
+            "modifier_group_type"?: (("list" | "text" | (string & {})) | (null));
+            /**
+             * Choices in a list group. Only active modifiers whose set override's available is not
+             * false are offered to buyers. Text groups do not have choices. anyOf[1] (Value):
+             * Array of {@link ModifierPreviousAttributes}. Choices in a list group. Only active
+             * modifiers whose set override's available is not false are offered to buyers. Text
+             * groups do not have choices. anyOf[1][] (Value): {@link ModifierPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "modifiers"?: ((Array<ModifierPreviousAttributes>) | (null));
+            /**
+             * Name of the modifier group shown to buyers. anyOf[1] (Value): string. Name of the
+             * modifier group shown to buyers. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Whether selections from this group appear in fulfillment details unless overridden
+             * for a modifier set. anyOf[1] (Value): boolean. Whether selections from this group
+             * appear in fulfillment details unless overridden for a modifier set. anyOf[2]
+             * (Value): null.
+             */
+            "show_on_fulfillment"?: ((boolean) | (null));
+            /**
+             * Whether selections from this group appear on buyer receipts unless overridden for a
+             * modifier set. anyOf[1] (Value): boolean. Whether selections from this group appear
+             * on buyer receipts unless overridden for a modifier set. anyOf[2] (Value): null.
+             */
+            "show_on_receipt"?: ((boolean) | (null));
+            /**
+             * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
+             * archived groups remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived". anyOf[1] (Value): string. Lifecycle status of the modifier
+             * group. Only active groups can be offered to buyers; archived groups remain readable
+             * and cannot be edited. Value enum: "active", "inactive", "archived". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * Text entry rules for a text group. Use text.required to require a value; list groups
+             * use min_selected instead. anyOf[1] (Value): {@link
+             * TextModifierConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "text"?: ((TextModifierConfigPreviousAttributes) | (null));
+            /**
+             * When the modifier group or its modifiers last changed, as an RFC3339 timestamp.
+             * anyOf[1] (Value): string. When the modifier group or its modifiers last changed, as
+             * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
+             * (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Version of the modifier group and its modifiers. anyOf[1] (Value): integer. Version
+             * of the modifier group and its modifiers. Format: uint64. minimum: 1. anyOf[2]
+             * (Value): null.
              */
             "version"?: ((number) | (null));
         });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
-    /** Value enum: "order.updated". */
-    "event_type"?: "order.updated";
+    /** Value enum: "modifier_group.updated". */
+    "event_type"?: "modifier_group.updated";
 });
-export type OrdersApplyDiscountParams = (ApplyDiscountRequestInput)
+export type ModifierGroupsCreateParams = (InputValue<CreateModifierGroupRequestInput>)
     & {
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
@@ -4343,194 +1976,10 @@ export type OrdersApplyDiscountParams = (ApplyDiscountRequestInput)
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type OrdersApplyGiftCardParams = (InputValue<ApplyOrderGiftCardRequestInput>)
-    & {
+export type ModifierGroupsDeleteParams = {
     /**
-     * Single-use proof from the checkout's gift card challenge. Needed only after
-     * GIFT_CARD_CHALLENGE_REQUIRED. While a challenge is required, every code needs a new proof,
-     * for up to an hour after the failures that triggered it. Ignored for API keys.
-     */
-    "Flint-Gift-Card-Challenge"?: InputValue<string>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersCancelEditParams = (InputValue<CancelOrderEditRequestInput> | {
-    "expected_version"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersCancelPaymentAttemptParams = (InputValue<CancelOrderPaymentAttemptRequestInput> | {
-    "cancellation_reason"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersCloseParams = (InputValue<CloseOrderRequestInput>
-    | {
-    "collected_money_behavior"?: never;
-    "expected_version"?: never;
-    "reason_message"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersCreateAccessLinkParams = FilesCompleteParams;
-export type OrdersCreateChargeParams = (InputValue<AddOrderChargeRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersCreateEditParams = (CreateOrderEditRequestInput)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersCreateLineItemsParams = (InputValue<AddLineItemsRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersCreateParams = (InputValue<CreateOrderRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersDeleteChargeParams = {
-    /**
-     * Order version from the last order read. The mutation fails if the order changed. Format:
-     * int64. minimum: 1. maximum: 9007199254740991.
+     * Optional modifier group version last read by the caller. Format: uint64. minimum: 1.
+     * maximum: 9007199254740991.
      */
     "expected_version"?: InputValue<number>;
     /**
@@ -4552,204 +2001,8 @@ export type OrdersDeleteChargeParams = {
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type OrdersDeleteLineItemParams = OrdersDeleteChargeParams;
-export type OrdersGetEditParams = DisputesAcceptParams;
-export type OrdersGetParams = {
-    /**
-     * Include related objects in the response. Supported expansions: customer,
-     * fulfillments.packages, fulfillments.shipments, payment_intents, subscription,
-     * subscription_plan. Expansion requires the base order read scope plus the read scope for each
-     * expanded resource. Limits: at most 10 unique expand paths per request. To-many expansions
-     * are capped at 20 related objects per path. [] enum: "customer", "fulfillments.packages",
-     * "fulfillments.shipments", "payment_intents", "subscription", "subscription_plan". Value
-     * enum: "customer", "fulfillments.packages", "fulfillments.shipments", "payment_intents",
-     * "subscription", "subscription_plan". anyOf[1] (Value): Array of string. [] enum: "customer",
-     * "fulfillments.packages", "fulfillments.shipments", "payment_intents", "subscription",
-     * "subscription_plan". anyOf[1][] (Value): string. Value enum: "customer",
-     * "fulfillments.packages", "fulfillments.shipments", "payment_intents", "subscription",
-     * "subscription_plan". anyOf[2] (Value): string. Value enum: "customer",
-     * "fulfillments.packages", "fulfillments.shipments", "payment_intents", "subscription",
-     * "subscription_plan".
-     */
-    "expand"?: InputValue<("customer"
-        | "fulfillments.packages"
-        | "fulfillments.shipments"
-        | "payment_intents"
-        | "subscription"
-        | "subscription_plan")
-        | readonly ("customer"
-        | "fulfillments.packages"
-        | "fulfillments.shipments"
-        | "payment_intents"
-        | "subscription"
-        | "subscription_plan")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersGetPaymentAttemptParams = DisputesAcceptParams;
-export type OrdersGetReceiptPDFParams = DisputesAcceptParams;
-export type OrdersGetReceiptPDFResponse = Uint8Array;
-export type OrdersListActivitiesParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /**
-     * Filter by activity type. Values are trimmed and deduplicated in first-seen order; empty or
-     * unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "created", "dispute_opened", "dispute_closed", "line_item_added",
-     * "line_item_updated", "line_item_removed", "discount_applied", "discount_removed",
-     * "tax_updated", "requested_tip_added", "requested_tip_updated", "requested_tip_removed",
-     * "charge_added", "charge_updated", "charge_removed", "charge_fulfillment_updated",
-     * "order_edited", "payment_review_opened", "payment_review_closed", "order_updated",
-     * "adjustment", "closed", "payment", "payment_failed", "refund", "refund_failed",
-     * "checkout_session_created", "checkout_session_expired", "checkout_session_invalidated",
-     * "fulfillment_created", "fulfillment_updated", "fulfillment_state_changed". Value enum:
-     * "created", "dispute_opened", "dispute_closed", "line_item_added", "line_item_updated",
-     * "line_item_removed", "discount_applied", "discount_removed", "tax_updated",
-     * "requested_tip_added", "requested_tip_updated", "requested_tip_removed", "charge_added",
-     * "charge_updated", "charge_removed", "charge_fulfillment_updated", "order_edited",
-     * "payment_review_opened", "payment_review_closed", "order_updated", "adjustment", "closed",
-     * "payment", "payment_failed", "refund", "refund_failed", "checkout_session_created",
-     * "checkout_session_expired", "checkout_session_invalidated", "fulfillment_created",
-     * "fulfillment_updated", "fulfillment_state_changed". anyOf[1] (Value): Array of string.
-     * minItems: 1. [] enum: "created", "dispute_opened", "dispute_closed", "line_item_added",
-     * "line_item_updated", "line_item_removed", "discount_applied", "discount_removed",
-     * "tax_updated", "requested_tip_added", "requested_tip_updated", "requested_tip_removed",
-     * "charge_added", "charge_updated", "charge_removed", "charge_fulfillment_updated",
-     * "order_edited", "payment_review_opened", "payment_review_closed", "order_updated",
-     * "adjustment", "closed", "payment", "payment_failed", "refund", "refund_failed",
-     * "checkout_session_created", "checkout_session_expired", "checkout_session_invalidated",
-     * "fulfillment_created", "fulfillment_updated", "fulfillment_state_changed". anyOf[1][]
-     * (Value): string. Value enum: "created", "dispute_opened", "dispute_closed",
-     * "line_item_added", "line_item_updated", "line_item_removed", "discount_applied",
-     * "discount_removed", "tax_updated", "requested_tip_added", "requested_tip_updated",
-     * "requested_tip_removed", "charge_added", "charge_updated", "charge_removed",
-     * "charge_fulfillment_updated", "order_edited", "payment_review_opened",
-     * "payment_review_closed", "order_updated", "adjustment", "closed", "payment",
-     * "payment_failed", "refund", "refund_failed", "checkout_session_created",
-     * "checkout_session_expired", "checkout_session_invalidated", "fulfillment_created",
-     * "fulfillment_updated", "fulfillment_state_changed". anyOf[2] (Value): string. Value enum:
-     * "created", "dispute_opened", "dispute_closed", "line_item_added", "line_item_updated",
-     * "line_item_removed", "discount_applied", "discount_removed", "tax_updated",
-     * "requested_tip_added", "requested_tip_updated", "requested_tip_removed", "charge_added",
-     * "charge_updated", "charge_removed", "charge_fulfillment_updated", "order_edited",
-     * "payment_review_opened", "payment_review_closed", "order_updated", "adjustment", "closed",
-     * "payment", "payment_failed", "refund", "refund_failed", "checkout_session_created",
-     * "checkout_session_expired", "checkout_session_invalidated", "fulfillment_created",
-     * "fulfillment_updated", "fulfillment_state_changed".
-     */
-    "activity_type"?: InputValue<("created"
-        | "dispute_opened"
-        | "dispute_closed"
-        | "line_item_added"
-        | "line_item_updated"
-        | "line_item_removed"
-        | "discount_applied"
-        | "discount_removed"
-        | "tax_updated"
-        | "requested_tip_added"
-        | "requested_tip_updated"
-        | "requested_tip_removed"
-        | "charge_added"
-        | "charge_updated"
-        | "charge_removed"
-        | "charge_fulfillment_updated"
-        | "order_edited"
-        | "payment_review_opened"
-        | "payment_review_closed"
-        | "order_updated"
-        | "adjustment"
-        | "closed"
-        | "payment"
-        | "payment_failed"
-        | "refund"
-        | "refund_failed"
-        | "checkout_session_created"
-        | "checkout_session_expired"
-        | "checkout_session_invalidated"
-        | "fulfillment_created"
-        | "fulfillment_updated"
-        | "fulfillment_state_changed")
-        | readonly ("created"
-        | "dispute_opened"
-        | "dispute_closed"
-        | "line_item_added"
-        | "line_item_updated"
-        | "line_item_removed"
-        | "discount_applied"
-        | "discount_removed"
-        | "tax_updated"
-        | "requested_tip_added"
-        | "requested_tip_updated"
-        | "requested_tip_removed"
-        | "charge_added"
-        | "charge_updated"
-        | "charge_removed"
-        | "charge_fulfillment_updated"
-        | "order_edited"
-        | "payment_review_opened"
-        | "payment_review_closed"
-        | "order_updated"
-        | "adjustment"
-        | "closed"
-        | "payment"
-        | "payment_failed"
-        | "refund"
-        | "refund_failed"
-        | "checkout_session_created"
-        | "checkout_session_expired"
-        | "checkout_session_invalidated"
-        | "fulfillment_created"
-        | "fulfillment_updated"
-        | "fulfillment_state_changed")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersListChargesParams = CustomersListAddressesParams;
-export type OrdersListEditsParams = {
+export type ModifierGroupsGetParams = DisputesAcceptParams;
+export type ModifierGroupsListParams = {
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
      * 100. Default: 20.
@@ -4763,250 +2016,39 @@ export type OrdersListEditsParams = {
      */
     "page_token"?: InputValue<string>;
     /**
-     * Exact edit status. Values match any supplied status. Values are trimmed and deduplicated in
-     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
-     * separate filters are ANDed. [] enum: "pending", "completed", "canceled". Value enum:
-     * "pending", "completed", "canceled". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "pending", "completed", "canceled". anyOf[1][] (Value): string. Value enum: "pending",
-     * "completed", "canceled". anyOf[2] (Value): string. Value enum: "pending", "completed",
-     * "canceled".
+     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
+     * "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value):
+     * string. Value enum: "active", "inactive", "archived". anyOf[2] (Value): string. Value enum:
+     * "active", "inactive", "archived".
      */
-    "status"?: InputValue<("pending" | "completed" | "canceled") | readonly ("pending" | "completed" | "canceled")[]>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
+    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
     /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Filter by modifier group type. Values are trimmed and deduplicated in first-seen order;
+     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
+     * are ANDed. [] enum: "list", "text". Value enum: "list", "text". anyOf[1] (Value): Array of
+     * string. minItems: 1. [] enum: "list", "text". anyOf[1][] (Value): string. Value enum:
+     * "list", "text". anyOf[2] (Value): string. Value enum: "list", "text".
      */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersListLineItemsParams = CustomersListAddressesParams;
-export type OrdersListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by customer ID. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: InputValue<string>;
-    /**
-     * Filter to orders with any line item referencing this product ID. Bundle lines don't match
-     * their component products. An unknown product ID returns an empty page. pattern:
-     * ^prod_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
-     */
-    "product_id"?: InputValue<string>;
-    /**
-     * Filter to orders with any line item referencing this variant ID. Bundle lines don't match
-     * their component variants. An unknown variant ID returns an empty page. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id"?: InputValue<string>;
-    /**
-     * Filter to orders whose buyer_email or linked customer's email equals this address, compared
-     * case-insensitively after trimming, with accents preserved. Requires a bare email address.
-     * Format: email. Example: "buyer@example.com".
-     */
-    "email"?: InputValue<string>;
-    /**
-     * Exact-match filter on order IDs. Matches any of up to 100 distinct IDs. Unknown IDs and
-     * orders outside your merchant or environment are absent. Other filters still apply, and
-     * results keep the list's ordering and pagination. Keep the same ID set on subsequent pages.
-     * anyOf[1] (Value): Array of string. minItems: 1. maxItems: 100. Example:
-     * "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV". anyOf[1][] (Value): string. pattern:
-     * ^ord_[0-9A-HJKMNP-TV-Z]{26}$. anyOf[2] (Value): string. pattern:
-     * ^ord_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "order_id"?: InputValue<(string) | readonly (string)[]>;
-    /**
-     * Why a closed order closed. Matches orders closed for any reason given. Values are trimmed
-     * and deduplicated in first-seen order; empty or unknown entries are rejected. Values within
-     * this filter are ORed; separate filters are ANDed. [] enum: "invoice_voided", "paid",
-     * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
-     * "return_resolution_canceled", "other". Value enum: "invoice_voided", "paid",
-     * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
-     * "return_resolution_canceled", "other". anyOf[1] (Value): Array of string. minItems: 1. []
-     * enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-     * "superseded", "return_resolution_canceled", "other". anyOf[1][] (Value): string. Value enum:
-     * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-     * "superseded", "return_resolution_canceled", "other". anyOf[2] (Value): string. Value enum:
-     * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-     * "superseded", "return_resolution_canceled", "other".
-     */
-    "closed_reason"?: InputValue<("invoice_voided"
-        | "paid"
-        | "closed_by_merchant"
-        | "checkout_expired"
-        | "written_off"
-        | "superseded"
-        | "return_resolution_canceled"
-        | "other")
-        | readonly ("invoice_voided"
-        | "paid"
-        | "closed_by_merchant"
-        | "checkout_expired"
-        | "written_off"
-        | "superseded"
-        | "return_resolution_canceled"
-        | "other")[]>;
-    /**
-     * Order status: open or closed. Selecting open and closed includes both statuses. Values are
-     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
-     * within this filter are ORed; separate filters are ANDed. [] enum: "open", "closed". Value
-     * enum: "open", "closed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "open",
-     * "closed". anyOf[1][] (Value): string. Value enum: "open", "closed". anyOf[2] (Value):
-     * string. Value enum: "open", "closed".
-     */
-    "status"?: InputValue<("open" | "closed") | readonly ("open" | "closed")[]>;
-    /**
-     * Filter by settled collection status. Values are trimmed and deduplicated in first-seen
-     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
-     * filters are ANDed. [] enum: "unpaid", "partially_paid", "paid". Value enum: "unpaid",
-     * "partially_paid", "paid". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "unpaid",
-     * "partially_paid", "paid". anyOf[1][] (Value): string. Value enum: "unpaid",
-     * "partially_paid", "paid". anyOf[2] (Value): string. Value enum: "unpaid", "partially_paid",
-     * "paid".
-     */
-    "payment_status"?: InputValue<("unpaid" | "partially_paid" | "paid") | readonly ("unpaid" | "partially_paid" | "paid")[]>;
-    /**
-     * Filter by refund progress. Values are trimmed and deduplicated in first-seen order; empty or
-     * unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "none", "partially_refunded", "refunded". Value enum: "none",
-     * "partially_refunded", "refunded". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "none", "partially_refunded", "refunded". anyOf[1][] (Value): string. Value enum: "none",
-     * "partially_refunded", "refunded". anyOf[2] (Value): string. Value enum: "none",
-     * "partially_refunded", "refunded".
-     */
-    "refund_status"?: InputValue<("none" | "partially_refunded" | "refunded")
-        | readonly ("none" | "partially_refunded" | "refunded")[]>;
-    /**
-     * Filter by aggregate order fulfillment status. Values are trimmed and deduplicated in
-     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
-     * separate filters are ANDed. [] enum: "not_fulfilled", "partially_fulfilled", "fulfilled",
-     * "canceled", "not_applicable", "closed". Value enum: "not_fulfilled", "partially_fulfilled",
-     * "fulfilled", "canceled", "not_applicable", "closed". anyOf[1] (Value): Array of string.
-     * minItems: 1. [] enum: "not_fulfilled", "partially_fulfilled", "fulfilled", "canceled",
-     * "not_applicable", "closed". anyOf[1][] (Value): string. Value enum: "not_fulfilled",
-     * "partially_fulfilled", "fulfilled", "canceled", "not_applicable", "closed". anyOf[2]
-     * (Value): string. Value enum: "not_fulfilled", "partially_fulfilled", "fulfilled",
-     * "canceled", "not_applicable", "closed".
-     */
-    "fulfillment_status"?: InputValue<("not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled" | "not_applicable" | "closed")
-        | readonly ("not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled" | "not_applicable" | "closed")[]>;
-    /** Filter by merchant-visible order number. */
-    "order_number"?: InputValue<string>;
-    /**
-     * Filter by whether any tracked line has units waiting for stock. False includes orders with
-     * no backordered units.
-     */
-    "has_backordered_quantity"?: InputValue<boolean>;
-    /**
-     * Filter by whether any required fulfillment quantity is unassigned. True includes orders with
-     * a positive sum of line fulfillment_quantities.unassigned_quantity; false includes orders
-     * with no unassigned quantity, including orders that need no fulfillment.
-     */
-    "has_unassigned_fulfillment_quantity"?: InputValue<boolean>;
-    /**
-     * Filter by whether invoice_id is set, including a voided invoice. False includes orders with
-     * no invoice.
-     */
-    "has_invoice"?: InputValue<boolean>;
-    /**
-     * Filter by whether the order has an open fulfillment. A fulfillment remains open until it
-     * completes, is canceled, fails, or is marked as a no-show. False includes orders with no
-     * fulfillments.
-     */
-    "has_open_fulfillment"?: InputValue<boolean>;
+    "modifier_group_type"?: InputValue<("list" | "text") | readonly ("list" | "text")[]>;
     /**
      * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
      * Example: "warehouse-1842".
      */
     "external_reference_id"?: InputValue<string>;
     /**
-     * Filter by order origin. Values are trimmed and deduplicated in first-seen order; empty or
-     * unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription",
-     * "invoice". Value enum: "virtual_terminal", "payment_link", "checkout", "api",
-     * "subscription", "invoice". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice". anyOf[1][]
-     * (Value): string. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
-     * "subscription", "invoice". anyOf[2] (Value): string. Value enum: "virtual_terminal",
-     * "payment_link", "checkout", "api", "subscription", "invoice".
-     */
-    "origin"?: InputValue<("virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription" | "invoice")
-        | readonly ("virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription" | "invoice")[]>;
-    /**
-     * Search across order_id, order number, external_reference_id, fulfillment
-     * external_reference_id, buyer_email, notes, and line item names. The linked customer's name
-     * and email aren't searched; use email or customer_id to find a customer's orders. Text fields
-     * match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs
-     * match from the start and need the type prefix, such as ord_01.
+     * Search across modifier group ID, external reference ID, and name. Text fields match any part
+     * of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the
+     * start and need the type prefix, such as mg_01.
      */
     "query"?: InputValue<string>;
     /**
-     * Filter by subscription ID. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     * Field to sort by. Defaults to created_at; ties are broken by modifier_group_id. Default:
+     * "created_at". Value enum: "created_at", "updated_at".
      */
-    "subscription_id"?: InputValue<string>;
-    /** Filter by whether the subscriber changed delivery after this order was paid. */
-    "subscription_delivery_changed"?: InputValue<boolean>;
-    /**
-     * Filter by the Return that created a replacement order. pattern:
-     * ^ret_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id"?: InputValue<string>;
-    /**
-     * Filter by the ReturnResolution that created a replacement order. pattern:
-     * ^retres_[0-9A-HJKMNP-TV-Z]{26}$. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     */
-    "return_resolution_id"?: InputValue<string>;
-    /**
-     * Filter by the payment link whose checkout created the order. pattern:
-     * ^pl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
-     */
-    "payment_link_id"?: InputValue<string>;
-    /**
-     * Inclusive lower bound on pricing_amounts.total_money.amount. Requires currency. Format:
-     * int64. minimum: 1. Example: 500.
-     */
-    "min_amount"?: InputValue<number>;
-    /**
-     * Inclusive upper bound on pricing_amounts.total_money.amount. Requires currency. Format:
-     * int64. minimum: 1. Example: 500.
-     */
-    "max_amount"?: InputValue<number>;
-    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
-    "currency"?: InputValue<string>;
-    /**
-     * Field to sort by. Defaults to created_at; ties are broken by order_id. Default:
-     * "created_at". Value enum: "created_at", "updated_at",
-     * "settlement_amounts.outstanding_money", "pricing_amounts.total_money".
-     */
-    "sort_by"?: InputValue<"created_at" | "updated_at" | "settlement_amounts.outstanding_money" | "pricing_amounts.total_money">;
+    "sort_by"?: InputValue<"created_at" | "updated_at">;
     /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
     "sort_direction"?: InputValue<"asc" | "desc">;
     /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
@@ -5018,18 +2060,26 @@ export type OrdersListParams = {
     /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "updated_before"?: InputValue<string | globalThis.Date>;
     /**
-     * Include related objects in the response. Supported expansions: customer, subscription,
-     * subscription_plan. Include the requested related resources using scoped batch reads for this
-     * page. Each relationship requires its existing target read scopes. Expansion changes the
-     * representation without changing pagination tokens. Limits: at most 10 unique expand paths
-     * per request. [] enum: "customer", "subscription", "subscription_plan". Value enum:
-     * "customer", "subscription", "subscription_plan". anyOf[1] (Value): Array of string. [] enum:
-     * "customer", "subscription", "subscription_plan". anyOf[1][] (Value): string. Value enum:
-     * "customer", "subscription", "subscription_plan". anyOf[2] (Value): string. Value enum:
-     * "customer", "subscription", "subscription_plan".
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "expand"?: InputValue<("customer" | "subscription" | "subscription_plan")
-        | readonly ("customer" | "subscription" | "subscription_plan")[]>;
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ModifierGroupsUpdateParams = (InputValue<UpdateModifierGroupRequestInput>)
+    & {
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
      * a merchant-bound one, which it must match. Other credentials may send it only with their own
@@ -5049,15 +2099,2887 @@ export type OrdersListParams = {
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type OrdersListPaymentAttemptsParams = {
+/**
+ * Settings for one modifier that apply only within a modifier set group, overriding the modifier
+ * group's own values.
+ */
+export type ModifierOverride = {
     /**
-     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
-     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
-     * pending resource does not prove that the operation succeeded, and an empty list does not
-     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
-     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     * Whether this modifier can be offered in this set. Defaults to true; the modifier must also
+     * have status active. Default: true.
      */
-    "idempotency_key"?: InputValue<string>;
+    "available"?: boolean;
+    /**
+     * Overrides the modifier's default_quantity for this set. Omit it to use the modifier's value.
+     * Ignored when the choice is unavailable. Quantities are whole numbers; fractional quantities
+     * are not supported. Format: int64.
+     */
+    "default_quantity"?: number;
+    /**
+     * Overrides the modifier's line_item_tax_category for this set. Omit it to use the modifier's
+     * value. Value enum: "general", "physical_goods", "digital_goods", "software", "saas",
+     * "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods",
+     * "admission".
+     */
+    "line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | (string & {});
+    /**
+     * Identifier of the list modifier these overrides apply to. minLength: 1. Example:
+     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
+     */
+    "modifier_id": string;
+    /**
+     * Overrides the modifier's selected_by_default for this set. Omit it to use the modifier's
+     * value. Ignored when the choice is unavailable.
+     */
+    "selected_by_default"?: boolean;
+    /** Overrides the modifier's taxable for this set. Omit it to use the modifier's value. */
+    "taxable"?: boolean;
+    /**
+     * Overrides the modifier's unit_price_delta_money for this set. Omit it to use the modifier's
+     * value. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_delta_money"?: MoneyValue;
+};
+export type ModifierOverridePreviousAttributes = {
+    /**
+     * Whether this modifier can be offered in this set. Defaults to true; the modifier must also
+     * have status active. anyOf[1] (Value): boolean. Whether this modifier can be offered in this
+     * set. Defaults to true; the modifier must also have status active. Default: true. anyOf[2]
+     * (Value): null.
+     */
+    "available"?: ((boolean) | (null));
+    /**
+     * Overrides the modifier's default_quantity for this set. Omit it to use the modifier's value.
+     * Ignored when the choice is unavailable. Quantities are whole numbers; fractional quantities
+     * are not supported. anyOf[1] (Value): integer. Overrides the modifier's default_quantity for
+     * this set. Omit it to use the modifier's value. Ignored when the choice is unavailable.
+     * Quantities are whole numbers; fractional quantities are not supported. Format: int64.
+     * anyOf[2] (Value): null.
+     */
+    "default_quantity"?: ((number) | (null));
+    /**
+     * Overrides the modifier's line_item_tax_category for this set. Omit it to use the modifier's
+     * value. Value enum: "general", "physical_goods", "digital_goods", "software", "saas",
+     * "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods",
+     * "admission". anyOf[1] (Value): string. Overrides the modifier's line_item_tax_category for
+     * this set. Omit it to use the modifier's value. Value enum: "general", "physical_goods",
+     * "digital_goods", "software", "saas", "services", "professional_services", "food",
+     * "prepared_food", "clothing", "medical_goods", "admission". anyOf[2] (Value): null.
+     */
+    "line_item_tax_category"?: (("general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | (string & {}))
+        | (null));
+    /**
+     * Identifier of the list modifier these overrides apply to. anyOf[1] (Value): string.
+     * Identifier of the list modifier these overrides apply to. minLength: 1. Example:
+     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S". anyOf[2] (Value): null.
+     */
+    "modifier_id"?: ((string) | (null));
+    /**
+     * Overrides the modifier's selected_by_default for this set. Omit it to use the modifier's
+     * value. Ignored when the choice is unavailable. anyOf[1] (Value): boolean. Overrides the
+     * modifier's selected_by_default for this set. Omit it to use the modifier's value. Ignored
+     * when the choice is unavailable. anyOf[2] (Value): null.
+     */
+    "selected_by_default"?: ((boolean) | (null));
+    /**
+     * Overrides the modifier's taxable for this set. Omit it to use the modifier's value. anyOf[1]
+     * (Value): boolean. Overrides the modifier's taxable for this set. Omit it to use the
+     * modifier's value. anyOf[2] (Value): null.
+     */
+    "taxable"?: ((boolean) | (null));
+    /**
+     * Overrides the modifier's unit_price_delta_money for this set. Omit it to use the modifier's
+     * value. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "unit_price_delta_money"?: ((MoneyValuePreviousAttributes) | (null));
+};
+/**
+ * Settings for one modifier that apply only within a modifier set group, overriding the modifier
+ * group's own values.
+ */
+export type ModifierOverrideRequestInput = {
+    /**
+     * Whether this modifier can be offered in this set. Defaults to true; the modifier must also
+     * have status active. Default: true.
+     */
+    "available"?: boolean;
+    /**
+     * Overrides the modifier's default_quantity for this set. Omit it to use the modifier's value.
+     * Ignored when the choice is unavailable. Quantities are whole numbers; fractional quantities
+     * are not supported. Format: int64.
+     */
+    "default_quantity"?: number;
+    /**
+     * Overrides the modifier's line_item_tax_category for this set. Omit it to use the modifier's
+     * value. Value enum: "general", "physical_goods", "digital_goods", "software", "saas",
+     * "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods",
+     * "admission".
+     */
+    "line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission";
+    /**
+     * Identifier of the list modifier these overrides apply to. minLength: 1. Example:
+     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
+     */
+    "modifier_id": string;
+    /**
+     * Overrides the modifier's selected_by_default for this set. Omit it to use the modifier's
+     * value. Ignored when the choice is unavailable.
+     */
+    "selected_by_default"?: boolean;
+    /** Overrides the modifier's taxable for this set. Omit it to use the modifier's value. */
+    "taxable"?: boolean;
+    /**
+     * Overrides the modifier's unit_price_delta_money for this set. Omit it to use the modifier's
+     * value. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_delta_money"?: MoneyValueInput;
+};
+export type ModifierPreviousAttributes = {
+    /**
+     * When the modifier was created, as an RFC3339 timestamp. anyOf[1] (Value): string. When the
+     * modifier was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * Whole-number quantity selected by default. Used only when the choice is available and
+     * selected_by_default is true. A modifier set can override this value; fractional quantities
+     * are not supported. anyOf[1] (Value): integer. Whole-number quantity selected by default.
+     * Used only when the choice is available and selected_by_default is true. A modifier set can
+     * override this value; fractional quantities are not supported. Format: int64. anyOf[2]
+     * (Value): null.
+     */
+    "default_quantity"?: ((number) | (null));
+    /**
+     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
+     * "software", "saas", "services", "professional_services", "food", "prepared_food",
+     * "clothing", "medical_goods", "admission". anyOf[1] (Value): string. Flint line-item tax
+     * category. Value enum: "general", "physical_goods", "digital_goods", "software", "saas",
+     * "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods",
+     * "admission". anyOf[2] (Value): null.
+     */
+    "line_item_tax_category"?: (("general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | (string & {}))
+        | (null));
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. anyOf[1] (Value):
+     * {@link MetadataMap}. anyOf[2] (Value): null.
+     */
+    "metadata"?: ((MetadataMap) | (null));
+    /**
+     * Identifier of the group that owns this modifier. For an inline group, read the group through
+     * its modifier set. anyOf[1] (Value): string. Identifier of the group that owns this modifier.
+     * For an inline group, read the group through its modifier set. Example:
+     * "mg_01KEZF7C00XKJJATARG7KDBYM9". anyOf[2] (Value): null.
+     */
+    "modifier_group_id"?: ((string) | (null));
+    /**
+     * Stable identifier of the modifier. In a replacement request, include it to retain a modifier
+     * or omit it to create one. anyOf[1] (Value): string. Stable identifier of the modifier. In a
+     * replacement request, include it to retain a modifier or omit it to create one. Example:
+     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S". anyOf[2] (Value): null.
+     */
+    "modifier_id"?: ((string) | (null));
+    /**
+     * Name of the choice shown to buyers. anyOf[1] (Value): string. Name of the choice shown to
+     * buyers. anyOf[2] (Value): null.
+     */
+    "name"?: ((string) | (null));
+    /**
+     * Display position of the choice within its group; lower values appear first. anyOf[1]
+     * (Value): integer. Display position of the choice within its group; lower values appear
+     * first. Format: int32. anyOf[2] (Value): null.
+     */
+    "position"?: ((number) | (null));
+    /**
+     * Whether this choice is selected when the buyer has not supplied selections for the group. A
+     * modifier set can override this value; unavailable choices are never selected by default.
+     * anyOf[1] (Value): boolean. Whether this choice is selected when the buyer has not supplied
+     * selections for the group. A modifier set can override this value; unavailable choices are
+     * never selected by default. anyOf[2] (Value): null.
+     */
+    "selected_by_default"?: ((boolean) | (null));
+    /**
+     * Whether this modifier appears in fulfillment details. anyOf[1] (Value): boolean. Whether
+     * this modifier appears in fulfillment details. anyOf[2] (Value): null.
+     */
+    "show_on_fulfillment"?: ((boolean) | (null));
+    /**
+     * Whether this modifier appears on buyer receipts. anyOf[1] (Value): boolean. Whether this
+     * modifier appears on buyer receipts. anyOf[2] (Value): null.
+     */
+    "show_on_receipt"?: ((boolean) | (null));
+    /**
+     * Lifecycle status of the modifier. Only active modifiers can be offered to buyers. Value
+     * enum: "active", "inactive", "archived". anyOf[1] (Value): string. Lifecycle status of the
+     * modifier. Only active modifiers can be offered to buyers. Value enum: "active", "inactive",
+     * "archived". anyOf[2] (Value): null.
+     */
+    "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+    /**
+     * Whether this modifier's price is taxable. A modifier set can override this value. anyOf[1]
+     * (Value): boolean. Whether this modifier's price is taxable. A modifier set can override this
+     * value. anyOf[2] (Value): null.
+     */
+    "taxable"?: ((boolean) | (null));
+    /**
+     * Amount added to the item's unit price for each unit of this modifier. A modifier set can
+     * override this value. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "unit_price_delta_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * When the modifier last changed, as an RFC3339 timestamp. anyOf[1] (Value): string. When the
+     * modifier last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "updated_at"?: ((string) | (null));
+};
+/**
+ * A modifier you supply when creating or updating a modifier group, such as an add-on with a price
+ * change.
+ */
+export type ModifierRequest = {
+    /**
+     * Whole-number quantity selected by default. Used only when the choice is available and
+     * selected_by_default is true. A modifier set can override this value; fractional quantities
+     * are not supported. Format: int64.
+     */
+    "default_quantity"?: number;
+    /**
+     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
+     * "software", "saas", "services", "professional_services", "food", "prepared_food",
+     * "clothing", "medical_goods", "admission".
+     */
+    "line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | (string & {});
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Stable identifier of the modifier. In a replacement request, include it to retain a modifier
+     * or omit it to create one. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
+     */
+    "modifier_id"?: string;
+    /** Name of the choice shown to buyers. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Display position of the choice within its group; lower values appear first. Format: int32.
+     */
+    "position"?: number;
+    /**
+     * Whether this choice is selected when the buyer has not supplied selections for the group. A
+     * modifier set can override this value; unavailable choices are never selected by default.
+     * Default: false.
+     */
+    "selected_by_default"?: boolean;
+    /** Whether this modifier appears in fulfillment details. */
+    "show_on_fulfillment"?: boolean;
+    /** Whether this modifier appears on buyer receipts. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Lifecycle status of the modifier. Only active modifiers can be offered to buyers. Value
+     * enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /** Whether this modifier's price is taxable. A modifier set can override this value. */
+    "taxable"?: boolean;
+    /**
+     * Amount added to the item's unit price for each unit of this modifier. A modifier set can
+     * override this value. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_delta_money"?: MoneyValue;
+};
+/**
+ * A modifier you supply when creating or updating a modifier group, such as an add-on with a price
+ * change.
+ */
+export type ModifierRequestInput = {
+    /**
+     * Whole-number quantity selected by default. Used only when the choice is available and
+     * selected_by_default is true. A modifier set can override this value; fractional quantities
+     * are not supported. Format: int64.
+     */
+    "default_quantity"?: number;
+    /**
+     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
+     * "software", "saas", "services", "professional_services", "food", "prepared_food",
+     * "clothing", "medical_goods", "admission".
+     */
+    "line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission";
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Stable identifier of the modifier. In a replacement request, include it to retain a modifier
+     * or omit it to create one. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
+     */
+    "modifier_id"?: string;
+    /** Name of the choice shown to buyers. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Display position of the choice within its group; lower values appear first. Format: int32.
+     */
+    "position"?: number;
+    /**
+     * Whether this choice is selected when the buyer has not supplied selections for the group. A
+     * modifier set can override this value; unavailable choices are never selected by default.
+     * Default: false.
+     */
+    "selected_by_default"?: boolean;
+    /** Whether this modifier appears in fulfillment details. */
+    "show_on_fulfillment"?: boolean;
+    /** Whether this modifier appears on buyer receipts. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Lifecycle status of the modifier. Only active modifiers can be offered to buyers. Value
+     * enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /** Whether this modifier's price is taxable. A modifier set can override this value. */
+    "taxable"?: boolean;
+    /**
+     * Amount added to the item's unit price for each unit of this modifier. A modifier set can
+     * override this value. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_delta_money"?: MoneyValueInput;
+};
+/** A reusable collection of customization groups. */
+export type ModifierSet = {
+    /**
+     * When the modifier set was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "created_at"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Identifier of the merchant that owns this modifier set. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Ordered group entries in this set, including the full content of reusable groups and groups
+     * owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as it appears in a
+     * modifier set, with its selection limits, display options, and per-modifier overrides.
+     */
+    "modifier_groups": Array<ModifierSetGroup>;
+    /**
+     * Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+     */
+    "modifier_set_id": string;
+    /** Name used to identify this modifier set. */
+    "name": string;
+    /**
+     * Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived
+     * sets remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /**
+     * When the modifier set or any group it contains last changed, as an RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "updated_at"?: string;
+    /**
+     * Version of the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+export type ModifierSetArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at"?: string;
+            "external_reference_id"?: string;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_groups": Array<ModifierSetGroup>;
+            "modifier_set_id": string;
+            "name": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at"?: string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "created_at"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_groups"?: ((Array<ModifierSetGroupPreviousAttributes>) | (null));
+            "modifier_set_id"?: ((string) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "modifier_set.archived";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at"?: string;
+            "external_reference_id"?: string;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_groups": Array<ModifierSetGroup>;
+            "modifier_set_id": string;
+            "name": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at"?: string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "created_at"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_groups"?: ((Array<ModifierSetGroupPreviousAttributes>) | (null));
+            "modifier_set_id"?: ((string) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "modifier_set.archived";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "modifier_set.archived";
+});
+/**
+ * The `modifier_set.archived` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type ModifierSetArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.created_at (Optional): string. When the modifier set was created,
+     * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.merchant_id
+     * (Optional): string. Identifier of the merchant that owns this modifier set. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them. object.modifier_groups (Required): Array
+     * of {@link ModifierSetGroup}. Ordered group entries in this set, including the full content
+     * of reusable groups and groups owned by the set. object.modifier_groups[] (Value): {@link
+     * ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection
+     * limits, display options, and per-modifier overrides. object.modifier_set_id (Required):
+     * string. Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Name used to identify this
+     * modifier set. object.status (Required): string. Lifecycle status of the modifier set. Only
+     * active sets can be offered to buyers; archived sets remain readable and cannot be edited.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When the
+     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
+     * the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     * previous_attributes (Optional): object and {@link ModifierSetPreviousAttributes}. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events. previous_attributes.created_at (Optional): string or null. When the
+     * modifier set was created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. When the modifier set was created, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this modifier set. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier
+     * of the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. previous_attributes.metadata.anyOf[1] (Value): {@link
+     * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.modifier_groups (Optional): Array of {@link
+     * ModifierSetGroupPreviousAttributes} or null. Ordered group entries in this set, including
+     * the full content of reusable groups and groups owned by the set.
+     * previous_attributes.modifier_groups.anyOf[1] (Value): Array of {@link
+     * ModifierSetGroupPreviousAttributes}. Ordered group entries in this set, including the full
+     * content of reusable groups and groups owned by the set.
+     * previous_attributes.modifier_groups.anyOf[1][] (Value): {@link
+     * ModifierSetGroupPreviousAttributes}. previous_attributes.modifier_groups.anyOf[2] (Value):
+     * null. previous_attributes.modifier_set_id (Optional): string or null. Stable identifier of
+     * the modifier set assigned to catalog items. previous_attributes.modifier_set_id.anyOf[1]
+     * (Value): string. Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Name used to identify this modifier
+     * set. previous_attributes.name.anyOf[1] (Value): string. Name used to identify this modifier
+     * set. previous_attributes.name.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Lifecycle status of the modifier set. Only active sets can be offered to
+     * buyers; archived sets remain readable and cannot be edited. Value enum: "active",
+     * "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string. Lifecycle
+     * status of the modifier set. Only active sets can be offered to buyers; archived sets remain
+     * readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When the modifier set or any group it contains last changed, as
+     * an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When the
+     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Version of the modifier set,
+     * including the groups it contains. previous_attributes.version.anyOf[1] (Value): integer.
+     * Version of the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * created_at (Optional): string. When the modifier set was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
+         * (Optional): string. Caller-owned identifier for this resource in an external system.
+         * maxLength: 255. Example: "warehouse-1842". merchant_id (Optional): string. Identifier of
+         * the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
+         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
+         * be written through the public API. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. modifier_groups (Required): Array of {@link ModifierSetGroup}. Ordered
+         * group entries in this set, including the full content of reusable groups and groups
+         * owned by the set. modifier_groups[] (Value): {@link ModifierSetGroup}. A modifier group
+         * as it appears in a modifier set, with its selection limits, display options, and
+         * per-modifier overrides. modifier_set_id (Required): string. Stable identifier of the
+         * modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name
+         * (Required): string. Name used to identify this modifier set. status (Required): string.
+         * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+         * archived sets remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". updated_at (Optional): string. When the modifier set or any group it
+         * contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier set,
+         * including the groups it contains. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When the modifier set was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Identifier of the merchant that owns this modifier set. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
+             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
+             * and MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Ordered group entries in this set, including the full content of reusable groups and
+             * groups owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as
+             * it appears in a modifier set, with its selection limits, display options, and
+             * per-modifier overrides.
+             */
+            "modifier_groups": Array<ModifierSetGroup>;
+            /**
+             * Stable identifier of the modifier set assigned to catalog items. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string;
+            /** Name used to identify this modifier set. */
+            "name": string;
+            /**
+             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+             * archived sets remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When the modifier set or any group it contains last changed, as an RFC3339
+             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /**
+             * Version of the modifier set, including the groups it contains. Format: uint64.
+             * minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. created_at (Optional): string or null. When the
+         * modifier set was created, as an RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * When the modifier set was created, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. external_reference_id
+         * (Optional): string or null. Caller-owned identifier for this resource in an external
+         * system. external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns this modifier set. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns this modifier set. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
+         * be written through the public API. metadata.anyOf[1] (Value): {@link MetadataMap}.
+         * metadata.anyOf[2] (Value): null. modifier_groups (Optional): Array of {@link
+         * ModifierSetGroupPreviousAttributes} or null. Ordered group entries in this set,
+         * including the full content of reusable groups and groups owned by the set.
+         * modifier_groups.anyOf[1] (Value): Array of {@link ModifierSetGroupPreviousAttributes}.
+         * Ordered group entries in this set, including the full content of reusable groups and
+         * groups owned by the set. modifier_groups.anyOf[1][] (Value): {@link
+         * ModifierSetGroupPreviousAttributes}. modifier_groups.anyOf[2] (Value): null.
+         * modifier_set_id (Optional): string or null. Stable identifier of the modifier set
+         * assigned to catalog items. modifier_set_id.anyOf[1] (Value): string. Stable identifier
+         * of the modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+         * modifier_set_id.anyOf[2] (Value): null. name (Optional): string or null. Name used to
+         * identify this modifier set. name.anyOf[1] (Value): string. Name used to identify this
+         * modifier set. name.anyOf[2] (Value): null. status (Optional): string or null. Lifecycle
+         * status of the modifier set. Only active sets can be offered to buyers; archived sets
+         * remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+         * status.anyOf[1] (Value): string. Lifecycle status of the modifier set. Only active sets
+         * can be offered to buyers; archived sets remain readable and cannot be edited. Value
+         * enum: "active", "inactive", "archived". status.anyOf[2] (Value): null. updated_at
+         * (Optional): string or null. When the modifier set or any group it contains last changed,
+         * as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When the modifier set or
+         * any group it contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Version of the modifier set, including the groups it contains. version.anyOf[1]
+         * (Value): integer. Version of the modifier set, including the groups it contains. Format:
+         * uint64. minimum: 1. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * When the modifier set was created, as an RFC3339 timestamp. anyOf[1] (Value):
+             * string. When the modifier set was created, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Identifier of the merchant that owns this modifier set. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this modifier set. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Ordered group entries in this set, including the full content of reusable groups and
+             * groups owned by the set. anyOf[1] (Value): Array of {@link
+             * ModifierSetGroupPreviousAttributes}. Ordered group entries in this set, including
+             * the full content of reusable groups and groups owned by the set. anyOf[1][] (Value):
+             * {@link ModifierSetGroupPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "modifier_groups"?: ((Array<ModifierSetGroupPreviousAttributes>) | (null));
+            /**
+             * Stable identifier of the modifier set assigned to catalog items. anyOf[1] (Value):
+             * string. Stable identifier of the modifier set assigned to catalog items. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string) | (null));
+            /**
+             * Name used to identify this modifier set. anyOf[1] (Value): string. Name used to
+             * identify this modifier set. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+             * archived sets remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived". anyOf[1] (Value): string. Lifecycle status of the modifier
+             * set. Only active sets can be offered to buyers; archived sets remain readable and
+             * cannot be edited. Value enum: "active", "inactive", "archived". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * When the modifier set or any group it contains last changed, as an RFC3339
+             * timestamp. anyOf[1] (Value): string. When the modifier set or any group it contains
+             * last changed, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Version of the modifier set, including the groups it contains. anyOf[1] (Value):
+             * integer. Version of the modifier set, including the groups it contains. Format:
+             * uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "modifier_set.archived". */
+    "event_type"?: "modifier_set.archived";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `modifier_set.archived` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type ModifierSetArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.created_at (Optional): string. When the modifier set was created,
+     * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.merchant_id
+     * (Optional): string. Identifier of the merchant that owns this modifier set. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them. object.modifier_groups (Required): Array
+     * of {@link ModifierSetGroup}. Ordered group entries in this set, including the full content
+     * of reusable groups and groups owned by the set. object.modifier_groups[] (Value): {@link
+     * ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection
+     * limits, display options, and per-modifier overrides. object.modifier_set_id (Required):
+     * string. Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Name used to identify this
+     * modifier set. object.status (Required): string. Lifecycle status of the modifier set. Only
+     * active sets can be offered to buyers; archived sets remain readable and cannot be edited.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When the
+     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
+     * the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     * previous_attributes (Optional): object and {@link ModifierSetPreviousAttributes}. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events. previous_attributes.created_at (Optional): string or null. When the
+     * modifier set was created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. When the modifier set was created, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this modifier set. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier
+     * of the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. previous_attributes.metadata.anyOf[1] (Value): {@link
+     * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.modifier_groups (Optional): Array of {@link
+     * ModifierSetGroupPreviousAttributes} or null. Ordered group entries in this set, including
+     * the full content of reusable groups and groups owned by the set.
+     * previous_attributes.modifier_groups.anyOf[1] (Value): Array of {@link
+     * ModifierSetGroupPreviousAttributes}. Ordered group entries in this set, including the full
+     * content of reusable groups and groups owned by the set.
+     * previous_attributes.modifier_groups.anyOf[1][] (Value): {@link
+     * ModifierSetGroupPreviousAttributes}. previous_attributes.modifier_groups.anyOf[2] (Value):
+     * null. previous_attributes.modifier_set_id (Optional): string or null. Stable identifier of
+     * the modifier set assigned to catalog items. previous_attributes.modifier_set_id.anyOf[1]
+     * (Value): string. Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Name used to identify this modifier
+     * set. previous_attributes.name.anyOf[1] (Value): string. Name used to identify this modifier
+     * set. previous_attributes.name.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Lifecycle status of the modifier set. Only active sets can be offered to
+     * buyers; archived sets remain readable and cannot be edited. Value enum: "active",
+     * "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string. Lifecycle
+     * status of the modifier set. Only active sets can be offered to buyers; archived sets remain
+     * readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When the modifier set or any group it contains last changed, as
+     * an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When the
+     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Version of the modifier set,
+     * including the groups it contains. previous_attributes.version.anyOf[1] (Value): integer.
+     * Version of the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * created_at (Optional): string. When the modifier set was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
+         * (Optional): string. Caller-owned identifier for this resource in an external system.
+         * maxLength: 255. Example: "warehouse-1842". merchant_id (Optional): string. Identifier of
+         * the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
+         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
+         * be written through the public API. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. modifier_groups (Required): Array of {@link ModifierSetGroup}. Ordered
+         * group entries in this set, including the full content of reusable groups and groups
+         * owned by the set. modifier_groups[] (Value): {@link ModifierSetGroup}. A modifier group
+         * as it appears in a modifier set, with its selection limits, display options, and
+         * per-modifier overrides. modifier_set_id (Required): string. Stable identifier of the
+         * modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name
+         * (Required): string. Name used to identify this modifier set. status (Required): string.
+         * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+         * archived sets remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". updated_at (Optional): string. When the modifier set or any group it
+         * contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier set,
+         * including the groups it contains. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When the modifier set was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Identifier of the merchant that owns this modifier set. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
+             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
+             * and MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Ordered group entries in this set, including the full content of reusable groups and
+             * groups owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as
+             * it appears in a modifier set, with its selection limits, display options, and
+             * per-modifier overrides.
+             */
+            "modifier_groups": Array<ModifierSetGroup>;
+            /**
+             * Stable identifier of the modifier set assigned to catalog items. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string;
+            /** Name used to identify this modifier set. */
+            "name": string;
+            /**
+             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+             * archived sets remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When the modifier set or any group it contains last changed, as an RFC3339
+             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /**
+             * Version of the modifier set, including the groups it contains. Format: uint64.
+             * minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. created_at (Optional): string or null. When the
+         * modifier set was created, as an RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * When the modifier set was created, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. external_reference_id
+         * (Optional): string or null. Caller-owned identifier for this resource in an external
+         * system. external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns this modifier set. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns this modifier set. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
+         * be written through the public API. metadata.anyOf[1] (Value): {@link MetadataMap}.
+         * metadata.anyOf[2] (Value): null. modifier_groups (Optional): Array of {@link
+         * ModifierSetGroupPreviousAttributes} or null. Ordered group entries in this set,
+         * including the full content of reusable groups and groups owned by the set.
+         * modifier_groups.anyOf[1] (Value): Array of {@link ModifierSetGroupPreviousAttributes}.
+         * Ordered group entries in this set, including the full content of reusable groups and
+         * groups owned by the set. modifier_groups.anyOf[1][] (Value): {@link
+         * ModifierSetGroupPreviousAttributes}. modifier_groups.anyOf[2] (Value): null.
+         * modifier_set_id (Optional): string or null. Stable identifier of the modifier set
+         * assigned to catalog items. modifier_set_id.anyOf[1] (Value): string. Stable identifier
+         * of the modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+         * modifier_set_id.anyOf[2] (Value): null. name (Optional): string or null. Name used to
+         * identify this modifier set. name.anyOf[1] (Value): string. Name used to identify this
+         * modifier set. name.anyOf[2] (Value): null. status (Optional): string or null. Lifecycle
+         * status of the modifier set. Only active sets can be offered to buyers; archived sets
+         * remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+         * status.anyOf[1] (Value): string. Lifecycle status of the modifier set. Only active sets
+         * can be offered to buyers; archived sets remain readable and cannot be edited. Value
+         * enum: "active", "inactive", "archived". status.anyOf[2] (Value): null. updated_at
+         * (Optional): string or null. When the modifier set or any group it contains last changed,
+         * as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When the modifier set or
+         * any group it contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Version of the modifier set, including the groups it contains. version.anyOf[1]
+         * (Value): integer. Version of the modifier set, including the groups it contains. Format:
+         * uint64. minimum: 1. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * When the modifier set was created, as an RFC3339 timestamp. anyOf[1] (Value):
+             * string. When the modifier set was created, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Identifier of the merchant that owns this modifier set. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this modifier set. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Ordered group entries in this set, including the full content of reusable groups and
+             * groups owned by the set. anyOf[1] (Value): Array of {@link
+             * ModifierSetGroupPreviousAttributes}. Ordered group entries in this set, including
+             * the full content of reusable groups and groups owned by the set. anyOf[1][] (Value):
+             * {@link ModifierSetGroupPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "modifier_groups"?: ((Array<ModifierSetGroupPreviousAttributes>) | (null));
+            /**
+             * Stable identifier of the modifier set assigned to catalog items. anyOf[1] (Value):
+             * string. Stable identifier of the modifier set assigned to catalog items. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string) | (null));
+            /**
+             * Name used to identify this modifier set. anyOf[1] (Value): string. Name used to
+             * identify this modifier set. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+             * archived sets remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived". anyOf[1] (Value): string. Lifecycle status of the modifier
+             * set. Only active sets can be offered to buyers; archived sets remain readable and
+             * cannot be edited. Value enum: "active", "inactive", "archived". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * When the modifier set or any group it contains last changed, as an RFC3339
+             * timestamp. anyOf[1] (Value): string. When the modifier set or any group it contains
+             * last changed, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Version of the modifier set, including the groups it contains. anyOf[1] (Value):
+             * integer. Version of the modifier set, including the groups it contains. Format:
+             * uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "modifier_set.archived". */
+    "event_type"?: "modifier_set.archived";
+});
+export type ModifierSetCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at"?: string;
+            "external_reference_id"?: string;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_groups": Array<ModifierSetGroup>;
+            "modifier_set_id": string;
+            "name": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at"?: string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "modifier_set.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at"?: string;
+            "external_reference_id"?: string;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_groups": Array<ModifierSetGroup>;
+            "modifier_set_id": string;
+            "name": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at"?: string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "modifier_set.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "modifier_set.created";
+});
+/**
+ * The `modifier_set.created` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type ModifierSetCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.created_at (Optional): string. When the modifier set was created,
+     * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.merchant_id
+     * (Optional): string. Identifier of the merchant that owns this modifier set. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them. object.modifier_groups (Required): Array
+     * of {@link ModifierSetGroup}. Ordered group entries in this set, including the full content
+     * of reusable groups and groups owned by the set. object.modifier_groups[] (Value): {@link
+     * ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection
+     * limits, display options, and per-modifier overrides. object.modifier_set_id (Required):
+     * string. Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Name used to identify this
+     * modifier set. object.status (Required): string. Lifecycle status of the modifier set. Only
+     * active sets can be offered to buyers; archived sets remain readable and cannot be edited.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When the
+     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
+     * the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * created_at (Optional): string. When the modifier set was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
+         * (Optional): string. Caller-owned identifier for this resource in an external system.
+         * maxLength: 255. Example: "warehouse-1842". merchant_id (Optional): string. Identifier of
+         * the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
+         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
+         * be written through the public API. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. modifier_groups (Required): Array of {@link ModifierSetGroup}. Ordered
+         * group entries in this set, including the full content of reusable groups and groups
+         * owned by the set. modifier_groups[] (Value): {@link ModifierSetGroup}. A modifier group
+         * as it appears in a modifier set, with its selection limits, display options, and
+         * per-modifier overrides. modifier_set_id (Required): string. Stable identifier of the
+         * modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name
+         * (Required): string. Name used to identify this modifier set. status (Required): string.
+         * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+         * archived sets remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". updated_at (Optional): string. When the modifier set or any group it
+         * contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier set,
+         * including the groups it contains. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When the modifier set was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Identifier of the merchant that owns this modifier set. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
+             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
+             * and MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Ordered group entries in this set, including the full content of reusable groups and
+             * groups owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as
+             * it appears in a modifier set, with its selection limits, display options, and
+             * per-modifier overrides.
+             */
+            "modifier_groups": Array<ModifierSetGroup>;
+            /**
+             * Stable identifier of the modifier set assigned to catalog items. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string;
+            /** Name used to identify this modifier set. */
+            "name": string;
+            /**
+             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+             * archived sets remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When the modifier set or any group it contains last changed, as an RFC3339
+             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /**
+             * Version of the modifier set, including the groups it contains. Format: uint64.
+             * minimum: 1.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "modifier_set.created". */
+    "event_type"?: "modifier_set.created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `modifier_set.created` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type ModifierSetCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.created_at (Optional): string. When the modifier set was created,
+     * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.merchant_id
+     * (Optional): string. Identifier of the merchant that owns this modifier set. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them. object.modifier_groups (Required): Array
+     * of {@link ModifierSetGroup}. Ordered group entries in this set, including the full content
+     * of reusable groups and groups owned by the set. object.modifier_groups[] (Value): {@link
+     * ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection
+     * limits, display options, and per-modifier overrides. object.modifier_set_id (Required):
+     * string. Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Name used to identify this
+     * modifier set. object.status (Required): string. Lifecycle status of the modifier set. Only
+     * active sets can be offered to buyers; archived sets remain readable and cannot be edited.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When the
+     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
+     * the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * created_at (Optional): string. When the modifier set was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
+         * (Optional): string. Caller-owned identifier for this resource in an external system.
+         * maxLength: 255. Example: "warehouse-1842". merchant_id (Optional): string. Identifier of
+         * the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
+         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
+         * be written through the public API. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. modifier_groups (Required): Array of {@link ModifierSetGroup}. Ordered
+         * group entries in this set, including the full content of reusable groups and groups
+         * owned by the set. modifier_groups[] (Value): {@link ModifierSetGroup}. A modifier group
+         * as it appears in a modifier set, with its selection limits, display options, and
+         * per-modifier overrides. modifier_set_id (Required): string. Stable identifier of the
+         * modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name
+         * (Required): string. Name used to identify this modifier set. status (Required): string.
+         * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+         * archived sets remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". updated_at (Optional): string. When the modifier set or any group it
+         * contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier set,
+         * including the groups it contains. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When the modifier set was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Identifier of the merchant that owns this modifier set. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
+             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
+             * and MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Ordered group entries in this set, including the full content of reusable groups and
+             * groups owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as
+             * it appears in a modifier set, with its selection limits, display options, and
+             * per-modifier overrides.
+             */
+            "modifier_groups": Array<ModifierSetGroup>;
+            /**
+             * Stable identifier of the modifier set assigned to catalog items. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string;
+            /** Name used to identify this modifier set. */
+            "name": string;
+            /**
+             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+             * archived sets remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When the modifier set or any group it contains last changed, as an RFC3339
+             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /**
+             * Version of the modifier set, including the groups it contains. Format: uint64.
+             * minimum: 1.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "modifier_set.created". */
+    "event_type"?: "modifier_set.created";
+});
+/**
+ * A modifier group as it appears in a modifier set, with its selection limits, display options,
+ * and per-modifier overrides.
+ */
+export type ModifierSetGroup = {
+    /** Overrides the group's name for this set. Omit it to use the group's name. */
+    "display_name"?: string;
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Full modifier group for this entry, with the same representation as GET
+     * /v1/modifier-groups/{modifier_group_id}. Archived modifiers are excluded for either source,
+     * including when the group is archived. A group of choices that customize an item.
+     */
+    "modifier_group": ModifierGroup;
+    /**
+     * Stable identifier of the group contained in this entry, for either source. Example:
+     * "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id": string;
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. [] (Value): {@link
+     * ModifierOverride}. Settings for one modifier that apply only within a modifier set group,
+     * overriding the modifier group's own values.
+     */
+    "modifier_overrides"?: Array<ModifierOverride>;
+    /**
+     * Stable identifier of this group entry within the set. In a replacement request, include it
+     * to retain an entry or omit it to create one. Example: "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
+     */
+    "modifier_set_group_id": string;
+    /** Display position of this group within the set; lower values appear first. Format: int32. */
+    "position": number;
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection.
+     */
+    "required"?: boolean;
+    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
+    "show_on_fulfillment"?: boolean;
+    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Inline groups are owned by this modifier set. Existing groups are independent resources
+     * referenced by this set. Value enum: "existing", "inline".
+     */
+    "source": "existing" | "inline" | (string & {});
+};
+/** The `existing` variant of `ModifierSetGroupInput`. */
+export type ModifierSetGroupInputExisting = ({
+    /**
+     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
+     * maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when setting up a modifier set, with its name, rules for how many options can
+     * be selected, and its modifiers.
+     */
+    "modifier_group"?: InlineModifierGroupRequest;
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id": string;
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. [] (Value): {@link
+     * ModifierOverride}. Settings for one modifier that apply only within a modifier set group,
+     * overriding the modifier group's own values.
+     */
+    "modifier_overrides"?: Array<ModifierOverride>;
+    /**
+     * Stable identifier of this group entry within the set. In a replacement request, include it
+     * to retain an entry or omit it to create one. minLength: 1. Example:
+     * "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
+     */
+    "modifier_set_group_id"?: string;
+    /** Display position of this group within the set; lower values appear first. Format: int32. */
+    "position"?: number;
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection.
+     */
+    "required"?: boolean;
+    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
+    "show_on_fulfillment"?: boolean;
+    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Use inline for a modifier group owned by this modifier set, or existing to reference an
+     * independent modifier group. Value enum: "existing".
+     */
+    "source": "existing" | (string & {});
+})
+    & (({
+    /** References an independent modifier group. Value enum: "existing". */
+    "source": "existing" | (string & {});
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id": string;
+}));
+/** The `existing` variant of `ModifierSetGroupInput`. */
+export type ModifierSetGroupInputExistingInput = ({
+    /**
+     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
+     * maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when setting up a modifier set, with its name, rules for how many options can
+     * be selected, and its modifiers.
+     */
+    "modifier_group"?: InlineModifierGroupRequestInput;
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id": string;
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. [] (Value): {@link
+     * ModifierOverrideRequestInput}. Settings for one modifier that apply only within a modifier
+     * set group, overriding the modifier group's own values.
+     */
+    "modifier_overrides"?: Array<ModifierOverrideRequestInput>;
+    /**
+     * Stable identifier of this group entry within the set. In a replacement request, include it
+     * to retain an entry or omit it to create one. minLength: 1. Example:
+     * "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
+     */
+    "modifier_set_group_id"?: string;
+    /** Display position of this group within the set; lower values appear first. Format: int32. */
+    "position"?: number;
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection.
+     */
+    "required"?: boolean;
+    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
+    "show_on_fulfillment"?: boolean;
+    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Use inline for a modifier group owned by this modifier set, or existing to reference an
+     * independent modifier group. Value enum: "existing".
+     */
+    "source": "existing";
+})
+    & (({
+    /** References an independent modifier group. Value enum: "existing". */
+    "source": "existing";
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id": string;
+})
+    & ({
+    "modifier_group"?: never;
+}));
+/** The `inline` variant of `ModifierSetGroupInput`. */
+export type ModifierSetGroupInputInline = ({
+    /**
+     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
+     * maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when setting up a modifier set, with its name, rules for how many options can
+     * be selected, and its modifiers.
+     */
+    "modifier_group": InlineModifierGroupRequest;
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id"?: string;
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. [] (Value): {@link
+     * ModifierOverride}. Settings for one modifier that apply only within a modifier set group,
+     * overriding the modifier group's own values.
+     */
+    "modifier_overrides"?: Array<ModifierOverride>;
+    /**
+     * Stable identifier of this group entry within the set. In a replacement request, include it
+     * to retain an entry or omit it to create one. minLength: 1. Example:
+     * "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
+     */
+    "modifier_set_group_id"?: string;
+    /** Display position of this group within the set; lower values appear first. Format: int32. */
+    "position"?: number;
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection.
+     */
+    "required"?: boolean;
+    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
+    "show_on_fulfillment"?: boolean;
+    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Use inline for a modifier group owned by this modifier set, or existing to reference an
+     * independent modifier group. Value enum: "inline".
+     */
+    "source": "inline" | (string & {});
+})
+    & (({
+    /** Defines a modifier group owned by this modifier set. Value enum: "inline". */
+    "source": "inline" | (string & {});
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when setting up a modifier set, with its name, rules for how many options can
+     * be selected, and its modifiers.
+     */
+    "modifier_group": InlineModifierGroupRequest;
+}));
+/** The `inline` variant of `ModifierSetGroupInput`. */
+export type ModifierSetGroupInputInlineInput = ({
+    /**
+     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
+     * maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when setting up a modifier set, with its name, rules for how many options can
+     * be selected, and its modifiers.
+     */
+    "modifier_group": InlineModifierGroupRequestInput;
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id"?: string;
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. [] (Value): {@link
+     * ModifierOverrideRequestInput}. Settings for one modifier that apply only within a modifier
+     * set group, overriding the modifier group's own values.
+     */
+    "modifier_overrides"?: Array<ModifierOverrideRequestInput>;
+    /**
+     * Stable identifier of this group entry within the set. In a replacement request, include it
+     * to retain an entry or omit it to create one. minLength: 1. Example:
+     * "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
+     */
+    "modifier_set_group_id"?: string;
+    /** Display position of this group within the set; lower values appear first. Format: int32. */
+    "position"?: number;
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection.
+     */
+    "required"?: boolean;
+    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
+    "show_on_fulfillment"?: boolean;
+    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Use inline for a modifier group owned by this modifier set, or existing to reference an
+     * independent modifier group. Value enum: "inline".
+     */
+    "source": "inline";
+})
+    & (({
+    /** Defines a modifier group owned by this modifier set. Value enum: "inline". */
+    "source": "inline";
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when setting up a modifier set, with its name, rules for how many options can
+     * be selected, and its modifiers.
+     */
+    "modifier_group": InlineModifierGroupRequestInput;
+})
+    & ({
+    "modifier_group_id"?: never;
+}));
+export type ModifierSetGroupPreviousAttributes = {
+    /**
+     * Overrides the group's name for this set. Omit it to use the group's name. anyOf[1] (Value):
+     * string. Overrides the group's name for this set. Omit it to use the group's name. anyOf[2]
+     * (Value): null.
+     */
+    "display_name"?: ((string) | (null));
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. anyOf[1] (Value): integer.
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "max_selected"?: ((number) | (null));
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. anyOf[1] (Value): integer. Overrides the group's min_selected for this
+     * set. Omit it to use the group's value. Accepted only for list groups; set min_selected: 1 to
+     * require a selection. If neither value is set, the minimum is 0. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "min_selected"?: ((number) | (null));
+    /**
+     * Full modifier group for this entry, with the same representation as GET
+     * /v1/modifier-groups/{modifier_group_id}. Archived modifiers are excluded for either source,
+     * including when the group is archived. anyOf[1] (Value): {@link
+     * ModifierGroupPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "modifier_group"?: ((ModifierGroupPreviousAttributes) | (null));
+    /**
+     * Stable identifier of the group contained in this entry, for either source. anyOf[1] (Value):
+     * string. Stable identifier of the group contained in this entry, for either source. Example:
+     * "mg_01KEZF7C00XKJJATARG7KDBYM9". anyOf[2] (Value): null.
+     */
+    "modifier_group_id"?: ((string) | (null));
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. anyOf[1] (Value): Array of
+     * {@link ModifierOverridePreviousAttributes}. Overrides for individual list modifiers in this
+     * set. A choice is offered only when its status is active and its override's available is not
+     * false. anyOf[1][] (Value): {@link ModifierOverridePreviousAttributes}. anyOf[2] (Value):
+     * null.
+     */
+    "modifier_overrides"?: ((Array<ModifierOverridePreviousAttributes>) | (null));
+    /**
+     * Stable identifier of this group entry within the set. In a replacement request, include it
+     * to retain an entry or omit it to create one. anyOf[1] (Value): string. Stable identifier of
+     * this group entry within the set. In a replacement request, include it to retain an entry or
+     * omit it to create one. Example: "msg_01KEZF7C008GXTVA2AQ1SRFGFC". anyOf[2] (Value): null.
+     */
+    "modifier_set_group_id"?: ((string) | (null));
+    /**
+     * Display position of this group within the set; lower values appear first. anyOf[1] (Value):
+     * integer. Display position of this group within the set; lower values appear first. Format:
+     * int32. anyOf[2] (Value): null.
+     */
+    "position"?: ((number) | (null));
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection. anyOf[1]
+     * (Value): boolean. Overrides the group's text.required for this set. Omit it to use the
+     * group's value. Accepted only for text groups; for a list group, set min_selected: 1 to
+     * require a selection. anyOf[2] (Value): null.
+     */
+    "required"?: ((boolean) | (null));
+    /**
+     * Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value.
+     * anyOf[1] (Value): boolean. Overrides the group's show_on_fulfillment for this set. Omit it
+     * to use the group's value. anyOf[2] (Value): null.
+     */
+    "show_on_fulfillment"?: ((boolean) | (null));
+    /**
+     * Overrides the group's show_on_receipt for this set. Omit it to use the group's value.
+     * anyOf[1] (Value): boolean. Overrides the group's show_on_receipt for this set. Omit it to
+     * use the group's value. anyOf[2] (Value): null.
+     */
+    "show_on_receipt"?: ((boolean) | (null));
+    /**
+     * Inline groups are owned by this modifier set. Existing groups are independent resources
+     * referenced by this set. Value enum: "existing", "inline". anyOf[1] (Value): string. Inline
+     * groups are owned by this modifier set. Existing groups are independent resources referenced
+     * by this set. Value enum: "existing", "inline". anyOf[2] (Value): null.
+     */
+    "source"?: (("existing" | "inline" | (string & {})) | (null));
+};
+/**
+ * A modifier group you add to a modifier set, either an existing group by ID or a new inline
+ * group, with selection limits and overrides.
+ */
+export type ModifierSetGroupRequest = ({
+    /**
+     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
+     * maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when setting up a modifier set, with its name, rules for how many options can
+     * be selected, and its modifiers.
+     */
+    "modifier_group"?: InlineModifierGroupRequest;
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id"?: string;
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. [] (Value): {@link
+     * ModifierOverride}. Settings for one modifier that apply only within a modifier set group,
+     * overriding the modifier group's own values.
+     */
+    "modifier_overrides"?: Array<ModifierOverride>;
+    /**
+     * Stable identifier of this group entry within the set. In a replacement request, include it
+     * to retain an entry or omit it to create one. minLength: 1. Example:
+     * "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
+     */
+    "modifier_set_group_id"?: string;
+    /** Display position of this group within the set; lower values appear first. Format: int32. */
+    "position"?: number;
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection.
+     */
+    "required"?: boolean;
+    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
+    "show_on_fulfillment"?: boolean;
+    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Use inline for a modifier group owned by this modifier set, or existing to reference an
+     * independent modifier group. Value enum: "existing", "inline".
+     */
+    "source": "existing" | "inline" | (string & {});
+})
+    & ((Exclude<ModifierSetGroupInputExisting & object, readonly unknown[]>)
+    | (Exclude<ModifierSetGroupInputInline & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * A modifier group you add to a modifier set, either an existing group by ID or a new inline
+ * group, with selection limits and overrides.
+ */
+export type ModifierSetGroupRequestInput = ({
+    /**
+     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
+     * maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when setting up a modifier set, with its name, rules for how many options can
+     * be selected, and its modifiers.
+     */
+    "modifier_group"?: InlineModifierGroupRequestInput;
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id"?: string;
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. [] (Value): {@link
+     * ModifierOverrideRequestInput}. Settings for one modifier that apply only within a modifier
+     * set group, overriding the modifier group's own values.
+     */
+    "modifier_overrides"?: Array<ModifierOverrideRequestInput>;
+    /**
+     * Stable identifier of this group entry within the set. In a replacement request, include it
+     * to retain an entry or omit it to create one. minLength: 1. Example:
+     * "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
+     */
+    "modifier_set_group_id"?: string;
+    /** Display position of this group within the set; lower values appear first. Format: int32. */
+    "position"?: number;
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection.
+     */
+    "required"?: boolean;
+    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
+    "show_on_fulfillment"?: boolean;
+    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Use inline for a modifier group owned by this modifier set, or existing to reference an
+     * independent modifier group. Value enum: "existing", "inline".
+     */
+    "source": "existing" | "inline";
+})
+    & ((Exclude<ModifierSetGroupInputExistingInput & object, readonly unknown[]>)
+    | (Exclude<ModifierSetGroupInputInlineInput & object, readonly unknown[]>));
+/** A page of `ModifierSet` objects. */
+export type ModifierSetListResponse = {
+    /**
+     * Modifier sets matching the request filters for this page. [] (Value): {@link ModifierSet}. A
+     * reusable collection of customization groups.
+     */
+    "data": Array<ModifierSet>;
+    /**
+     * Response metadata, including API version, trace identifier, and warnings when present.
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Pass this token as page_token to read the next page with the same filters. Absent when there
+     * are no more results.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, useful when contacting Flint support. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type ModifierSetPreviousAttributes = {
+    /**
+     * When the modifier set was created, as an RFC3339 timestamp. anyOf[1] (Value): string. When
+     * the modifier set was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * Caller-owned identifier for this resource in an external system. anyOf[1] (Value): string.
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_reference_id"?: ((string) | (null));
+    /**
+     * Identifier of the merchant that owns this modifier set. anyOf[1] (Value): string. Identifier
+     * of the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * anyOf[2] (Value): null.
+     */
+    "merchant_id"?: ((string) | (null));
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. anyOf[1] (Value):
+     * {@link MetadataMap}. anyOf[2] (Value): null.
+     */
+    "metadata"?: ((MetadataMap) | (null));
+    /**
+     * Ordered group entries in this set, including the full content of reusable groups and groups
+     * owned by the set. anyOf[1] (Value): Array of {@link ModifierSetGroupPreviousAttributes}.
+     * Ordered group entries in this set, including the full content of reusable groups and groups
+     * owned by the set. anyOf[1][] (Value): {@link ModifierSetGroupPreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "modifier_groups"?: ((Array<ModifierSetGroupPreviousAttributes>) | (null));
+    /**
+     * Stable identifier of the modifier set assigned to catalog items. anyOf[1] (Value): string.
+     * Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+     */
+    "modifier_set_id"?: ((string) | (null));
+    /**
+     * Name used to identify this modifier set. anyOf[1] (Value): string. Name used to identify
+     * this modifier set. anyOf[2] (Value): null.
+     */
+    "name"?: ((string) | (null));
+    /**
+     * Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived
+     * sets remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     * anyOf[1] (Value): string. Lifecycle status of the modifier set. Only active sets can be
+     * offered to buyers; archived sets remain readable and cannot be edited. Value enum: "active",
+     * "inactive", "archived". anyOf[2] (Value): null.
+     */
+    "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+    /**
+     * When the modifier set or any group it contains last changed, as an RFC3339 timestamp.
+     * anyOf[1] (Value): string. When the modifier set or any group it contains last changed, as an
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+     * null.
+     */
+    "updated_at"?: ((string) | (null));
+    /**
+     * Version of the modifier set, including the groups it contains. anyOf[1] (Value): integer.
+     * Version of the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     * anyOf[2] (Value): null.
+     */
+    "version"?: ((number) | (null));
+};
+/** A response containing `ModifierSet` data. */
+export type ModifierSetResponse = {
+    /**
+     * The modifier set returned by this operation. A reusable collection of customization groups.
+     */
+    "data": ModifierSet;
+    /**
+     * Response metadata, including API version, trace identifier, and warnings when present.
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, useful when contacting Flint support. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type ModifierSetUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at"?: string;
+            "external_reference_id"?: string;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_groups": Array<ModifierSetGroup>;
+            "modifier_set_id": string;
+            "name": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at"?: string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "created_at"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_groups"?: ((Array<ModifierSetGroupPreviousAttributes>) | (null));
+            "modifier_set_id"?: ((string) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "modifier_set.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at"?: string;
+            "external_reference_id"?: string;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_groups": Array<ModifierSetGroup>;
+            "modifier_set_id": string;
+            "name": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at"?: string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "created_at"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_groups"?: ((Array<ModifierSetGroupPreviousAttributes>) | (null));
+            "modifier_set_id"?: ((string) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "modifier_set.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "modifier_set.updated";
+});
+/**
+ * The `modifier_set.updated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type ModifierSetUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.created_at (Optional): string. When the modifier set was created,
+     * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.merchant_id
+     * (Optional): string. Identifier of the merchant that owns this modifier set. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them. object.modifier_groups (Required): Array
+     * of {@link ModifierSetGroup}. Ordered group entries in this set, including the full content
+     * of reusable groups and groups owned by the set. object.modifier_groups[] (Value): {@link
+     * ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection
+     * limits, display options, and per-modifier overrides. object.modifier_set_id (Required):
+     * string. Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Name used to identify this
+     * modifier set. object.status (Required): string. Lifecycle status of the modifier set. Only
+     * active sets can be offered to buyers; archived sets remain readable and cannot be edited.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When the
+     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
+     * the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     * previous_attributes (Optional): object and {@link ModifierSetPreviousAttributes}. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events. previous_attributes.created_at (Optional): string or null. When the
+     * modifier set was created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. When the modifier set was created, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this modifier set. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier
+     * of the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. previous_attributes.metadata.anyOf[1] (Value): {@link
+     * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.modifier_groups (Optional): Array of {@link
+     * ModifierSetGroupPreviousAttributes} or null. Ordered group entries in this set, including
+     * the full content of reusable groups and groups owned by the set.
+     * previous_attributes.modifier_groups.anyOf[1] (Value): Array of {@link
+     * ModifierSetGroupPreviousAttributes}. Ordered group entries in this set, including the full
+     * content of reusable groups and groups owned by the set.
+     * previous_attributes.modifier_groups.anyOf[1][] (Value): {@link
+     * ModifierSetGroupPreviousAttributes}. previous_attributes.modifier_groups.anyOf[2] (Value):
+     * null. previous_attributes.modifier_set_id (Optional): string or null. Stable identifier of
+     * the modifier set assigned to catalog items. previous_attributes.modifier_set_id.anyOf[1]
+     * (Value): string. Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Name used to identify this modifier
+     * set. previous_attributes.name.anyOf[1] (Value): string. Name used to identify this modifier
+     * set. previous_attributes.name.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Lifecycle status of the modifier set. Only active sets can be offered to
+     * buyers; archived sets remain readable and cannot be edited. Value enum: "active",
+     * "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string. Lifecycle
+     * status of the modifier set. Only active sets can be offered to buyers; archived sets remain
+     * readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When the modifier set or any group it contains last changed, as
+     * an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When the
+     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Version of the modifier set,
+     * including the groups it contains. previous_attributes.version.anyOf[1] (Value): integer.
+     * Version of the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * created_at (Optional): string. When the modifier set was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
+         * (Optional): string. Caller-owned identifier for this resource in an external system.
+         * maxLength: 255. Example: "warehouse-1842". merchant_id (Optional): string. Identifier of
+         * the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
+         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
+         * be written through the public API. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. modifier_groups (Required): Array of {@link ModifierSetGroup}. Ordered
+         * group entries in this set, including the full content of reusable groups and groups
+         * owned by the set. modifier_groups[] (Value): {@link ModifierSetGroup}. A modifier group
+         * as it appears in a modifier set, with its selection limits, display options, and
+         * per-modifier overrides. modifier_set_id (Required): string. Stable identifier of the
+         * modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name
+         * (Required): string. Name used to identify this modifier set. status (Required): string.
+         * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+         * archived sets remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". updated_at (Optional): string. When the modifier set or any group it
+         * contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier set,
+         * including the groups it contains. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When the modifier set was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Identifier of the merchant that owns this modifier set. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
+             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
+             * and MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Ordered group entries in this set, including the full content of reusable groups and
+             * groups owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as
+             * it appears in a modifier set, with its selection limits, display options, and
+             * per-modifier overrides.
+             */
+            "modifier_groups": Array<ModifierSetGroup>;
+            /**
+             * Stable identifier of the modifier set assigned to catalog items. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string;
+            /** Name used to identify this modifier set. */
+            "name": string;
+            /**
+             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+             * archived sets remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When the modifier set or any group it contains last changed, as an RFC3339
+             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /**
+             * Version of the modifier set, including the groups it contains. Format: uint64.
+             * minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. created_at (Optional): string or null. When the
+         * modifier set was created, as an RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * When the modifier set was created, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. external_reference_id
+         * (Optional): string or null. Caller-owned identifier for this resource in an external
+         * system. external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns this modifier set. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns this modifier set. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
+         * be written through the public API. metadata.anyOf[1] (Value): {@link MetadataMap}.
+         * metadata.anyOf[2] (Value): null. modifier_groups (Optional): Array of {@link
+         * ModifierSetGroupPreviousAttributes} or null. Ordered group entries in this set,
+         * including the full content of reusable groups and groups owned by the set.
+         * modifier_groups.anyOf[1] (Value): Array of {@link ModifierSetGroupPreviousAttributes}.
+         * Ordered group entries in this set, including the full content of reusable groups and
+         * groups owned by the set. modifier_groups.anyOf[1][] (Value): {@link
+         * ModifierSetGroupPreviousAttributes}. modifier_groups.anyOf[2] (Value): null.
+         * modifier_set_id (Optional): string or null. Stable identifier of the modifier set
+         * assigned to catalog items. modifier_set_id.anyOf[1] (Value): string. Stable identifier
+         * of the modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+         * modifier_set_id.anyOf[2] (Value): null. name (Optional): string or null. Name used to
+         * identify this modifier set. name.anyOf[1] (Value): string. Name used to identify this
+         * modifier set. name.anyOf[2] (Value): null. status (Optional): string or null. Lifecycle
+         * status of the modifier set. Only active sets can be offered to buyers; archived sets
+         * remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+         * status.anyOf[1] (Value): string. Lifecycle status of the modifier set. Only active sets
+         * can be offered to buyers; archived sets remain readable and cannot be edited. Value
+         * enum: "active", "inactive", "archived". status.anyOf[2] (Value): null. updated_at
+         * (Optional): string or null. When the modifier set or any group it contains last changed,
+         * as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When the modifier set or
+         * any group it contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Version of the modifier set, including the groups it contains. version.anyOf[1]
+         * (Value): integer. Version of the modifier set, including the groups it contains. Format:
+         * uint64. minimum: 1. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * When the modifier set was created, as an RFC3339 timestamp. anyOf[1] (Value):
+             * string. When the modifier set was created, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Identifier of the merchant that owns this modifier set. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this modifier set. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Ordered group entries in this set, including the full content of reusable groups and
+             * groups owned by the set. anyOf[1] (Value): Array of {@link
+             * ModifierSetGroupPreviousAttributes}. Ordered group entries in this set, including
+             * the full content of reusable groups and groups owned by the set. anyOf[1][] (Value):
+             * {@link ModifierSetGroupPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "modifier_groups"?: ((Array<ModifierSetGroupPreviousAttributes>) | (null));
+            /**
+             * Stable identifier of the modifier set assigned to catalog items. anyOf[1] (Value):
+             * string. Stable identifier of the modifier set assigned to catalog items. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string) | (null));
+            /**
+             * Name used to identify this modifier set. anyOf[1] (Value): string. Name used to
+             * identify this modifier set. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+             * archived sets remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived". anyOf[1] (Value): string. Lifecycle status of the modifier
+             * set. Only active sets can be offered to buyers; archived sets remain readable and
+             * cannot be edited. Value enum: "active", "inactive", "archived". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * When the modifier set or any group it contains last changed, as an RFC3339
+             * timestamp. anyOf[1] (Value): string. When the modifier set or any group it contains
+             * last changed, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Version of the modifier set, including the groups it contains. anyOf[1] (Value):
+             * integer. Version of the modifier set, including the groups it contains. Format:
+             * uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "modifier_set.updated". */
+    "event_type"?: "modifier_set.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `modifier_set.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type ModifierSetUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.created_at (Optional): string. When the modifier set was created,
+     * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.merchant_id
+     * (Optional): string. Identifier of the merchant that owns this modifier set. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them. object.modifier_groups (Required): Array
+     * of {@link ModifierSetGroup}. Ordered group entries in this set, including the full content
+     * of reusable groups and groups owned by the set. object.modifier_groups[] (Value): {@link
+     * ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection
+     * limits, display options, and per-modifier overrides. object.modifier_set_id (Required):
+     * string. Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Name used to identify this
+     * modifier set. object.status (Required): string. Lifecycle status of the modifier set. Only
+     * active sets can be offered to buyers; archived sets remain readable and cannot be edited.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When the
+     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
+     * the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     * previous_attributes (Optional): object and {@link ModifierSetPreviousAttributes}. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events. previous_attributes.created_at (Optional): string or null. When the
+     * modifier set was created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. When the modifier set was created, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this modifier set. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier
+     * of the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. previous_attributes.metadata.anyOf[1] (Value): {@link
+     * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.modifier_groups (Optional): Array of {@link
+     * ModifierSetGroupPreviousAttributes} or null. Ordered group entries in this set, including
+     * the full content of reusable groups and groups owned by the set.
+     * previous_attributes.modifier_groups.anyOf[1] (Value): Array of {@link
+     * ModifierSetGroupPreviousAttributes}. Ordered group entries in this set, including the full
+     * content of reusable groups and groups owned by the set.
+     * previous_attributes.modifier_groups.anyOf[1][] (Value): {@link
+     * ModifierSetGroupPreviousAttributes}. previous_attributes.modifier_groups.anyOf[2] (Value):
+     * null. previous_attributes.modifier_set_id (Optional): string or null. Stable identifier of
+     * the modifier set assigned to catalog items. previous_attributes.modifier_set_id.anyOf[1]
+     * (Value): string. Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Name used to identify this modifier
+     * set. previous_attributes.name.anyOf[1] (Value): string. Name used to identify this modifier
+     * set. previous_attributes.name.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Lifecycle status of the modifier set. Only active sets can be offered to
+     * buyers; archived sets remain readable and cannot be edited. Value enum: "active",
+     * "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string. Lifecycle
+     * status of the modifier set. Only active sets can be offered to buyers; archived sets remain
+     * readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When the modifier set or any group it contains last changed, as
+     * an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When the
+     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Version of the modifier set,
+     * including the groups it contains. previous_attributes.version.anyOf[1] (Value): integer.
+     * Version of the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * created_at (Optional): string. When the modifier set was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
+         * (Optional): string. Caller-owned identifier for this resource in an external system.
+         * maxLength: 255. Example: "warehouse-1842". merchant_id (Optional): string. Identifier of
+         * the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
+         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
+         * be written through the public API. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. modifier_groups (Required): Array of {@link ModifierSetGroup}. Ordered
+         * group entries in this set, including the full content of reusable groups and groups
+         * owned by the set. modifier_groups[] (Value): {@link ModifierSetGroup}. A modifier group
+         * as it appears in a modifier set, with its selection limits, display options, and
+         * per-modifier overrides. modifier_set_id (Required): string. Stable identifier of the
+         * modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name
+         * (Required): string. Name used to identify this modifier set. status (Required): string.
+         * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+         * archived sets remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". updated_at (Optional): string. When the modifier set or any group it
+         * contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier set,
+         * including the groups it contains. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When the modifier set was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Identifier of the merchant that owns this modifier set. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
+             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
+             * and MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Ordered group entries in this set, including the full content of reusable groups and
+             * groups owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as
+             * it appears in a modifier set, with its selection limits, display options, and
+             * per-modifier overrides.
+             */
+            "modifier_groups": Array<ModifierSetGroup>;
+            /**
+             * Stable identifier of the modifier set assigned to catalog items. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string;
+            /** Name used to identify this modifier set. */
+            "name": string;
+            /**
+             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+             * archived sets remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When the modifier set or any group it contains last changed, as an RFC3339
+             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /**
+             * Version of the modifier set, including the groups it contains. Format: uint64.
+             * minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. created_at (Optional): string or null. When the
+         * modifier set was created, as an RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * When the modifier set was created, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. external_reference_id
+         * (Optional): string or null. Caller-owned identifier for this resource in an external
+         * system. external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns this modifier set. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns this modifier set. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
+         * be written through the public API. metadata.anyOf[1] (Value): {@link MetadataMap}.
+         * metadata.anyOf[2] (Value): null. modifier_groups (Optional): Array of {@link
+         * ModifierSetGroupPreviousAttributes} or null. Ordered group entries in this set,
+         * including the full content of reusable groups and groups owned by the set.
+         * modifier_groups.anyOf[1] (Value): Array of {@link ModifierSetGroupPreviousAttributes}.
+         * Ordered group entries in this set, including the full content of reusable groups and
+         * groups owned by the set. modifier_groups.anyOf[1][] (Value): {@link
+         * ModifierSetGroupPreviousAttributes}. modifier_groups.anyOf[2] (Value): null.
+         * modifier_set_id (Optional): string or null. Stable identifier of the modifier set
+         * assigned to catalog items. modifier_set_id.anyOf[1] (Value): string. Stable identifier
+         * of the modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+         * modifier_set_id.anyOf[2] (Value): null. name (Optional): string or null. Name used to
+         * identify this modifier set. name.anyOf[1] (Value): string. Name used to identify this
+         * modifier set. name.anyOf[2] (Value): null. status (Optional): string or null. Lifecycle
+         * status of the modifier set. Only active sets can be offered to buyers; archived sets
+         * remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+         * status.anyOf[1] (Value): string. Lifecycle status of the modifier set. Only active sets
+         * can be offered to buyers; archived sets remain readable and cannot be edited. Value
+         * enum: "active", "inactive", "archived". status.anyOf[2] (Value): null. updated_at
+         * (Optional): string or null. When the modifier set or any group it contains last changed,
+         * as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When the modifier set or
+         * any group it contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Version of the modifier set, including the groups it contains. version.anyOf[1]
+         * (Value): integer. Version of the modifier set, including the groups it contains. Format:
+         * uint64. minimum: 1. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * When the modifier set was created, as an RFC3339 timestamp. anyOf[1] (Value):
+             * string. When the modifier set was created, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Identifier of the merchant that owns this modifier set. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this modifier set. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Ordered group entries in this set, including the full content of reusable groups and
+             * groups owned by the set. anyOf[1] (Value): Array of {@link
+             * ModifierSetGroupPreviousAttributes}. Ordered group entries in this set, including
+             * the full content of reusable groups and groups owned by the set. anyOf[1][] (Value):
+             * {@link ModifierSetGroupPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "modifier_groups"?: ((Array<ModifierSetGroupPreviousAttributes>) | (null));
+            /**
+             * Stable identifier of the modifier set assigned to catalog items. anyOf[1] (Value):
+             * string. Stable identifier of the modifier set assigned to catalog items. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string) | (null));
+            /**
+             * Name used to identify this modifier set. anyOf[1] (Value): string. Name used to
+             * identify this modifier set. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+             * archived sets remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived". anyOf[1] (Value): string. Lifecycle status of the modifier
+             * set. Only active sets can be offered to buyers; archived sets remain readable and
+             * cannot be edited. Value enum: "active", "inactive", "archived". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * When the modifier set or any group it contains last changed, as an RFC3339
+             * timestamp. anyOf[1] (Value): string. When the modifier set or any group it contains
+             * last changed, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Version of the modifier set, including the groups it contains. anyOf[1] (Value):
+             * integer. Version of the modifier set, including the groups it contains. Format:
+             * uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "modifier_set.updated". */
+    "event_type"?: "modifier_set.updated";
+});
+export type ModifierSetsCreateParams = (InputValue<CreateModifierSetRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ModifierSetsDeleteParams = {
+    /**
+     * Optional modifier set version last read by the caller. Format: uint64. minimum: 1. maximum:
+     * 9007199254740991.
+     */
+    "expected_version"?: InputValue<number>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ModifierSetsGetParams = DisputesAcceptParams;
+export type ModifierSetsListParams = {
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
      * 100. Default: 20.
@@ -5071,576 +4993,1900 @@ export type OrdersListPaymentAttemptsParams = {
      */
     "page_token"?: InputValue<string>;
     /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
+     * "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value):
+     * string. Value enum: "active", "inactive", "archived". anyOf[2] (Value): string. Value enum:
+     * "active", "inactive", "archived".
      */
-    "Flint-Merchant-Id"?: InputValue<string>;
+    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
     /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersPayParams = (PayOrderRequestInput)
-    & {
-    /**
-     * A stable random device identifier, independent of the order or checkout session. Required
-     * for checkout-session gift card purchases. Keep it for subsequent purchases from the same
-     * device; it grants no access. pattern: ^[a-f0-9]{32}$.
-     */
-    "Flint-Buyer-Device"?: InputValue<string>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersRemoveDiscountsParams = (RemoveDiscountsRequestInput)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersRemoveGiftCardParams = {
-    /**
-     * Order version from the last order read. The mutation fails if the order changed. Format:
-     * int64. minimum: 1. maximum: 9007199254740991.
-     */
-    "expected_version": InputValue<number>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersRepriceDiscountsParams = (InputValue<RepriceDiscountsRequestInput> | {
-    "expected_version"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersResolveInventoryExceptionParams = (InputValue<ResolveOrderInventoryExceptionRequestInput> | {
-    "reason_message"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersRetryEditRefundParams = (InputValue<RetryOrderEditRefundRequestInput> | {
-    "destinations"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersSendReceiptParams = (InputValue<SendOrderReceiptRequestInput> | {
-    "email"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersUpdateChargeParams = (InputValue<UpdateOrderChargeRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersUpdateLineItemParams = (InputValue<UpdateLineItemRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type OrdersUpdateParams = (InputValue<UpdateOrderRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/** A package within a shipment. */
-export type Package = {
-    /** Carrier transporting the package. */
-    "carrier"?: string;
-    /** Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /** Package delivery timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "delivered_at"?: string;
-    /**
-     * Physical length, width, and height of the package. Package or item dimensions as `length`,
-     * `width`, and `height` in the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * When the carrier or merchant expects this package to arrive. Null when no estimate is set.
-     * Retained after delivery as history. This estimate is separate from the fulfillment's
-     * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. maxLength: 255.
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
      * Example: "warehouse-1842".
      */
-    "external_reference_id"?: string;
+    "external_reference_id"?: InputValue<string>;
     /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries.
+     * Search across modifier set ID, external reference ID, and name. Text fields match any part
+     * of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the
+     * start and need the type prefix, such as ms_01.
      */
-    "external_system"?: string;
-    /** Fulfillment whose items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
-    "fulfillment_id": string;
+    "query"?: InputValue<string>;
     /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. Omitted for a checkout
-     * session credential that doesn't act for the customer the buyer verified.
+     * Field to sort by. Defaults to created_at; ties are broken by modifier_set_id. Default:
+     * "created_at". Value enum: "created_at", "updated_at".
      */
-    "label_url"?: string;
+    "sort_by"?: InputValue<"created_at" | "updated_at">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
     /**
-     * Caller-owned key-value metadata associated with the package. Caller-owned key-value data
-     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-     * limits may not satisfy them.
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "metadata"?: MetadataMap;
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     * Order summary returned when the order relationship is expanded. Present only when `expand`
-     * includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value):
-     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-     * refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * anyOf[2] (Value): null.
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "order"?: ((ExpandedOrderSummary) | (null));
-    /** Order whose items are in the package. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
-    "order_id": string;
-    /** Stable identifier of the package. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". */
-    "package_id": string;
+    "Flint-Mode"?: InputValue<"test" | "live">;
     /**
-     * Return this package belongs to. Present only on packages of return shipments. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "return_id"?: string;
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ModifierSetsUpdateParams = (InputValue<UpdateModifierSetRequestInput>)
+    & {
     /**
-     * Return line quantities allocated to this parcel. Present only on packages of return
-     * shipments. [] (Value): {@link ReturnHandoffRequirementLineItem}. A return line and the
-     * quantity placed in a return shipment or package.
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-    /** Carrier service used for the package. */
-    "service_code"?: string;
-    /** Shipment carrying this package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
-    "shipment_id": string;
-    /** Package handoff timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "shipped_at"?: string;
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     * Current package lifecycle state. Package states are the source used to derive shipment
-     * status. - `created`: The package record exists but has not been packed or handed off. -
-     * `packed`: The package is packed and awaiting carrier handoff. - `shipped`: The package was
-     * handed to the carrier. - `in_transit`: The carrier is moving the package through its
-     * network. - `out_for_delivery`: The package is on its final delivery route. - `delivered`:
-     * The carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-     * delivery but did not complete it. Follow the carrier instructions before retrying delivery.
-     * - `exception`: A carrier exception is blocking normal progress. Resolve the carrier-reported
-     * issue. - `returned`: The package was returned toward or to its origin. - `voided`: The
-     * package was voided and will not continue through delivery. Value enum: "created", "packed",
-     * "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided".
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "status": "created"
-        | "packed"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "exception"
-        | "returned"
-        | "voided"
-        | (string & {});
-    /** Additional explanation of the package's current status. */
-    "status_reason"?: string;
+    "Flint-Mode"?: InputValue<"test" | "live">;
     /**
-     * Lifecycle actions Flint accepts now. mark_in_transit can repeat while in transit to refresh
-     * expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
-     * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
-     * "mark_returned", "mark_shipped", "void". [] (Value): string. Value enum: "mark_delivered",
-     * "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery",
-     * "mark_packed", "mark_returned", "mark_shipped", "void".
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "supported_actions": Array<"mark_delivered"
-        | "mark_delivery_attempted"
-        | "mark_exception"
-        | "mark_in_transit"
-        | "mark_out_for_delivery"
-        | "mark_packed"
-        | "mark_returned"
-        | "mark_shipped"
-        | "void"
-        | (string & {})>;
-    /**
-     * Omitted for a checkout session credential that doesn't act for the customer the buyer
-     * verified.
-     */
-    "tracking_number"?: string;
-    /**
-     * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a
-     * checkout session credential that doesn't act for the customer the buyer verified.
-     */
-    "tracking_url"?: string;
-    /** Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /** Monotonic package version for expected_version checks. Format: uint64. minimum: 1. */
-    "version": number;
-    /**
-     * Physical weight of the package. A weight value in grams, kilograms, ounces, or pounds, used
-     * in delivery profile configuration.
-     */
-    "weight"?: Weight;
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
 /**
- * Package to create inline with its enclosing shipment or fulfillment. Set status to created
- * before handoff, or shipped to report handoff during creation.
+ * Why a money movement action is blocked, with an error code, a message, next steps, and who can
+ * resolve it.
  */
-export type PackageCreateInputCreated = ({
+export type MoneyMovementBlockedReason = {
+    /** Code of the error the blocked action would return. */
+    "code": string;
+    /** Why the action is blocked. */
+    "message"?: string;
+    /** What to do to unblock the action. */
+    "next_steps"?: string;
+    /** The request field the block concerns. */
+    "param"?: string;
+    /** Who can resolve the block. Value enum: "merchant", "flint", "integrator", "buyer". */
+    "resolution_owner"?: "merchant" | "flint" | "integrator" | "buyer" | (string & {});
+    /** Whether trying the action again after the block clears can succeed. */
+    "retryable"?: boolean;
+};
+export type MoneyMovementBlockedReasonPreviousAttributes = {
     /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
+     * Code of the error the blocked action would return. anyOf[1] (Value): string. Code of the
+     * error the blocked action would return. anyOf[2] (Value): null.
      */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
+    "code"?: ((string) | (null));
     /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
+     * Why the action is blocked. anyOf[1] (Value): string. Why the action is blocked. anyOf[2]
+     * (Value): null.
      */
-    "dimensions"?: Dimensions;
+    "message"?: ((string) | (null));
     /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     * What to do to unblock the action. anyOf[1] (Value): string. What to do to unblock the
+     * action. anyOf[2] (Value): null.
      */
-    "expected_delivery_at"?: string | null;
+    "next_steps"?: ((string) | (null));
     /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
+     * The request field the block concerns. anyOf[1] (Value): string. The request field the block
+     * concerns. anyOf[2] (Value): null.
      */
-    "external_reference_id"?: string;
+    "param"?: ((string) | (null));
     /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     * Who can resolve the block. Value enum: "merchant", "flint", "integrator", "buyer". anyOf[1]
+     * (Value): string. Who can resolve the block. Value enum: "merchant", "flint", "integrator",
+     * "buyer". anyOf[2] (Value): null.
      */
-    "external_system"?: string;
+    "resolution_owner"?: (("merchant" | "flint" | "integrator" | "buyer" | (string & {})) | (null));
     /**
-     * Independent package-item collection. Inline creation uses the child-create shape and commits
-     * atomically; edit items through the package item routes after creation. Each order line and
-     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
-     * CreatePackageItemRequest}. The request body for: Create package item.
+     * Whether trying the action again after the block clears can succeed. anyOf[1] (Value):
+     * boolean. Whether trying the action again after the block clears can succeed. anyOf[2]
+     * (Value): null.
      */
-    "items"?: Array<CreatePackageItemRequest>;
+    "retryable"?: ((boolean) | (null));
+};
+/** How complete the history in a money movement list is and when it was last reconciled. */
+export type MoneyMovementHistoryMeta = {
     /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
+     * When Flint last finished reconciling this list's history with your processor. Absent until a
+     * reconciliation finishes. Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
-    "label_url"?: string;
+    "latest_reconciled_at"?: string;
     /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     * Why the history may be incomplete: backfilling while Flint is still importing older history
+     * from your processor, partial when Flint has records from your processor but hasn't imported
+     * its full history, and unavailable when Flint can't say, such as before any import or after
+     * one fails. The list still returns every record Flint has. Value enum: "backfilling",
+     * "partial", "unavailable".
      */
-    "metadata"?: MetadataMap;
-    /**
-     * Required for a package on a return shipment: allocates quantities from the shipment's
-     * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
-     * shipment or package. The enclosing Return or shipment determines its parent.
-     */
-    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created".
-     */
-    "status": "created" | (string & {});
-    /**
-     * Explanation of the package's status, kept as the package's `status_reason`. At most 500
-     * characters. `null` is the same as omitting the field. minLength: 1.
-     */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: Weight;
-});
+    "status": "backfilling" | "partial" | "unavailable" | (string & {});
+};
 /**
- * Package to create inline with its enclosing shipment or fulfillment. Set status to created
- * before handoff, or shipped to report handoff during creation.
+ * Response metadata for money movement lists, including request and trace IDs, warnings, and the
+ * state of the available history.
  */
-export type PackageCreateInputCreatedInput = ({
+export type MoneyMovementListMeta = {
+    /** API version used to produce this response. */
+    "api_version"?: string;
     /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
+     * How complete Flint's history for this list is. history is omitted when Flint's history for
+     * this list is complete. How complete the history in a money movement list is and when it was
+     * last reconciled.
      */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
+    "history"?: MoneyMovementHistoryMeta;
+    /** Whether this response replays a stored result for the supplied Idempotency-Key. */
+    "idempotency_replayed"?: boolean;
     /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
+     * Trace identifier to include when contacting Flint about this request. Example:
+     * "0123456789abcdef0123456789abcdef".
      */
-    "dimensions"?: DimensionsRequestInput;
+    "trace_id"?: string;
     /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     * Conditions that need attention even though the request succeeded. [] (Value): {@link
+     * ResponseWarning}. A non-blocking condition reported with a response. The `code` identifies
+     * the condition and `severity` says how urgent it is.
      */
-    "expected_delivery_at"?: string | globalThis.Date | null;
+    "warnings"?: Array<ResponseWarning>;
+};
+/** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+export type MoneyValue = {
     /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
+     * Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 0.
      */
-    "external_reference_id"?: string;
+    "amount": `${bigint}`;
+    /** ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. */
+    "currency": string;
+};
+/** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+export type MoneyValueInput = {
     /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     * Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 0.
      */
-    "external_system"?: string;
+    "amount": `${bigint}` | bigint;
+    /** ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. */
+    "currency": string;
+};
+export type MoneyValuePreviousAttributes = {
     /**
-     * Independent package-item collection. Inline creation uses the child-create shape and commits
-     * atomically; edit items through the package item routes after creation. Each order line and
-     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
-     * CreatePackageItemRequestInput}. The request body for: Create package item.
+     * Amount in the currency's minor unit, such as cents for USD. anyOf[1] (Value): integer
+     * string. Amount in the currency's minor unit, such as cents for USD. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64. minimum: 0. anyOf[2] (Value):
+     * null.
      */
-    "items"?: Array<CreatePackageItemRequestInput>;
+    "amount"?: ((`${bigint}`) | (null));
     /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
+     * ISO 4217 currency code for this amount. anyOf[1] (Value): string. ISO 4217 currency code for
+     * this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
      */
-    "label_url"?: string;
+    "currency"?: ((string) | (null));
+};
+/**
+ * A follow-up action. When target_resource is present, send its resource_id in the target request
+ * field named {resource_type}_id.
+ */
+export type NextAction = {
     /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     * Action to take next. Use its target resource and required_fields to prepare the request.
+     * Value enum: "add_line_items", "cancel_order_edit", "cancel_payment_intent",
+     * "capture_payment_intent", "close_checkout_session", "close_order", "collect_invoice",
+     * "complete_gift_card_challenge", "confirm_payment_intent",
+     * "create_checkout_session_customer_verification", "create_delivery_selection",
+     * "create_dispute_response_session", "create_merchant_account_session", "create_refund",
+     * "create_subscription_payment_retry", "get_api_key", "get_bundle", "get_category",
+     * "get_checkout_session", "get_credit_note", "get_custom_domain", "get_customer",
+     * "get_customer_address", "get_customer_deletion_request",
+     * "get_customer_email_change_request", "get_customer_tax_exemption",
+     * "get_customer_verification", "get_delivery_location_set", "get_delivery_method",
+     * "get_delivery_profile", "get_delivery_rate_callback", "get_delivery_selection",
+     * "get_delivery_zone", "get_device", "get_dispute", "get_file", "get_gift_card",
+     * "get_gift_card_notification", "get_gift_card_redemption", "get_inventory_count",
+     * "get_inventory_item", "get_inventory_level", "get_inventory_reservation",
+     * "get_inventory_transfer", "get_invoice", "get_invoice_manual_payment",
+     * "get_invoice_payment_term", "get_location", "get_me", "get_me_address",
+     * "get_me_email_preferences", "get_me_gift_card", "get_me_payment_method", "get_me_return",
+     * "get_me_subscription", "get_merchant", "get_merchant_signup", "get_modifier_group",
+     * "get_modifier_set", "get_onboarding_state", "get_operation", "get_order", "get_order_edit",
+     * "get_order_payment_attempt", "get_partner_app", "get_partner_app_credential",
+     * "get_partner_app_install", "get_payment_intent", "get_payment_link",
+     * "get_payment_link_public", "get_payment_method", "get_payment_method_domain",
+     * "get_payment_review", "get_payout", "get_payout_destination", "get_payout_settings",
+     * "get_price_list", "get_price_list_price", "get_product", "get_product_variant",
+     * "get_promotion", "get_promotion_code", "get_reader", "get_refund", "get_return",
+     * "get_return_line_item", "get_return_policy", "get_return_resolution", "get_risk_list",
+     * "get_risk_list_item", "get_risk_rule", "get_sandbox", "get_settings", "get_shipment",
+     * "get_subscription", "get_subscription_offer", "get_subscription_plan",
+     * "get_tax_calculation_callback", "get_tax_connection", "get_tax_registration",
+     * "get_test_clock", "get_ticket", "get_webhook_delivery", "get_webhook_endpoint",
+     * "get_workload_identity", "issue_developer_sandbox_test_key", "list_credit_note_allocations",
+     * "list_credit_notes", "list_fulfillments", "list_gift_card_funding_dispositions",
+     * "list_gift_card_loads", "list_gift_card_redemptions", "list_gift_card_transactions",
+     * "list_gift_cards", "list_inventory_counts", "list_inventory_movements",
+     * "list_inventory_receipts", "list_inventory_reservations", "list_inventory_transfers",
+     * "list_invoice_activities", "list_invoice_late_fees", "list_invoice_manual_payments",
+     * "list_invoice_payment_attempts", "list_invoices", "list_me_gift_cards",
+     * "list_me_remembered_buyers", "list_me_returns", "list_me_subscription_payment_retries",
+     * "list_merchant_partner_app_installs", "list_order_charges", "list_order_edits",
+     * "list_order_line_items", "list_order_payment_attempts", "list_package_items",
+     * "list_packages", "list_payment_intent_activities", "list_payouts", "list_product_variants",
+     * "list_refunds", "list_return_dispositions", "list_return_inspections",
+     * "list_return_reasons", "list_return_receipts", "list_return_resolutions", "list_returns",
+     * "list_shipments", "list_subscription_line_items", "list_subscription_payment_retries",
+     * "list_subscriptions", "pay_order", "payment_authentication", "recreate_delivery_quote",
+     * "review_merchant_readiness", "review_onboarding_state", "start_new_image_ingestion",
+     * "update_checkout_session", "update_delivery_profile", "update_inventory_allocation_policy",
+     * "update_invoice", "update_location", "update_order", "update_payment_link",
+     * "update_settings".
      */
-    "metadata"?: MetadataRequestInput;
+    "action_type": "add_line_items"
+        | "cancel_order_edit"
+        | "cancel_payment_intent"
+        | "capture_payment_intent"
+        | "close_checkout_session"
+        | "close_order"
+        | "collect_invoice"
+        | "complete_gift_card_challenge"
+        | "confirm_payment_intent"
+        | "create_checkout_session_customer_verification"
+        | "create_delivery_selection"
+        | "create_dispute_response_session"
+        | "create_merchant_account_session"
+        | "create_refund"
+        | "create_subscription_payment_retry"
+        | "get_api_key"
+        | "get_bundle"
+        | "get_category"
+        | "get_checkout_session"
+        | "get_credit_note"
+        | "get_custom_domain"
+        | "get_customer"
+        | "get_customer_address"
+        | "get_customer_deletion_request"
+        | "get_customer_email_change_request"
+        | "get_customer_tax_exemption"
+        | "get_customer_verification"
+        | "get_delivery_location_set"
+        | "get_delivery_method"
+        | "get_delivery_profile"
+        | "get_delivery_rate_callback"
+        | "get_delivery_selection"
+        | "get_delivery_zone"
+        | "get_device"
+        | "get_dispute"
+        | "get_file"
+        | "get_gift_card"
+        | "get_gift_card_notification"
+        | "get_gift_card_redemption"
+        | "get_inventory_count"
+        | "get_inventory_item"
+        | "get_inventory_level"
+        | "get_inventory_reservation"
+        | "get_inventory_transfer"
+        | "get_invoice"
+        | "get_invoice_manual_payment"
+        | "get_invoice_payment_term"
+        | "get_location"
+        | "get_me"
+        | "get_me_address"
+        | "get_me_email_preferences"
+        | "get_me_gift_card"
+        | "get_me_payment_method"
+        | "get_me_return"
+        | "get_me_subscription"
+        | "get_merchant"
+        | "get_merchant_signup"
+        | "get_modifier_group"
+        | "get_modifier_set"
+        | "get_onboarding_state"
+        | "get_operation"
+        | "get_order"
+        | "get_order_edit"
+        | "get_order_payment_attempt"
+        | "get_partner_app"
+        | "get_partner_app_credential"
+        | "get_partner_app_install"
+        | "get_payment_intent"
+        | "get_payment_link"
+        | "get_payment_link_public"
+        | "get_payment_method"
+        | "get_payment_method_domain"
+        | "get_payment_review"
+        | "get_payout"
+        | "get_payout_destination"
+        | "get_payout_settings"
+        | "get_price_list"
+        | "get_price_list_price"
+        | "get_product"
+        | "get_product_variant"
+        | "get_promotion"
+        | "get_promotion_code"
+        | "get_reader"
+        | "get_refund"
+        | "get_return"
+        | "get_return_line_item"
+        | "get_return_policy"
+        | "get_return_resolution"
+        | "get_risk_list"
+        | "get_risk_list_item"
+        | "get_risk_rule"
+        | "get_sandbox"
+        | "get_settings"
+        | "get_shipment"
+        | "get_subscription"
+        | "get_subscription_offer"
+        | "get_subscription_plan"
+        | "get_tax_calculation_callback"
+        | "get_tax_connection"
+        | "get_tax_registration"
+        | "get_test_clock"
+        | "get_ticket"
+        | "get_webhook_delivery"
+        | "get_webhook_endpoint"
+        | "get_workload_identity"
+        | "issue_developer_sandbox_test_key"
+        | "list_credit_note_allocations"
+        | "list_credit_notes"
+        | "list_fulfillments"
+        | "list_gift_card_funding_dispositions"
+        | "list_gift_card_loads"
+        | "list_gift_card_redemptions"
+        | "list_gift_card_transactions"
+        | "list_gift_cards"
+        | "list_inventory_counts"
+        | "list_inventory_movements"
+        | "list_inventory_receipts"
+        | "list_inventory_reservations"
+        | "list_inventory_transfers"
+        | "list_invoice_activities"
+        | "list_invoice_late_fees"
+        | "list_invoice_manual_payments"
+        | "list_invoice_payment_attempts"
+        | "list_invoices"
+        | "list_me_gift_cards"
+        | "list_me_remembered_buyers"
+        | "list_me_returns"
+        | "list_me_subscription_payment_retries"
+        | "list_merchant_partner_app_installs"
+        | "list_order_charges"
+        | "list_order_edits"
+        | "list_order_line_items"
+        | "list_order_payment_attempts"
+        | "list_package_items"
+        | "list_packages"
+        | "list_payment_intent_activities"
+        | "list_payouts"
+        | "list_product_variants"
+        | "list_refunds"
+        | "list_return_dispositions"
+        | "list_return_inspections"
+        | "list_return_reasons"
+        | "list_return_receipts"
+        | "list_return_resolutions"
+        | "list_returns"
+        | "list_shipments"
+        | "list_subscription_line_items"
+        | "list_subscription_payment_retries"
+        | "list_subscriptions"
+        | "pay_order"
+        | "payment_authentication"
+        | "recreate_delivery_quote"
+        | "review_merchant_readiness"
+        | "review_onboarding_state"
+        | "start_new_image_ingestion"
+        | "update_checkout_session"
+        | "update_delivery_profile"
+        | "update_inventory_allocation_policy"
+        | "update_invoice"
+        | "update_location"
+        | "update_order"
+        | "update_payment_link"
+        | "update_settings"
+        | (string & {});
     /**
-     * Required for a package on a return shipment: allocates quantities from the shipment's
-     * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
-     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
-     * return shipment or package. The enclosing Return or shipment determines its parent.
+     * When this suggested action expires, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
      */
-    "return_line_items"?: Array<ReturnShipmentLineItemAllocationRequestInput>;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
+    "expires_at"?: string;
     /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     * Request body to send unchanged to POST /v1/merchant-account-sessions when action_type is
+     * create_merchant_account_session. When absent, GET merchant readiness and use its recommended
+     * session body. Shared request body for `create_merchant_account_session` next actions in
+     * readiness, onboarding, errors, and warnings. Send unchanged to POST
+     * /v1/merchant-account-sessions; components and collection policy describe which requirements
+     * to collect.
      */
-    "shipped_at"?: string | globalThis.Date;
+    "merchant_account_session"?: ReadinessMerchantAccountSession;
+    /** HTTP method for the recovery read. Value enum: "GET". */
+    "method"?: "GET" | (string & {});
+    /** Machine-readable reason this action is suggested. */
+    "reason_code"?: string;
+    /** Explanation of why this action is suggested. */
+    "reason_message"?: string;
+    /** Field names that must be supplied to perform this action. [] (Value): string. */
+    "required_fields"?: Array<string>;
     /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created".
+     * API key scope required to call the public endpoint in url, when the action points at another
+     * Flint API endpoint. Value enum: "accounts.api_keys.read", "accounts.api_keys.write",
+     * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
+     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
+     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write".
      */
-    "status": "created";
+    "required_scope"?: "accounts.api_keys.read"
+        | "accounts.api_keys.write"
+        | "accounts.devices.read"
+        | "accounts.devices.write"
+        | "accounts.workload_identities.read"
+        | "accounts.workload_identities.write"
+        | "analytics.read"
+        | "checkouts.checkout_sessions.read"
+        | "checkouts.checkout_sessions.write"
+        | "checkouts.payment_links.read"
+        | "checkouts.payment_links.write"
+        | "commerce.bundles.read"
+        | "commerce.bundles.write"
+        | "commerce.catalog.read"
+        | "commerce.catalog.write"
+        | "commerce.credit_notes.read"
+        | "commerce.credit_notes.write"
+        | "commerce.delivery.read"
+        | "commerce.delivery.write"
+        | "commerce.gift_cards.adjustments.write"
+        | "commerce.gift_cards.read"
+        | "commerce.gift_cards.redemptions.write"
+        | "commerce.gift_cards.secrets.write"
+        | "commerce.gift_cards.write"
+        | "commerce.inventory.allocation.write"
+        | "commerce.inventory.policies.write"
+        | "commerce.inventory.read"
+        | "commerce.inventory.write"
+        | "commerce.invoices.read"
+        | "commerce.invoices.write"
+        | "commerce.orders.read"
+        | "commerce.orders.write"
+        | "commerce.products.read"
+        | "commerce.products.write"
+        | "commerce.promotions.read"
+        | "commerce.promotions.write"
+        | "commerce.refunds.read"
+        | "commerce.refunds.tax_overrides.write"
+        | "commerce.refunds.write"
+        | "commerce.returns.operations.write"
+        | "commerce.returns.policies.write"
+        | "commerce.returns.read"
+        | "commerce.returns.reasons.write"
+        | "commerce.returns.resolutions.write"
+        | "commerce.returns.write"
+        | "commerce.subscription_plans.read"
+        | "commerce.subscription_plans.write"
+        | "commerce.subscriptions.read"
+        | "commerce.subscriptions.write"
+        | "commerce.tickets.read"
+        | "commerce.tickets.write"
+        | "customers.read"
+        | "customers.sessions.write"
+        | "customers.write"
+        | "developer.feedback_reports.read"
+        | "developer.feedback_reports.write"
+        | "developer.merchant_signups.read"
+        | "developer.merchant_signups.write"
+        | "developer.partner_apps.read"
+        | "developer.partner_apps.write"
+        | "developer.request_logs.read"
+        | "developer.request_logs.self.read"
+        | "developer.resource_timelines.read"
+        | "developer.sandboxes.read"
+        | "developer.sandboxes.write"
+        | "developer.test_clocks.read"
+        | "developer.test_clocks.write"
+        | "merchant_billing.read"
+        | "merchants.account_sessions.write"
+        | "merchants.locations.read"
+        | "merchants.locations.write"
+        | "merchants.onboarding.read"
+        | "merchants.onboarding.write"
+        | "merchants.profile.read"
+        | "merchants.profile.write"
+        | "money_movement.balance_transactions.read"
+        | "money_movement.balances.read"
+        | "money_movement.payment_splits.read"
+        | "money_movement.payout_settings.read"
+        | "money_movement.payout_settings.write"
+        | "money_movement.payouts.read"
+        | "money_movement.payouts.write"
+        | "money_movement.platform_fees.read"
+        | "payments.disputes.read"
+        | "payments.disputes.write"
+        | "payments.payment_intents.read"
+        | "payments.payment_intents.write"
+        | "payments.payment_method_domains.read"
+        | "payments.payment_method_domains.write"
+        | "payments.payment_methods.read"
+        | "payments.payment_methods.write"
+        | "payments.readers.read"
+        | "payments.readers.write"
+        | "reports.read"
+        | "reports.write"
+        | "risk.controls.write"
+        | "risk.read"
+        | "risk.reviews.write"
+        | "settings.read"
+        | "settings.write"
+        | "webhooks.read"
+        | "webhooks.write"
+        | (string & {});
+    /** Whether a person must approve the action before it is performed. */
+    "requires_human_confirmation"?: boolean;
+    /** Suggested wait before performing the action, in milliseconds. Format: int32. */
+    "suggested_delay_milliseconds"?: number;
     /**
-     * Explanation of the package's status, kept as the package's `status_reason`. At most 500
-     * characters. `null` is the same as omitting the field. minLength: 1.
+     * Resource whose ID to send in the target request field named {resource_type}_id when url
+     * cannot carry the target. A reference to another resource by `resource_type` and
+     * `resource_id`.
      */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
+    "target_resource"?: ResourceReference;
+    /** Public endpoint or launch URL for this remediation action, when applicable. */
+    "url"?: string;
+};
+export type NextActionPreviousAttributes = {
     /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
+     * Action to take next. Use its target resource and required_fields to prepare the request.
+     * Value enum: "add_line_items", "cancel_order_edit", "cancel_payment_intent",
+     * "capture_payment_intent", "close_checkout_session", "close_order", "collect_invoice",
+     * "complete_gift_card_challenge", "confirm_payment_intent",
+     * "create_checkout_session_customer_verification", "create_delivery_selection",
+     * "create_dispute_response_session", "create_merchant_account_session", "create_refund",
+     * "create_subscription_payment_retry", "get_api_key", "get_bundle", "get_category",
+     * "get_checkout_session", "get_credit_note", "get_custom_domain", "get_customer",
+     * "get_customer_address", "get_customer_deletion_request",
+     * "get_customer_email_change_request", "get_customer_tax_exemption",
+     * "get_customer_verification", "get_delivery_location_set", "get_delivery_method",
+     * "get_delivery_profile", "get_delivery_rate_callback", "get_delivery_selection",
+     * "get_delivery_zone", "get_device", "get_dispute", "get_file", "get_gift_card",
+     * "get_gift_card_notification", "get_gift_card_redemption", "get_inventory_count",
+     * "get_inventory_item", "get_inventory_level", "get_inventory_reservation",
+     * "get_inventory_transfer", "get_invoice", "get_invoice_manual_payment",
+     * "get_invoice_payment_term", "get_location", "get_me", "get_me_address",
+     * "get_me_email_preferences", "get_me_gift_card", "get_me_payment_method", "get_me_return",
+     * "get_me_subscription", "get_merchant", "get_merchant_signup", "get_modifier_group",
+     * "get_modifier_set", "get_onboarding_state", "get_operation", "get_order", "get_order_edit",
+     * "get_order_payment_attempt", "get_partner_app", "get_partner_app_credential",
+     * "get_partner_app_install", "get_payment_intent", "get_payment_link",
+     * "get_payment_link_public", "get_payment_method", "get_payment_method_domain",
+     * "get_payment_review", "get_payout", "get_payout_destination", "get_payout_settings",
+     * "get_price_list", "get_price_list_price", "get_product", "get_product_variant",
+     * "get_promotion", "get_promotion_code", "get_reader", "get_refund", "get_return",
+     * "get_return_line_item", "get_return_policy", "get_return_resolution", "get_risk_list",
+     * "get_risk_list_item", "get_risk_rule", "get_sandbox", "get_settings", "get_shipment",
+     * "get_subscription", "get_subscription_offer", "get_subscription_plan",
+     * "get_tax_calculation_callback", "get_tax_connection", "get_tax_registration",
+     * "get_test_clock", "get_ticket", "get_webhook_delivery", "get_webhook_endpoint",
+     * "get_workload_identity", "issue_developer_sandbox_test_key", "list_credit_note_allocations",
+     * "list_credit_notes", "list_fulfillments", "list_gift_card_funding_dispositions",
+     * "list_gift_card_loads", "list_gift_card_redemptions", "list_gift_card_transactions",
+     * "list_gift_cards", "list_inventory_counts", "list_inventory_movements",
+     * "list_inventory_receipts", "list_inventory_reservations", "list_inventory_transfers",
+     * "list_invoice_activities", "list_invoice_late_fees", "list_invoice_manual_payments",
+     * "list_invoice_payment_attempts", "list_invoices", "list_me_gift_cards",
+     * "list_me_remembered_buyers", "list_me_returns", "list_me_subscription_payment_retries",
+     * "list_merchant_partner_app_installs", "list_order_charges", "list_order_edits",
+     * "list_order_line_items", "list_order_payment_attempts", "list_package_items",
+     * "list_packages", "list_payment_intent_activities", "list_payouts", "list_product_variants",
+     * "list_refunds", "list_return_dispositions", "list_return_inspections",
+     * "list_return_reasons", "list_return_receipts", "list_return_resolutions", "list_returns",
+     * "list_shipments", "list_subscription_line_items", "list_subscription_payment_retries",
+     * "list_subscriptions", "pay_order", "payment_authentication", "recreate_delivery_quote",
+     * "review_merchant_readiness", "review_onboarding_state", "start_new_image_ingestion",
+     * "update_checkout_session", "update_delivery_profile", "update_inventory_allocation_policy",
+     * "update_invoice", "update_location", "update_order", "update_payment_link",
+     * "update_settings". anyOf[1] (Value): string. Action to take next. Use its target resource
+     * and required_fields to prepare the request. Value enum: "add_line_items",
+     * "cancel_order_edit", "cancel_payment_intent", "capture_payment_intent",
+     * "close_checkout_session", "close_order", "collect_invoice", "complete_gift_card_challenge",
+     * "confirm_payment_intent", "create_checkout_session_customer_verification",
+     * "create_delivery_selection", "create_dispute_response_session",
+     * "create_merchant_account_session", "create_refund", "create_subscription_payment_retry",
+     * "get_api_key", "get_bundle", "get_category", "get_checkout_session", "get_credit_note",
+     * "get_custom_domain", "get_customer", "get_customer_address",
+     * "get_customer_deletion_request", "get_customer_email_change_request",
+     * "get_customer_tax_exemption", "get_customer_verification", "get_delivery_location_set",
+     * "get_delivery_method", "get_delivery_profile", "get_delivery_rate_callback",
+     * "get_delivery_selection", "get_delivery_zone", "get_device", "get_dispute", "get_file",
+     * "get_gift_card", "get_gift_card_notification", "get_gift_card_redemption",
+     * "get_inventory_count", "get_inventory_item", "get_inventory_level",
+     * "get_inventory_reservation", "get_inventory_transfer", "get_invoice",
+     * "get_invoice_manual_payment", "get_invoice_payment_term", "get_location", "get_me",
+     * "get_me_address", "get_me_email_preferences", "get_me_gift_card", "get_me_payment_method",
+     * "get_me_return", "get_me_subscription", "get_merchant", "get_merchant_signup",
+     * "get_modifier_group", "get_modifier_set", "get_onboarding_state", "get_operation",
+     * "get_order", "get_order_edit", "get_order_payment_attempt", "get_partner_app",
+     * "get_partner_app_credential", "get_partner_app_install", "get_payment_intent",
+     * "get_payment_link", "get_payment_link_public", "get_payment_method",
+     * "get_payment_method_domain", "get_payment_review", "get_payout", "get_payout_destination",
+     * "get_payout_settings", "get_price_list", "get_price_list_price", "get_product",
+     * "get_product_variant", "get_promotion", "get_promotion_code", "get_reader", "get_refund",
+     * "get_return", "get_return_line_item", "get_return_policy", "get_return_resolution",
+     * "get_risk_list", "get_risk_list_item", "get_risk_rule", "get_sandbox", "get_settings",
+     * "get_shipment", "get_subscription", "get_subscription_offer", "get_subscription_plan",
+     * "get_tax_calculation_callback", "get_tax_connection", "get_tax_registration",
+     * "get_test_clock", "get_ticket", "get_webhook_delivery", "get_webhook_endpoint",
+     * "get_workload_identity", "issue_developer_sandbox_test_key", "list_credit_note_allocations",
+     * "list_credit_notes", "list_fulfillments", "list_gift_card_funding_dispositions",
+     * "list_gift_card_loads", "list_gift_card_redemptions", "list_gift_card_transactions",
+     * "list_gift_cards", "list_inventory_counts", "list_inventory_movements",
+     * "list_inventory_receipts", "list_inventory_reservations", "list_inventory_transfers",
+     * "list_invoice_activities", "list_invoice_late_fees", "list_invoice_manual_payments",
+     * "list_invoice_payment_attempts", "list_invoices", "list_me_gift_cards",
+     * "list_me_remembered_buyers", "list_me_returns", "list_me_subscription_payment_retries",
+     * "list_merchant_partner_app_installs", "list_order_charges", "list_order_edits",
+     * "list_order_line_items", "list_order_payment_attempts", "list_package_items",
+     * "list_packages", "list_payment_intent_activities", "list_payouts", "list_product_variants",
+     * "list_refunds", "list_return_dispositions", "list_return_inspections",
+     * "list_return_reasons", "list_return_receipts", "list_return_resolutions", "list_returns",
+     * "list_shipments", "list_subscription_line_items", "list_subscription_payment_retries",
+     * "list_subscriptions", "pay_order", "payment_authentication", "recreate_delivery_quote",
+     * "review_merchant_readiness", "review_onboarding_state", "start_new_image_ingestion",
+     * "update_checkout_session", "update_delivery_profile", "update_inventory_allocation_policy",
+     * "update_invoice", "update_location", "update_order", "update_payment_link",
+     * "update_settings". anyOf[2] (Value): null.
      */
-    "weight"?: WeightRequestInput;
+    "action_type"?: (("add_line_items"
+        | "cancel_order_edit"
+        | "cancel_payment_intent"
+        | "capture_payment_intent"
+        | "close_checkout_session"
+        | "close_order"
+        | "collect_invoice"
+        | "complete_gift_card_challenge"
+        | "confirm_payment_intent"
+        | "create_checkout_session_customer_verification"
+        | "create_delivery_selection"
+        | "create_dispute_response_session"
+        | "create_merchant_account_session"
+        | "create_refund"
+        | "create_subscription_payment_retry"
+        | "get_api_key"
+        | "get_bundle"
+        | "get_category"
+        | "get_checkout_session"
+        | "get_credit_note"
+        | "get_custom_domain"
+        | "get_customer"
+        | "get_customer_address"
+        | "get_customer_deletion_request"
+        | "get_customer_email_change_request"
+        | "get_customer_tax_exemption"
+        | "get_customer_verification"
+        | "get_delivery_location_set"
+        | "get_delivery_method"
+        | "get_delivery_profile"
+        | "get_delivery_rate_callback"
+        | "get_delivery_selection"
+        | "get_delivery_zone"
+        | "get_device"
+        | "get_dispute"
+        | "get_file"
+        | "get_gift_card"
+        | "get_gift_card_notification"
+        | "get_gift_card_redemption"
+        | "get_inventory_count"
+        | "get_inventory_item"
+        | "get_inventory_level"
+        | "get_inventory_reservation"
+        | "get_inventory_transfer"
+        | "get_invoice"
+        | "get_invoice_manual_payment"
+        | "get_invoice_payment_term"
+        | "get_location"
+        | "get_me"
+        | "get_me_address"
+        | "get_me_email_preferences"
+        | "get_me_gift_card"
+        | "get_me_payment_method"
+        | "get_me_return"
+        | "get_me_subscription"
+        | "get_merchant"
+        | "get_merchant_signup"
+        | "get_modifier_group"
+        | "get_modifier_set"
+        | "get_onboarding_state"
+        | "get_operation"
+        | "get_order"
+        | "get_order_edit"
+        | "get_order_payment_attempt"
+        | "get_partner_app"
+        | "get_partner_app_credential"
+        | "get_partner_app_install"
+        | "get_payment_intent"
+        | "get_payment_link"
+        | "get_payment_link_public"
+        | "get_payment_method"
+        | "get_payment_method_domain"
+        | "get_payment_review"
+        | "get_payout"
+        | "get_payout_destination"
+        | "get_payout_settings"
+        | "get_price_list"
+        | "get_price_list_price"
+        | "get_product"
+        | "get_product_variant"
+        | "get_promotion"
+        | "get_promotion_code"
+        | "get_reader"
+        | "get_refund"
+        | "get_return"
+        | "get_return_line_item"
+        | "get_return_policy"
+        | "get_return_resolution"
+        | "get_risk_list"
+        | "get_risk_list_item"
+        | "get_risk_rule"
+        | "get_sandbox"
+        | "get_settings"
+        | "get_shipment"
+        | "get_subscription"
+        | "get_subscription_offer"
+        | "get_subscription_plan"
+        | "get_tax_calculation_callback"
+        | "get_tax_connection"
+        | "get_tax_registration"
+        | "get_test_clock"
+        | "get_ticket"
+        | "get_webhook_delivery"
+        | "get_webhook_endpoint"
+        | "get_workload_identity"
+        | "issue_developer_sandbox_test_key"
+        | "list_credit_note_allocations"
+        | "list_credit_notes"
+        | "list_fulfillments"
+        | "list_gift_card_funding_dispositions"
+        | "list_gift_card_loads"
+        | "list_gift_card_redemptions"
+        | "list_gift_card_transactions"
+        | "list_gift_cards"
+        | "list_inventory_counts"
+        | "list_inventory_movements"
+        | "list_inventory_receipts"
+        | "list_inventory_reservations"
+        | "list_inventory_transfers"
+        | "list_invoice_activities"
+        | "list_invoice_late_fees"
+        | "list_invoice_manual_payments"
+        | "list_invoice_payment_attempts"
+        | "list_invoices"
+        | "list_me_gift_cards"
+        | "list_me_remembered_buyers"
+        | "list_me_returns"
+        | "list_me_subscription_payment_retries"
+        | "list_merchant_partner_app_installs"
+        | "list_order_charges"
+        | "list_order_edits"
+        | "list_order_line_items"
+        | "list_order_payment_attempts"
+        | "list_package_items"
+        | "list_packages"
+        | "list_payment_intent_activities"
+        | "list_payouts"
+        | "list_product_variants"
+        | "list_refunds"
+        | "list_return_dispositions"
+        | "list_return_inspections"
+        | "list_return_reasons"
+        | "list_return_receipts"
+        | "list_return_resolutions"
+        | "list_returns"
+        | "list_shipments"
+        | "list_subscription_line_items"
+        | "list_subscription_payment_retries"
+        | "list_subscriptions"
+        | "pay_order"
+        | "payment_authentication"
+        | "recreate_delivery_quote"
+        | "review_merchant_readiness"
+        | "review_onboarding_state"
+        | "start_new_image_ingestion"
+        | "update_checkout_session"
+        | "update_delivery_profile"
+        | "update_inventory_allocation_policy"
+        | "update_invoice"
+        | "update_location"
+        | "update_order"
+        | "update_payment_link"
+        | "update_settings"
+        | (string & {}))
+        | (null));
+    /**
+     * When this suggested action expires, in RFC3339 format. anyOf[1] (Value): string. When this
+     * suggested action expires, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "expires_at"?: ((string) | (null));
+    /**
+     * Request body to send unchanged to POST /v1/merchant-account-sessions when action_type is
+     * create_merchant_account_session. When absent, GET merchant readiness and use its recommended
+     * session body. anyOf[1] (Value): {@link ReadinessMerchantAccountSessionPreviousAttributes}.
+     * anyOf[2] (Value): null.
+     */
+    "merchant_account_session"?: ((ReadinessMerchantAccountSessionPreviousAttributes) | (null));
+    /**
+     * HTTP method for the recovery read. Value enum: "GET". anyOf[1] (Value): string. HTTP method
+     * for the recovery read. Value enum: "GET". anyOf[2] (Value): null.
+     */
+    "method"?: (("GET" | (string & {})) | (null));
+    /**
+     * Machine-readable reason this action is suggested. anyOf[1] (Value): string. Machine-readable
+     * reason this action is suggested. anyOf[2] (Value): null.
+     */
+    "reason_code"?: ((string) | (null));
+    /**
+     * Explanation of why this action is suggested. anyOf[1] (Value): string. Explanation of why
+     * this action is suggested. anyOf[2] (Value): null.
+     */
+    "reason_message"?: ((string) | (null));
+    /**
+     * Field names that must be supplied to perform this action. anyOf[1] (Value): Array of string.
+     * Field names that must be supplied to perform this action. anyOf[1][] (Value): string.
+     * anyOf[2] (Value): null.
+     */
+    "required_fields"?: ((Array<string>) | (null));
+    /**
+     * API key scope required to call the public endpoint in url, when the action points at another
+     * Flint API endpoint. Value enum: "accounts.api_keys.read", "accounts.api_keys.write",
+     * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
+     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
+     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write". anyOf[1] (Value):
+     * string. API key scope required to call the public endpoint in url, when the action points at
+     * another Flint API endpoint. Value enum: "accounts.api_keys.read", "accounts.api_keys.write",
+     * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
+     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
+     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write". anyOf[2] (Value):
+     * null.
+     */
+    "required_scope"?: (("accounts.api_keys.read"
+        | "accounts.api_keys.write"
+        | "accounts.devices.read"
+        | "accounts.devices.write"
+        | "accounts.workload_identities.read"
+        | "accounts.workload_identities.write"
+        | "analytics.read"
+        | "checkouts.checkout_sessions.read"
+        | "checkouts.checkout_sessions.write"
+        | "checkouts.payment_links.read"
+        | "checkouts.payment_links.write"
+        | "commerce.bundles.read"
+        | "commerce.bundles.write"
+        | "commerce.catalog.read"
+        | "commerce.catalog.write"
+        | "commerce.credit_notes.read"
+        | "commerce.credit_notes.write"
+        | "commerce.delivery.read"
+        | "commerce.delivery.write"
+        | "commerce.gift_cards.adjustments.write"
+        | "commerce.gift_cards.read"
+        | "commerce.gift_cards.redemptions.write"
+        | "commerce.gift_cards.secrets.write"
+        | "commerce.gift_cards.write"
+        | "commerce.inventory.allocation.write"
+        | "commerce.inventory.policies.write"
+        | "commerce.inventory.read"
+        | "commerce.inventory.write"
+        | "commerce.invoices.read"
+        | "commerce.invoices.write"
+        | "commerce.orders.read"
+        | "commerce.orders.write"
+        | "commerce.products.read"
+        | "commerce.products.write"
+        | "commerce.promotions.read"
+        | "commerce.promotions.write"
+        | "commerce.refunds.read"
+        | "commerce.refunds.tax_overrides.write"
+        | "commerce.refunds.write"
+        | "commerce.returns.operations.write"
+        | "commerce.returns.policies.write"
+        | "commerce.returns.read"
+        | "commerce.returns.reasons.write"
+        | "commerce.returns.resolutions.write"
+        | "commerce.returns.write"
+        | "commerce.subscription_plans.read"
+        | "commerce.subscription_plans.write"
+        | "commerce.subscriptions.read"
+        | "commerce.subscriptions.write"
+        | "commerce.tickets.read"
+        | "commerce.tickets.write"
+        | "customers.read"
+        | "customers.sessions.write"
+        | "customers.write"
+        | "developer.feedback_reports.read"
+        | "developer.feedback_reports.write"
+        | "developer.merchant_signups.read"
+        | "developer.merchant_signups.write"
+        | "developer.partner_apps.read"
+        | "developer.partner_apps.write"
+        | "developer.request_logs.read"
+        | "developer.request_logs.self.read"
+        | "developer.resource_timelines.read"
+        | "developer.sandboxes.read"
+        | "developer.sandboxes.write"
+        | "developer.test_clocks.read"
+        | "developer.test_clocks.write"
+        | "merchant_billing.read"
+        | "merchants.account_sessions.write"
+        | "merchants.locations.read"
+        | "merchants.locations.write"
+        | "merchants.onboarding.read"
+        | "merchants.onboarding.write"
+        | "merchants.profile.read"
+        | "merchants.profile.write"
+        | "money_movement.balance_transactions.read"
+        | "money_movement.balances.read"
+        | "money_movement.payment_splits.read"
+        | "money_movement.payout_settings.read"
+        | "money_movement.payout_settings.write"
+        | "money_movement.payouts.read"
+        | "money_movement.payouts.write"
+        | "money_movement.platform_fees.read"
+        | "payments.disputes.read"
+        | "payments.disputes.write"
+        | "payments.payment_intents.read"
+        | "payments.payment_intents.write"
+        | "payments.payment_method_domains.read"
+        | "payments.payment_method_domains.write"
+        | "payments.payment_methods.read"
+        | "payments.payment_methods.write"
+        | "payments.readers.read"
+        | "payments.readers.write"
+        | "reports.read"
+        | "reports.write"
+        | "risk.controls.write"
+        | "risk.read"
+        | "risk.reviews.write"
+        | "settings.read"
+        | "settings.write"
+        | "webhooks.read"
+        | "webhooks.write"
+        | (string & {}))
+        | (null));
+    /**
+     * Whether a person must approve the action before it is performed. anyOf[1] (Value): boolean.
+     * Whether a person must approve the action before it is performed. anyOf[2] (Value): null.
+     */
+    "requires_human_confirmation"?: ((boolean) | (null));
+    /**
+     * Suggested wait before performing the action, in milliseconds. anyOf[1] (Value): integer.
+     * Suggested wait before performing the action, in milliseconds. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "suggested_delay_milliseconds"?: ((number) | (null));
+    /**
+     * Resource whose ID to send in the target request field named {resource_type}_id when url
+     * cannot carry the target. anyOf[1] (Value): {@link ResourceReferencePreviousAttributes}.
+     * anyOf[2] (Value): null.
+     */
+    "target_resource"?: ((ResourceReferencePreviousAttributes) | (null));
+    /**
+     * Public endpoint or launch URL for this remediation action, when applicable. anyOf[1]
+     * (Value): string. Public endpoint or launch URL for this remediation action, when applicable.
+     * anyOf[2] (Value): null.
+     */
+    "url"?: ((string) | (null));
+};
+/** The request body for: Revoke an OAuth token. */
+export type OAuthRevokeRequest = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
+    /**
+     * Partner client ID for client_secret_post, or flint-cli for the public CLI client. Example:
+     * "fpc_00112233445566778899aabbccddeeff".
+     */
+    "client_id"?: string;
+    /**
+     * Partner client secret for client_secret_post. Omit when using HTTP Basic; flint-cli never
+     * sends a secret.
+     */
+    "client_secret"?: string;
+    /** Partner app token, or flint-cli access or refresh token, to revoke. */
+    "token": string;
+    /** Optional token lookup hint. Value enum: "refresh_token", "access_token". */
+    "token_type_hint"?: "refresh_token" | "access_token" | (string & {});
+});
+/** The request body for: Revoke an OAuth token. */
+export type OAuthRevokeRequestInput = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+    /**
+     * Partner client ID for client_secret_post, or flint-cli for the public CLI client. Example:
+     * "fpc_00112233445566778899aabbccddeeff".
+     */
+    "client_id"?: string;
+    /**
+     * Partner client secret for client_secret_post. Omit when using HTTP Basic; flint-cli never
+     * sends a secret.
+     */
+    "client_secret"?: string;
+    /** Partner app token, or flint-cli access or refresh token, to revoke. */
+    "token": string;
+    /** Optional token lookup hint. Value enum: "refresh_token", "access_token". */
+    "token_type_hint"?: "refresh_token" | "access_token";
+});
+/** The request body for: Exchange an OAuth token. */
+export type OAuthTokenRequest = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     * Example: "flint-cli".
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code"?: string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier"?: string;
+    /**
+     * flint-cli only. Example:
+     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code"?: string;
+    /**
+     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
+     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
+     * enum: "authorization_code", "client_credentials", "refresh_token",
+     * "urn:ietf:params:oauth:grant-type:device_code",
+     * "urn:ietf:params:oauth:grant-type:token-exchange".
+     */
+    "grant_type": "authorization_code"
+        | "client_credentials"
+        | "refresh_token"
+        | "urn:ietf:params:oauth:grant-type:device_code"
+        | "urn:ietf:params:oauth:grant-type:token-exchange"
+        | (string & {});
+    /**
+     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
+     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
+     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: string;
+    /**
+     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
+     * token is for one mode. Value enum: "test", "live".
+     */
+    "mode"?: "test" | "live" | (string & {});
+    /**
+     * The redirect URI the authorization request used, character for character. Required for a
+     * code from the consent screen. Omit it for a code from a merchant signup, which had no
+     * authorization request: a signup code sent with one, or a consent-screen code sent without
+     * one, returns invalid_grant.
+     */
+    "redirect_uri"?: string;
+    /**
+     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
+     * tokens; a partner client that sends this grant gets unauthorized_client.
+     */
+    "refresh_token"?: string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
+     * client_credentials refuses scope with invalid_scope.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token"?: string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
+     */
+    "workload_identity_id"?: string;
 })
-    & (({
-    "shipped_at"?: never;
-}))
-    & (({
-    "buyer_notification_behavior"?: never;
-}));
+    & ((Exclude<OAuthTokenRequestAuthorizationCode & object, readonly unknown[]>)
+    | (Exclude<OAuthTokenRequestClientCredentials & object, readonly unknown[]>)
+    | (Exclude<OAuthTokenRequestRefreshToken & object, readonly unknown[]>)
+    | (Exclude<OAuthTokenRequestDeviceCode & object, readonly unknown[]>)
+    | (Exclude<OAuthTokenRequestTokenExchange & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `authorization_code` variant of `OAuthTokenRequest`. */
+export type OAuthTokenRequestAuthorizationCode = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     * Example: "fpc_00112233445566778899aabbccddeeff".
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code": string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier": string;
+    /**
+     * flint-cli only. Example:
+     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code"?: string;
+    /**
+     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
+     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
+     * enum: "authorization_code".
+     */
+    "grant_type": "authorization_code" | (string & {});
+    /**
+     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
+     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
+     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: string;
+    /**
+     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
+     * token is for one mode. Value enum: "test", "live".
+     */
+    "mode"?: "test" | "live" | (string & {});
+    /**
+     * The redirect URI the authorization request used, character for character. Required for a
+     * code from the consent screen. Omit it for a code from a merchant signup, which had no
+     * authorization request: a signup code sent with one, or a consent-screen code sent without
+     * one, returns invalid_grant.
+     */
+    "redirect_uri"?: string;
+    /**
+     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
+     * tokens; a partner client that sends this grant gets unauthorized_client.
+     */
+    "refresh_token"?: string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
+     * client_credentials refuses scope with invalid_scope.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token"?: string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
+     */
+    "workload_identity_id"?: string;
+})
+    & ({
+    /** Value enum: "authorization_code". */
+    "grant_type"?: unknown;
+    /** Partner authorization code, required for authorization_code. */
+    "code": string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier": string;
+});
+/** The `authorization_code` variant of `OAuthTokenRequest`. */
+export type OAuthTokenRequestAuthorizationCodeInput = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     * Example: "fpc_00112233445566778899aabbccddeeff".
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code": string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier": string;
+    /**
+     * flint-cli only. Example:
+     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code"?: string;
+    /**
+     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
+     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
+     * enum: "authorization_code".
+     */
+    "grant_type": "authorization_code";
+    /**
+     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
+     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
+     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: string;
+    /**
+     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
+     * token is for one mode. Value enum: "test", "live".
+     */
+    "mode"?: "test" | "live";
+    /**
+     * The redirect URI the authorization request used, character for character. Required for a
+     * code from the consent screen. Omit it for a code from a merchant signup, which had no
+     * authorization request: a signup code sent with one, or a consent-screen code sent without
+     * one, returns invalid_grant.
+     */
+    "redirect_uri"?: string;
+    /**
+     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
+     * tokens; a partner client that sends this grant gets unauthorized_client.
+     */
+    "refresh_token"?: string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
+     * client_credentials refuses scope with invalid_scope.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token"?: string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
+     */
+    "workload_identity_id"?: string;
+})
+    & ({
+    /** Value enum: "authorization_code". */
+    "grant_type"?: ("authorization_code") & ("authorization_code");
+    /** Partner authorization code, required for authorization_code. */
+    "code": string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier": string;
+});
+/** The `client_credentials` variant of `OAuthTokenRequest`. */
+export type OAuthTokenRequestClientCredentials = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     * Example: "fpc_00112233445566778899aabbccddeeff".
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code"?: string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier"?: string;
+    /**
+     * flint-cli only. Example:
+     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code"?: string;
+    /**
+     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
+     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
+     * enum: "client_credentials".
+     */
+    "grant_type": "client_credentials" | (string & {});
+    /**
+     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
+     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
+     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: string;
+    /**
+     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
+     * token is for one mode. Value enum: "test", "live".
+     */
+    "mode": "test" | "live" | (string & {});
+    /**
+     * The redirect URI the authorization request used, character for character. Required for a
+     * code from the consent screen. Omit it for a code from a merchant signup, which had no
+     * authorization request: a signup code sent with one, or a consent-screen code sent without
+     * one, returns invalid_grant.
+     */
+    "redirect_uri"?: string;
+    /**
+     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
+     * tokens; a partner client that sends this grant gets unauthorized_client.
+     */
+    "refresh_token"?: string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
+     * client_credentials refuses scope with invalid_scope.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token"?: string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
+     */
+    "workload_identity_id"?: string;
+})
+    & ({
+    /** Value enum: "client_credentials". */
+    "grant_type"?: unknown;
+    /**
+     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
+     * token is for one mode. Value enum: "test", "live".
+     */
+    "mode": "test" | "live" | (string & {});
+});
+/** The `client_credentials` variant of `OAuthTokenRequest`. */
+export type OAuthTokenRequestClientCredentialsInput = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     * Example: "fpc_00112233445566778899aabbccddeeff".
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code"?: string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier"?: string;
+    /**
+     * flint-cli only. Example:
+     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code"?: string;
+    /**
+     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
+     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
+     * enum: "client_credentials".
+     */
+    "grant_type": "client_credentials";
+    /**
+     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
+     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
+     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: string;
+    /**
+     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
+     * token is for one mode. Value enum: "test", "live".
+     */
+    "mode": "test" | "live";
+    /**
+     * The redirect URI the authorization request used, character for character. Required for a
+     * code from the consent screen. Omit it for a code from a merchant signup, which had no
+     * authorization request: a signup code sent with one, or a consent-screen code sent without
+     * one, returns invalid_grant.
+     */
+    "redirect_uri"?: string;
+    /**
+     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
+     * tokens; a partner client that sends this grant gets unauthorized_client.
+     */
+    "refresh_token"?: string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
+     * client_credentials refuses scope with invalid_scope.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token"?: string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
+     */
+    "workload_identity_id"?: string;
+})
+    & ({
+    /** Value enum: "client_credentials". */
+    "grant_type"?: ("client_credentials") & ("client_credentials");
+    /**
+     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
+     * token is for one mode. Value enum: "test", "live".
+     */
+    "mode": "test" | "live";
+});
+/** The `urn:ietf:params:oauth:grant-type:device_code` variant of `OAuthTokenRequest`. */
+export type OAuthTokenRequestDeviceCode = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     * Example: "flint-cli".
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code"?: string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier"?: string;
+    /**
+     * flint-cli only. Example:
+     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code": string;
+    /**
+     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
+     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
+     * enum: "urn:ietf:params:oauth:grant-type:device_code".
+     */
+    "grant_type": "urn:ietf:params:oauth:grant-type:device_code" | (string & {});
+    /**
+     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
+     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
+     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: string;
+    /**
+     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
+     * token is for one mode. Value enum: "test", "live".
+     */
+    "mode"?: "test" | "live" | (string & {});
+    /**
+     * The redirect URI the authorization request used, character for character. Required for a
+     * code from the consent screen. Omit it for a code from a merchant signup, which had no
+     * authorization request: a signup code sent with one, or a consent-screen code sent without
+     * one, returns invalid_grant.
+     */
+    "redirect_uri"?: string;
+    /**
+     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
+     * tokens; a partner client that sends this grant gets unauthorized_client.
+     */
+    "refresh_token"?: string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
+     * client_credentials refuses scope with invalid_scope.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token"?: string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
+     */
+    "workload_identity_id"?: string;
+})
+    & ({
+    /** Value enum: "urn:ietf:params:oauth:grant-type:device_code". */
+    "grant_type"?: unknown;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code": string;
+});
+/** The `urn:ietf:params:oauth:grant-type:device_code` variant of `OAuthTokenRequest`. */
+export type OAuthTokenRequestDeviceCodeInput = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     * Example: "flint-cli".
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code"?: string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier"?: string;
+    /**
+     * flint-cli only. Example:
+     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code": string;
+    /**
+     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
+     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
+     * enum: "urn:ietf:params:oauth:grant-type:device_code".
+     */
+    "grant_type": "urn:ietf:params:oauth:grant-type:device_code";
+    /**
+     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
+     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
+     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: string;
+    /**
+     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
+     * token is for one mode. Value enum: "test", "live".
+     */
+    "mode"?: "test" | "live";
+    /**
+     * The redirect URI the authorization request used, character for character. Required for a
+     * code from the consent screen. Omit it for a code from a merchant signup, which had no
+     * authorization request: a signup code sent with one, or a consent-screen code sent without
+     * one, returns invalid_grant.
+     */
+    "redirect_uri"?: string;
+    /**
+     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
+     * tokens; a partner client that sends this grant gets unauthorized_client.
+     */
+    "refresh_token"?: string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
+     * client_credentials refuses scope with invalid_scope.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token"?: string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
+     */
+    "workload_identity_id"?: string;
+})
+    & ({
+    /** Value enum: "urn:ietf:params:oauth:grant-type:device_code". */
+    "grant_type"?: ("urn:ietf:params:oauth:grant-type:device_code") & ("urn:ietf:params:oauth:grant-type:device_code");
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code": string;
+});

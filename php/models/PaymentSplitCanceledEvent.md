@@ -138,7 +138,7 @@ anyOf variant 2.
 
 anyOf variant 1: When the funds become available on Flint's balance. Null when Stripe has not reported it or the payment never succeeded. Can move later after a won dispute; frozen at release..
 
-- Value shape: (string or null). When the funds become available on Flint's balance. Null when Stripe has not reported it or the payment never succeeded. Can move later after a won dispute; frozen at release. When the funds become available on Flint's balance. Null when Stripe has not reported it or the payment never succeeded. Can move later after a won dispute; frozen at release. Format: `date-time`. 
+- Value shape: string. When the funds become available on Flint's balance. Null when Stripe has not reported it or the payment never succeeded. Can move later after a won dispute; frozen at release. When the funds become available on Flint's balance. Null when Stripe has not reported it or the payment never succeeded. Can move later after a won dispute; frozen at release. Format: `date-time`. 
 
 ### PaymentSplitCanceledEvent.data fields 1.previous_attributes.funds_available_at variant 2
 
@@ -222,7 +222,7 @@ anyOf variant 2.
 
 anyOf variant 1: Read-only nested children created by Flint, embedded whole. Empty when none. At most one per refund and one per dispute..
 
-- Value shape: Array of [PaymentSplitReversal](../models/PaymentSplitReversal.md#paymentsplitreversal). Read-only nested children created by Flint, embedded whole. Empty when none. At most one per refund and one per dispute. 
+- Value shape: Array of [PaymentSplitReversalPreviousAttributes](../models/PaymentSplitReversalPreviousAttributes.md#paymentsplitreversalpreviousattributes). Read-only nested children created by Flint, embedded whole. Empty when none. At most one per refund and one per dispute. 
 
 ### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 2
 
@@ -232,7 +232,114 @@ anyOf variant 2.
 
 ### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1
 
-Field definitions: [PaymentIntentResponse.data.splits[].reversals[]](../models/PaymentIntentResponse.md#paymentintentresponsedatasplitsreversals).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The split's share taken back. |
+| `created_at` | Optional | string or null | When the reversal was recorded. `created_at`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdata-fields-1previous_attributesreversals-variant-1-fields-1created_at). |
+| `payment_split_reversal_id` | Optional | string or null | Unique identifier for the reversal. `payment_split_reversal_id`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdata-fields-1previous_attributesreversals-variant-1-fields-1payment_split_reversal_id). |
+| `reason` | Optional | string or null | Why Flint created the reversal. Values: `"refund"`, `"dispute"`, `"other"`. `reason`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdata-fields-1previous_attributesreversals-variant-1-fields-1reason). |
+| `reinstated_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Funds returned to whoever funded the reversal, such as after a won dispute or failed refund. |
+| `shortfall_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The part the collecting merchant covered. |
+| `source` | Optional | [ResourceReferencePreviousAttributes](../models/ResourceReferencePreviousAttributes.md#resourcereferencepreviousattributes) or null | The refund or dispute behind the reversal. `source`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdata-fields-1previous_attributesreversals-variant-1-fields-1source). |
+| `status` | Optional | string or null | The reversal lifecycle status. Values: `"pending"`, `"succeeded"`, `"canceled"`. `status`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdata-fields-1previous_attributesreversals-variant-1-fields-1status). |
+| `succeeded_at` | Optional | string or null | When the split's share was recovered. Present when succeeded. `succeeded_at`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdata-fields-1previous_attributesreversals-variant-1-fields-1succeeded_at). |
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.created_at
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.created_at variant 1
+
+anyOf variant 1: When the reversal was recorded..
+
+- Value shape: string. When the reversal was recorded. When the reversal was recorded. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.created_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the reversal was recorded. 
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.payment_split_reversal_id
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.payment_split_reversal_id variant 1
+
+anyOf variant 1: Unique identifier for the reversal..
+
+- Value shape: string. Unique identifier for the reversal. Unique identifier for the reversal. Example: `"psrev_01KEZF7C00XC1HA7S8YCQJDBDM"`. 
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.payment_split_reversal_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Unique identifier for the reversal. 
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.reason
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.reason variant 1
+
+anyOf variant 1: Why Flint created the reversal..
+
+- Value shape: string. Why Flint created the reversal. Values: `"refund"`, `"dispute"`, `"other"`.
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.reason variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Why Flint created the reversal. 
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.source
+
+The refund or dispute behind the reversal.
+
+Field definitions: [shared fields](ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_by).
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.source variant 1
+
+anyOf ResourceReferencePreviousAttributes.
+
+- Optional: `resource_id`, `resource_type`.
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.source variant 2
+
+anyOf variant 2.
+
+- Undeclared: `resource_id`, `resource_type`.
+- Value shape: null. The refund or dispute behind the reversal. 
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.source variant 1.resource_id
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_by variant 1.resource_id](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_by-variant-1resource_id).
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.source variant 1.resource_type
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_by variant 1.resource_type](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_by-variant-1resource_type).
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.status
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.status variant 1
+
+anyOf variant 1: The reversal lifecycle status..
+
+- Value shape: string. The reversal lifecycle status. Values: `"pending"`, `"succeeded"`, `"canceled"`.
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The reversal lifecycle status. 
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.succeeded_at
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.succeeded_at variant 1
+
+anyOf variant 1: When the split's share was recovered. Present when succeeded..
+
+- Value shape: string. When the split's share was recovered. Present when succeeded. When the split's share was recovered. Present when succeeded. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### PaymentSplitCanceledEvent.data fields 1.previous_attributes.reversals variant 1.[] fields 1.succeeded_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the split's share was recovered. Present when succeeded. 
 
 ### PaymentSplitCanceledEvent.data fields 1.previous_attributes.seller_merchant_id
 

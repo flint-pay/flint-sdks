@@ -4,43 +4,43 @@ namespace Flint;
 /**
  * @property-read list<string>|null $cc_emails
  * @property-read string|null $closed_at
- * @property-read mixed $collection
+ * @property-read \stdClass|null $collection
  * @property-read string|null $collection_block_status
  * @property-read string|null $created_at
- * @property-read mixed $customer
+ * @property-read ExpandedCustomerSummaryPreviousAttributes|null $customer
  * @property-read string|null $customer_id
  * @property-read string|null $delivery_mode
  * @property-read string|null $due_date
- * @property-read mixed $external_reference_id
- * @property-read mixed $footer
+ * @property-read string|null $external_reference_id
+ * @property-read string|null $footer
  * @property-read string|null $invoice_id
  * @property-read string|null $invoice_number
  * @property-read bool|null $is_overdue
  * @property-read string|null $issued_at
- * @property-read list<InvoiceLateFee>|null $late_fees
- * @property-read mixed $memo
+ * @property-read list<InvoiceLateFeePreviousAttributes>|null $late_fees
+ * @property-read string|null $memo
  * @property-read string|null $merchant_id
  * @property-read array<array-key, string>|null $metadata
- * @property-read mixed $order
+ * @property-read ExpandedOrderSummaryPreviousAttributes|null $order
  * @property-read string|null $order_id
  * @property-read string|null $paid_at
- * @property-read mixed $payment_due
- * @property-read InvoicePaymentTermsSnapshot|null $payment_terms_snapshot
- * @property-read mixed $po_number
- * @property-read PricingAmounts|null $pricing_amounts
- * @property-read mixed $recipient_email
- * @property-read mixed $reference
+ * @property-read \stdClass|null $payment_due
+ * @property-read InvoicePaymentTermsSnapshotPreviousAttributes|null $payment_terms_snapshot
+ * @property-read string|null $po_number
+ * @property-read PricingAmountsPreviousAttributes|null $pricing_amounts
+ * @property-read string|null $recipient_email
+ * @property-read string|null $reference
  * @property-read string|null $refund_status
  * @property-read bool|null $reminders_paused
  * @property-read string|null $reminders_paused_at
- * @property-read Address|null $remit_to_address
- * @property-read list<InvoiceScheduleEntry>|null $schedule_entries
- * @property-read mixed $scheduled_issue_at
- * @property-read mixed $service_date
- * @property-read InvoiceSettlementAmounts|null $settlement_amounts
- * @property-read InvoiceSnapshot|null $snapshot
+ * @property-read AddressPreviousAttributes|null $remit_to_address
+ * @property-read list<InvoiceScheduleEntryPreviousAttributes>|null $schedule_entries
+ * @property-read string|null $scheduled_issue_at
+ * @property-read string|null $service_date
+ * @property-read InvoiceSettlementAmountsPreviousAttributes|null $settlement_amounts
+ * @property-read InvoiceSnapshotPreviousAttributes|null $snapshot
  * @property-read string|null $status
- * @property-read mixed $subscription_id
+ * @property-read string|null $subscription_id
  * @property-read list<string>|null $supported_actions
  * @property-read string|null $timezone
  * @property-read string|null $uncollectible_at
@@ -62,10 +62,10 @@ final class InvoiceUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getClosedAt(): string|null { return $this->get('closed_at'); }
     public function hasClosedAt(): bool { return $this->has('closed_at'); }
-    /** How this invoice is collected, resolved when the draft is written. Send this object back when updating its collection policy. anyOf[1] (Value): {@see InvoiceCollection}. How this invoice is collected, resolved when the draft is written. Send this object back when updating its collection policy. anyOf[2] (Value): null.
-     * @return mixed
+    /** How this invoice is collected, resolved when the draft is written. Send this object back when updating its collection policy. anyOf[1] (Value): {@see InvoiceCollectionPreviousAttributes}. anyOf[2] (Value): null.
+     * @return \stdClass|null
      */
-    public function getCollection(): mixed { return $this->get('collection'); }
+    public function getCollection(): \stdClass|null { return $this->get('collection'); }
     public function hasCollection(): bool { return $this->has('collection'); }
     /** Whether collection is blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none", "inventory_blocked", "resolved". anyOf[1] (Value): string. Whether collection is blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none", "inventory_blocked", "resolved". anyOf[2] (Value): null.
      * @return string|null
@@ -77,10 +77,10 @@ final class InvoiceUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Summary of the billed customer. Returned only with expand=customer. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummary} or null. Summary of the billed customer. Returned only with expand=customer. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID when the customer is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Summary of the billed customer. Returned only with expand=customer. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ExpandedCustomerSummaryPreviousAttributes|null
      */
-    public function getCustomer(): mixed { return $this->get('customer'); }
+    public function getCustomer(): ExpandedCustomerSummaryPreviousAttributes|null { return $this->get('customer'); }
     public function hasCustomer(): bool { return $this->has('customer'); }
     /** Customer billed by this invoice. Absent when the invoice has no customer. anyOf[1] (Value): string. Customer billed by this invoice. Absent when the invoice has no customer. anyOf[2] (Value): null.
      * @return string|null
@@ -97,15 +97,15 @@ final class InvoiceUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getDueDate(): string|null { return $this->get('due_date'); }
     public function hasDueDate(): bool { return $this->has('due_date'); }
-    /** Caller-owned identifier for this resource in an external system. Use it as your sync key: it isn't printed on the invoice. `null` when unset. anyOf[1] (Value): string or null. Caller-owned identifier for this resource in an external system. Use it as your sync key: it isn't printed on the invoice. `null` when unset. minLength: 1. maxLength: 255. anyOf[2] (Value): null.
-     * @return mixed
+    /** Caller-owned identifier for this resource in an external system. Use it as your sync key: it isn't printed on the invoice. `null` when unset. anyOf[1] (Value): string. Caller-owned identifier for this resource in an external system. Use it as your sync key: it isn't printed on the invoice. `null` when unset. minLength: 1. maxLength: 255. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getExternalReferenceId(): mixed { return $this->get('external_reference_id'); }
+    public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when unset. anyOf[1] (Value): string or null. Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
-     * @return mixed
+    /** Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when unset. anyOf[1] (Value): string. Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getFooter(): mixed { return $this->get('footer'); }
+    public function getFooter(): string|null { return $this->get('footer'); }
     public function hasFooter(): bool { return $this->has('footer'); }
     /** Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. anyOf[2] (Value): null.
      * @return string|null
@@ -127,30 +127,30 @@ final class InvoiceUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getIssuedAt(): string|null { return $this->get('issued_at'); }
     public function hasIssuedAt(): bool { return $this->has('issued_at'); }
-    /** Late fees assessed on this invoice, each with its paid, waived, written-off, and outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus waivers. anyOf[1] (Value): Array of {@see InvoiceLateFee}. Late fees assessed on this invoice, each with its paid, waived, written-off, and outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus waivers. anyOf[1][] (Value): {@see InvoiceLateFee}. A charge assessed because an invoice payment is overdue. anyOf[2] (Value): null.
-     * @return list<InvoiceLateFee>|null
+    /** Late fees assessed on this invoice, each with its paid, waived, written-off, and outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus waivers. anyOf[1] (Value): Array of {@see InvoiceLateFeePreviousAttributes}. Late fees assessed on this invoice, each with its paid, waived, written-off, and outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus waivers. anyOf[1][] (Value): {@see InvoiceLateFeePreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<InvoiceLateFeePreviousAttributes>|null
      */
     public function getLateFees(): array|null { return $this->get('late_fees'); }
     public function hasLateFees(): bool { return $this->has('late_fees'); }
-    /** Message to the customer, printed on the invoice and PDF. It cannot change after issue. `null` when unset. anyOf[1] (Value): string or null. Message to the customer, printed on the invoice and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
-     * @return mixed
+    /** Message to the customer, printed on the invoice and PDF. It cannot change after issue. `null` when unset. anyOf[1] (Value): string. Message to the customer, printed on the invoice and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getMemo(): mixed { return $this->get('memo'); }
+    public function getMemo(): string|null { return $this->get('memo'); }
     public function hasMemo(): bool { return $this->has('memo'); }
     /** Merchant that owns this invoice. anyOf[1] (Value): string. Merchant that owns this invoice. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Caller-owned metadata. anyOf[1] (Value): {@see MetadataMap}. Caller-owned metadata. anyOf[2] (Value): null.
+    /** Caller-owned metadata. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
      * @return array<array-key, string>|null
      */
     public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Summary of the backing order. Returned only with expand=order. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummary} or null. Summary of the backing order. Returned only with expand=order. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummary}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Summary of the backing order. Returned only with expand=order. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ExpandedOrderSummaryPreviousAttributes|null
      */
-    public function getOrder(): mixed { return $this->get('order'); }
+    public function getOrder(): ExpandedOrderSummaryPreviousAttributes|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
     /** The order this invoice bills. Every invoice has one; quick pay creates it. anyOf[1] (Value): string. The order this invoice bills. Every invoice has one; quick pay creates it. anyOf[2] (Value): null.
      * @return string|null
@@ -162,35 +162,35 @@ final class InvoiceUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getPaidAt(): string|null { return $this->get('paid_at'); }
     public function hasPaidAt(): bool { return $this->has('paid_at'); }
-    /** The resolved due-date policy. Send this object back when updating the draft; payment_terms captures the term's current revision again. anyOf[1] (Value): {@see InvoicePaymentDue}. The resolved due-date policy. Send this object back when updating the draft; payment_terms captures the term's current revision again. anyOf[2] (Value): null.
-     * @return mixed
+    /** The resolved due-date policy. Send this object back when updating the draft; payment_terms captures the term's current revision again. anyOf[1] (Value): {@see InvoicePaymentDuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return \stdClass|null
      */
-    public function getPaymentDue(): mixed { return $this->get('payment_due'); }
+    public function getPaymentDue(): \stdClass|null { return $this->get('payment_due'); }
     public function hasPaymentDue(): bool { return $this->has('payment_due'); }
-    /** The payment term captured on the draft, with its due date rule and late fee policy. Later changes to the payment term don't affect this invoice. anyOf[1] (Value): {@see InvoicePaymentTermsSnapshot}. The payment term captured on the draft, with its due date rule and late fee policy. Later changes to the payment term don't affect this invoice. anyOf[2] (Value): null.
-     * @return InvoicePaymentTermsSnapshot|null
+    /** The payment term captured on the draft, with its due date rule and late fee policy. Later changes to the payment term don't affect this invoice. anyOf[1] (Value): {@see InvoicePaymentTermsSnapshotPreviousAttributes}. anyOf[2] (Value): null.
+     * @return InvoicePaymentTermsSnapshotPreviousAttributes|null
      */
-    public function getPaymentTermsSnapshot(): InvoicePaymentTermsSnapshot|null { return $this->get('payment_terms_snapshot'); }
+    public function getPaymentTermsSnapshot(): InvoicePaymentTermsSnapshotPreviousAttributes|null { return $this->get('payment_terms_snapshot'); }
     public function hasPaymentTermsSnapshot(): bool { return $this->has('payment_terms_snapshot'); }
-    /** The buyer's purchase order number, printed on the invoice and PDF. It cannot change after issue. `null` when unset. anyOf[1] (Value): string or null. The buyer's purchase order number, printed on the invoice and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
-     * @return mixed
+    /** The buyer's purchase order number, printed on the invoice and PDF. It cannot change after issue. `null` when unset. anyOf[1] (Value): string. The buyer's purchase order number, printed on the invoice and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getPoNumber(): mixed { return $this->get('po_number'); }
+    public function getPoNumber(): string|null { return $this->get('po_number'); }
     public function hasPoNumber(): bool { return $this->has('po_number'); }
-    /** The invoice pricing totals, frozen at issue. A draft previews the backing order. total_money excludes late fees, which are in settlement_amounts.late_fee_money. anyOf[1] (Value): {@see PricingAmounts}. The invoice pricing totals, frozen at issue. A draft previews the backing order. total_money excludes late fees, which are in settlement_amounts.late_fee_money. anyOf[2] (Value): null.
-     * @return PricingAmounts|null
+    /** The invoice pricing totals, frozen at issue. A draft previews the backing order. total_money excludes late fees, which are in settlement_amounts.late_fee_money. anyOf[1] (Value): {@see PricingAmountsPreviousAttributes}. anyOf[2] (Value): null.
+     * @return PricingAmountsPreviousAttributes|null
      */
-    public function getPricingAmounts(): PricingAmounts|null { return $this->get('pricing_amounts'); }
+    public function getPricingAmounts(): PricingAmountsPreviousAttributes|null { return $this->get('pricing_amounts'); }
     public function hasPricingAmounts(): bool { return $this->has('pricing_amounts'); }
-    /** Where Flint emails the invoice and its reminders. Email delivery requires it at issue. `null` when unset. anyOf[1] (Value): string or null. Where Flint emails the invoice and its reminders. Email delivery requires it at issue. `null` when unset. anyOf[2] (Value): null.
-     * @return mixed
+    /** Where Flint emails the invoice and its reminders. Email delivery requires it at issue. `null` when unset. anyOf[1] (Value): string. Where Flint emails the invoice and its reminders. Email delivery requires it at issue. `null` when unset. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getRecipientEmail(): mixed { return $this->get('recipient_email'); }
+    public function getRecipientEmail(): string|null { return $this->get('recipient_email'); }
     public function hasRecipientEmail(): bool { return $this->has('recipient_email'); }
-    /** Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase order number goes in po_number. It cannot change after issue. `null` when unset. anyOf[1] (Value): string or null. Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase order number goes in po_number. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
-     * @return mixed
+    /** Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase order number goes in po_number. It cannot change after issue. `null` when unset. anyOf[1] (Value): string. Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase order number goes in po_number. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getReference(): mixed { return $this->get('reference'); }
+    public function getReference(): string|null { return $this->get('reference'); }
     public function hasReference(): bool { return $this->has('reference'); }
     /** How much of the collected money has been refunded. It doesn't change status. Value enum: "none", "partially_refunded", "refunded". anyOf[1] (Value): string. How much of the collected money has been refunded. It doesn't change status. Value enum: "none", "partially_refunded", "refunded". anyOf[2] (Value): null.
      * @return string|null
@@ -207,45 +207,45 @@ final class InvoiceUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getRemindersPausedAt(): string|null { return $this->get('reminders_paused_at'); }
     public function hasRemindersPausedAt(): bool { return $this->has('reminders_paused_at'); }
-    /** Where the buyer sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to address. anyOf[1] (Value): {@see Address}. Where the buyer sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to address. anyOf[2] (Value): null.
-     * @return Address|null
+    /** Where the buyer sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to address. anyOf[1] (Value): {@see AddressPreviousAttributes}. anyOf[2] (Value): null.
+     * @return AddressPreviousAttributes|null
      */
-    public function getRemitToAddress(): Address|null { return $this->get('remit_to_address'); }
+    public function getRemitToAddress(): AddressPreviousAttributes|null { return $this->get('remit_to_address'); }
     public function hasRemitToAddress(): bool { return $this->has('remit_to_address'); }
-    /** The payment schedule, in schedule order. Always [] when the invoice has no schedule and is collected in one balance. anyOf[1] (Value): Array of {@see InvoiceScheduleEntry}. The payment schedule, in schedule order. Always [] when the invoice has no schedule and is collected in one balance. anyOf[1][] (Value): {@see InvoiceScheduleEntry}. One payment on an invoice's payment schedule, such as a deposit, installment, or balance, with its due time, amounts, and status. anyOf[2] (Value): null.
-     * @return list<InvoiceScheduleEntry>|null
+    /** The payment schedule, in schedule order. Always [] when the invoice has no schedule and is collected in one balance. anyOf[1] (Value): Array of {@see InvoiceScheduleEntryPreviousAttributes}. The payment schedule, in schedule order. Always [] when the invoice has no schedule and is collected in one balance. anyOf[1][] (Value): {@see InvoiceScheduleEntryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<InvoiceScheduleEntryPreviousAttributes>|null
      */
     public function getScheduleEntries(): array|null { return $this->get('schedule_entries'); }
     public function hasScheduleEntries(): bool { return $this->has('schedule_entries'); }
-    /** When Flint will issue and deliver this draft. `null` when no issue is scheduled. Cleared when the draft is issued or voided, or when you send null. anyOf[1] (Value): string or null. When Flint will issue and deliver this draft. `null` when no issue is scheduled. Cleared when the draft is issued or voided, or when you send null. Format: date-time. anyOf[2] (Value): null.
-     * @return mixed
+    /** When Flint will issue and deliver this draft. `null` when no issue is scheduled. Cleared when the draft is issued or voided, or when you send null. anyOf[1] (Value): string. When Flint will issue and deliver this draft. `null` when no issue is scheduled. Cleared when the draft is issued or voided, or when you send null. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getScheduledIssueAt(): mixed { return $this->get('scheduled_issue_at'); }
+    public function getScheduledIssueAt(): string|null { return $this->get('scheduled_issue_at'); }
     public function hasScheduledIssueAt(): bool { return $this->has('scheduled_issue_at'); }
-    /** The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. `null` when unset. anyOf[1] (Value): string or null. The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. `null` when unset. Format: date. anyOf[2] (Value): null.
-     * @return mixed
+    /** The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. `null` when unset. anyOf[1] (Value): string. The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. `null` when unset. Format: date. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getServiceDate(): mixed { return $this->get('service_date'); }
+    public function getServiceDate(): string|null { return $this->get('service_date'); }
     public function hasServiceDate(): bool { return $this->has('service_date'); }
-    /** Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money - paid_money - credited_money - written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses don't change it. anyOf[1] (Value): {@see InvoiceSettlementAmounts}. Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money - paid_money - credited_money - written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses don't change it. Money collected, returned, waived, and still owed on a bill. anyOf[2] (Value): null.
-     * @return InvoiceSettlementAmounts|null
+    /** Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money - paid_money - credited_money - written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses don't change it. anyOf[1] (Value): {@see InvoiceSettlementAmountsPreviousAttributes}. anyOf[2] (Value): null.
+     * @return InvoiceSettlementAmountsPreviousAttributes|null
      */
-    public function getSettlementAmounts(): InvoiceSettlementAmounts|null { return $this->get('settlement_amounts'); }
+    public function getSettlementAmounts(): InvoiceSettlementAmountsPreviousAttributes|null { return $this->get('settlement_amounts'); }
     public function hasSettlementAmounts(): bool { return $this->has('settlement_amounts'); }
-    /** The billing content of the invoice: line items, discounts, charges, tip, and tax. A draft previews the backing order; issue freezes it, and later order changes don't reach an issued invoice. anyOf[1] (Value): {@see InvoiceSnapshot}. The billing content of the invoice: line items, discounts, charges, tip, and tax. A draft previews the backing order; issue freezes it, and later order changes don't reach an issued invoice. anyOf[2] (Value): null.
-     * @return InvoiceSnapshot|null
+    /** The billing content of the invoice: line items, discounts, charges, tip, and tax. A draft previews the backing order; issue freezes it, and later order changes don't reach an issued invoice. anyOf[1] (Value): {@see InvoiceSnapshotPreviousAttributes}. anyOf[2] (Value): null.
+     * @return InvoiceSnapshotPreviousAttributes|null
      */
-    public function getSnapshot(): InvoiceSnapshot|null { return $this->get('snapshot'); }
+    public function getSnapshot(): InvoiceSnapshotPreviousAttributes|null { return $this->get('snapshot'); }
     public function hasSnapshot(): bool { return $this->has('snapshot'); }
     /** Current invoice status. paid and credited close the current balance and can reopen to open or partially_paid after a payment or credit allocation reversal; invoice.reopened reports that change. An uncollectible invoice accepts manual recovery payments and becomes paid when fully recovered; reversals restore the write-off. voided is final. Refunds change refund_status without reopening the balance. A lost dispute leaves paid_money, the balance, and status unchanged; collecting it again requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[1] (Value): string. Current invoice status. paid and credited close the current balance and can reopen to open or partially_paid after a payment or credit allocation reversal; invoice.reopened reports that change. An uncollectible invoice accepts manual recovery payments and becomes paid when fully recovered; reversals restore the write-off. voided is final. Refunds change refund_status without reopening the balance. A lost dispute leaves paid_money, the balance, and status unchanged; collecting it again requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[2] (Value): null.
      * @return string|null
      */
     public function getStatus(): string|null { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** The subscription the backing order belongs to, copied when the draft is created and never changed. `null` when the order isn't part of a subscription. anyOf[1] (Value): string or null. The subscription the backing order belongs to, copied when the draft is created and never changed. `null` when the order isn't part of a subscription. anyOf[2] (Value): null.
-     * @return mixed
+    /** The subscription the backing order belongs to, copied when the draft is created and never changed. `null` when the order isn't part of a subscription. anyOf[1] (Value): string. The subscription the backing order belongs to, copied when the draft is created and never changed. `null` when the order isn't part of a subscription. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getSubscriptionId(): mixed { return $this->get('subscription_id'); }
+    public function getSubscriptionId(): string|null { return $this->get('subscription_id'); }
     public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
     /** Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of the caller's permissions; each action still requires its route's scope. Always [] when no action is available. [] enum: "collect", "issue", "mark_uncollectible", "void". anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of the caller's permissions; each action still requires its route's scope. Always [] when no action is available. [] enum: "collect", "issue", "mark_uncollectible", "void". anyOf[1][] (Value): string.  Value enum: "collect", "issue", "mark_uncollectible", "void". anyOf[2] (Value): null.
      * @return list<string>|null

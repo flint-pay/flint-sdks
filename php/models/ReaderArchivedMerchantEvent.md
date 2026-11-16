@@ -52,6 +52,10 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 Field definitions: [shared fields](ReaderArchivedMerchantEventDataPreviousAttributes.md#readerarchivedmerchanteventdatapreviousattributes).
 
+### ReaderArchivedMerchantEvent.data fields 1.previous_attributes.connectivity
+
+Declared alternatives: [ReaderArchivedMerchantEventDataPreviousAttributes.connectivity](../models/ReaderArchivedMerchantEventDataPreviousAttributes.md#readerarchivedmerchanteventdatapreviousattributesconnectivity).
+
 ### ReaderArchivedMerchantEvent.data fields 1.previous_attributes.created_at
 
 Declared alternatives: [ReaderArchivedMerchantEventDataPreviousAttributes.created_at](../models/ReaderArchivedMerchantEventDataPreviousAttributes.md#readerarchivedmerchanteventdatapreviousattributescreated_at).

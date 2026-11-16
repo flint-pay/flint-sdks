@@ -11,7 +11,7 @@ Response model.
 | `position` | Required | integer | Position of the component within the bundle. Format: `int32`. |
 | `product_id` | Optional | string | ID of the product the component's variant belongs to. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
-| `variant` | Optional | [PublicResolvedBundleVariantSummary](../models/PublicResolvedBundleVariantSummary.md#publicresolvedbundlevariantsummary) | Summary of the component's variant. A summary of a bundle component's variant, with its name, SKU, selected options, and whether it is available for sale. `variant`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_itemsbundle_componentsvariant). |
+| `variant` | Optional | [PublicResolvedBundleVariantSummary](../models/PublicResolvedBundleVariantSummary.md#publicresolvedbundlevariantsummary) | Summary of the component's variant. A summary of a bundle component's variant, with its product name, variant name, SKU, selected options, and whether it is available for sale. `variant`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_itemsbundle_componentsvariant). |
 | `variant_id` | Required | string | ID of the component's variant. |
 
 ### PublicResolvedBundleComponent.variant

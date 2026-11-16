@@ -5,13 +5,13 @@ namespace Flint;
  * @property-read string|null $access
  * @property-read string|null $api_key_id
  * @property-read string|null $created_at
- * @property-read ResourceReference|null $created_by
+ * @property-read ResourceReferencePreviousAttributes|null $created_by
  * @property-read string|null $expires_at
  * @property-read string|null $key_prefix
  * @property-read string|null $last_used_at
  * @property-read string|null $merchant_id
  * @property-read string|null $name
- * @property-read mixed $partner_app_install_id
+ * @property-read string|null $partner_app_install_id
  * @property-read string|null $revoked_at
  * @property-read string|null $sandbox_id
  * @property-read list<string>|null $scopes
@@ -38,10 +38,10 @@ final class ApiKeyRevokedEventDataPreviousAttributes extends Model {
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Who created this key: the API key or workload identity whose credential made the request, or else the user, including through the Dashboard, a CLI login, or an onboarding session. An API key creator can belong to another mode, such as a live key that creates a sandbox key. Keys a workload token created before Flint recorded workload identity creators name the user who set up that workload identity. Filter the list with `created_by_type` and `created_by_id`. Absent when the creator is unavailable. anyOf[1] (Value): {@see ResourceReference}. Who created this key: the API key or workload identity whose credential made the request, or else the user, including through the Dashboard, a CLI login, or an onboarding session. An API key creator can belong to another mode, such as a live key that creates a sandbox key. Keys a workload token created before Flint recorded workload identity creators name the user who set up that workload identity. Filter the list with `created_by_type` and `created_by_id`. Absent when the creator is unavailable. anyOf[2] (Value): null.
-     * @return ResourceReference|null
+    /** Who created this key: the API key or workload identity whose credential made the request, or else the user, including through the Dashboard, a CLI login, or an onboarding session. An API key creator can belong to another mode, such as a live key that creates a sandbox key. Keys a workload token created before Flint recorded workload identity creators name the user who set up that workload identity. Filter the list with `created_by_type` and `created_by_id`. Absent when the creator is unavailable. anyOf[1] (Value): {@see ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
+     * @return ResourceReferencePreviousAttributes|null
      */
-    public function getCreatedBy(): ResourceReference|null { return $this->get('created_by'); }
+    public function getCreatedBy(): ResourceReferencePreviousAttributes|null { return $this->get('created_by'); }
     public function hasCreatedBy(): bool { return $this->has('created_by'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -68,10 +68,10 @@ final class ApiKeyRevokedEventDataPreviousAttributes extends Model {
      */
     public function getName(): string|null { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** The connected app install this key is linked to. The key is revoked when that install is revoked or loses its grant for this key's environment. Null when the key is unlinked. Never changes. anyOf[1] (Value): string or null. The connected app install this key is linked to. The key is revoked when that install is revoked or loses its grant for this key's environment. Null when the key is unlinked. Never changes. pattern: ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. anyOf[2] (Value): null.
-     * @return mixed
+    /** The connected app install this key is linked to. The key is revoked when that install is revoked or loses its grant for this key's environment. Null when the key is unlinked. Never changes. anyOf[1] (Value): string. The connected app install this key is linked to. The key is revoked when that install is revoked or loses its grant for this key's environment. Null when the key is unlinked. Never changes. pattern: ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getPartnerAppInstallId(): mixed { return $this->get('partner_app_install_id'); }
+    public function getPartnerAppInstallId(): string|null { return $this->get('partner_app_install_id'); }
     public function hasPartnerAppInstallId(): bool { return $this->has('partner_app_install_id'); }
     /** When this key was revoked, in RFC 3339 format. Present only for revoked keys. For keys revoked before revocation timestamps were recorded, this is the last update time. anyOf[1] (Value): string. When this key was revoked, in RFC 3339 format. Present only for revoked keys. For keys revoked before revocation timestamps were recorded, this is the last update time. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

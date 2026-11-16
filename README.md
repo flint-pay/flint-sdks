@@ -4,18 +4,18 @@ Official Node.js/TypeScript and PHP SDKs for Flint.
 
 ## Install
 
-Install the `8.0.0-beta.5` prerelease explicitly:
+Install the `8.0.0-beta.6` prerelease explicitly:
 
 ```sh
-npm install @flintpay/node@8.0.0-beta.5
-composer require flintpay/flint:8.0.0-beta.5
+npm install @flintpay/node@8.0.0-beta.6
+composer require flintpay/flint:8.0.0-beta.6
 ```
 
 The beta is also available as `@flintpay/node@next`. npm's `latest` tag remains on `7.0.0`. Review [the migration guide](MIGRATION.md#sdk-800) before upgrading and [the changelog](CHANGELOG.md) for release notes.
 
 ## Packages
 
-The `8.0.0-beta.5` prerelease pins Flint `main` at `475bb52b73efe6cd2451263b60cfae5043bec2c6`. Review the release notes in [the changelog](CHANGELOG.md#800-beta5) and [the migration guide](MIGRATION.md#changes-in-800-beta5). The prerelease includes the form-encoded OAuth operations (`oauth.exchangeToken`, `oauth.revokeToken`, `oauth.authorizeCLIDevice`, `oauth.reauthorizeCLIDevice` and `oauth.listCLIContexts`) and partner app OAuth helpers in both packages: `@flintpay/node/custom/partner-oauth.js` and `Flint\Partner\*`. The helpers build the install consent URL with PKCE and `state`, check the callback, sign `private_key_jwt` client assertions, exchange codes, and mint cached 900-second partner app tokens per merchant with `client_credentials`. See the [partner OAuth guide](node/guides/partner-oauth.md).
+The `8.0.0-beta.6` prerelease pins Flint `main` at `233935366aaa4351e5c38be959132e5281fa1f06`. Review the release notes in [the changelog](CHANGELOG.md#800-beta6) and [the migration guide](MIGRATION.md#changes-in-800-beta6). The prerelease includes the form-encoded OAuth operations (`oauth.exchangeToken`, `oauth.revokeToken`, `oauth.authorizeCLIDevice`, `oauth.reauthorizeCLIDevice` and `oauth.listCLIContexts`) and partner app OAuth helpers in both packages: `@flintpay/node/custom/partner-oauth.js` and `Flint\Partner\*`. The helpers build the install consent URL with PKCE and `state`, check the callback, sign `private_key_jwt` client assertions, exchange codes, and mint cached 900-second partner app tokens per merchant with `client_credentials`. See the [partner OAuth guide](node/guides/partner-oauth.md).
 
 - **PHP:** [Packagist](https://packagist.org/packages/flintpay/flint) · [Installation and quickstart](php/README.md) · [API reference](php/REFERENCE.md)
 - **Node.js / TypeScript:** [npm](https://www.npmjs.com/package/@flintpay/node) · [Installation and quickstart](node/README.md) · [API reference](node/REFERENCE.md)
@@ -26,11 +26,12 @@ Each package guide includes its own requirements, installation command and examp
 
 | SDK version (Node and PHP)  | API version  |
 | --------------------------- | ------------ |
-| `8.0.0-beta.5`             | `2026-09-07` |
-| `8.0.0-beta.4`             | `2026-09-07` |
-| `8.0.0-beta.3`             | `2026-09-07` |
-| `8.0.0-beta.2`             | `2026-09-07` |
-| `8.0.0-beta.1`             | `2026-09-07` |
+| `8.0.0-beta.6`              | `2026-09-07` |
+| `8.0.0-beta.5`              | `2026-09-07` |
+| `8.0.0-beta.4`              | `2026-09-07` |
+| `8.0.0-beta.3`              | `2026-09-07` |
+| `8.0.0-beta.2`              | `2026-09-07` |
+| `8.0.0-beta.1`              | `2026-09-07` |
 | `7.0.0`                     | `2026-09-07` |
 | `6.0.0`                     | `2026-09-07` |
 | `5.1.0`                     | `2026-09-07` |

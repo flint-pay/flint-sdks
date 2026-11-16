@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string|null $external_reference_id
  * @property-read string|null $merchant_id
  * @property-read array<array-key, string>|null $metadata
- * @property-read list<ModifierSetGroup>|null $modifier_groups
+ * @property-read list<ModifierSetGroupPreviousAttributes>|null $modifier_groups
  * @property-read string|null $modifier_set_id
  * @property-read string|null $name
  * @property-read string|null $status
@@ -31,13 +31,13 @@ final class ModifierSetUpdatedMerchantEventDataPreviousAttributes extends Model 
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. anyOf[1] (Value): {@see MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. anyOf[2] (Value): null.
+    /** Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
      * @return array<array-key, string>|null
      */
     public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Ordered group entries in this set, including the full content of reusable groups and groups owned by the set. anyOf[1] (Value): Array of {@see ModifierSetGroup}. Ordered group entries in this set, including the full content of reusable groups and groups owned by the set. anyOf[1][] (Value): {@see ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection limits, display options, and per-modifier overrides. anyOf[2] (Value): null.
-     * @return list<ModifierSetGroup>|null
+    /** Ordered group entries in this set, including the full content of reusable groups and groups owned by the set. anyOf[1] (Value): Array of {@see ModifierSetGroupPreviousAttributes}. Ordered group entries in this set, including the full content of reusable groups and groups owned by the set. anyOf[1][] (Value): {@see ModifierSetGroupPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ModifierSetGroupPreviousAttributes>|null
      */
     public function getModifierGroups(): array|null { return $this->get('modifier_groups'); }
     public function hasModifierGroups(): bool { return $this->has('modifier_groups'); }

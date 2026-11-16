@@ -76,6 +76,10 @@ Declared alternatives: [BundleArchivedMerchantEventDataPreviousAttributes.catego
 
 Declared alternatives: [BundleArchivedMerchantEventDataPreviousAttributes.created_at](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributescreated_at).
 
+### ProductArchivedMerchantEvent.data fields 1.previous_attributes.default_variant
+
+Declared alternatives: [ProductArchivedMerchantEventDataPreviousAttributes.default_variant](../models/ProductArchivedMerchantEventDataPreviousAttributes.md#productarchivedmerchanteventdatapreviousattributesdefault_variant).
+
 ### ProductArchivedMerchantEvent.data fields 1.previous_attributes.default_variant_id
 
 Declared alternatives: [ProductArchivedMerchantEventDataPreviousAttributes.default_variant_id](../models/ProductArchivedMerchantEventDataPreviousAttributes.md#productarchivedmerchanteventdatapreviousattributesdefault_variant_id).

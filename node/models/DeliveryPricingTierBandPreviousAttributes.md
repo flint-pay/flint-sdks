@@ -1,0 +1,48 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## DeliveryPricingTierBandPreviousAttributes
+
+
+
+
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `currency_options` | Optional | Map of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Price by ISO 4217 currency code. Each key must equal the currency of its Money value. `currency_options`: [declared alternatives](../models/DeliveryDistanceUnitPricePreviousAttributes.md#deliverydistanceunitpricepreviousattributescurrency_options). |
+| `from` | Optional | integer or null | Inclusive lower bound. The first band starts at 0; every later band starts at the previous band's `to`. `from`: [declared alternatives](../models/DeliveryPricingTierBandPreviousAttributes.md#deliverypricingtierbandpreviousattributesfrom). |
+| `to` | Optional | integer or null | Exclusive upper bound. Required for every band except the final band, where it must be omitted. `to`: [declared alternatives](../models/DeliveryPricingTierBandPreviousAttributes.md#deliverypricingtierbandpreviousattributesto). |
+
+### DeliveryPricingTierBandPreviousAttributes.currency_options
+
+Declared alternatives: [DeliveryDistanceUnitPricePreviousAttributes.currency_options](../models/DeliveryDistanceUnitPricePreviousAttributes.md#deliverydistanceunitpricepreviousattributescurrency_options).
+
+### DeliveryPricingTierBandPreviousAttributes.from
+
+### DeliveryPricingTierBandPreviousAttributes.from variant 1
+
+anyOf variant 1: Inclusive lower bound. The first band starts at 0; every later band starts at the previous band's `to`..
+
+- Value shape: integer. Inclusive lower bound. The first band starts at 0; every later band starts at the previous band's `to`. Inclusive lower bound. The first band starts at 0; every later band starts at the previous band's `to`. Format: `int64`. 
+
+### DeliveryPricingTierBandPreviousAttributes.from variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Inclusive lower bound. The first band starts at 0; every later band starts at the previous band's `to`. 
+
+### DeliveryPricingTierBandPreviousAttributes.to
+
+### DeliveryPricingTierBandPreviousAttributes.to variant 1
+
+anyOf variant 1: Exclusive upper bound. Required for every band except the final band, where it must be omitted..
+
+- Value shape: integer. Exclusive upper bound. Required for every band except the final band, where it must be omitted. Exclusive upper bound. Required for every band except the final band, where it must be omitted. Format: `int64`. 
+
+### DeliveryPricingTierBandPreviousAttributes.to variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Exclusive upper bound. Required for every band except the final band, where it must be omitted. 
+

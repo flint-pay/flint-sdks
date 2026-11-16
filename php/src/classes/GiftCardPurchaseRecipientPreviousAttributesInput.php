@@ -1,0 +1,37 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string|null $email
+ * @property-read string|null $message
+ * @property-read string|null $name
+ * @property-read string|\DateTimeInterface|null $send_at
+ * Presence-aware input; omitted fields throw when accessed. */
+final class GiftCardPurchaseRecipientPreviousAttributesInput extends Model {
+    /** @param array{'email'?: string|null, 'message'?: string|null, 'name'?: string|null, 'send_at'?: string|\DateTimeInterface|null, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRecipientPreviousAttributesInput')); }
+    /** Email address the gift card is delivered to. anyOf[1] (Value): string. Email address the gift card is delivered to. Format: email. minLength: 1. maxLength: 254. Example: "buyer@example.com". anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
+     */
+    public function getEmail(): mixed { return $this->get('email'); }
+    public function hasEmail(): bool { return $this->has('email'); }
+    /** Personal message included with the gift card. anyOf[1] (Value): string. Personal message included with the gift card. maxLength: 200. anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When message is omitted; use hasMessage() or valueOrDefault().
+     */
+    public function getMessage(): mixed { return $this->get('message'); }
+    public function hasMessage(): bool { return $this->has('message'); }
+    /** Name of the person receiving the gift card. anyOf[1] (Value): string. Name of the person receiving the gift card. maxLength: 255. anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
+     */
+    public function getName(): mixed { return $this->get('name'); }
+    public function hasName(): bool { return $this->has('name'); }
+    /** Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding. anyOf[1] (Value): string. Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * @return string|\DateTimeInterface|null
+     * @throws SdkError When send_at is omitted; use hasSendAt() or valueOrDefault().
+     */
+    public function getSendAt(): mixed { return $this->get('send_at'); }
+    public function hasSendAt(): bool { return $this->has('send_at'); }
+}

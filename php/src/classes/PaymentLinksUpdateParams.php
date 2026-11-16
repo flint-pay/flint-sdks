@@ -118,7 +118,7 @@ final class PaymentLinksUpdateParams extends Model {
      */
     public function getInactiveMessage(): string|null { return $this->get('inactive_message'); }
     public function hasInactiveMessage(): bool { return $this->has('inactive_message'); }
-    /** Routing source for tracked demand. Create, activation, and sellability edits require at least one active routing location with inventory_allocation_enabled; temporary stock shortages do not prevent these writes. Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`.
+    /** Routing source for tracked demand. When omitted, Flint stores settings.inventory.default_routing_source if set. Otherwise, exactly one active Location with inventory_allocation_enabled in the current environment supplies the demand; this implicit source is not stored and is resolved again on use. Zero or multiple eligible Locations require an explicit source or merchant default. Create, activation, and sellability edits require at least one active routing location with inventory_allocation_enabled; temporary stock shortages do not prevent these writes. Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`.
      * @return InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_routing_source is omitted; use hasInventoryRoutingSource() or valueOrDefault().
      */

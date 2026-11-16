@@ -1,18 +1,20 @@
-import type { ResourceReference, ResponseMeta } from './types-54.js';
+import type { ResourceReference, ResponseMeta, ResourceReferencePreviousAttributes } from './types-60.js';
 import type { CreateOrderLineItemRequest, CreateOrderLineItemRequestInput } from './types-11.js';
-import type { OrderChargeRequest, OrderChargeRequestInput } from './types-40.js';
-import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-56.js';
-import type { GetReturnResponse, GiftCard, GiftCardLoad } from './types-26.js';
-import type { RiskListItemAddition } from './types-58.js';
-import type { MoneyValue } from './types-39.js';
-import type { SignedMoneyRequestInput } from './types-60.js';
-import type { GiftCardTransaction } from './types-27.js';
+import type { OrderChargeRequest, OrderChargeRequestInput } from './types-43.js';
+import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-61.js';
+import type { GetReturnResponse, GiftCard } from './types-28.js';
+import type { RiskListItemAddition } from './types-64.js';
+import type { MoneyValue } from './types-42.js';
+import type { SignedMoneyRequestInput } from './types-66.js';
+import type { GiftCardLoad } from './types-29.js';
+import type { GiftCardTransaction } from './types-30.js';
 import type { InputValue } from '../runtime.js';
-import type { MerchantWebhookEnvelope } from './types-38.js';
-import type { CreateAPIKeyRequestInput, ConfigurationVersionRequestInput } from './types-7.js';
-import type { UpdateAPIKeyRequestInput } from './types-66.js';
-import type { ManualDiscountRequest, ManualDiscountRequestInput } from './types-35.js';
-import type { PromotionRefRequest, PromotionRefRequestInput } from './types-51.js';
+import type { MerchantWebhookEnvelope } from './types-41.js';
+import type { CreateAPIKeyRequestInput } from './types-8.js';
+import type { ConfigurationVersionRequestInput } from './types-7.js';
+import type { UpdateAPIKeyRequestInput } from './types-73.js';
+import type { ManualDiscountRequest, ManualDiscountRequestInput } from './types-39.js';
+import type { PromotionRefRequest, PromotionRefRequestInput } from './types-57.js';
 /** A credential used to authenticate API requests. */
 export type APIKey = {
     /**
@@ -1400,6 +1402,38 @@ export type Address = {
     /** State, province, or region of the address. */
     "state"?: string;
 };
+export type AddressPreviousAttributes = {
+    /**
+     * City or locality of the address. anyOf[1] (Value): string. City or locality of the address.
+     * anyOf[2] (Value): null.
+     */
+    "city"?: ((string) | (null));
+    /**
+     * ISO 3166-1 alpha-2 country code. anyOf[1] (Value): string. ISO 3166-1 alpha-2 country code.
+     * minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". anyOf[2] (Value): null.
+     */
+    "country"?: ((string) | (null));
+    /**
+     * Street address, including the building number. anyOf[1] (Value): string. Street address,
+     * including the building number. anyOf[2] (Value): null.
+     */
+    "line1"?: ((string) | (null));
+    /**
+     * Apartment, suite, floor, or other address details. anyOf[1] (Value): string. Apartment,
+     * suite, floor, or other address details. anyOf[2] (Value): null.
+     */
+    "line2"?: ((string) | (null));
+    /**
+     * Postal or ZIP code of the address. anyOf[1] (Value): string. Postal or ZIP code of the
+     * address. anyOf[2] (Value): null.
+     */
+    "postal_code"?: ((string) | (null));
+    /**
+     * State, province, or region of the address. anyOf[1] (Value): string. State, province, or
+     * region of the address. anyOf[2] (Value): null.
+     */
+    "state"?: ((string) | (null));
+};
 /**
  * A complete postal address. State and postal_code are required for US addresses and optional for
  * other countries. Send null or omit line2, state, and postal_code when the address has none.
@@ -1986,13 +2020,13 @@ export type ApiKeyRevokedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
             "access"?: (("full" | "read_only" | "restricted" | (string & {})) | (null));
             "api_key_id"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "created_by"?: ((ResourceReference) | (null));
+            "created_by"?: ((ResourceReferencePreviousAttributes) | (null));
             "expires_at"?: ((string) | (null));
             "key_prefix"?: ((string) | (null));
             "last_used_at"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
             "name"?: ((string) | (null));
-            "partner_app_install_id"?: ((string | null) | (null) | (unknown));
+            "partner_app_install_id"?: ((string) | (null));
             "revoked_at"?: ((string) | (null));
             "sandbox_id"?: ((string) | (null));
             "scopes"?: ((Array<"accounts.api_keys.read"
@@ -2242,13 +2276,13 @@ export type ApiKeyUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
             "access"?: (("full" | "read_only" | "restricted" | (string & {})) | (null));
             "api_key_id"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "created_by"?: ((ResourceReference) | (null));
+            "created_by"?: ((ResourceReferencePreviousAttributes) | (null));
             "expires_at"?: ((string) | (null));
             "key_prefix"?: ((string) | (null));
             "last_used_at"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
             "name"?: ((string) | (null));
-            "partner_app_install_id"?: ((string | null) | (null) | (unknown));
+            "partner_app_install_id"?: ((string) | (null));
             "revoked_at"?: ((string) | (null));
             "sandbox_id"?: ((string) | (null));
             "scopes"?: ((Array<"accounts.api_keys.read"
@@ -3260,8 +3294,3 @@ export type AssessInvoiceLateFeeRequest = {
 };
 /** The request body for: Assess an invoice late fee. */
 export type AssessInvoiceLateFeeRequestInput = AssessInvoiceLateFeeRequest;
-/** The request body for: Assign unconfigured catalog entries. */
-export type AssignToUnconfiguredDeliveryProfileRequestInput = {
-    /** Current version of the delivery profile. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-};

@@ -40,27 +40,35 @@ Field definitions: [ReturnDispositionCreatedMerchantEvent.data fields 1.object](
 
 Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
 
-Field definitions: [shared fields](ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributes).
+Field definitions: [shared fields](ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributes).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.canceled_at
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
 
+### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.canceled_by
+
+Declared alternatives: [ReturnDispositionPreviousAttributes.canceled_by](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributescanceled_by).
+
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.cancellation_reason
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.cancellation_reason](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributescancellation_reason).
+Declared alternatives: [ReturnDispositionPreviousAttributes.cancellation_reason](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributescancellation_reason).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.cancellation_reason_message
 
-Declared alternatives: [ReturnCanceledMerchantEventDataPreviousAttributes.cancellation_reason_message](../models/ReturnCanceledMerchantEventDataPreviousAttributes.md#returncanceledmerchanteventdatapreviousattributescancellation_reason_message).
+Declared alternatives: [ReturnDispositionPreviousAttributes.cancellation_reason_message](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributescancellation_reason_message).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.created_at
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
 
+### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.created_by
+
+Declared alternatives: [ReturnDispositionPreviousAttributes.created_by](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributescreated_by).
+
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.disposition_type
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.disposition_type](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesdisposition_type).
+Declared alternatives: [ReturnDispositionPreviousAttributes.disposition_type](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesdisposition_type).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.external_reference_id
 
@@ -68,23 +76,23 @@ Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previ
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.failure_code
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.failure_code](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesfailure_code).
+Declared alternatives: [ReturnDispositionPreviousAttributes.failure_code](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesfailure_code).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.failure_message
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.failure_message](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesfailure_message).
+Declared alternatives: [ReturnDispositionPreviousAttributes.failure_message](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesfailure_message).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.inventory_location_id
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.inventory_location_id](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesinventory_location_id).
+Declared alternatives: [ReturnDispositionPreviousAttributes.inventory_location_id](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesinventory_location_id).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.inventory_movement_ids
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.inventory_movement_ids](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesinventory_movement_ids).
+Declared alternatives: [ReturnDispositionPreviousAttributes.inventory_movement_ids](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesinventory_movement_ids).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.inventory_receipt_id
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.inventory_receipt_id](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesinventory_receipt_id).
+Declared alternatives: [ReturnDispositionPreviousAttributes.inventory_receipt_id](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesinventory_receipt_id).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.metadata
 
@@ -96,59 +104,59 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.quantity
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.quantity](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesquantity).
+Declared alternatives: [MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.line_items variant 1.[] fields 1.quantity](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.reason
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.reason](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesreason).
+Declared alternatives: [ReturnDispositionPreviousAttributes.reason](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesreason).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.reason_message
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.reason_message](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesreason_message).
+Declared alternatives: [ReturnDispositionPreviousAttributes.reason_message](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesreason_message).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.replaced_by_return_disposition_id
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.replaced_by_return_disposition_id](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesreplaced_by_return_disposition_id).
+Declared alternatives: [ReturnDispositionPreviousAttributes.replaced_by_return_disposition_id](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesreplaced_by_return_disposition_id).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.replaces_return_disposition_id
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.replaces_return_disposition_id](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesreplaces_return_disposition_id).
+Declared alternatives: [ReturnDispositionPreviousAttributes.replaces_return_disposition_id](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesreplaces_return_disposition_id).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.return_disposition_id
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.return_disposition_id](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesreturn_disposition_id).
+Declared alternatives: [ReturnDispositionPreviousAttributes.return_disposition_id](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesreturn_disposition_id).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.return_id
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.return_id](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesreturn_id).
+Declared alternatives: [ReturnDispositionPreviousAttributes.return_id](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesreturn_id).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.return_inspection_id
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.return_inspection_id](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesreturn_inspection_id).
+Declared alternatives: [ReturnDispositionPreviousAttributes.return_inspection_id](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesreturn_inspection_id).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.return_inspection_line_item_id
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.return_inspection_line_item_id](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesreturn_inspection_line_item_id).
+Declared alternatives: [ReturnDispositionPreviousAttributes.return_inspection_line_item_id](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesreturn_inspection_line_item_id).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.return_line_item_id
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.return_line_item_id](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesreturn_line_item_id).
+Declared alternatives: [ReturnDispositionPreviousAttributes.return_line_item_id](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesreturn_line_item_id).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.return_receipt_id
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.return_receipt_id](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesreturn_receipt_id).
+Declared alternatives: [ReturnDispositionPreviousAttributes.return_receipt_id](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesreturn_receipt_id).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.return_receipt_line_item_id
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.return_receipt_line_item_id](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesreturn_receipt_line_item_id).
+Declared alternatives: [ReturnDispositionPreviousAttributes.return_receipt_line_item_id](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesreturn_receipt_line_item_id).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.status
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.status](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesstatus).
+Declared alternatives: [ReturnDispositionPreviousAttributes.status](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesstatus).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.supported_actions
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.supported_actions](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributessupported_actions).
+Declared alternatives: [ReturnDispositionPreviousAttributes.supported_actions](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributessupported_actions).
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.updated_at
 
@@ -156,5 +164,5 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 ### ReturnDispositionUpdatedMerchantEvent.data fields 1.previous_attributes.version
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.version](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesversion).
+Declared alternatives: [ReturnDispositionPreviousAttributes.version](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesversion).
 

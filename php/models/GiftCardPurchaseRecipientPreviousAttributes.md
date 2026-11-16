@@ -1,0 +1,71 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## GiftCardPurchaseRecipientPreviousAttributes
+
+
+
+Response model.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `email` | Optional | string or null | Email address the gift card is delivered to. `email`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributesemail). |
+| `message` | Optional | string or null | Personal message included with the gift card. `message`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributesmessage). |
+| `name` | Optional | string or null | Name of the person receiving the gift card. `name`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributesname). |
+| `send_at` | Optional | string or null | Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding. `send_at`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributessend_at). |
+
+### GiftCardPurchaseRecipientPreviousAttributes.email
+
+### GiftCardPurchaseRecipientPreviousAttributes.email variant 1
+
+anyOf variant 1: Email address the gift card is delivered to..
+
+- Value shape: string. Email address the gift card is delivered to. Email address the gift card is delivered to. Format: `email`. minLength: `1`. maxLength: `254`. 
+
+### GiftCardPurchaseRecipientPreviousAttributes.email variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Email address the gift card is delivered to. 
+
+### GiftCardPurchaseRecipientPreviousAttributes.message
+
+### GiftCardPurchaseRecipientPreviousAttributes.message variant 1
+
+anyOf variant 1: Personal message included with the gift card..
+
+- Value shape: string. Personal message included with the gift card. Personal message included with the gift card. maxLength: `200`. 
+
+### GiftCardPurchaseRecipientPreviousAttributes.message variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Personal message included with the gift card. 
+
+### GiftCardPurchaseRecipientPreviousAttributes.name
+
+### GiftCardPurchaseRecipientPreviousAttributes.name variant 1
+
+anyOf variant 1: Name of the person receiving the gift card..
+
+- Value shape: string. Name of the person receiving the gift card. Name of the person receiving the gift card. maxLength: `255`. 
+
+### GiftCardPurchaseRecipientPreviousAttributes.name variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Name of the person receiving the gift card. 
+
+### GiftCardPurchaseRecipientPreviousAttributes.send_at
+
+### GiftCardPurchaseRecipientPreviousAttributes.send_at variant 1
+
+anyOf variant 1: Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding..
+
+- Value shape: string. Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding. Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding. Format: `date-time`. 
+
+### GiftCardPurchaseRecipientPreviousAttributes.send_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding. 
+

@@ -1,1 +1,1 @@
-{"shared":"Shipment","dependencies":["CheckoutBuyerContact","DeferredPromotion","ExpandedPackageSummary","MetadataMap","MoneyValue","OrderSettlementAmounts","PricingAmounts","ReturnShipmentLineItemAllocation","SharedCodec1180","SharedCodec37","SharedCodec38","Shipment"]}
+{"shared":"Shipment","dependencies":["CheckoutBuyerContact","DeferredPromotion","ExpandedPackageSummary","MetadataMap","MoneyValue","OrderSettlementAmounts","PricingAmounts","ReturnShipmentLineItemAllocation","SharedCodec1706","SharedCodec39","SharedCodec40","Shipment"]}

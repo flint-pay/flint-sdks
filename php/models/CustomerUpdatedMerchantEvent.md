@@ -40,7 +40,11 @@ Field definitions: [CustomerCreatedMerchantEvent.data fields 1.object](../models
 
 Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
 
-Field definitions: [shared fields](CustomerUpdatedMerchantEventData.md#customerupdatedmerchanteventdataprevious_attributes).
+Field definitions: [shared fields](CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributes).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.billing_address
+
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.billing_address](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesbilling_address).
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.created_at
 
@@ -48,11 +52,15 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.customer_id
 
-Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.customer_id](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributescustomer_id).
+Declared alternatives: [ExpandedCustomerSummaryPreviousAttributes.customer_id](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributescustomer_id).
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.default_invoice_payment_term_id
 
 Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.default_invoice_payment_term_id](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesdefault_invoice_payment_term_id).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.default_payment_method
+
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.default_payment_method](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesdefault_payment_method).
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.default_payment_method_id
 
@@ -60,7 +68,7 @@ Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.defau
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.email
 
-Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.email](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesemail).
+Declared alternatives: [ExpandedCustomerSummaryPreviousAttributes.email](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributesemail).
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.external_reference_id
 
@@ -84,23 +92,31 @@ Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.name
 
-Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.name](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesname).
+Declared alternatives: [ExpandedCustomerSummaryPreviousAttributes.name](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributesname).
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.phone
 
-Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.phone](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesphone).
+Declared alternatives: [ExpandedCustomerSummaryPreviousAttributes.phone](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributesphone).
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.price_list_id
 
 Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.price_list_id](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesprice_list_id).
 
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.receivables
+
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.receivables](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesreceivables).
+
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.segment
 
 Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.segment](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributessegment).
 
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.shipping_address
+
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.shipping_address](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesshipping_address).
+
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.status
 
-Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.status](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesstatus).
+Declared alternatives: [ExpandedCustomerSummaryPreviousAttributes.status](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributesstatus).
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.tax_exempt
 

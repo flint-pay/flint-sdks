@@ -1,9 +1,9 @@
 import type { WithResponseInfo } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { CustomerEmailPreferences, CustomerEmailPreferencesResponse } from '../declarations/types-15.js';
-import type { EmailPreferencesLookupParams } from '../declarations/types-24.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+import type { CustomerEmailPreferences, CustomerEmailPreferencesResponse } from '../declarations/types-16.js';
+import type { EmailPreferencesLookupParams } from '../declarations/types-26.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -18,18 +18,18 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { EmailPreferencesLookupParams } from '../declarations/types-24.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { CustomerEmailPreferences, CustomerEmailPreferencesResponse } from '../declarations/types-15.js';
+export type { EmailPreferencesLookupParams } from '../declarations/types-26.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { CustomerEmailPreferences, CustomerEmailPreferencesResponse } from '../declarations/types-16.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { LookupEmailPreferencesRequestInput, LookupEmailPreferencesRequest } from '../declarations/types-35.js';
+export type { LookupEmailPreferencesRequestInput, LookupEmailPreferencesRequest } from '../declarations/types-39.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-39.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export { makeLookupEmailPreferencesRequest } from '../declarations/types-78.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
+export type { NextAction, MoneyValue } from '../declarations/types-42.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export { makeLookupEmailPreferencesRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export interface EmailPreferencesResource {
     /**
  * Reads an address's email preferences without putting it in a URL. Matches after trimming

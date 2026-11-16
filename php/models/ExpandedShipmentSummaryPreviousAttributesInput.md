@@ -1,0 +1,201 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## ExpandedShipmentSummaryPreviousAttributesInput
+
+
+
+Request input.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `created_at` | Optional | string or null | When the shipment was created, in RFC3339 format. `created_at`: [declared alternatives](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputcreated_at). |
+| `delivered_at` | Optional | string or null | When the shipment was delivered, in RFC3339 format. `delivered_at`: [declared alternatives](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputdelivered_at). |
+| `direction` | Optional | string or null | Whether the shipment sends items to the buyer or returns items to the merchant. Values: `"outbound"`, `"return"`. `direction`: [declared alternatives](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputdirection). |
+| `fulfillment_id` | Optional | string or null | Fulfillment associated with this shipment. `fulfillment_id`: [declared alternatives](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputfulfillment_id). |
+| `handed_off_at` | Optional | string or null | When the carrier accepted the shipment, in RFC3339 format. `handed_off_at`: [declared alternatives](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputhanded_off_at). |
+| `package_count` | Optional | integer or null | Total number of packages attached to the shipment, including voided packages. `package_count`: [declared alternatives](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputpackage_count). |
+| `return_id` | Optional | string or null | ID of the Return this shipment sends back. Present only on return shipments. `return_id`: [declared alternatives](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputreturn_id). |
+| `shipment_id` | Optional | string or null | Stable identifier of the expanded shipment. `shipment_id`: [declared alternatives](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputshipment_id). |
+| `shipped_at` | Optional | string or null | When the shipment was shipped, in RFC3339 format. `shipped_at`: [declared alternatives](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputshipped_at). |
+| `status` | Optional | string or null | Read-only shipment state. - `created`: The shipment leg exists but has not been packed or handed off. - `packed`: The shipment leg is packed and awaiting carrier handoff. - `shipped`: The shipment leg was handed to the carrier. - `in_transit`: The carrier is moving the shipment through its network. - `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The shipment was returned toward or to its origin. - `voided`: The shipment was voided and will not continue through delivery. Values: `"created"`, `"packed"`, `"shipped"`, `"in_transit"`, `"out_for_delivery"`, `"delivered"`, `"delivery_attempted"`, `"exception"`, `"returned"`, `"voided"`. `status`: [declared alternatives](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputstatus). |
+| `supported_actions` | Optional | Array of string or null | Lifecycle actions Flint accepts now, independent of permissions. Contains void while the shipment and its fulfillment permit voiding. Always present with merchant credentials. Items values: `"void"`. `supported_actions`: [declared alternatives](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputsupported_actions). |
+| `updated_at` | Optional | string or null | When the shipment was last updated, in RFC3339 format. `updated_at`: [declared alternatives](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputupdated_at). |
+
+### ExpandedShipmentSummaryPreviousAttributesInput.created_at
+
+### ExpandedShipmentSummaryPreviousAttributesInput.created_at variant 1
+
+anyOf variant 1: When the shipment was created, in RFC3339 format..
+
+- Value shape: string. When the shipment was created, in RFC3339 format. When the shipment was created, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.created_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the shipment was created, in RFC3339 format. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.delivered_at
+
+### ExpandedShipmentSummaryPreviousAttributesInput.delivered_at variant 1
+
+anyOf variant 1: When the shipment was delivered, in RFC3339 format..
+
+- Value shape: string. When the shipment was delivered, in RFC3339 format. When the shipment was delivered, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.delivered_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the shipment was delivered, in RFC3339 format. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.direction
+
+### ExpandedShipmentSummaryPreviousAttributesInput.direction variant 1
+
+anyOf variant 1: Whether the shipment sends items to the buyer or returns items to the merchant..
+
+- Value shape: string. Whether the shipment sends items to the buyer or returns items to the merchant. Values: `"outbound"`, `"return"`.
+
+### ExpandedShipmentSummaryPreviousAttributesInput.direction variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether the shipment sends items to the buyer or returns items to the merchant. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.fulfillment_id
+
+### ExpandedShipmentSummaryPreviousAttributesInput.fulfillment_id variant 1
+
+anyOf variant 1: Fulfillment associated with this shipment..
+
+- Value shape: string. Fulfillment associated with this shipment. Fulfillment associated with this shipment. Example: `"ful_01KEZF7C00F24WVSTTWR1FQX5T"`. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.fulfillment_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Fulfillment associated with this shipment. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.handed_off_at
+
+### ExpandedShipmentSummaryPreviousAttributesInput.handed_off_at variant 1
+
+anyOf variant 1: When the carrier accepted the shipment, in RFC3339 format..
+
+- Value shape: string. When the carrier accepted the shipment, in RFC3339 format. When the carrier accepted the shipment, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.handed_off_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the carrier accepted the shipment, in RFC3339 format. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.package_count
+
+### ExpandedShipmentSummaryPreviousAttributesInput.package_count variant 1
+
+anyOf variant 1: Total number of packages attached to the shipment, including voided packages..
+
+- Value shape: integer. Total number of packages attached to the shipment, including voided packages. Total number of packages attached to the shipment, including voided packages. Format: `int32`. minimum: `0`. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.package_count variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Total number of packages attached to the shipment, including voided packages. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.return_id
+
+### ExpandedShipmentSummaryPreviousAttributesInput.return_id variant 1
+
+anyOf variant 1: ID of the Return this shipment sends back. Present only on return shipments..
+
+- Value shape: string. ID of the Return this shipment sends back. Present only on return shipments. ID of the Return this shipment sends back. Present only on return shipments. Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.return_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the Return this shipment sends back. Present only on return shipments. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.shipment_id
+
+### ExpandedShipmentSummaryPreviousAttributesInput.shipment_id variant 1
+
+anyOf variant 1: Stable identifier of the expanded shipment..
+
+- Value shape: string. Stable identifier of the expanded shipment. Stable identifier of the expanded shipment. Example: `"shp_01KEZF7C00Q2AFXWXHMCDR3F68"`. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.shipment_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Stable identifier of the expanded shipment. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.shipped_at
+
+### ExpandedShipmentSummaryPreviousAttributesInput.shipped_at variant 1
+
+anyOf variant 1: When the shipment was shipped, in RFC3339 format..
+
+- Value shape: string. When the shipment was shipped, in RFC3339 format. When the shipment was shipped, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.shipped_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the shipment was shipped, in RFC3339 format. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.status
+
+### ExpandedShipmentSummaryPreviousAttributesInput.status variant 1
+
+anyOf variant 1: Read-only shipment state.
+- `created`: The shipment leg exists but has not been packed or handed off.
+- `packed`: The shipment leg is packed and awaiting carrier handoff.
+- `shipped`: The shipment leg was handed to the carrier.
+- `in_transit`: The carrier is moving the shipment through its network.
+- `out_for_delivery`: The shipment is on its final delivery route.
+- `delivered`: The carrier reported successful delivery.
+- `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the carrier instructions before retrying delivery.
+- `exception`: A carrier exception is blocking normal progress. Resolve the carrier-reported issue.
+- `returned`: The shipment was returned toward or to its origin.
+- `voided`: The shipment was voided and will not continue through delivery..
+
+- Value shape: string. Read-only shipment state. - `created`: The shipment leg exists but has not been packed or handed off. - `packed`: The shipment leg is packed and awaiting carrier handoff. - `shipped`: The shipment leg was handed to the carrier. - `in_transit`: The carrier is moving the shipment through its network. - `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The shipment was returned toward or to its origin. - `voided`: The shipment was voided and will not continue through delivery. Values: `"created"`, `"packed"`, `"shipped"`, `"in_transit"`, `"out_for_delivery"`, `"delivered"`, `"delivery_attempted"`, `"exception"`, `"returned"`, `"voided"`.
+
+### ExpandedShipmentSummaryPreviousAttributesInput.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Read-only shipment state. - `created`: The shipment leg exists but has not been packed or handed off. - `packed`: The shipment leg is packed and awaiting carrier handoff. - `shipped`: The shipment leg was handed to the carrier. - `in_transit`: The carrier is moving the shipment through its network. - `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The shipment was returned toward or to its origin. - `voided`: The shipment was voided and will not continue through delivery. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.supported_actions
+
+### ExpandedShipmentSummaryPreviousAttributesInput.supported_actions variant 1
+
+anyOf variant 1: Lifecycle actions Flint accepts now, independent of permissions. Contains void while the shipment and its fulfillment permit voiding. Always present with merchant credentials..
+
+- Value shape: Array of string. Lifecycle actions Flint accepts now, independent of permissions. Contains void while the shipment and its fulfillment permit voiding. Always present with merchant credentials. Items values: `"void"`.
+
+### ExpandedShipmentSummaryPreviousAttributesInput.supported_actions variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Lifecycle actions Flint accepts now, independent of permissions. Contains void while the shipment and its fulfillment permit voiding. Always present with merchant credentials. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.updated_at
+
+### ExpandedShipmentSummaryPreviousAttributesInput.updated_at variant 1
+
+anyOf variant 1: When the shipment was last updated, in RFC3339 format..
+
+- Value shape: string. When the shipment was last updated, in RFC3339 format. When the shipment was last updated, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### ExpandedShipmentSummaryPreviousAttributesInput.updated_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the shipment was last updated, in RFC3339 format. 
+

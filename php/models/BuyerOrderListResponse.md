@@ -29,7 +29,7 @@ Field definitions: [OrderResponse.data.authorization_amounts](../models/OrderRes
 
 ### BuyerOrderListResponse.data[].buyer_actions[]
 
-Field definitions: [BuyerReturnResponse.data.buyer_actions[]](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actions).
+Field definitions: [OrderResponse.data.buyer_actions[]](../models/OrderResponse.md#orderresponsedatabuyer_actions).
 
 ### BuyerOrderListResponse.data[].buyer_contact
 

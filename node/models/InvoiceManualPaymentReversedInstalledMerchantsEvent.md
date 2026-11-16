@@ -40,7 +40,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Full amount received, including any principal and late fees covered. `amount_money`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEvent.md#invoicemanualpaymentreversedinstalledmerchantseventdataprevious_attributesamount_money). |
+| `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Full amount received, including any principal and late fees covered. `amount_money`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEvent.md#invoicemanualpaymentreversedinstalledmerchantseventdataprevious_attributesamount_money). |
 | `invoice_id` | Optional | string or null | The invoice this payment was recorded against. `invoice_id`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEvent.md#invoicemanualpaymentreversedinstalledmerchantseventdataprevious_attributesinvoice_id). |
 | `invoice_manual_payment_id` | Optional | string or null | Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this value as source.order_manual_payment_id. `invoice_manual_payment_id`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEvent.md#invoicemanualpaymentreversedinstalledmerchantseventdataprevious_attributesinvoice_manual_payment_id). |
 | `note` | Optional | string or null | Note about the offline payment, up to 4096 characters. `note`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEvent.md#invoicemanualpaymentreversedinstalledmerchantseventdataprevious_attributesnote). |
@@ -55,13 +55,13 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 Full amount received, including any principal and late fees covered.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1
 
-anyOf MoneyValue: Full amount received, including any principal and late fees covered..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 2
 
@@ -69,6 +69,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Full amount received, including any principal and late fees covered. 
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.invoice_id
 

@@ -1,0 +1,16 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string|null $payment_method_id
+ * Presence-aware input; omitted fields throw when accessed. */
+final class PendingPaymentActionSetupPaymentSourceSubjectPreviousAttributesInput extends Model {
+    /** @param array{'payment_method_id'?: string|null, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PendingPaymentActionSetupPaymentSourceSubjectPreviousAttributesInput')); }
+    /** ID of the payment method being saved, which needs the buyer's authentication first. anyOf[1] (Value): string. ID of the payment method being saved, which needs the buyer's authentication first. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
+     */
+    public function getPaymentMethodId(): mixed { return $this->get('payment_method_id'); }
+    public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
+}

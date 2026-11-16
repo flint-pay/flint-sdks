@@ -62,26 +62,26 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `add_line_items` | Optional | Array of [OrderEditLineAddition](../models/OrderEditLineAddition.md#ordereditlineaddition) or null | Added order lines, in request order, with their quantities and values frozen at creation. Empty when the edit added nothing. `add_line_items`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesadd_line_items). |
-| `added_total_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | The cost of the added lines: the sum of add_line_items[].total_money. Zero when the edit added nothing. `added_total_money`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesadded_total_money). |
-| `amount_due_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | What the added lines cost beyond the removed value and released charges, tax included, frozen when the edit was created. Zero when the edit had no balance. `amount_due_money`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesamount_due_money). |
-| `canceled_at` | Optional | string or null or null | When the edit was canceled. `null` when the edit is not canceled. `canceled_at`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributescanceled_at). |
-| `cancellation_reason` | Optional | string or null or null | Why the edit was canceled. `null` when the edit is not canceled. Values: `"merchant_request"`, `"expired"`, `"payment_disputed"`, `"payment_returned"`, `null`. `cancellation_reason`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributescancellation_reason). |
-| `charge_refunds` | Optional | Array of [OrderEditChargeRefund](../models/OrderEditChargeRefund.md#ordereditchargerefund) or null | Charges released by this edit, frozen at creation. Empty when no charges were released. `charge_refunds`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributescharge_refunds). |
-| `completed_at` | Optional | string or null or null | When the item changes were applied to the order. `null` when the edit is pending or canceled. `completed_at`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributescompleted_at). |
+| `add_line_items` | Optional | Array of [OrderEditLineAdditionPreviousAttributes](../models/OrderEditLineAdditionPreviousAttributes.md#ordereditlineadditionpreviousattributes) or null | Added order lines, in request order, with their quantities and values frozen at creation. Empty when the edit added nothing. `add_line_items`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesadd_line_items). |
+| `added_total_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The cost of the added lines: the sum of add_line_items[].total_money. Zero when the edit added nothing. `added_total_money`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesadded_total_money). |
+| `amount_due_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | What the added lines cost beyond the removed value and released charges, tax included, frozen when the edit was created. Zero when the edit had no balance. `amount_due_money`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesamount_due_money). |
+| `canceled_at` | Optional | string or null | When the edit was canceled. `null` when the edit is not canceled. `canceled_at`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributescanceled_at). |
+| `cancellation_reason` | Optional | string or null | Why the edit was canceled. `null` when the edit is not canceled. Values: `"merchant_request"`, `"expired"`, `"payment_disputed"`, `"payment_returned"`, `null`. `cancellation_reason`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributescancellation_reason). |
+| `charge_refunds` | Optional | Array of [OrderEditChargeRefundPreviousAttributes](../models/OrderEditChargeRefundPreviousAttributes.md#ordereditchargerefundpreviousattributes) or null | Charges released by this edit, frozen at creation. Empty when no charges were released. `charge_refunds`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributescharge_refunds). |
+| `completed_at` | Optional | string or null | When the item changes were applied to the order. `null` when the edit is pending or canceled. `completed_at`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributescompleted_at). |
 | `created_at` | Optional | string or null | When the edit was created. `created_at`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributescreated_at). |
-| `expires_at` | Optional | string or null or null | When Flint cancels the edit if the balance isn't paid. `null` when the edit never had a balance. `expires_at`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesexpires_at). |
+| `expires_at` | Optional | string or null | When Flint cancels the edit if the balance isn't paid. `null` when the edit never had a balance. `expires_at`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesexpires_at). |
 | `order_edit_id` | Optional | string or null | Stable ID of this order edit. `order_edit_id`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesorder_edit_id). |
 | `order_id` | Optional | string or null | The order this edit belongs to. `order_id`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesorder_id). |
-| `payment_intent_id` | Optional | string or null or null | The payment intent that collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no balance, and for a moment while Flint is still creating it. `payment_intent_id`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributespayment_intent_id). |
+| `payment_intent_id` | Optional | string or null | The payment intent that collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no balance, and for a moment while Flint is still creating it. `payment_intent_id`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributespayment_intent_id). |
 | `reason` | Optional | string or null | Reason for the edit and its refund. Values: [13 declared values](CreateOrderEditRequest.md#createordereditrequest-reason-values). `reason`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesreason). |
 | `refund_ids` | Optional | Array of string or null | Refunds created for this edit. Empty when no refund is needed or processing has not created it yet. `refund_ids`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesrefund_ids). |
-| `refund_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Money to refund after the removed value and released charges pay for added lines. May be zero; an edit with no refund money creates no refund. `refund_money`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesrefund_money). |
-| `remove_line_items` | Optional | Array of [OrderEditLineRemoval](../models/OrderEditLineRemoval.md#ordereditlineremoval) or null | Removed units and their refund amounts frozen at creation. `remove_line_items`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesremove_line_items). |
-| `removed_total_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | The value of the removed units: the sum of remove_line_items[].total_money. `removed_total_money`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesremoved_total_money). |
+| `refund_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Money to refund after the removed value and released charges pay for added lines. May be zero; an edit with no refund money creates no refund. `refund_money`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesrefund_money). |
+| `remove_line_items` | Optional | Array of [OrderEditLineRemovalPreviousAttributes](../models/OrderEditLineRemovalPreviousAttributes.md#ordereditlineremovalpreviousattributes) or null | Removed units and their refund amounts frozen at creation. `remove_line_items`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesremove_line_items). |
+| `removed_total_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The value of the removed units: the sum of remove_line_items[].total_money. `removed_total_money`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesremoved_total_money). |
 | `status` | Optional | string or null | Pending while waiting for a balance payment, completed once the item changes are applied, or canceled when it ends without changing the order. Refund processing has its own status on each refund. Values: `"pending"`, `"completed"`, `"canceled"`. `status`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesstatus). |
 | `supported_actions` | Optional | Array of string or null | Contains cancel while pending and the payment is neither processing nor succeeded. Contains retry when unrefunded_money is positive and no linked refund is pending. Empty while Flint is still processing the original refund before any linked refund exists; retry becomes available if that processing ends without a refund. Independent of caller permissions. Items values: `"cancel"`, `"retry"`. `supported_actions`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributessupported_actions). |
-| `unrefunded_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Frozen refund money not covered by pending or succeeded allocations from refunds linked to this edit. Failed allocations do not reduce it. `unrefunded_money`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesunrefunded_money). |
+| `unrefunded_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Frozen refund money not covered by pending or succeeded allocations from refunds linked to this edit. Failed allocations do not reduce it. `unrefunded_money`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesunrefunded_money). |
 | `version` | Optional | integer or null | The counter advances when status, payment_intent_id, completed_at, canceled_at or cancellation_reason change. `version`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEvent.md#ordereditcanceledinstalledmerchantseventdataprevious_attributesversion). |
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.add_line_items
@@ -90,7 +90,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 anyOf variant 1: Added order lines, in request order, with their quantities and values frozen at creation. Empty when the edit added nothing..
 
-- Value shape: Array of [OrderEditLineAddition](../models/OrderEditLineAddition.md#ordereditlineaddition). Added order lines, in request order, with their quantities and values frozen at creation. Empty when the edit added nothing. 
+- Value shape: Array of [OrderEditLineAdditionPreviousAttributes](../models/OrderEditLineAdditionPreviousAttributes.md#ordereditlineadditionpreviousattributes). Added order lines, in request order, with their quantities and values frozen at creation. Empty when the edit added nothing. 
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.add_line_items variant 2
 
@@ -102,13 +102,13 @@ anyOf variant 2.
 
 The cost of the added lines: the sum of add_line_items[].total_money. Zero when the edit added nothing.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.added_total_money variant 1
 
-anyOf MoneyValue: The cost of the added lines: the sum of add_line_items[].total_money. Zero when the edit added nothing..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.added_total_money variant 2
 
@@ -117,17 +117,25 @@ anyOf variant 2.
 - Undeclared: `amount`, `currency`.
 - Value shape: null. The cost of the added lines: the sum of add_line_items[].total_money. Zero when the edit added nothing. 
 
+### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.added_total_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.added_total_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.amount_due_money
 
 What the added lines cost beyond the removed value and released charges, tax included, frozen when the edit was created. Zero when the edit had no balance.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.amount_due_money variant 1
 
-anyOf MoneyValue: What the added lines cost beyond the removed value and released charges, tax included, frozen when the edit was created. Zero when the edit had no balance..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.amount_due_money variant 2
 
@@ -136,13 +144,21 @@ anyOf variant 2.
 - Undeclared: `amount`, `currency`.
 - Value shape: null. What the added lines cost beyond the removed value and released charges, tax included, frozen when the edit was created. Zero when the edit had no balance. 
 
+### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.amount_due_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.amount_due_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.canceled_at
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.canceled_at variant 1
 
 anyOf variant 1: When the edit was canceled. `null` when the edit is not canceled..
 
-- Value shape: (string or null). When the edit was canceled. `null` when the edit is not canceled. When the edit was canceled. `null` when the edit is not canceled. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. When the edit was canceled. `null` when the edit is not canceled. When the edit was canceled. `null` when the edit is not canceled. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.canceled_at variant 2
 
@@ -156,7 +172,7 @@ anyOf variant 2.
 
 anyOf variant 1: Why the edit was canceled. `null` when the edit is not canceled..
 
-- Value shape: (string or null). Why the edit was canceled. `null` when the edit is not canceled. Values: `"merchant_request"`, `"expired"`, `"payment_disputed"`, `"payment_returned"`, `null`.
+- Value shape: string. Why the edit was canceled. `null` when the edit is not canceled. Values: `"merchant_request"`, `"expired"`, `"payment_disputed"`, `"payment_returned"`, `null`.
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.cancellation_reason variant 2
 
@@ -170,7 +186,7 @@ anyOf variant 2.
 
 anyOf variant 1: Charges released by this edit, frozen at creation. Empty when no charges were released..
 
-- Value shape: Array of [OrderEditChargeRefund](../models/OrderEditChargeRefund.md#ordereditchargerefund). Charges released by this edit, frozen at creation. Empty when no charges were released. 
+- Value shape: Array of [OrderEditChargeRefundPreviousAttributes](../models/OrderEditChargeRefundPreviousAttributes.md#ordereditchargerefundpreviousattributes). Charges released by this edit, frozen at creation. Empty when no charges were released. 
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.charge_refunds variant 2
 
@@ -184,7 +200,7 @@ anyOf variant 2.
 
 anyOf variant 1: When the item changes were applied to the order. `null` when the edit is pending or canceled..
 
-- Value shape: (string or null). When the item changes were applied to the order. `null` when the edit is pending or canceled. When the item changes were applied to the order. `null` when the edit is pending or canceled. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. When the item changes were applied to the order. `null` when the edit is pending or canceled. When the item changes were applied to the order. `null` when the edit is pending or canceled. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.completed_at variant 2
 
@@ -212,7 +228,7 @@ anyOf variant 2.
 
 anyOf variant 1: When Flint cancels the edit if the balance isn't paid. `null` when the edit never had a balance..
 
-- Value shape: (string or null). When Flint cancels the edit if the balance isn't paid. `null` when the edit never had a balance. When Flint cancels the edit if the balance isn't paid. `null` when the edit never had a balance. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. When Flint cancels the edit if the balance isn't paid. `null` when the edit never had a balance. When Flint cancels the edit if the balance isn't paid. `null` when the edit never had a balance. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.expires_at variant 2
 
@@ -254,7 +270,7 @@ anyOf variant 2.
 
 anyOf variant 1: The payment intent that collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no balance, and for a moment while Flint is still creating it..
 
-- Value shape: (string or null). The payment intent that collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no balance, and for a moment while Flint is still creating it. The payment intent that collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no balance, and for a moment while Flint is still creating it. Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. 
+- Value shape: string. The payment intent that collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no balance, and for a moment while Flint is still creating it. The payment intent that collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no balance, and for a moment while Flint is still creating it. Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. 
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.payment_intent_id variant 2
 
@@ -294,13 +310,13 @@ anyOf variant 2.
 
 Money to refund after the removed value and released charges pay for added lines. May be zero; an edit with no refund money creates no refund.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.refund_money variant 1
 
-anyOf MoneyValue: Money to refund after the removed value and released charges pay for added lines. May be zero; an edit with no refund money creates no refund..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.refund_money variant 2
 
@@ -309,13 +325,21 @@ anyOf variant 2.
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Money to refund after the removed value and released charges pay for added lines. May be zero; an edit with no refund money creates no refund. 
 
+### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.refund_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.refund_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.remove_line_items
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.remove_line_items variant 1
 
 anyOf variant 1: Removed units and their refund amounts frozen at creation..
 
-- Value shape: Array of [OrderEditLineRemoval](../models/OrderEditLineRemoval.md#ordereditlineremoval). Removed units and their refund amounts frozen at creation. 
+- Value shape: Array of [OrderEditLineRemovalPreviousAttributes](../models/OrderEditLineRemovalPreviousAttributes.md#ordereditlineremovalpreviousattributes). Removed units and their refund amounts frozen at creation. 
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.remove_line_items variant 2
 
@@ -327,13 +351,13 @@ anyOf variant 2.
 
 The value of the removed units: the sum of remove_line_items[].total_money.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.removed_total_money variant 1
 
-anyOf MoneyValue: The value of the removed units: the sum of remove_line_items[].total_money..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.removed_total_money variant 2
 
@@ -341,6 +365,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. The value of the removed units: the sum of remove_line_items[].total_money. 
+
+### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.removed_total_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.removed_total_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.status
 
@@ -374,13 +406,13 @@ anyOf variant 2.
 
 Frozen refund money not covered by pending or succeeded allocations from refunds linked to this edit. Failed allocations do not reduce it.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.unrefunded_money variant 1
 
-anyOf MoneyValue: Frozen refund money not covered by pending or succeeded allocations from refunds linked to this edit. Failed allocations do not reduce it..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.unrefunded_money variant 2
 
@@ -388,6 +420,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Frozen refund money not covered by pending or succeeded allocations from refunds linked to this edit. Failed allocations do not reduce it. 
+
+### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.unrefunded_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.unrefunded_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### OrderEditCanceledInstalledMerchantsEvent.data.previous_attributes.version
 

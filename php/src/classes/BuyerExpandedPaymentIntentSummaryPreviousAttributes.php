@@ -1,0 +1,81 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read MoneyValuePreviousAttributes|null $amount_money
+ * @property-read string|null $capture_method
+ * @property-read string|null $created_at
+ * @property-read string|null $customer_id
+ * @property-read string|null $dispute_status
+ * @property-read string|null $order_id
+ * @property-read string|null $payment_intent_id
+ * @property-read PaymentSourceSummaryPreviousAttributes|null $payment_source
+ * @property-read string|null $refund_status
+ * @property-read string|null $status
+ * @property-read string|null $updated_at
+ * @property-read int|null $version
+ * Presence-aware response; omitted optional fields return null. */
+final class BuyerExpandedPaymentIntentSummaryPreviousAttributes extends Model {
+    /** @param array{'amount_money'?: mixed, 'capture_method'?: mixed, 'created_at'?: mixed, 'customer_id'?: mixed, 'dispute_status'?: mixed, 'order_id'?: mixed, 'payment_intent_id'?: mixed, 'payment_source'?: mixed, 'refund_status'?: mixed, 'status'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerExpandedPaymentIntentSummaryPreviousAttributes')); }
+    /** The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. On a standalone payment intent, PATCH can change it only before the first confirmation attempt. An amount_money or tip_money change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field with minimum_money. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributes|null
+     */
+    public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
+    public function hasAmountMoney(): bool { return $this->has('amount_money'); }
+    /** When money is collected. Defaults to automatic. Value enum: "automatic", "manual". anyOf[1] (Value): string. When money is collected. Defaults to automatic. Value enum: "automatic", "manual". anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getCaptureMethod(): string|null { return $this->get('capture_method'); }
+    public function hasCaptureMethod(): bool { return $this->has('capture_method'); }
+    /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getCreatedAt(): string|null { return $this->get('created_at'); }
+    public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** Customer linked to this payment intent. anyOf[1] (Value): string. Customer linked to this payment intent. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getCustomerId(): string|null { return $this->get('customer_id'); }
+    public function hasCustomerId(): bool { return $this->has('customer_id'); }
+    /** Dispute state of this payment. none means no dispute or inquiry is open or recorded. The inquiry_ values track an issuer inquiry or early warning that isn't a chargeback. Read the dispute with GET /v1/disputes for its deadline and evidence. Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other". anyOf[1] (Value): string. Dispute state of this payment. none means no dispute or inquiry is open or recorded. The inquiry_ values track an issuer inquiry or early warning that isn't a chargeback. Read the dispute with GET /v1/disputes for its deadline and evidence. Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other". anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getDisputeStatus(): string|null { return $this->get('dispute_status'); }
+    public function hasDisputeStatus(): bool { return $this->has('dispute_status'); }
+    /** Order this payment intent belongs to. Create it through the order and confirm it with POST /v1/orders/{order_id}/pay. Capture and cancel use POST /v1/payment-intents/{payment_intent_id}/capture or /cancel for every payment intent. Order-owned intents accept PATCH for metadata and external_reference_id. anyOf[1] (Value): string. Order this payment intent belongs to. Create it through the order and confirm it with POST /v1/orders/{order_id}/pay. Capture and cancel use POST /v1/payment-intents/{payment_intent_id}/capture or /cancel for every payment intent. Order-owned intents accept PATCH for metadata and external_reference_id. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getOrderId(): string|null { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
+    /** Flint payment intent ID. anyOf[1] (Value): string. Flint payment intent ID. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getPaymentIntentId(): string|null { return $this->get('payment_intent_id'); }
+    public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
+    /** Summary of the card or bank account used for the payment. Absent until a payment source is attached. anyOf[1] (Value): {@see PaymentSourceSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return PaymentSourceSummaryPreviousAttributes|null
+     */
+    public function getPaymentSource(): PaymentSourceSummaryPreviousAttributes|null { return $this->get('payment_source'); }
+    public function hasPaymentSource(): bool { return $this->has('payment_source'); }
+    /** How much of captured_money has been refunded, including value issued as store credit, based on refunded_money. Value enum: "none", "partially_refunded", "refunded". anyOf[1] (Value): string. How much of captured_money has been refunded, including value issued as store credit, based on refunded_money. Value enum: "none", "partially_refunded", "refunded". anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getRefundStatus(): string|null { return $this->get('refund_status'); }
+    public function hasRefundStatus(): bool { return $this->has('refund_status'); }
+    /** Lifecycle status. requires_payment_method covers both a new payment intent and one whose last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired are final. Refunds and disputes never change status. Value enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired". anyOf[1] (Value): string. Lifecycle status. requires_payment_method covers both a new payment intent and one whose last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired are final. Refunds and disputes never change status. Value enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired". anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getStatus(): string|null { return $this->get('status'); }
+    public function hasStatus(): bool { return $this->has('status'); }
+    /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getUpdatedAt(): string|null { return $this->get('updated_at'); }
+    public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+    /** Persisted version of this resource's owned state. Expanded resources and external observations can change independently. anyOf[1] (Value): integer. Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getVersion(): int|null { return $this->get('version'); }
+    public function hasVersion(): bool { return $this->has('version'); }
+}

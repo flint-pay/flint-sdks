@@ -52,9 +52,17 @@ Field definitions: [shared fields](PaymentReviewClosedMerchantEventDataPreviousA
 
 Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.closed_at](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesclosed_at).
 
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.closed_by
+
+Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.closed_by](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesclosed_by).
+
 ### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.closed_reason
 
 Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.closed_reason](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesclosed_reason).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.customer
+
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.customer](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributescustomer).
 
 ### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.customer_id
 
@@ -63,6 +71,10 @@ Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.c
 ### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.ip_address
 
 Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.ip_address](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesip_address).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.last_resolution_failure
+
+Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.last_resolution_failure](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributeslast_resolution_failure).
 
 ### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.matched_risk_rule_id
 
@@ -76,6 +88,10 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.opened_reason](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesopened_reason).
 
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.order
+
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.order](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesorder).
+
 ### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.order_id
 
 Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.order_id](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesorder_id).
@@ -84,6 +100,10 @@ Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.o
 
 Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.payment_flow](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributespayment_flow).
 
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.payment_intent
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.payment_intent](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributespayment_intent).
+
 ### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.payment_intent_id
 
 Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.payment_intent_id](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributespayment_intent_id).
@@ -91,6 +111,10 @@ Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.p
 ### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.payment_review_id
 
 Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.payment_review_id](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributespayment_review_id).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.payment_summary
+
+Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.payment_summary](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributespayment_summary).
 
 ### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.pending_action
 
@@ -103,6 +127,10 @@ Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.r
 ### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.resolution_started_at
 
 Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.resolution_started_at](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesresolution_started_at).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.resolution_started_by
+
+Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.resolution_started_by](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesresolution_started_by).
 
 ### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.status
 

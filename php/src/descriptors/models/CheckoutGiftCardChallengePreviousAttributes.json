@@ -1,0 +1,1 @@
+{"shared":"CheckoutGiftCardChallengePreviousAttributes","phpRepresentation":{"kind":"record","fields":{"url":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["CheckoutGiftCardChallengePreviousAttributes","SharedCodec0"]}

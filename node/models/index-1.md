@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# AcceptFulfillmentRequestInput to BuyerCreateReturnRequestInput
+# AcceptFulfillmentRequestInput to BuyerCreateReturnPreviewRequestEligibilityInput
 
 - [AcceptFulfillmentRequestInput](AcceptFulfillmentRequestInput.md)
 - [AcceptPartnerAppPlatformTermsRequest](AcceptPartnerAppPlatformTermsRequest.md)
@@ -12,6 +12,7 @@
 - [AddOrderChargeRequest](AddOrderChargeRequest.md)
 - [AddOrderChargeRequestInput](AddOrderChargeRequestInput.md)
 - [Address](Address.md)
+- [AddressPreviousAttributes](AddressPreviousAttributes.md)
 - [AddressRequest](AddressRequest.md)
 - [AddressRequestInput](AddressRequestInput.md)
 - [AddReturnLineItemRequest](AddReturnLineItemRequest.md)
@@ -58,6 +59,7 @@
 - [AuthContext](AuthContext.md)
 - [AuthContextResponse](AuthContextResponse.md)
 - [BackorderPolicy](BackorderPolicy.md)
+- [BackorderPolicyPreviousAttributes](BackorderPolicyPreviousAttributes.md)
 - [Balance](Balance.md)
 - [BalanceListResponse](BalanceListResponse.md)
 - [BalanceTransaction](BalanceTransaction.md)
@@ -77,7 +79,9 @@
 - [BundleArchivedMerchantEvent](BundleArchivedMerchantEvent.md)
 - [BundleComponent](BundleComponent.md)
 - [BundleComponentListResponse](BundleComponentListResponse.md)
+- [BundleComponentPreviousAttributes](BundleComponentPreviousAttributes.md)
 - [BundleComponentVariantSummary](BundleComponentVariantSummary.md)
+- [BundleComponentVariantSummaryPreviousAttributes](BundleComponentVariantSummaryPreviousAttributes.md)
 - [BundleCreatedInstalledMerchantsEvent](BundleCreatedInstalledMerchantsEvent.md)
 - [BundleCreatedMerchantEvent](BundleCreatedMerchantEvent.md)
 - [BundleListResponse](BundleListResponse.md)
@@ -98,8 +102,4 @@
 - [BuyerCreateReturnPreviewRequestInput](BuyerCreateReturnPreviewRequestInput.md)
 - [BuyerCreateReturnPreviewRequestEligibility](BuyerCreateReturnPreviewRequestEligibility.md)
 - [BuyerCreateReturnPreviewRequestEligibilityInput](BuyerCreateReturnPreviewRequestEligibilityInput.md)
-- [BuyerCreateReturnPreviewRequestResolution](BuyerCreateReturnPreviewRequestResolution.md)
-- [BuyerCreateReturnPreviewRequestResolutionInput](BuyerCreateReturnPreviewRequestResolutionInput.md)
-- [BuyerCreateReturnRequest](BuyerCreateReturnRequest.md)
-- [BuyerCreateReturnRequestInput](BuyerCreateReturnRequestInput.md)
 

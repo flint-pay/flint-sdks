@@ -1,16 +1,16 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { GiftCardNotification } from '../declarations/types-26.js';
 import type {
+    GiftCardNotification,
     GiftCardNotificationListResponse,
     GiftCardNotificationResponse,
     GiftCardNotificationsCancelParams,
     GiftCardNotificationsCreateParams,
     GiftCardNotificationsGetParams,
     GiftCardNotificationsListParams
-} from '../declarations/types-27.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-29.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,6 +27,7 @@ export type {
 } from '../runtime.js';
 export type {
     GiftCardNotificationsCancelParams,
+    GiftCardNotification,
     GiftCardNotificationResponse,
     GiftCardNotificationsCreateParams,
     GiftCardNotificationsGetParams,
@@ -37,22 +38,21 @@ export type {
     GiftCardNotificationDeliveryEvent,
     GiftCardPurchaseRecipient,
     GiftCardNotificationRecipientInput
-} from '../declarations/types-27.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { GiftCardNotification } from '../declarations/types-26.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-29.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CancelGiftCardNotificationRequestInput } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-39.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { CreateGiftCardNotificationRequestInput } from '../declarations/types-9.js';
-export type { DisputesAcceptParams } from '../declarations/types-23.js';
-export { makeCancelGiftCardNotificationRequest } from '../declarations/types-71.js';
-export { makeCreateGiftCardNotificationRequest } from '../declarations/types-73.js';
-export { makeGiftCardNotificationRecipient } from '../declarations/types-77.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
+export type { NextAction, MoneyValue } from '../declarations/types-42.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { CreateGiftCardNotificationRequestInput } from '../declarations/types-10.js';
+export type { DisputesAcceptParams } from '../declarations/types-25.js';
+export { makeCancelGiftCardNotificationRequest } from '../declarations/types-78.js';
+export { makeCreateGiftCardNotificationRequest } from '../declarations/types-80.js';
+export { makeGiftCardNotificationRecipient } from '../declarations/types-84.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export interface GiftCardNotificationsResource {
     /**
  * Cancels a notification before sending starts or after confirmed failure. A sending or

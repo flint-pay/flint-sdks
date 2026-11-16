@@ -28,7 +28,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/ModifierSetArchivedInstalledMerchantsEvent.md#modifiersetarchivedinstalledmerchantseventdataobject). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/ModifierSetArchivedInstalledMerchantsEvent.md#modifiersetarchivedinstalledmerchantseventdataprevious_attributes). |
+| `previous_attributes` | Optional | object and [ModifierSetPreviousAttributes](../models/ModifierSetPreviousAttributes.md#modifiersetpreviousattributes) | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/ModifierSetArchivedInstalledMerchantsEvent.md#modifiersetarchivedinstalledmerchantseventdataprevious_attributes). |
 
 ### ModifierSetArchivedInstalledMerchantsEvent.data.object
 
@@ -44,18 +44,7 @@ Field definitions: [CreateOrderLineItem.metadata](../models/CreateOrderLineItem.
 
 Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `created_at` | Optional | string or null | When the modifier set was created, as an RFC3339 timestamp. `created_at`: [declared alternatives](../models/ModifierSetArchivedInstalledMerchantsEvent.md#modifiersetarchivedinstalledmerchantseventdataprevious_attributescreated_at). |
-| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesexternal_reference_id). |
-| `merchant_id` | Optional | string or null | Identifier of the merchant that owns this modifier set. `merchant_id`: [declared alternatives](../models/ModifierSetArchivedInstalledMerchantsEvent.md#modifiersetarchivedinstalledmerchantseventdataprevious_attributesmerchant_id). |
-| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) or null | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. `metadata`: [declared alternatives](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributesmetadata). |
-| `modifier_groups` | Optional | Array of [ModifierSetGroup](../models/ModifierSetGroup.md#modifiersetgroup) or null | Ordered group entries in this set, including the full content of reusable groups and groups owned by the set. `modifier_groups`: [declared alternatives](../models/ModifierSetArchivedInstalledMerchantsEvent.md#modifiersetarchivedinstalledmerchantseventdataprevious_attributesmodifier_groups). |
-| `modifier_set_id` | Optional | string or null | Stable identifier of the modifier set assigned to catalog items. `modifier_set_id`: [declared alternatives](../models/ModifierSetArchivedInstalledMerchantsEvent.md#modifiersetarchivedinstalledmerchantseventdataprevious_attributesmodifier_set_id). |
-| `name` | Optional | string or null | Name used to identify this modifier set. `name`: [declared alternatives](../models/ModifierSetArchivedInstalledMerchantsEvent.md#modifiersetarchivedinstalledmerchantseventdataprevious_attributesname). |
-| `status` | Optional | string or null | Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived sets remain readable and cannot be edited. Values: `"active"`, `"inactive"`, `"archived"`. `status`: [declared alternatives](../models/ModifierSetArchivedInstalledMerchantsEvent.md#modifiersetarchivedinstalledmerchantseventdataprevious_attributesstatus). |
-| `updated_at` | Optional | string or null | When the modifier set or any group it contains last changed, as an RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ModifierSetArchivedInstalledMerchantsEvent.md#modifiersetarchivedinstalledmerchantseventdataprevious_attributesupdated_at). |
-| `version` | Optional | integer or null | Version of the modifier set, including the groups it contains. `version`: [declared alternatives](../models/ModifierSetArchivedInstalledMerchantsEvent.md#modifiersetarchivedinstalledmerchantseventdataprevious_attributesversion). |
+Field definitions: [shared fields](ModifierSetPreviousAttributes.md#modifiersetpreviousattributes).
 
 ### ModifierSetArchivedInstalledMerchantsEvent.data.previous_attributes.created_at
 
@@ -99,7 +88,7 @@ Declared alternatives: [ModifierGroupArchivedInstalledMerchantsEvent.data.previo
 
 anyOf variant 1: Ordered group entries in this set, including the full content of reusable groups and groups owned by the set..
 
-- Value shape: Array of [ModifierSetGroup](../models/ModifierSetGroup.md#modifiersetgroup). Ordered group entries in this set, including the full content of reusable groups and groups owned by the set. 
+- Value shape: Array of [ModifierSetGroupPreviousAttributes](../models/ModifierSetGroupPreviousAttributes.md#modifiersetgrouppreviousattributes). Ordered group entries in this set, including the full content of reusable groups and groups owned by the set. 
 
 ### ModifierSetArchivedInstalledMerchantsEvent.data.previous_attributes.modifier_groups variant 2
 

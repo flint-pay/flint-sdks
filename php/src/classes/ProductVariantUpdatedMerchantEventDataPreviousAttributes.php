@@ -7,10 +7,10 @@ namespace Flint;
  * @property-read string|null $delivery_configuration_reason
  * @property-read string|null $delivery_configuration_status
  * @property-read string|null $delivery_profile_id
- * @property-read list<ImageAttachment>|null $effective_images
+ * @property-read list<ImageAttachmentPreviousAttributes>|null $effective_images
  * @property-read string|null $external_reference_id
- * @property-read GiftCardProductConfiguration|null $gift_card_configuration
- * @property-read list<ImageAttachment>|null $images
+ * @property-read GiftCardProductConfigurationPreviousAttributes|null $gift_card_configuration
+ * @property-read list<ImageAttachmentPreviousAttributes>|null $images
  * @property-read string|null $inventory_item_id
  * @property-read string|null $inventory_tracking
  * @property-read bool|null $is_available_for_sale
@@ -18,19 +18,19 @@ namespace Flint;
  * @property-read string|null $line_item_tax_category
  * @property-read string|null $merchant_id
  * @property-read array<array-key, string>|null $metadata
- * @property-read mixed $modifier_set_id
+ * @property-read string|null $modifier_set_id
  * @property-read string|null $name
  * @property-read int|null $position
  * @property-read string|null $product_id
- * @property-read list<QuantityPriceBreak>|null $quantity_price_breaks
- * @property-read mixed $release_date
- * @property-read list<SelectedProductOption>|null $selected_options
+ * @property-read list<QuantityPriceBreakPreviousAttributes>|null $quantity_price_breaks
+ * @property-read string|null $release_date
+ * @property-read list<SelectedProductOptionPreviousAttributes>|null $selected_options
  * @property-read string|null $sku
  * @property-read string|null $status
  * @property-read bool|null $taxable
- * @property-read Dimensions|null $unit_dimensions
- * @property-read MoneyValue|null $unit_price_money
- * @property-read Weight|null $unit_weight
+ * @property-read DimensionsPreviousAttributes|null $unit_dimensions
+ * @property-read MoneyValuePreviousAttributes|null $unit_price_money
+ * @property-read WeightPreviousAttributes|null $unit_weight
  * @property-read string|null $updated_at
  * @property-read string|null $variant_id
  * @property-read int|null $version
@@ -63,8 +63,8 @@ final class ProductVariantUpdatedMerchantEventDataPreviousAttributes extends Mod
      */
     public function getDeliveryProfileId(): string|null { return $this->get('delivery_profile_id'); }
     public function hasDeliveryProfileId(): bool { return $this->has('delivery_profile_id'); }
-    /** Images shown for the variant: its own gallery when nonempty, otherwise the product's gallery. anyOf[1] (Value): Array of {@see ImageAttachment}. Images shown for the variant: its own gallery when nonempty, otherwise the product's gallery. anyOf[1][] (Value): {@see ImageAttachment}. An image attached to a resource, with its display properties and attachment metadata. anyOf[2] (Value): null.
-     * @return list<ImageAttachment>|null
+    /** Images shown for the variant: its own gallery when nonempty, otherwise the product's gallery. anyOf[1] (Value): Array of {@see ImageAttachmentPreviousAttributes}. Images shown for the variant: its own gallery when nonempty, otherwise the product's gallery. anyOf[1][] (Value): {@see ImageAttachmentPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ImageAttachmentPreviousAttributes>|null
      */
     public function getEffectiveImages(): array|null { return $this->get('effective_images'); }
     public function hasEffectiveImages(): bool { return $this->has('effective_images'); }
@@ -73,13 +73,13 @@ final class ProductVariantUpdatedMerchantEventDataPreviousAttributes extends Mod
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Gift card issuance terms. face_value_money is the reference denomination; unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent with ties up. anyOf[1] (Value): {@see GiftCardProductConfiguration}. Gift card issuance terms. face_value_money is the reference denomination; unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent with ties up. anyOf[2] (Value): null.
-     * @return GiftCardProductConfiguration|null
+    /** Gift card issuance terms. face_value_money is the reference denomination; unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent with ties up. anyOf[1] (Value): {@see GiftCardProductConfigurationPreviousAttributes}. anyOf[2] (Value): null.
+     * @return GiftCardProductConfigurationPreviousAttributes|null
      */
-    public function getGiftCardConfiguration(): GiftCardProductConfiguration|null { return $this->get('gift_card_configuration'); }
+    public function getGiftCardConfiguration(): GiftCardProductConfigurationPreviousAttributes|null { return $this->get('gift_card_configuration'); }
     public function hasGiftCardConfiguration(): bool { return $this->has('gift_card_configuration'); }
-    /** The variant's own images in display order. An empty gallery inherits the product's images. anyOf[1] (Value): Array of {@see ImageAttachment}. The variant's own images in display order. An empty gallery inherits the product's images. anyOf[1][] (Value): {@see ImageAttachment}. An image attached to a resource, with its display properties and attachment metadata. anyOf[2] (Value): null.
-     * @return list<ImageAttachment>|null
+    /** The variant's own images in display order. An empty gallery inherits the product's images. anyOf[1] (Value): Array of {@see ImageAttachmentPreviousAttributes}. The variant's own images in display order. An empty gallery inherits the product's images. anyOf[1][] (Value): {@see ImageAttachmentPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ImageAttachmentPreviousAttributes>|null
      */
     public function getImages(): array|null { return $this->get('images'); }
     public function hasImages(): bool { return $this->has('images'); }
@@ -113,15 +113,15 @@ final class ProductVariantUpdatedMerchantEventDataPreviousAttributes extends Mod
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Caller-owned metadata stored on this resource. anyOf[1] (Value): {@see MetadataMap}. Caller-owned metadata stored on this resource. anyOf[2] (Value): null.
+    /** Caller-owned metadata stored on this resource. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
      * @return array<array-key, string>|null
      */
     public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** ID of the modifier set attached to the variant. `null` when no modifier set is attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the variant. `null` when no modifier set is attached. anyOf[2] (Value): null.
-     * @return mixed
+    /** ID of the modifier set attached to the variant. `null` when no modifier set is attached. anyOf[1] (Value): string. ID of the modifier set attached to the variant. `null` when no modifier set is attached. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getModifierSetId(): mixed { return $this->get('modifier_set_id'); }
+    public function getModifierSetId(): string|null { return $this->get('modifier_set_id'); }
     public function hasModifierSetId(): bool { return $this->has('modifier_set_id'); }
     /** Variant name that distinguishes it from the product's other variants. anyOf[1] (Value): string. Variant name that distinguishes it from the product's other variants. anyOf[2] (Value): null.
      * @return string|null
@@ -138,18 +138,18 @@ final class ProductVariantUpdatedMerchantEventDataPreviousAttributes extends Mod
      */
     public function getProductId(): string|null { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
-    /** Net unit prices in ascending minimum_quantity order. The largest minimum not above the line quantity applies; otherwise the base unit price applies. Empty when no breaks are configured. Gift card variants have no breaks. anyOf[1] (Value): Array of {@see QuantityPriceBreak}. Net unit prices in ascending minimum_quantity order. The largest minimum not above the line quantity applies; otherwise the base unit price applies. Empty when no breaks are configured. Gift card variants have no breaks. maxItems: 10. anyOf[1][] (Value): {@see QuantityPriceBreak}. A net unit price that applies when one catalog line reaches minimum_quantity. anyOf[2] (Value): null.
-     * @return list<QuantityPriceBreak>|null
+    /** Net unit prices in ascending minimum_quantity order. The largest minimum not above the line quantity applies; otherwise the base unit price applies. Empty when no breaks are configured. Gift card variants have no breaks. anyOf[1] (Value): Array of {@see QuantityPriceBreakPreviousAttributes}. Net unit prices in ascending minimum_quantity order. The largest minimum not above the line quantity applies; otherwise the base unit price applies. Empty when no breaks are configured. Gift card variants have no breaks. maxItems: 10. anyOf[1][] (Value): {@see QuantityPriceBreakPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<QuantityPriceBreakPreviousAttributes>|null
      */
     public function getQuantityPriceBreaks(): array|null { return $this->get('quantity_price_breaks'); }
     public function hasQuantityPriceBreaks(): bool { return $this->has('quantity_price_breaks'); }
-    /** Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date is after today in the merchant timezone are pre-orders. Existing order lines keep their release date. anyOf[1] (Value): string or null. Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date is after today in the merchant timezone are pre-orders. Existing order lines keep their release date. Format: date. anyOf[2] (Value): null.
-     * @return mixed
+    /** Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date is after today in the merchant timezone are pre-orders. Existing order lines keep their release date. anyOf[1] (Value): string. Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date is after today in the merchant timezone are pre-orders. Existing order lines keep their release date. Format: date. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getReleaseDate(): mixed { return $this->get('release_date'); }
+    public function getReleaseDate(): string|null { return $this->get('release_date'); }
     public function hasReleaseDate(): bool { return $this->has('release_date'); }
-    /** Always present. Empty collections are returned as []. anyOf[1] (Value): Array of {@see SelectedProductOption}. Always present. Empty collections are returned as []. anyOf[1][] (Value): {@see SelectedProductOption}. An option and value chosen for a product variant, such as size Large. anyOf[2] (Value): null.
-     * @return list<SelectedProductOption>|null
+    /** Always present. Empty collections are returned as []. anyOf[1] (Value): Array of {@see SelectedProductOptionPreviousAttributes}. Always present. Empty collections are returned as []. anyOf[1][] (Value): {@see SelectedProductOptionPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<SelectedProductOptionPreviousAttributes>|null
      */
     public function getSelectedOptions(): array|null { return $this->get('selected_options'); }
     public function hasSelectedOptions(): bool { return $this->has('selected_options'); }
@@ -168,20 +168,20 @@ final class ProductVariantUpdatedMerchantEventDataPreviousAttributes extends Mod
      */
     public function getTaxable(): bool|null { return $this->get('taxable'); }
     public function hasTaxable(): bool { return $this->has('taxable'); }
-    /** Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@see Dimensions}. Per-unit measurement. Omitted when unknown. anyOf[2] (Value): null.
-     * @return Dimensions|null
+    /** Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@see DimensionsPreviousAttributes}. anyOf[2] (Value): null.
+     * @return DimensionsPreviousAttributes|null
      */
-    public function getUnitDimensions(): Dimensions|null { return $this->get('unit_dimensions'); }
+    public function getUnitDimensions(): DimensionsPreviousAttributes|null { return $this->get('unit_dimensions'); }
     public function hasUnitDimensions(): bool { return $this->has('unit_dimensions'); }
-    /** Base unit price before quantity price breaks, in the currency's smallest unit. anyOf[1] (Value): {@see MoneyValue}. Base unit price before quantity price breaks, in the currency's smallest unit. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** Base unit price before quantity price breaks, in the currency's smallest unit. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getUnitPriceMoney(): MoneyValue|null { return $this->get('unit_price_money'); }
+    public function getUnitPriceMoney(): MoneyValuePreviousAttributes|null { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
-    /** Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@see Weight}. Per-unit measurement. Omitted when unknown. anyOf[2] (Value): null.
-     * @return Weight|null
+    /** Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@see WeightPreviousAttributes}. anyOf[2] (Value): null.
+     * @return WeightPreviousAttributes|null
      */
-    public function getUnitWeight(): Weight|null { return $this->get('unit_weight'); }
+    public function getUnitWeight(): WeightPreviousAttributes|null { return $this->get('unit_weight'); }
     public function hasUnitWeight(): bool { return $this->has('unit_weight'); }
     /** When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string. When this resource last changed, as an RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

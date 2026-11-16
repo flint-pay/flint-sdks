@@ -1,1 +1,1 @@
-{"shared":"DeliveryRateEvaluationRequest","dependencies":["DeliveryRateEvaluationAllocation","DeliveryRateEvaluationCandidate","DeliveryRateEvaluationExecutionLeg","DeliveryRateEvaluationPricing","DeliveryRateEvaluationRequest","MoneyValue","SharedCodec793","SharedCodec794"]}
+{"shared":"DeliveryRateEvaluationRequest","dependencies":["DeliveryRateEvaluationAllocation","DeliveryRateEvaluationCandidate","DeliveryRateEvaluationExecutionLeg","DeliveryRateEvaluationPricing","DeliveryRateEvaluationRequest","MoneyValue","SharedCodec1027","SharedCodec1028"]}

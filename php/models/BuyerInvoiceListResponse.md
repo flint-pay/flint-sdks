@@ -29,7 +29,7 @@ Field definitions: [BuyerInvoiceResponse.data.balance_rows[]](../models/BuyerInv
 
 ### BuyerInvoiceListResponse.data[].buyer_actions[]
 
-Field definitions: [BuyerReturnResponse.data.buyer_actions[]](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actions).
+Field definitions: [OrderResponse.data.buyer_actions[]](../models/OrderResponse.md#orderresponsedatabuyer_actions).
 
 ### BuyerInvoiceListResponse.data[].issue_rows[]
 

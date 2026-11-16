@@ -80,7 +80,7 @@ final class BuyerOrderPaymentAttempt extends Model {
      */
     public function getStartedAt(): ?string { return $this->get('started_at'); }
     public function hasStartedAt(): bool { return $this->has('started_at'); }
-    /** Where the attempt is in collecting payment or saving a payment method. `partially_succeeded`, `succeeded`, `failed`, `canceled`, and `expired` are final. Value enum: "processing", "requires_action", "requires_capture", "partially_succeeded", "requires_retry", "finalizing", "succeeded", "failed", "expired", "canceled".
+    /** Where the attempt is in collecting payment or saving a payment method. `partially_succeeded`, `succeeded`, `failed`, `canceled`, and `expired` are final. Value enum: "processing", "requires_action", "requires_capture", "partially_succeeded", "succeeded", "failed", "expired", "canceled".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

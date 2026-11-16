@@ -120,6 +120,10 @@ Declared alternatives: [PromotionArchivedMerchantEventDataPreviousAttributes.pro
 
 Declared alternatives: [PromotionArchivedMerchantEventDataPreviousAttributes.redemption_type](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesredemption_type).
 
+### PromotionArchivedMerchantEvent.data fields 1.previous_attributes.schedule
+
+Declared alternatives: [PromotionArchivedMerchantEventDataPreviousAttributes.schedule](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesschedule).
+
 ### PromotionArchivedMerchantEvent.data fields 1.previous_attributes.status
 
 Declared alternatives: [PromotionArchivedMerchantEventDataPreviousAttributes.status](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesstatus).

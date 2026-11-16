@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string|null $completed_at
  * @property-read string|null $created_at
  * @property-read int|null $failed_count
- * @property-read list<SubscriptionDeliveryMigrationFailureReasonCount>|null $failure_reason_counts
+ * @property-read list<SubscriptionDeliveryMigrationFailureReasonCountPreviousAttributes>|null $failure_reason_counts
  * @property-read string|null $from_delivery_method_id
  * @property-read int|null $moved_count
  * @property-read int|null $pending_count
@@ -34,8 +34,8 @@ final class SubscriptionDeliveryMigrationCompletedInstalledMerchantsEventDataPre
      */
     public function getFailedCount(): int|null { return $this->get('failed_count'); }
     public function hasFailedCount(): bool { return $this->has('failed_count'); }
-    /** Failed subscriptions grouped by reason. Empty when none failed. anyOf[1] (Value): Array of {@see SubscriptionDeliveryMigrationFailureReasonCount}. Failed subscriptions grouped by reason. Empty when none failed. anyOf[1][] (Value): {@see SubscriptionDeliveryMigrationFailureReasonCount}. The number of subscriptions that failed a delivery method migration for one reason. anyOf[2] (Value): null.
-     * @return list<SubscriptionDeliveryMigrationFailureReasonCount>|null
+    /** Failed subscriptions grouped by reason. Empty when none failed. anyOf[1] (Value): Array of {@see SubscriptionDeliveryMigrationFailureReasonCountPreviousAttributes}. Failed subscriptions grouped by reason. Empty when none failed. anyOf[1][] (Value): {@see SubscriptionDeliveryMigrationFailureReasonCountPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<SubscriptionDeliveryMigrationFailureReasonCountPreviousAttributes>|null
      */
     public function getFailureReasonCounts(): array|null { return $this->get('failure_reason_counts'); }
     public function hasFailureReasonCounts(): bool { return $this->has('failure_reason_counts'); }

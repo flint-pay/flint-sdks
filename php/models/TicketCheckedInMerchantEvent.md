@@ -66,7 +66,7 @@ Declared alternatives: [TicketCheckedInMerchantEventDataPreviousAttributes.atten
 
 ### TicketCheckedInMerchantEvent.data fields 1.previous_attributes.check_in_method
 
-Declared alternatives: [TicketCheckedInMerchantEventDataPreviousAttributes.check_in_method](../models/TicketCheckedInMerchantEventDataPreviousAttributes.md#ticketcheckedinmerchanteventdatapreviousattributescheck_in_method).
+Declared alternatives: [TicketResponse.data.check_in_method](../models/TicketResponse.md#ticketresponsedatacheck_in_method).
 
 ### TicketCheckedInMerchantEvent.data fields 1.previous_attributes.checked_in_at
 
@@ -75,6 +75,10 @@ Declared alternatives: [TicketCheckedInMerchantEventDataPreviousAttributes.check
 ### TicketCheckedInMerchantEvent.data fields 1.previous_attributes.created_at
 
 Declared alternatives: [TicketCheckedInMerchantEventDataPreviousAttributes.created_at](../models/TicketCheckedInMerchantEventDataPreviousAttributes.md#ticketcheckedinmerchanteventdatapreviousattributescreated_at).
+
+### TicketCheckedInMerchantEvent.data fields 1.previous_attributes.order
+
+Declared alternatives: [TicketCheckedInMerchantEventDataPreviousAttributes.order](../models/TicketCheckedInMerchantEventDataPreviousAttributes.md#ticketcheckedinmerchanteventdatapreviousattributesorder).
 
 ### TicketCheckedInMerchantEvent.data fields 1.previous_attributes.order_id
 

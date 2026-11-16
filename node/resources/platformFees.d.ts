@@ -6,9 +6,9 @@ import type {
     PlatformFeeResponse,
     PlatformFeesGetParams,
     PlatformFeesListParams
-} from '../declarations/types-49.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-54.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,15 +29,15 @@ export type {
     PlatformFeeResponse,
     PlatformFeesListParams,
     PlatformFeeListResponse
-} from '../declarations/types-49.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+} from '../declarations/types-54.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { MoneyValue, NextAction } from '../declarations/types-39.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
+export type { MoneyValue, NextAction } from '../declarations/types-42.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export interface PlatformFeesResource {
     /**
  * Returns one platform fee. Reads the merchant that owns the partner app, with its own credentials

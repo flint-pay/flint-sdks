@@ -60,33 +60,33 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `applied_credit_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Credit applied to the invoice: the sum of its credit line items. Never more than subtotal_money. `applied_credit_money`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdataprevious_attributesapplied_credit_money). |
+| `applied_credit_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Credit applied to the invoice: the sum of its credit line items. Never more than subtotal_money. `applied_credit_money`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdataprevious_attributesapplied_credit_money). |
 | `created_at` | Optional | string or null | When Flint created the invoice. `created_at`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdataprevious_attributescreated_at). |
 | `due_at` | Optional | string or null | When payment of the invoice is due. `due_at`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdataprevious_attributesdue_at). |
 | `invoice_number` | Optional | string or null | Unique invoice number; don't parse it. New numbers use FLINT-{account code}-{0001}, sequential per billing account; existing numbers are retained. `invoice_number`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdataprevious_attributesinvoice_number). |
 | `issued_at` | Optional | string or null | When Flint issued the invoice. `issued_at`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdataprevious_attributesissued_at). |
-| `line_items` | Optional | Array of [MerchantBillingInvoiceLineItem](../models/MerchantBillingInvoiceLineItem.md#merchantbillinginvoicelineitem) or null | Invoice-owned line items. Subscription totals sum to subtotal_money; credit totals sum to applied_credit_money. `line_items`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdataprevious_attributesline_items). |
+| `line_items` | Optional | Array of [MerchantBillingInvoiceLineItemPreviousAttributes](../models/MerchantBillingInvoiceLineItemPreviousAttributes.md#merchantbillinginvoicelineitempreviousattributes) or null | Invoice-owned line items. Subscription totals sum to subtotal_money; credit totals sum to applied_credit_money. `line_items`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdataprevious_attributesline_items). |
 | `merchant_billing_invoice_id` | Optional | string or null | Stable identifier of the invoice. `merchant_billing_invoice_id`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdataprevious_attributesmerchant_billing_invoice_id). |
-| `outstanding_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Part of total_money Flint still has to collect. `outstanding_money`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdataprevious_attributesoutstanding_money). |
+| `outstanding_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Part of total_money Flint still has to collect. `outstanding_money`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdataprevious_attributesoutstanding_money). |
 | `paid_at` | Optional | string or null | When the invoice was paid. Removed if a reversed collection reopens it. `paid_at`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdataprevious_attributespaid_at). |
 | `period_end_at` | Optional | string or null | Exclusive invoice billing period end as an RFC 3339 UTC instant. `period_end_at`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdataprevious_attributesperiod_end_at). |
 | `period_start_at` | Optional | string or null | Inclusive invoice billing period start as an RFC 3339 UTC instant. `period_start_at`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdataprevious_attributesperiod_start_at). |
 | `status` | Optional | string or null | Collection state of the invoice: open, paid, or written_off. Flint issues an invoice as open and marks it paid once collected; a reversed collection returns it to open, and written_off means Flint stopped collecting it. Values: `"open"`, `"paid"`, `"written_off"`. `status`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdataprevious_attributesstatus). |
-| `subtotal_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Sum of the subscription line items, before credit. `subtotal_money`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdataprevious_attributessubtotal_money). |
-| `total_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | What the invoice charges: subtotal_money minus applied_credit_money. `total_money`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdataprevious_attributestotal_money). |
-| `updated_at` | Optional | string or null | When the invoice last changed. `updated_at`: [declared alternatives](../models/InvoiceCollectionBlockedInstalledMerchantsEvent.md#invoicecollectionblockedinstalledmerchantseventdataprevious_attributesupdated_at). |
+| `subtotal_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Sum of the subscription line items, before credit. `subtotal_money`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdataprevious_attributessubtotal_money). |
+| `total_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | What the invoice charges: subtotal_money minus applied_credit_money. `total_money`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdataprevious_attributestotal_money). |
+| `updated_at` | Optional | string or null | When the invoice last changed. `updated_at`: [declared alternatives](../models/ExpandedInvoiceSummaryPreviousAttributes.md#expandedinvoicesummarypreviousattributesupdated_at). |
 
 ### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.applied_credit_money
 
 Credit applied to the invoice: the sum of its credit line items. Never more than subtotal_money.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.applied_credit_money variant 1
 
-anyOf MoneyValue: Credit applied to the invoice: the sum of its credit line items. Never more than subtotal_money..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.applied_credit_money variant 2
 
@@ -94,6 +94,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Credit applied to the invoice: the sum of its credit line items. Never more than subtotal_money. 
+
+### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.applied_credit_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.applied_credit_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.created_at
 
@@ -157,7 +165,7 @@ anyOf variant 2.
 
 anyOf variant 1: Invoice-owned line items. Subscription totals sum to subtotal_money; credit totals sum to applied_credit_money..
 
-- Value shape: Array of [MerchantBillingInvoiceLineItem](../models/MerchantBillingInvoiceLineItem.md#merchantbillinginvoicelineitem). Invoice-owned line items. Subscription totals sum to subtotal_money; credit totals sum to applied_credit_money. 
+- Value shape: Array of [MerchantBillingInvoiceLineItemPreviousAttributes](../models/MerchantBillingInvoiceLineItemPreviousAttributes.md#merchantbillinginvoicelineitempreviousattributes). Invoice-owned line items. Subscription totals sum to subtotal_money; credit totals sum to applied_credit_money. 
 
 ### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.line_items variant 2
 
@@ -183,13 +191,13 @@ anyOf variant 2.
 
 Part of total_money Flint still has to collect.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.outstanding_money variant 1
 
-anyOf MoneyValue: Part of total_money Flint still has to collect..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.outstanding_money variant 2
 
@@ -197,6 +205,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Part of total_money Flint still has to collect. 
+
+### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.outstanding_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.outstanding_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.paid_at
 
@@ -258,13 +274,13 @@ anyOf variant 2.
 
 Sum of the subscription line items, before credit.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.subtotal_money variant 1
 
-anyOf MoneyValue: Sum of the subscription line items, before credit..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.subtotal_money variant 2
 
@@ -273,17 +289,25 @@ anyOf variant 2.
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Sum of the subscription line items, before credit. 
 
+### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.subtotal_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.subtotal_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+
 ### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.total_money
 
 What the invoice charges: subtotal_money minus applied_credit_money.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.total_money variant 1
 
-anyOf MoneyValue: What the invoice charges: subtotal_money minus applied_credit_money..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.total_money variant 2
 
@@ -292,9 +316,17 @@ anyOf variant 2.
 - Undeclared: `amount`, `currency`.
 - Value shape: null. What the invoice charges: subtotal_money minus applied_credit_money. 
 
+### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.total_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.total_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+
 ### MerchantBillingInvoiceIssuedEvent.data.previous_attributes.updated_at
 
-Declared alternatives: [InvoiceCollectionBlockedInstalledMerchantsEvent.data.previous_attributes.updated_at](../models/InvoiceCollectionBlockedInstalledMerchantsEvent.md#invoicecollectionblockedinstalledmerchantseventdataprevious_attributesupdated_at).
+Declared alternatives: [ExpandedInvoiceSummaryPreviousAttributes.updated_at](../models/ExpandedInvoiceSummaryPreviousAttributes.md#expandedinvoicesummarypreviousattributesupdated_at).
 
 ### MerchantBillingInvoiceIssuedEvent.request
 

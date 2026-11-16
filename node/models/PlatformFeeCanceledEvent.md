@@ -60,7 +60,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | The fee Flint will charge until the payment succeeds, then the fee charged. Flint lowers it at confirm and capture to fit the merchant's cap and Flint's own fees; 0 once canceled. `amount_money`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdataprevious_attributesamount_money). |
+| `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The fee Flint will charge until the payment succeeds, then the fee charged. Flint lowers it at confirm and capture to fit the merchant's cap and Flint's own fees; 0 once canceled. `amount_money`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdataprevious_attributesamount_money). |
 | `canceled_reason` | Optional | string or null | Why Flint collected no fee. Present only when status is canceled. Can gain values. Values: `"payment_not_completed"`, `"install_revoked"`, `"platform_capability_inactive"`, `"uncollectible"`. `canceled_reason`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdataprevious_attributescanceled_reason). |
 | `checkout_session_id` | Optional | string or null | The checkout session the payment came from. Absent when the fee was sent with the payment itself. `checkout_session_id`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdataprevious_attributescheckout_session_id). |
 | `collected_at` | Optional | string or null | When Flint collected the fee with the payment. Absent unless status is succeeded. `collected_at`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdataprevious_attributescollected_at). |
@@ -70,25 +70,25 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `partner_app_install_id` | Optional | string or null | The install whose partner app token created the payment. `partner_app_install_id`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdataprevious_attributespartner_app_install_id). |
 | `payment_intent_id` | Optional | string or null | The payment the fee rides on, owned by the installed merchant. After that merchant resets the sandbox the payment was in, the ID no longer resolves. `payment_intent_id`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdataprevious_attributespayment_intent_id). |
 | `platform_fee_id` | Optional | string or null | Unique identifier for the platform fee, the payment intent's platform_fee.platform_fee_id. `platform_fee_id`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdataprevious_attributesplatform_fee_id). |
-| `refunded_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | The fee returned to the installed merchant so far, including opted-in payment refunds and returns of the whole application fee. A failed refund reverses its share of this total. 0 when nothing has been returned. `refunded_money`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdataprevious_attributesrefunded_money). |
-| `requested_amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | The fee the request asked for. `requested_amount_money`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdataprevious_attributesrequested_amount_money). |
+| `refunded_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The fee debited from the platform for returns so far, including opted-in payment refunds and returns of the whole application fee. Matches the platform ledger, including returns awaiting completion; reversals reduce the total. 0 when nothing has been debited. `refunded_money`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdataprevious_attributesrefunded_money). |
+| `requested_amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The fee the request asked for. `requested_amount_money`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdataprevious_attributesrequested_amount_money). |
 | `reserve_available_at` | Optional | string or null | When the held share is due to return to your available balance. Absent until the fee posts, and when nothing was held. Setting it sends no event. `reserve_available_at`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdataprevious_attributesreserve_available_at). |
-| `reserve_hold_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | The share of the fee Flint held in your reserve when it posted the fee to your ledger. Absent until then. A snapshot: loss coverage draws on the reserve as a whole, so read PlatformFeeBalance.reserve_money for what is held now. Setting it sends no event. `reserve_hold_money`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdataprevious_attributesreserve_hold_money). |
+| `reserve_hold_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The share of the fee Flint held in your reserve when it posted the fee to your ledger. Absent until then. A snapshot: loss coverage draws on the reserve as a whole, so read PlatformFeeBalance.reserve_money for what is held now. Setting it sends no event. `reserve_hold_money`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdataprevious_attributesreserve_hold_money). |
 | `status` | Optional | string or null | Where the fee stands. canceled is final. Values: `"pending"`, `"succeeded"`, `"canceled"`. `status`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdataprevious_attributesstatus). |
 | `updated_at` | Optional | string or null | When the fee last changed. `updated_at`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdataprevious_attributesupdated_at). |
-| `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesversion). |
+| `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributes.md#buyerexpandedpaymentintentsummarypreviousattributesversion). |
 
 ### PlatformFeeCanceledEvent.data.previous_attributes.amount_money
 
 The fee Flint will charge until the payment succeeds, then the fee charged. Flint lowers it at confirm and capture to fit the merchant's cap and Flint's own fees; 0 once canceled.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### PlatformFeeCanceledEvent.data.previous_attributes.amount_money variant 1
 
-anyOf MoneyValue: The fee Flint will charge until the payment succeeds, then the fee charged. Flint lowers it at confirm and capture to fit the merchant's cap and Flint's own fees; 0 once canceled..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### PlatformFeeCanceledEvent.data.previous_attributes.amount_money variant 2
 
@@ -96,6 +96,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. The fee Flint will charge until the payment succeeds, then the fee charged. Flint lowers it at confirm and capture to fit the merchant's cap and Flint's own fees; 0 once canceled. 
+
+### PlatformFeeCanceledEvent.data.previous_attributes.amount_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### PlatformFeeCanceledEvent.data.previous_attributes.amount_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### PlatformFeeCanceledEvent.data.previous_attributes.canceled_reason
 
@@ -225,34 +233,42 @@ anyOf variant 2.
 
 ### PlatformFeeCanceledEvent.data.previous_attributes.refunded_money
 
-The fee returned to the installed merchant so far, including opted-in payment refunds and returns of the whole application fee. A failed refund reverses its share of this total. 0 when nothing has been returned.
+The fee debited from the platform for returns so far, including opted-in payment refunds and returns of the whole application fee. Matches the platform ledger, including returns awaiting completion; reversals reduce the total. 0 when nothing has been debited.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### PlatformFeeCanceledEvent.data.previous_attributes.refunded_money variant 1
 
-anyOf MoneyValue: The fee returned to the installed merchant so far, including opted-in payment refunds and returns of the whole application fee. A failed refund reverses its share of this total. 0 when nothing has been returned..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### PlatformFeeCanceledEvent.data.previous_attributes.refunded_money variant 2
 
 anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
-- Value shape: null. The fee returned to the installed merchant so far, including opted-in payment refunds and returns of the whole application fee. A failed refund reverses its share of this total. 0 when nothing has been returned. 
+- Value shape: null. The fee debited from the platform for returns so far, including opted-in payment refunds and returns of the whole application fee. Matches the platform ledger, including returns awaiting completion; reversals reduce the total. 0 when nothing has been debited. 
+
+### PlatformFeeCanceledEvent.data.previous_attributes.refunded_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### PlatformFeeCanceledEvent.data.previous_attributes.refunded_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### PlatformFeeCanceledEvent.data.previous_attributes.requested_amount_money
 
 The fee the request asked for.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### PlatformFeeCanceledEvent.data.previous_attributes.requested_amount_money variant 1
 
-anyOf MoneyValue: The fee the request asked for..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### PlatformFeeCanceledEvent.data.previous_attributes.requested_amount_money variant 2
 
@@ -260,6 +276,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. The fee the request asked for. 
+
+### PlatformFeeCanceledEvent.data.previous_attributes.requested_amount_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### PlatformFeeCanceledEvent.data.previous_attributes.requested_amount_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### PlatformFeeCanceledEvent.data.previous_attributes.reserve_available_at
 
@@ -279,13 +303,13 @@ anyOf variant 2.
 
 The share of the fee Flint held in your reserve when it posted the fee to your ledger. Absent until then. A snapshot: loss coverage draws on the reserve as a whole, so read PlatformFeeBalance.reserve_money for what is held now. Setting it sends no event.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### PlatformFeeCanceledEvent.data.previous_attributes.reserve_hold_money variant 1
 
-anyOf MoneyValue: The share of the fee Flint held in your reserve when it posted the fee to your ledger. Absent until then. A snapshot: loss coverage draws on the reserve as a whole, so read PlatformFeeBalance.reserve_money for what is held now. Setting it sends no event..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### PlatformFeeCanceledEvent.data.previous_attributes.reserve_hold_money variant 2
 
@@ -293,6 +317,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. The share of the fee Flint held in your reserve when it posted the fee to your ledger. Absent until then. A snapshot: loss coverage draws on the reserve as a whole, so read PlatformFeeBalance.reserve_money for what is held now. Setting it sends no event. 
+
+### PlatformFeeCanceledEvent.data.previous_attributes.reserve_hold_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### PlatformFeeCanceledEvent.data.previous_attributes.reserve_hold_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### PlatformFeeCanceledEvent.data.previous_attributes.status
 
@@ -324,7 +356,7 @@ anyOf variant 2.
 
 ### PlatformFeeCanceledEvent.data.previous_attributes.version
 
-Declared alternatives: [CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.version](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesversion).
+Declared alternatives: [BuyerExpandedPaymentIntentSummaryPreviousAttributes.version](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributes.md#buyerexpandedpaymentintentsummarypreviousattributesversion).
 
 ### PlatformFeeCanceledEvent.request
 

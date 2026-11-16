@@ -46,7 +46,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | [DeliveryLocationSetConfiguration](../models/DeliveryLocationSetConfiguration.md#deliverylocationsetconfiguration) or null | Current member Locations. |
+| `configuration` | Optional | [DeliveryLocationSetConfigurationPreviousAttributes](../models/DeliveryLocationSetConfigurationPreviousAttributes.md#deliverylocationsetconfigurationpreviousattributes) or null | Current member Locations. |
 | `created_at` | Optional | string or null | Time the location set was created. `created_at`: [declared alternatives](../models/DeliveryLocationSetArchivedInstalledMerchantsEvent.md#deliverylocationsetarchivedinstalledmerchantseventdataprevious_attributescreated_at). |
 | `current_delivery_location_set_revision_id` | Optional | string or null | Immutable revision used for new quotes. `current_delivery_location_set_revision_id`: [declared alternatives](../models/DeliveryLocationSetArchivedInstalledMerchantsEvent.md#deliverylocationsetarchivedinstalledmerchantseventdataprevious_attributescurrent_delivery_location_set_revision_id). |
 | `delivery_location_set_id` | Optional | string or null | Stable delivery location set ID. `delivery_location_set_id`: [declared alternatives](../models/DeliveryLocationSetArchivedInstalledMerchantsEvent.md#deliverylocationsetarchivedinstalledmerchantseventdataprevious_attributesdelivery_location_set_id). |
@@ -107,7 +107,7 @@ Declared alternatives: [BundleArchivedInstalledMerchantsEvent.data.previous_attr
 
 ### DeliveryLocationSetArchivedInstalledMerchantsEvent.data.previous_attributes.metadata variant 1
 
-anyOf MetadataMap: Caller-owned metadata..
+anyOf MetadataMapPreviousAttributes.
 
 - Value shape: Map of string. Caller-owned metadata. Map values: maxLength: `4096`. 
 

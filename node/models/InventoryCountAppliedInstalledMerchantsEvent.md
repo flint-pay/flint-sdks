@@ -46,9 +46,9 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key. `idempotency_key`: [declared alternatives](../models/InventoryCountAppliedInstalledMerchantsEvent.md#inventorycountappliedinstalledmerchantseventdataprevious_attributesidempotency_key). |
 | `inventory_count_id` | Optional | string or null | Unique identifier for this inventory count, prefixed `invc_`. `inventory_count_id`: [declared alternatives](../models/InventoryCountAppliedInstalledMerchantsEvent.md#inventorycountappliedinstalledmerchantseventdataprevious_attributesinventory_count_id). |
-| `lines` | Optional | Array of [InventoryCountLine](../models/InventoryCountLine.md#inventorycountline) or null | Count lines, one for each inventory item being counted. `lines`: [declared alternatives](../models/InventoryCountAppliedInstalledMerchantsEvent.md#inventorycountappliedinstalledmerchantseventdataprevious_attributeslines). |
+| `lines` | Optional | Array of [InventoryCountLinePreviousAttributes](../models/InventoryCountLinePreviousAttributes.md#inventorycountlinepreviousattributes) or null | Count lines, one for each inventory item being counted. `lines`: [declared alternatives](../models/InventoryCountAppliedInstalledMerchantsEvent.md#inventorycountappliedinstalledmerchantseventdataprevious_attributeslines). |
 | `location_id` | Optional | string or null | ID of the Location whose stock is counted. `location_id`: [declared alternatives](../models/InventoryCountAppliedInstalledMerchantsEvent.md#inventorycountappliedinstalledmerchantseventdataprevious_attributeslocation_id). |
-| `observation_provenance` | Optional | [InventoryCountObservationProvenance](../models/InventoryCountObservationProvenance.md#inventorycountobservationprovenance) or null | Source system, actor, and time reported with the count's observations. |
+| `observation_provenance` | Optional | [InventoryCountObservationProvenancePreviousAttributes](../models/InventoryCountObservationProvenancePreviousAttributes.md#inventorycountobservationprovenancepreviousattributes) or null | Source system, actor, and time reported with the count's observations. |
 | `status` | Optional | string or null | Whether the count is still open. Applying or canceling a `draft` count ends it. Values: `"draft"`, `"applied"`, `"canceled"`. `status`: [declared alternatives](../models/InventoryCountAppliedInstalledMerchantsEvent.md#inventorycountappliedinstalledmerchantseventdataprevious_attributesstatus). |
 | `supported_actions` | Optional | Array of string or null | Actions that can change this count now. A draft can be canceled, and applied once every line has an observation. Empty after the count is applied or canceled. Items values: `"apply"`, `"cancel"`. `supported_actions`: [declared alternatives](../models/InventoryCountAppliedInstalledMerchantsEvent.md#inventorycountappliedinstalledmerchantseventdataprevious_attributessupported_actions). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
@@ -96,7 +96,7 @@ anyOf variant 2.
 
 anyOf variant 1: Count lines, one for each inventory item being counted..
 
-- Value shape: Array of [InventoryCountLine](../models/InventoryCountLine.md#inventorycountline). Count lines, one for each inventory item being counted. 
+- Value shape: Array of [InventoryCountLinePreviousAttributes](../models/InventoryCountLinePreviousAttributes.md#inventorycountlinepreviousattributes). Count lines, one for each inventory item being counted. 
 
 ### InventoryCountAppliedInstalledMerchantsEvent.data.previous_attributes.lines variant 2
 

@@ -58,9 +58,13 @@ test("TypeScript webhook snapshots and previous attributes exclude GET-only fiel
   try {
     const fixture = join(directory, "consumer.mts");
     const imports = [
-      ...new Set(
-        cases.flatMap(({ event, resource }) => [event + "Event", resource]),
-      ),
+      ...new Set([
+        ...cases.flatMap(({ event, resource }) => [event + "Event", resource]),
+        "OrderUpdatedEvent",
+        "OrderPartiallyRefundedEvent",
+        "OrderRefundedEvent",
+        "CustomerUpdatedEvent",
+      ]),
     ];
     const checks = cases.map(
       ({ event, resource, omitted, getFields, previous }, index) => {
@@ -82,6 +86,16 @@ type Declared<T> = { [K in keyof T as string extends K ? never : number extends 
 type DeclaredKeys<T> = T extends unknown ? keyof Declared<T> : never;
 type Missing<T, K extends PropertyKey> = Extract<K, DeclaredKeys<T>> extends never ? true : false;
 ${checks.join("\n")}
+${["OrderUpdatedEvent", "OrderPartiallyRefundedEvent", "OrderRefundedEvent"]
+  .map(
+    (name, index) => `declare const priorOrder${index}: ${name};
+const priorAmount${index}: string | null | undefined = priorOrder${index}.data.previous_attributes?.line_items?.[0]?.total_money?.amount;
+// @ts-expect-error Supplied prior exact amounts remain strings.
+const wrongAmount${index}: number = priorOrder${index}.data.previous_attributes?.line_items?.[0]?.total_money?.amount;`,
+  )
+  .join("\n")}
+declare const priorCustomer: CustomerUpdatedEvent;
+const priorLegalName: string | null | undefined = priorCustomer.data.previous_attributes?.tax_identity?.legal_name;
 declare const intent: NonNullable<NonNullable<PaymentIntentCanceledEvent["data"]>["object"]>;
 const status: string = intent.status;
 `,
@@ -137,6 +151,31 @@ echo 'ok';
 
 // Exercise the public verifier with signed catalog examples. These are public,
 // synthetic contract samples; captured staging deliveries stay outside the repo.
+// Keep every prior array item partial, including arrays nested inside line items.
+function partialArrayItems(value) {
+  if (Array.isArray(value))
+    return value.map((item) =>
+      item && typeof item === "object" && !Array.isArray(item)
+        ? Object.fromEntries(
+            Object.entries(item)
+              .filter(
+                ([key, child], index) =>
+                  key !== "purchased_gift_cards" &&
+                  (index === 0 || Array.isArray(child)),
+              )
+              .map(([key, child]) => [key, partialArrayItems(child)]),
+          )
+        : partialArrayItems(item),
+    );
+  if (value && typeof value === "object")
+    return Object.fromEntries(
+      Object.entries(value).map(([key, child]) => [
+        key,
+        partialArrayItems(child),
+      ]),
+    );
+  return value;
+}
 const webhookSamples = Object.entries(api.webhooks).flatMap(
   ([event, webhook]) => {
     const examples =
@@ -153,6 +192,18 @@ const webhookSamples = Object.entries(api.webhooks).flatMap(
             undefined,
             {},
             sample.data.object,
+            partialArrayItems(sample.data.object),
+            ...(sample.data.object.line_items?.length
+              ? [
+                  {
+                    line_items: sample.data.object.line_items.map((item) => {
+                      const prior = structuredClone(item);
+                      delete prior.purchased_gift_cards;
+                      return prior;
+                    }),
+                  },
+                ]
+              : []),
             Object.fromEntries(
               Object.keys(sample.data.object).map((key) => [key, null]),
             ),
@@ -183,24 +234,63 @@ const webhookSamples = Object.entries(api.webhooks).flatMap(
     });
   },
 );
+for (const event of [
+  "order.updated",
+  "order.partially_refunded",
+  "order.refunded",
+]) {
+  assert.ok(
+    webhookSamples.some((sample) => {
+      if (!sample.label.startsWith(event + "/")) return false;
+      const data = JSON.parse(sample.body).data;
+      return (
+        data.previous_attributes?.line_items?.length > 0 &&
+        data.previous_attributes.line_items.every(
+          (item) => !Object.hasOwn(item, "purchased_gift_cards"),
+        ) &&
+        data.object.line_items.every((item) =>
+          Object.hasOwn(item, "purchased_gift_cards"),
+        )
+      );
+    }),
+    event + " must cover previous line items without purchased_gift_cards",
+  );
+}
 const catalogSecret = "whsec_" + Buffer.alloc(32, 7).toString("base64");
 
 test("Node async verifier recognizes every catalog event with previous attributes", async () => {
   const { verifyWebhookAsync } = await import(
     pathToFileURL(join(root, "node/webhooks.js"))
   );
+  const failures = [];
   for (const sample of webhookSamples) {
-    const verified = await verifyWebhookAsync(
-      Buffer.from(sample.body),
-      sample.headers,
-      {
-        secrets: catalogSecret,
-        nowSeconds: 1700000000,
-        baseUrl: "https://api.example.invalid",
-      },
-    );
-    assert.equal(verified.known, true, sample.label + ": " + verified.reason);
+    try {
+      const verified = await verifyWebhookAsync(
+        Buffer.from(sample.body),
+        sample.headers,
+        {
+          secrets: catalogSecret,
+          nowSeconds: 1700000000,
+          baseUrl: "https://api.example.invalid",
+        },
+      );
+      assert.equal(verified.known, true, sample.label + ": " + verified.reason);
+      const prior = JSON.parse(sample.body).data.previous_attributes;
+      for (const [index, line] of (prior?.line_items ?? []).entries()) {
+        const amount = line.total_money?.amount;
+        if (amount !== undefined && amount !== null)
+          assert.equal(
+            verified.event.data.previous_attributes.line_items[index]
+              .total_money.amount,
+            String(amount),
+            sample.label + ": previous line-item money",
+          );
+      }
+    } catch (error) {
+      failures.push(sample.label + ": " + error.message);
+    }
   }
+  assert.deepEqual(failures, []);
 });
 
 test("PHP delivery verifier recognizes every catalog event with previous attributes", async () => {
@@ -211,13 +301,35 @@ test("PHP delivery verifier recognizes every catalog event with previous attribu
     writeFileSync(samples, JSON.stringify(webhookSamples));
     const script = String.raw`
 require 'php/src/autoload.php';
+foreach ([\Flint\OrderUpdatedMerchantEventDataPreviousAttributes::class, \Flint\OrderPartiallyRefundedMerchantEventDataPreviousAttributes::class, \Flint\OrderRefundedMerchantEventDataPreviousAttributes::class] as $class) {
+    $previous = new $class(['line_items' => [(object) ['total_money' => (object) ['amount' => '9007199254740993']]]]);
+    $money = $previous->getLineItems()[0]->getTotalMoney();
+    if (!$money instanceof \Flint\MoneyValuePreviousAttributes || $money->getAmount() !== '9007199254740993' || !$money->hasAmount() || $money->hasCurrency() || $money->getCurrency() !== null)
+        throw new \RuntimeException($class . ': nested partial money must retain its model and field presence');
+}
+
+$previousCustomer = new \Flint\CustomerUpdatedMerchantEventDataPreviousAttributes(['tax_identity' => (object) ['legal_name' => 'Before']]);
+$identity = $previousCustomer->getTaxIdentity();
+if (!$identity instanceof \Flint\TaxIdentityPreviousAttributes || $identity->getLegalName() !== 'Before' || $identity->hasTaxIds())
+    throw new \RuntimeException('already-nullable previous tax identity lost its model or presence');
 $cases = json_decode(file_get_contents($argv[1]), true, 512, JSON_THROW_ON_ERROR);
 foreach ($cases as $case) {
+    try {
     $verified = \Flint\Webhooks::verifyDelivery($case['body'], $case['headers'], [
         'secrets' => $argv[2], 'now_seconds' => 1700000000,
         'base_url' => 'https://api.example.invalid',
     ]);
+    } catch (\Throwable $error) {
+        throw new \RuntimeException($case['label'] . ': ' . $error->getMessage(), 0, $error);
+    }
     if (!$verified['known']) throw new \RuntimeException($case['label'] . ': ' . $verified['reason']);
+    $raw = json_decode($case['body'], true, 512, JSON_THROW_ON_ERROR);
+    $event = json_decode(json_encode($verified['event'], JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR);
+    foreach ($raw['data']['previous_attributes']['line_items'] ?? [] as $index => $line) {
+        $amount = $line['total_money']['amount'] ?? null;
+        if ($amount !== null && $event['data']['previous_attributes']['line_items'][$index]['total_money']['amount'] !== (string) $amount)
+            throw new \RuntimeException($case['label'] . ': previous line-item money was not normalized');
+    }
 }
 echo count($cases);
 `;

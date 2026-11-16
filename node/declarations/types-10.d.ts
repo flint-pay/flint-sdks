@@ -1,46 +1,44 @@
 import type {
+    CreateDeliveryFulfillmentDetails,
+    CreateDigitalFulfillmentDetails,
+    CreateDeliveryFulfillmentDetailsInput,
+    CreateDigitalFulfillmentDetailsInput
+} from './types-9.js';
+import type { CreatePickupFulfillmentDetails, CreatePickupFulfillmentDetailsInput } from './types-12.js';
+import type { CreateServiceFulfillmentDetails, CreateServiceFulfillmentDetailsInput } from './types-13.js';
+import type {
+    FulfillmentLineItemRequest,
+    FulfillmentPackagingRequest,
+    FulfillmentLineItemRequestInput,
+    FulfillmentPackagingRequestInput
+} from './types-27.js';
+import type { FulfillmentRecipientRequest, FulfillmentRecipientRequestInput, GiftCardFundingSource, GiftCard } from './types-28.js';
+import type { MetadataMap, MetadataRequestInput } from './types-41.js';
+import type { MoneyValue, MoneyValueInput } from './types-42.js';
+import type {
+    GiftCardFundingSourceRequestInput,
+    GiftCardLoad,
+    GiftCardPurchaseRecipient,
+    GiftCardNotificationRecipientInput,
+    GiftCardNotification
+} from './types-29.js';
+import type { GiftCardTransaction } from './types-30.js';
+import type { ResponseMeta } from './types-60.js';
+import type {
+    InitialGiftCardFunding,
+    InitialGiftCardFundingInput,
+    InventoryAdjustmentConditionChangeLineRequest,
+    InventoryAdjustmentConditionChangeLineRequestInput,
+    InventoryAdjustmentSetLineRequest,
     InventoryAdjustmentSetLineRequestInput,
     InventoryAdjustmentQuantityLineRequest,
     InventoryAdjustmentQuantityLineRequestInput,
     InventoryAllocationConfigurationValue,
     InventoryAllocationPolicyConfigurationRequestInput,
     InventoryBackorderPolicyRequest
-} from './types-28.js';
-import type {
-    InventorySourceSystemRequestInput,
-    InventorySourceSystemRequest,
-    InventoryReservationOwnerRequest,
-    InventoryRoutingDemand,
-    InventoryRoutingSourceRequest,
-    InventoryReservationOwnerRequestInput,
-    InventoryRoutingDemandInput,
-    InventoryRoutingSourceRequestInput
-} from './types-30.js';
-import type {
-    CreateInventoryAdjustmentConditionChangeRequest,
-    CreateInventoryAdjustmentCorrectionRequest,
-    CreateInventoryAdjustmentCountedRequest,
-    CreateInventoryAdjustmentConditionChangeRequestInput,
-    CreateInventoryAdjustmentCorrectionRequestInput,
-    CreateInlineModifierGroupRequestInput
-} from './types-9.js';
-import type { MetadataMap, MetadataRequestInput, ModifierOverride, ModifierOverrideRequestInput } from './types-38.js';
-import type { InventoryReceiptLineRequest, InventoryReceiptLineRequestInput } from './types-29.js';
-import type {
-    InventoryTransferLineRequest,
-    InventoryTransferLineRequestInput,
-    InvoiceCollectionRequest,
-    InvoiceCollectionRequestInput
 } from './types-31.js';
-import type { MoneyValue, MoneyValueInput } from './types-39.js';
-import type { InvoiceLateFeePolicy, InvoiceLateFeePolicyRequestInput } from './types-32.js';
 import type {
-    InvoicePaymentTermCalculation,
-    InvoicePaymentTermCalculationRequestInput,
-    InvoicePaymentDueRequest,
-    InvoicePaymentDueRequestInput
-} from './types-33.js';
-import type {
+    CreateModifierRequestInput,
     CreateOrderDiscount,
     CreateOrderLineItemRequest,
     CreateOrderTip,
@@ -48,26 +46,1561 @@ import type {
     CreateOrderLineItemRequestInput,
     CreateOrderTipInput
 } from './types-11.js';
-import type { OrderDeliveryDestinationRequest, OrderDeliveryDestinationRequestInput } from './types-40.js';
-import type { OrderTaxRequest, OrderTaxRequestInput } from './types-42.js';
+import type { TextModifierConfigRequestInput } from './types-72.js';
+import type {
+    InventorySourceSystemRequest,
+    InventorySourceSystemRequestInput,
+    InventoryReservationOwnerRequest,
+    InventoryRoutingDemand,
+    InventoryRoutingSourceRequest,
+    InventoryReservationOwnerRequestInput,
+    InventoryRoutingDemandInput,
+    InventoryRoutingSourceRequestInput
+} from './types-33.js';
+import type { InventoryReceiptLineRequest, InventoryReceiptLineRequestInput } from './types-32.js';
+import type {
+    InventoryTransferLineRequest,
+    InventoryTransferLineRequestInput,
+    InvoiceCollectionRequest,
+    InvoiceCollectionRequestInput
+} from './types-34.js';
+import type { InvoiceLateFeePolicy, InvoiceLateFeePolicyRequestInput } from './types-35.js';
+import type { InvoicePaymentTermCalculation, InvoicePaymentDueRequest, InvoicePaymentDueRequestInput } from './types-36.js';
+import type {
+    InvoicePaymentTermCalculationRequestInput,
+    InvoiceScheduleEntryWrite,
+    InvoiceScheduleEntryWriteInput
+} from './types-37.js';
+import type { OrderDeliveryDestinationRequest, OrderDeliveryDestinationRequestInput } from './types-44.js';
+import type { OrderTaxRequest, OrderTaxRequestInput } from './types-46.js';
 import type { AddressRequest, AddressRequestInput } from './types-0.js';
-import type { InvoiceScheduleEntryWrite, InvoiceScheduleEntryWriteInput } from './types-34.js';
-import type { LocationCoordinate, LocationCoordinateRequestInput } from './types-35.js';
-import type { CheckoutRedirects, CheckoutRedirectsRequestInput } from './types-6.js';
-import type { CreateSubscriptionPreviewRequestQuantityChange } from './types-14.js';
-import type {
-    SubscriptionServiceLocationRequest,
-    SubscriptionSwapPreviewRequest,
-    SubscriptionSwapPreviewRequestInput,
-    SubscriptionQuantityChangeLineItemRequestInput
-} from './types-63.js';
-import type {
-    SubscriptionDeliveryDestinationRequestInput,
-    SubscriptionDeliveryRequest,
-    SubscriptionDeliveryRequestInput
-} from './types-61.js';
-import type { MerchantSignupOwner, MerchantSignupOwnerRequestInput } from './types-37.js';
-import type { TextModifierConfigRequest } from './types-65.js';
+import type { LocationCoordinate, LocationCoordinateRequestInput } from './types-39.js';
+/**
+ * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
+ * digital_details, or service_details. Shipment execution details belong to shipments and
+ * packages.
+ */
+export type CreateFulfillmentRequestService = ({
+    /**
+     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Device used for this fulfillment. It must be active. When location_id is also set, the
+     * device must belong to that Location. minLength: 1. Example:
+     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
+     */
+    "device_id"?: string;
+    /**
+     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
+     * you supply when creating a fulfillment: the delivery URL.
+     */
+    "digital_details"?: CreateDigitalFulfillmentDetails;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
+     * (Value): {@link FulfillmentLineItemRequest}. An order line item and quantity to include when
+     * creating a fulfillment.
+     */
+    "line_items": Array<FulfillmentLineItemRequest>;
+    /**
+     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
+     * delivery details you supply when creating a fulfillment: courier, timing window,
+     * instructions, and tracking.
+     */
+    "local_delivery_details"?: CreateDeliveryFulfillmentDetails;
+    /**
+     * Merchant location responsible for this fulfillment. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
+     * the pickup address, location, window, instructions, and curbside details.
+     */
+    "pickup_details"?: CreatePickupFulfillmentDetails;
+    /**
+     * Who receives the fulfillment. Recipient details you supply when creating or updating a
+     * fulfillment: name, email, phone, address, and handling instructions.
+     */
+    "recipient"?: FulfillmentRecipientRequest;
+    /**
+     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
+     * the scheduled start and end, timezone, and notes.
+     */
+    "service_details"?: CreateServiceFulfillmentDetails;
+    /**
+     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
+     * single_package assigns every submitted line quantity to package; itemized requires explicit
+     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
+     * the same call. Creates an outbound shipment with one package using `packaging:
+     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
+     * External reference and metadata are optional.
+     */
+    "shipment"?: FulfillmentPackagingRequest;
+    /** The kind of fulfillment. Value enum: "service". */
+    "type": "service" | (string & {});
+});
+/**
+ * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
+ * digital_details, or service_details. Shipment execution details belong to shipments and
+ * packages.
+ */
+export type CreateFulfillmentRequestServiceInput = ({
+    /**
+     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Device used for this fulfillment. It must be active. When location_id is also set, the
+     * device must belong to that Location. minLength: 1. Example:
+     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
+     */
+    "device_id"?: string;
+    /**
+     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
+     * you supply when creating a fulfillment: the delivery URL.
+     */
+    "digital_details"?: CreateDigitalFulfillmentDetailsInput;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
+     * (Value): {@link FulfillmentLineItemRequestInput}. An order line item and quantity to include
+     * when creating a fulfillment.
+     */
+    "line_items": Array<FulfillmentLineItemRequestInput>;
+    /**
+     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
+     * delivery details you supply when creating a fulfillment: courier, timing window,
+     * instructions, and tracking.
+     */
+    "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput;
+    /**
+     * Merchant location responsible for this fulfillment. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
+     * the pickup address, location, window, instructions, and curbside details.
+     */
+    "pickup_details"?: CreatePickupFulfillmentDetailsInput;
+    /**
+     * Who receives the fulfillment. Recipient details you supply when creating or updating a
+     * fulfillment: name, email, phone, address, and handling instructions.
+     */
+    "recipient"?: FulfillmentRecipientRequestInput;
+    /**
+     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
+     * the scheduled start and end, timezone, and notes.
+     */
+    "service_details"?: CreateServiceFulfillmentDetailsInput;
+    /**
+     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
+     * single_package assigns every submitted line quantity to package; itemized requires explicit
+     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
+     * the same call. Creates an outbound shipment with one package using `packaging:
+     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
+     * External reference and metadata are optional.
+     */
+    "shipment"?: FulfillmentPackagingRequestInput;
+    /** The kind of fulfillment. Value enum: "service". */
+    "type": "service";
+})
+    & (({
+    "shipment"?: never;
+}))
+    & (({
+    "pickup_details"?: never;
+}))
+    & (({
+    "local_delivery_details"?: never;
+}))
+    & (({
+    "digital_details"?: never;
+}));
+/**
+ * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
+ * digital_details, or service_details. Shipment execution details belong to shipments and
+ * packages.
+ */
+export type CreateFulfillmentRequestShipment = ({
+    /**
+     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Device used for this fulfillment. It must be active. When location_id is also set, the
+     * device must belong to that Location. minLength: 1. Example:
+     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
+     */
+    "device_id"?: string;
+    /**
+     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
+     * you supply when creating a fulfillment: the delivery URL.
+     */
+    "digital_details"?: CreateDigitalFulfillmentDetails;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
+     * (Value): {@link FulfillmentLineItemRequest}. An order line item and quantity to include when
+     * creating a fulfillment.
+     */
+    "line_items": Array<FulfillmentLineItemRequest>;
+    /**
+     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
+     * delivery details you supply when creating a fulfillment: courier, timing window,
+     * instructions, and tracking.
+     */
+    "local_delivery_details"?: CreateDeliveryFulfillmentDetails;
+    /**
+     * Merchant location responsible for this fulfillment. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
+     * the pickup address, location, window, instructions, and curbside details.
+     */
+    "pickup_details"?: CreatePickupFulfillmentDetails;
+    /**
+     * Who receives the fulfillment. Recipient details you supply when creating or updating a
+     * fulfillment: name, email, phone, address, and handling instructions.
+     */
+    "recipient"?: FulfillmentRecipientRequest;
+    /**
+     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
+     * the scheduled start and end, timezone, and notes.
+     */
+    "service_details"?: CreateServiceFulfillmentDetails;
+    /**
+     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
+     * single_package assigns every submitted line quantity to package; itemized requires explicit
+     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
+     * the same call. Creates an outbound shipment with one package using `packaging:
+     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
+     * External reference and metadata are optional.
+     */
+    "shipment"?: FulfillmentPackagingRequest;
+    /** The kind of fulfillment. Value enum: "shipment". */
+    "type": "shipment" | (string & {});
+});
+/**
+ * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
+ * digital_details, or service_details. Shipment execution details belong to shipments and
+ * packages.
+ */
+export type CreateFulfillmentRequestShipmentInput = ({
+    /**
+     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Device used for this fulfillment. It must be active. When location_id is also set, the
+     * device must belong to that Location. minLength: 1. Example:
+     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
+     */
+    "device_id"?: string;
+    /**
+     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
+     * you supply when creating a fulfillment: the delivery URL.
+     */
+    "digital_details"?: CreateDigitalFulfillmentDetailsInput;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
+     * (Value): {@link FulfillmentLineItemRequestInput}. An order line item and quantity to include
+     * when creating a fulfillment.
+     */
+    "line_items": Array<FulfillmentLineItemRequestInput>;
+    /**
+     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
+     * delivery details you supply when creating a fulfillment: courier, timing window,
+     * instructions, and tracking.
+     */
+    "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput;
+    /**
+     * Merchant location responsible for this fulfillment. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
+     * the pickup address, location, window, instructions, and curbside details.
+     */
+    "pickup_details"?: CreatePickupFulfillmentDetailsInput;
+    /**
+     * Who receives the fulfillment. Recipient details you supply when creating or updating a
+     * fulfillment: name, email, phone, address, and handling instructions.
+     */
+    "recipient"?: FulfillmentRecipientRequestInput;
+    /**
+     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
+     * the scheduled start and end, timezone, and notes.
+     */
+    "service_details"?: CreateServiceFulfillmentDetailsInput;
+    /**
+     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
+     * single_package assigns every submitted line quantity to package; itemized requires explicit
+     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
+     * the same call. Creates an outbound shipment with one package using `packaging:
+     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
+     * External reference and metadata are optional.
+     */
+    "shipment"?: FulfillmentPackagingRequestInput;
+    /** The kind of fulfillment. Value enum: "shipment". */
+    "type": "shipment";
+})
+    & (({
+    "pickup_details"?: never;
+}))
+    & (({
+    "local_delivery_details"?: never;
+}))
+    & (({
+    "digital_details"?: never;
+}))
+    & (({
+    "service_details"?: never;
+}));
+/** The request body for: Create a gift card funding disposition. */
+export type CreateGiftCardFundingDispositionRequest = {
+    /**
+     * What the merchant decided about the card's value after the funding payment lost a dispute.
+     * Default: "honor_value". Value enum: "honor_value".
+     */
+    "disposition"?: "honor_value" | (string & {});
+    /**
+     * The lost dispute on the payment that funded the gift card value. minLength: 1. pattern:
+     * ^du_[0-9A-HJKMNP-TV-Z]{26}$. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
+     */
+    "dispute_id": string;
+    /**
+     * Your reason for honoring the gift card value despite the confirmed funding loss. minLength:
+     * 1. maxLength: 200.
+     */
+    "reason_message": string;
+};
+/** The request body for: Create a gift card funding disposition. */
+export type CreateGiftCardFundingDispositionRequestInput = {
+    /**
+     * What the merchant decided about the card's value after the funding payment lost a dispute.
+     * Default: "honor_value". Value enum: "honor_value".
+     */
+    "disposition"?: "honor_value";
+    /**
+     * The lost dispute on the payment that funded the gift card value. minLength: 1. pattern:
+     * ^du_[0-9A-HJKMNP-TV-Z]{26}$. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
+     */
+    "dispute_id": string;
+    /**
+     * Your reason for honoring the gift card value despite the confirmed funding loss. minLength:
+     * 1. maxLength: 200.
+     */
+    "reason_message": string;
+};
+/** The request body for: Load a gift card. */
+export type CreateGiftCardLoadRequest = ({
+    /**
+     * What the buyer paid for the value, separate from `value_money`. `null` when no payment
+     * amount is recorded. anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. anyOf[1].amount (Required): integer
+     * string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * minimum: 0. Amount in the currency's minor unit, such as cents for USD. Use an integer
+     * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
+     * anyOf[1].currency (Required): string. ISO 4217 currency code for this amount. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
+     */
+    "consideration_money"?: ((({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 0.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>))
+        | (null)
+        | (unknown));
+    /**
+     * The gift card version last read. The command changes this card only when its current version
+     * matches. Format: int64. minimum: 1.
+     */
+    "expected_gift_card_version"?: number;
+    /** The gift card to load. minLength: 1. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". */
+    "gift_card_id": string;
+    /**
+     * Where the value came from, with your reference for it. Where the value of a gift card load
+     * came from, such as an external payment, a Flint payment, an import, or an adjustment, with
+     * your reference for it. funding_source_type (Required): string. Where the value came from.
+     * Value enum: "external_payment", "flint_payment", "import". customer_id (Optional): string.
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". external_reference_id (Required): string. Your reference
+     * for the payment or import record that funded this value, such as a POS sale ID. Required; 1
+     * to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842". order_id
+     * (Optional): string. ID of the order that funded the value. Required for
+     * `flint_manual_payment` and `store_credit`; not accepted for `external_payment` or `import`.
+     * minLength: 1. maxLength: 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * order_manual_payment_id (Optional): string. ID of the manual payment on the order that
+     * funded the value. Required for `flint_manual_payment`. minLength: 1. maxLength: 255.
+     * Example: "omp_01KEZF7C007J18203RBJKB9TYE". payment_intent_id (Optional): string. The
+     * original payment for flint_payment or store_credit value. For standalone paid funding, use a
+     * captured payment intent without an order_id. Order-linked payments fund purchased cards or
+     * store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". refund_id (Optional): string. Refund that issued this
+     * value. Present only when funding_source_type is store_credit. minLength: 1. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". oneOf[1] (Value): {@link
+     * GiftCardFundingSourceExternalPayment}. The `external_payment` variant of
+     * `GiftCardFundingSource`. oneOf[2] (Value): {@link GiftCardFundingSourceFlintPayment}. The
+     * `flint_payment` variant of `GiftCardFundingSource`. oneOf[3] (Value): {@link
+     * GiftCardFundingSourceFlintManualPayment}. The `flint_manual_payment` variant of
+     * `GiftCardFundingSource`. oneOf[4] (Value): {@link GiftCardFundingSourceImport}. The `import`
+     * variant of `GiftCardFundingSource`. oneOf[5] (Value): {@link
+     * GiftCardFundingSourceAdjustment}. The `adjustment` variant of `GiftCardFundingSource`.
+     * oneOf[6] (Value): {@link GiftCardFundingSourceGiftCardRefund}. The `gift_card_refund`
+     * variant of `GiftCardFundingSource`. oneOf[7] (Value): {@link
+     * GiftCardFundingSourceGiftCardPurchaseRefundRecovery}. The
+     * `gift_card_purchase_refund_recovery` variant of `GiftCardFundingSource`. oneOf[8] (Value):
+     * {@link GiftCardFundingSourceStoreCredit}. The `store_credit` variant of
+     * `GiftCardFundingSource`.
+     */
+    "source": ({
+        /** Value enum: "external_payment", "flint_payment", "import". */
+        "funding_source_type"?: unknown;
+    })
+        & (Exclude<GiftCardFundingSource & object, readonly unknown[]>);
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "source_created_at"?: string;
+    /**
+     * The face value the load adds to the card. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code. amount (Required): integer string. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the
+     * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
+     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "value_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+});
+/** The request body for: Load a gift card. */
+export type CreateGiftCardLoadRequestInput = ({
+    /**
+     * What the buyer paid for the value, separate from `value_money`. `null` when no payment
+     * amount is recorded. anyOf[1] (Value): {@link MoneyValueInput}. Monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code. anyOf[1].amount (Required): integer
+     * string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * minimum: 0. Amount in the currency's minor unit, such as cents for USD. Use an integer
+     * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
+     * anyOf[1].currency (Required): string. ISO 4217 currency code for this amount. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
+     */
+    "consideration_money"?: ((({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 0.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>))
+        | (null));
+    /**
+     * The gift card version last read. The command changes this card only when its current version
+     * matches. Format: int64. minimum: 1.
+     */
+    "expected_gift_card_version"?: number;
+    /** The gift card to load. minLength: 1. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". */
+    "gift_card_id": string;
+    /**
+     * Where the value came from, with your reference for it. Where the value of a gift card load
+     * came from, such as an external payment, a Flint payment, an import, or an adjustment, with
+     * your reference for it. funding_source_type (Required): string. Where the value came from.
+     * Value enum: "external_payment", "flint_payment", "import". customer_id (Optional): string.
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". external_reference_id (Required): string. Your reference
+     * for the payment or import record that funded this value, such as a POS sale ID. Required; 1
+     * to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842". order_id
+     * (Optional): string. ID of the order that funded the value. Required for
+     * `flint_manual_payment` and `store_credit`; not accepted for `external_payment` or `import`.
+     * minLength: 1. maxLength: 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_intent_id
+     * (Optional): string. The original payment for flint_payment or store_credit value. For
+     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
+     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
+     * 255. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". oneOf[1] (Value): {@link
+     * GiftCardFundingSourceExternalPaymentRequestInput}. The `external_payment` variant of
+     * `GiftCardFundingSource`. oneOf[2] (Value): {@link
+     * GiftCardFundingSourceFlintPaymentRequestInput}. The `flint_payment` variant of
+     * `GiftCardFundingSource`. oneOf[3] (Value): {@link
+     * GiftCardFundingSourceFlintManualPaymentRequestInput}. The `flint_manual_payment` variant of
+     * `GiftCardFundingSource`. oneOf[4] (Value): {@link GiftCardFundingSourceImportRequestInput}.
+     * The `import` variant of `GiftCardFundingSource`. oneOf[5] (Value): {@link
+     * GiftCardFundingSourceAdjustmentRequestInput}. The `adjustment` variant of
+     * `GiftCardFundingSource`. oneOf[6] (Value): {@link
+     * GiftCardFundingSourceGiftCardRefundRequestInput}. The `gift_card_refund` variant of
+     * `GiftCardFundingSource`. oneOf[7] (Value): {@link
+     * GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequestInput}. The
+     * `gift_card_purchase_refund_recovery` variant of `GiftCardFundingSource`. oneOf[8] (Value):
+     * {@link GiftCardFundingSourceStoreCreditRequestInput}. The `store_credit` variant of
+     * `GiftCardFundingSource`.
+     */
+    "source": ({
+        /** Value enum: "external_payment", "flint_payment", "import". */
+        "funding_source_type"?: "external_payment" | "flint_payment" | "import";
+    })
+        & (Exclude<GiftCardFundingSourceRequestInput & object, readonly unknown[]>)
+        & ({
+        "order_manual_payment_id"?: never;
+    });
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "source_created_at"?: string | globalThis.Date;
+    /**
+     * The face value the load adds to the card. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code. amount (Required): integer string. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the
+     * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
+     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "value_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
+});
+/**
+ * The result of loading a gift card: the updated gift card, the gift card load, and the
+ * transactions it created.
+ */
+export type CreateGiftCardLoadResult = {
+    /**
+     * The gift card after the command. Merchant-issued purchased gift card. Posted balance
+     * includes reserved value; available value is balance minus reservations. Frozen value remains
+     * part of outstanding liability. Gift cards are independent resources and cannot be
+     * transferred across merchants or currencies.
+     */
+    "gift_card": GiftCard;
+    /**
+     * The load the command created. Top-level child of a gift card. Value and consideration are
+     * separate. External funding and import provenance are merchant-attested; no payment is
+     * collected by recording them. Replacement refund lots retain original funding provenance and
+     * do not represent new paid funding.
+     */
+    "gift_card_load": GiftCardLoad;
+    /**
+     * The transactions the command posted to the card. [] (Value): {@link GiftCardTransaction}.
+     * Immutable posted financial movement with signed amount, per-card sequence, merchant sequence
+     * and balance snapshots. Corrections create new transactions.
+     */
+    "gift_card_transactions": Array<GiftCardTransaction>;
+};
+/** A response containing `CreateGiftCardLoadResult` data. */
+export type CreateGiftCardLoadResultResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The result of loading a
+     * gift card: the updated gift card, the gift card load, and the transactions it created.
+     */
+    "data": CreateGiftCardLoadResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** The request body for: Send a gift card notification. */
+export type CreateGiftCardNotificationRequest = {
+    /**
+     * ID of the gift card the notification is about. minLength: 1. Example:
+     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     */
+    "gift_card_id": string;
+    /**
+     * Who the notification is sent to. Who receives a gift card notification: their `email`,
+     * optional `name` and `message`, and an optional `send_at` time.
+     */
+    "recipient": GiftCardPurchaseRecipient;
+    /**
+     * ID of the earlier notification this one sends again. minLength: 1. Example:
+     * "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
+     */
+    "resend_of_notification_id"?: string;
+};
+/** The request body for: Send a gift card notification. */
+export type CreateGiftCardNotificationRequestInput = {
+    /**
+     * ID of the gift card the notification is about. minLength: 1. Example:
+     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     */
+    "gift_card_id": string;
+    /**
+     * Who the notification is sent to. Who receives a gift card notification: their `email`,
+     * optional `name` and `message`, and an optional `send_at` time.
+     */
+    "recipient": GiftCardNotificationRecipientInput;
+    /**
+     * ID of the earlier notification this one sends again. minLength: 1. Example:
+     * "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
+     */
+    "resend_of_notification_id"?: string;
+};
+/** The request body for: Redeem gift card value. */
+export type CreateGiftCardRedemptionRequest = ({
+    /**
+     * The amount to redeem from the card. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
+     * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
+     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+    /**
+     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
+     * "automatic", "manual".
+     */
+    "capture_mode": "automatic" | "manual" | (string & {});
+    /**
+     * The gift card version last read. The command changes this card only when its current version
+     * matches. Format: int64. minimum: 1.
+     */
+    "expected_gift_card_version"?: number;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "expires_at"?: string;
+    /**
+     * ID of the gift card the value is spent from. minLength: 1. Example:
+     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     */
+    "gift_card_id": string;
+    /**
+     * Your reference for the sale the redemption pays for. Required; 1 to 255 characters. The
+     * value is preserved exactly as sent. minLength: 1. maxLength: 255.
+     */
+    "sale_reference": string;
+})
+    & ((Exclude<CreateGiftCardRedemptionRequestAutomatic & object, readonly unknown[]>)
+    | (Exclude<CreateGiftCardRedemptionRequestManual & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `automatic` variant of `CreateGiftCardRedemptionRequest`. */
+export type CreateGiftCardRedemptionRequestAutomatic = ({
+    /**
+     * The amount to redeem from the card. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
+     * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
+     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+    /**
+     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
+     * "automatic".
+     */
+    "capture_mode": "automatic" | (string & {});
+    /**
+     * The gift card version last read. The command changes this card only when its current version
+     * matches. Format: int64. minimum: 1.
+     */
+    "expected_gift_card_version"?: number;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "expires_at"?: string;
+    /**
+     * ID of the gift card the value is spent from. minLength: 1. Example:
+     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     */
+    "gift_card_id": string;
+    /**
+     * Your reference for the sale the redemption pays for. Required; 1 to 255 characters. The
+     * value is preserved exactly as sent. minLength: 1. maxLength: 255.
+     */
+    "sale_reference": string;
+})
+    & (({
+    /**
+     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
+     * "automatic".
+     */
+    "capture_mode": unknown;
+}));
+/** The `automatic` variant of `CreateGiftCardRedemptionRequest`. */
+export type CreateGiftCardRedemptionRequestAutomaticInput = ({
+    /**
+     * The amount to redeem from the card. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
+     * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
+     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
+    /**
+     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
+     * "automatic".
+     */
+    "capture_mode": "automatic";
+    /**
+     * The gift card version last read. The command changes this card only when its current version
+     * matches. Format: int64. minimum: 1.
+     */
+    "expected_gift_card_version"?: number;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "expires_at"?: string | globalThis.Date;
+    /**
+     * ID of the gift card the value is spent from. minLength: 1. Example:
+     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     */
+    "gift_card_id": string;
+    /**
+     * Your reference for the sale the redemption pays for. Required; 1 to 255 characters. The
+     * value is preserved exactly as sent. minLength: 1. maxLength: 255.
+     */
+    "sale_reference": string;
+})
+    & (({
+    /**
+     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
+     * "automatic".
+     */
+    "capture_mode": ("automatic") & ("automatic");
+})
+    & ({
+    "expires_at"?: never;
+}));
+/** The request body for: Redeem gift card value. */
+export type CreateGiftCardRedemptionRequestInput = ({
+    /**
+     * The amount to redeem from the card. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
+     * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
+     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
+    /**
+     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
+     * "automatic", "manual".
+     */
+    "capture_mode": "automatic" | "manual";
+    /**
+     * The gift card version last read. The command changes this card only when its current version
+     * matches. Format: int64. minimum: 1.
+     */
+    "expected_gift_card_version"?: number;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "expires_at"?: string | globalThis.Date;
+    /**
+     * ID of the gift card the value is spent from. minLength: 1. Example:
+     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     */
+    "gift_card_id": string;
+    /**
+     * Your reference for the sale the redemption pays for. Required; 1 to 255 characters. The
+     * value is preserved exactly as sent. minLength: 1. maxLength: 255.
+     */
+    "sale_reference": string;
+})
+    & ((Exclude<CreateGiftCardRedemptionRequestAutomaticInput & object, readonly unknown[]>)
+    | (Exclude<CreateGiftCardRedemptionRequestManualInput & object, readonly unknown[]>));
+/** The `manual` variant of `CreateGiftCardRedemptionRequest`. */
+export type CreateGiftCardRedemptionRequestManual = ({
+    /**
+     * The amount to redeem from the card. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
+     * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
+     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+    /**
+     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
+     * "manual".
+     */
+    "capture_mode": "manual" | (string & {});
+    /**
+     * The gift card version last read. The command changes this card only when its current version
+     * matches. Format: int64. minimum: 1.
+     */
+    "expected_gift_card_version"?: number;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "expires_at"?: string;
+    /**
+     * ID of the gift card the value is spent from. minLength: 1. Example:
+     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     */
+    "gift_card_id": string;
+    /**
+     * Your reference for the sale the redemption pays for. Required; 1 to 255 characters. The
+     * value is preserved exactly as sent. minLength: 1. maxLength: 255.
+     */
+    "sale_reference": string;
+})
+    & ({
+    /**
+     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
+     * "manual".
+     */
+    "capture_mode": unknown;
+});
+/** The `manual` variant of `CreateGiftCardRedemptionRequest`. */
+export type CreateGiftCardRedemptionRequestManualInput = ({
+    /**
+     * The amount to redeem from the card. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
+     * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
+     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "amount_money": ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
+    /**
+     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
+     * "manual".
+     */
+    "capture_mode": "manual";
+    /**
+     * The gift card version last read. The command changes this card only when its current version
+     * matches. Format: int64. minimum: 1.
+     */
+    "expected_gift_card_version"?: number;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "expires_at"?: string | globalThis.Date;
+    /**
+     * ID of the gift card the value is spent from. minLength: 1. Example:
+     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     */
+    "gift_card_id": string;
+    /**
+     * Your reference for the sale the redemption pays for. Required; 1 to 255 characters. The
+     * value is preserved exactly as sent. minLength: 1. maxLength: 255.
+     */
+    "sale_reference": string;
+})
+    & ({
+    /**
+     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
+     * "manual".
+     */
+    "capture_mode": ("manual") & ("manual");
+});
+/** The request body for: Create a gift card. */
+export type CreateGiftCardRequest = {
+    /**
+     * ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * Value enum: "USD".
+     */
+    "currency": "USD" | (string & {});
+    /**
+     * ID of the customer to associate with the card. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * The card's initial value and where it came from. Omit it to create an unfunded `pending`
+     * card. anyOf[1] (Value): {@link InitialGiftCardFunding}. The initial funding for a new gift
+     * card: the `source` of the value, the `value_money`, and optional consideration and source
+     * time. anyOf[2] (Value): null.
+     */
+    "funding"?: ((InitialGiftCardFunding) | (null));
+    /**
+     * Optional recipient notification recorded with issuance. Requires
+     * commerce.gift_cards.secrets.write in addition to issuance authority. Who receives a gift
+     * card notification: their `email`, optional `name` and `message`, and an optional `send_at`
+     * time.
+     */
+    "notification"?: GiftCardPurchaseRecipient;
+};
+/** The request body for: Create a gift card. */
+export type CreateGiftCardRequestInput = {
+    /**
+     * Existing gift card code, accepted only with funding.source.funding_source_type import. Must
+     * contain 16 gift card alphabet characters after removing spaces and hyphens; O maps to 0 and
+     * I/L to 1. The supplied code is never returned. minLength: 1. maxLength: 64.
+     */
+    "code"?: string;
+    /**
+     * ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * Value enum: "USD".
+     */
+    "currency": "USD";
+    /**
+     * ID of the customer to associate with the card. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * The card's initial value and where it came from. Omit it to create an unfunded `pending`
+     * card. anyOf[1] (Value): {@link InitialGiftCardFundingInput}. The initial funding for a new
+     * gift card: the `source` of the value, the `value_money`, and optional consideration and
+     * source time. anyOf[2] (Value): null.
+     */
+    "funding"?: ((InitialGiftCardFundingInput) | (null));
+    /**
+     * Optional recipient notification recorded with issuance. Requires
+     * commerce.gift_cards.secrets.write in addition to issuance authority. Who receives a gift
+     * card notification: their `email`, optional `name` and `message`, and an optional `send_at`
+     * time.
+     */
+    "notification"?: GiftCardNotificationRecipientInput;
+};
+/**
+ * The result of creating a gift card: the card, its transactions, any load and notification, and
+ * the code while it can still be recovered.
+ */
+export type CreateGiftCardResult = {
+    /**
+     * The full current code. Omitted after the 24-hour recovery window or when this code has been
+     * replaced.
+     */
+    "code"?: string;
+    /**
+     * When recovery of this code expires. Omitted when the code cannot be recovered. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "code_recovery_expires_at"?: string;
+    /**
+     * The gift card after the command. Merchant-issued purchased gift card. Posted balance
+     * includes reserved value; available value is balance minus reservations. Frozen value remains
+     * part of outstanding liability. Gift cards are independent resources and cannot be
+     * transferred across merchants or currencies.
+     */
+    "gift_card": GiftCard;
+    /**
+     * The load the command created. Top-level child of a gift card. Value and consideration are
+     * separate. External funding and import provenance are merchant-attested; no payment is
+     * collected by recording them. Replacement refund lots retain original funding provenance and
+     * do not represent new paid funding.
+     */
+    "gift_card_load"?: GiftCardLoad;
+    /**
+     * The notification the command created because the request included `notification`. Omitted
+     * otherwise. A message sent to a gift card recipient.
+     */
+    "gift_card_notification"?: GiftCardNotification;
+    /**
+     * The transactions the command posted to the card. [] (Value): {@link GiftCardTransaction}.
+     * Immutable posted financial movement with signed amount, per-card sequence, merchant sequence
+     * and balance snapshots. Corrections create new transactions.
+     */
+    "gift_card_transactions": Array<GiftCardTransaction>;
+};
+/** A response containing `CreateGiftCardResult` data. */
+export type CreateGiftCardResultResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The result of creating a
+     * gift card: the card, its transactions, any load and notification, and the code while it can
+     * still be recovered.
+     */
+    "data": CreateGiftCardResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * A modifier group defined inline when creating a modifier set, with its selection limits,
+ * modifiers or text rules, and display flags.
+ */
+export type CreateInlineModifierGroupRequestInput = {
+    /** Whether buyers can select more than one unit of a list modifier. Default: false. */
+    "allow_quantities"?: boolean;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Maximum whole-number quantity for each selected list modifier when allow_quantities is true;
+     * fractional quantities are not supported. Format: int64.
+     */
+    "max_quantity"?: number;
+    /**
+     * Maximum number of distinct modifiers buyers can select from a list group. Omit it for no
+     * limit. A modifier set can override this value. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
+     * are not supported. Format: int64.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Minimum whole-number quantity for each selected list modifier when allow_quantities is true;
+     * fractional quantities are not supported. Format: int64.
+     */
+    "min_quantity"?: number;
+    /**
+     * Minimum number of distinct modifiers buyers must select from a list group. Omit it to
+     * require no selections. A modifier set can override this value. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Whether buyers choose from a list of modifiers or enter text. On create, inferred as text
+     * when text configuration is supplied, otherwise list. Value enum: "list", "text".
+     */
+    "modifier_group_type"?: "list" | "text";
+    /**
+     * Choices in a list group. Only active modifiers whose set override's available is not false
+     * are offered to buyers. Text groups do not have choices. [] (Value): {@link
+     * CreateModifierRequestInput}. A modifier to create in a modifier group, with its name, price
+     * change, tax category, and default selection.
+     */
+    "modifiers"?: Array<CreateModifierRequestInput>;
+    /** Name of the modifier group shown to buyers. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Whether selections from this group appear in fulfillment details unless overridden for a
+     * modifier set.
+     */
+    "show_on_fulfillment"?: boolean;
+    /**
+     * Whether selections from this group appear on buyer receipts unless overridden for a modifier
+     * set.
+     */
+    "show_on_receipt"?: boolean;
+    /**
+     * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
+     * archived groups remain readable and cannot be edited. Default: "active". Value enum:
+     * "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /**
+     * Text entry rules for a text group. Use text.required to require a value; list groups use
+     * min_selected instead. Settings for a text modifier group when creating or updating one:
+     * required, multiline, and length limits.
+     */
+    "text"?: TextModifierConfigRequestInput;
+};
+/**
+ * The `balance_transactions_itemized_v1` variant of `CreateReportRequest`. The
+ * `gift_card_liability_v1` variant of `CreateReportRequest`. The `invoices_itemized_v1` variant of
+ * `CreateReportRequest`. The `merchant_billing_itemized_v1` variant of `CreateReportRequest`. The
+ * `orders_itemized_v1` variant of `CreateReportRequest`. The `orders_itemized_v2` variant of
+ * `CreateReportRequest`. The `payments_itemized_v1` variant of `CreateReportRequest`. The
+ * `payouts_itemized_v1` variant of `CreateReportRequest`. The `tax_itemized_v1` variant of
+ * `CreateReportRequest`. The `tax_summarized_v1` variant of `CreateReportRequest`. The
+ * `tax_transactions_itemized_v1` variant of `CreateReportRequest`. The
+ * `tax_transactions_itemized_v2` variant of `CreateReportRequest`.
+ */
+export type CreateIntervalReportRequest = ({
+    /**
+     * Required only for receivables_aging_v1. Calendar date in timezone, YYYY-MM-DD, no later than
+     * today. Balances are measured at the earlier of the end of that day and report creation.
+     * Format: date. minLength: 1. Example: "2026-08-02".
+     */
+    "as_of_date"?: string;
+    /**
+     * Three-letter ISO 4217 currency. Reports never combine currencies. gift_card_liability_v1
+     * supports USD only; other currencies return INVALID_REQUEST on currency. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     */
+    "currency": string;
+    /**
+     * Exclusive report interval end instant. Each report type matches its own occurrence time. At
+     * most the same local time 366 calendar days after interval_start_at in timezone. Must not be
+     * in the future. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "interval_end_at": string;
+    /**
+     * Inclusive report interval start instant. Each report type matches its own occurrence time.
+     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "interval_start_at": string;
+    /**
+     * Which report to generate. The value names the row and the column version, such as
+     * payments_itemized_v1. The Reports guide lists each type's rows, interval matching, and
+     * columns. Value enum: "invoices_itemized_v1", "gift_card_liability_v1", "orders_itemized_v1",
+     * "orders_itemized_v2", "payments_itemized_v1", "balance_transactions_itemized_v1",
+     * "payouts_itemized_v1", "tax_itemized_v1", "tax_summarized_v1",
+     * "merchant_billing_itemized_v1", "tax_transactions_itemized_v1",
+     * "tax_transactions_itemized_v2".
+     */
+    "report_type": "invoices_itemized_v1"
+        | "gift_card_liability_v1"
+        | "orders_itemized_v1"
+        | "orders_itemized_v2"
+        | "payments_itemized_v1"
+        | "balance_transactions_itemized_v1"
+        | "payouts_itemized_v1"
+        | "tax_itemized_v1"
+        | "tax_summarized_v1"
+        | "merchant_billing_itemized_v1"
+        | "tax_transactions_itemized_v1"
+        | "tax_transactions_itemized_v2"
+        | (string & {});
+    /**
+     * IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its
+     * arrival_date in this timezone. Defaults to the merchant's timezone, then UTC, and is saved
+     * on the report at creation. minLength: 1.
+     */
+    "timezone"?: string;
+});
+/**
+ * The `balance_transactions_itemized_v1` variant of `CreateReportRequest`. The
+ * `gift_card_liability_v1` variant of `CreateReportRequest`. The `invoices_itemized_v1` variant of
+ * `CreateReportRequest`. The `merchant_billing_itemized_v1` variant of `CreateReportRequest`. The
+ * `orders_itemized_v1` variant of `CreateReportRequest`. The `orders_itemized_v2` variant of
+ * `CreateReportRequest`. The `payments_itemized_v1` variant of `CreateReportRequest`. The
+ * `payouts_itemized_v1` variant of `CreateReportRequest`. The `tax_itemized_v1` variant of
+ * `CreateReportRequest`. The `tax_summarized_v1` variant of `CreateReportRequest`. The
+ * `tax_transactions_itemized_v1` variant of `CreateReportRequest`. The
+ * `tax_transactions_itemized_v2` variant of `CreateReportRequest`.
+ */
+export type CreateIntervalReportRequestInput = ({
+    /**
+     * Required only for receivables_aging_v1. Calendar date in timezone, YYYY-MM-DD, no later than
+     * today. Balances are measured at the earlier of the end of that day and report creation.
+     * Format: date. minLength: 1. Example: "2026-08-02".
+     */
+    "as_of_date"?: string;
+    /**
+     * Three-letter ISO 4217 currency. Reports never combine currencies. gift_card_liability_v1
+     * supports USD only; other currencies return INVALID_REQUEST on currency. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     */
+    "currency": string;
+    /**
+     * Exclusive report interval end instant. Each report type matches its own occurrence time. At
+     * most the same local time 366 calendar days after interval_start_at in timezone. Must not be
+     * in the future. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "interval_end_at": string | globalThis.Date;
+    /**
+     * Inclusive report interval start instant. Each report type matches its own occurrence time.
+     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "interval_start_at": string | globalThis.Date;
+    /**
+     * Which report to generate. The value names the row and the column version, such as
+     * payments_itemized_v1. The Reports guide lists each type's rows, interval matching, and
+     * columns. Value enum: "invoices_itemized_v1", "gift_card_liability_v1", "orders_itemized_v1",
+     * "orders_itemized_v2", "payments_itemized_v1", "balance_transactions_itemized_v1",
+     * "payouts_itemized_v1", "tax_itemized_v1", "tax_summarized_v1",
+     * "merchant_billing_itemized_v1", "tax_transactions_itemized_v1",
+     * "tax_transactions_itemized_v2".
+     */
+    "report_type": "invoices_itemized_v1"
+        | "gift_card_liability_v1"
+        | "orders_itemized_v1"
+        | "orders_itemized_v2"
+        | "payments_itemized_v1"
+        | "balance_transactions_itemized_v1"
+        | "payouts_itemized_v1"
+        | "tax_itemized_v1"
+        | "tax_summarized_v1"
+        | "merchant_billing_itemized_v1"
+        | "tax_transactions_itemized_v1"
+        | "tax_transactions_itemized_v2";
+    /**
+     * IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its
+     * arrival_date in this timezone. Defaults to the merchant's timezone, then UTC, and is saved
+     * on the report at creation. minLength: 1.
+     */
+    "timezone"?: string;
+})
+    & (({
+    "as_of_date"?: never;
+}));
+/** The `condition_changed` variant of `CreateInventoryAdjustmentRequest`. */
+export type CreateInventoryAdjustmentConditionChangeRequest = ({
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
+     * maxItems: 100. [] (Value): {@link InventoryAdjustmentConditionChangeLineRequest}. One line
+     * of an inventory condition change: moves a `quantity` of an item at a Location from one
+     * condition to another.
+     */
+    "lines": Array<InventoryAdjustmentConditionChangeLineRequest>;
+    /**
+     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
+     */
+    "note"?: string;
+    /**
+     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
+     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string;
+    /**
+     * Why the stock changed. It decides which fields each line takes. Value enum:
+     * "condition_changed".
+     */
+    "reason": "condition_changed" | (string & {});
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. The source system
+     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
+     * identifier when it applies.
+     */
+    "source_system"?: InventorySourceSystemRequest;
+});
+/** The `condition_changed` variant of `CreateInventoryAdjustmentRequest`. */
+export type CreateInventoryAdjustmentConditionChangeRequestInput = ({
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
+     * maxItems: 100. [] (Value): {@link InventoryAdjustmentConditionChangeLineRequestInput}. One
+     * line of an inventory condition change: moves a `quantity` of an item at a Location from one
+     * condition to another.
+     */
+    "lines": Array<InventoryAdjustmentConditionChangeLineRequestInput>;
+    /**
+     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
+     */
+    "note"?: string;
+    /**
+     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
+     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string | globalThis.Date;
+    /**
+     * Why the stock changed. It decides which fields each line takes. Value enum:
+     * "condition_changed".
+     */
+    "reason": "condition_changed";
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. The source system
+     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
+     * identifier when it applies.
+     */
+    "source_system"?: InventorySourceSystemRequestInput;
+});
+/** The `correction` variant of `CreateInventoryAdjustmentRequest`. */
+export type CreateInventoryAdjustmentCorrectionRequest = ({
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
+     * maxItems: 100. [] (Value): {@link InventoryAdjustmentSetLineRequest}. One line of an
+     * inventory adjustment that sets absolute quantities for an item at a Location. Omitted
+     * quantities stay unchanged.
+     */
+    "lines": Array<InventoryAdjustmentSetLineRequest>;
+    /**
+     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
+     * pattern: \S.
+     */
+    "note": string;
+    /**
+     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
+     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string;
+    /** Why the stock changed. It decides which fields each line takes. Value enum: "correction". */
+    "reason": "correction" | (string & {});
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. The source system
+     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
+     * identifier when it applies.
+     */
+    "source_system"?: InventorySourceSystemRequest;
+})
+    & (({
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. type (Required):
+     * string. Value enum: "pos", "wms", "erp", "other".
+     */
+    "source_system": null
+        | boolean
+        | number
+        | string
+        | unknown[]
+        | ({
+        /** Value enum: "pos", "wms", "erp", "other". */
+        "type": "pos" | "wms" | "erp" | "other" | (string & {});
+        "external_source_id": unknown;
+    });
+})
+    | ({
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. [] (Value):
+     * any.
+     */
+    "lines"?: unknown;
+})
+    | (Record<string, unknown>));
+/** The `correction` variant of `CreateInventoryAdjustmentRequest`. */
+export type CreateInventoryAdjustmentCorrectionRequestInput = ({
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
+     * maxItems: 100. [] (Value): {@link InventoryAdjustmentSetLineRequestInput}. One line of an
+     * inventory adjustment that sets absolute quantities for an item at a Location. Omitted
+     * quantities stay unchanged.
+     */
+    "lines": Array<InventoryAdjustmentSetLineRequestInput>;
+    /**
+     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
+     * pattern: \S.
+     */
+    "note": string;
+    /**
+     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
+     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string | globalThis.Date;
+    /** Why the stock changed. It decides which fields each line takes. Value enum: "correction". */
+    "reason": "correction";
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. The source system
+     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
+     * identifier when it applies.
+     */
+    "source_system"?: InventorySourceSystemRequestInput;
+})
+    & (({
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. type (Required):
+     * string. Value enum: "pos", "wms", "erp", "other".
+     */
+    "source_system": null
+        | boolean
+        | number
+        | string
+        | unknown[]
+        | ({
+        /** Value enum: "pos", "wms", "erp", "other". */
+        "type": "pos" | "wms" | "erp" | "other";
+        "external_source_id": unknown;
+    });
+})
+    | ({
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. [] (Value):
+     * any.
+     */
+    "lines"?: unknown;
+}));
+/** The `counted` variant of `CreateInventoryAdjustmentRequest`. */
+export type CreateInventoryAdjustmentCountedRequest = ({
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
+     * maxItems: 100. [] (Value): {@link InventoryAdjustmentSetLineRequest}. One line of an
+     * inventory adjustment that sets absolute quantities for an item at a Location. Omitted
+     * quantities stay unchanged.
+     */
+    "lines": Array<InventoryAdjustmentSetLineRequest>;
+    /**
+     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
+     */
+    "note"?: string;
+    /**
+     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
+     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string;
+    /** Why the stock changed. It decides which fields each line takes. Value enum: "counted". */
+    "reason": "counted" | (string & {});
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. The source system
+     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
+     * identifier when it applies.
+     */
+    "source_system"?: InventorySourceSystemRequest;
+})
+    & (({
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. type (Required):
+     * string. Value enum: "pos", "wms", "erp", "other".
+     */
+    "source_system": null
+        | boolean
+        | number
+        | string
+        | unknown[]
+        | ({
+        /** Value enum: "pos", "wms", "erp", "other". */
+        "type": "pos" | "wms" | "erp" | "other" | (string & {});
+        "external_source_id": unknown;
+    });
+})
+    | ({
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. [] (Value):
+     * any.
+     */
+    "lines"?: unknown;
+})
+    | (Record<string, unknown>));
 /** The `counted` variant of `CreateInventoryAdjustmentRequest`. */
 export type CreateInventoryAdjustmentCountedRequestInput = ({
     /**
@@ -1529,7 +3062,8 @@ export type CreateLocationRequest = {
     "status"?: "active" | "inactive" | (string & {});
     /**
      * IANA time zone for the Location's local schedules, such as `America/New_York`. Defaults to
-     * the merchant's timezone, then UTC, and is saved on the Location at creation. minLength: 1.
+     * the merchant's timezone, then UTC, and is saved on the Location at creation. A live Location
+     * sets an unset merchant business time zone; sandbox Locations do not. minLength: 1.
      */
     "timezone"?: string;
 };
@@ -1582,1456 +3116,8 @@ export type CreateLocationRequestInput = {
     "status"?: "active" | "inactive";
     /**
      * IANA time zone for the Location's local schedules, such as `America/New_York`. Defaults to
-     * the merchant's timezone, then UTC, and is saved on the Location at creation. minLength: 1.
+     * the merchant's timezone, then UTC, and is saved on the Location at creation. A live Location
+     * sets an unset merchant business time zone; sandbox Locations do not. minLength: 1.
      */
     "timezone"?: string;
-};
-/** The `invoice` variant of `CreateMeCheckoutSessionRequest`. */
-export type CreateMeCheckoutSessionInvoice = ({
-    /**
-     * The open invoice whose balance due now this checkout collects. An open session for the
-     * invoice's current collection is reused and returned with 200. With an invoice access token,
-     * it must be the token's invoice; another invoice returns 404 RESOURCE_NOT_FOUND, and an
-     * invalid, expired or revoked token returns 401 INVALID_CREDENTIAL. With a customer session,
-     * it must be one of the buyer's invoices. minLength: 1. Example:
-     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     */
-    "invoice_id": string;
-    /**
-     * Optional. The schedule entry to collect. Only the earliest entry that is due and still has
-     * an outstanding balance can be collected; omit it to collect that entry. Not allowed on an
-     * invoice without a schedule. minLength: 1. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
-     */
-    "invoice_schedule_entry_id"?: string;
-    /**
-     * Origin of the page where you render this headless checkout, such as
-     * https://shop.example.com. Only this origin can show the checkout's gift card challenge and
-     * receive its result. It does not let the browser call the Flint API. Accepted only when
-     * surface is headless. Use HTTPS and a lowercase DNS hostname. Do not include a path, query,
-     * fragment, or default port. In test mode, localhost, names ending in .localhost, and
-     * 127.0.0.1 also work over HTTP or HTTPS. minLength: 1. maxLength: 255.
-     */
-    "page_origin"?: string;
-    /**
-     * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a
-     * redirect payment such as Affirm, whatever the outcome; read the session there to show the
-     * result. Required when the session offers affirm. It can't contain credentials, a query
-     * string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters.
-     * Format: uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
-     */
-    "payment_return_url"?: string;
-    /**
-     * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url.
-     */
-    "redirects"?: CheckoutRedirects;
-    /**
-     * One of the buyer's return resolutions with a buyer payment pending on its replacement order.
-     * Another buyer's resolution, or an unknown one, returns 404 RESOURCE_NOT_FOUND. An open
-     * session with the same surface is reused and returned with 200. minLength: 1. Example:
-     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     */
-    "return_resolution_id"?: string;
-    /**
-     * Where the checkout sends the buyer after paying, such as the invoice's or Return's page in
-     * the customer account. Limited to 2048 characters (Unicode code points) before trimming
-     * surrounding whitespace. It must be an HTTPS address of the merchant's customer account:
-     * /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the
-     * host of customer_account.merchant_account_url when the merchant hosts the account. In test
-     * mode, any URL on localhost or a loopback IP address (such as 127.0.0.1 or [::1]) is also
-     * accepted, over HTTP or HTTPS and on any port. Anything else returns 400 INVALID_REQUEST with
-     * an INVALID_VALUE detail on return_url. An alias for redirects.success_url on hosted checkout
-     * or payment_return_url on headless checkout; keep them consistent when sending both. Format:
-     * uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
-     */
-    "return_url"?: string;
-    /**
-     * Defaults to hosted. The same surface reuses the open checkout. A different surface replaces
-     * it only while no payment is in progress; otherwise the request returns 409
-     * ACTION_NOT_ALLOWED with reason in_progress. Default: "hosted". Value enum: "hosted",
-     * "headless".
-     */
-    "surface"?: "hosted" | "headless" | (string & {});
-    /**
-     * What the checkout collects payment for. return_resolution: the buyer's balance on one of
-     * their return resolutions; send return_resolution_id. invoice: what is due now on one of the
-     * buyer's invoices; send invoice_id. Value enum: "invoice".
-     */
-    "type": "invoice" | (string & {});
-})
-    & (({
-    /** Value enum: "invoice". */
-    "type": "invoice" | (string & {});
-    /**
-     * The open invoice whose balance due now this checkout collects. An open session for the
-     * invoice's current collection is reused and returned with 200. With an invoice access token,
-     * it must be the token's invoice; another invoice returns 404 RESOURCE_NOT_FOUND, and an
-     * invalid, expired or revoked token returns 401 INVALID_CREDENTIAL. With a customer session,
-     * it must be one of the buyer's invoices. minLength: 1. Example:
-     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     */
-    "invoice_id": string;
-}));
-/** The `invoice` variant of `CreateMeCheckoutSessionRequest`. */
-export type CreateMeCheckoutSessionInvoiceInput = ({
-    /**
-     * The open invoice whose balance due now this checkout collects. An open session for the
-     * invoice's current collection is reused and returned with 200. With an invoice access token,
-     * it must be the token's invoice; another invoice returns 404 RESOURCE_NOT_FOUND, and an
-     * invalid, expired or revoked token returns 401 INVALID_CREDENTIAL. With a customer session,
-     * it must be one of the buyer's invoices. minLength: 1. Example:
-     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     */
-    "invoice_id": string;
-    /**
-     * Optional. The schedule entry to collect. Only the earliest entry that is due and still has
-     * an outstanding balance can be collected; omit it to collect that entry. Not allowed on an
-     * invoice without a schedule. minLength: 1. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
-     */
-    "invoice_schedule_entry_id"?: string;
-    /**
-     * Origin of the page where you render this headless checkout, such as
-     * https://shop.example.com. Only this origin can show the checkout's gift card challenge and
-     * receive its result. It does not let the browser call the Flint API. Accepted only when
-     * surface is headless. Use HTTPS and a lowercase DNS hostname. Do not include a path, query,
-     * fragment, or default port. In test mode, localhost, names ending in .localhost, and
-     * 127.0.0.1 also work over HTTP or HTTPS. minLength: 1. maxLength: 255.
-     */
-    "page_origin"?: string;
-    /**
-     * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a
-     * redirect payment such as Affirm, whatever the outcome; read the session there to show the
-     * result. Required when the session offers affirm. It can't contain credentials, a query
-     * string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters.
-     * Format: uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
-     */
-    "payment_return_url"?: string;
-    /**
-     * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url.
-     */
-    "redirects"?: CheckoutRedirectsRequestInput;
-    /**
-     * One of the buyer's return resolutions with a buyer payment pending on its replacement order.
-     * Another buyer's resolution, or an unknown one, returns 404 RESOURCE_NOT_FOUND. An open
-     * session with the same surface is reused and returned with 200. minLength: 1. Example:
-     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     */
-    "return_resolution_id"?: string;
-    /**
-     * Where the checkout sends the buyer after paying, such as the invoice's or Return's page in
-     * the customer account. Limited to 2048 characters (Unicode code points) before trimming
-     * surrounding whitespace. It must be an HTTPS address of the merchant's customer account:
-     * /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the
-     * host of customer_account.merchant_account_url when the merchant hosts the account. In test
-     * mode, any URL on localhost or a loopback IP address (such as 127.0.0.1 or [::1]) is also
-     * accepted, over HTTP or HTTPS and on any port. Anything else returns 400 INVALID_REQUEST with
-     * an INVALID_VALUE detail on return_url. An alias for redirects.success_url on hosted checkout
-     * or payment_return_url on headless checkout; keep them consistent when sending both. Format:
-     * uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
-     */
-    "return_url"?: string;
-    /**
-     * Defaults to hosted. The same surface reuses the open checkout. A different surface replaces
-     * it only while no payment is in progress; otherwise the request returns 409
-     * ACTION_NOT_ALLOWED with reason in_progress. Default: "hosted". Value enum: "hosted",
-     * "headless".
-     */
-    "surface"?: "hosted" | "headless";
-    /**
-     * What the checkout collects payment for. return_resolution: the buyer's balance on one of
-     * their return resolutions; send return_resolution_id. invoice: what is due now on one of the
-     * buyer's invoices; send invoice_id. Value enum: "invoice".
-     */
-    "type": "invoice";
-})
-    & (({
-    /** Value enum: "invoice". */
-    "type": "invoice";
-    /**
-     * The open invoice whose balance due now this checkout collects. An open session for the
-     * invoice's current collection is reused and returned with 200. With an invoice access token,
-     * it must be the token's invoice; another invoice returns 404 RESOURCE_NOT_FOUND, and an
-     * invalid, expired or revoked token returns 401 INVALID_CREDENTIAL. With a customer session,
-     * it must be one of the buyer's invoices. minLength: 1. Example:
-     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     */
-    "invoice_id": string;
-})
-    & (({
-    "return_resolution_id"?: never;
-})));
-/** The request body for: Create a checkout session for the current buyer. */
-export type CreateMeCheckoutSessionRequest = ({
-    /**
-     * The open invoice whose balance due now this checkout collects. An open session for the
-     * invoice's current collection is reused and returned with 200. With an invoice access token,
-     * it must be the token's invoice; another invoice returns 404 RESOURCE_NOT_FOUND, and an
-     * invalid, expired or revoked token returns 401 INVALID_CREDENTIAL. With a customer session,
-     * it must be one of the buyer's invoices. minLength: 1. Example:
-     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     */
-    "invoice_id"?: string;
-    /**
-     * Optional. The schedule entry to collect. Only the earliest entry that is due and still has
-     * an outstanding balance can be collected; omit it to collect that entry. Not allowed on an
-     * invoice without a schedule. minLength: 1. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
-     */
-    "invoice_schedule_entry_id"?: string;
-    /**
-     * Origin of the page where you render this headless checkout, such as
-     * https://shop.example.com. Only this origin can show the checkout's gift card challenge and
-     * receive its result. It does not let the browser call the Flint API. Accepted only when
-     * surface is headless. Use HTTPS and a lowercase DNS hostname. Do not include a path, query,
-     * fragment, or default port. In test mode, localhost, names ending in .localhost, and
-     * 127.0.0.1 also work over HTTP or HTTPS. minLength: 1. maxLength: 255.
-     */
-    "page_origin"?: string;
-    /**
-     * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a
-     * redirect payment such as Affirm, whatever the outcome; read the session there to show the
-     * result. Required when the session offers affirm. It can't contain credentials, a query
-     * string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters.
-     * Format: uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
-     */
-    "payment_return_url"?: string;
-    /**
-     * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url.
-     */
-    "redirects"?: CheckoutRedirects;
-    /**
-     * One of the buyer's return resolutions with a buyer payment pending on its replacement order.
-     * Another buyer's resolution, or an unknown one, returns 404 RESOURCE_NOT_FOUND. An open
-     * session with the same surface is reused and returned with 200. minLength: 1. Example:
-     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     */
-    "return_resolution_id"?: string;
-    /**
-     * Where the checkout sends the buyer after paying, such as the invoice's or Return's page in
-     * the customer account. Limited to 2048 characters (Unicode code points) before trimming
-     * surrounding whitespace. It must be an HTTPS address of the merchant's customer account:
-     * /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the
-     * host of customer_account.merchant_account_url when the merchant hosts the account. In test
-     * mode, any URL on localhost or a loopback IP address (such as 127.0.0.1 or [::1]) is also
-     * accepted, over HTTP or HTTPS and on any port. Anything else returns 400 INVALID_REQUEST with
-     * an INVALID_VALUE detail on return_url. An alias for redirects.success_url on hosted checkout
-     * or payment_return_url on headless checkout; keep them consistent when sending both. Format:
-     * uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
-     */
-    "return_url"?: string;
-    /**
-     * Defaults to hosted. The same surface reuses the open checkout. A different surface replaces
-     * it only while no payment is in progress; otherwise the request returns 409
-     * ACTION_NOT_ALLOWED with reason in_progress. Default: "hosted". Value enum: "hosted",
-     * "headless".
-     */
-    "surface"?: "hosted" | "headless" | (string & {});
-    /**
-     * What the checkout collects payment for. return_resolution: the buyer's balance on one of
-     * their return resolutions; send return_resolution_id. invoice: what is due now on one of the
-     * buyer's invoices; send invoice_id. Value enum: "return_resolution", "invoice".
-     */
-    "type": "return_resolution" | "invoice" | (string & {});
-})
-    & ((Exclude<CreateMeCheckoutSessionReturnResolution & object, readonly unknown[]>)
-    | (Exclude<CreateMeCheckoutSessionInvoice & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The request body for: Create a checkout session for the current buyer. */
-export type CreateMeCheckoutSessionRequestInput = ({
-    /**
-     * The open invoice whose balance due now this checkout collects. An open session for the
-     * invoice's current collection is reused and returned with 200. With an invoice access token,
-     * it must be the token's invoice; another invoice returns 404 RESOURCE_NOT_FOUND, and an
-     * invalid, expired or revoked token returns 401 INVALID_CREDENTIAL. With a customer session,
-     * it must be one of the buyer's invoices. minLength: 1. Example:
-     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     */
-    "invoice_id"?: string;
-    /**
-     * Optional. The schedule entry to collect. Only the earliest entry that is due and still has
-     * an outstanding balance can be collected; omit it to collect that entry. Not allowed on an
-     * invoice without a schedule. minLength: 1. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
-     */
-    "invoice_schedule_entry_id"?: string;
-    /**
-     * Origin of the page where you render this headless checkout, such as
-     * https://shop.example.com. Only this origin can show the checkout's gift card challenge and
-     * receive its result. It does not let the browser call the Flint API. Accepted only when
-     * surface is headless. Use HTTPS and a lowercase DNS hostname. Do not include a path, query,
-     * fragment, or default port. In test mode, localhost, names ending in .localhost, and
-     * 127.0.0.1 also work over HTTP or HTTPS. minLength: 1. maxLength: 255.
-     */
-    "page_origin"?: string;
-    /**
-     * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a
-     * redirect payment such as Affirm, whatever the outcome; read the session there to show the
-     * result. Required when the session offers affirm. It can't contain credentials, a query
-     * string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters.
-     * Format: uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
-     */
-    "payment_return_url"?: string;
-    /**
-     * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url.
-     */
-    "redirects"?: CheckoutRedirectsRequestInput;
-    /**
-     * One of the buyer's return resolutions with a buyer payment pending on its replacement order.
-     * Another buyer's resolution, or an unknown one, returns 404 RESOURCE_NOT_FOUND. An open
-     * session with the same surface is reused and returned with 200. minLength: 1. Example:
-     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     */
-    "return_resolution_id"?: string;
-    /**
-     * Where the checkout sends the buyer after paying, such as the invoice's or Return's page in
-     * the customer account. Limited to 2048 characters (Unicode code points) before trimming
-     * surrounding whitespace. It must be an HTTPS address of the merchant's customer account:
-     * /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the
-     * host of customer_account.merchant_account_url when the merchant hosts the account. In test
-     * mode, any URL on localhost or a loopback IP address (such as 127.0.0.1 or [::1]) is also
-     * accepted, over HTTP or HTTPS and on any port. Anything else returns 400 INVALID_REQUEST with
-     * an INVALID_VALUE detail on return_url. An alias for redirects.success_url on hosted checkout
-     * or payment_return_url on headless checkout; keep them consistent when sending both. Format:
-     * uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
-     */
-    "return_url"?: string;
-    /**
-     * Defaults to hosted. The same surface reuses the open checkout. A different surface replaces
-     * it only while no payment is in progress; otherwise the request returns 409
-     * ACTION_NOT_ALLOWED with reason in_progress. Default: "hosted". Value enum: "hosted",
-     * "headless".
-     */
-    "surface"?: "hosted" | "headless";
-    /**
-     * What the checkout collects payment for. return_resolution: the buyer's balance on one of
-     * their return resolutions; send return_resolution_id. invoice: what is due now on one of the
-     * buyer's invoices; send invoice_id. Value enum: "return_resolution", "invoice".
-     */
-    "type": "return_resolution" | "invoice";
-})
-    & ((Exclude<CreateMeCheckoutSessionReturnResolutionInput & object, readonly unknown[]>)
-    | (Exclude<CreateMeCheckoutSessionInvoiceInput & object, readonly unknown[]>));
-/** The `return_resolution` variant of `CreateMeCheckoutSessionRequest`. */
-export type CreateMeCheckoutSessionReturnResolution = ({
-    /**
-     * The open invoice whose balance due now this checkout collects. An open session for the
-     * invoice's current collection is reused and returned with 200. With an invoice access token,
-     * it must be the token's invoice; another invoice returns 404 RESOURCE_NOT_FOUND, and an
-     * invalid, expired or revoked token returns 401 INVALID_CREDENTIAL. With a customer session,
-     * it must be one of the buyer's invoices. minLength: 1. Example:
-     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     */
-    "invoice_id"?: string;
-    /**
-     * Optional. The schedule entry to collect. Only the earliest entry that is due and still has
-     * an outstanding balance can be collected; omit it to collect that entry. Not allowed on an
-     * invoice without a schedule. minLength: 1. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
-     */
-    "invoice_schedule_entry_id"?: string;
-    /**
-     * Origin of the page where you render this headless checkout, such as
-     * https://shop.example.com. Only this origin can show the checkout's gift card challenge and
-     * receive its result. It does not let the browser call the Flint API. Accepted only when
-     * surface is headless. Use HTTPS and a lowercase DNS hostname. Do not include a path, query,
-     * fragment, or default port. In test mode, localhost, names ending in .localhost, and
-     * 127.0.0.1 also work over HTTP or HTTPS. minLength: 1. maxLength: 255.
-     */
-    "page_origin"?: string;
-    /**
-     * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a
-     * redirect payment such as Affirm, whatever the outcome; read the session there to show the
-     * result. Required when the session offers affirm. It can't contain credentials, a query
-     * string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters.
-     * Format: uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
-     */
-    "payment_return_url"?: string;
-    /**
-     * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url.
-     */
-    "redirects"?: CheckoutRedirects;
-    /**
-     * One of the buyer's return resolutions with a buyer payment pending on its replacement order.
-     * Another buyer's resolution, or an unknown one, returns 404 RESOURCE_NOT_FOUND. An open
-     * session with the same surface is reused and returned with 200. minLength: 1. Example:
-     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     */
-    "return_resolution_id": string;
-    /**
-     * Where the checkout sends the buyer after paying, such as the invoice's or Return's page in
-     * the customer account. Limited to 2048 characters (Unicode code points) before trimming
-     * surrounding whitespace. It must be an HTTPS address of the merchant's customer account:
-     * /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the
-     * host of customer_account.merchant_account_url when the merchant hosts the account. In test
-     * mode, any URL on localhost or a loopback IP address (such as 127.0.0.1 or [::1]) is also
-     * accepted, over HTTP or HTTPS and on any port. Anything else returns 400 INVALID_REQUEST with
-     * an INVALID_VALUE detail on return_url. An alias for redirects.success_url on hosted checkout
-     * or payment_return_url on headless checkout; keep them consistent when sending both. Format:
-     * uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
-     */
-    "return_url"?: string;
-    /**
-     * Defaults to hosted. The same surface reuses the open checkout. A different surface replaces
-     * it only while no payment is in progress; otherwise the request returns 409
-     * ACTION_NOT_ALLOWED with reason in_progress. Default: "hosted". Value enum: "hosted",
-     * "headless".
-     */
-    "surface"?: "hosted" | "headless" | (string & {});
-    /**
-     * What the checkout collects payment for. return_resolution: the buyer's balance on one of
-     * their return resolutions; send return_resolution_id. invoice: what is due now on one of the
-     * buyer's invoices; send invoice_id. Value enum: "return_resolution".
-     */
-    "type": "return_resolution" | (string & {});
-})
-    & (({
-    /** Value enum: "return_resolution". */
-    "type": "return_resolution" | (string & {});
-    /**
-     * One of the buyer's return resolutions with a buyer payment pending on its replacement order.
-     * Another buyer's resolution, or an unknown one, returns 404 RESOURCE_NOT_FOUND. An open
-     * session with the same surface is reused and returned with 200. minLength: 1. Example:
-     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     */
-    "return_resolution_id": string;
-}));
-/** The `return_resolution` variant of `CreateMeCheckoutSessionRequest`. */
-export type CreateMeCheckoutSessionReturnResolutionInput = ({
-    /**
-     * The open invoice whose balance due now this checkout collects. An open session for the
-     * invoice's current collection is reused and returned with 200. With an invoice access token,
-     * it must be the token's invoice; another invoice returns 404 RESOURCE_NOT_FOUND, and an
-     * invalid, expired or revoked token returns 401 INVALID_CREDENTIAL. With a customer session,
-     * it must be one of the buyer's invoices. minLength: 1. Example:
-     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     */
-    "invoice_id"?: string;
-    /**
-     * Optional. The schedule entry to collect. Only the earliest entry that is due and still has
-     * an outstanding balance can be collected; omit it to collect that entry. Not allowed on an
-     * invoice without a schedule. minLength: 1. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
-     */
-    "invoice_schedule_entry_id"?: string;
-    /**
-     * Origin of the page where you render this headless checkout, such as
-     * https://shop.example.com. Only this origin can show the checkout's gift card challenge and
-     * receive its result. It does not let the browser call the Flint API. Accepted only when
-     * surface is headless. Use HTTPS and a lowercase DNS hostname. Do not include a path, query,
-     * fragment, or default port. In test mode, localhost, names ending in .localhost, and
-     * 127.0.0.1 also work over HTTP or HTTPS. minLength: 1. maxLength: 255.
-     */
-    "page_origin"?: string;
-    /**
-     * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a
-     * redirect payment such as Affirm, whatever the outcome; read the session there to show the
-     * result. Required when the session offers affirm. It can't contain credentials, a query
-     * string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters.
-     * Format: uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
-     */
-    "payment_return_url"?: string;
-    /**
-     * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url.
-     */
-    "redirects"?: CheckoutRedirectsRequestInput;
-    /**
-     * One of the buyer's return resolutions with a buyer payment pending on its replacement order.
-     * Another buyer's resolution, or an unknown one, returns 404 RESOURCE_NOT_FOUND. An open
-     * session with the same surface is reused and returned with 200. minLength: 1. Example:
-     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     */
-    "return_resolution_id": string;
-    /**
-     * Where the checkout sends the buyer after paying, such as the invoice's or Return's page in
-     * the customer account. Limited to 2048 characters (Unicode code points) before trimming
-     * surrounding whitespace. It must be an HTTPS address of the merchant's customer account:
-     * /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the
-     * host of customer_account.merchant_account_url when the merchant hosts the account. In test
-     * mode, any URL on localhost or a loopback IP address (such as 127.0.0.1 or [::1]) is also
-     * accepted, over HTTP or HTTPS and on any port. Anything else returns 400 INVALID_REQUEST with
-     * an INVALID_VALUE detail on return_url. An alias for redirects.success_url on hosted checkout
-     * or payment_return_url on headless checkout; keep them consistent when sending both. Format:
-     * uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
-     */
-    "return_url"?: string;
-    /**
-     * Defaults to hosted. The same surface reuses the open checkout. A different surface replaces
-     * it only while no payment is in progress; otherwise the request returns 409
-     * ACTION_NOT_ALLOWED with reason in_progress. Default: "hosted". Value enum: "hosted",
-     * "headless".
-     */
-    "surface"?: "hosted" | "headless";
-    /**
-     * What the checkout collects payment for. return_resolution: the buyer's balance on one of
-     * their return resolutions; send return_resolution_id. invoice: what is due now on one of the
-     * buyer's invoices; send invoice_id. Value enum: "return_resolution".
-     */
-    "type": "return_resolution";
-})
-    & (({
-    /** Value enum: "return_resolution". */
-    "type": "return_resolution";
-    /**
-     * One of the buyer's return resolutions with a buyer payment pending on its replacement order.
-     * Another buyer's resolution, or an unknown one, returns 404 RESOURCE_NOT_FOUND. An open
-     * session with the same surface is reused and returned with 200. minLength: 1. Example:
-     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     */
-    "return_resolution_id": string;
-})
-    & (({
-    "invoice_id"?: never;
-}) & ({
-    "invoice_schedule_entry_id"?: never;
-})));
-/** The request body for: Preview subscription. */
-export type CreateMeSubscriptionPreviewRequest = ((CreateMeSubscriptionPreviewRequestDeliveryOptions)
-    | (CreateMeSubscriptionPreviewRequestNextRenewal)
-    | (CreateMeSubscriptionPreviewRequestPlanChange)
-    | (CreateSubscriptionPreviewRequestQuantityChange)
-    | (Record<string, unknown>));
-/** The `delivery_options` variant of `CreateMeSubscriptionPreviewRequest`. */
-export type CreateMeSubscriptionPreviewRequestDeliveryOptions = {
-    /**
-     * Address to evaluate each method against: one of the customer's saved addresses or a new
-     * address. Where to deliver a subscription: a saved customer address by ID, or a new address.
-     */
-    "destination"?: SubscriptionServiceLocationRequest;
-    /** Selects the delivery options preview. Value enum: "delivery_options". */
-    "mode": "delivery_options" | (string & {});
-    /**
-     * ID of the subscription to list delivery methods for. minLength: 1. pattern:
-     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-};
-/** The `delivery_options` variant of `CreateMeSubscriptionPreviewRequest`. */
-export type CreateMeSubscriptionPreviewRequestDeliveryOptionsInput = {
-    /**
-     * Address to evaluate each method against: one of the customer's saved addresses or a new
-     * address. Where to deliver a subscription: a saved customer address by ID, or a new address.
-     */
-    "destination"?: SubscriptionDeliveryDestinationRequestInput;
-    /** Selects the delivery options preview. Value enum: "delivery_options". */
-    "mode": "delivery_options";
-    /**
-     * ID of the subscription to list delivery methods for. minLength: 1. pattern:
-     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-};
-/** The request body for: Preview subscription. */
-export type CreateMeSubscriptionPreviewRequestInput = ((CreateMeSubscriptionPreviewRequestDeliveryOptionsInput)
-    | (CreateMeSubscriptionPreviewRequestNextRenewalInput)
-    | (CreateMeSubscriptionPreviewRequestPlanChangeInput)
-    | (CreateMeSubscriptionPreviewRequestQuantityChangeInput));
-/** The `next_renewal` variant of `CreateMeSubscriptionPreviewRequest`. */
-export type CreateMeSubscriptionPreviewRequestNextRenewal = ({
-    /**
-     * Proposed complete delivery preference, as accepted by subscription PATCH. Prices the next
-     * paid renewal as if this delivery were saved. A held delivery with
-     * remaining_prepaid_deliveries greater than zero is already paid: fixing it charges nothing,
-     * while this preview still prices the next paid cycle. Nothing is saved, no stock is reserved,
-     * and no rate is guaranteed. Refusals match PATCH. The delivery preference to set on a
-     * subscription: delivery method, type, destination, and recipient.
-     */
-    "delivery"?: SubscriptionDeliveryRequest;
-    /** Selects the next renewal preview. Value enum: "next_renewal". */
-    "mode": "next_renewal" | (string & {});
-    /**
-     * ID of the subscription to preview the next renewal for. minLength: 1. pattern:
-     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-    /**
-     * A proposed variant swap for one line item. The preview prices the next renewal as if the
-     * swap were saved, using the same checks and current price as a buyer line item update.
-     * Nothing is saved. Can't be combined with `delivery`. A proposed item swap for a buyer
-     * renewal preview: the subscription line item and the variant to price in its place.
-     */
-    "swap"?: SubscriptionSwapPreviewRequest;
-});
-/** The `next_renewal` variant of `CreateMeSubscriptionPreviewRequest`. */
-export type CreateMeSubscriptionPreviewRequestNextRenewalInput = ({
-    /**
-     * Proposed complete delivery preference, as accepted by subscription PATCH. Prices the next
-     * paid renewal as if this delivery were saved. A held delivery with
-     * remaining_prepaid_deliveries greater than zero is already paid: fixing it charges nothing,
-     * while this preview still prices the next paid cycle. Nothing is saved, no stock is reserved,
-     * and no rate is guaranteed. Refusals match PATCH. The delivery preference to set on a
-     * subscription: delivery method, type, destination, and recipient.
-     */
-    "delivery"?: SubscriptionDeliveryRequestInput;
-    /** Selects the next renewal preview. Value enum: "next_renewal". */
-    "mode": "next_renewal";
-    /**
-     * ID of the subscription to preview the next renewal for. minLength: 1. pattern:
-     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-    /**
-     * A proposed variant swap for one line item. The preview prices the next renewal as if the
-     * swap were saved, using the same checks and current price as a buyer line item update.
-     * Nothing is saved. Can't be combined with `delivery`. A proposed item swap for a buyer
-     * renewal preview: the subscription line item and the variant to price in its place.
-     */
-    "swap"?: SubscriptionSwapPreviewRequestInput;
-})
-    & ({
-    "swap"?: never;
-} | {
-    "delivery"?: never;
-});
-/** The `plan_change` variant of `CreateMeSubscriptionPreviewRequest`. */
-export type CreateMeSubscriptionPreviewRequestPlanChange = ({
-    /**
-     * Send with billing_interval_count to choose a target plan option. Omit both to keep the
-     * current interval if the target offers that pair, otherwise use the target plan's default
-     * interval and count. Value enum: "daily", "weekly", "monthly", "yearly".
-     */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /**
-     * Required when billing_interval is sent; billing_interval is required when this field is
-     * sent. minimum: 1. maximum: 365.
-     */
-    "billing_interval_count"?: number;
-    /** The subscription change to preview. Value enum: "plan_change". */
-    "mode": "plan_change" | (string & {});
-    /**
-     * The buyer's subscription to preview a plan change for. minLength: 1. pattern:
-     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-    /**
-     * The target subscription plan. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "plan_01KEZF7C004CY5ZR33XST2AASV".
-     */
-    "subscription_plan_id": string;
-});
-/** The `plan_change` variant of `CreateMeSubscriptionPreviewRequest`. */
-export type CreateMeSubscriptionPreviewRequestPlanChangeInput = ({
-    /**
-     * Send with billing_interval_count to choose a target plan option. Omit both to keep the
-     * current interval if the target offers that pair, otherwise use the target plan's default
-     * interval and count. Value enum: "daily", "weekly", "monthly", "yearly".
-     */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly";
-    /**
-     * Required when billing_interval is sent; billing_interval is required when this field is
-     * sent. minimum: 1. maximum: 365.
-     */
-    "billing_interval_count"?: number;
-    /** The subscription change to preview. Value enum: "plan_change". */
-    "mode": "plan_change";
-    /**
-     * The buyer's subscription to preview a plan change for. minLength: 1. pattern:
-     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-    /**
-     * The target subscription plan. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "plan_01KEZF7C004CY5ZR33XST2AASV".
-     */
-    "subscription_plan_id": string;
-});
-/** The `quantity_change` variant of `CreateMeSubscriptionPreviewRequest`. */
-export type CreateMeSubscriptionPreviewRequestQuantityChangeInput = {
-    /**
-     * When the quantity change is billed. Previews price only prorated_now; period_end changes are
-     * billed at the next renewal. Value enum: "prorated_now".
-     */
-    "billing_starts": "prorated_now";
-    /**
-     * Reject the preview if the subscription version has changed. Send the same value to
-     * change-quantity. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * The frozen adjustable subscription line and its quantity, within min_quantity and
-     * max_quantity. Omitted lines keep their quantities. minItems: 1. maxItems: 50. [] (Value):
-     * {@link SubscriptionQuantityChangeLineItemRequestInput}. Quantity for an existing
-     * subscription line.
-     */
-    "line_items": Array<SubscriptionQuantityChangeLineItemRequestInput>;
-    /** The subscription change to preview. Value enum: "quantity_change". */
-    "mode": "quantity_change";
-    /**
-     * The buyer's subscription to preview a quantity change for. minLength: 1. pattern:
-     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-};
-/** The request body for: Create a merchant signup. */
-export type CreateMerchantSignupRequest = {
-    /**
-     * The new merchant's display name until onboarding sets its legal name, 1 to 100 characters,
-     * without links or email addresses: the code email shows it. Without it, Flint names the
-     * merchant from the owner's email. minLength: 1. maxLength: 100.
-     */
-    "business_name"?: string;
-    /**
-     * The PKCE S256 challenge: base64url SHA-256 of a verifier you keep. The authorization codes
-     * verify returns are bound to it. minLength: 43. maxLength: 43. pattern: ^[A-Za-z0-9_-]{43}$.
-     */
-    "code_challenge": string;
-    /** Must be `S256`. Value enum: "S256". */
-    "code_challenge_method": "S256" | (string & {});
-    /**
-     * Your identifier for this business, such as your account ID. List signups by it. minLength:
-     * 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * The modes to install the app in. `live` needs the app's live `create_merchants` capability.
-     * Until it is active, a signup may install only in `test`, and only for an owner on your
-     * merchant's team (plus-addresses included). minItems: 1. maxItems: 2. uniqueItems: true. []
-     * enum: "test", "live". [] (Value): string. Value enum: "test", "live".
-     */
-    "modes": Array<"test" | "live" | (string & {})>;
-    /**
-     * The owner Flint emails the code to. The person who will own the new merchant. Flint emails
-     * the code to this address.
-     */
-    "owner": MerchantSignupOwner;
-    /**
-     * Your partner app to install on the new merchant. It must be active and have a
-     * `merchant_action_url`. minLength: 1. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
-     */
-    "partner_app_id": string;
-    /**
-     * Optional manifest permissions to request besides the required ones. Defaults to the app's
-     * `default_requested_permissions`. Send `[]` to request only the required permissions.
-     * uniqueItems: true. [] (Value): string. minLength: 1. Example: "manage_orders".
-     */
-    "requested_permission_ids"?: Array<string>;
-    /**
-     * The onboarding state of the new merchant's default sandbox, which the test grant points at.
-     * Send `not_started` to rehearse verification in test mode. Default: "complete". Value enum:
-     * "complete", "not_started".
-     */
-    "sandbox_initial_onboarding"?: "complete" | "not_started" | (string & {});
-};
-/** The request body for: Create a merchant signup. */
-export type CreateMerchantSignupRequestInput = {
-    /**
-     * The new merchant's display name until onboarding sets its legal name, 1 to 100 characters,
-     * without links or email addresses: the code email shows it. Without it, Flint names the
-     * merchant from the owner's email. minLength: 1. maxLength: 100.
-     */
-    "business_name"?: string;
-    /**
-     * The PKCE S256 challenge: base64url SHA-256 of a verifier you keep. The authorization codes
-     * verify returns are bound to it. minLength: 43. maxLength: 43. pattern: ^[A-Za-z0-9_-]{43}$.
-     */
-    "code_challenge": string;
-    /** Must be `S256`. Value enum: "S256". */
-    "code_challenge_method": "S256";
-    /**
-     * Your identifier for this business, such as your account ID. List signups by it. minLength:
-     * 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * The modes to install the app in. `live` needs the app's live `create_merchants` capability.
-     * Until it is active, a signup may install only in `test`, and only for an owner on your
-     * merchant's team (plus-addresses included). minItems: 1. maxItems: 2. uniqueItems: true. []
-     * enum: "test", "live". [] (Value): string. Value enum: "test", "live".
-     */
-    "modes": Array<"test" | "live">;
-    /**
-     * The owner Flint emails the code to. The person who will own the new merchant. Flint emails
-     * the code to this address.
-     */
-    "owner": MerchantSignupOwnerRequestInput;
-    /**
-     * Your partner app to install on the new merchant. It must be active and have a
-     * `merchant_action_url`. minLength: 1. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
-     */
-    "partner_app_id": string;
-    /**
-     * Optional manifest permissions to request besides the required ones. Defaults to the app's
-     * `default_requested_permissions`. Send `[]` to request only the required permissions.
-     * uniqueItems: true. [] (Value): string. minLength: 1. Example: "manage_orders".
-     */
-    "requested_permission_ids"?: Array<string>;
-    /**
-     * The onboarding state of the new merchant's default sandbox, which the test grant points at.
-     * Send `not_started` to rehearse verification in test mode. Default: "complete". Value enum:
-     * "complete", "not_started".
-     */
-    "sandbox_initial_onboarding"?: "complete" | "not_started";
-};
-/** The request body for: Create modifier group. */
-export type CreateModifierGroupRequest = {
-    /** Whether buyers can select more than one unit of a list modifier. Default: false. */
-    "allow_quantities"?: boolean;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Maximum whole-number quantity for each selected list modifier when allow_quantities is true;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "max_quantity"?: number;
-    /**
-     * Maximum number of distinct modifiers buyers can select from a list group. Omit it for no
-     * limit. A modifier set can override this value. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
-     * are not supported. Format: int64.
-     */
-    "max_total_quantity"?: number;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Minimum whole-number quantity for each selected list modifier when allow_quantities is true;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "min_quantity"?: number;
-    /**
-     * Minimum number of distinct modifiers buyers must select from a list group. Omit it to
-     * require no selections. A modifier set can override this value. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Whether buyers choose from a list of modifiers or enter text. On create, inferred as text
-     * when text configuration is supplied, otherwise list. Value enum: "list", "text".
-     */
-    "modifier_group_type"?: "list" | "text" | (string & {});
-    /**
-     * Choices in a list group. Only active modifiers whose set override's available is not false
-     * are offered to buyers. Text groups do not have choices. [] (Value): {@link
-     * CreateModifierRequest}. A modifier to create in a modifier group, with its name, price
-     * change, tax category, and default selection.
-     */
-    "modifiers"?: Array<CreateModifierRequest>;
-    /** Name of the modifier group shown to buyers. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Whether selections from this group appear in fulfillment details unless overridden for a
-     * modifier set.
-     */
-    "show_on_fulfillment"?: boolean;
-    /**
-     * Whether selections from this group appear on buyer receipts unless overridden for a modifier
-     * set.
-     */
-    "show_on_receipt"?: boolean;
-    /**
-     * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
-     * archived groups remain readable and cannot be edited. Default: "active". Value enum:
-     * "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /**
-     * Text entry rules for a text group. Use text.required to require a value; list groups use
-     * min_selected instead. Settings for a text modifier group when creating or updating one:
-     * required, multiline, and length limits.
-     */
-    "text"?: TextModifierConfigRequest;
-};
-/** The request body for: Create modifier group. */
-export type CreateModifierGroupRequestInput = CreateInlineModifierGroupRequestInput;
-/**
- * A modifier to create in a modifier group, with its name, price change, tax category, and default
- * selection.
- */
-export type CreateModifierRequest = {
-    /**
-     * Whole-number quantity selected by default. Used only when the choice is available and
-     * selected_by_default is true. A modifier set can override this value; fractional quantities
-     * are not supported. Format: int64.
-     */
-    "default_quantity"?: number;
-    /**
-     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
-     * "software", "saas", "services", "professional_services", "food", "prepared_food",
-     * "clothing", "medical_goods", "admission".
-     */
-    "line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission"
-        | (string & {});
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Name of the choice shown to buyers. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Display position of the choice within its group; lower values appear first. Format: int32.
-     */
-    "position"?: number;
-    /**
-     * Whether this choice is selected when the buyer has not supplied selections for the group. A
-     * modifier set can override this value; unavailable choices are never selected by default.
-     * Default: false.
-     */
-    "selected_by_default"?: boolean;
-    /** Whether this modifier appears in fulfillment details. */
-    "show_on_fulfillment"?: boolean;
-    /** Whether this modifier appears on buyer receipts. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Lifecycle status of the modifier. Only active modifiers can be offered to buyers. Default:
-     * "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /** Whether this modifier's price is taxable. A modifier set can override this value. */
-    "taxable"?: boolean;
-    /**
-     * Amount added to the item's unit price for each unit of this modifier. A modifier set can
-     * override this value. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "unit_price_delta_money"?: MoneyValue;
-};
-/**
- * A modifier to create in a modifier group, with its name, price change, tax category, and default
- * selection.
- */
-export type CreateModifierRequestInput = {
-    /**
-     * Whole-number quantity selected by default. Used only when the choice is available and
-     * selected_by_default is true. A modifier set can override this value; fractional quantities
-     * are not supported. Format: int64.
-     */
-    "default_quantity"?: number;
-    /**
-     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
-     * "software", "saas", "services", "professional_services", "food", "prepared_food",
-     * "clothing", "medical_goods", "admission".
-     */
-    "line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission";
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Name of the choice shown to buyers. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Display position of the choice within its group; lower values appear first. Format: int32.
-     */
-    "position"?: number;
-    /**
-     * Whether this choice is selected when the buyer has not supplied selections for the group. A
-     * modifier set can override this value; unavailable choices are never selected by default.
-     * Default: false.
-     */
-    "selected_by_default"?: boolean;
-    /** Whether this modifier appears in fulfillment details. */
-    "show_on_fulfillment"?: boolean;
-    /** Whether this modifier appears on buyer receipts. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Lifecycle status of the modifier. Only active modifiers can be offered to buyers. Default:
-     * "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /** Whether this modifier's price is taxable. A modifier set can override this value. */
-    "taxable"?: boolean;
-    /**
-     * Amount added to the item's unit price for each unit of this modifier. A modifier set can
-     * override this value. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "unit_price_delta_money"?: MoneyValueInput;
-};
-/** The `existing` variant of `CreateModifierSetGroupInput`. */
-export type CreateModifierSetGroupInputExisting = ({
-    /**
-     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
-     * maxLength: 255.
-     */
-    "display_name"?: string;
-    /**
-     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; if neither value is set, there is no limit. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
-     * the minimum is 0. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Modifier group owned by this set when source is inline. Read this group through GET
-     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
-     * defined inline when creating a modifier set, with its selection limits, modifiers or text
-     * rules, and display flags.
-     */
-    "modifier_group"?: CreateModifierGroupRequest;
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id": string;
-    /**
-     * Overrides for individual list modifiers in this set. A choice is offered only when its
-     * status is active and its override's available is not false. [] (Value): {@link
-     * ModifierOverride}. Settings for one modifier that apply only within a modifier set group,
-     * overriding the modifier group's own values.
-     */
-    "modifier_overrides"?: Array<ModifierOverride>;
-    /** Display position of this group within the set; lower values appear first. Format: int32. */
-    "position"?: number;
-    /**
-     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
-     * only for text groups; for a list group, set min_selected: 1 to require a selection.
-     */
-    "required"?: boolean;
-    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
-    "show_on_fulfillment"?: boolean;
-    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Use inline for a modifier group owned by this modifier set, or existing to reference an
-     * independent modifier group. Value enum: "existing".
-     */
-    "source": "existing" | (string & {});
-})
-    & (({
-    /** References an independent modifier group. Value enum: "existing". */
-    "source": "existing" | (string & {});
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id": string;
-}));
-/** The `existing` variant of `CreateModifierSetGroupInput`. */
-export type CreateModifierSetGroupInputExistingInput = ({
-    /**
-     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
-     * maxLength: 255.
-     */
-    "display_name"?: string;
-    /**
-     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; if neither value is set, there is no limit. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
-     * the minimum is 0. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Modifier group owned by this set when source is inline. Read this group through GET
-     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
-     * defined inline when creating a modifier set, with its selection limits, modifiers or text
-     * rules, and display flags.
-     */
-    "modifier_group"?: CreateInlineModifierGroupRequestInput;
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id": string;
-    /**
-     * Overrides for individual list modifiers in this set. A choice is offered only when its
-     * status is active and its override's available is not false. [] (Value): {@link
-     * ModifierOverrideRequestInput}. Settings for one modifier that apply only within a modifier
-     * set group, overriding the modifier group's own values.
-     */
-    "modifier_overrides"?: Array<ModifierOverrideRequestInput>;
-    /** Display position of this group within the set; lower values appear first. Format: int32. */
-    "position"?: number;
-    /**
-     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
-     * only for text groups; for a list group, set min_selected: 1 to require a selection.
-     */
-    "required"?: boolean;
-    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
-    "show_on_fulfillment"?: boolean;
-    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Use inline for a modifier group owned by this modifier set, or existing to reference an
-     * independent modifier group. Value enum: "existing".
-     */
-    "source": "existing";
-})
-    & (({
-    /** References an independent modifier group. Value enum: "existing". */
-    "source": "existing";
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id": string;
-})
-    & ({
-    "modifier_group"?: never;
-}));
-/** The `inline` variant of `CreateModifierSetGroupInput`. */
-export type CreateModifierSetGroupInputInline = ({
-    /**
-     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
-     * maxLength: 255.
-     */
-    "display_name"?: string;
-    /**
-     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; if neither value is set, there is no limit. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
-     * the minimum is 0. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Modifier group owned by this set when source is inline. Read this group through GET
-     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
-     * defined inline when creating a modifier set, with its selection limits, modifiers or text
-     * rules, and display flags.
-     */
-    "modifier_group": CreateModifierGroupRequest;
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id"?: string;
-    /**
-     * Overrides for individual list modifiers in this set. A choice is offered only when its
-     * status is active and its override's available is not false. [] (Value): {@link
-     * ModifierOverride}. Settings for one modifier that apply only within a modifier set group,
-     * overriding the modifier group's own values.
-     */
-    "modifier_overrides"?: Array<ModifierOverride>;
-    /** Display position of this group within the set; lower values appear first. Format: int32. */
-    "position"?: number;
-    /**
-     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
-     * only for text groups; for a list group, set min_selected: 1 to require a selection.
-     */
-    "required"?: boolean;
-    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
-    "show_on_fulfillment"?: boolean;
-    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Use inline for a modifier group owned by this modifier set, or existing to reference an
-     * independent modifier group. Value enum: "inline".
-     */
-    "source": "inline" | (string & {});
-})
-    & (({
-    /** Defines a modifier group owned by this modifier set. Value enum: "inline". */
-    "source": "inline" | (string & {});
-    /**
-     * Modifier group owned by this set when source is inline. Read this group through GET
-     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
-     * defined inline when creating a modifier set, with its selection limits, modifiers or text
-     * rules, and display flags.
-     */
-    "modifier_group": CreateModifierGroupRequest;
-}));
-/** The `inline` variant of `CreateModifierSetGroupInput`. */
-export type CreateModifierSetGroupInputInlineInput = ({
-    /**
-     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
-     * maxLength: 255.
-     */
-    "display_name"?: string;
-    /**
-     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; if neither value is set, there is no limit. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
-     * the minimum is 0. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Modifier group owned by this set when source is inline. Read this group through GET
-     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
-     * defined inline when creating a modifier set, with its selection limits, modifiers or text
-     * rules, and display flags.
-     */
-    "modifier_group": CreateInlineModifierGroupRequestInput;
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id"?: string;
-    /**
-     * Overrides for individual list modifiers in this set. A choice is offered only when its
-     * status is active and its override's available is not false. [] (Value): {@link
-     * ModifierOverrideRequestInput}. Settings for one modifier that apply only within a modifier
-     * set group, overriding the modifier group's own values.
-     */
-    "modifier_overrides"?: Array<ModifierOverrideRequestInput>;
-    /** Display position of this group within the set; lower values appear first. Format: int32. */
-    "position"?: number;
-    /**
-     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
-     * only for text groups; for a list group, set min_selected: 1 to require a selection.
-     */
-    "required"?: boolean;
-    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
-    "show_on_fulfillment"?: boolean;
-    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Use inline for a modifier group owned by this modifier set, or existing to reference an
-     * independent modifier group. Value enum: "inline".
-     */
-    "source": "inline";
-})
-    & (({
-    /** Defines a modifier group owned by this modifier set. Value enum: "inline". */
-    "source": "inline";
-    /**
-     * Modifier group owned by this set when source is inline. Read this group through GET
-     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
-     * defined inline when creating a modifier set, with its selection limits, modifiers or text
-     * rules, and display flags.
-     */
-    "modifier_group": CreateInlineModifierGroupRequestInput;
-})
-    & ({
-    "modifier_group_id"?: never;
-}));
-/**
- * A modifier group to add to a modifier set, either an existing group by ID or one defined inline,
- * chosen by `source`.
- */
-export type CreateModifierSetGroupRequest = ({
-    /**
-     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
-     * maxLength: 255.
-     */
-    "display_name"?: string;
-    /**
-     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; if neither value is set, there is no limit. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
-     * the minimum is 0. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Modifier group owned by this set when source is inline. Read this group through GET
-     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
-     * defined inline when creating a modifier set, with its selection limits, modifiers or text
-     * rules, and display flags.
-     */
-    "modifier_group"?: CreateModifierGroupRequest;
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id"?: string;
-    /**
-     * Overrides for individual list modifiers in this set. A choice is offered only when its
-     * status is active and its override's available is not false. [] (Value): {@link
-     * ModifierOverride}. Settings for one modifier that apply only within a modifier set group,
-     * overriding the modifier group's own values.
-     */
-    "modifier_overrides"?: Array<ModifierOverride>;
-    /** Display position of this group within the set; lower values appear first. Format: int32. */
-    "position"?: number;
-    /**
-     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
-     * only for text groups; for a list group, set min_selected: 1 to require a selection.
-     */
-    "required"?: boolean;
-    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
-    "show_on_fulfillment"?: boolean;
-    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Use inline for a modifier group owned by this modifier set, or existing to reference an
-     * independent modifier group. Value enum: "existing", "inline".
-     */
-    "source": "existing" | "inline" | (string & {});
-})
-    & ((Exclude<CreateModifierSetGroupInputExisting & object, readonly unknown[]>)
-    | (Exclude<CreateModifierSetGroupInputInline & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * A modifier group to add to a modifier set, either an existing group by ID or one defined inline,
- * chosen by `source`.
- */
-export type CreateModifierSetGroupRequestInput = ({
-    /**
-     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
-     * maxLength: 255.
-     */
-    "display_name"?: string;
-    /**
-     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; if neither value is set, there is no limit. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
-     * the minimum is 0. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Modifier group owned by this set when source is inline. Read this group through GET
-     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
-     * defined inline when creating a modifier set, with its selection limits, modifiers or text
-     * rules, and display flags.
-     */
-    "modifier_group"?: CreateInlineModifierGroupRequestInput;
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id"?: string;
-    /**
-     * Overrides for individual list modifiers in this set. A choice is offered only when its
-     * status is active and its override's available is not false. [] (Value): {@link
-     * ModifierOverrideRequestInput}. Settings for one modifier that apply only within a modifier
-     * set group, overriding the modifier group's own values.
-     */
-    "modifier_overrides"?: Array<ModifierOverrideRequestInput>;
-    /** Display position of this group within the set; lower values appear first. Format: int32. */
-    "position"?: number;
-    /**
-     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
-     * only for text groups; for a list group, set min_selected: 1 to require a selection.
-     */
-    "required"?: boolean;
-    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
-    "show_on_fulfillment"?: boolean;
-    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Use inline for a modifier group owned by this modifier set, or existing to reference an
-     * independent modifier group. Value enum: "existing", "inline".
-     */
-    "source": "existing" | "inline";
-})
-    & ((Exclude<CreateModifierSetGroupInputExistingInput & object, readonly unknown[]>)
-    | (Exclude<CreateModifierSetGroupInputInlineInput & object, readonly unknown[]>));
-/** The request body for: Create modifier set. */
-export type CreateModifierSetRequest = {
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Ordered group entries in this set, including references to reusable groups and groups owned
-     * by the set. [] (Value): {@link CreateModifierSetGroupRequest}. A modifier group to add to a
-     * modifier set, either an existing group by ID or one defined inline, chosen by `source`.
-     */
-    "modifier_groups"?: Array<CreateModifierSetGroupRequest>;
-    /** Name used to identify this modifier set. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived
-     * sets remain readable and cannot be edited. Default: "active". Value enum: "active",
-     * "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-};
-/** The request body for: Create modifier set. */
-export type CreateModifierSetRequestInput = {
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Ordered group entries in this set, including references to reusable groups and groups owned
-     * by the set. [] (Value): {@link CreateModifierSetGroupRequestInput}. A modifier group to add
-     * to a modifier set, either an existing group by ID or one defined inline, chosen by `source`.
-     */
-    "modifier_groups"?: Array<CreateModifierSetGroupRequestInput>;
-    /** Name used to identify this modifier set. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived
-     * sets remain readable and cannot be edited. Default: "active". Value enum: "active",
-     * "inactive".
-     */
-    "status"?: "active" | "inactive";
-};
-/**
- * Where Flint's hosted onboarding page sends the person when they exit, finish, or open a used or
- * expired link.
- */
-export type CreateOnboardingAccessLinkRequest = {
-    /**
-     * An absolute https URL without credentials, up to 2,048 characters. Query strings and
-     * fragments are allowed. For a partner app install token, its origin must be the origin of the
-     * app's merchant_action_url or of one of its redirect URIs. Format: uri. minLength: 1.
-     * maxLength: 2048. Example: "https://example.com/receipt".
-     */
-    "return_url": string;
 };

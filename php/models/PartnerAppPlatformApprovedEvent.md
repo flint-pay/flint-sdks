@@ -158,7 +158,7 @@ anyOf variant 2.
 
 anyOf variant 1: When a client secret last authenticated the app, updated at most once an hour, so it can lag the latest use by up to an hour. `null` when no client secret use has been recorded, including for an app that authenticates only with credentials. It isn't cleared when you disable the secret..
 
-- Value shape: (string or null). When a client secret last authenticated the app, updated at most once an hour, so it can lag the latest use by up to an hour. `null` when no client secret use has been recorded, including for an app that authenticates only with credentials. It isn't cleared when you disable the secret. When a client secret last authenticated the app, updated at most once an hour, so it can lag the latest use by up to an hour. `null` when no client secret use has been recorded, including for an app that authenticates only with credentials. It isn't cleared when you disable the secret. Format: `date-time`. 
+- Value shape: string. When a client secret last authenticated the app, updated at most once an hour, so it can lag the latest use by up to an hour. `null` when no client secret use has been recorded, including for an app that authenticates only with credentials. It isn't cleared when you disable the secret. When a client secret last authenticated the app, updated at most once an hour, so it can lag the latest use by up to an hour. `null` when no client secret use has been recorded, including for an app that authenticates only with credentials. It isn't cleared when you disable the secret. Format: `date-time`. 
 
 ### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.client_secret_last_used_at variant 2
 
@@ -183,6 +183,56 @@ anyOf variant 1: IDs of the permissions requested when an authorization request 
 anyOf variant 2.
 
 - Value shape: null. IDs of the permissions requested when an authorization request sends no scope. Defaults to every permission in the manifest that isn't optional. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.merchant_action_routing
+
+Present only while a change to merchant_action_url or platform_profile.website_url is waiting to move routing to another registrable domain; omitted otherwise. url is the previous destination emails still use, and expires_at is when routing switches to the current merchant_action_url. While the app had no merchant action URL before the change, this is Flint's own page.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expires_at` | Conditional | string or null | When routing switches to the current merchant_action_url. `expires_at`: [declared alternatives](../models/PartnerAppPlatformApprovedEvent.md#partnerappplatformapprovedeventdata-fields-1previous_attributesmerchant_action_routing-variant-1expires_at). |
+| `url` | Conditional | string or null | The previous merchant action URL that Flint's merchant emails still use, and whose host code emails still show. While the app had no merchant action URL before the change, this is Flint's own page. `url`: [declared alternatives](../models/PartnerAppPlatformApprovedEvent.md#partnerappplatformapprovedeventdata-fields-1previous_attributesmerchant_action_routing-variant-1url). |
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.merchant_action_routing variant 1
+
+anyOf PartnerAppMerchantActionRoutingPreviousAttributes.
+
+- Optional: `expires_at`, `url`.
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.merchant_action_routing variant 2
+
+anyOf variant 2.
+
+- Undeclared: `expires_at`, `url`.
+- Value shape: null. Present only while a change to merchant_action_url or platform_profile.website_url is waiting to move routing to another registrable domain; omitted otherwise. url is the previous destination emails still use, and expires_at is when routing switches to the current merchant_action_url. While the app had no merchant action URL before the change, this is Flint's own page. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.merchant_action_routing variant 1.expires_at
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.merchant_action_routing variant 1.expires_at variant 1
+
+anyOf variant 1: When routing switches to the current merchant_action_url..
+
+- Value shape: string. When routing switches to the current merchant_action_url. When routing switches to the current merchant_action_url. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.merchant_action_routing variant 1.expires_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When routing switches to the current merchant_action_url. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.merchant_action_routing variant 1.url
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.merchant_action_routing variant 1.url variant 1
+
+anyOf variant 1: The previous merchant action URL that Flint's merchant emails still use, and whose host code emails still show. While the app had no merchant action URL before the change, this is Flint's own page..
+
+- Value shape: string. The previous merchant action URL that Flint's merchant emails still use, and whose host code emails still show. While the app had no merchant action URL before the change, this is Flint's own page. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.merchant_action_routing variant 1.url variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The previous merchant action URL that Flint's merchant emails still use, and whose host code emails still show. While the app had no merchant action URL before the change, this is Flint's own page. 
 
 ### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.merchant_action_url
 
@@ -226,13 +276,48 @@ anyOf variant 2.
 
 - Value shape: null. Unique identifier for this partner app, prefixed `papp_`. 
 
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.payment_splits
+
+The app's declaration that its owner sends splits of the payments it collects to sellers that install the app. Every authorization of the app asks the merchant to approve receiving split funds under these seller terms, and the environment grant records the approval. Declaring it requests the payment_splits platform capability, which live splits need. Absent when the app sends no splits.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `seller_terms_url` | Conditional | string or null | The marketplace's terms for its sellers, as an HTTPS URL of at most 2,048 characters. The consent screen links it. `seller_terms_url`: [declared alternatives](../models/PartnerAppPlatformApprovedEvent.md#partnerappplatformapprovedeventdata-fields-1previous_attributespayment_splits-variant-1seller_terms_url). |
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.payment_splits variant 1
+
+anyOf PartnerAppPaymentSplitsPreviousAttributes.
+
+- Optional: `seller_terms_url`.
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.payment_splits variant 2
+
+anyOf variant 2.
+
+- Undeclared: `seller_terms_url`.
+- Value shape: null. The app's declaration that its owner sends splits of the payments it collects to sellers that install the app. Every authorization of the app asks the merchant to approve receiving split funds under these seller terms, and the environment grant records the approval. Declaring it requests the payment_splits platform capability, which live splits need. Absent when the app sends no splits. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.payment_splits variant 1.seller_terms_url
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.payment_splits variant 1.seller_terms_url variant 1
+
+anyOf variant 1: The marketplace's terms for its sellers, as an HTTPS URL of at most 2,048 characters. The consent screen links it..
+
+- Value shape: string. The marketplace's terms for its sellers, as an HTTPS URL of at most 2,048 characters. The consent screen links it. The marketplace's terms for its sellers, as an HTTPS URL of at most 2,048 characters. The consent screen links it. Format: `uri`. maxLength: `2048`. pattern: `^https://`. Example: `"https://example.com/receipt"`. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.payment_splits variant 1.seller_terms_url variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The marketplace's terms for its sellers, as an HTTPS URL of at most 2,048 characters. The consent screen links it. 
+
 ### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.permission_manifest
 
 ### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.permission_manifest variant 1
 
 anyOf variant 1: Permissions the app can request from merchants. Each lists the Flint scopes it grants..
 
-- Value shape: Array of [PartnerAppPermissionManifestEntry](../models/PartnerAppPermissionManifestEntry.md#partnerapppermissionmanifestentry). Permissions the app can request from merchants. Each lists the Flint scopes it grants. 
+- Value shape: Array of [PartnerAppPermissionManifestEntryPreviousAttributes](../models/PartnerAppPermissionManifestEntryPreviousAttributes.md#partnerapppermissionmanifestentrypreviousattributes). Permissions the app can request from merchants. Each lists the Flint scopes it grants. 
 
 ### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.permission_manifest variant 2
 
@@ -242,7 +327,133 @@ anyOf variant 2.
 
 ### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.permission_manifest variant 1.[] fields 1
 
-Field definitions: [PartnerAppResponse.data.permission_manifest[]](../models/PartnerAppResponse.md#partnerappresponsedatapermission_manifest).
+Field definitions: [EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.granted_permissions variant 1.[] fields 1](../models/EnvironmentGrantRevokedEvent.md#environmentgrantrevokedeventdata-fields-1previous_attributesgranted_permissions-variant-1-fields-1).
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile
+
+What the app told Flint for its platform review. Absent until set.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `estimated_merchant_count` | Conditional | integer or null | Merchants the platform expects to serve on Flint in the next 12 months, from 1 to 1,000,000. `estimated_merchant_count`: [declared alternatives](../models/PartnerAppPlatformApprovedEvent.md#partnerappplatformapprovedeventdata-fields-1previous_attributesplatform_profile-variant-1estimated_merchant_count). |
+| `estimated_monthly_volume_money` | Conditional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Monthly payment volume the platform expects across those merchants in 12 months. Above zero, in USD. |
+| `merchant_description` | Conditional | string or null | The kinds of merchants the platform serves, in 1 to 500 characters. `merchant_description`: [declared alternatives](../models/PartnerAppPlatformApprovedEvent.md#partnerappplatformapprovedeventdata-fields-1previous_attributesplatform_profile-variant-1merchant_description). |
+| `merchant_onboarding_description` | Conditional | string or null | How the platform onboards and monitors its merchants, in 1 to 2,000 characters. `merchant_onboarding_description`: [declared alternatives](../models/PartnerAppPlatformApprovedEvent.md#partnerappplatformapprovedeventdata-fields-1previous_attributesplatform_profile-variant-1merchant_onboarding_description). |
+| `product_description` | Conditional | string or null | What the platform's product does, in 1 to 1,000 characters. `product_description`: [declared alternatives](../models/PartnerAppPlatformApprovedEvent.md#partnerappplatformapprovedeventdata-fields-1previous_attributesplatform_profile-variant-1product_description). |
+| `support_email` | Conditional | string or null | Where the platform's merchants get support. `support_email`: [declared alternatives](../models/PartnerAppPlatformApprovedEvent.md#partnerappplatformapprovedeventdata-fields-1previous_attributesplatform_profile-variant-1support_email). |
+| `support_phone` | Conditional | string or null | Support phone number in E.164 format, such as +14155550123. Optional. `support_phone`: [declared alternatives](../models/PartnerAppPlatformApprovedEvent.md#partnerappplatformapprovedeventdata-fields-1previous_attributesplatform_profile-variant-1support_phone). |
+| `website_url` | Conditional | string or null | The platform's website, as an https URL. `website_url`: [declared alternatives](../models/PartnerAppPlatformApprovedEvent.md#partnerappplatformapprovedeventdata-fields-1previous_attributesplatform_profile-variant-1website_url). |
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1
+
+anyOf PartnerAppPlatformProfilePreviousAttributes.
+
+- Optional: `estimated_merchant_count`, `estimated_monthly_volume_money`, `merchant_description`, `merchant_onboarding_description`, `product_description`, `support_email`, `support_phone`, `website_url`.
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 2
+
+anyOf variant 2.
+
+- Undeclared: `estimated_merchant_count`, `estimated_monthly_volume_money`, `merchant_description`, `merchant_onboarding_description`, `product_description`, `support_email`, `support_phone`, `website_url`.
+- Value shape: null. What the app told Flint for its platform review. Absent until set. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.estimated_merchant_count
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.estimated_merchant_count variant 1
+
+anyOf variant 1: Merchants the platform expects to serve on Flint in the next 12 months, from 1 to 1,000,000..
+
+- Value shape: integer. Merchants the platform expects to serve on Flint in the next 12 months, from 1 to 1,000,000. Merchants the platform expects to serve on Flint in the next 12 months, from 1 to 1,000,000. Format: `int64`. minimum: `1`. maximum: `1000000`. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.estimated_merchant_count variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Merchants the platform expects to serve on Flint in the next 12 months, from 1 to 1,000,000. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.merchant_description
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.merchant_description variant 1
+
+anyOf variant 1: The kinds of merchants the platform serves, in 1 to 500 characters..
+
+- Value shape: string. The kinds of merchants the platform serves, in 1 to 500 characters. The kinds of merchants the platform serves, in 1 to 500 characters. minLength: `1`. maxLength: `500`. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.merchant_description variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The kinds of merchants the platform serves, in 1 to 500 characters. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.merchant_onboarding_description
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.merchant_onboarding_description variant 1
+
+anyOf variant 1: How the platform onboards and monitors its merchants, in 1 to 2,000 characters..
+
+- Value shape: string. How the platform onboards and monitors its merchants, in 1 to 2,000 characters. How the platform onboards and monitors its merchants, in 1 to 2,000 characters. minLength: `1`. maxLength: `2000`. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.merchant_onboarding_description variant 2
+
+anyOf variant 2.
+
+- Value shape: null. How the platform onboards and monitors its merchants, in 1 to 2,000 characters. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.product_description
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.product_description variant 1
+
+anyOf variant 1: What the platform's product does, in 1 to 1,000 characters..
+
+- Value shape: string. What the platform's product does, in 1 to 1,000 characters. What the platform's product does, in 1 to 1,000 characters. minLength: `1`. maxLength: `1000`. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.product_description variant 2
+
+anyOf variant 2.
+
+- Value shape: null. What the platform's product does, in 1 to 1,000 characters. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.support_email
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.support_email variant 1
+
+anyOf variant 1: Where the platform's merchants get support..
+
+- Value shape: string. Where the platform's merchants get support. Where the platform's merchants get support. Format: `email`. maxLength: `320`. Example: `"buyer@example.com"`. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.support_email variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Where the platform's merchants get support. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.support_phone
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.support_phone variant 1
+
+anyOf variant 1: Support phone number in E.164 format, such as +14155550123. Optional..
+
+- Value shape: string. Support phone number in E.164 format, such as +14155550123. Optional. Support phone number in E.164 format, such as +14155550123. Optional. pattern: `^\+[1-9][0-9]{1,14}$`. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.support_phone variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Support phone number in E.164 format, such as +14155550123. Optional. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.website_url
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.website_url variant 1
+
+anyOf variant 1: The platform's website, as an https URL..
+
+- Value shape: string. The platform's website, as an https URL. The platform's website, as an https URL. Format: `uri`. maxLength: `2048`. Example: `"https://example.com/receipt"`. 
+
+### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.platform_profile variant 1.website_url variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The platform's website, as an https URL. 
 
 ### PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.previous_secret_expires_at
 

@@ -52,22 +52,22 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | --- | --- | --- | --- |
 | `barcode` | Optional | string or null | Barcode assigned to this sellable item. `barcode`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesbarcode). |
 | `bundle_id` | Optional | string or null | Stable identifier of the bundle. `bundle_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesbundle_id). |
-| `categories` | Optional | Array of [CategoryReference](../models/CategoryReference.md#categoryreference) or null | Always present. Empty collections are returned as []. `categories`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributescategories). |
+| `categories` | Optional | Array of [CategoryReferencePreviousAttributes](../models/CategoryReferencePreviousAttributes.md#categoryreferencepreviousattributes) or null | Always present. Empty collections are returned as []. `categories`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributescategories). |
 | `component_count` | Optional | integer or null | Number of components in the bundle. `component_count`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributescomponent_count). |
-| `components` | Optional | Array of [BundleComponent](../models/BundleComponent.md#bundlecomponent) or null | The bundle's components in position order, on every bundle response including list rows. [] only when the bundle has no components. `components`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributescomponents). |
+| `components` | Optional | Array of [BundleComponentPreviousAttributes](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributes) or null | The bundle's components in position order, on every bundle response including list rows. [] only when the bundle has no components. `components`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributescomponents). |
 | `created_at` | Optional | string or null | When this resource was created, as an RFC3339 timestamp. `created_at`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributescreated_at). |
 | `delivery_configuration_status` | Optional | string or null | Delivery readiness aggregated across the bundle's components. A bundle with no components reports `not_applicable`. Values: `"configured"`, `"action_required"`, `"not_applicable"`. `delivery_configuration_status`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesdelivery_configuration_status). |
 | `description` | Optional | string or null | Description of the bundle shown to buyers. `description`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesdescription). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesexternal_reference_id). |
-| `images` | Optional | Array of [ImageAttachment](../models/ImageAttachment.md#imageattachment) or null | Images attached to this resource, in display order. The first image is primary. `images`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesimages). |
+| `images` | Optional | Array of [ImageAttachmentPreviousAttributes](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributes) or null | Images attached to this resource, in display order. The first image is primary. `images`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesimages). |
 | `is_available_for_sale` | Optional | boolean or null | Whether the bundle can be sold now: it is `active`, has at least one component, every component's variant and product are `active`, and `delivery_configuration_status` isn't `action_required`. Stock isn't considered. `is_available_for_sale`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesis_available_for_sale). |
 | `merchant_id` | Optional | string or null | Identifier of the merchant that owns this resource. `merchant_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesmerchant_id). |
 | `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) or null | Caller-owned metadata stored on this resource. `metadata`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesmetadata). |
-| `modifier_set_id` | Optional | string or null or null | ID of the modifier set attached to the bundle. `null` when no modifier set is attached. `modifier_set_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesmodifier_set_id). |
+| `modifier_set_id` | Optional | string or null | ID of the modifier set attached to the bundle. `null` when no modifier set is attached. `modifier_set_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesmodifier_set_id). |
 | `name` | Optional | string or null | Bundle name shown to buyers. `name`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesname). |
 | `sku` | Optional | string or null | Stock keeping unit assigned to this sellable item. `sku`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributessku). |
 | `status` | Optional | string or null | Bundle lifecycle status. Archived bundles remain readable and cannot be edited. Values: `"active"`, `"inactive"`, `"archived"`. `status`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesstatus). |
-| `unit_price_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Price charged for one unit, in the currency's smallest unit. `unit_price_money`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesunit_price_money). |
+| `unit_price_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Price charged for one unit, in the currency's smallest unit. `unit_price_money`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesunit_price_money). |
 | `updated_at` | Optional | string or null | When this resource last changed, as an RFC3339 timestamp. `updated_at`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesupdated_at). |
 | `version` | Optional | integer or null | Current resource version. Send it as expected_version to reject a write if the resource has changed. `version`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesversion). |
 
@@ -105,7 +105,7 @@ anyOf variant 2.
 
 anyOf variant 1: Always present. Empty collections are returned as []..
 
-- Value shape: Array of [CategoryReference](../models/CategoryReference.md#categoryreference). Always present. Empty collections are returned as []. 
+- Value shape: Array of [CategoryReferencePreviousAttributes](../models/CategoryReferencePreviousAttributes.md#categoryreferencepreviousattributes). Always present. Empty collections are returned as []. 
 
 ### BundleArchivedInstalledMerchantsEvent.data.previous_attributes.categories variant 2
 
@@ -133,7 +133,7 @@ anyOf variant 2.
 
 anyOf variant 1: The bundle's components in position order, on every bundle response including list rows. [] only when the bundle has no components..
 
-- Value shape: Array of [BundleComponent](../models/BundleComponent.md#bundlecomponent). The bundle's components in position order, on every bundle response including list rows. [] only when the bundle has no components. 
+- Value shape: Array of [BundleComponentPreviousAttributes](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributes). The bundle's components in position order, on every bundle response including list rows. [] only when the bundle has no components. 
 
 ### BundleArchivedInstalledMerchantsEvent.data.previous_attributes.components variant 2
 
@@ -203,7 +203,7 @@ anyOf variant 2.
 
 anyOf variant 1: Images attached to this resource, in display order. The first image is primary..
 
-- Value shape: Array of [ImageAttachment](../models/ImageAttachment.md#imageattachment). Images attached to this resource, in display order. The first image is primary. 
+- Value shape: Array of [ImageAttachmentPreviousAttributes](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributes). Images attached to this resource, in display order. The first image is primary. 
 
 ### BundleArchivedInstalledMerchantsEvent.data.previous_attributes.images variant 2
 
@@ -243,7 +243,7 @@ anyOf variant 2.
 
 ### BundleArchivedInstalledMerchantsEvent.data.previous_attributes.metadata variant 1
 
-anyOf MetadataMap: Caller-owned metadata stored on this resource..
+anyOf MetadataMapPreviousAttributes.
 
 - Value shape: Map of string. Caller-owned metadata stored on this resource. Map values: maxLength: `4096`. 
 
@@ -259,7 +259,7 @@ anyOf variant 2.
 
 anyOf variant 1: ID of the modifier set attached to the bundle. `null` when no modifier set is attached..
 
-- Value shape: (string or null). ID of the modifier set attached to the bundle. `null` when no modifier set is attached. ID of the modifier set attached to the bundle. `null` when no modifier set is attached. Example: `"ms_01KEZF7C007EWZVVFAWVJJM8NR"`. 
+- Value shape: string. ID of the modifier set attached to the bundle. `null` when no modifier set is attached. ID of the modifier set attached to the bundle. `null` when no modifier set is attached. Example: `"ms_01KEZF7C007EWZVVFAWVJJM8NR"`. 
 
 ### BundleArchivedInstalledMerchantsEvent.data.previous_attributes.modifier_set_id variant 2
 
@@ -313,13 +313,13 @@ anyOf variant 2.
 
 Price charged for one unit, in the currency's smallest unit.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### BundleArchivedInstalledMerchantsEvent.data.previous_attributes.unit_price_money variant 1
 
-anyOf MoneyValue: Price charged for one unit, in the currency's smallest unit..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### BundleArchivedInstalledMerchantsEvent.data.previous_attributes.unit_price_money variant 2
 
@@ -327,6 +327,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Price charged for one unit, in the currency's smallest unit. 
+
+### BundleArchivedInstalledMerchantsEvent.data.previous_attributes.unit_price_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### BundleArchivedInstalledMerchantsEvent.data.previous_attributes.unit_price_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### BundleArchivedInstalledMerchantsEvent.data.previous_attributes.updated_at
 

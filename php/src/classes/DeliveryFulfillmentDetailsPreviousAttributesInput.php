@@ -1,0 +1,142 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string|null $carrier
+ * @property-read string|\DateTimeInterface|null $courier_pickup_at
+ * @property-read int|null $courier_pickup_window_duration_seconds
+ * @property-read string|null $courier_provider_name
+ * @property-read string|null $courier_support_phone
+ * @property-read string|\DateTimeInterface|null $delivered_at
+ * @property-read string|\DateTimeInterface|null $delivery_due_at
+ * @property-read string|\DateTimeInterface|null $dispatched_at
+ * @property-read string|null $dropoff_notes
+ * @property-read string|null $external_delivery_id
+ * @property-read string|null $instructions
+ * @property-read bool|null $no_contact
+ * @property-read int|null $prep_time_duration_seconds
+ * @property-read string|\DateTimeInterface|null $ready_at
+ * @property-read string|null $service_area_id
+ * @property-read string|null $timezone
+ * @property-read string|null $tracking_url
+ * @property-read string|\DateTimeInterface|null $window_end_at
+ * @property-read string|\DateTimeInterface|null $window_start_at
+ * Presence-aware input; omitted fields throw when accessed. */
+final class DeliveryFulfillmentDetailsPreviousAttributesInput extends Model {
+    /** @param array{'carrier'?: string|null, 'courier_pickup_at'?: string|\DateTimeInterface|null, 'courier_pickup_window_duration_seconds'?: int|null, 'courier_provider_name'?: string|null, 'courier_support_phone'?: string|null, 'delivered_at'?: string|\DateTimeInterface|null, 'delivery_due_at'?: string|\DateTimeInterface|null, 'dispatched_at'?: string|\DateTimeInterface|null, 'dropoff_notes'?: string|null, 'external_delivery_id'?: string|null, 'instructions'?: string|null, 'no_contact'?: bool|null, 'prep_time_duration_seconds'?: int|null, 'ready_at'?: string|\DateTimeInterface|null, 'service_area_id'?: string|null, 'timezone'?: string|null, 'tracking_url'?: string|null, 'window_end_at'?: string|\DateTimeInterface|null, 'window_start_at'?: string|\DateTimeInterface|null, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryFulfillmentDetailsPreviousAttributesInput')); }
+    /** Carrier responsible for the local delivery. anyOf[1] (Value): string. Carrier responsible for the local delivery. anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When carrier is omitted; use hasCarrier() or valueOrDefault().
+     */
+    public function getCarrier(): mixed { return $this->get('carrier'); }
+    public function hasCarrier(): bool { return $this->has('carrier'); }
+    /** Time at which the courier collected the order. anyOf[1] (Value): string. Time at which the courier collected the order. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * @return string|\DateTimeInterface|null
+     * @throws SdkError When courier_pickup_at is omitted; use hasCourierPickupAt() or valueOrDefault().
+     */
+    public function getCourierPickupAt(): mixed { return $this->get('courier_pickup_at'); }
+    public function hasCourierPickupAt(): bool { return $this->has('courier_pickup_at'); }
+    /** Width of the promised courier pickup window, from 0 to 86400 seconds. anyOf[1] (Value): integer. Width of the promised courier pickup window, from 0 to 86400 seconds. Format: int64. minimum: 0. maximum: 86400. anyOf[2] (Value): null.
+     * @return int|null
+     * @throws SdkError When courier_pickup_window_duration_seconds is omitted; use hasCourierPickupWindowDurationSeconds() or valueOrDefault().
+     */
+    public function getCourierPickupWindowDurationSeconds(): mixed { return $this->get('courier_pickup_window_duration_seconds'); }
+    public function hasCourierPickupWindowDurationSeconds(): bool { return $this->has('courier_pickup_window_duration_seconds'); }
+    /** Delivery network or merchant fleet provider handling the job. anyOf[1] (Value): string. Delivery network or merchant fleet provider handling the job. maxLength: 255. anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When courier_provider_name is omitted; use hasCourierProviderName() or valueOrDefault().
+     */
+    public function getCourierProviderName(): mixed { return $this->get('courier_provider_name'); }
+    public function hasCourierProviderName(): bool { return $this->has('courier_provider_name'); }
+    /** Buyer-safe support number for the courier or merchant fleet. anyOf[1] (Value): string. Buyer-safe support number for the courier or merchant fleet. maxLength: 30. anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When courier_support_phone is omitted; use hasCourierSupportPhone() or valueOrDefault().
+     */
+    public function getCourierSupportPhone(): mixed { return $this->get('courier_support_phone'); }
+    public function hasCourierSupportPhone(): bool { return $this->has('courier_support_phone'); }
+    /** When the items were delivered, in RFC3339 format. anyOf[1] (Value): string. When the items were delivered, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * @return string|\DateTimeInterface|null
+     * @throws SdkError When delivered_at is omitted; use hasDeliveredAt() or valueOrDefault().
+     */
+    public function getDeliveredAt(): mixed { return $this->get('delivered_at'); }
+    public function hasDeliveredAt(): bool { return $this->has('delivered_at'); }
+    /** Time by which the order should be delivered. Passing it does not change status or emit an event automatically; the merchant decides how to follow up. anyOf[1] (Value): string. Time by which the order should be delivered. Passing it does not change status or emit an event automatically; the merchant decides how to follow up. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * @return string|\DateTimeInterface|null
+     * @throws SdkError When delivery_due_at is omitted; use hasDeliveryDueAt() or valueOrDefault().
+     */
+    public function getDeliveryDueAt(): mixed { return $this->get('delivery_due_at'); }
+    public function hasDeliveryDueAt(): bool { return $this->has('delivery_due_at'); }
+    /** When the delivery was dispatched, in RFC3339 format. anyOf[1] (Value): string. When the delivery was dispatched, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * @return string|\DateTimeInterface|null
+     * @throws SdkError When dispatched_at is omitted; use hasDispatchedAt() or valueOrDefault().
+     */
+    public function getDispatchedAt(): mixed { return $this->get('dispatched_at'); }
+    public function hasDispatchedAt(): bool { return $this->has('dispatched_at'); }
+    /** Driver-facing notes for the final handoff. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. anyOf[1] (Value): string. Driver-facing notes for the final handoff. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. maxLength: 2048. anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When dropoff_notes is omitted; use hasDropoffNotes() or valueOrDefault().
+     */
+    public function getDropoffNotes(): mixed { return $this->get('dropoff_notes'); }
+    public function hasDropoffNotes(): bool { return $this->has('dropoff_notes'); }
+    /** Stable delivery job ID owned by the courier or merchant dispatch system. anyOf[1] (Value): string. Stable delivery job ID owned by the courier or merchant dispatch system. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When external_delivery_id is omitted; use hasExternalDeliveryId() or valueOrDefault().
+     */
+    public function getExternalDeliveryId(): mixed { return $this->get('external_delivery_id'); }
+    public function hasExternalDeliveryId(): bool { return $this->has('external_delivery_id'); }
+    /** Omitted for a checkout session credential that doesn't act for the customer the buyer verified. anyOf[1] (Value): string. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When instructions is omitted; use hasInstructions() or valueOrDefault().
+     */
+    public function getInstructions(): mixed { return $this->get('instructions'); }
+    public function hasInstructions(): bool { return $this->has('instructions'); }
+    /** Whether the buyer requested a no-contact handoff. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. anyOf[1] (Value): boolean. Whether the buyer requested a no-contact handoff. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. anyOf[2] (Value): null.
+     * @return bool|null
+     * @throws SdkError When no_contact is omitted; use hasNoContact() or valueOrDefault().
+     */
+    public function getNoContact(): mixed { return $this->get('no_contact'); }
+    public function hasNoContact(): bool { return $this->has('no_contact'); }
+    /** Expected preparation time before courier pickup, from 0 to 86400 seconds. anyOf[1] (Value): integer. Expected preparation time before courier pickup, from 0 to 86400 seconds. Format: int64. minimum: 0. maximum: 86400. anyOf[2] (Value): null.
+     * @return int|null
+     * @throws SdkError When prep_time_duration_seconds is omitted; use hasPrepTimeDurationSeconds() or valueOrDefault().
+     */
+    public function getPrepTimeDurationSeconds(): mixed { return $this->get('prep_time_duration_seconds'); }
+    public function hasPrepTimeDurationSeconds(): bool { return $this->has('prep_time_duration_seconds'); }
+    /** Time at which the order became ready for courier pickup. anyOf[1] (Value): string. Time at which the order became ready for courier pickup. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * @return string|\DateTimeInterface|null
+     * @throws SdkError When ready_at is omitted; use hasReadyAt() or valueOrDefault().
+     */
+    public function getReadyAt(): mixed { return $this->get('ready_at'); }
+    public function hasReadyAt(): bool { return $this->has('ready_at'); }
+    /** Delivery service area assigned to this fulfillment. anyOf[1] (Value): string. Delivery service area assigned to this fulfillment. Example: "boston-north". anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When service_area_id is omitted; use hasServiceAreaId() or valueOrDefault().
+     */
+    public function getServiceAreaId(): mixed { return $this->get('service_area_id'); }
+    public function hasServiceAreaId(): bool { return $this->has('service_area_id'); }
+    /** Timezone used to display the local delivery window. Uses an IANA time zone name. anyOf[1] (Value): string. Timezone used to display the local delivery window. Uses an IANA time zone name. anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
+     */
+    public function getTimezone(): mixed { return $this->get('timezone'); }
+    public function hasTimezone(): bool { return $this->has('timezone'); }
+    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. anyOf[1] (Value): string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When tracking_url is omitted; use hasTrackingUrl() or valueOrDefault().
+     */
+    public function getTrackingUrl(): mixed { return $this->get('tracking_url'); }
+    public function hasTrackingUrl(): bool { return $this->has('tracking_url'); }
+    /** End of the promised delivery window, in RFC3339 format. anyOf[1] (Value): string. End of the promised delivery window, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * @return string|\DateTimeInterface|null
+     * @throws SdkError When window_end_at is omitted; use hasWindowEndAt() or valueOrDefault().
+     */
+    public function getWindowEndAt(): mixed { return $this->get('window_end_at'); }
+    public function hasWindowEndAt(): bool { return $this->has('window_end_at'); }
+    /** Start of the promised delivery window, in RFC3339 format. anyOf[1] (Value): string. Start of the promised delivery window, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * @return string|\DateTimeInterface|null
+     * @throws SdkError When window_start_at is omitted; use hasWindowStartAt() or valueOrDefault().
+     */
+    public function getWindowStartAt(): mixed { return $this->get('window_start_at'); }
+    public function hasWindowStartAt(): bool { return $this->has('window_start_at'); }
+}

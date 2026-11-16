@@ -19,7 +19,7 @@ final class CreateCheckoutSessionReturnResolutionInput extends Model {
      */
     public function getPageOrigin(): string { return $this->get('page_origin'); }
     public function hasPageOrigin(): bool { return $this->has('page_origin'); }
-    /** Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the session there to show the result. Required when the session offers affirm. It can't contain credentials, a query string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters. Format: uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
+    /** Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the session there to show the result. Required when the session offers affirm. It can't contain credentials, a query string, or a fragment. Query strings are deliberately excluded so credentials and provider state cannot cross Flint's payment relay. Put merchant identifiers in the URL path, such as https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to 2,048 characters. Format: uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
      * @return string
      * @throws SdkError When payment_return_url is omitted; use hasPaymentReturnUrl() or valueOrDefault().
      */

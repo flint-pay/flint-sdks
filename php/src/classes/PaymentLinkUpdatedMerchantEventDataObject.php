@@ -120,7 +120,7 @@ final class PaymentLinkUpdatedMerchantEventDataObject extends Model {
      */
     public function getInactiveMessage(): ?string { return $this->get('inactive_message'); }
     public function hasInactiveMessage(): bool { return $this->has('inactive_message'); }
-    /** The inventory location or routing policy that supplies stock for the link's catalog lines. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
+    /** The inventory location or routing policy that supplies stock for the link's catalog lines. Absent when using the implicit single-Location fallback, which is evaluated again on use. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
      * @return ?InventoryRoutingSource
      */
     public function getInventoryRoutingSource(): ?InventoryRoutingSource { return $this->get('inventory_routing_source'); }

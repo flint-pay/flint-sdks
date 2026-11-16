@@ -42,7 +42,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | The amount transferred to your merchant balance. `amount_money`: [declared alternatives](../models/PlatformFeePayoutFailedEvent.md#platformfeepayoutfailedeventdataprevious_attributesamount_money). |
+| `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The amount transferred to your merchant balance. `amount_money`: [declared alternatives](../models/PlatformFeePayoutFailedEvent.md#platformfeepayoutfailedeventdataprevious_attributesamount_money). |
 | `balance_transaction_id` | Optional | string or null | The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version. `balance_transaction_id`: [declared alternatives](../models/PlatformFeePayoutFailedEvent.md#platformfeepayoutfailedeventdataprevious_attributesbalance_transaction_id). |
 | `created_at` | Optional | string or null | When Flint prepared the payout. `created_at`: [declared alternatives](../models/PlatformFeePayoutFailedEvent.md#platformfeepayoutfailedeventdataprevious_attributescreated_at). |
 | `failure_reason` | Optional | string or null | Why the payout failed. Present only when status is failed. Can gain values; treat unknown values as payout_failed. Values: `"merchant_cannot_receive"`, `"payout_failed"`. `failure_reason`: [declared alternatives](../models/PlatformFeePayoutFailedEvent.md#platformfeepayoutfailedeventdataprevious_attributesfailure_reason). |
@@ -51,19 +51,19 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `status` | Optional | string or null | Where the payout stands. succeeded and failed are final. Values: `"pending"`, `"succeeded"`, `"failed"`. `status`: [declared alternatives](../models/PlatformFeePayoutFailedEvent.md#platformfeepayoutfailedeventdataprevious_attributesstatus). |
 | `succeeded_at` | Optional | string or null | When the transfer succeeded. Present only when status is succeeded. `succeeded_at`: [declared alternatives](../models/PlatformFeePayoutFailedEvent.md#platformfeepayoutfailedeventdataprevious_attributessucceeded_at). |
 | `updated_at` | Optional | string or null | When the payout's owned state last changed. Retry bookkeeping and observing the credit don't change it. `updated_at`: [declared alternatives](../models/PlatformFeePayoutFailedEvent.md#platformfeepayoutfailedeventdataprevious_attributesupdated_at). |
-| `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesversion). |
+| `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributes.md#buyerexpandedpaymentintentsummarypreviousattributesversion). |
 
 ### PlatformFeePayoutFailedEvent.data.previous_attributes.amount_money
 
 The amount transferred to your merchant balance.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### PlatformFeePayoutFailedEvent.data.previous_attributes.amount_money variant 1
 
-anyOf MoneyValue: The amount transferred to your merchant balance..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### PlatformFeePayoutFailedEvent.data.previous_attributes.amount_money variant 2
 
@@ -71,6 +71,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. The amount transferred to your merchant balance. 
+
+### PlatformFeePayoutFailedEvent.data.previous_attributes.amount_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### PlatformFeePayoutFailedEvent.data.previous_attributes.amount_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### PlatformFeePayoutFailedEvent.data.previous_attributes.balance_transaction_id
 
@@ -186,7 +194,7 @@ anyOf variant 2.
 
 ### PlatformFeePayoutFailedEvent.data.previous_attributes.version
 
-Declared alternatives: [CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.version](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesversion).
+Declared alternatives: [BuyerExpandedPaymentIntentSummaryPreviousAttributes.version](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributes.md#buyerexpandedpaymentintentsummarypreviousattributesversion).
 
 ### PlatformFeePayoutFailedEvent.request
 

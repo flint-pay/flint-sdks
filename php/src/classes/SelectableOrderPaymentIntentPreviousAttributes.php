@@ -1,0 +1,45 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read MoneyValuePreviousAttributes|null $amount_money
+ * @property-read PaymentErrorSummaryPreviousAttributes|null $last_payment_error
+ * @property-read PaymentCollectionPreviousAttributes|null $payment_collection
+ * @property-read string|null $payment_intent_id
+ * @property-read string|null $status
+ * @property-read MoneyValuePreviousAttributes|null $tip_money
+ * Presence-aware response; omitted optional fields return null. */
+final class SelectableOrderPaymentIntentPreviousAttributes extends Model {
+    /** @param array{'amount_money'?: mixed, 'last_payment_error'?: mixed, 'payment_collection'?: mixed, 'payment_intent_id'?: mixed, 'status'?: mixed, 'tip_money'?: mixed, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SelectableOrderPaymentIntentPreviousAttributes')); }
+    /** The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. On a standalone payment intent, PATCH can change it only before the first confirmation attempt. An amount_money or tip_money change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field with minimum_money. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributes|null
+     */
+    public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
+    public function hasAmountMoney(): bool { return $this->has('amount_money'); }
+    /** Most recent payment failure, when one is recorded. anyOf[1] (Value): {@see PaymentErrorSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return PaymentErrorSummaryPreviousAttributes|null
+     */
+    public function getLastPaymentError(): PaymentErrorSummaryPreviousAttributes|null { return $this->get('last_payment_error'); }
+    public function hasLastPaymentError(): bool { return $this->has('last_payment_error'); }
+    /** Client setup details for collecting this payment. anyOf[1] (Value): {@see PaymentCollectionPreviousAttributes}. anyOf[2] (Value): null.
+     * @return PaymentCollectionPreviousAttributes|null
+     */
+    public function getPaymentCollection(): PaymentCollectionPreviousAttributes|null { return $this->get('payment_collection'); }
+    public function hasPaymentCollection(): bool { return $this->has('payment_collection'); }
+    /** Flint payment intent ID. anyOf[1] (Value): string. Flint payment intent ID. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getPaymentIntentId(): string|null { return $this->get('payment_intent_id'); }
+    public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
+    /** Lifecycle status. requires_payment_method covers both a new payment intent and one whose last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired are final. Refunds and disputes never change status. Value enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired". anyOf[1] (Value): string. Lifecycle status. requires_payment_method covers both a new payment intent and one whose last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired are final. Refunds and disputes never change status. Value enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired". anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getStatus(): string|null { return $this->get('status'); }
+    public function hasStatus(): bool { return $this->has('status'); }
+    /** Portion of this payment's amount allocated to a tip. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributes|null
+     */
+    public function getTipMoney(): MoneyValuePreviousAttributes|null { return $this->get('tip_money'); }
+    public function hasTipMoney(): bool { return $this->has('tip_money'); }
+}

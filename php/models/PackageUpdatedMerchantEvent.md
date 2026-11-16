@@ -42,32 +42,32 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `carrier` | Optional | string or null | Carrier transporting the package. `carrier`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributescarrier). |
+| `carrier` | Optional | string or null | Carrier transporting the package. `carrier`: [declared alternatives](../models/ExpandedPackageSummaryPreviousAttributes.md#expandedpackagesummarypreviousattributescarrier). |
 | `created_at` | Optional | string or null | Creation timestamp. `created_at`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributescreated_at). |
 | `delivered_at` | Optional | string or null | Package delivery timestamp. `delivered_at`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesdelivered_at). |
-| `dimensions` | Optional | [Dimensions](../models/Dimensions.md#dimensions) or null | Physical length, width, and height of the package. |
-| `expected_delivery_at` | Optional | string or null or null | When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. `expected_delivery_at`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesexpected_delivery_at). |
+| `dimensions` | Optional | [DimensionsPreviousAttributes](../models/DimensionsPreviousAttributes.md#dimensionspreviousattributes) or null | Physical length, width, and height of the package. |
+| `expected_delivery_at` | Optional | string or null | When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. `expected_delivery_at`: [declared alternatives](../models/ExpandedPackageSummaryPreviousAttributes.md#expandedpackagesummarypreviousattributesexpected_delivery_at). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. `external_reference_id`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesexternal_reference_id). |
 | `external_system` | Optional | string or null | Name of the external system that external_reference_id belongs to. External references are not unique. Use Idempotency-Key for retries. `external_system`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesexternal_system). |
-| `fulfillment_id` | Optional | string or null | Fulfillment whose items are in the package. `fulfillment_id`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesfulfillment_id). |
+| `fulfillment_id` | Optional | string or null | Fulfillment whose items are in the package. `fulfillment_id`: [declared alternatives](../models/ExpandedPackageSummaryPreviousAttributes.md#expandedpackagesummarypreviousattributesfulfillment_id). |
 | `label_url` | Optional | string or null | HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require external_system for provenance. Flint does not host the label file. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. `label_url`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributeslabel_url). |
 | `metadata` | Optional | Map of string or null | Caller-owned key-value metadata associated with the package. `metadata`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesmetadata). |
-| `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null or null | Order summary returned when the order relationship is expanded. Present only when `expand` includes `order`; `null` when expanded and there is no related order. |
+| `order` | Optional | [ExpandedOrderSummaryPreviousAttributes](../models/ExpandedOrderSummaryPreviousAttributes.md#expandedordersummarypreviousattributes) or null | Order summary returned when the order relationship is expanded. Present only when `expand` includes `order`; `null` when expanded and there is no related order. `order`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesorder). |
 | `order_id` | Optional | string or null | Order whose items are in the package. `order_id`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesorder_id). |
 | `package_id` | Optional | string or null | Stable identifier of the package. `package_id`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributespackage_id). |
 | `return_id` | Optional | string or null | Return this package belongs to. Present only on packages of return shipments. `return_id`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesreturn_id). |
-| `return_line_items` | Optional | Array of [ReturnShipmentLineItemAllocation](../models/ReturnShipmentLineItemAllocation.md#returnshipmentlineitemallocation) or null | Return line quantities allocated to this parcel. Present only on packages of return shipments. `return_line_items`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesreturn_line_items). |
-| `service_code` | Optional | string or null | Carrier service used for the package. `service_code`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesservice_code). |
-| `shipment_id` | Optional | string or null | Shipment carrying this package. `shipment_id`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesshipment_id). |
+| `return_line_items` | Optional | Array of [ReturnShipmentLineItemAllocationPreviousAttributes](../models/ReturnShipmentLineItemAllocationPreviousAttributes.md#returnshipmentlineitemallocationpreviousattributes) or null | Return line quantities allocated to this parcel. Present only on packages of return shipments. `return_line_items`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesreturn_line_items). |
+| `service_code` | Optional | string or null | Carrier service used for the package. `service_code`: [declared alternatives](../models/ExpandedPackageSummaryPreviousAttributes.md#expandedpackagesummarypreviousattributesservice_code). |
+| `shipment_id` | Optional | string or null | Shipment carrying this package. `shipment_id`: [declared alternatives](../models/ExpandedPackageSummaryPreviousAttributes.md#expandedpackagesummarypreviousattributesshipment_id). |
 | `shipped_at` | Optional | string or null | Package handoff timestamp. `shipped_at`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesshipped_at). |
 | `status` | Optional | string or null | Current package lifecycle state. Package states are the source used to derive shipment status. - `created`: The package record exists but has not been packed or handed off. - `packed`: The package is packed and awaiting carrier handoff. - `shipped`: The package was handed to the carrier. - `in_transit`: The carrier is moving the package through its network. - `out_for_delivery`: The package is on its final delivery route. - `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The package was returned toward or to its origin. - `voided`: The package was voided and will not continue through delivery. Values: `"created"`, `"packed"`, `"shipped"`, `"in_transit"`, `"out_for_delivery"`, `"delivered"`, `"delivery_attempted"`, `"exception"`, `"returned"`, `"voided"`. `status`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesstatus). |
 | `status_reason` | Optional | string or null | Additional explanation of the package's current status. `status_reason`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesstatus_reason). |
 | `supported_actions` | Optional | Array of string or null | Lifecycle actions Flint accepts now. mark_in_transit can repeat while in transit to refresh expected_delivery_at. Items values: [9 declared values](#packageupdatedmerchanteventdata-fields-1previous_attributes-supported_actions--values). `supported_actions`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributessupported_actions). |
-| `tracking_number` | Optional | string or null | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. `tracking_number`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributestracking_number). |
-| `tracking_url` | Optional | string or null | Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. `tracking_url`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributestracking_url). |
+| `tracking_number` | Optional | string or null | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. `tracking_number`: [declared alternatives](../models/DeliveryFulfillmentDetailsPreviousAttributes.md#deliveryfulfillmentdetailspreviousattributesinstructions). |
+| `tracking_url` | Optional | string or null | Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. `tracking_url`: [declared alternatives](../models/DeliveryFulfillmentDetailsPreviousAttributes.md#deliveryfulfillmentdetailspreviousattributestracking_url). |
 | `updated_at` | Optional | string or null | Last update timestamp. `updated_at`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesupdated_at). |
-| `version` | Optional | integer or null | Monotonic package version for expected_version checks. `version`: [declared alternatives](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesversion). |
-| `weight` | Optional | [Weight](../models/Weight.md#weight) or null | Physical weight of the package. |
+| `version` | Optional | integer or null | Monotonic package version for expected_version checks. `version`: [declared alternatives](../models/ExpandedPackageSummaryPreviousAttributes.md#expandedpackagesummarypreviousattributesversion). |
+| `weight` | Optional | [WeightPreviousAttributes](../models/WeightPreviousAttributes.md#weightpreviousattributes) or null | Physical weight of the package. |
 
 #### PackageUpdatedMerchantEvent.data fields 1.previous_attributes supported_actions [] values
 
@@ -83,7 +83,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 ### PackageUpdatedMerchantEvent.data fields 1.previous_attributes.carrier
 
-Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.carrier](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributescarrier).
+Declared alternatives: [ExpandedPackageSummaryPreviousAttributes.carrier](../models/ExpandedPackageSummaryPreviousAttributes.md#expandedpackagesummarypreviousattributescarrier).
 
 ### PackageUpdatedMerchantEvent.data fields 1.previous_attributes.created_at
 
@@ -95,7 +95,7 @@ Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.delive
 
 ### PackageUpdatedMerchantEvent.data fields 1.previous_attributes.expected_delivery_at
 
-Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.expected_delivery_at](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesexpected_delivery_at).
+Declared alternatives: [ExpandedPackageSummaryPreviousAttributes.expected_delivery_at](../models/ExpandedPackageSummaryPreviousAttributes.md#expandedpackagesummarypreviousattributesexpected_delivery_at).
 
 ### PackageUpdatedMerchantEvent.data fields 1.previous_attributes.external_reference_id
 
@@ -107,7 +107,7 @@ Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.extern
 
 ### PackageUpdatedMerchantEvent.data fields 1.previous_attributes.fulfillment_id
 
-Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.fulfillment_id](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesfulfillment_id).
+Declared alternatives: [ExpandedPackageSummaryPreviousAttributes.fulfillment_id](../models/ExpandedPackageSummaryPreviousAttributes.md#expandedpackagesummarypreviousattributesfulfillment_id).
 
 ### PackageUpdatedMerchantEvent.data fields 1.previous_attributes.label_url
 
@@ -116,6 +116,10 @@ Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.label_
 ### PackageUpdatedMerchantEvent.data fields 1.previous_attributes.metadata
 
 Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.metadata](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesmetadata).
+
+### PackageUpdatedMerchantEvent.data fields 1.previous_attributes.order
+
+Declared alternatives: [FulfillmentCanceledMerchantEventDataPreviousAttributes.order](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesorder).
 
 ### PackageUpdatedMerchantEvent.data fields 1.previous_attributes.order_id
 
@@ -135,11 +139,11 @@ Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.return
 
 ### PackageUpdatedMerchantEvent.data fields 1.previous_attributes.service_code
 
-Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.service_code](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesservice_code).
+Declared alternatives: [ExpandedPackageSummaryPreviousAttributes.service_code](../models/ExpandedPackageSummaryPreviousAttributes.md#expandedpackagesummarypreviousattributesservice_code).
 
 ### PackageUpdatedMerchantEvent.data fields 1.previous_attributes.shipment_id
 
-Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.shipment_id](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesshipment_id).
+Declared alternatives: [ExpandedPackageSummaryPreviousAttributes.shipment_id](../models/ExpandedPackageSummaryPreviousAttributes.md#expandedpackagesummarypreviousattributesshipment_id).
 
 ### PackageUpdatedMerchantEvent.data fields 1.previous_attributes.shipped_at
 
@@ -159,11 +163,11 @@ Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.suppor
 
 ### PackageUpdatedMerchantEvent.data fields 1.previous_attributes.tracking_number
 
-Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.tracking_number](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributestracking_number).
+Declared alternatives: [DeliveryFulfillmentDetailsPreviousAttributes.instructions](../models/DeliveryFulfillmentDetailsPreviousAttributes.md#deliveryfulfillmentdetailspreviousattributesinstructions).
 
 ### PackageUpdatedMerchantEvent.data fields 1.previous_attributes.tracking_url
 
-Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.tracking_url](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributestracking_url).
+Declared alternatives: [DeliveryFulfillmentDetailsPreviousAttributes.tracking_url](../models/DeliveryFulfillmentDetailsPreviousAttributes.md#deliveryfulfillmentdetailspreviousattributestracking_url).
 
 ### PackageUpdatedMerchantEvent.data fields 1.previous_attributes.updated_at
 
@@ -171,5 +175,5 @@ Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.update
 
 ### PackageUpdatedMerchantEvent.data fields 1.previous_attributes.version
 
-Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.version](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesversion).
+Declared alternatives: [ExpandedPackageSummaryPreviousAttributes.version](../models/ExpandedPackageSummaryPreviousAttributes.md#expandedpackagesummarypreviousattributesversion).
 

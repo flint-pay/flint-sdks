@@ -1,6 +1,6 @@
 # SDK 8.0.0
 
-This guide covers upgrading from `7.0.0` to the `8.0.0-beta.3` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.3` or `flintpay/flint:8.0.0-beta.3`. The API date is `2026-09-07`; this beta pins Flint `main` at `323766dba32c7945254bbcc0ff23b160f4076b18`. Stable releases will pin the backend commit serving production.
+This guide covers upgrading from `7.0.0` to the `8.0.0-beta.6` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.6` or `flintpay/flint:8.0.0-beta.6`. The API date is `2026-09-07`; this beta pins Flint `main` at `233935366aaa4351e5c38be959132e5281fa1f06`. Stable releases will pin the backend commit serving production.
 
 TypeScript reports most of these changes as compile errors, so run `tsc` after upgrading and work through the output. PHP reports them when the call runs; use the search patterns in [Finding call sites](#finding-call-sites).
 
@@ -14,6 +14,16 @@ What changed, most common first:
 - [Results](#results-carry-lastresponse): results carry `lastResponse`, and the `*WithResponse` methods are removed.
 - [Credentials](#credentials): a credential option passed empty throws instead of falling back to the environment.
 - [Type names](#type-names), [examples](#examples-and-the-default-host), [packaging](#packaging) and [API contract changes](#api-contract-changes-in-800).
+
+## Changes in 8.0.0-beta.6
+
+Previous webhook attributes may omit fields inside nested objects and arrays, including `line_items` on `order.updated`, `order.partially_refunded` and `order.refunded`. Check nested prior fields for omission or null before reading them. Supplied exact money amounts remain strings. Current resource fields keep their requiredness.
+
+PHP nested previous values now use shared partial model classes, such as `OrderLineItemPreviousAttributes`, instead of the previous event-specific nested classes. Use their field getters and presence checks. In TypeScript, replace the removed response aliases `DeliverySelectionOrder` and `PublicResolvedBundleVariantSummary` with `Order` and `BundleComponentVariantSummary`.
+
+The current API contract reports recoverable order payment-attempt outcomes as `processing`. Wait for the order result and inspect supported actions. Order buyer actions and the new onboarding business/support and bundle product-name fields are optional.
+
+Compatibility review against reconstructed published beta.5: 709 breaking, 1,754 review and 485 additive findings (2,948 total). The partial PHP model representations and class replacements, payment-attempt enum changes and removed response aliases account for the breaking findings.
 
 ## Changes in 8.0.0-beta.3
 

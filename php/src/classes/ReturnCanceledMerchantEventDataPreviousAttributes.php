@@ -3,43 +3,43 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $canceled_at
- * @property-read ReturnCanceledMerchantEventDataPreviousAttributesCanceledBy|null $canceled_by
+ * @property-read ReturnActorPreviousAttributes|null $canceled_by
  * @property-read string|null $cancellation_reason
  * @property-read string|null $cancellation_reason_message
  * @property-read string|null $completed_at
- * @property-read ReturnCanceledMerchantEventDataPreviousAttributesCompletedBy|null $completed_by
- * @property-read list<ReturnCompletionBlocker>|null $completion_blockers
+ * @property-read ReturnActorPreviousAttributes|null $completed_by
+ * @property-read list<ReturnCompletionBlockerPreviousAttributes>|null $completion_blockers
  * @property-read string|null $completion_mode
  * @property-read string|null $completion_reason
  * @property-read string|null $completion_reason_message
  * @property-read string|null $created_at
- * @property-read mixed $customer
+ * @property-read ExpandedCustomerSummaryPreviousAttributes|null $customer
  * @property-read string|null $customer_id
  * @property-read string|null $decision_at
  * @property-read string|null $decision_status
  * @property-read string|null $external_reference_id
- * @property-read ReturnFinancialSummary|null $financial_summary
- * @property-read list<ReturnHandoffRequirement>|null $handoff_requirements
+ * @property-read ReturnFinancialSummaryPreviousAttributes|null $financial_summary
+ * @property-read list<ReturnHandoffRequirementPreviousAttributes>|null $handoff_requirements
  * @property-read string|null $initiated_by
- * @property-read list<ReturnLineItem>|null $line_items
+ * @property-read list<ReturnLineItemPreviousAttributes>|null $line_items
  * @property-read string|null $merchandise_status
  * @property-read array<array-key, string>|null $metadata
- * @property-read mixed $order
+ * @property-read ExpandedOrderSummaryPreviousAttributes|null $order
  * @property-read string|null $order_id
- * @property-read ReturnCanceledMerchantEventDataPreviousAttributesPolicyEvaluation|null $policy_evaluation
+ * @property-read ReturnPolicyEvaluationPreviousAttributes|null $policy_evaluation
  * @property-read string|null $resolution_status
  * @property-read list<string>|null $return_disposition_ids
- * @property-read list<ReturnDisposition>|null $return_dispositions
+ * @property-read list<ReturnDispositionPreviousAttributes>|null $return_dispositions
  * @property-read string|null $return_id
  * @property-read list<string>|null $return_inspection_ids
- * @property-read list<ReturnInspection>|null $return_inspections
+ * @property-read list<ReturnInspectionPreviousAttributes>|null $return_inspections
  * @property-read string|null $return_number
  * @property-read list<string>|null $return_receipt_ids
- * @property-read list<ReturnReceipt>|null $return_receipts
+ * @property-read list<ReturnReceiptPreviousAttributes>|null $return_receipts
  * @property-read list<string>|null $return_resolution_ids
- * @property-read list<ReturnResolution>|null $return_resolutions
+ * @property-read list<ReturnResolutionPreviousAttributes>|null $return_resolutions
  * @property-read list<string>|null $shipment_ids
- * @property-read list<ExpandedShipmentSummary>|null $shipments
+ * @property-read list<ExpandedShipmentSummaryPreviousAttributes>|null $shipments
  * @property-read string|null $status
  * @property-read list<string>|null $supported_actions
  * @property-read string|null $updated_at
@@ -53,10 +53,10 @@ final class ReturnCanceledMerchantEventDataPreviousAttributes extends Model {
      */
     public function getCanceledAt(): string|null { return $this->get('canceled_at'); }
     public function hasCanceledAt(): bool { return $this->has('canceled_at'); }
-    /** Who canceled the Return. anyOf[1] (Value): {@see ReturnCanceledMerchantEventDataPreviousAttributesCanceledBy}. Who canceled the Return. anyOf[2] (Value): null.
-     * @return ReturnCanceledMerchantEventDataPreviousAttributesCanceledBy|null
+    /** Who canceled the Return. anyOf[1] (Value): {@see ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ReturnActorPreviousAttributes|null
      */
-    public function getCanceledBy(): ReturnCanceledMerchantEventDataPreviousAttributesCanceledBy|null { return $this->get('canceled_by'); }
+    public function getCanceledBy(): ReturnActorPreviousAttributes|null { return $this->get('canceled_by'); }
     public function hasCanceledBy(): bool { return $this->has('canceled_by'); }
     /** Why the Return was canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error", "other". anyOf[1] (Value): string. Why the Return was canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error", "other". anyOf[2] (Value): null.
      * @return string|null
@@ -73,13 +73,13 @@ final class ReturnCanceledMerchantEventDataPreviousAttributes extends Model {
      */
     public function getCompletedAt(): string|null { return $this->get('completed_at'); }
     public function hasCompletedAt(): bool { return $this->has('completed_at'); }
-    /** Who completed the Return. `system` when Flint completed it automatically. anyOf[1] (Value): {@see ReturnCanceledMerchantEventDataPreviousAttributesCompletedBy}. Who completed the Return. `system` when Flint completed it automatically. anyOf[2] (Value): null.
-     * @return ReturnCanceledMerchantEventDataPreviousAttributesCompletedBy|null
+    /** Who completed the Return. `system` when Flint completed it automatically. anyOf[1] (Value): {@see ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ReturnActorPreviousAttributes|null
      */
-    public function getCompletedBy(): ReturnCanceledMerchantEventDataPreviousAttributesCompletedBy|null { return $this->get('completed_by'); }
+    public function getCompletedBy(): ReturnActorPreviousAttributes|null { return $this->get('completed_by'); }
     public function hasCompletedBy(): bool { return $this->has('completed_by'); }
-    /** What is still owed before the Return can complete. Empty when nothing is. anyOf[1] (Value): Array of {@see ReturnCompletionBlocker}. What is still owed before the Return can complete. Empty when nothing is. anyOf[1][] (Value): {@see ReturnCompletionBlocker}. Something still owed before a return can complete, with the return line or record it concerns. anyOf[2] (Value): null.
-     * @return list<ReturnCompletionBlocker>|null
+    /** What is still owed before the Return can complete. Empty when nothing is. anyOf[1] (Value): Array of {@see ReturnCompletionBlockerPreviousAttributes}. What is still owed before the Return can complete. Empty when nothing is. anyOf[1][] (Value): {@see ReturnCompletionBlockerPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ReturnCompletionBlockerPreviousAttributes>|null
      */
     public function getCompletionBlockers(): array|null { return $this->get('completion_blockers'); }
     public function hasCompletionBlockers(): bool { return $this->has('completion_blockers'); }
@@ -103,10 +103,10 @@ final class ReturnCanceledMerchantEventDataPreviousAttributes extends Model {
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID when the customer is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ExpandedCustomerSummaryPreviousAttributes|null
      */
-    public function getCustomer(): mixed { return $this->get('customer'); }
+    public function getCustomer(): ExpandedCustomerSummaryPreviousAttributes|null { return $this->get('customer'); }
     public function hasCustomer(): bool { return $this->has('customer'); }
     /** The customer the Return belongs to. anyOf[1] (Value): string. The customer the Return belongs to. anyOf[2] (Value): null.
      * @return string|null
@@ -128,13 +128,13 @@ final class ReturnCanceledMerchantEventDataPreviousAttributes extends Model {
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** The Return's money in one place: the value of the returned lines, deductions and credits, and what has been refunded or collected. anyOf[1] (Value): {@see ReturnFinancialSummary}. The Return's money in one place: the value of the returned lines, deductions and credits, and what has been refunded or collected. anyOf[2] (Value): null.
-     * @return ReturnFinancialSummary|null
+    /** The Return's money in one place: the value of the returned lines, deductions and credits, and what has been refunded or collected. anyOf[1] (Value): {@see ReturnFinancialSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ReturnFinancialSummaryPreviousAttributes|null
      */
-    public function getFinancialSummary(): ReturnFinancialSummary|null { return $this->get('financial_summary'); }
+    public function getFinancialSummary(): ReturnFinancialSummaryPreviousAttributes|null { return $this->get('financial_summary'); }
     public function hasFinancialSummary(): bool { return $this->has('financial_summary'); }
-    /** What the buyer still has to send back and where. Each entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1] (Value): Array of {@see ReturnHandoffRequirement}. What the buyer still has to send back and where. Each entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1][] (Value): {@see ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the destination, instructions, line items, and expiry. anyOf[2] (Value): null.
-     * @return list<ReturnHandoffRequirement>|null
+    /** What the buyer still has to send back and where. Each entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1] (Value): Array of {@see ReturnHandoffRequirementPreviousAttributes}. What the buyer still has to send back and where. Each entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1][] (Value): {@see ReturnHandoffRequirementPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ReturnHandoffRequirementPreviousAttributes>|null
      */
     public function getHandoffRequirements(): array|null { return $this->get('handoff_requirements'); }
     public function hasHandoffRequirements(): bool { return $this->has('handoff_requirements'); }
@@ -143,8 +143,8 @@ final class ReturnCanceledMerchantEventDataPreviousAttributes extends Model {
      */
     public function getInitiatedBy(): string|null { return $this->get('initiated_by'); }
     public function hasInitiatedBy(): bool { return $this->has('initiated_by'); }
-    /** The lines being returned. anyOf[1] (Value): Array of {@see ReturnLineItem}. The lines being returned. anyOf[1][] (Value): {@see ReturnLineItem}. An item included in a return request. anyOf[2] (Value): null.
-     * @return list<ReturnLineItem>|null
+    /** The lines being returned. anyOf[1] (Value): Array of {@see ReturnLineItemPreviousAttributes}. The lines being returned. anyOf[1][] (Value): {@see ReturnLineItemPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ReturnLineItemPreviousAttributes>|null
      */
     public function getLineItems(): array|null { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
@@ -153,25 +153,25 @@ final class ReturnCanceledMerchantEventDataPreviousAttributes extends Model {
      */
     public function getMerchandiseStatus(): string|null { return $this->get('merchandise_status'); }
     public function hasMerchandiseStatus(): bool { return $this->has('merchandise_status'); }
-    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
      * @return array<array-key, string>|null
      */
     public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummary} or null. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummary}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ExpandedOrderSummaryPreviousAttributes|null
      */
-    public function getOrder(): mixed { return $this->get('order'); }
+    public function getOrder(): ExpandedOrderSummaryPreviousAttributes|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
     /** ID of the Order the Return is against. anyOf[1] (Value): string. ID of the Order the Return is against. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getOrderId(): string|null { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** How your return policies judged the request when the Return was created. anyOf[1] (Value): {@see ReturnCanceledMerchantEventDataPreviousAttributesPolicyEvaluation}. How your return policies judged the request when the Return was created. anyOf[2] (Value): null.
-     * @return ReturnCanceledMerchantEventDataPreviousAttributesPolicyEvaluation|null
+    /** How your return policies judged the request when the Return was created. anyOf[1] (Value): {@see ReturnPolicyEvaluationPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ReturnPolicyEvaluationPreviousAttributes|null
      */
-    public function getPolicyEvaluation(): ReturnCanceledMerchantEventDataPreviousAttributesPolicyEvaluation|null { return $this->get('policy_evaluation'); }
+    public function getPolicyEvaluation(): ReturnPolicyEvaluationPreviousAttributes|null { return $this->get('policy_evaluation'); }
     public function hasPolicyEvaluation(): bool { return $this->has('policy_evaluation'); }
     /** Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending", "partially_completed", "requires_action", "completed", "failed". anyOf[1] (Value): string. Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending", "partially_completed", "requires_action", "completed", "failed". anyOf[2] (Value): null.
      * @return string|null
@@ -183,8 +183,8 @@ final class ReturnCanceledMerchantEventDataPreviousAttributes extends Model {
      */
     public function getReturnDispositionIds(): array|null { return $this->get('return_disposition_ids'); }
     public function hasReturnDispositionIds(): bool { return $this->has('return_disposition_ids'); }
-    /** Present only when `expand` includes `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order. anyOf[1] (Value): Array of {@see ReturnDisposition}. Present only when `expand` includes `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order. anyOf[1][] (Value): {@see ReturnDisposition}. A decision about how returned merchandise will be handled. anyOf[2] (Value): null.
-     * @return list<ReturnDisposition>|null
+    /** Present only when `expand` includes `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order. anyOf[1] (Value): Array of {@see ReturnDispositionPreviousAttributes}. Present only when `expand` includes `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order. anyOf[1][] (Value): {@see ReturnDispositionPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ReturnDispositionPreviousAttributes>|null
      */
     public function getReturnDispositions(): array|null { return $this->get('return_dispositions'); }
     public function hasReturnDispositions(): bool { return $this->has('return_dispositions'); }
@@ -198,8 +198,8 @@ final class ReturnCanceledMerchantEventDataPreviousAttributes extends Model {
      */
     public function getReturnInspectionIds(): array|null { return $this->get('return_inspection_ids'); }
     public function hasReturnInspectionIds(): bool { return $this->has('return_inspection_ids'); }
-    /** Present only when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`, in the same order. anyOf[1] (Value): Array of {@see ReturnInspection}. Present only when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`, in the same order. anyOf[1][] (Value): {@see ReturnInspection}. An assessment of the condition of returned items. anyOf[2] (Value): null.
-     * @return list<ReturnInspection>|null
+    /** Present only when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`, in the same order. anyOf[1] (Value): Array of {@see ReturnInspectionPreviousAttributes}. Present only when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`, in the same order. anyOf[1][] (Value): {@see ReturnInspectionPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ReturnInspectionPreviousAttributes>|null
      */
     public function getReturnInspections(): array|null { return $this->get('return_inspections'); }
     public function hasReturnInspections(): bool { return $this->has('return_inspections'); }
@@ -213,8 +213,8 @@ final class ReturnCanceledMerchantEventDataPreviousAttributes extends Model {
      */
     public function getReturnReceiptIds(): array|null { return $this->get('return_receipt_ids'); }
     public function hasReturnReceiptIds(): bool { return $this->has('return_receipt_ids'); }
-    /** Present only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same order. anyOf[1] (Value): Array of {@see ReturnReceipt}. Present only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same order. anyOf[1][] (Value): {@see ReturnReceipt}. A record of returned items arriving at a location. anyOf[2] (Value): null.
-     * @return list<ReturnReceipt>|null
+    /** Present only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same order. anyOf[1] (Value): Array of {@see ReturnReceiptPreviousAttributes}. Present only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same order. anyOf[1][] (Value): {@see ReturnReceiptPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ReturnReceiptPreviousAttributes>|null
      */
     public function getReturnReceipts(): array|null { return $this->get('return_receipts'); }
     public function hasReturnReceipts(): bool { return $this->has('return_receipts'); }
@@ -223,8 +223,8 @@ final class ReturnCanceledMerchantEventDataPreviousAttributes extends Model {
      */
     public function getReturnResolutionIds(): array|null { return $this->get('return_resolution_ids'); }
     public function hasReturnResolutionIds(): bool { return $this->has('return_resolution_ids'); }
-    /** Present only when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order. anyOf[1] (Value): Array of {@see ReturnResolution}. Present only when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order. anyOf[1][] (Value): {@see ReturnResolution}. The refund, exchange, or other outcome of a return. anyOf[2] (Value): null.
-     * @return list<ReturnResolution>|null
+    /** Present only when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order. anyOf[1] (Value): Array of {@see ReturnResolutionPreviousAttributes}. Present only when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order. anyOf[1][] (Value): {@see ReturnResolutionPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ReturnResolutionPreviousAttributes>|null
      */
     public function getReturnResolutions(): array|null { return $this->get('return_resolutions'); }
     public function hasReturnResolutions(): bool { return $this->has('return_resolutions'); }
@@ -233,8 +233,8 @@ final class ReturnCanceledMerchantEventDataPreviousAttributes extends Model {
      */
     public function getShipmentIds(): array|null { return $this->get('shipment_ids'); }
     public function hasShipmentIds(): bool { return $this->has('shipment_ids'); }
-    /** Present only when `expand` includes `shipments`. Summaries of the shipments in `shipment_ids`, in the same order. anyOf[1] (Value): Array of {@see ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries of the shipments in `shipment_ids`, in the same order. anyOf[1][] (Value): {@see ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and package count, returned when the shipment is expanded. anyOf[2] (Value): null.
-     * @return list<ExpandedShipmentSummary>|null
+    /** Present only when `expand` includes `shipments`. Summaries of the shipments in `shipment_ids`, in the same order. anyOf[1] (Value): Array of {@see ExpandedShipmentSummaryPreviousAttributes}. Present only when `expand` includes `shipments`. Summaries of the shipments in `shipment_ids`, in the same order. anyOf[1][] (Value): {@see ExpandedShipmentSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ExpandedShipmentSummaryPreviousAttributes>|null
      */
     public function getShipments(): array|null { return $this->get('shipments'); }
     public function hasShipments(): bool { return $this->has('shipments'); }

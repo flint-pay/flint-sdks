@@ -42,12 +42,12 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `connectivity` | Optional | [ReaderConnectivityInput](../models/ReaderConnectivityInput.md#readerconnectivityinput) or null | Smart readers only, and omitted once the reader is archived. Observed reader state: it changes without a write, doesn't advance `version`, and sends no event. Don't gate a sale on it: Flint checks the reader itself before it sends a payment. |
+| `connectivity` | Optional | [ReaderConnectivityPreviousAttributesInput](../models/ReaderConnectivityPreviousAttributesInput.md#readerconnectivitypreviousattributesinput) or null | Smart readers only, and omitted once the reader is archived. Observed reader state: it changes without a write, doesn't advance `version`, and sends no event. Don't gate a sale on it: Flint checks the reader itself before it sends a payment. |
 | `created_at` | Optional | string or null | When the reader was registered. `created_at`: [declared alternatives](../models/ReaderArchivedInstalledMerchantsEventInput.md#readerarchivedinstalledmerchantseventinputdataprevious_attributescreated_at). |
 | `device_id` | Optional | string or null | The register, kiosk or phone the reader takes payments for; on a Tap to Pay reader, the phone it runs on. Omitted when none is set. `device_id`: [declared alternatives](../models/ReaderArchivedInstalledMerchantsEventInput.md#readerarchivedinstalledmerchantseventinputdataprevious_attributesdevice_id). |
 | `is_simulated` | Optional | boolean or null | `true` for a sandbox simulated reader, registered with `registration_code: simulated-s700`. `is_simulated`: [declared alternatives](../models/ReaderArchivedInstalledMerchantsEventInput.md#readerarchivedinstalledmerchantseventinputdataprevious_attributesis_simulated). |
 | `location_id` | Optional | string or null | The location the reader is at. Set at registration and never changed: to move a reader, archive it and register it again. `location_id`: [declared alternatives](../models/ReaderArchivedInstalledMerchantsEventInput.md#readerarchivedinstalledmerchantseventinputdataprevious_attributeslocation_id). |
-| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) or null | Your key-value pairs for the reader. |
+| `metadata` | Optional | [MetadataMapPreviousAttributesInput](../models/MetadataMapPreviousAttributesInput.md#metadatamappreviousattributesinput) or null | Your key-value pairs for the reader. |
 | `model` | Optional | string or null | The smart reader's model, read from the reader at registration. Smart readers only. Values: `"stripe_reader_s700"`, `"stripe_reader_s710"`, `"other"`. `model`: [declared alternatives](../models/ReaderArchivedInstalledMerchantsEventInput.md#readerarchivedinstalledmerchantseventinputdataprevious_attributesmodel). |
 | `name` | Optional | string or null | Your label for the reader. `name`: [declared alternatives](../models/ReaderArchivedInstalledMerchantsEventInput.md#readerarchivedinstalledmerchantseventinputdataprevious_attributesname). |
 | `reader_id` | Optional | string or null | Unique identifier for the reader. `reader_id`: [declared alternatives](../models/ReaderArchivedInstalledMerchantsEventInput.md#readerarchivedinstalledmerchantseventinputdataprevious_attributesreader_id). |
@@ -55,7 +55,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `status` | Optional | string or null | Whether the reader can take payments. Values: `"active"`, `"archived"`. `status`: [declared alternatives](../models/ReaderArchivedInstalledMerchantsEventInput.md#readerarchivedinstalledmerchantseventinputdataprevious_attributesstatus). |
 | `type` | Optional | string or null | What kind of reader it is. A smart reader is driven from your server; a Tap to Pay reader is a phone driven by the Stripe Terminal SDK in your app. Values: `"smart_reader"`, `"tap_to_pay"`. `type`: [declared alternatives](../models/ReaderArchivedInstalledMerchantsEventInput.md#readerarchivedinstalledmerchantseventinputdataprevious_attributestype). |
 | `updated_at` | Optional | string or null | When the reader last changed. `updated_at`: [declared alternatives](../models/ReaderArchivedInstalledMerchantsEventInput.md#readerarchivedinstalledmerchantseventinputdataprevious_attributesupdated_at). |
-| `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEventInput.md#checkoutsessionclosedinstalledmerchantseventinputdataprevious_attributesversion). |
+| `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributesInput.md#buyerexpandedpaymentintentsummarypreviousattributesinputversion). |
 
 ### ReaderArchivedInstalledMerchantsEventInput.data.previous_attributes.created_at
 
@@ -213,7 +213,7 @@ anyOf variant 2.
 
 ### ReaderArchivedInstalledMerchantsEventInput.data.previous_attributes.version
 
-Declared alternatives: [CheckoutSessionClosedInstalledMerchantsEventInput.data.previous_attributes.version](../models/CheckoutSessionClosedInstalledMerchantsEventInput.md#checkoutsessionclosedinstalledmerchantseventinputdataprevious_attributesversion).
+Declared alternatives: [BuyerExpandedPaymentIntentSummaryPreviousAttributesInput.version](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributesInput.md#buyerexpandedpaymentintentsummarypreviousattributesinputversion).
 
 ### ReaderArchivedInstalledMerchantsEventInput.source
 

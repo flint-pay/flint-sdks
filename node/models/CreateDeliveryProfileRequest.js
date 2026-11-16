@@ -1,13 +1,13 @@
-import { d234 as c0 } from '../descriptors/data/11.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
-import { d7423 as c1, d7426 as c2 } from '../descriptors/data/340.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
-import { d6744 as c3 } from '../descriptors/data/303.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
-import { d7437 as c4, d7438 as c5, d7439 as c6, d7440 as c7, d7441 as c8, d7442 as c9, d7443 as c10, d7444 as c11, d7445 as c12, d7446 as c13, d7447 as c14 } from '../descriptors/data/341.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
-import { d7448 as c15, d7449 as c16, d7450 as c17 } from '../descriptors/data/342.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
-import { d234 as d234 } from '../descriptors/data/11.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
+import { d265 as c0 } from '../descriptors/data/12.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d8446 as c1, d8449 as c2 } from '../descriptors/data/373.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d7767 as c3 } from '../descriptors/data/336.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d8460 as c4, d8461 as c5, d8462 as c6, d8463 as c7, d8464 as c8, d8465 as c9, d8466 as c10, d8467 as c11, d8468 as c12, d8469 as c13, d8470 as c14, d8471 as c15 } from '../descriptors/data/374.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d8472 as c16, d8473 as c17 } from '../descriptors/data/375.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d265 as d265 } from '../descriptors/data/12.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d234;
+const read = d265;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateDeliveryProfileRequest"]:c0(),["DeliveryProfileConfigurationRequest"]:c1(),["DeliveryProfileOriginPolicyRequest"]:c2(),["MetadataRequest"]:c3(),["SharedCodec745"]:c4(),["SharedCodec746"]:c5(),["SharedCodec747"]:c6(),["SharedCodec748"]:c7(),["SharedCodec749"]:c8(),["SharedCodec750"]:c9(),["SharedCodec751"]:c10(),["SharedCodec752"]:c11(),["SharedCodec753"]:c12(),["SharedCodec756"]:c13(),["SharedCodec757"]:c14(),["SharedCodec758"]:c15(),["SharedCodec759"]:c16(),["SharedCodec760"]:c17()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateDeliveryProfileRequest"]:c0(),["DeliveryProfileConfigurationRequest"]:c1(),["DeliveryProfileOriginPolicyRequest"]:c2(),["MetadataRequest"]:c3(),["SharedCodec960"]:c4(),["SharedCodec961"]:c5(),["SharedCodec962"]:c6(),["SharedCodec963"]:c7(),["SharedCodec964"]:c8(),["SharedCodec965"]:c9(),["SharedCodec966"]:c10(),["SharedCodec973"]:c11(),["SharedCodec974"]:c12(),["SharedCodec977"]:c13(),["SharedCodec978"]:c14(),["SharedCodec980"]:c15(),["SharedCodec981"]:c16(),["SharedCodec982"]:c17()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateDeliveryProfileRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

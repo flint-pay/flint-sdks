@@ -1,0 +1,118 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## DisputePreviousAttributes
+
+
+
+Response model.
+
+Field definitions: [shared fields](DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributes).
+
+### DisputePreviousAttributes.can_respond_with_evidence
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.can_respond_with_evidence](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributescan_respond_with_evidence).
+
+### DisputePreviousAttributes.case_type
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.case_type](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributescase_type).
+
+### DisputePreviousAttributes.created_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### DisputePreviousAttributes.customer
+
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.customer](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributescustomer).
+
+### DisputePreviousAttributes.customer_id
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.customer_id](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributescustomer_id).
+
+### DisputePreviousAttributes.dispute_id
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.dispute_id](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesdispute_id).
+
+### DisputePreviousAttributes.evidence_due_at
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.evidence_due_at](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesevidence_due_at).
+
+### DisputePreviousAttributes.evidence_submission_count
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.evidence_submission_count](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesevidence_submission_count).
+
+### DisputePreviousAttributes.fraud_warning_id
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.fraud_warning_id](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesfraud_warning_id).
+
+### DisputePreviousAttributes.has_evidence
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.has_evidence](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributeshas_evidence).
+
+### DisputePreviousAttributes.is_action_required
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.is_action_required](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesis_action_required).
+
+### DisputePreviousAttributes.is_evidence_deadline_passed
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.is_evidence_deadline_passed](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesis_evidence_deadline_passed).
+
+### DisputePreviousAttributes.merchant_id
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.merchant_id](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributesmerchant_id).
+
+### DisputePreviousAttributes.network_reason_code
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.network_reason_code](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesnetwork_reason_code).
+
+### DisputePreviousAttributes.order
+
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.order](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesorder).
+
+### DisputePreviousAttributes.order_id
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.order_id](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesorder_id).
+
+### DisputePreviousAttributes.payment_intent
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.payment_intent](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributespayment_intent).
+
+### DisputePreviousAttributes.payment_intent_id
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.payment_intent_id](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributespayment_intent_id).
+
+### DisputePreviousAttributes.payment_option
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.payment_option](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributespayment_option).
+
+### DisputePreviousAttributes.reason
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.reason](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesreason).
+
+### DisputePreviousAttributes.recommended_evidence_types
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.recommended_evidence_types](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesrecommended_evidence_types).
+
+### DisputePreviousAttributes.response_unavailable_reason
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.response_unavailable_reason](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesresponse_unavailable_reason).
+
+### DisputePreviousAttributes.split_reversals
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.split_reversals](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributessplit_reversals).
+
+### DisputePreviousAttributes.status
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.status](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesstatus).
+
+### DisputePreviousAttributes.status_changed_at
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.status_changed_at](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesstatus_changed_at).
+
+### DisputePreviousAttributes.supported_actions
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.supported_actions](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributessupported_actions).
+
+### DisputePreviousAttributes.updated_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+

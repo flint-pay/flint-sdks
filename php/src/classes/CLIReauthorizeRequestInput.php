@@ -71,7 +71,7 @@ final class CLIReauthorizeRequestInput extends Model {
      */
     public function getScope(): string { return $this->get('scope'); }
     public function hasScope(): bool { return $this->has('scope'); }
-    /** Set to `additive` to ask for more scopes in the one context named by context_id. The approved scopes are added to the scopes the context already has, and the session's other contexts are kept. Requires context_id. Value enum: "additive".
+    /** Set to `additive` to ask for more scopes in the one context named by context_id. The approved scopes are added to the scopes the context already has, and the session's other contexts are kept. Set to `preserve` to review every context starting from its current permissions; scopes can be retained only in the same active context. Requires context_id. Value enum: "additive", "preserve".
      * @return string
      * @throws SdkError When scope_mode is omitted; use hasScopeMode() or valueOrDefault().
      */

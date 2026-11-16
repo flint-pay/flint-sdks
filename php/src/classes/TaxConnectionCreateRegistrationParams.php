@@ -23,7 +23,7 @@ final class TaxConnectionCreateRegistrationParams extends Model {
      */
     public function getEndDate(): string|null { return $this->get('end_date'); }
     public function hasEndDate(): bool { return $this->has('end_date'); }
-    /** Seller's tax registration number. For EU, the non-Union OSS number: EU followed by nine digits. Write-only; responses return only its last four characters. minLength: 1. maxLength: 255.
+    /** Seller's tax registration number as issued: letters and digits with optional spaces, hyphens, periods or slashes. The original format is stored; separators are omitted when confirming with the tax account. For EU, the non-Union OSS number: EU followed by nine digits. Write-only; responses return only its last four characters. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When registration_number is omitted; use hasRegistrationNumber() or valueOrDefault().
      */

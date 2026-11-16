@@ -14,7 +14,7 @@ A tip on an order, with its requested, settled, and refunded amounts, status, an
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `description` | Optional | string | Optional description that stays on the tip for your reporting. |
 | `effective_amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The tip amount the order collects. For a percent tip, the resolved amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `effective_amount_money`: [field definitions](../models/BuyerTip.md#buyertipeffective_amount_money). |
-| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/CheckoutSession.md#checkoutsessionmetadata). |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/CancelOrderEditResult.md#cancelordereditresultordermetadata). |
 | `name` | Optional | string | Optional name that stays on the tip for your reporting. |
 | `order_tip_id` | Required | string | ID of the tip, prefixed `tip_`. Example: `"tip_01KEZF7C00JRPYP11RTMB97MYH"`. |
 | `payment_intent_allocations` | Required | Array of [TipPaymentIntentAllocation](../models/TipPaymentIntentAllocation.md#tippaymentintentallocation) | How much of the tip each payment intent paid, one entry per payment intent. Flint adds an entry when it records that payment's tip on the order. |
@@ -35,7 +35,7 @@ Field definitions: [BuyerTip.effective_amount_money](../models/BuyerTip.md#buyer
 
 ### Tip.metadata
 
-Field definitions: [CheckoutSession.metadata](../models/CheckoutSession.md#checkoutsessionmetadata).
+Field definitions: [CancelOrderEditResult.order.metadata](../models/CancelOrderEditResult.md#cancelordereditresultordermetadata).
 
 ### Tip.refunded_money
 

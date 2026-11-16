@@ -41,21 +41,21 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `created_at` | Optional | string or null | Creation timestamp. `created_at`: [declared alternatives](../models/PackageUpdatedInstalledMerchantsEventInput.md#packageupdatedinstalledmerchantseventinputdataprevious_attributescreated_at). |
-| `delivered_at` | Optional | string or null | When the shipment was delivered, in RFC3339 format. `delivered_at`: [declared alternatives](../models/ShipmentUpdatedInstalledMerchantsEventInput.md#shipmentupdatedinstalledmerchantseventinputdataprevious_attributesdelivered_at). |
-| `direction` | Optional | string or null | Whether the shipment sends items to the buyer or returns items to the merchant. Values: `"outbound"`, `"return"`. `direction`: [declared alternatives](../models/ShipmentUpdatedInstalledMerchantsEventInput.md#shipmentupdatedinstalledmerchantseventinputdataprevious_attributesdirection). |
+| `delivered_at` | Optional | string or null | When the shipment was delivered, in RFC3339 format. `delivered_at`: [declared alternatives](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputdelivered_at). |
+| `direction` | Optional | string or null | Whether the shipment sends items to the buyer or returns items to the merchant. Values: `"outbound"`, `"return"`. `direction`: [declared alternatives](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputdirection). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. `external_reference_id`: [declared alternatives](../models/PackageUpdatedInstalledMerchantsEventInput.md#packageupdatedinstalledmerchantseventinputdataprevious_attributesexternal_reference_id). |
 | `external_system` | Optional | string or null | Name of the external system that external_reference_id belongs to. External references are not unique. Use Idempotency-Key for retries. `external_system`: [declared alternatives](../models/PackageUpdatedInstalledMerchantsEventInput.md#packageupdatedinstalledmerchantseventinputdataprevious_attributesexternal_system). |
-| `fulfillment_id` | Optional | string or null | Fulfillment associated with this shipment. `fulfillment_id`: [declared alternatives](../models/ShipmentUpdatedInstalledMerchantsEventInput.md#shipmentupdatedinstalledmerchantseventinputdataprevious_attributesfulfillment_id). |
+| `fulfillment_id` | Optional | string or null | Fulfillment associated with this shipment. `fulfillment_id`: [declared alternatives](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputfulfillment_id). |
 | `handed_off_at` | Optional | string or null | Carrier handoff timestamp for outbound and return shipments, using the recorded shipped_at when no separate handoff timestamp exists. For return shipments, this can satisfy an after_handoff execution gate for the declared return_line_items. `handed_off_at`: [declared alternatives](../models/ShipmentUpdatedInstalledMerchantsEventInput.md#shipmentupdatedinstalledmerchantseventinputdataprevious_attributeshanded_off_at). |
-| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) or null | Caller-owned key-value metadata associated with the shipment. |
-| `order` | Optional | [ExpandedOrderSummaryInput](../models/ExpandedOrderSummaryInput.md#expandedordersummaryinput) or null or null | Order summary returned when the order relationship is expanded. Present only when `expand` includes `order`; `null` when expanded and there is no related order. |
+| `metadata` | Optional | [MetadataMapPreviousAttributesInput](../models/MetadataMapPreviousAttributesInput.md#metadatamappreviousattributesinput) or null | Caller-owned key-value metadata associated with the shipment. |
+| `order` | Optional | [ExpandedOrderSummaryPreviousAttributesInput](../models/ExpandedOrderSummaryPreviousAttributesInput.md#expandedordersummarypreviousattributesinput) or null | Order summary returned when the order relationship is expanded. Present only when `expand` includes `order`; `null` when expanded and there is no related order. |
 | `order_id` | Optional | string or null | Order whose items are transported by the shipment. `order_id`: [declared alternatives](../models/ShipmentUpdatedInstalledMerchantsEventInput.md#shipmentupdatedinstalledmerchantseventinputdataprevious_attributesorder_id). |
-| `package_count` | Optional | integer or null | Total number of packages attached to the shipment, including voided packages. `package_count`: [declared alternatives](../models/ShipmentUpdatedInstalledMerchantsEventInput.md#shipmentupdatedinstalledmerchantseventinputdataprevious_attributespackage_count). |
-| `packages` | Optional | Array of [ExpandedPackageSummaryInput](../models/ExpandedPackageSummaryInput.md#expandedpackagesummaryinput) or null | Summaries of the shipment's packages in creation order, returned when the packages relationship is expanded or when the shipment is created with packages. `packages`: [declared alternatives](../models/ShipmentUpdatedInstalledMerchantsEventInput.md#shipmentupdatedinstalledmerchantseventinputdataprevious_attributespackages). |
+| `package_count` | Optional | integer or null | Total number of packages attached to the shipment, including voided packages. `package_count`: [declared alternatives](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputpackage_count). |
+| `packages` | Optional | Array of [ExpandedPackageSummaryPreviousAttributesInput](../models/ExpandedPackageSummaryPreviousAttributesInput.md#expandedpackagesummarypreviousattributesinput) or null | Summaries of the shipment's packages in creation order, returned when the packages relationship is expanded or when the shipment is created with packages. `packages`: [declared alternatives](../models/ShipmentUpdatedInstalledMerchantsEventInput.md#shipmentupdatedinstalledmerchantseventinputdataprevious_attributespackages). |
 | `return_id` | Optional | string or null | Return associated with this shipment, when its direction is return. `return_id`: [declared alternatives](../models/ShipmentUpdatedInstalledMerchantsEventInput.md#shipmentupdatedinstalledmerchantseventinputdataprevious_attributesreturn_id). |
-| `return_line_items` | Optional | Array of [ReturnShipmentLineItemAllocationInput](../models/ReturnShipmentLineItemAllocationInput.md#returnshipmentlineitemallocationinput) or null | Return lines and quantities allocated to this return shipment. `return_line_items`: [declared alternatives](../models/ShipmentUpdatedInstalledMerchantsEventInput.md#shipmentupdatedinstalledmerchantseventinputdataprevious_attributesreturn_line_items). |
+| `return_line_items` | Optional | Array of [ReturnShipmentLineItemAllocationPreviousAttributesInput](../models/ReturnShipmentLineItemAllocationPreviousAttributesInput.md#returnshipmentlineitemallocationpreviousattributesinput) or null | Return lines and quantities allocated to this return shipment. `return_line_items`: [declared alternatives](../models/ShipmentUpdatedInstalledMerchantsEventInput.md#shipmentupdatedinstalledmerchantseventinputdataprevious_attributesreturn_line_items). |
 | `shipment_id` | Optional | string or null | Stable identifier of the shipment. `shipment_id`: [declared alternatives](../models/ShipmentUpdatedInstalledMerchantsEventInput.md#shipmentupdatedinstalledmerchantseventinputdataprevious_attributesshipment_id). |
-| `shipped_at` | Optional | string or null | When the shipment was shipped, in RFC3339 format. `shipped_at`: [declared alternatives](../models/ShipmentUpdatedInstalledMerchantsEventInput.md#shipmentupdatedinstalledmerchantseventinputdataprevious_attributesshipped_at). |
+| `shipped_at` | Optional | string or null | When the shipment was shipped, in RFC3339 format. `shipped_at`: [declared alternatives](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputshipped_at). |
 | `status` | Optional | string or null | Read-only shipment state derived from the shipment's package states. An empty shipment remains a created draft. - `created`: The shipment leg exists but has not been packed or handed off. - `packed`: The shipment leg is packed and awaiting carrier handoff. - `shipped`: The shipment leg was handed to the carrier. - `in_transit`: The carrier is moving the shipment through its network. - `out_for_delivery`: The shipment is on its final delivery route. - `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The shipment was returned toward or to its origin. - `voided`: The shipment was voided and will not continue through delivery. Values: `"created"`, `"packed"`, `"shipped"`, `"in_transit"`, `"out_for_delivery"`, `"delivered"`, `"delivery_attempted"`, `"exception"`, `"returned"`, `"voided"`. `status`: [declared alternatives](../models/ShipmentUpdatedInstalledMerchantsEventInput.md#shipmentupdatedinstalledmerchantseventinputdataprevious_attributesstatus). |
 | `supported_actions` | Optional | Array of string or null | Lifecycle actions Flint accepts now, independent of permissions. Contains void while the shipment and its fulfillment permit voiding. Items values: `"void"`. `supported_actions`: [declared alternatives](../models/ShipmentUpdatedInstalledMerchantsEventInput.md#shipmentupdatedinstalledmerchantseventinputdataprevious_attributessupported_actions). |
 | `updated_at` | Optional | string or null | Last update timestamp. `updated_at`: [declared alternatives](../models/PackageUpdatedInstalledMerchantsEventInput.md#packageupdatedinstalledmerchantseventinputdataprevious_attributesupdated_at). |
@@ -67,31 +67,11 @@ Declared alternatives: [PackageUpdatedInstalledMerchantsEventInput.data.previous
 
 ### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.delivered_at
 
-### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.delivered_at variant 1
-
-anyOf variant 1: When the shipment was delivered, in RFC3339 format..
-
-- Value shape: string. When the shipment was delivered, in RFC3339 format. When the shipment was delivered, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
-
-### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.delivered_at variant 2
-
-anyOf variant 2.
-
-- Value shape: null. When the shipment was delivered, in RFC3339 format. 
+Declared alternatives: [ExpandedShipmentSummaryPreviousAttributesInput.delivered_at](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputdelivered_at).
 
 ### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.direction
 
-### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.direction variant 1
-
-anyOf variant 1: Whether the shipment sends items to the buyer or returns items to the merchant..
-
-- Value shape: string. Whether the shipment sends items to the buyer or returns items to the merchant. Values: `"outbound"`, `"return"`.
-
-### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.direction variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Whether the shipment sends items to the buyer or returns items to the merchant. 
+Declared alternatives: [ExpandedShipmentSummaryPreviousAttributesInput.direction](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputdirection).
 
 ### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.external_reference_id
 
@@ -103,17 +83,7 @@ Declared alternatives: [PackageUpdatedInstalledMerchantsEventInput.data.previous
 
 ### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.fulfillment_id
 
-### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.fulfillment_id variant 1
-
-anyOf variant 1: Fulfillment associated with this shipment..
-
-- Value shape: string. Fulfillment associated with this shipment. Fulfillment associated with this shipment. Example: `"ful_01KEZF7C00F24WVSTTWR1FQX5T"`. 
-
-### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.fulfillment_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Fulfillment associated with this shipment. 
+Declared alternatives: [ExpandedShipmentSummaryPreviousAttributesInput.fulfillment_id](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputfulfillment_id).
 
 ### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.handed_off_at
 
@@ -145,17 +115,7 @@ anyOf variant 2.
 
 ### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.package_count
 
-### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.package_count variant 1
-
-anyOf variant 1: Total number of packages attached to the shipment, including voided packages..
-
-- Value shape: integer. Total number of packages attached to the shipment, including voided packages. Total number of packages attached to the shipment, including voided packages. Format: `int32`. minimum: `0`. 
-
-### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.package_count variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Total number of packages attached to the shipment, including voided packages. 
+Declared alternatives: [ExpandedShipmentSummaryPreviousAttributesInput.package_count](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputpackage_count).
 
 ### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.packages
 
@@ -163,7 +123,7 @@ anyOf variant 2.
 
 anyOf variant 1: Summaries of the shipment's packages in creation order, returned when the packages relationship is expanded or when the shipment is created with packages..
 
-- Value shape: Array of [ExpandedPackageSummaryInput](../models/ExpandedPackageSummaryInput.md#expandedpackagesummaryinput). Summaries of the shipment's packages in creation order, returned when the packages relationship is expanded or when the shipment is created with packages. 
+- Value shape: Array of [ExpandedPackageSummaryPreviousAttributesInput](../models/ExpandedPackageSummaryPreviousAttributesInput.md#expandedpackagesummarypreviousattributesinput). Summaries of the shipment's packages in creation order, returned when the packages relationship is expanded or when the shipment is created with packages. 
 
 ### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.packages variant 2
 
@@ -191,7 +151,7 @@ anyOf variant 2.
 
 anyOf variant 1: Return lines and quantities allocated to this return shipment..
 
-- Value shape: Array of [ReturnShipmentLineItemAllocationInput](../models/ReturnShipmentLineItemAllocationInput.md#returnshipmentlineitemallocationinput). Return lines and quantities allocated to this return shipment. 
+- Value shape: Array of [ReturnShipmentLineItemAllocationPreviousAttributesInput](../models/ReturnShipmentLineItemAllocationPreviousAttributesInput.md#returnshipmentlineitemallocationpreviousattributesinput). Return lines and quantities allocated to this return shipment. 
 
 ### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.return_line_items variant 2
 
@@ -215,17 +175,7 @@ anyOf variant 2.
 
 ### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.shipped_at
 
-### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.shipped_at variant 1
-
-anyOf variant 1: When the shipment was shipped, in RFC3339 format..
-
-- Value shape: string. When the shipment was shipped, in RFC3339 format. When the shipment was shipped, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
-
-### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.shipped_at variant 2
-
-anyOf variant 2.
-
-- Value shape: null. When the shipment was shipped, in RFC3339 format. 
+Declared alternatives: [ExpandedShipmentSummaryPreviousAttributesInput.shipped_at](../models/ExpandedShipmentSummaryPreviousAttributesInput.md#expandedshipmentsummarypreviousattributesinputshipped_at).
 
 ### ShipmentUpdatedInstalledMerchantsEventInput.data.previous_attributes.status
 

@@ -1,32 +1,3112 @@
-import type { Customer } from './types-15.js';
-import type { ResponseMeta } from './types-54.js';
-import type { MoneyValue } from './types-39.js';
-import type { InputValue } from '../runtime.js';
-import type {
-    CreateCustomerSessionRequestInput,
-    CreateCustomerVerificationRequestInput,
-    CreateCustomerAccessLinkRequestInput,
-    CreateCustomerAddressRequestInput,
-    CreateCustomerRequestInput,
-    CreateCustomerTaxExemptionRequestInput
-} from './types-8.js';
-import type { RefreshCustomerSessionRequestInput } from './types-52.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-38.js';
 import type { Address } from './types-0.js';
-import type { ExpandedPaymentMethodSummary } from './types-24.js';
-import type { PartnerWebhookEnvelope } from './types-44.js';
-import type { TaxIdentity } from './types-65.js';
-import type { ConfirmCustomerVerificationRequestInput } from './types-7.js';
-import type { DisputesAcceptParams } from './types-23.js';
-import type { CreateEmailChangeRequestInput } from './types-9.js';
-import type { LinkCustomerGuestPurchasesRequestInput } from './types-35.js';
-import type {
-    UpdateCustomerAddressRequestInput,
-    UpdateCustomerRequestInput,
-    UpdateCustomerTaxExemptionRequestInput
-} from './types-66.js';
-import type { GetReturnInspectionResponse, GetReturnResponse } from './types-26.js';
-import type { ReturnLineDecision, ReturnLineDecisionInput } from './types-55.js';
+import type { ExpandedPaymentMethodSummary, ErrorResourceReference, ErrorResourceReferencePreviousAttributes } from './types-26.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-41.js';
+import type { TaxIdentity } from './types-72.js';
+import type { ResponseMeta, ResolveCustomerDeletionRequestInput } from './types-60.js';
+import type { BuyerCapabilities, BuyerCapabilitiesRequestInput } from './types-1.js';
+import type { PartnerWebhookEnvelope } from './types-49.js';
+import type { InputValue } from '../runtime.js';
+import type { CreateCustomerDeletionRequestInput, CreateCustomerSessionRequestInput } from './types-8.js';
+import type { MoneyValue, MoneyValuePreviousAttributes } from './types-42.js';
+import type { RefreshCustomerSessionRequestInput } from './types-58.js';
+import type { CustomerTaxExemptionCoverageStatesRequestInput } from './types-17.js';
+export type CustomFieldAnswerTextareaPreviousAttributes = ({
+    /**
+     * The kind of field answered, which determines the type of `value`. Value enum: "textarea".
+     * anyOf[1] (Value): string. The kind of field answered, which determines the type of `value`.
+     * Value enum: "textarea". anyOf[2] (Value): null.
+     */
+    "custom_field_type"?: (("textarea" | (string & {})) | (null));
+    /**
+     * The field's `key` when checkout started. anyOf[1] (Value): string. The field's `key` when
+     * checkout started. minLength: 1. maxLength: 243. anyOf[2] (Value): null.
+     */
+    "key"?: ((string) | (null));
+    /**
+     * The question the buyer saw: the field's `label` when checkout started. anyOf[1] (Value):
+     * string. The question the buyer saw: the field's `label` when checkout started. minLength: 1.
+     * maxLength: 255. anyOf[2] (Value): null.
+     */
+    "label"?: ((string) | (null));
+    /**
+     * ID of the payment link custom field the buyer answered. The link may have changed or removed
+     * the field since. anyOf[1] (Value): string. ID of the payment link custom field the buyer
+     * answered. The link may have changed or removed the field since. pattern:
+     * ^plcf_[0-9A-HJKMNP-TV-Z]{26}$. Example: "plcf_01KEZF7C00JBQMP98WBXZA3RHS". anyOf[2] (Value):
+     * null.
+     */
+    "payment_link_custom_field_id"?: ((string) | (null));
+    /**
+     * The buyer's answer: a string for `text`, `textarea`, and `dropdown`; a boolean for
+     * `checkbox`. anyOf[1] (Value): (string or boolean). The buyer's answer: a string for `text`,
+     * `textarea`, and `dropdown`; a boolean for `checkbox`. anyOf[1].anyOf[1] (Value): string.
+     * minLength: 1. maxLength: 4096. anyOf[1].anyOf[2] (Value): boolean. anyOf[2] (Value): null.
+     */
+    "value"?: (((((string) | (boolean) | (unknown)))) | (null) | (unknown));
+})
+    & ({
+    /**
+     * Value enum: "textarea". anyOf[1] (Value): string. Value enum: "textarea". anyOf[2] (Value):
+     * null.
+     */
+    "custom_field_type"?: (("textarea" | (string & {})) | (null));
+    /**
+     * The buyer's answer exactly as entered, from 1 to the field's `max_length` characters.
+     * anyOf[1] (Value): string. The buyer's answer exactly as entered, from 1 to the field's
+     * `max_length` characters. minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
+     */
+    "value"?: ((string) | (null));
+});
+/** A merchant's customer profile. */
+export type Customer = {
+    /**
+     * The customer's default billing address: a copy of the address of the saved address marked
+     * is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses.
+     * Flint taxes orders with no other tax location at this address. `null` when no saved address
+     * is the billing default. anyOf[1] (Value): {@link Address}. A postal address. Every address
+     * has country. Addresses Flint checked as complete (customer and saved addresses, merchant,
+     * location, invoice, order delivery destination, tax identity, fulfillment recipient and
+     * pickup addresses) always have line1 and city, and US ones always have state and postal_code.
+     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
+     * was provided, such as postal_code and country. anyOf[2] (Value): null.
+     */
+    "billing_address": ((Address) | (null));
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Unique identifier for this customer, prefixed `cus_`. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * ID of the invoice payment term that applies to this customer's invoices created with
+     * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
+     * "ipt_01KEZF7C0064N1V301BBMQ37R4".
+     */
+    "default_invoice_payment_term_id"?: string;
+    /**
+     * Present only when `expand` includes `default_payment_method`; `null` when expanded and there
+     * is no related payment method. anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A
+     * payment method's summary fields, including type, status, and card details, returned when the
+     * payment method is expanded. anyOf[2] (Value): null.
+     */
+    "default_payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
+    /**
+     * ID of the customer's default off-session payment method. `null` when none is set. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ".
+     */
+    "default_payment_method_id": string | null;
+    /**
+     * Customer email. `null` when the customer has none. Unique among the environment's customers.
+     */
+    "email": string | null;
+    /**
+     * Caller-owned identifier for this customer in an external system. `null` when none is set.
+     * Not returned to customer sessions. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string | null;
+    /**
+     * Internal note about this customer. `null` when none is set. Not returned to customer
+     * sessions.
+     */
+    "internal_note": string | null;
+    /**
+     * Flag you set on the customer, for example after checking ID in store. Promotion and delivery
+     * rules can match it. Flint does not set it; it is unrelated to customer verifications, which
+     * prove a buyer controls an email address.
+     */
+    "is_merchant_verified"?: boolean;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /** Customer name. `null` when none is set. */
+    "name": string | null;
+    /** Customer phone number. `null` when none is set. */
+    "phone": string | null;
+    /**
+     * ID of the customer's direct wholesale price list. `null` when none is set. An inactive list
+     * can be assigned but does not apply. Not returned to customer sessions. pattern:
+     * ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     */
+    "price_list_id": string | null;
+    /**
+     * What this customer owes you on invoices: the outstanding and overdue amounts, one balance
+     * per currency. Present only when `expand` includes `receivables`. A customer's receivable
+     * balances by currency and when they were observed.
+     */
+    "receivables"?: CustomerReceivables;
+    /**
+     * Free-form label you assign, such as wholesale, so promotion and delivery rules can match
+     * groups of customers. It is not an ID; Flint does not check it against any resource. `null`
+     * when none is set. Not returned to customer sessions.
+     */
+    "segment": string | null;
+    /**
+     * The customer's default shipping address: a copy of the address of the saved address marked
+     * is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses.
+     * Checkout prefills it. `null` when no saved address is the shipping default. anyOf[1]
+     * (Value): {@link Address}. A postal address. Every address has country. Addresses Flint
+     * checked as complete (customer and saved addresses, merchant, location, invoice, order
+     * delivery destination, tax identity, fulfillment recipient and pickup addresses) always have
+     * line1 and city, and US ones always have state and postal_code. Delivery quote destinations,
+     * buyer locations and postal-code tax locations hold only what was provided, such as
+     * postal_code and country. anyOf[2] (Value): null.
+     */
+    "shipping_address": ((Address) | (null));
+    /**
+     * Where the customer is in the deletion lifecycle. Value enum: "active",
+     * "deletion_processing", "deleted".
+     */
+    "status": "active" | "deletion_processing" | "deleted" | (string & {});
+    /**
+     * Whether Flint treats this customer as exempt from tax on their orders, so it skips tax
+     * calculation for them. Not returned to customer sessions.
+     */
+    "tax_exempt"?: boolean;
+    /**
+     * Legal name, registered address and tax IDs printed on this customer's invoices and credit
+     * notes. `null` when none is set. Always `null` for customer sessions. anyOf[1] (Value):
+     * {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit
+     * notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for an EU,
+     * GB, AU or NZ destination to its tax provider, which can apply a reverse charge; other IDs do
+     * not change tax treatment. Tax IDs are an owned collection in display order; replacing the
+     * array requires the parent's expected_version. Existing entries retain their document_tax_id;
+     * omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
+     */
+    "tax_identity": ((TaxIdentity) | (null));
+    /**
+     * ID of the test clock the customer was created on. The customer and its subscriptions read
+     * the clock's `frozen_at` as the current time. Present only for customers created on a test
+     * clock. Not returned to customer sessions. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
+     */
+    "test_clock_id"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+/**
+ * The result of creating a customer account link. With link delivery it carries the single-use
+ * sign-in link. With email delivery Flint has queued that link in an email to the customer, and
+ * the response carries only a masked recipient address.
+ */
+export type CustomerAccessLink = ({
+    /** Whether the credential was returned or emailed. Value enum: "link", "email". */
+    "delivery": "link" | "email" | (string & {});
+    /** When a returned link expires. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "expires_at"?: string;
+    /** The returned link opens the customer's account. Value enum: "customer_account". */
+    "purpose"?: "customer_account" | (string & {});
+    /**
+     * Masked customer address receiving the account link. No credential is returned with email
+     * delivery.
+     */
+    "recipient_email"?: string;
+    /** The return_url from the request. Null when the request omitted it. */
+    "return_url": string | null;
+    /**
+     * True when Flint accepted the email into its durable delivery queue. Provider delivery runs
+     * asynchronously. Value enum: true.
+     */
+    "sent"?: boolean;
+    /**
+     * The single-use bearer URL, present only with link delivery. Returned only to the credential
+     * that created it, and omitted when another credential replays the request. Format: uri.
+     * Example: "https://example.com/receipt".
+     */
+    "url"?: string;
+})
+    & ((Exclude<CustomerAccessLinkReturned & object, readonly unknown[]>)
+    | (Exclude<CustomerAccessLinkEmailed & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * The result of creating a customer account link. With link delivery it carries the single-use
+ * sign-in link. With email delivery Flint has queued that link in an email to the customer, and
+ * the response carries only a masked recipient address.
+ */
+export type CustomerAccessLinkEmailed = ({
+    /** Whether the credential was returned or emailed. Value enum: "email". */
+    "delivery": "email" | (string & {});
+    /** When a returned link expires. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "expires_at"?: string;
+    /** The returned link opens the customer's account. Value enum: "customer_account". */
+    "purpose"?: "customer_account" | (string & {});
+    /**
+     * Masked customer address receiving the account link. No credential is returned with email
+     * delivery.
+     */
+    "recipient_email": string;
+    /** The return_url from the request. Null when the request omitted it. */
+    "return_url": string | null;
+    /**
+     * True when Flint accepted the email into its durable delivery queue. Provider delivery runs
+     * asynchronously. Value enum: true.
+     */
+    "sent": boolean;
+    /**
+     * The single-use bearer URL, present only with link delivery. Returned only to the credential
+     * that created it, and omitted when another credential replays the request. Format: uri.
+     * Example: "https://example.com/receipt".
+     */
+    "url"?: string;
+})
+    & (({
+    /** Value enum: "email". */
+    "delivery": unknown;
+    /**
+     * True when Flint accepted the email into its durable delivery queue. Provider delivery runs
+     * asynchronously. Value enum: true.
+     */
+    "sent": boolean;
+    /**
+     * Masked customer address receiving the account link. No credential is returned with email
+     * delivery.
+     */
+    "recipient_email": string;
+}));
+/** A response containing `CustomerAccessLink` data. */
+export type CustomerAccessLinkResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The result of creating a
+     * customer account link. With link delivery it carries the single-use sign-in link. With email
+     * delivery Flint has queued that link in an email to the customer, and the response carries
+     * only a masked recipient address.
+     */
+    "data": CustomerAccessLink;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * The result of creating a customer account link. With link delivery it carries the single-use
+ * sign-in link. With email delivery Flint has queued that link in an email to the customer, and
+ * the response carries only a masked recipient address.
+ */
+export type CustomerAccessLinkReturned = ({
+    /** Whether the credential was returned or emailed. Value enum: "link". */
+    "delivery": "link" | (string & {});
+    /** When a returned link expires. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "expires_at": string;
+    /** The returned link opens the customer's account. Value enum: "customer_account". */
+    "purpose": "customer_account" | (string & {});
+    /**
+     * Masked customer address receiving the account link. No credential is returned with email
+     * delivery.
+     */
+    "recipient_email"?: string;
+    /** The return_url from the request. Null when the request omitted it. */
+    "return_url": string | null;
+    /**
+     * True when Flint accepted the email into its durable delivery queue. Provider delivery runs
+     * asynchronously. Value enum: true.
+     */
+    "sent"?: boolean;
+    /**
+     * The single-use bearer URL, present only with link delivery. Returned only to the credential
+     * that created it, and omitted when another credential replays the request. Format: uri.
+     * Example: "https://example.com/receipt".
+     */
+    "url"?: string;
+})
+    & (({
+    /** Value enum: "link". */
+    "delivery": unknown;
+    /** When a returned link expires. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "expires_at": string;
+    /** The returned link opens the customer's account. Value enum: "customer_account". */
+    "purpose": "customer_account" | (string & {});
+    /** The return_url from the request. Null when the request omitted it. */
+    "return_url": string | null;
+}));
+/**
+ * How the Flint-hosted customer account is presented. The account's hostname is a custom domain;
+ * manage it with /v1/custom-domains. Send null to clear a value.
+ */
+export type CustomerAccountPresentation = {
+    /**
+     * Name shown at the top of the Flint-hosted customer account, up to 100 characters. `null`
+     * when none is set, so the account shows your business name. Send null to clear it. minLength:
+     * 1.
+     */
+    "account_name"?: string | null;
+};
+/**
+ * How the Flint-hosted customer account is presented. The account's hostname is a custom domain;
+ * manage it with /v1/custom-domains. Send null to clear a value.
+ */
+export type CustomerAccountPresentationRequestInput = CustomerAccountPresentation;
+/**
+ * Route templates for a merchant-hosted customer account: email preferences, invoice, order,
+ * return, and subscription pages. Send null to clear one.
+ */
+export type CustomerAccountRouteTemplates = {
+    /**
+     * Path under `merchant_account_url` for the email preferences page, with no placeholder.
+     * `null` when no template is set, so links land on `merchant_account_url`. Send null to clear
+     * it. minLength: 1.
+     */
+    "email_preferences"?: string | null;
+    /**
+     * Path under `merchant_account_url` for an invoice page, containing `{resource_id}` once.
+     * `null` when no template is set, so links land on `merchant_account_url`. Send null to clear
+     * it. minLength: 1.
+     */
+    "invoice"?: string | null;
+    /**
+     * Path under `merchant_account_url` for an order page, containing `{resource_id}` once. `null`
+     * when no template is set, so links land on `merchant_account_url`. Send null to clear it.
+     * minLength: 1.
+     */
+    "order"?: string | null;
+    /**
+     * Path under `merchant_account_url` for a return page, containing `{resource_id}` once. `null`
+     * when no template is set, so links land on `merchant_account_url`. Send null to clear it.
+     * minLength: 1.
+     */
+    "return"?: string | null;
+    /**
+     * Path under `merchant_account_url` for a subscription page, containing `{resource_id}` once.
+     * `null` when no template is set, so links land on `merchant_account_url`. Send null to clear
+     * it. minLength: 1.
+     */
+    "subscription"?: string | null;
+};
+/**
+ * Route templates for a merchant-hosted customer account: email preferences, invoice, order,
+ * return, and subscription pages. Send null to clear one.
+ */
+export type CustomerAccountRouteTemplatesRequestInput = CustomerAccountRouteTemplates;
+/**
+ * Customer account settings: hosted mode, merchant account URL, presentation, route templates, and
+ * what buyers may do to their own subscriptions.
+ */
+export type CustomerAccountSettings = {
+    /**
+     * Replaced as a whole: send every field you want to keep. What buyers may do to their own
+     * subscriptions in Flint's buyer account or through a customer session, in either mode.
+     * Merchant credentials are not bound by it. Buyers can always cancel. Written as a whole: an
+     * update that includes buyer_capabilities replaces the stored value, and each field it omits
+     * takes its default. Effective settings include every default. What a store lets buyers do to
+     * their own subscriptions. minProperties: 1.
+     */
+    "buyer_capabilities"?: BuyerCapabilities;
+    /**
+     * Your customer account page's URL, when you host it. `null` when you don't host the account.
+     * minLength: 1.
+     */
+    "merchant_account_url"?: string | null;
+    /**
+     * Who hosts the customer account where buyers see their orders, subscriptions, returns, and
+     * invoices. Value enum: "flint_hosted", "merchant_hosted".
+     */
+    "mode"?: "flint_hosted" | "merchant_hosted" | (string & {});
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. How the
+     * Flint-hosted customer account is presented. The account's hostname is a custom domain;
+     * manage it with /v1/custom-domains. Send null to clear a value.
+     */
+    "presentation"?: CustomerAccountPresentation;
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Route templates
+     * for a merchant-hosted customer account: email preferences, invoice, order, return, and
+     * subscription pages. Send null to clear one.
+     */
+    "route_templates"?: CustomerAccountRouteTemplates;
+};
+/**
+ * Customer account settings: hosted mode, merchant account URL, presentation, route templates, and
+ * what buyers may do to their own subscriptions.
+ */
+export type CustomerAccountSettingsRequestInput = {
+    /**
+     * Replaced as a whole: send every field you want to keep. What buyers may do to their own
+     * subscriptions in Flint's buyer account or through a customer session, in either mode.
+     * Merchant credentials are not bound by it. Buyers can always cancel. Written as a whole: an
+     * update that includes buyer_capabilities replaces the stored value, and each field it omits
+     * takes its default. Send at least one field. What a store lets buyers do to their own
+     * subscriptions. minProperties: 1.
+     */
+    "buyer_capabilities"?: BuyerCapabilitiesRequestInput;
+    /** Your customer account page's URL, when you host it. Send null to clear it. minLength: 1. */
+    "merchant_account_url"?: string | null;
+    /**
+     * Who hosts the customer account where buyers see their orders, subscriptions, returns, and
+     * invoices. Value enum: "flint_hosted", "merchant_hosted".
+     */
+    "mode"?: "flint_hosted" | "merchant_hosted";
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. How the
+     * Flint-hosted customer account is presented. The account's hostname is a custom domain;
+     * manage it with /v1/custom-domains. Send null to clear a value.
+     */
+    "presentation"?: CustomerAccountPresentationRequestInput;
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Route templates
+     * for a merchant-hosted customer account: email preferences, invoice, order, return, and
+     * subscription pages. Send null to clear one.
+     */
+    "route_templates"?: CustomerAccountRouteTemplatesRequestInput;
+};
+/** An address saved on a customer's profile. */
+export type CustomerAddress = {
+    /**
+     * The postal address. A postal address. Every address has country. Addresses Flint checked as
+     * complete (customer and saved addresses, merchant, location, invoice, order delivery
+     * destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and
+     * city, and US ones always have state and postal_code. Delivery quote destinations, buyer
+     * locations and postal-code tax locations hold only what was provided, such as postal_code and
+     * country.
+     */
+    "address": Address;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Unique identifier for this customer address, prefixed `caddr_`. Example:
+     * "caddr_01KEZF7C00K2Q127FBJAXWB0FP".
+     */
+    "customer_address_id": string;
+    /** ID of the customer this address belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+    "customer_id": string;
+    /**
+     * Whether this is the customer's default billing address. At most one saved address holds each
+     * default.
+     */
+    "is_default_billing": boolean;
+    /**
+     * Whether this is the customer's default shipping address. At most one saved address holds
+     * each default.
+     */
+    "is_default_shipping": boolean;
+    /** Limited to 100 characters (Unicode code points). maxLength: 100. */
+    "label"?: string;
+    /** E.164 phone number. Limited to 30 characters (Unicode code points). maxLength: 30. */
+    "phone"?: string;
+    /** Limited to 255 characters (Unicode code points). maxLength: 255. */
+    "recipient_name": string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+/** A page of `CustomerAddress` objects. */
+export type CustomerAddressListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * CustomerAddress}. An address saved on a customer's profile.
+     */
+    "data": Array<CustomerAddress>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `CustomerAddress` data. */
+export type CustomerAddressResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. An address saved on a
+     * customer's profile.
+     */
+    "data": CustomerAddress;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type CustomerCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "billing_address": ((Address) | (null));
+            "created_at": string;
+            "customer_id": string;
+            "default_invoice_payment_term_id"?: string;
+            "default_payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
+            "default_payment_method_id": string | null;
+            "email": string | null;
+            "external_reference_id": string | null;
+            "internal_note": string | null;
+            "is_merchant_verified"?: boolean;
+            "merchant_id": string;
+            "metadata"?: MetadataMap;
+            "name": string | null;
+            "phone": string | null;
+            "price_list_id": string | null;
+            "receivables"?: CustomerReceivables;
+            "segment": string | null;
+            "shipping_address": ((Address) | (null));
+            "status": "active" | "deletion_processing" | "deleted" | (string & {});
+            "tax_exempt"?: boolean;
+            "tax_identity": ((TaxIdentity) | (null));
+            "test_clock_id"?: string;
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "customer.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "billing_address": ((Address) | (null));
+            "created_at": string;
+            "customer_id": string;
+            "default_invoice_payment_term_id"?: string;
+            "default_payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
+            "default_payment_method_id": string | null;
+            "email": string | null;
+            "external_reference_id": string | null;
+            "internal_note": string | null;
+            "is_merchant_verified"?: boolean;
+            "merchant_id": string;
+            "metadata"?: MetadataMap;
+            "name": string | null;
+            "phone": string | null;
+            "price_list_id": string | null;
+            "receivables"?: CustomerReceivables;
+            "segment": string | null;
+            "shipping_address": ((Address) | (null));
+            "status": "active" | "deletion_processing" | "deleted" | (string & {});
+            "tax_exempt"?: boolean;
+            "tax_identity": ((TaxIdentity) | (null));
+            "test_clock_id"?: string;
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "customer.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "customer.created";
+});
+/**
+ * The `customer.created` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type CustomerCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.billing_address (Required): {@link Address} or null. The
+     * customer's default billing address: a copy of the address of the saved address marked
+     * is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses.
+     * Flint taxes orders with no other tax location at this address. `null` when no saved address
+     * is the billing default. object.billing_address.anyOf[1] (Value): {@link Address}. A postal
+     * address. Every address has country. Addresses Flint checked as complete (customer and saved
+     * addresses, merchant, location, invoice, order delivery destination, tax identity,
+     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
+     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
+     * locations hold only what was provided, such as postal_code and country.
+     * object.billing_address.anyOf[2] (Value): null. object.created_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.customer_id
+     * (Required): string. Unique identifier for this customer, prefixed `cus_`. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.default_invoice_payment_term_id (Optional): string.
+     * ID of the invoice payment term that applies to this customer's invoices created with
+     * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
+     * "ipt_01KEZF7C0064N1V301BBMQ37R4". object.default_payment_method (Optional): {@link
+     * ExpandedPaymentMethodSummary} or null. Present only when `expand` includes
+     * `default_payment_method`; `null` when expanded and there is no related payment method.
+     * object.default_payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A
+     * payment method's summary fields, including type, status, and card details, returned when the
+     * payment method is expanded. object.default_payment_method.anyOf[2] (Value): null.
+     * object.default_payment_method_id (Required): string or null. ID of the customer's default
+     * off-session payment method. `null` when none is set. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.email (Required): string or null. Customer email.
+     * `null` when the customer has none. Unique among the environment's customers.
+     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
+     * customer in an external system. `null` when none is set. Not returned to customer sessions.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842". object.internal_note (Required):
+     * string or null. Internal note about this customer. `null` when none is set. Not returned to
+     * customer sessions. object.is_merchant_verified (Optional): boolean. Flag you set on the
+     * customer, for example after checking ID in store. Promotion and delivery rules can match it.
+     * Flint does not set it; it is unrelated to customer verifications, which prove a buyer
+     * controls an email address. object.merchant_id (Required): string. ID of the merchant this
+     * resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional):
+     * {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+     * and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+     * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them. object.name
+     * (Required): string or null. Customer name. `null` when none is set. object.phone (Required):
+     * string or null. Customer phone number. `null` when none is set. object.price_list_id
+     * (Required): string or null. ID of the customer's direct wholesale price list. `null` when
+     * none is set. An inactive list can be assigned but does not apply. Not returned to customer
+     * sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     * object.receivables (Optional): {@link CustomerReceivables}. What this customer owes you on
+     * invoices: the outstanding and overdue amounts, one balance per currency. Present only when
+     * `expand` includes `receivables`. A customer's receivable balances by currency and when they
+     * were observed. object.segment (Required): string or null. Free-form label you assign, such
+     * as wholesale, so promotion and delivery rules can match groups of customers. It is not an
+     * ID; Flint does not check it against any resource. `null` when none is set. Not returned to
+     * customer sessions. object.shipping_address (Required): {@link Address} or null. The
+     * customer's default shipping address: a copy of the address of the saved address marked
+     * is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses.
+     * Checkout prefills it. `null` when no saved address is the shipping default.
+     * object.shipping_address.anyOf[1] (Value): {@link Address}. A postal address. Every address
+     * has country. Addresses Flint checked as complete (customer and saved addresses, merchant,
+     * location, invoice, order delivery destination, tax identity, fulfillment recipient and
+     * pickup addresses) always have line1 and city, and US ones always have state and postal_code.
+     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
+     * was provided, such as postal_code and country. object.shipping_address.anyOf[2] (Value):
+     * null. object.status (Required): string. Where the customer is in the deletion lifecycle.
+     * Value enum: "active", "deletion_processing", "deleted". object.tax_exempt (Optional):
+     * boolean. Whether Flint treats this customer as exempt from tax on their orders, so it skips
+     * tax calculation for them. Not returned to customer sessions. object.tax_identity (Required):
+     * {@link TaxIdentity} or null. Legal name, registered address and tax IDs printed on this
+     * customer's invoices and credit notes. `null` when none is set. Always `null` for customer
+     * sessions. object.tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
+     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
+     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
+     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
+     * owned collection in display order; replacing the array requires the parent's
+     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
+     * or omit its ID to add one. object.tax_identity.anyOf[2] (Value): null. object.test_clock_id
+     * (Optional): string. ID of the test clock the customer was created on. The customer and its
+     * subscriptions read the clock's `frozen_at` as the current time. Present only for customers
+     * created on a test clock. Not returned to customer sessions. Example:
+     * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". object.updated_at (Required): string. RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer.
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: uint64. minimum: 1.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * billing_address (Required): {@link Address} or null. The customer's default billing
+         * address: a copy of the address of the saved address marked is_default_billing.
+         * Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders
+         * with no other tax location at this address. `null` when no saved address is the billing
+         * default. billing_address.anyOf[1] (Value): {@link Address}. A postal address. Every
+         * address has country. Addresses Flint checked as complete (customer and saved addresses,
+         * merchant, location, invoice, order delivery destination, tax identity, fulfillment
+         * recipient and pickup addresses) always have line1 and city, and US ones always have
+         * state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
+         * locations hold only what was provided, such as postal_code and country.
+         * billing_address.anyOf[2] (Value): null. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id (Required):
+         * string. Unique identifier for this customer, prefixed `cus_`. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". default_invoice_payment_term_id (Optional): string. ID
+         * of the invoice payment term that applies to this customer's invoices created with
+         * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
+         * "ipt_01KEZF7C0064N1V301BBMQ37R4". default_payment_method (Optional): {@link
+         * ExpandedPaymentMethodSummary} or null. Present only when `expand` includes
+         * `default_payment_method`; `null` when expanded and there is no related payment method.
+         * default_payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
+         * method's summary fields, including type, status, and card details, returned when the
+         * payment method is expanded. default_payment_method.anyOf[2] (Value): null.
+         * default_payment_method_id (Required): string or null. ID of the customer's default
+         * off-session payment method. `null` when none is set. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". email (Required): string or null. Customer email.
+         * `null` when the customer has none. Unique among the environment's customers.
+         * external_reference_id (Required): string or null. Caller-owned identifier for this
+         * customer in an external system. `null` when none is set. Not returned to customer
+         * sessions. minLength: 1. maxLength: 255. Example: "warehouse-1842". internal_note
+         * (Required): string or null. Internal note about this customer. `null` when none is set.
+         * Not returned to customer sessions. is_merchant_verified (Optional): boolean. Flag you
+         * set on the customer, for example after checking ID in store. Promotion and delivery
+         * rules can match it. Flint does not set it; it is unrelated to customer verifications,
+         * which prove a buyer controls an email address. merchant_id (Required): string. ID of the
+         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata
+         * (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput`
+         * for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys
+         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. name (Required): string or null. Customer name. `null` when none is set.
+         * phone (Required): string or null. Customer phone number. `null` when none is set.
+         * price_list_id (Required): string or null. ID of the customer's direct wholesale price
+         * list. `null` when none is set. An inactive list can be assigned but does not apply. Not
+         * returned to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". receivables (Optional): {@link CustomerReceivables}.
+         * What this customer owes you on invoices: the outstanding and overdue amounts, one
+         * balance per currency. Present only when `expand` includes `receivables`. A customer's
+         * receivable balances by currency and when they were observed. segment (Required): string
+         * or null. Free-form label you assign, such as wholesale, so promotion and delivery rules
+         * can match groups of customers. It is not an ID; Flint does not check it against any
+         * resource. `null` when none is set. Not returned to customer sessions. shipping_address
+         * (Required): {@link Address} or null. The customer's default shipping address: a copy of
+         * the address of the saved address marked is_default_shipping. Read-only; change it
+         * through /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no
+         * saved address is the shipping default. shipping_address.anyOf[1] (Value): {@link
+         * Address}. A postal address. Every address has country. Addresses Flint checked as
+         * complete (customer and saved addresses, merchant, location, invoice, order delivery
+         * destination, tax identity, fulfillment recipient and pickup addresses) always have line1
+         * and city, and US ones always have state and postal_code. Delivery quote destinations,
+         * buyer locations and postal-code tax locations hold only what was provided, such as
+         * postal_code and country. shipping_address.anyOf[2] (Value): null. status (Required):
+         * string. Where the customer is in the deletion lifecycle. Value enum: "active",
+         * "deletion_processing", "deleted". tax_exempt (Optional): boolean. Whether Flint treats
+         * this customer as exempt from tax on their orders, so it skips tax calculation for them.
+         * Not returned to customer sessions. tax_identity (Required): {@link TaxIdentity} or null.
+         * Legal name, registered address and tax IDs printed on this customer's invoices and
+         * credit notes. `null` when none is set. Always `null` for customer sessions.
+         * tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity
+         * displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
+         * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
+         * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
+         * owned collection in display order; replacing the array requires the parent's
+         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
+         * it, or omit its ID to add one. tax_identity.anyOf[2] (Value): null. test_clock_id
+         * (Optional): string. ID of the test clock the customer was created on. The customer and
+         * its subscriptions read the clock's `frozen_at` as the current time. Present only for
+         * customers created on a test clock. Not returned to customer sessions. Example:
+         * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". updated_at (Required): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer. Current
+         * version of this resource's owned state. Send it as `expected_version` when changing the
+         * resource to reject a stale write. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * The customer's default billing address: a copy of the address of the saved address
+             * marked is_default_billing. Read-only; change it through
+             * /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location
+             * at this address. `null` when no saved address is the billing default. anyOf[1]
+             * (Value): {@link Address}. A postal address. Every address has country. Addresses
+             * Flint checked as complete (customer and saved addresses, merchant, location,
+             * invoice, order delivery destination, tax identity, fulfillment recipient and pickup
+             * addresses) always have line1 and city, and US ones always have state and
+             * postal_code. Delivery quote destinations, buyer locations and postal-code tax
+             * locations hold only what was provided, such as postal_code and country. anyOf[2]
+             * (Value): null.
+             */
+            "billing_address": ((Address) | (null));
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Unique identifier for this customer, prefixed `cus_`. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string;
+            /**
+             * ID of the invoice payment term that applies to this customer's invoices created with
+             * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
+             * "ipt_01KEZF7C0064N1V301BBMQ37R4".
+             */
+            "default_invoice_payment_term_id"?: string;
+            /**
+             * Present only when `expand` includes `default_payment_method`; `null` when expanded
+             * and there is no related payment method. anyOf[1] (Value): {@link
+             * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type,
+             * status, and card details, returned when the payment method is expanded. anyOf[2]
+             * (Value): null.
+             */
+            "default_payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
+            /**
+             * ID of the customer's default off-session payment method. `null` when none is set.
+             * Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+             */
+            "default_payment_method_id": string | null;
+            /**
+             * Customer email. `null` when the customer has none. Unique among the environment's
+             * customers.
+             */
+            "email": string | null;
+            /**
+             * Caller-owned identifier for this customer in an external system. `null` when none is
+             * set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
+             * "warehouse-1842".
+             */
+            "external_reference_id": string | null;
+            /**
+             * Internal note about this customer. `null` when none is set. Not returned to customer
+             * sessions.
+             */
+            "internal_note": string | null;
+            /**
+             * Flag you set on the customer, for example after checking ID in store. Promotion and
+             * delivery rules can match it. Flint does not set it; it is unrelated to customer
+             * verifications, which prove a buyer controls an email address.
+             */
+            "is_merchant_verified"?: boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /** Customer name. `null` when none is set. */
+            "name": string | null;
+            /** Customer phone number. `null` when none is set. */
+            "phone": string | null;
+            /**
+             * ID of the customer's direct wholesale price list. `null` when none is set. An
+             * inactive list can be assigned but does not apply. Not returned to customer sessions.
+             * pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+             */
+            "price_list_id": string | null;
+            /**
+             * What this customer owes you on invoices: the outstanding and overdue amounts, one
+             * balance per currency. Present only when `expand` includes `receivables`. A
+             * customer's receivable balances by currency and when they were observed.
+             */
+            "receivables"?: CustomerReceivables;
+            /**
+             * Free-form label you assign, such as wholesale, so promotion and delivery rules can
+             * match groups of customers. It is not an ID; Flint does not check it against any
+             * resource. `null` when none is set. Not returned to customer sessions.
+             */
+            "segment": string | null;
+            /**
+             * The customer's default shipping address: a copy of the address of the saved address
+             * marked is_default_shipping. Read-only; change it through
+             * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved
+             * address is the shipping default. anyOf[1] (Value): {@link Address}. A postal
+             * address. Every address has country. Addresses Flint checked as complete (customer
+             * and saved addresses, merchant, location, invoice, order delivery destination, tax
+             * identity, fulfillment recipient and pickup addresses) always have line1 and city,
+             * and US ones always have state and postal_code. Delivery quote destinations, buyer
+             * locations and postal-code tax locations hold only what was provided, such as
+             * postal_code and country. anyOf[2] (Value): null.
+             */
+            "shipping_address": ((Address) | (null));
+            /**
+             * Where the customer is in the deletion lifecycle. Value enum: "active",
+             * "deletion_processing", "deleted".
+             */
+            "status": "active" | "deletion_processing" | "deleted" | (string & {});
+            /**
+             * Whether Flint treats this customer as exempt from tax on their orders, so it skips
+             * tax calculation for them. Not returned to customer sessions.
+             */
+            "tax_exempt"?: boolean;
+            /**
+             * Legal name, registered address and tax IDs printed on this customer's invoices and
+             * credit notes. `null` when none is set. Always `null` for customer sessions. anyOf[1]
+             * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices
+             * and credit notes. Flint does not verify IDs. On a customer, automatic tax sends the
+             * tax ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a
+             * reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
+             * collection in display order; replacing the array requires the parent's
+             * expected_version. Existing entries retain their document_tax_id; omit an entry to
+             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
+             */
+            "tax_identity": ((TaxIdentity) | (null));
+            /**
+             * ID of the test clock the customer was created on. The customer and its subscriptions
+             * read the clock's `frozen_at` as the current time. Present only for customers created
+             * on a test clock. Not returned to customer sessions. Example:
+             * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
+             */
+            "test_clock_id"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "customer.created". */
+    "event_type"?: "customer.created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `customer.created` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type CustomerCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.billing_address (Required): {@link Address} or null. The
+     * customer's default billing address: a copy of the address of the saved address marked
+     * is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses.
+     * Flint taxes orders with no other tax location at this address. `null` when no saved address
+     * is the billing default. object.billing_address.anyOf[1] (Value): {@link Address}. A postal
+     * address. Every address has country. Addresses Flint checked as complete (customer and saved
+     * addresses, merchant, location, invoice, order delivery destination, tax identity,
+     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
+     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
+     * locations hold only what was provided, such as postal_code and country.
+     * object.billing_address.anyOf[2] (Value): null. object.created_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.customer_id
+     * (Required): string. Unique identifier for this customer, prefixed `cus_`. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.default_invoice_payment_term_id (Optional): string.
+     * ID of the invoice payment term that applies to this customer's invoices created with
+     * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
+     * "ipt_01KEZF7C0064N1V301BBMQ37R4". object.default_payment_method (Optional): {@link
+     * ExpandedPaymentMethodSummary} or null. Present only when `expand` includes
+     * `default_payment_method`; `null` when expanded and there is no related payment method.
+     * object.default_payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A
+     * payment method's summary fields, including type, status, and card details, returned when the
+     * payment method is expanded. object.default_payment_method.anyOf[2] (Value): null.
+     * object.default_payment_method_id (Required): string or null. ID of the customer's default
+     * off-session payment method. `null` when none is set. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.email (Required): string or null. Customer email.
+     * `null` when the customer has none. Unique among the environment's customers.
+     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
+     * customer in an external system. `null` when none is set. Not returned to customer sessions.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842". object.internal_note (Required):
+     * string or null. Internal note about this customer. `null` when none is set. Not returned to
+     * customer sessions. object.is_merchant_verified (Optional): boolean. Flag you set on the
+     * customer, for example after checking ID in store. Promotion and delivery rules can match it.
+     * Flint does not set it; it is unrelated to customer verifications, which prove a buyer
+     * controls an email address. object.merchant_id (Required): string. ID of the merchant this
+     * resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional):
+     * {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+     * and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+     * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them. object.name
+     * (Required): string or null. Customer name. `null` when none is set. object.phone (Required):
+     * string or null. Customer phone number. `null` when none is set. object.price_list_id
+     * (Required): string or null. ID of the customer's direct wholesale price list. `null` when
+     * none is set. An inactive list can be assigned but does not apply. Not returned to customer
+     * sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     * object.receivables (Optional): {@link CustomerReceivables}. What this customer owes you on
+     * invoices: the outstanding and overdue amounts, one balance per currency. Present only when
+     * `expand` includes `receivables`. A customer's receivable balances by currency and when they
+     * were observed. object.segment (Required): string or null. Free-form label you assign, such
+     * as wholesale, so promotion and delivery rules can match groups of customers. It is not an
+     * ID; Flint does not check it against any resource. `null` when none is set. Not returned to
+     * customer sessions. object.shipping_address (Required): {@link Address} or null. The
+     * customer's default shipping address: a copy of the address of the saved address marked
+     * is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses.
+     * Checkout prefills it. `null` when no saved address is the shipping default.
+     * object.shipping_address.anyOf[1] (Value): {@link Address}. A postal address. Every address
+     * has country. Addresses Flint checked as complete (customer and saved addresses, merchant,
+     * location, invoice, order delivery destination, tax identity, fulfillment recipient and
+     * pickup addresses) always have line1 and city, and US ones always have state and postal_code.
+     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
+     * was provided, such as postal_code and country. object.shipping_address.anyOf[2] (Value):
+     * null. object.status (Required): string. Where the customer is in the deletion lifecycle.
+     * Value enum: "active", "deletion_processing", "deleted". object.tax_exempt (Optional):
+     * boolean. Whether Flint treats this customer as exempt from tax on their orders, so it skips
+     * tax calculation for them. Not returned to customer sessions. object.tax_identity (Required):
+     * {@link TaxIdentity} or null. Legal name, registered address and tax IDs printed on this
+     * customer's invoices and credit notes. `null` when none is set. Always `null` for customer
+     * sessions. object.tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
+     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
+     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
+     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
+     * owned collection in display order; replacing the array requires the parent's
+     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
+     * or omit its ID to add one. object.tax_identity.anyOf[2] (Value): null. object.test_clock_id
+     * (Optional): string. ID of the test clock the customer was created on. The customer and its
+     * subscriptions read the clock's `frozen_at` as the current time. Present only for customers
+     * created on a test clock. Not returned to customer sessions. Example:
+     * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". object.updated_at (Required): string. RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer.
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: uint64. minimum: 1.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * billing_address (Required): {@link Address} or null. The customer's default billing
+         * address: a copy of the address of the saved address marked is_default_billing.
+         * Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders
+         * with no other tax location at this address. `null` when no saved address is the billing
+         * default. billing_address.anyOf[1] (Value): {@link Address}. A postal address. Every
+         * address has country. Addresses Flint checked as complete (customer and saved addresses,
+         * merchant, location, invoice, order delivery destination, tax identity, fulfillment
+         * recipient and pickup addresses) always have line1 and city, and US ones always have
+         * state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
+         * locations hold only what was provided, such as postal_code and country.
+         * billing_address.anyOf[2] (Value): null. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id (Required):
+         * string. Unique identifier for this customer, prefixed `cus_`. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". default_invoice_payment_term_id (Optional): string. ID
+         * of the invoice payment term that applies to this customer's invoices created with
+         * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
+         * "ipt_01KEZF7C0064N1V301BBMQ37R4". default_payment_method (Optional): {@link
+         * ExpandedPaymentMethodSummary} or null. Present only when `expand` includes
+         * `default_payment_method`; `null` when expanded and there is no related payment method.
+         * default_payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
+         * method's summary fields, including type, status, and card details, returned when the
+         * payment method is expanded. default_payment_method.anyOf[2] (Value): null.
+         * default_payment_method_id (Required): string or null. ID of the customer's default
+         * off-session payment method. `null` when none is set. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". email (Required): string or null. Customer email.
+         * `null` when the customer has none. Unique among the environment's customers.
+         * external_reference_id (Required): string or null. Caller-owned identifier for this
+         * customer in an external system. `null` when none is set. Not returned to customer
+         * sessions. minLength: 1. maxLength: 255. Example: "warehouse-1842". internal_note
+         * (Required): string or null. Internal note about this customer. `null` when none is set.
+         * Not returned to customer sessions. is_merchant_verified (Optional): boolean. Flag you
+         * set on the customer, for example after checking ID in store. Promotion and delivery
+         * rules can match it. Flint does not set it; it is unrelated to customer verifications,
+         * which prove a buyer controls an email address. merchant_id (Required): string. ID of the
+         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata
+         * (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput`
+         * for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys
+         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. name (Required): string or null. Customer name. `null` when none is set.
+         * phone (Required): string or null. Customer phone number. `null` when none is set.
+         * price_list_id (Required): string or null. ID of the customer's direct wholesale price
+         * list. `null` when none is set. An inactive list can be assigned but does not apply. Not
+         * returned to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". receivables (Optional): {@link CustomerReceivables}.
+         * What this customer owes you on invoices: the outstanding and overdue amounts, one
+         * balance per currency. Present only when `expand` includes `receivables`. A customer's
+         * receivable balances by currency and when they were observed. segment (Required): string
+         * or null. Free-form label you assign, such as wholesale, so promotion and delivery rules
+         * can match groups of customers. It is not an ID; Flint does not check it against any
+         * resource. `null` when none is set. Not returned to customer sessions. shipping_address
+         * (Required): {@link Address} or null. The customer's default shipping address: a copy of
+         * the address of the saved address marked is_default_shipping. Read-only; change it
+         * through /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no
+         * saved address is the shipping default. shipping_address.anyOf[1] (Value): {@link
+         * Address}. A postal address. Every address has country. Addresses Flint checked as
+         * complete (customer and saved addresses, merchant, location, invoice, order delivery
+         * destination, tax identity, fulfillment recipient and pickup addresses) always have line1
+         * and city, and US ones always have state and postal_code. Delivery quote destinations,
+         * buyer locations and postal-code tax locations hold only what was provided, such as
+         * postal_code and country. shipping_address.anyOf[2] (Value): null. status (Required):
+         * string. Where the customer is in the deletion lifecycle. Value enum: "active",
+         * "deletion_processing", "deleted". tax_exempt (Optional): boolean. Whether Flint treats
+         * this customer as exempt from tax on their orders, so it skips tax calculation for them.
+         * Not returned to customer sessions. tax_identity (Required): {@link TaxIdentity} or null.
+         * Legal name, registered address and tax IDs printed on this customer's invoices and
+         * credit notes. `null` when none is set. Always `null` for customer sessions.
+         * tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity
+         * displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
+         * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
+         * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
+         * owned collection in display order; replacing the array requires the parent's
+         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
+         * it, or omit its ID to add one. tax_identity.anyOf[2] (Value): null. test_clock_id
+         * (Optional): string. ID of the test clock the customer was created on. The customer and
+         * its subscriptions read the clock's `frozen_at` as the current time. Present only for
+         * customers created on a test clock. Not returned to customer sessions. Example:
+         * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". updated_at (Required): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer. Current
+         * version of this resource's owned state. Send it as `expected_version` when changing the
+         * resource to reject a stale write. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * The customer's default billing address: a copy of the address of the saved address
+             * marked is_default_billing. Read-only; change it through
+             * /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location
+             * at this address. `null` when no saved address is the billing default. anyOf[1]
+             * (Value): {@link Address}. A postal address. Every address has country. Addresses
+             * Flint checked as complete (customer and saved addresses, merchant, location,
+             * invoice, order delivery destination, tax identity, fulfillment recipient and pickup
+             * addresses) always have line1 and city, and US ones always have state and
+             * postal_code. Delivery quote destinations, buyer locations and postal-code tax
+             * locations hold only what was provided, such as postal_code and country. anyOf[2]
+             * (Value): null.
+             */
+            "billing_address": ((Address) | (null));
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Unique identifier for this customer, prefixed `cus_`. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string;
+            /**
+             * ID of the invoice payment term that applies to this customer's invoices created with
+             * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
+             * "ipt_01KEZF7C0064N1V301BBMQ37R4".
+             */
+            "default_invoice_payment_term_id"?: string;
+            /**
+             * Present only when `expand` includes `default_payment_method`; `null` when expanded
+             * and there is no related payment method. anyOf[1] (Value): {@link
+             * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type,
+             * status, and card details, returned when the payment method is expanded. anyOf[2]
+             * (Value): null.
+             */
+            "default_payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
+            /**
+             * ID of the customer's default off-session payment method. `null` when none is set.
+             * Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+             */
+            "default_payment_method_id": string | null;
+            /**
+             * Customer email. `null` when the customer has none. Unique among the environment's
+             * customers.
+             */
+            "email": string | null;
+            /**
+             * Caller-owned identifier for this customer in an external system. `null` when none is
+             * set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
+             * "warehouse-1842".
+             */
+            "external_reference_id": string | null;
+            /**
+             * Internal note about this customer. `null` when none is set. Not returned to customer
+             * sessions.
+             */
+            "internal_note": string | null;
+            /**
+             * Flag you set on the customer, for example after checking ID in store. Promotion and
+             * delivery rules can match it. Flint does not set it; it is unrelated to customer
+             * verifications, which prove a buyer controls an email address.
+             */
+            "is_merchant_verified"?: boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /** Customer name. `null` when none is set. */
+            "name": string | null;
+            /** Customer phone number. `null` when none is set. */
+            "phone": string | null;
+            /**
+             * ID of the customer's direct wholesale price list. `null` when none is set. An
+             * inactive list can be assigned but does not apply. Not returned to customer sessions.
+             * pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+             */
+            "price_list_id": string | null;
+            /**
+             * What this customer owes you on invoices: the outstanding and overdue amounts, one
+             * balance per currency. Present only when `expand` includes `receivables`. A
+             * customer's receivable balances by currency and when they were observed.
+             */
+            "receivables"?: CustomerReceivables;
+            /**
+             * Free-form label you assign, such as wholesale, so promotion and delivery rules can
+             * match groups of customers. It is not an ID; Flint does not check it against any
+             * resource. `null` when none is set. Not returned to customer sessions.
+             */
+            "segment": string | null;
+            /**
+             * The customer's default shipping address: a copy of the address of the saved address
+             * marked is_default_shipping. Read-only; change it through
+             * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved
+             * address is the shipping default. anyOf[1] (Value): {@link Address}. A postal
+             * address. Every address has country. Addresses Flint checked as complete (customer
+             * and saved addresses, merchant, location, invoice, order delivery destination, tax
+             * identity, fulfillment recipient and pickup addresses) always have line1 and city,
+             * and US ones always have state and postal_code. Delivery quote destinations, buyer
+             * locations and postal-code tax locations hold only what was provided, such as
+             * postal_code and country. anyOf[2] (Value): null.
+             */
+            "shipping_address": ((Address) | (null));
+            /**
+             * Where the customer is in the deletion lifecycle. Value enum: "active",
+             * "deletion_processing", "deleted".
+             */
+            "status": "active" | "deletion_processing" | "deleted" | (string & {});
+            /**
+             * Whether Flint treats this customer as exempt from tax on their orders, so it skips
+             * tax calculation for them. Not returned to customer sessions.
+             */
+            "tax_exempt"?: boolean;
+            /**
+             * Legal name, registered address and tax IDs printed on this customer's invoices and
+             * credit notes. `null` when none is set. Always `null` for customer sessions. anyOf[1]
+             * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices
+             * and credit notes. Flint does not verify IDs. On a customer, automatic tax sends the
+             * tax ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a
+             * reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
+             * collection in display order; replacing the array requires the parent's
+             * expected_version. Existing entries retain their document_tax_id; omit an entry to
+             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
+             */
+            "tax_identity": ((TaxIdentity) | (null));
+            /**
+             * ID of the test clock the customer was created on. The customer and its subscriptions
+             * read the clock's `frozen_at` as the current time. Present only for customers created
+             * on a test clock. Not returned to customer sessions. Example:
+             * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
+             */
+            "test_clock_id"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "customer.created". */
+    "event_type"?: "customer.created";
+});
+export type CustomerDeletedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "billing_address": ((Address) | (null));
+            "created_at": string;
+            "customer_id": string;
+            "default_invoice_payment_term_id"?: string;
+            "default_payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
+            "default_payment_method_id": string | null;
+            "email": string | null;
+            "external_reference_id": string | null;
+            "internal_note": string | null;
+            "is_merchant_verified"?: boolean;
+            "merchant_id": string;
+            "metadata"?: MetadataMap;
+            "name": string | null;
+            "phone": string | null;
+            "price_list_id": string | null;
+            "receivables"?: CustomerReceivables;
+            "segment": string | null;
+            "shipping_address": ((Address) | (null));
+            "status": "active" | "deletion_processing" | "deleted" | (string & {});
+            "tax_exempt"?: boolean;
+            "tax_identity": ((TaxIdentity) | (null));
+            "test_clock_id"?: string;
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "customer.deleted";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "billing_address": ((Address) | (null));
+            "created_at": string;
+            "customer_id": string;
+            "default_invoice_payment_term_id"?: string;
+            "default_payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
+            "default_payment_method_id": string | null;
+            "email": string | null;
+            "external_reference_id": string | null;
+            "internal_note": string | null;
+            "is_merchant_verified"?: boolean;
+            "merchant_id": string;
+            "metadata"?: MetadataMap;
+            "name": string | null;
+            "phone": string | null;
+            "price_list_id": string | null;
+            "receivables"?: CustomerReceivables;
+            "segment": string | null;
+            "shipping_address": ((Address) | (null));
+            "status": "active" | "deletion_processing" | "deleted" | (string & {});
+            "tax_exempt"?: boolean;
+            "tax_identity": ((TaxIdentity) | (null));
+            "test_clock_id"?: string;
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "customer.deleted";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "customer.deleted";
+});
+/**
+ * The `customer.deleted` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type CustomerDeletedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.billing_address (Required): {@link Address} or null. The
+     * customer's default billing address: a copy of the address of the saved address marked
+     * is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses.
+     * Flint taxes orders with no other tax location at this address. `null` when no saved address
+     * is the billing default. object.billing_address.anyOf[1] (Value): {@link Address}. A postal
+     * address. Every address has country. Addresses Flint checked as complete (customer and saved
+     * addresses, merchant, location, invoice, order delivery destination, tax identity,
+     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
+     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
+     * locations hold only what was provided, such as postal_code and country.
+     * object.billing_address.anyOf[2] (Value): null. object.created_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.customer_id
+     * (Required): string. Unique identifier for this customer, prefixed `cus_`. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.default_invoice_payment_term_id (Optional): string.
+     * ID of the invoice payment term that applies to this customer's invoices created with
+     * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
+     * "ipt_01KEZF7C0064N1V301BBMQ37R4". object.default_payment_method (Optional): {@link
+     * ExpandedPaymentMethodSummary} or null. Present only when `expand` includes
+     * `default_payment_method`; `null` when expanded and there is no related payment method.
+     * object.default_payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A
+     * payment method's summary fields, including type, status, and card details, returned when the
+     * payment method is expanded. object.default_payment_method.anyOf[2] (Value): null.
+     * object.default_payment_method_id (Required): string or null. ID of the customer's default
+     * off-session payment method. `null` when none is set. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.email (Required): string or null. Customer email.
+     * `null` when the customer has none. Unique among the environment's customers.
+     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
+     * customer in an external system. `null` when none is set. Not returned to customer sessions.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842". object.internal_note (Required):
+     * string or null. Internal note about this customer. `null` when none is set. Not returned to
+     * customer sessions. object.is_merchant_verified (Optional): boolean. Flag you set on the
+     * customer, for example after checking ID in store. Promotion and delivery rules can match it.
+     * Flint does not set it; it is unrelated to customer verifications, which prove a buyer
+     * controls an email address. object.merchant_id (Required): string. ID of the merchant this
+     * resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional):
+     * {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+     * and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+     * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them. object.name
+     * (Required): string or null. Customer name. `null` when none is set. object.phone (Required):
+     * string or null. Customer phone number. `null` when none is set. object.price_list_id
+     * (Required): string or null. ID of the customer's direct wholesale price list. `null` when
+     * none is set. An inactive list can be assigned but does not apply. Not returned to customer
+     * sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     * object.receivables (Optional): {@link CustomerReceivables}. What this customer owes you on
+     * invoices: the outstanding and overdue amounts, one balance per currency. Present only when
+     * `expand` includes `receivables`. A customer's receivable balances by currency and when they
+     * were observed. object.segment (Required): string or null. Free-form label you assign, such
+     * as wholesale, so promotion and delivery rules can match groups of customers. It is not an
+     * ID; Flint does not check it against any resource. `null` when none is set. Not returned to
+     * customer sessions. object.shipping_address (Required): {@link Address} or null. The
+     * customer's default shipping address: a copy of the address of the saved address marked
+     * is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses.
+     * Checkout prefills it. `null` when no saved address is the shipping default.
+     * object.shipping_address.anyOf[1] (Value): {@link Address}. A postal address. Every address
+     * has country. Addresses Flint checked as complete (customer and saved addresses, merchant,
+     * location, invoice, order delivery destination, tax identity, fulfillment recipient and
+     * pickup addresses) always have line1 and city, and US ones always have state and postal_code.
+     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
+     * was provided, such as postal_code and country. object.shipping_address.anyOf[2] (Value):
+     * null. object.status (Required): string. Where the customer is in the deletion lifecycle.
+     * Value enum: "active", "deletion_processing", "deleted". object.tax_exempt (Optional):
+     * boolean. Whether Flint treats this customer as exempt from tax on their orders, so it skips
+     * tax calculation for them. Not returned to customer sessions. object.tax_identity (Required):
+     * {@link TaxIdentity} or null. Legal name, registered address and tax IDs printed on this
+     * customer's invoices and credit notes. `null` when none is set. Always `null` for customer
+     * sessions. object.tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
+     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
+     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
+     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
+     * owned collection in display order; replacing the array requires the parent's
+     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
+     * or omit its ID to add one. object.tax_identity.anyOf[2] (Value): null. object.test_clock_id
+     * (Optional): string. ID of the test clock the customer was created on. The customer and its
+     * subscriptions read the clock's `frozen_at` as the current time. Present only for customers
+     * created on a test clock. Not returned to customer sessions. Example:
+     * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". object.updated_at (Required): string. RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer.
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: uint64. minimum: 1.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * billing_address (Required): {@link Address} or null. The customer's default billing
+         * address: a copy of the address of the saved address marked is_default_billing.
+         * Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders
+         * with no other tax location at this address. `null` when no saved address is the billing
+         * default. billing_address.anyOf[1] (Value): {@link Address}. A postal address. Every
+         * address has country. Addresses Flint checked as complete (customer and saved addresses,
+         * merchant, location, invoice, order delivery destination, tax identity, fulfillment
+         * recipient and pickup addresses) always have line1 and city, and US ones always have
+         * state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
+         * locations hold only what was provided, such as postal_code and country.
+         * billing_address.anyOf[2] (Value): null. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id (Required):
+         * string. Unique identifier for this customer, prefixed `cus_`. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". default_invoice_payment_term_id (Optional): string. ID
+         * of the invoice payment term that applies to this customer's invoices created with
+         * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
+         * "ipt_01KEZF7C0064N1V301BBMQ37R4". default_payment_method (Optional): {@link
+         * ExpandedPaymentMethodSummary} or null. Present only when `expand` includes
+         * `default_payment_method`; `null` when expanded and there is no related payment method.
+         * default_payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
+         * method's summary fields, including type, status, and card details, returned when the
+         * payment method is expanded. default_payment_method.anyOf[2] (Value): null.
+         * default_payment_method_id (Required): string or null. ID of the customer's default
+         * off-session payment method. `null` when none is set. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". email (Required): string or null. Customer email.
+         * `null` when the customer has none. Unique among the environment's customers.
+         * external_reference_id (Required): string or null. Caller-owned identifier for this
+         * customer in an external system. `null` when none is set. Not returned to customer
+         * sessions. minLength: 1. maxLength: 255. Example: "warehouse-1842". internal_note
+         * (Required): string or null. Internal note about this customer. `null` when none is set.
+         * Not returned to customer sessions. is_merchant_verified (Optional): boolean. Flag you
+         * set on the customer, for example after checking ID in store. Promotion and delivery
+         * rules can match it. Flint does not set it; it is unrelated to customer verifications,
+         * which prove a buyer controls an email address. merchant_id (Required): string. ID of the
+         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata
+         * (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput`
+         * for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys
+         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. name (Required): string or null. Customer name. `null` when none is set.
+         * phone (Required): string or null. Customer phone number. `null` when none is set.
+         * price_list_id (Required): string or null. ID of the customer's direct wholesale price
+         * list. `null` when none is set. An inactive list can be assigned but does not apply. Not
+         * returned to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". receivables (Optional): {@link CustomerReceivables}.
+         * What this customer owes you on invoices: the outstanding and overdue amounts, one
+         * balance per currency. Present only when `expand` includes `receivables`. A customer's
+         * receivable balances by currency and when they were observed. segment (Required): string
+         * or null. Free-form label you assign, such as wholesale, so promotion and delivery rules
+         * can match groups of customers. It is not an ID; Flint does not check it against any
+         * resource. `null` when none is set. Not returned to customer sessions. shipping_address
+         * (Required): {@link Address} or null. The customer's default shipping address: a copy of
+         * the address of the saved address marked is_default_shipping. Read-only; change it
+         * through /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no
+         * saved address is the shipping default. shipping_address.anyOf[1] (Value): {@link
+         * Address}. A postal address. Every address has country. Addresses Flint checked as
+         * complete (customer and saved addresses, merchant, location, invoice, order delivery
+         * destination, tax identity, fulfillment recipient and pickup addresses) always have line1
+         * and city, and US ones always have state and postal_code. Delivery quote destinations,
+         * buyer locations and postal-code tax locations hold only what was provided, such as
+         * postal_code and country. shipping_address.anyOf[2] (Value): null. status (Required):
+         * string. Where the customer is in the deletion lifecycle. Value enum: "active",
+         * "deletion_processing", "deleted". tax_exempt (Optional): boolean. Whether Flint treats
+         * this customer as exempt from tax on their orders, so it skips tax calculation for them.
+         * Not returned to customer sessions. tax_identity (Required): {@link TaxIdentity} or null.
+         * Legal name, registered address and tax IDs printed on this customer's invoices and
+         * credit notes. `null` when none is set. Always `null` for customer sessions.
+         * tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity
+         * displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
+         * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
+         * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
+         * owned collection in display order; replacing the array requires the parent's
+         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
+         * it, or omit its ID to add one. tax_identity.anyOf[2] (Value): null. test_clock_id
+         * (Optional): string. ID of the test clock the customer was created on. The customer and
+         * its subscriptions read the clock's `frozen_at` as the current time. Present only for
+         * customers created on a test clock. Not returned to customer sessions. Example:
+         * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". updated_at (Required): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer. Current
+         * version of this resource's owned state. Send it as `expected_version` when changing the
+         * resource to reject a stale write. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * The customer's default billing address: a copy of the address of the saved address
+             * marked is_default_billing. Read-only; change it through
+             * /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location
+             * at this address. `null` when no saved address is the billing default. anyOf[1]
+             * (Value): {@link Address}. A postal address. Every address has country. Addresses
+             * Flint checked as complete (customer and saved addresses, merchant, location,
+             * invoice, order delivery destination, tax identity, fulfillment recipient and pickup
+             * addresses) always have line1 and city, and US ones always have state and
+             * postal_code. Delivery quote destinations, buyer locations and postal-code tax
+             * locations hold only what was provided, such as postal_code and country. anyOf[2]
+             * (Value): null.
+             */
+            "billing_address": ((Address) | (null));
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Unique identifier for this customer, prefixed `cus_`. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string;
+            /**
+             * ID of the invoice payment term that applies to this customer's invoices created with
+             * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
+             * "ipt_01KEZF7C0064N1V301BBMQ37R4".
+             */
+            "default_invoice_payment_term_id"?: string;
+            /**
+             * Present only when `expand` includes `default_payment_method`; `null` when expanded
+             * and there is no related payment method. anyOf[1] (Value): {@link
+             * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type,
+             * status, and card details, returned when the payment method is expanded. anyOf[2]
+             * (Value): null.
+             */
+            "default_payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
+            /**
+             * ID of the customer's default off-session payment method. `null` when none is set.
+             * Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+             */
+            "default_payment_method_id": string | null;
+            /**
+             * Customer email. `null` when the customer has none. Unique among the environment's
+             * customers.
+             */
+            "email": string | null;
+            /**
+             * Caller-owned identifier for this customer in an external system. `null` when none is
+             * set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
+             * "warehouse-1842".
+             */
+            "external_reference_id": string | null;
+            /**
+             * Internal note about this customer. `null` when none is set. Not returned to customer
+             * sessions.
+             */
+            "internal_note": string | null;
+            /**
+             * Flag you set on the customer, for example after checking ID in store. Promotion and
+             * delivery rules can match it. Flint does not set it; it is unrelated to customer
+             * verifications, which prove a buyer controls an email address.
+             */
+            "is_merchant_verified"?: boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /** Customer name. `null` when none is set. */
+            "name": string | null;
+            /** Customer phone number. `null` when none is set. */
+            "phone": string | null;
+            /**
+             * ID of the customer's direct wholesale price list. `null` when none is set. An
+             * inactive list can be assigned but does not apply. Not returned to customer sessions.
+             * pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+             */
+            "price_list_id": string | null;
+            /**
+             * What this customer owes you on invoices: the outstanding and overdue amounts, one
+             * balance per currency. Present only when `expand` includes `receivables`. A
+             * customer's receivable balances by currency and when they were observed.
+             */
+            "receivables"?: CustomerReceivables;
+            /**
+             * Free-form label you assign, such as wholesale, so promotion and delivery rules can
+             * match groups of customers. It is not an ID; Flint does not check it against any
+             * resource. `null` when none is set. Not returned to customer sessions.
+             */
+            "segment": string | null;
+            /**
+             * The customer's default shipping address: a copy of the address of the saved address
+             * marked is_default_shipping. Read-only; change it through
+             * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved
+             * address is the shipping default. anyOf[1] (Value): {@link Address}. A postal
+             * address. Every address has country. Addresses Flint checked as complete (customer
+             * and saved addresses, merchant, location, invoice, order delivery destination, tax
+             * identity, fulfillment recipient and pickup addresses) always have line1 and city,
+             * and US ones always have state and postal_code. Delivery quote destinations, buyer
+             * locations and postal-code tax locations hold only what was provided, such as
+             * postal_code and country. anyOf[2] (Value): null.
+             */
+            "shipping_address": ((Address) | (null));
+            /**
+             * Where the customer is in the deletion lifecycle. Value enum: "active",
+             * "deletion_processing", "deleted".
+             */
+            "status": "active" | "deletion_processing" | "deleted" | (string & {});
+            /**
+             * Whether Flint treats this customer as exempt from tax on their orders, so it skips
+             * tax calculation for them. Not returned to customer sessions.
+             */
+            "tax_exempt"?: boolean;
+            /**
+             * Legal name, registered address and tax IDs printed on this customer's invoices and
+             * credit notes. `null` when none is set. Always `null` for customer sessions. anyOf[1]
+             * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices
+             * and credit notes. Flint does not verify IDs. On a customer, automatic tax sends the
+             * tax ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a
+             * reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
+             * collection in display order; replacing the array requires the parent's
+             * expected_version. Existing entries retain their document_tax_id; omit an entry to
+             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
+             */
+            "tax_identity": ((TaxIdentity) | (null));
+            /**
+             * ID of the test clock the customer was created on. The customer and its subscriptions
+             * read the clock's `frozen_at` as the current time. Present only for customers created
+             * on a test clock. Not returned to customer sessions. Example:
+             * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
+             */
+            "test_clock_id"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "customer.deleted". */
+    "event_type"?: "customer.deleted";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `customer.deleted` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type CustomerDeletedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.billing_address (Required): {@link Address} or null. The
+     * customer's default billing address: a copy of the address of the saved address marked
+     * is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses.
+     * Flint taxes orders with no other tax location at this address. `null` when no saved address
+     * is the billing default. object.billing_address.anyOf[1] (Value): {@link Address}. A postal
+     * address. Every address has country. Addresses Flint checked as complete (customer and saved
+     * addresses, merchant, location, invoice, order delivery destination, tax identity,
+     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
+     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
+     * locations hold only what was provided, such as postal_code and country.
+     * object.billing_address.anyOf[2] (Value): null. object.created_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.customer_id
+     * (Required): string. Unique identifier for this customer, prefixed `cus_`. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.default_invoice_payment_term_id (Optional): string.
+     * ID of the invoice payment term that applies to this customer's invoices created with
+     * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
+     * "ipt_01KEZF7C0064N1V301BBMQ37R4". object.default_payment_method (Optional): {@link
+     * ExpandedPaymentMethodSummary} or null. Present only when `expand` includes
+     * `default_payment_method`; `null` when expanded and there is no related payment method.
+     * object.default_payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A
+     * payment method's summary fields, including type, status, and card details, returned when the
+     * payment method is expanded. object.default_payment_method.anyOf[2] (Value): null.
+     * object.default_payment_method_id (Required): string or null. ID of the customer's default
+     * off-session payment method. `null` when none is set. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.email (Required): string or null. Customer email.
+     * `null` when the customer has none. Unique among the environment's customers.
+     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
+     * customer in an external system. `null` when none is set. Not returned to customer sessions.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842". object.internal_note (Required):
+     * string or null. Internal note about this customer. `null` when none is set. Not returned to
+     * customer sessions. object.is_merchant_verified (Optional): boolean. Flag you set on the
+     * customer, for example after checking ID in store. Promotion and delivery rules can match it.
+     * Flint does not set it; it is unrelated to customer verifications, which prove a buyer
+     * controls an email address. object.merchant_id (Required): string. ID of the merchant this
+     * resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional):
+     * {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+     * and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+     * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them. object.name
+     * (Required): string or null. Customer name. `null` when none is set. object.phone (Required):
+     * string or null. Customer phone number. `null` when none is set. object.price_list_id
+     * (Required): string or null. ID of the customer's direct wholesale price list. `null` when
+     * none is set. An inactive list can be assigned but does not apply. Not returned to customer
+     * sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     * object.receivables (Optional): {@link CustomerReceivables}. What this customer owes you on
+     * invoices: the outstanding and overdue amounts, one balance per currency. Present only when
+     * `expand` includes `receivables`. A customer's receivable balances by currency and when they
+     * were observed. object.segment (Required): string or null. Free-form label you assign, such
+     * as wholesale, so promotion and delivery rules can match groups of customers. It is not an
+     * ID; Flint does not check it against any resource. `null` when none is set. Not returned to
+     * customer sessions. object.shipping_address (Required): {@link Address} or null. The
+     * customer's default shipping address: a copy of the address of the saved address marked
+     * is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses.
+     * Checkout prefills it. `null` when no saved address is the shipping default.
+     * object.shipping_address.anyOf[1] (Value): {@link Address}. A postal address. Every address
+     * has country. Addresses Flint checked as complete (customer and saved addresses, merchant,
+     * location, invoice, order delivery destination, tax identity, fulfillment recipient and
+     * pickup addresses) always have line1 and city, and US ones always have state and postal_code.
+     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
+     * was provided, such as postal_code and country. object.shipping_address.anyOf[2] (Value):
+     * null. object.status (Required): string. Where the customer is in the deletion lifecycle.
+     * Value enum: "active", "deletion_processing", "deleted". object.tax_exempt (Optional):
+     * boolean. Whether Flint treats this customer as exempt from tax on their orders, so it skips
+     * tax calculation for them. Not returned to customer sessions. object.tax_identity (Required):
+     * {@link TaxIdentity} or null. Legal name, registered address and tax IDs printed on this
+     * customer's invoices and credit notes. `null` when none is set. Always `null` for customer
+     * sessions. object.tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
+     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
+     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
+     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
+     * owned collection in display order; replacing the array requires the parent's
+     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
+     * or omit its ID to add one. object.tax_identity.anyOf[2] (Value): null. object.test_clock_id
+     * (Optional): string. ID of the test clock the customer was created on. The customer and its
+     * subscriptions read the clock's `frozen_at` as the current time. Present only for customers
+     * created on a test clock. Not returned to customer sessions. Example:
+     * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". object.updated_at (Required): string. RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer.
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: uint64. minimum: 1.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * billing_address (Required): {@link Address} or null. The customer's default billing
+         * address: a copy of the address of the saved address marked is_default_billing.
+         * Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders
+         * with no other tax location at this address. `null` when no saved address is the billing
+         * default. billing_address.anyOf[1] (Value): {@link Address}. A postal address. Every
+         * address has country. Addresses Flint checked as complete (customer and saved addresses,
+         * merchant, location, invoice, order delivery destination, tax identity, fulfillment
+         * recipient and pickup addresses) always have line1 and city, and US ones always have
+         * state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
+         * locations hold only what was provided, such as postal_code and country.
+         * billing_address.anyOf[2] (Value): null. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id (Required):
+         * string. Unique identifier for this customer, prefixed `cus_`. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". default_invoice_payment_term_id (Optional): string. ID
+         * of the invoice payment term that applies to this customer's invoices created with
+         * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
+         * "ipt_01KEZF7C0064N1V301BBMQ37R4". default_payment_method (Optional): {@link
+         * ExpandedPaymentMethodSummary} or null. Present only when `expand` includes
+         * `default_payment_method`; `null` when expanded and there is no related payment method.
+         * default_payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
+         * method's summary fields, including type, status, and card details, returned when the
+         * payment method is expanded. default_payment_method.anyOf[2] (Value): null.
+         * default_payment_method_id (Required): string or null. ID of the customer's default
+         * off-session payment method. `null` when none is set. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". email (Required): string or null. Customer email.
+         * `null` when the customer has none. Unique among the environment's customers.
+         * external_reference_id (Required): string or null. Caller-owned identifier for this
+         * customer in an external system. `null` when none is set. Not returned to customer
+         * sessions. minLength: 1. maxLength: 255. Example: "warehouse-1842". internal_note
+         * (Required): string or null. Internal note about this customer. `null` when none is set.
+         * Not returned to customer sessions. is_merchant_verified (Optional): boolean. Flag you
+         * set on the customer, for example after checking ID in store. Promotion and delivery
+         * rules can match it. Flint does not set it; it is unrelated to customer verifications,
+         * which prove a buyer controls an email address. merchant_id (Required): string. ID of the
+         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata
+         * (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput`
+         * for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys
+         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. name (Required): string or null. Customer name. `null` when none is set.
+         * phone (Required): string or null. Customer phone number. `null` when none is set.
+         * price_list_id (Required): string or null. ID of the customer's direct wholesale price
+         * list. `null` when none is set. An inactive list can be assigned but does not apply. Not
+         * returned to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". receivables (Optional): {@link CustomerReceivables}.
+         * What this customer owes you on invoices: the outstanding and overdue amounts, one
+         * balance per currency. Present only when `expand` includes `receivables`. A customer's
+         * receivable balances by currency and when they were observed. segment (Required): string
+         * or null. Free-form label you assign, such as wholesale, so promotion and delivery rules
+         * can match groups of customers. It is not an ID; Flint does not check it against any
+         * resource. `null` when none is set. Not returned to customer sessions. shipping_address
+         * (Required): {@link Address} or null. The customer's default shipping address: a copy of
+         * the address of the saved address marked is_default_shipping. Read-only; change it
+         * through /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no
+         * saved address is the shipping default. shipping_address.anyOf[1] (Value): {@link
+         * Address}. A postal address. Every address has country. Addresses Flint checked as
+         * complete (customer and saved addresses, merchant, location, invoice, order delivery
+         * destination, tax identity, fulfillment recipient and pickup addresses) always have line1
+         * and city, and US ones always have state and postal_code. Delivery quote destinations,
+         * buyer locations and postal-code tax locations hold only what was provided, such as
+         * postal_code and country. shipping_address.anyOf[2] (Value): null. status (Required):
+         * string. Where the customer is in the deletion lifecycle. Value enum: "active",
+         * "deletion_processing", "deleted". tax_exempt (Optional): boolean. Whether Flint treats
+         * this customer as exempt from tax on their orders, so it skips tax calculation for them.
+         * Not returned to customer sessions. tax_identity (Required): {@link TaxIdentity} or null.
+         * Legal name, registered address and tax IDs printed on this customer's invoices and
+         * credit notes. `null` when none is set. Always `null` for customer sessions.
+         * tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity
+         * displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
+         * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
+         * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
+         * owned collection in display order; replacing the array requires the parent's
+         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
+         * it, or omit its ID to add one. tax_identity.anyOf[2] (Value): null. test_clock_id
+         * (Optional): string. ID of the test clock the customer was created on. The customer and
+         * its subscriptions read the clock's `frozen_at` as the current time. Present only for
+         * customers created on a test clock. Not returned to customer sessions. Example:
+         * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". updated_at (Required): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer. Current
+         * version of this resource's owned state. Send it as `expected_version` when changing the
+         * resource to reject a stale write. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * The customer's default billing address: a copy of the address of the saved address
+             * marked is_default_billing. Read-only; change it through
+             * /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location
+             * at this address. `null` when no saved address is the billing default. anyOf[1]
+             * (Value): {@link Address}. A postal address. Every address has country. Addresses
+             * Flint checked as complete (customer and saved addresses, merchant, location,
+             * invoice, order delivery destination, tax identity, fulfillment recipient and pickup
+             * addresses) always have line1 and city, and US ones always have state and
+             * postal_code. Delivery quote destinations, buyer locations and postal-code tax
+             * locations hold only what was provided, such as postal_code and country. anyOf[2]
+             * (Value): null.
+             */
+            "billing_address": ((Address) | (null));
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Unique identifier for this customer, prefixed `cus_`. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string;
+            /**
+             * ID of the invoice payment term that applies to this customer's invoices created with
+             * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
+             * "ipt_01KEZF7C0064N1V301BBMQ37R4".
+             */
+            "default_invoice_payment_term_id"?: string;
+            /**
+             * Present only when `expand` includes `default_payment_method`; `null` when expanded
+             * and there is no related payment method. anyOf[1] (Value): {@link
+             * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type,
+             * status, and card details, returned when the payment method is expanded. anyOf[2]
+             * (Value): null.
+             */
+            "default_payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
+            /**
+             * ID of the customer's default off-session payment method. `null` when none is set.
+             * Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+             */
+            "default_payment_method_id": string | null;
+            /**
+             * Customer email. `null` when the customer has none. Unique among the environment's
+             * customers.
+             */
+            "email": string | null;
+            /**
+             * Caller-owned identifier for this customer in an external system. `null` when none is
+             * set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
+             * "warehouse-1842".
+             */
+            "external_reference_id": string | null;
+            /**
+             * Internal note about this customer. `null` when none is set. Not returned to customer
+             * sessions.
+             */
+            "internal_note": string | null;
+            /**
+             * Flag you set on the customer, for example after checking ID in store. Promotion and
+             * delivery rules can match it. Flint does not set it; it is unrelated to customer
+             * verifications, which prove a buyer controls an email address.
+             */
+            "is_merchant_verified"?: boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /** Customer name. `null` when none is set. */
+            "name": string | null;
+            /** Customer phone number. `null` when none is set. */
+            "phone": string | null;
+            /**
+             * ID of the customer's direct wholesale price list. `null` when none is set. An
+             * inactive list can be assigned but does not apply. Not returned to customer sessions.
+             * pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+             */
+            "price_list_id": string | null;
+            /**
+             * What this customer owes you on invoices: the outstanding and overdue amounts, one
+             * balance per currency. Present only when `expand` includes `receivables`. A
+             * customer's receivable balances by currency and when they were observed.
+             */
+            "receivables"?: CustomerReceivables;
+            /**
+             * Free-form label you assign, such as wholesale, so promotion and delivery rules can
+             * match groups of customers. It is not an ID; Flint does not check it against any
+             * resource. `null` when none is set. Not returned to customer sessions.
+             */
+            "segment": string | null;
+            /**
+             * The customer's default shipping address: a copy of the address of the saved address
+             * marked is_default_shipping. Read-only; change it through
+             * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved
+             * address is the shipping default. anyOf[1] (Value): {@link Address}. A postal
+             * address. Every address has country. Addresses Flint checked as complete (customer
+             * and saved addresses, merchant, location, invoice, order delivery destination, tax
+             * identity, fulfillment recipient and pickup addresses) always have line1 and city,
+             * and US ones always have state and postal_code. Delivery quote destinations, buyer
+             * locations and postal-code tax locations hold only what was provided, such as
+             * postal_code and country. anyOf[2] (Value): null.
+             */
+            "shipping_address": ((Address) | (null));
+            /**
+             * Where the customer is in the deletion lifecycle. Value enum: "active",
+             * "deletion_processing", "deleted".
+             */
+            "status": "active" | "deletion_processing" | "deleted" | (string & {});
+            /**
+             * Whether Flint treats this customer as exempt from tax on their orders, so it skips
+             * tax calculation for them. Not returned to customer sessions.
+             */
+            "tax_exempt"?: boolean;
+            /**
+             * Legal name, registered address and tax IDs printed on this customer's invoices and
+             * credit notes. `null` when none is set. Always `null` for customer sessions. anyOf[1]
+             * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices
+             * and credit notes. Flint does not verify IDs. On a customer, automatic tax sends the
+             * tax ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a
+             * reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
+             * collection in display order; replacing the array requires the parent's
+             * expected_version. Existing entries retain their document_tax_id; omit an entry to
+             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
+             */
+            "tax_identity": ((TaxIdentity) | (null));
+            /**
+             * ID of the test clock the customer was created on. The customer and its subscriptions
+             * read the clock's `frozen_at` as the current time. Present only for customers created
+             * on a test clock. Not returned to customer sessions. Example:
+             * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
+             */
+            "test_clock_id"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "customer.deleted". */
+    "event_type"?: "customer.deleted";
+});
+/** A request to delete a customer's personal information. */
+export type CustomerDeletionRequest = {
+    /**
+     * Total resources currently preventing approval, including resources beyond the
+     * blocking_resources cap. Present only for pending_review, including zero when nothing blocks
+     * approval. Computed at read time using the same rule as approval. Format: int64. minimum: 0.
+     */
+    "blocking_resource_count"?: number;
+    /**
+     * Resources currently preventing approval, computed when the request is read. Present only for
+     * pending_review, including an empty array when nothing blocks approval. Uses the same
+     * references as RESOURCE_IN_USE: non-canceled subscriptions and active or pending payment
+     * methods, ordered by resource_type then resource_id, capped at 25 of each type. List the
+     * customer's subscriptions and payment methods for the remaining resources when
+     * blocking_resource_count exceeds this array's length. Approval rechecks the blockers;
+     * cancel_subscriptions and remove_payment_methods can clear the matching resources before
+     * erasure. [] (Value): {@link ErrorResourceReference}. A reference to a public resource named
+     * in an error, with its type, ID, and current status when available.
+     */
+    "blocking_resources"?: Array<ErrorResourceReference>;
+    /**
+     * Subscription IDs whose immediate cancellation completed for this request, sorted by ID.
+     * Empty when none have completed. Read the request again while processing to see progress. []
+     * (Value): string. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "canceled_subscription_ids": Array<string>;
+    /**
+     * Stable ID of the tracked deletion request. Use it to retrieve the review and erasure status.
+     * Example: "cdel_01KEZF7C009P94WEXW5RMRFXAY".
+     */
+    "customer_deletion_request_id": string;
+    /** ID of the customer the request would erase. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+    "customer_id": string;
+    /**
+     * Time of the most recent approve or reject decision. `null` when the request is
+     * pending_review or when a pre-existing decision time cannot be determined. Approval sets this
+     * before asynchronous erasure finishes; retry approval sets it again. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "decided_at": string | null;
+    /**
+     * Merchant's plain-text explanation for rejecting the request, visible to the buyer. `null`
+     * when no reason was provided or the customer's personal data has since been erased.
+     */
+    "decision_reason": string | null;
+    /**
+     * Payment method IDs whose archival completed for this request, sorted by ID. Empty when none
+     * have completed. Read the request again while processing to see progress. [] (Value): string.
+     * Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+     */
+    "removed_payment_method_ids": Array<string>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "requested_at": string;
+    /**
+     * Who opened the request: buyer from the buyer account, or merchant on the buyer's behalf.
+     * `null` when the source of a pre-existing request cannot be determined. Value enum: "buyer",
+     * "merchant", null.
+     */
+    "requested_by": "buyer" | "merchant" | null | (string & {}) | null;
+    /**
+     * Unlike decided_at, which records the merchant's decision, this is the time of the most
+     * recent resolved outcome: rejected, completed, or failed. Absent while pending_review or
+     * processing. Cleared when a failed request is approved again. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "resolved_at"?: string;
+    /**
+     * Requested time plus one calendar month in UTC, clamped to the last day of that month. This
+     * is the deadline for responding to the buyer's request. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "response_due_at": string;
+    /**
+     * What deletion keeps. `retain_required_commerce_records`: orders, invoices, credit notes,
+     * payments, and refunds stay for accounting, tax, and disputes, without the customer's email
+     * address or phone number. Issued invoices and credit notes keep the buyer name, billing
+     * address, and tax ID they were issued with, because tax law requires them. Orders keep the
+     * delivery recipient's name and address. Contact copies created while deletion is finishing
+     * are erased within minutes, with another check about 24 hours later. Value enum:
+     * "retain_required_commerce_records".
+     */
+    "retention_policy": "retain_required_commerce_records" | (string & {});
+    /**
+     * Where the request is in review and erasure. Value enum: "pending_review", "processing",
+     * "completed", "rejected", "failed".
+     */
+    "status": "pending_review" | "processing" | "completed" | "rejected" | "failed" | (string & {});
+    /**
+     * Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains
+     * resolve while awaiting review, when retrying a failed deletion, and after resolution because
+     * repeating the original decision succeeds. An opposite decision is refused with field_locked
+     * at decision. [] enum: "resolve". [] (Value): string. Value enum: "resolve".
+     */
+    "supported_actions": Array<"resolve" | (string & {})>;
+};
+export type CustomerDeletionRequestCompletedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "blocking_resource_count"?: number;
+            "blocking_resources"?: Array<ErrorResourceReference>;
+            "canceled_subscription_ids": Array<string>;
+            "customer_deletion_request_id": string;
+            "customer_id": string;
+            "decided_at": string | null;
+            "decision_reason": string | null;
+            "removed_payment_method_ids": Array<string>;
+            "requested_at": string;
+            "requested_by": "buyer" | "merchant" | null | (string & {}) | null;
+            "resolved_at"?: string;
+            "response_due_at": string;
+            "retention_policy": "retain_required_commerce_records" | (string & {});
+            "status": "pending_review" | "processing" | "completed" | "rejected" | "failed" | (string & {});
+            "supported_actions": Array<"resolve" | (string & {})>;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "blocking_resource_count"?: ((number) | (null));
+            "blocking_resources"?: ((Array<ErrorResourceReferencePreviousAttributes>) | (null));
+            "canceled_subscription_ids"?: ((Array<string>) | (null));
+            "customer_deletion_request_id"?: ((string) | (null));
+            "customer_id"?: ((string) | (null));
+            "decided_at"?: ((string) | (null));
+            "decision_reason"?: ((string) | (null));
+            "removed_payment_method_ids"?: ((Array<string>) | (null));
+            "requested_at"?: ((string) | (null));
+            "requested_by"?: (("buyer" | "merchant" | null | (string & {})) | (null));
+            "resolved_at"?: ((string) | (null));
+            "response_due_at"?: ((string) | (null));
+            "retention_policy"?: (("retain_required_commerce_records" | (string & {})) | (null));
+            "status"?: (("pending_review" | "processing" | "completed" | "rejected" | "failed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"resolve" | (string & {})>) | (null));
+        });
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "customer_deletion_request.completed";
+})
+    & {
+    "event_type": "customer_deletion_request.completed";
+});
+export type CustomerDeletionRequestCreatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "blocking_resource_count"?: number;
+            "blocking_resources"?: Array<ErrorResourceReference>;
+            "canceled_subscription_ids": Array<string>;
+            "customer_deletion_request_id": string;
+            "customer_id": string;
+            "decided_at": string | null;
+            "decision_reason": string | null;
+            "removed_payment_method_ids": Array<string>;
+            "requested_at": string;
+            "requested_by": "buyer" | "merchant" | null | (string & {}) | null;
+            "resolved_at"?: string;
+            "response_due_at": string;
+            "retention_policy": "retain_required_commerce_records" | (string & {});
+            "status": "pending_review" | "processing" | "completed" | "rejected" | "failed" | (string & {});
+            "supported_actions": Array<"resolve" | (string & {})>;
+        };
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "customer_deletion_request.created";
+})
+    & {
+    "event_type": "customer_deletion_request.created";
+});
+export type CustomerDeletionRequestFailedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "blocking_resource_count"?: number;
+            "blocking_resources"?: Array<ErrorResourceReference>;
+            "canceled_subscription_ids": Array<string>;
+            "customer_deletion_request_id": string;
+            "customer_id": string;
+            "decided_at": string | null;
+            "decision_reason": string | null;
+            "removed_payment_method_ids": Array<string>;
+            "requested_at": string;
+            "requested_by": "buyer" | "merchant" | null | (string & {}) | null;
+            "resolved_at"?: string;
+            "response_due_at": string;
+            "retention_policy": "retain_required_commerce_records" | (string & {});
+            "status": "pending_review" | "processing" | "completed" | "rejected" | "failed" | (string & {});
+            "supported_actions": Array<"resolve" | (string & {})>;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "blocking_resource_count"?: ((number) | (null));
+            "blocking_resources"?: ((Array<ErrorResourceReferencePreviousAttributes>) | (null));
+            "canceled_subscription_ids"?: ((Array<string>) | (null));
+            "customer_deletion_request_id"?: ((string) | (null));
+            "customer_id"?: ((string) | (null));
+            "decided_at"?: ((string) | (null));
+            "decision_reason"?: ((string) | (null));
+            "removed_payment_method_ids"?: ((Array<string>) | (null));
+            "requested_at"?: ((string) | (null));
+            "requested_by"?: (("buyer" | "merchant" | null | (string & {})) | (null));
+            "resolved_at"?: ((string) | (null));
+            "response_due_at"?: ((string) | (null));
+            "retention_policy"?: (("retain_required_commerce_records" | (string & {})) | (null));
+            "status"?: (("pending_review" | "processing" | "completed" | "rejected" | "failed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"resolve" | (string & {})>) | (null));
+        });
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "customer_deletion_request.failed";
+})
+    & {
+    "event_type": "customer_deletion_request.failed";
+});
+/** A page of tracked customer deletion requests. */
+export type CustomerDeletionRequestListResponse = {
+    /**
+     * Deletion requests matching the supplied filters, in the published list order. [] (Value):
+     * {@link CustomerDeletionRequest}. A request to delete a customer's personal information.
+     */
+    "data": Array<CustomerDeletionRequest>;
+    /**
+     * Metadata about this response, including warnings when present. Metadata returned with a
+     * response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any
+     * warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque cursor to pass as page_token to fetch the next page. Omitted when no more results
+     * remain.
+     */
+    "next_page_token"?: string;
+    /**
+     * ID of this API request. Include it when asking Flint to investigate the response. maxLength:
+     * 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type CustomerDeletionRequestProcessingEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "blocking_resource_count"?: number;
+            "blocking_resources"?: Array<ErrorResourceReference>;
+            "canceled_subscription_ids": Array<string>;
+            "customer_deletion_request_id": string;
+            "customer_id": string;
+            "decided_at": string | null;
+            "decision_reason": string | null;
+            "removed_payment_method_ids": Array<string>;
+            "requested_at": string;
+            "requested_by": "buyer" | "merchant" | null | (string & {}) | null;
+            "resolved_at"?: string;
+            "response_due_at": string;
+            "retention_policy": "retain_required_commerce_records" | (string & {});
+            "status": "pending_review" | "processing" | "completed" | "rejected" | "failed" | (string & {});
+            "supported_actions": Array<"resolve" | (string & {})>;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "blocking_resource_count"?: ((number) | (null));
+            "blocking_resources"?: ((Array<ErrorResourceReferencePreviousAttributes>) | (null));
+            "canceled_subscription_ids"?: ((Array<string>) | (null));
+            "customer_deletion_request_id"?: ((string) | (null));
+            "customer_id"?: ((string) | (null));
+            "decided_at"?: ((string) | (null));
+            "decision_reason"?: ((string) | (null));
+            "removed_payment_method_ids"?: ((Array<string>) | (null));
+            "requested_at"?: ((string) | (null));
+            "requested_by"?: (("buyer" | "merchant" | null | (string & {})) | (null));
+            "resolved_at"?: ((string) | (null));
+            "response_due_at"?: ((string) | (null));
+            "retention_policy"?: (("retain_required_commerce_records" | (string & {})) | (null));
+            "status"?: (("pending_review" | "processing" | "completed" | "rejected" | "failed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"resolve" | (string & {})>) | (null));
+        });
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "customer_deletion_request.processing";
+})
+    & {
+    "event_type": "customer_deletion_request.processing";
+});
+export type CustomerDeletionRequestRejectedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "blocking_resource_count"?: number;
+            "blocking_resources"?: Array<ErrorResourceReference>;
+            "canceled_subscription_ids": Array<string>;
+            "customer_deletion_request_id": string;
+            "customer_id": string;
+            "decided_at": string | null;
+            "decision_reason": string | null;
+            "removed_payment_method_ids": Array<string>;
+            "requested_at": string;
+            "requested_by": "buyer" | "merchant" | null | (string & {}) | null;
+            "resolved_at"?: string;
+            "response_due_at": string;
+            "retention_policy": "retain_required_commerce_records" | (string & {});
+            "status": "pending_review" | "processing" | "completed" | "rejected" | "failed" | (string & {});
+            "supported_actions": Array<"resolve" | (string & {})>;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "blocking_resource_count"?: ((number) | (null));
+            "blocking_resources"?: ((Array<ErrorResourceReferencePreviousAttributes>) | (null));
+            "canceled_subscription_ids"?: ((Array<string>) | (null));
+            "customer_deletion_request_id"?: ((string) | (null));
+            "customer_id"?: ((string) | (null));
+            "decided_at"?: ((string) | (null));
+            "decision_reason"?: ((string) | (null));
+            "removed_payment_method_ids"?: ((Array<string>) | (null));
+            "requested_at"?: ((string) | (null));
+            "requested_by"?: (("buyer" | "merchant" | null | (string & {})) | (null));
+            "resolved_at"?: ((string) | (null));
+            "response_due_at"?: ((string) | (null));
+            "retention_policy"?: (("retain_required_commerce_records" | (string & {})) | (null));
+            "status"?: (("pending_review" | "processing" | "completed" | "rejected" | "failed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"resolve" | (string & {})>) | (null));
+        });
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "customer_deletion_request.rejected";
+})
+    & {
+    "event_type": "customer_deletion_request.rejected";
+});
+/** A tracked deletion request and metadata about the API response. */
+export type CustomerDeletionRequestResponse = {
+    /**
+     * The tracked request to review and erase this customer's personal data. A request to delete a
+     * customer's personal information.
+     */
+    "data": CustomerDeletionRequest;
+    /**
+     * Metadata about this response, including idempotency replay and warnings when present.
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * ID of this API request. Include it when asking Flint to investigate the response. maxLength:
+     * 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type CustomerDeletionRequestsCreateParams = (InputValue<CreateCustomerDeletionRequestInput>);
+export type CustomerDeletionRequestsGetParams = {};
+export type CustomerDeletionRequestsListParams = {
+    /**
+     * Only return requests in this lifecycle state. Values are trimmed and deduplicated in
+     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
+     * separate filters are ANDed. [] enum: "pending_review", "processing", "completed",
+     * "rejected", "failed". Value enum: "pending_review", "processing", "completed", "rejected",
+     * "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending_review",
+     * "processing", "completed", "rejected", "failed". anyOf[1][] (Value): string. Value enum:
+     * "pending_review", "processing", "completed", "rejected", "failed". anyOf[2] (Value): string.
+     * Value enum: "pending_review", "processing", "completed", "rejected", "failed".
+     */
+    "status"?: InputValue<("pending_review" | "processing" | "completed" | "rejected" | "failed")
+        | readonly ("pending_review" | "processing" | "completed" | "rejected" | "failed")[]>;
+    /**
+     * Only return requests for this Flint customer ID. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+};
+export type CustomerDeletionRequestsResolveParams = (InputValue<ResolveCustomerDeletionRequestInput>);
+/** For each kind of customer email, whether Flint sends it or the merchant sends it. */
+export type CustomerEmailDeliverySettings = {
+    /**
+     * Who sends the buyer emails when a subscription becomes past due or a payment retry fails.
+     * When you send them, use the `subscription.past_due` and `subscription_payment_retry.failed`
+     * webhook events. Value enum: "flint_sends", "merchant_sends".
+     */
+    "dunning"?: "flint_sends" | "merchant_sends" | (string & {});
+    /**
+     * Who sends the buyer updates when a fulfillment, shipment, or package changes, and when a
+     * paid line's `expected_ship_date` changes. When you send them, use the `fulfillment.*`,
+     * `shipment.*`, and `package.*` webhook events, and `order.updated` for ship date changes.
+     * Value enum: "flint_sends", "merchant_sends".
+     */
+    "fulfillment_updates"?: "flint_sends" | "merchant_sends" | (string & {});
+    /**
+     * Who sends invoice emails, reminders, late fee notices, credit note emails, and failed bank
+     * debit notices for invoice payments. Explicit email issue and scheduling require flint_sends.
+     * When you send these emails, use invoice.*, invoice_delivery_attempt.*, and
+     * invoice_payment_attempt.* webhook events. Value enum: "flint_sends", "merchant_sends".
+     */
+    "invoices"?: "flint_sends" | "merchant_sends" | (string & {});
+    /**
+     * Who sends payment and refund receipts for orders, invoices, and payments without an order,
+     * plus failed bank debit notices for orders. When you send them, use order.paid (or
+     * payment_intent.succeeded for payments without an order), refund.succeeded, and
+     * refund.partially_succeeded. For failed bank debits on orders, use
+     * payment_intent.payment_failed. Value enum: "flint_sends", "merchant_sends".
+     */
+    "order_receipts"?: "flint_sends" | "merchant_sends" | (string & {});
+    /**
+     * Who sends the buyer emails as a return is created, decided, canceled, reopened, or
+     * completed. When you send them, use the `return.*` webhook events. Value enum: "flint_sends",
+     * "merchant_sends".
+     */
+    "returns"?: "flint_sends" | "merchant_sends" | (string & {});
+    /**
+     * Who sends the buyer emails when a subscription is created, activated, paused, resumed,
+     * canceled, or changes plan, and for its trial ending and skipped cycles. When you send them,
+     * use the `subscription.*` webhook events. Value enum: "flint_sends", "merchant_sends".
+     */
+    "subscription_lifecycle"?: "flint_sends" | "merchant_sends" | (string & {});
+};
+/** For each kind of customer email, whether Flint sends it or the merchant sends it. */
+export type CustomerEmailDeliverySettingsRequestInput = {
+    /**
+     * Who sends the buyer emails when a subscription becomes past due or a payment retry fails.
+     * When you send them, use the `subscription.past_due` and `subscription_payment_retry.failed`
+     * webhook events. Value enum: "flint_sends", "merchant_sends".
+     */
+    "dunning"?: "flint_sends" | "merchant_sends";
+    /**
+     * Who sends the buyer updates when a fulfillment, shipment, or package changes, and when a
+     * paid line's `expected_ship_date` changes. When you send them, use the `fulfillment.*`,
+     * `shipment.*`, and `package.*` webhook events, and `order.updated` for ship date changes.
+     * Value enum: "flint_sends", "merchant_sends".
+     */
+    "fulfillment_updates"?: "flint_sends" | "merchant_sends";
+    /**
+     * Who sends invoice emails, reminders, late fee notices, credit note emails, and failed bank
+     * debit notices for invoice payments. Explicit email issue and scheduling require flint_sends.
+     * When you send these emails, use invoice.*, invoice_delivery_attempt.*, and
+     * invoice_payment_attempt.* webhook events. Value enum: "flint_sends", "merchant_sends".
+     */
+    "invoices"?: "flint_sends" | "merchant_sends";
+    /**
+     * Who sends payment and refund receipts for orders, invoices, and payments without an order,
+     * plus failed bank debit notices for orders. When you send them, use order.paid (or
+     * payment_intent.succeeded for payments without an order), refund.succeeded, and
+     * refund.partially_succeeded. For failed bank debits on orders, use
+     * payment_intent.payment_failed. Value enum: "flint_sends", "merchant_sends".
+     */
+    "order_receipts"?: "flint_sends" | "merchant_sends";
+    /**
+     * Who sends the buyer emails as a return is created, decided, canceled, reopened, or
+     * completed. When you send them, use the `return.*` webhook events. Value enum: "flint_sends",
+     * "merchant_sends".
+     */
+    "returns"?: "flint_sends" | "merchant_sends";
+    /**
+     * Who sends the buyer emails when a subscription is created, activated, paused, resumed,
+     * canceled, or changes plan, and for its trial ending and skipped cycles. When you send them,
+     * use the `subscription.*` webhook events. Value enum: "flint_sends", "merchant_sends".
+     */
+    "subscription_lifecycle"?: "flint_sends" | "merchant_sends";
+};
+/**
+ * The optional email categories an address receives from a merchant, with its current customer and
+ * preference version when available.
+ */
+export type CustomerEmailPreferences = {
+    /**
+     * A reminder after leaving checkout without paying. `true` unless the buyer turned it off.
+     * Flint stops sending this email when it is `false`; if you send this kind of email yourself,
+     * do not send it either.
+     */
+    "checkout_reminders": boolean;
+    /**
+     * ID of the customer whose current email address these preferences belong to. `null` when the
+     * address has no current customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string | null;
+    /**
+     * The customer's current email address. The preferences belong to this address, so they also
+     * apply to guest checkouts and other customers with the same address, and they change when the
+     * customer's email changes. On address lookup, the address as sent, trimmed.
+     */
+    "email": string;
+    /**
+     * Emails about shipments and deliveries. `true` unless the buyer turned them off. Flint stops
+     * sending this email when it is `false`; if you send this kind of email yourself, do not send
+     * it either.
+     */
+    "shipping_updates": boolean;
+    /**
+     * The customer's preference version. Advances when either category changes for this address or
+     * the customer's email address changes. `null` when the address has no current customer.
+     * Format: uint64. minimum: 1.
+     */
+    "version": number | null;
+};
+/** A response containing `CustomerEmailPreferences` data. */
+export type CustomerEmailPreferencesResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The optional email
+     * categories an address receives from a merchant, with its current customer and preference
+     * version when available.
+     */
+    "data": CustomerEmailPreferences;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type CustomerEmailPreferencesUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "checkout_reminders": boolean;
+            "customer_id": string | null;
+            "email": string;
+            "shipping_updates": boolean;
+            "version": number | null;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "checkout_reminders"?: ((boolean) | (null));
+            "customer_id"?: ((string) | (null));
+            "email"?: ((string) | (null));
+            "shipping_updates"?: ((boolean) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "customer_email_preferences.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "checkout_reminders": boolean;
+            "customer_id": string | null;
+            "email": string;
+            "shipping_updates": boolean;
+            "version": number | null;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "checkout_reminders"?: ((boolean) | (null));
+            "customer_id"?: ((string) | (null));
+            "email"?: ((string) | (null));
+            "shipping_updates"?: ((boolean) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "customer_email_preferences.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "customer_email_preferences.updated";
+});
+/**
+ * The `customer_email_preferences.updated` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type CustomerEmailPreferencesUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.checkout_reminders (Required): boolean. A reminder after leaving
+     * checkout without paying. `true` unless the buyer turned it off. Flint stops sending this
+     * email when it is `false`; if you send this kind of email yourself, do not send it either.
+     * object.customer_id (Required): string or null. ID of the customer whose current email
+     * address these preferences belong to. `null` when the address has no current customer.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.email (Required): string. The customer's
+     * current email address. The preferences belong to this address, so they also apply to guest
+     * checkouts and other customers with the same address, and they change when the customer's
+     * email changes. On address lookup, the address as sent, trimmed. object.shipping_updates
+     * (Required): boolean. Emails about shipments and deliveries. `true` unless the buyer turned
+     * them off. Flint stops sending this email when it is `false`; if you send this kind of email
+     * yourself, do not send it either. object.version (Required): integer or null. The customer's
+     * preference version. Advances when either category changes for this address or the customer's
+     * email address changes. `null` when the address has no current customer. Format: uint64.
+     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
+     * fields in data.object, at this delivery's API version. Nested changes include the whole
+     * previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.checkout_reminders (Optional): boolean or null. A reminder after leaving
+     * checkout without paying. `true` unless the buyer turned it off. Flint stops sending this
+     * email when it is `false`; if you send this kind of email yourself, do not send it either.
+     * previous_attributes.checkout_reminders.anyOf[1] (Value): boolean. A reminder after leaving
+     * checkout without paying. `true` unless the buyer turned it off. Flint stops sending this
+     * email when it is `false`; if you send this kind of email yourself, do not send it either.
+     * previous_attributes.checkout_reminders.anyOf[2] (Value): null.
+     * previous_attributes.customer_id (Optional): string or null. ID of the customer whose current
+     * email address these preferences belong to. `null` when the address has no current customer.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. ID of the customer whose current
+     * email address these preferences belong to. `null` when the address has no current customer.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value):
+     * null. previous_attributes.email (Optional): string or null. The customer's current email
+     * address. The preferences belong to this address, so they also apply to guest checkouts and
+     * other customers with the same address, and they change when the customer's email changes. On
+     * address lookup, the address as sent, trimmed. previous_attributes.email.anyOf[1] (Value):
+     * string. The customer's current email address. The preferences belong to this address, so
+     * they also apply to guest checkouts and other customers with the same address, and they
+     * change when the customer's email changes. On address lookup, the address as sent, trimmed.
+     * previous_attributes.email.anyOf[2] (Value): null. previous_attributes.shipping_updates
+     * (Optional): boolean or null. Emails about shipments and deliveries. `true` unless the buyer
+     * turned them off. Flint stops sending this email when it is `false`; if you send this kind of
+     * email yourself, do not send it either. previous_attributes.shipping_updates.anyOf[1]
+     * (Value): boolean. Emails about shipments and deliveries. `true` unless the buyer turned them
+     * off. Flint stops sending this email when it is `false`; if you send this kind of email
+     * yourself, do not send it either. previous_attributes.shipping_updates.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. The customer's preference
+     * version. Advances when either category changes for this address or the customer's email
+     * address changes. `null` when the address has no current customer.
+     * previous_attributes.version.anyOf[1] (Value): integer. The customer's preference version.
+     * Advances when either category changes for this address or the customer's email address
+     * changes. `null` when the address has no current customer. Format: uint64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * checkout_reminders (Required): boolean. A reminder after leaving checkout without
+         * paying. `true` unless the buyer turned it off. Flint stops sending this email when it is
+         * `false`; if you send this kind of email yourself, do not send it either. customer_id
+         * (Required): string or null. ID of the customer whose current email address these
+         * preferences belong to. `null` when the address has no current customer. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". email (Required): string. The customer's current email
+         * address. The preferences belong to this address, so they also apply to guest checkouts
+         * and other customers with the same address, and they change when the customer's email
+         * changes. On address lookup, the address as sent, trimmed. shipping_updates (Required):
+         * boolean. Emails about shipments and deliveries. `true` unless the buyer turned them off.
+         * Flint stops sending this email when it is `false`; if you send this kind of email
+         * yourself, do not send it either. version (Required): integer or null. The customer's
+         * preference version. Advances when either category changes for this address or the
+         * customer's email address changes. `null` when the address has no current customer.
+         * Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * A reminder after leaving checkout without paying. `true` unless the buyer turned it
+             * off. Flint stops sending this email when it is `false`; if you send this kind of
+             * email yourself, do not send it either.
+             */
+            "checkout_reminders": boolean;
+            /**
+             * ID of the customer whose current email address these preferences belong to. `null`
+             * when the address has no current customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string | null;
+            /**
+             * The customer's current email address. The preferences belong to this address, so
+             * they also apply to guest checkouts and other customers with the same address, and
+             * they change when the customer's email changes. On address lookup, the address as
+             * sent, trimmed.
+             */
+            "email": string;
+            /**
+             * Emails about shipments and deliveries. `true` unless the buyer turned them off.
+             * Flint stops sending this email when it is `false`; if you send this kind of email
+             * yourself, do not send it either.
+             */
+            "shipping_updates": boolean;
+            /**
+             * The customer's preference version. Advances when either category changes for this
+             * address or the customer's email address changes. `null` when the address has no
+             * current customer. Format: uint64. minimum: 1.
+             */
+            "version": number | null;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. checkout_reminders (Optional): boolean or null.
+         * A reminder after leaving checkout without paying. `true` unless the buyer turned it off.
+         * Flint stops sending this email when it is `false`; if you send this kind of email
+         * yourself, do not send it either. checkout_reminders.anyOf[1] (Value): boolean. A
+         * reminder after leaving checkout without paying. `true` unless the buyer turned it off.
+         * Flint stops sending this email when it is `false`; if you send this kind of email
+         * yourself, do not send it either. checkout_reminders.anyOf[2] (Value): null. customer_id
+         * (Optional): string or null. ID of the customer whose current email address these
+         * preferences belong to. `null` when the address has no current customer.
+         * customer_id.anyOf[1] (Value): string. ID of the customer whose current email address
+         * these preferences belong to. `null` when the address has no current customer. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. email (Optional):
+         * string or null. The customer's current email address. The preferences belong to this
+         * address, so they also apply to guest checkouts and other customers with the same
+         * address, and they change when the customer's email changes. On address lookup, the
+         * address as sent, trimmed. email.anyOf[1] (Value): string. The customer's current email
+         * address. The preferences belong to this address, so they also apply to guest checkouts
+         * and other customers with the same address, and they change when the customer's email
+         * changes. On address lookup, the address as sent, trimmed. email.anyOf[2] (Value): null.
+         * shipping_updates (Optional): boolean or null. Emails about shipments and deliveries.
+         * `true` unless the buyer turned them off. Flint stops sending this email when it is
+         * `false`; if you send this kind of email yourself, do not send it either.
+         * shipping_updates.anyOf[1] (Value): boolean. Emails about shipments and deliveries.
+         * `true` unless the buyer turned them off. Flint stops sending this email when it is
+         * `false`; if you send this kind of email yourself, do not send it either.
+         * shipping_updates.anyOf[2] (Value): null. version (Optional): integer or null. The
+         * customer's preference version. Advances when either category changes for this address or
+         * the customer's email address changes. `null` when the address has no current customer.
+         * version.anyOf[1] (Value): integer. The customer's preference version. Advances when
+         * either category changes for this address or the customer's email address changes. `null`
+         * when the address has no current customer. Format: uint64. minimum: 1. version.anyOf[2]
+         * (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * A reminder after leaving checkout without paying. `true` unless the buyer turned it
+             * off. Flint stops sending this email when it is `false`; if you send this kind of
+             * email yourself, do not send it either. anyOf[1] (Value): boolean. A reminder after
+             * leaving checkout without paying. `true` unless the buyer turned it off. Flint stops
+             * sending this email when it is `false`; if you send this kind of email yourself, do
+             * not send it either. anyOf[2] (Value): null.
+             */
+            "checkout_reminders"?: ((boolean) | (null));
+            /**
+             * ID of the customer whose current email address these preferences belong to. `null`
+             * when the address has no current customer. anyOf[1] (Value): string. ID of the
+             * customer whose current email address these preferences belong to. `null` when the
+             * address has no current customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * The customer's current email address. The preferences belong to this address, so
+             * they also apply to guest checkouts and other customers with the same address, and
+             * they change when the customer's email changes. On address lookup, the address as
+             * sent, trimmed. anyOf[1] (Value): string. The customer's current email address. The
+             * preferences belong to this address, so they also apply to guest checkouts and other
+             * customers with the same address, and they change when the customer's email changes.
+             * On address lookup, the address as sent, trimmed. anyOf[2] (Value): null.
+             */
+            "email"?: ((string) | (null));
+            /**
+             * Emails about shipments and deliveries. `true` unless the buyer turned them off.
+             * Flint stops sending this email when it is `false`; if you send this kind of email
+             * yourself, do not send it either. anyOf[1] (Value): boolean. Emails about shipments
+             * and deliveries. `true` unless the buyer turned them off. Flint stops sending this
+             * email when it is `false`; if you send this kind of email yourself, do not send it
+             * either. anyOf[2] (Value): null.
+             */
+            "shipping_updates"?: ((boolean) | (null));
+            /**
+             * The customer's preference version. Advances when either category changes for this
+             * address or the customer's email address changes. `null` when the address has no
+             * current customer. anyOf[1] (Value): integer. The customer's preference version.
+             * Advances when either category changes for this address or the customer's email
+             * address changes. `null` when the address has no current customer. Format: uint64.
+             * minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "customer_email_preferences.updated". */
+    "event_type"?: "customer_email_preferences.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `customer_email_preferences.updated` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type CustomerEmailPreferencesUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.checkout_reminders (Required): boolean. A reminder after leaving
+     * checkout without paying. `true` unless the buyer turned it off. Flint stops sending this
+     * email when it is `false`; if you send this kind of email yourself, do not send it either.
+     * object.customer_id (Required): string or null. ID of the customer whose current email
+     * address these preferences belong to. `null` when the address has no current customer.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.email (Required): string. The customer's
+     * current email address. The preferences belong to this address, so they also apply to guest
+     * checkouts and other customers with the same address, and they change when the customer's
+     * email changes. On address lookup, the address as sent, trimmed. object.shipping_updates
+     * (Required): boolean. Emails about shipments and deliveries. `true` unless the buyer turned
+     * them off. Flint stops sending this email when it is `false`; if you send this kind of email
+     * yourself, do not send it either. object.version (Required): integer or null. The customer's
+     * preference version. Advances when either category changes for this address or the customer's
+     * email address changes. `null` when the address has no current customer. Format: uint64.
+     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
+     * fields in data.object, at this delivery's API version. Nested changes include the whole
+     * previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.checkout_reminders (Optional): boolean or null. A reminder after leaving
+     * checkout without paying. `true` unless the buyer turned it off. Flint stops sending this
+     * email when it is `false`; if you send this kind of email yourself, do not send it either.
+     * previous_attributes.checkout_reminders.anyOf[1] (Value): boolean. A reminder after leaving
+     * checkout without paying. `true` unless the buyer turned it off. Flint stops sending this
+     * email when it is `false`; if you send this kind of email yourself, do not send it either.
+     * previous_attributes.checkout_reminders.anyOf[2] (Value): null.
+     * previous_attributes.customer_id (Optional): string or null. ID of the customer whose current
+     * email address these preferences belong to. `null` when the address has no current customer.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. ID of the customer whose current
+     * email address these preferences belong to. `null` when the address has no current customer.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value):
+     * null. previous_attributes.email (Optional): string or null. The customer's current email
+     * address. The preferences belong to this address, so they also apply to guest checkouts and
+     * other customers with the same address, and they change when the customer's email changes. On
+     * address lookup, the address as sent, trimmed. previous_attributes.email.anyOf[1] (Value):
+     * string. The customer's current email address. The preferences belong to this address, so
+     * they also apply to guest checkouts and other customers with the same address, and they
+     * change when the customer's email changes. On address lookup, the address as sent, trimmed.
+     * previous_attributes.email.anyOf[2] (Value): null. previous_attributes.shipping_updates
+     * (Optional): boolean or null. Emails about shipments and deliveries. `true` unless the buyer
+     * turned them off. Flint stops sending this email when it is `false`; if you send this kind of
+     * email yourself, do not send it either. previous_attributes.shipping_updates.anyOf[1]
+     * (Value): boolean. Emails about shipments and deliveries. `true` unless the buyer turned them
+     * off. Flint stops sending this email when it is `false`; if you send this kind of email
+     * yourself, do not send it either. previous_attributes.shipping_updates.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. The customer's preference
+     * version. Advances when either category changes for this address or the customer's email
+     * address changes. `null` when the address has no current customer.
+     * previous_attributes.version.anyOf[1] (Value): integer. The customer's preference version.
+     * Advances when either category changes for this address or the customer's email address
+     * changes. `null` when the address has no current customer. Format: uint64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * checkout_reminders (Required): boolean. A reminder after leaving checkout without
+         * paying. `true` unless the buyer turned it off. Flint stops sending this email when it is
+         * `false`; if you send this kind of email yourself, do not send it either. customer_id
+         * (Required): string or null. ID of the customer whose current email address these
+         * preferences belong to. `null` when the address has no current customer. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". email (Required): string. The customer's current email
+         * address. The preferences belong to this address, so they also apply to guest checkouts
+         * and other customers with the same address, and they change when the customer's email
+         * changes. On address lookup, the address as sent, trimmed. shipping_updates (Required):
+         * boolean. Emails about shipments and deliveries. `true` unless the buyer turned them off.
+         * Flint stops sending this email when it is `false`; if you send this kind of email
+         * yourself, do not send it either. version (Required): integer or null. The customer's
+         * preference version. Advances when either category changes for this address or the
+         * customer's email address changes. `null` when the address has no current customer.
+         * Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * A reminder after leaving checkout without paying. `true` unless the buyer turned it
+             * off. Flint stops sending this email when it is `false`; if you send this kind of
+             * email yourself, do not send it either.
+             */
+            "checkout_reminders": boolean;
+            /**
+             * ID of the customer whose current email address these preferences belong to. `null`
+             * when the address has no current customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string | null;
+            /**
+             * The customer's current email address. The preferences belong to this address, so
+             * they also apply to guest checkouts and other customers with the same address, and
+             * they change when the customer's email changes. On address lookup, the address as
+             * sent, trimmed.
+             */
+            "email": string;
+            /**
+             * Emails about shipments and deliveries. `true` unless the buyer turned them off.
+             * Flint stops sending this email when it is `false`; if you send this kind of email
+             * yourself, do not send it either.
+             */
+            "shipping_updates": boolean;
+            /**
+             * The customer's preference version. Advances when either category changes for this
+             * address or the customer's email address changes. `null` when the address has no
+             * current customer. Format: uint64. minimum: 1.
+             */
+            "version": number | null;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. checkout_reminders (Optional): boolean or null.
+         * A reminder after leaving checkout without paying. `true` unless the buyer turned it off.
+         * Flint stops sending this email when it is `false`; if you send this kind of email
+         * yourself, do not send it either. checkout_reminders.anyOf[1] (Value): boolean. A
+         * reminder after leaving checkout without paying. `true` unless the buyer turned it off.
+         * Flint stops sending this email when it is `false`; if you send this kind of email
+         * yourself, do not send it either. checkout_reminders.anyOf[2] (Value): null. customer_id
+         * (Optional): string or null. ID of the customer whose current email address these
+         * preferences belong to. `null` when the address has no current customer.
+         * customer_id.anyOf[1] (Value): string. ID of the customer whose current email address
+         * these preferences belong to. `null` when the address has no current customer. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. email (Optional):
+         * string or null. The customer's current email address. The preferences belong to this
+         * address, so they also apply to guest checkouts and other customers with the same
+         * address, and they change when the customer's email changes. On address lookup, the
+         * address as sent, trimmed. email.anyOf[1] (Value): string. The customer's current email
+         * address. The preferences belong to this address, so they also apply to guest checkouts
+         * and other customers with the same address, and they change when the customer's email
+         * changes. On address lookup, the address as sent, trimmed. email.anyOf[2] (Value): null.
+         * shipping_updates (Optional): boolean or null. Emails about shipments and deliveries.
+         * `true` unless the buyer turned them off. Flint stops sending this email when it is
+         * `false`; if you send this kind of email yourself, do not send it either.
+         * shipping_updates.anyOf[1] (Value): boolean. Emails about shipments and deliveries.
+         * `true` unless the buyer turned them off. Flint stops sending this email when it is
+         * `false`; if you send this kind of email yourself, do not send it either.
+         * shipping_updates.anyOf[2] (Value): null. version (Optional): integer or null. The
+         * customer's preference version. Advances when either category changes for this address or
+         * the customer's email address changes. `null` when the address has no current customer.
+         * version.anyOf[1] (Value): integer. The customer's preference version. Advances when
+         * either category changes for this address or the customer's email address changes. `null`
+         * when the address has no current customer. Format: uint64. minimum: 1. version.anyOf[2]
+         * (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * A reminder after leaving checkout without paying. `true` unless the buyer turned it
+             * off. Flint stops sending this email when it is `false`; if you send this kind of
+             * email yourself, do not send it either. anyOf[1] (Value): boolean. A reminder after
+             * leaving checkout without paying. `true` unless the buyer turned it off. Flint stops
+             * sending this email when it is `false`; if you send this kind of email yourself, do
+             * not send it either. anyOf[2] (Value): null.
+             */
+            "checkout_reminders"?: ((boolean) | (null));
+            /**
+             * ID of the customer whose current email address these preferences belong to. `null`
+             * when the address has no current customer. anyOf[1] (Value): string. ID of the
+             * customer whose current email address these preferences belong to. `null` when the
+             * address has no current customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * The customer's current email address. The preferences belong to this address, so
+             * they also apply to guest checkouts and other customers with the same address, and
+             * they change when the customer's email changes. On address lookup, the address as
+             * sent, trimmed. anyOf[1] (Value): string. The customer's current email address. The
+             * preferences belong to this address, so they also apply to guest checkouts and other
+             * customers with the same address, and they change when the customer's email changes.
+             * On address lookup, the address as sent, trimmed. anyOf[2] (Value): null.
+             */
+            "email"?: ((string) | (null));
+            /**
+             * Emails about shipments and deliveries. `true` unless the buyer turned them off.
+             * Flint stops sending this email when it is `false`; if you send this kind of email
+             * yourself, do not send it either. anyOf[1] (Value): boolean. Emails about shipments
+             * and deliveries. `true` unless the buyer turned them off. Flint stops sending this
+             * email when it is `false`; if you send this kind of email yourself, do not send it
+             * either. anyOf[2] (Value): null.
+             */
+            "shipping_updates"?: ((boolean) | (null));
+            /**
+             * The customer's preference version. Advances when either category changes for this
+             * address or the customer's email address changes. `null` when the address has no
+             * current customer. anyOf[1] (Value): integer. The customer's preference version.
+             * Advances when either category changes for this address or the customer's email
+             * address changes. `null` when the address has no current customer. Format: uint64.
+             * minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "customer_email_preferences.updated". */
+    "event_type"?: "customer_email_preferences.updated";
+});
 /** A page of `Customer` objects. */
 export type CustomerListResponse = {
     /**
@@ -67,6 +3147,25 @@ export type CustomerReceivableBalance = {
      */
     "overdue_money": MoneyValue;
 };
+export type CustomerReceivableBalancePreviousAttributes = {
+    /**
+     * ISO 4217 currency code. anyOf[1] (Value): string. ISO 4217 currency code. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". anyOf[2] (Value): null.
+     */
+    "currency"?: ((string) | (null));
+    /**
+     * Total still owed across the customer's invoices in this currency: invoice totals minus
+     * payments applied and balance reductions. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "outstanding_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Part of the outstanding amount that is past its due date at `observed_at`. Invoices with a
+     * payment schedule count only their past-due installments. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "overdue_money"?: ((MoneyValuePreviousAttributes) | (null));
+};
 /** A customer's receivable balances by currency and when they were observed. */
 export type CustomerReceivables = {
     /**
@@ -77,6 +3176,21 @@ export type CustomerReceivables = {
     "balances": Array<CustomerReceivableBalance>;
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "observed_at": string;
+};
+export type CustomerReceivablesPreviousAttributes = {
+    /**
+     * One balance per currency in which the customer has an outstanding or overdue amount. Empty
+     * when the customer owes nothing. anyOf[1] (Value): Array of {@link
+     * CustomerReceivableBalancePreviousAttributes}. One balance per currency in which the customer
+     * has an outstanding or overdue amount. Empty when the customer owes nothing. anyOf[1][]
+     * (Value): {@link CustomerReceivableBalancePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "balances"?: ((Array<CustomerReceivableBalancePreviousAttributes>) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "observed_at"?: ((string) | (null));
 };
 /** A response containing `Customer` data. */
 export type CustomerResponse = {
@@ -485,6 +3599,96 @@ export type CustomerTaxExemptionCoverageAllStates = ({
     /** Value enum: "all_states". */
     "type"?: "all_states" | (string & {});
 }));
+export type CustomerTaxExemptionCoverageAllStatesPreviousAttributes = ({
+    /**
+     * Country covered by this exemption. Only US is accepted. Uses ISO 3166-1 alpha-2 country
+     * codes. Value enum: "US". anyOf[1] (Value): string. Country covered by this exemption. Only
+     * US is accepted. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern:
+     * ^[A-Z]{2}$. Example: "US". Value enum: "US". anyOf[2] (Value): null.
+     */
+    "country"?: (("US" | (string & {})) | (null));
+    /**
+     * US postal state codes or DC. Required for states and forbidden for all_states. [] enum:
+     * "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN",
+     * "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH",
+     * "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT",
+     * "VT", "VA", "WA", "WV", "WI", "WY". anyOf[1] (Value): Array of string. US postal state codes
+     * or DC. Required for states and forbidden for all_states. minItems: 1. maxItems: 60.
+     * uniqueItems: true. [] enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL",
+     * "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS",
+     * "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI",
+     * "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[1][] (Value):
+     * string. Value enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI",
+     * "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT",
+     * "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD",
+     * "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[2] (Value): null.
+     */
+    "states"?: ((Array<"AL"
+        | "AK"
+        | "AZ"
+        | "AR"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DE"
+        | "DC"
+        | "FL"
+        | "GA"
+        | "HI"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "IA"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "ME"
+        | "MD"
+        | "MA"
+        | "MI"
+        | "MN"
+        | "MS"
+        | "MO"
+        | "MT"
+        | "NE"
+        | "NV"
+        | "NH"
+        | "NJ"
+        | "NM"
+        | "NY"
+        | "NC"
+        | "ND"
+        | "OH"
+        | "OK"
+        | "OR"
+        | "PA"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UT"
+        | "VT"
+        | "VA"
+        | "WA"
+        | "WV"
+        | "WI"
+        | "WY"
+        | (string & {})>)
+        | (null));
+    /**
+     * Choose all_states or states explicitly. Value enum: "all_states". anyOf[1] (Value): string.
+     * Choose all_states or states explicitly. Value enum: "all_states". anyOf[2] (Value): null.
+     */
+    "type"?: (("all_states" | (string & {})) | (null));
+})
+    & ({
+    /**
+     * Value enum: "all_states". anyOf[1] (Value): string. Value enum: "all_states". anyOf[2]
+     * (Value): null.
+     */
+    "type"?: (("all_states" | (string & {})) | (null));
+});
 /**
  * Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list
  * of US states and DC.
@@ -566,6 +3770,93 @@ export type CustomerTaxExemptionCoverageAllStatesRequestInput = ({
 }) & ({
     "states"?: never;
 }));
+export type CustomerTaxExemptionCoveragePreviousAttributes = ({
+    /**
+     * Country covered by this exemption. Only US is accepted. Uses ISO 3166-1 alpha-2 country
+     * codes. Value enum: "US". anyOf[1] (Value): string. Country covered by this exemption. Only
+     * US is accepted. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern:
+     * ^[A-Z]{2}$. Example: "US". Value enum: "US". anyOf[2] (Value): null.
+     */
+    "country"?: (("US" | (string & {})) | (null));
+    /**
+     * US postal state codes or DC. Required for states and forbidden for all_states. [] enum:
+     * "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN",
+     * "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH",
+     * "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT",
+     * "VT", "VA", "WA", "WV", "WI", "WY". anyOf[1] (Value): Array of string. US postal state codes
+     * or DC. Required for states and forbidden for all_states. minItems: 1. maxItems: 60.
+     * uniqueItems: true. [] enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL",
+     * "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS",
+     * "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI",
+     * "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[1][] (Value):
+     * string. Value enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI",
+     * "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT",
+     * "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD",
+     * "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[2] (Value): null.
+     */
+    "states"?: ((Array<"AL"
+        | "AK"
+        | "AZ"
+        | "AR"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DE"
+        | "DC"
+        | "FL"
+        | "GA"
+        | "HI"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "IA"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "ME"
+        | "MD"
+        | "MA"
+        | "MI"
+        | "MN"
+        | "MS"
+        | "MO"
+        | "MT"
+        | "NE"
+        | "NV"
+        | "NH"
+        | "NJ"
+        | "NM"
+        | "NY"
+        | "NC"
+        | "ND"
+        | "OH"
+        | "OK"
+        | "OR"
+        | "PA"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UT"
+        | "VT"
+        | "VA"
+        | "WA"
+        | "WV"
+        | "WI"
+        | "WY"
+        | (string & {})>)
+        | (null));
+    /**
+     * Choose all_states or states explicitly. Value enum: "all_states", "states". anyOf[1]
+     * (Value): string. Choose all_states or states explicitly. Value enum: "all_states", "states".
+     * anyOf[2] (Value): null.
+     */
+    "type"?: (("all_states" | "states" | (string & {})) | (null));
+})
+    & (((Exclude<CustomerTaxExemptionCoverageAllStatesPreviousAttributes & object, readonly unknown[]>)
+    | (Exclude<CustomerTaxExemptionCoverageStatesPreviousAttributes & object, readonly unknown[]>)
+    | (Record<string, unknown>)));
 /**
  * Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list
  * of US states and DC.
@@ -786,28 +4077,31 @@ export type CustomerTaxExemptionCoverageStates = ({
         | "WY"
         | (string & {})>;
 });
-/**
- * Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list
- * of US states and DC.
- */
-export type CustomerTaxExemptionCoverageStatesRequestInput = ({
+export type CustomerTaxExemptionCoverageStatesPreviousAttributes = ({
     /**
      * Country covered by this exemption. Only US is accepted. Uses ISO 3166-1 alpha-2 country
-     * codes. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Value enum: "US".
+     * codes. Value enum: "US". anyOf[1] (Value): string. Country covered by this exemption. Only
+     * US is accepted. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern:
+     * ^[A-Z]{2}$. Example: "US". Value enum: "US". anyOf[2] (Value): null.
      */
-    "country": "US";
+    "country"?: (("US" | (string & {})) | (null));
     /**
-     * US postal state codes or DC. Required for states and forbidden for all_states. minItems: 1.
-     * maxItems: 60. uniqueItems: true. [] enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE",
-     * "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",
-     * "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR",
-     * "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". [] (Value):
+     * US postal state codes or DC. Required for states and forbidden for all_states. [] enum:
+     * "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN",
+     * "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH",
+     * "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT",
+     * "VT", "VA", "WA", "WV", "WI", "WY". anyOf[1] (Value): Array of string. US postal state codes
+     * or DC. Required for states and forbidden for all_states. minItems: 1. maxItems: 60.
+     * uniqueItems: true. [] enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL",
+     * "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS",
+     * "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI",
+     * "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[1][] (Value):
      * string. Value enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI",
      * "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT",
      * "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD",
-     * "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY".
+     * "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[2] (Value): null.
      */
-    "states": Array<"AL"
+    "states"?: ((Array<"AL"
         | "AK"
         | "AZ"
         | "AR"
@@ -857,2664 +4151,19 @@ export type CustomerTaxExemptionCoverageStatesRequestInput = ({
         | "WA"
         | "WV"
         | "WI"
-        | "WY">;
-    /** Choose all_states or states explicitly. Value enum: "states". */
-    "type": "states";
+        | "WY"
+        | (string & {})>)
+        | (null));
+    /**
+     * Choose all_states or states explicitly. Value enum: "states". anyOf[1] (Value): string.
+     * Choose all_states or states explicitly. Value enum: "states". anyOf[2] (Value): null.
+     */
+    "type"?: (("states" | (string & {})) | (null));
 })
     & ({
-    /** Value enum: "states". */
-    "type"?: "states";
     /**
-     * US postal state codes or DC. Required for states and forbidden for all_states. minItems: 1.
-     * maxItems: 60. uniqueItems: true. [] enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE",
-     * "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",
-     * "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR",
-     * "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". [] (Value):
-     * string. Value enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI",
-     * "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT",
-     * "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD",
-     * "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY".
+     * Value enum: "states". anyOf[1] (Value): string. Value enum: "states". anyOf[2] (Value):
+     * null.
      */
-    "states": Array<"AL"
-        | "AK"
-        | "AZ"
-        | "AR"
-        | "CA"
-        | "CO"
-        | "CT"
-        | "DE"
-        | "DC"
-        | "FL"
-        | "GA"
-        | "HI"
-        | "ID"
-        | "IL"
-        | "IN"
-        | "IA"
-        | "KS"
-        | "KY"
-        | "LA"
-        | "ME"
-        | "MD"
-        | "MA"
-        | "MI"
-        | "MN"
-        | "MS"
-        | "MO"
-        | "MT"
-        | "NE"
-        | "NV"
-        | "NH"
-        | "NJ"
-        | "NM"
-        | "NY"
-        | "NC"
-        | "ND"
-        | "OH"
-        | "OK"
-        | "OR"
-        | "PA"
-        | "RI"
-        | "SC"
-        | "SD"
-        | "TN"
-        | "TX"
-        | "UT"
-        | "VT"
-        | "VA"
-        | "WA"
-        | "WV"
-        | "WI"
-        | "WY">;
+    "type"?: (("states" | (string & {})) | (null));
 });
-/** A page of `CustomerTaxExemption` objects. */
-export type CustomerTaxExemptionListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * CustomerTaxExemption}. Nested child of a customer, bounded to 100 unarchived records per
-     * customer. Archives remain retrievable by ID and through the archived status filter. Expired
-     * and archived records cannot be edited. An active record applies to the customer's sales
-     * whose taxable destination its coverage contains, within its date range, and is snapshotted
-     * on each exempt sale. Saving one doesn't change the customer's blanket tax_exempt flag, which
-     * still takes precedence.
-     */
-    "data": Array<CustomerTaxExemption>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `CustomerTaxExemption` data. */
-export type CustomerTaxExemptionResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. Nested child of a
-     * customer, bounded to 100 unarchived records per customer. Archives remain retrievable by ID
-     * and through the archived status filter. Expired and archived records cannot be edited. An
-     * active record applies to the customer's sales whose taxable destination its coverage
-     * contains, within its date range, and is snapshotted on each exempt sale. Saving one doesn't
-     * change the customer's blanket tax_exempt flag, which still takes precedence.
-     */
-    "data": CustomerTaxExemption;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * A copy of one of the customer's `tax_identity.tax_ids`. Frozen once the order is paid;
- * recalculating tax before payment reads the customer again.
- */
-export type CustomerTaxID = {
-    /**
-     * Country of the tax ID, as entered on the customer. Greek VAT IDs may use EL. minLength: 2.
-     * maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US".
-     */
-    "country": string;
-    /** Type of the tax ID, as entered on the customer. */
-    "identifier_type": string;
-    /** Region of the tax ID. `null` when the tax ID has no region. */
-    "region": string | null;
-    /** The tax ID. */
-    "value": string;
-};
-export type CustomerUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "billing_address": ((Address) | (null));
-            "created_at": string;
-            "customer_id": string;
-            "default_invoice_payment_term_id"?: string;
-            "default_payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            "default_payment_method_id": string | null;
-            "email": string | null;
-            "external_reference_id": string | null;
-            "internal_note": string | null;
-            "is_merchant_verified"?: boolean;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "name": string | null;
-            "phone": string | null;
-            "price_list_id": string | null;
-            "receivables"?: CustomerReceivables;
-            "segment": string | null;
-            "shipping_address": ((Address) | (null));
-            "status": "active" | "deletion_processing" | "deleted" | (string & {});
-            "tax_exempt"?: boolean;
-            "tax_identity": ((TaxIdentity) | (null));
-            "test_clock_id"?: string;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "billing_address"?: ((((Address) | (null))) | (null) | (unknown));
-            "created_at"?: ((string) | (null));
-            "customer_id"?: ((string) | (null));
-            "default_invoice_payment_term_id"?: ((string) | (null));
-            "default_payment_method"?: ((((ExpandedPaymentMethodSummary) | (null))) | (null) | (unknown));
-            "default_payment_method_id"?: ((string | null) | (null) | (unknown));
-            "email"?: ((string | null) | (null) | (unknown));
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
-            "internal_note"?: ((string | null) | (null) | (unknown));
-            "is_merchant_verified"?: ((boolean) | (null));
-            "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "name"?: ((string | null) | (null) | (unknown));
-            "phone"?: ((string | null) | (null) | (unknown));
-            "price_list_id"?: ((string | null) | (null) | (unknown));
-            "receivables"?: ((CustomerReceivables) | (null));
-            "segment"?: ((string | null) | (null) | (unknown));
-            "shipping_address"?: ((((Address) | (null))) | (null) | (unknown));
-            "status"?: (("active" | "deletion_processing" | "deleted" | (string & {})) | (null));
-            "tax_exempt"?: ((boolean) | (null));
-            "tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            "test_clock_id"?: ((string) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "customer.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "billing_address": ((Address) | (null));
-            "created_at": string;
-            "customer_id": string;
-            "default_invoice_payment_term_id"?: string;
-            "default_payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            "default_payment_method_id": string | null;
-            "email": string | null;
-            "external_reference_id": string | null;
-            "internal_note": string | null;
-            "is_merchant_verified"?: boolean;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "name": string | null;
-            "phone": string | null;
-            "price_list_id": string | null;
-            "receivables"?: CustomerReceivables;
-            "segment": string | null;
-            "shipping_address": ((Address) | (null));
-            "status": "active" | "deletion_processing" | "deleted" | (string & {});
-            "tax_exempt"?: boolean;
-            "tax_identity": ((TaxIdentity) | (null));
-            "test_clock_id"?: string;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "billing_address"?: ((((Address) | (null))) | (null) | (unknown));
-            "created_at"?: ((string) | (null));
-            "customer_id"?: ((string) | (null));
-            "default_invoice_payment_term_id"?: ((string) | (null));
-            "default_payment_method"?: ((((ExpandedPaymentMethodSummary) | (null))) | (null) | (unknown));
-            "default_payment_method_id"?: ((string | null) | (null) | (unknown));
-            "email"?: ((string | null) | (null) | (unknown));
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
-            "internal_note"?: ((string | null) | (null) | (unknown));
-            "is_merchant_verified"?: ((boolean) | (null));
-            "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "name"?: ((string | null) | (null) | (unknown));
-            "phone"?: ((string | null) | (null) | (unknown));
-            "price_list_id"?: ((string | null) | (null) | (unknown));
-            "receivables"?: ((CustomerReceivables) | (null));
-            "segment"?: ((string | null) | (null) | (unknown));
-            "shipping_address"?: ((((Address) | (null))) | (null) | (unknown));
-            "status"?: (("active" | "deletion_processing" | "deleted" | (string & {})) | (null));
-            "tax_exempt"?: ((boolean) | (null));
-            "tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            "test_clock_id"?: ((string) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "customer.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "customer.updated";
-});
-/**
- * The `customer.updated` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.billing_address (Required): {@link Address} or null. The
-     * customer's default billing address: a copy of the address of the saved address marked
-     * is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses.
-     * Flint taxes orders with no other tax location at this address. `null` when no saved address
-     * is the billing default. object.billing_address.anyOf[1] (Value): {@link Address}. A postal
-     * address. Every address has country. Addresses Flint checked as complete (customer and saved
-     * addresses, merchant, location, invoice, order delivery destination, tax identity,
-     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
-     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
-     * locations hold only what was provided, such as postal_code and country.
-     * object.billing_address.anyOf[2] (Value): null. object.created_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.customer_id
-     * (Required): string. Unique identifier for this customer, prefixed `cus_`. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.default_invoice_payment_term_id (Optional): string.
-     * ID of the invoice payment term that applies to this customer's invoices created with
-     * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
-     * "ipt_01KEZF7C0064N1V301BBMQ37R4". object.default_payment_method (Optional): {@link
-     * ExpandedPaymentMethodSummary} or null. Present only when `expand` includes
-     * `default_payment_method`; `null` when expanded and there is no related payment method.
-     * object.default_payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A
-     * payment method's summary fields, including type, status, and card details, returned when the
-     * payment method is expanded. object.default_payment_method.anyOf[2] (Value): null.
-     * object.default_payment_method_id (Required): string or null. ID of the customer's default
-     * off-session payment method. `null` when none is set. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.email (Required): string or null. Customer email.
-     * `null` when the customer has none. Unique among the environment's customers.
-     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
-     * customer in an external system. `null` when none is set. Not returned to customer sessions.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842". object.internal_note (Required):
-     * string or null. Internal note about this customer. `null` when none is set. Not returned to
-     * customer sessions. object.is_merchant_verified (Optional): boolean. Flag you set on the
-     * customer, for example after checking ID in store. Promotion and delivery rules can match it.
-     * Flint does not set it; it is unrelated to customer verifications, which prove a buyer
-     * controls an email address. object.merchant_id (Required): string. ID of the merchant this
-     * resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional):
-     * {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
-     * and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-     * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them. object.name
-     * (Required): string or null. Customer name. `null` when none is set. object.phone (Required):
-     * string or null. Customer phone number. `null` when none is set. object.price_list_id
-     * (Required): string or null. ID of the customer's direct wholesale price list. `null` when
-     * none is set. An inactive list can be assigned but does not apply. Not returned to customer
-     * sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
-     * object.receivables (Optional): {@link CustomerReceivables}. What this customer owes you on
-     * invoices: the outstanding and overdue amounts, one balance per currency. Present only when
-     * `expand` includes `receivables`. A customer's receivable balances by currency and when they
-     * were observed. object.segment (Required): string or null. Free-form label you assign, such
-     * as wholesale, so promotion and delivery rules can match groups of customers. It is not an
-     * ID; Flint does not check it against any resource. `null` when none is set. Not returned to
-     * customer sessions. object.shipping_address (Required): {@link Address} or null. The
-     * customer's default shipping address: a copy of the address of the saved address marked
-     * is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses.
-     * Checkout prefills it. `null` when no saved address is the shipping default.
-     * object.shipping_address.anyOf[1] (Value): {@link Address}. A postal address. Every address
-     * has country. Addresses Flint checked as complete (customer and saved addresses, merchant,
-     * location, invoice, order delivery destination, tax identity, fulfillment recipient and
-     * pickup addresses) always have line1 and city, and US ones always have state and postal_code.
-     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
-     * was provided, such as postal_code and country. object.shipping_address.anyOf[2] (Value):
-     * null. object.status (Required): string. Where the customer is in the deletion lifecycle.
-     * Value enum: "active", "deletion_processing", "deleted". object.tax_exempt (Optional):
-     * boolean. Whether Flint treats this customer as exempt from tax on their orders, so it skips
-     * tax calculation for them. Not returned to customer sessions. object.tax_identity (Required):
-     * {@link TaxIdentity} or null. Legal name, registered address and tax IDs printed on this
-     * customer's invoices and credit notes. `null` when none is set. Always `null` for customer
-     * sessions. object.tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. object.tax_identity.anyOf[2] (Value): null. object.test_clock_id
-     * (Optional): string. ID of the test clock the customer was created on. The customer and its
-     * subscriptions read the clock's `frozen_at` as the current time. Present only for customers
-     * created on a test clock. Not returned to customer sessions. Example:
-     * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". object.updated_at (Required): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer.
-     * Current version of this resource's owned state. Send it as `expected_version` when changing
-     * the resource to reject a stale write. Format: uint64. minimum: 1. previous_attributes
-     * (Optional): object. Previous values of changed top-level fields in data.object, at this
-     * delivery's API version. Nested changes include the whole previous top-level value. A value
-     * is null when the field was absent before the change. Omitted when Flint did not record the
-     * previous state, including synthetic test events. previous_attributes.billing_address
-     * (Optional): {@link Address} or null or null. The customer's default billing address: a copy
-     * of the address of the saved address marked is_default_billing. Read-only; change it through
-     * /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location at this
-     * address. `null` when no saved address is the billing default.
-     * previous_attributes.billing_address.anyOf[1] (Value): {@link Address} or null. The
-     * customer's default billing address: a copy of the address of the saved address marked
-     * is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses.
-     * Flint taxes orders with no other tax location at this address. `null` when no saved address
-     * is the billing default. previous_attributes.billing_address.anyOf[1].anyOf[1] (Value):
-     * {@link Address}. A postal address. Every address has country. Addresses Flint checked as
-     * complete (customer and saved addresses, merchant, location, invoice, order delivery
-     * destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and
-     * city, and US ones always have state and postal_code. Delivery quote destinations, buyer
-     * locations and postal-code tax locations hold only what was provided, such as postal_code and
-     * country. previous_attributes.billing_address.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.billing_address.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer_id
-     * (Optional): string or null. Unique identifier for this customer, prefixed `cus_`.
-     * previous_attributes.customer_id.anyOf[1] (Value): string. Unique identifier for this
-     * customer, prefixed `cus_`. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.default_invoice_payment_term_id (Optional): string or null. ID of the
-     * invoice payment term that applies to this customer's invoices created with
-     * `payment_due.type` set to `customer_default`. Absent when none is set.
-     * previous_attributes.default_invoice_payment_term_id.anyOf[1] (Value): string. ID of the
-     * invoice payment term that applies to this customer's invoices created with
-     * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
-     * "ipt_01KEZF7C0064N1V301BBMQ37R4".
-     * previous_attributes.default_invoice_payment_term_id.anyOf[2] (Value): null.
-     * previous_attributes.default_payment_method (Optional): {@link ExpandedPaymentMethodSummary}
-     * or null or null. Present only when `expand` includes `default_payment_method`; `null` when
-     * expanded and there is no related payment method.
-     * previous_attributes.default_payment_method.anyOf[1] (Value): {@link
-     * ExpandedPaymentMethodSummary} or null. Present only when `expand` includes
-     * `default_payment_method`; `null` when expanded and there is no related payment method.
-     * previous_attributes.default_payment_method.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type, status,
-     * and card details, returned when the payment method is expanded.
-     * previous_attributes.default_payment_method.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.default_payment_method.anyOf[2] (Value): null.
-     * previous_attributes.default_payment_method_id (Optional): string or null or null. ID of the
-     * customer's default off-session payment method. `null` when none is set.
-     * previous_attributes.default_payment_method_id.anyOf[1] (Value): string or null. ID of the
-     * customer's default off-session payment method. `null` when none is set. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". previous_attributes.default_payment_method_id.anyOf[2]
-     * (Value): null. previous_attributes.email (Optional): string or null or null. Customer email.
-     * `null` when the customer has none. Unique among the environment's customers.
-     * previous_attributes.email.anyOf[1] (Value): string or null. Customer email. `null` when the
-     * customer has none. Unique among the environment's customers.
-     * previous_attributes.email.anyOf[2] (Value): null. previous_attributes.external_reference_id
-     * (Optional): string or null or null. Caller-owned identifier for this customer in an external
-     * system. `null` when none is set. Not returned to customer sessions.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-     * identifier for this customer in an external system. `null` when none is set. Not returned to
-     * customer sessions. minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.internal_note (Optional): string or null or null. Internal note about
-     * this customer. `null` when none is set. Not returned to customer sessions.
-     * previous_attributes.internal_note.anyOf[1] (Value): string or null. Internal note about this
-     * customer. `null` when none is set. Not returned to customer sessions.
-     * previous_attributes.internal_note.anyOf[2] (Value): null.
-     * previous_attributes.is_merchant_verified (Optional): boolean or null. Flag you set on the
-     * customer, for example after checking ID in store. Promotion and delivery rules can match it.
-     * Flint does not set it; it is unrelated to customer verifications, which prove a buyer
-     * controls an email address. previous_attributes.is_merchant_verified.anyOf[1] (Value):
-     * boolean. Flag you set on the customer, for example after checking ID in store. Promotion and
-     * delivery rules can match it. Flint does not set it; it is unrelated to customer
-     * verifications, which prove a buyer controls an email address.
-     * previous_attributes.is_merchant_verified.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
-     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
-     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
-     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
-     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
-     * (Value): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for
-     * key, value, and size rules. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.name (Optional): string or null or null. Customer name. `null` when none
-     * is set. previous_attributes.name.anyOf[1] (Value): string or null. Customer name. `null`
-     * when none is set. previous_attributes.name.anyOf[2] (Value): null. previous_attributes.phone
-     * (Optional): string or null or null. Customer phone number. `null` when none is set.
-     * previous_attributes.phone.anyOf[1] (Value): string or null. Customer phone number. `null`
-     * when none is set. previous_attributes.phone.anyOf[2] (Value): null.
-     * previous_attributes.price_list_id (Optional): string or null or null. ID of the customer's
-     * direct wholesale price list. `null` when none is set. An inactive list can be assigned but
-     * does not apply. Not returned to customer sessions.
-     * previous_attributes.price_list_id.anyOf[1] (Value): string or null. ID of the customer's
-     * direct wholesale price list. `null` when none is set. An inactive list can be assigned but
-     * does not apply. Not returned to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
-     * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". previous_attributes.price_list_id.anyOf[2]
-     * (Value): null. previous_attributes.receivables (Optional): {@link CustomerReceivables} or
-     * null. What this customer owes you on invoices: the outstanding and overdue amounts, one
-     * balance per currency. Present only when `expand` includes `receivables`.
-     * previous_attributes.receivables.anyOf[1] (Value): {@link CustomerReceivables}. What this
-     * customer owes you on invoices: the outstanding and overdue amounts, one balance per
-     * currency. Present only when `expand` includes `receivables`.
-     * previous_attributes.receivables.anyOf[2] (Value): null. previous_attributes.segment
-     * (Optional): string or null or null. Free-form label you assign, such as wholesale, so
-     * promotion and delivery rules can match groups of customers. It is not an ID; Flint does not
-     * check it against any resource. `null` when none is set. Not returned to customer sessions.
-     * previous_attributes.segment.anyOf[1] (Value): string or null. Free-form label you assign,
-     * such as wholesale, so promotion and delivery rules can match groups of customers. It is not
-     * an ID; Flint does not check it against any resource. `null` when none is set. Not returned
-     * to customer sessions. previous_attributes.segment.anyOf[2] (Value): null.
-     * previous_attributes.shipping_address (Optional): {@link Address} or null or null. The
-     * customer's default shipping address: a copy of the address of the saved address marked
-     * is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses.
-     * Checkout prefills it. `null` when no saved address is the shipping default.
-     * previous_attributes.shipping_address.anyOf[1] (Value): {@link Address} or null. The
-     * customer's default shipping address: a copy of the address of the saved address marked
-     * is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses.
-     * Checkout prefills it. `null` when no saved address is the shipping default.
-     * previous_attributes.shipping_address.anyOf[1].anyOf[1] (Value): {@link Address}. A postal
-     * address. Every address has country. Addresses Flint checked as complete (customer and saved
-     * addresses, merchant, location, invoice, order delivery destination, tax identity,
-     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
-     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
-     * locations hold only what was provided, such as postal_code and country.
-     * previous_attributes.shipping_address.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.shipping_address.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Where the customer is in the deletion lifecycle. Value enum:
-     * "active", "deletion_processing", "deleted". previous_attributes.status.anyOf[1] (Value):
-     * string. Where the customer is in the deletion lifecycle. Value enum: "active",
-     * "deletion_processing", "deleted". previous_attributes.status.anyOf[2] (Value): null.
-     * previous_attributes.tax_exempt (Optional): boolean or null. Whether Flint treats this
-     * customer as exempt from tax on their orders, so it skips tax calculation for them. Not
-     * returned to customer sessions. previous_attributes.tax_exempt.anyOf[1] (Value): boolean.
-     * Whether Flint treats this customer as exempt from tax on their orders, so it skips tax
-     * calculation for them. Not returned to customer sessions.
-     * previous_attributes.tax_exempt.anyOf[2] (Value): null. previous_attributes.tax_identity
-     * (Optional): {@link TaxIdentity} or null or null. Legal name, registered address and tax IDs
-     * printed on this customer's invoices and credit notes. `null` when none is set. Always `null`
-     * for customer sessions. previous_attributes.tax_identity.anyOf[1] (Value): {@link
-     * TaxIdentity} or null. Legal name, registered address and tax IDs printed on this customer's
-     * invoices and credit notes. `null` when none is set. Always `null` for customer sessions.
-     * previous_attributes.tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}.
-     * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not
-     * verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
-     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
-     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
-     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
-     * an entry to remove it, or omit its ID to add one.
-     * previous_attributes.tax_identity.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.tax_identity.anyOf[2] (Value): null. previous_attributes.test_clock_id
-     * (Optional): string or null. ID of the test clock the customer was created on. The customer
-     * and its subscriptions read the clock's `frozen_at` as the current time. Present only for
-     * customers created on a test clock. Not returned to customer sessions.
-     * previous_attributes.test_clock_id.anyOf[1] (Value): string. ID of the test clock the
-     * customer was created on. The customer and its subscriptions read the clock's `frozen_at` as
-     * the current time. Present only for customers created on a test clock. Not returned to
-     * customer sessions. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-     * previous_attributes.test_clock_id.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Current version of this resource's owned state. Send it as
-     * `expected_version` when changing the resource to reject a stale write.
-     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
-     * owned state. Send it as `expected_version` when changing the resource to reject a stale
-     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * billing_address (Required): {@link Address} or null. The customer's default billing
-         * address: a copy of the address of the saved address marked is_default_billing.
-         * Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders
-         * with no other tax location at this address. `null` when no saved address is the billing
-         * default. billing_address.anyOf[1] (Value): {@link Address}. A postal address. Every
-         * address has country. Addresses Flint checked as complete (customer and saved addresses,
-         * merchant, location, invoice, order delivery destination, tax identity, fulfillment
-         * recipient and pickup addresses) always have line1 and city, and US ones always have
-         * state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
-         * locations hold only what was provided, such as postal_code and country.
-         * billing_address.anyOf[2] (Value): null. created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id (Required):
-         * string. Unique identifier for this customer, prefixed `cus_`. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". default_invoice_payment_term_id (Optional): string. ID
-         * of the invoice payment term that applies to this customer's invoices created with
-         * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
-         * "ipt_01KEZF7C0064N1V301BBMQ37R4". default_payment_method (Optional): {@link
-         * ExpandedPaymentMethodSummary} or null. Present only when `expand` includes
-         * `default_payment_method`; `null` when expanded and there is no related payment method.
-         * default_payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
-         * method's summary fields, including type, status, and card details, returned when the
-         * payment method is expanded. default_payment_method.anyOf[2] (Value): null.
-         * default_payment_method_id (Required): string or null. ID of the customer's default
-         * off-session payment method. `null` when none is set. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". email (Required): string or null. Customer email.
-         * `null` when the customer has none. Unique among the environment's customers.
-         * external_reference_id (Required): string or null. Caller-owned identifier for this
-         * customer in an external system. `null` when none is set. Not returned to customer
-         * sessions. minLength: 1. maxLength: 255. Example: "warehouse-1842". internal_note
-         * (Required): string or null. Internal note about this customer. `null` when none is set.
-         * Not returned to customer sessions. is_merchant_verified (Optional): boolean. Flag you
-         * set on the customer, for example after checking ID in store. Promotion and delivery
-         * rules can match it. Flint does not set it; it is unrelated to customer verifications,
-         * which prove a buyer controls an email address. merchant_id (Required): string. ID of the
-         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata
-         * (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput`
-         * for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys
-         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. name (Required): string or null. Customer name. `null` when none is set.
-         * phone (Required): string or null. Customer phone number. `null` when none is set.
-         * price_list_id (Required): string or null. ID of the customer's direct wholesale price
-         * list. `null` when none is set. An inactive list can be assigned but does not apply. Not
-         * returned to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". receivables (Optional): {@link CustomerReceivables}.
-         * What this customer owes you on invoices: the outstanding and overdue amounts, one
-         * balance per currency. Present only when `expand` includes `receivables`. A customer's
-         * receivable balances by currency and when they were observed. segment (Required): string
-         * or null. Free-form label you assign, such as wholesale, so promotion and delivery rules
-         * can match groups of customers. It is not an ID; Flint does not check it against any
-         * resource. `null` when none is set. Not returned to customer sessions. shipping_address
-         * (Required): {@link Address} or null. The customer's default shipping address: a copy of
-         * the address of the saved address marked is_default_shipping. Read-only; change it
-         * through /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no
-         * saved address is the shipping default. shipping_address.anyOf[1] (Value): {@link
-         * Address}. A postal address. Every address has country. Addresses Flint checked as
-         * complete (customer and saved addresses, merchant, location, invoice, order delivery
-         * destination, tax identity, fulfillment recipient and pickup addresses) always have line1
-         * and city, and US ones always have state and postal_code. Delivery quote destinations,
-         * buyer locations and postal-code tax locations hold only what was provided, such as
-         * postal_code and country. shipping_address.anyOf[2] (Value): null. status (Required):
-         * string. Where the customer is in the deletion lifecycle. Value enum: "active",
-         * "deletion_processing", "deleted". tax_exempt (Optional): boolean. Whether Flint treats
-         * this customer as exempt from tax on their orders, so it skips tax calculation for them.
-         * Not returned to customer sessions. tax_identity (Required): {@link TaxIdentity} or null.
-         * Legal name, registered address and tax IDs printed on this customer's invoices and
-         * credit notes. `null` when none is set. Always `null` for customer sessions.
-         * tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity
-         * displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-         * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-         * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-         * owned collection in display order; replacing the array requires the parent's
-         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
-         * it, or omit its ID to add one. tax_identity.anyOf[2] (Value): null. test_clock_id
-         * (Optional): string. ID of the test clock the customer was created on. The customer and
-         * its subscriptions read the clock's `frozen_at` as the current time. Present only for
-         * customers created on a test clock. Not returned to customer sessions. Example:
-         * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". updated_at (Required): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer. Current
-         * version of this resource's owned state. Send it as `expected_version` when changing the
-         * resource to reject a stale write. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * The customer's default billing address: a copy of the address of the saved address
-             * marked is_default_billing. Read-only; change it through
-             * /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location
-             * at this address. `null` when no saved address is the billing default. anyOf[1]
-             * (Value): {@link Address}. A postal address. Every address has country. Addresses
-             * Flint checked as complete (customer and saved addresses, merchant, location,
-             * invoice, order delivery destination, tax identity, fulfillment recipient and pickup
-             * addresses) always have line1 and city, and US ones always have state and
-             * postal_code. Delivery quote destinations, buyer locations and postal-code tax
-             * locations hold only what was provided, such as postal_code and country. anyOf[2]
-             * (Value): null.
-             */
-            "billing_address": ((Address) | (null));
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Unique identifier for this customer, prefixed `cus_`. Example:
-             * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             */
-            "customer_id": string;
-            /**
-             * ID of the invoice payment term that applies to this customer's invoices created with
-             * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
-             * "ipt_01KEZF7C0064N1V301BBMQ37R4".
-             */
-            "default_invoice_payment_term_id"?: string;
-            /**
-             * Present only when `expand` includes `default_payment_method`; `null` when expanded
-             * and there is no related payment method. anyOf[1] (Value): {@link
-             * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type,
-             * status, and card details, returned when the payment method is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "default_payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            /**
-             * ID of the customer's default off-session payment method. `null` when none is set.
-             * Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-             */
-            "default_payment_method_id": string | null;
-            /**
-             * Customer email. `null` when the customer has none. Unique among the environment's
-             * customers.
-             */
-            "email": string | null;
-            /**
-             * Caller-owned identifier for this customer in an external system. `null` when none is
-             * set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
-             * "warehouse-1842".
-             */
-            "external_reference_id": string | null;
-            /**
-             * Internal note about this customer. `null` when none is set. Not returned to customer
-             * sessions.
-             */
-            "internal_note": string | null;
-            /**
-             * Flag you set on the customer, for example after checking ID in store. Promotion and
-             * delivery rules can match it. Flint does not set it; it is unrelated to customer
-             * verifications, which prove a buyer controls an email address.
-             */
-            "is_merchant_verified"?: boolean;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-             * are reserved for Flint and are not returned. Writes follow the limits on
-             * MetadataInput and MetadataPatchInput; maps written before those limits may not
-             * satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /** Customer name. `null` when none is set. */
-            "name": string | null;
-            /** Customer phone number. `null` when none is set. */
-            "phone": string | null;
-            /**
-             * ID of the customer's direct wholesale price list. `null` when none is set. An
-             * inactive list can be assigned but does not apply. Not returned to customer sessions.
-             * pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
-             */
-            "price_list_id": string | null;
-            /**
-             * What this customer owes you on invoices: the outstanding and overdue amounts, one
-             * balance per currency. Present only when `expand` includes `receivables`. A
-             * customer's receivable balances by currency and when they were observed.
-             */
-            "receivables"?: CustomerReceivables;
-            /**
-             * Free-form label you assign, such as wholesale, so promotion and delivery rules can
-             * match groups of customers. It is not an ID; Flint does not check it against any
-             * resource. `null` when none is set. Not returned to customer sessions.
-             */
-            "segment": string | null;
-            /**
-             * The customer's default shipping address: a copy of the address of the saved address
-             * marked is_default_shipping. Read-only; change it through
-             * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved
-             * address is the shipping default. anyOf[1] (Value): {@link Address}. A postal
-             * address. Every address has country. Addresses Flint checked as complete (customer
-             * and saved addresses, merchant, location, invoice, order delivery destination, tax
-             * identity, fulfillment recipient and pickup addresses) always have line1 and city,
-             * and US ones always have state and postal_code. Delivery quote destinations, buyer
-             * locations and postal-code tax locations hold only what was provided, such as
-             * postal_code and country. anyOf[2] (Value): null.
-             */
-            "shipping_address": ((Address) | (null));
-            /**
-             * Where the customer is in the deletion lifecycle. Value enum: "active",
-             * "deletion_processing", "deleted".
-             */
-            "status": "active" | "deletion_processing" | "deleted" | (string & {});
-            /**
-             * Whether Flint treats this customer as exempt from tax on their orders, so it skips
-             * tax calculation for them. Not returned to customer sessions.
-             */
-            "tax_exempt"?: boolean;
-            /**
-             * Legal name, registered address and tax IDs printed on this customer's invoices and
-             * credit notes. `null` when none is set. Always `null` for customer sessions. anyOf[1]
-             * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices
-             * and credit notes. Flint does not verify IDs. On a customer, automatic tax sends the
-             * tax ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a
-             * reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
-             * collection in display order; replacing the array requires the parent's
-             * expected_version. Existing entries retain their document_tax_id; omit an entry to
-             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
-             */
-            "tax_identity": ((TaxIdentity) | (null));
-            /**
-             * ID of the test clock the customer was created on. The customer and its subscriptions
-             * read the clock's `frozen_at` as the current time. Present only for customers created
-             * on a test clock. Not returned to customer sessions. Example:
-             * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-             */
-            "test_clock_id"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. billing_address (Optional): {@link Address} or
-         * null or null. The customer's default billing address: a copy of the address of the saved
-         * address marked is_default_billing. Read-only; change it through
-         * /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location at
-         * this address. `null` when no saved address is the billing default.
-         * billing_address.anyOf[1] (Value): {@link Address} or null. The customer's default
-         * billing address: a copy of the address of the saved address marked is_default_billing.
-         * Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders
-         * with no other tax location at this address. `null` when no saved address is the billing
-         * default. billing_address.anyOf[1].anyOf[1] (Value): {@link Address}. A postal address.
-         * Every address has country. Addresses Flint checked as complete (customer and saved
-         * addresses, merchant, location, invoice, order delivery destination, tax identity,
-         * fulfillment recipient and pickup addresses) always have line1 and city, and US ones
-         * always have state and postal_code. Delivery quote destinations, buyer locations and
-         * postal-code tax locations hold only what was provided, such as postal_code and country.
-         * billing_address.anyOf[1].anyOf[2] (Value): null. billing_address.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null. Unique
-         * identifier for this customer, prefixed `cus_`. customer_id.anyOf[1] (Value): string.
-         * Unique identifier for this customer, prefixed `cus_`. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
-         * default_invoice_payment_term_id (Optional): string or null. ID of the invoice payment
-         * term that applies to this customer's invoices created with `payment_due.type` set to
-         * `customer_default`. Absent when none is set. default_invoice_payment_term_id.anyOf[1]
-         * (Value): string. ID of the invoice payment term that applies to this customer's invoices
-         * created with `payment_due.type` set to `customer_default`. Absent when none is set.
-         * Example: "ipt_01KEZF7C0064N1V301BBMQ37R4". default_invoice_payment_term_id.anyOf[2]
-         * (Value): null. default_payment_method (Optional): {@link ExpandedPaymentMethodSummary}
-         * or null or null. Present only when `expand` includes `default_payment_method`; `null`
-         * when expanded and there is no related payment method. default_payment_method.anyOf[1]
-         * (Value): {@link ExpandedPaymentMethodSummary} or null. Present only when `expand`
-         * includes `default_payment_method`; `null` when expanded and there is no related payment
-         * method. default_payment_method.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type,
-         * status, and card details, returned when the payment method is expanded.
-         * default_payment_method.anyOf[1].anyOf[2] (Value): null. default_payment_method.anyOf[2]
-         * (Value): null. default_payment_method_id (Optional): string or null or null. ID of the
-         * customer's default off-session payment method. `null` when none is set.
-         * default_payment_method_id.anyOf[1] (Value): string or null. ID of the customer's default
-         * off-session payment method. `null` when none is set. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". default_payment_method_id.anyOf[2] (Value): null. email
-         * (Optional): string or null or null. Customer email. `null` when the customer has none.
-         * Unique among the environment's customers. email.anyOf[1] (Value): string or null.
-         * Customer email. `null` when the customer has none. Unique among the environment's
-         * customers. email.anyOf[2] (Value): null. external_reference_id (Optional): string or
-         * null or null. Caller-owned identifier for this customer in an external system. `null`
-         * when none is set. Not returned to customer sessions. external_reference_id.anyOf[1]
-         * (Value): string or null. Caller-owned identifier for this customer in an external
-         * system. `null` when none is set. Not returned to customer sessions. minLength: 1.
-         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
-         * internal_note (Optional): string or null or null. Internal note about this customer.
-         * `null` when none is set. Not returned to customer sessions. internal_note.anyOf[1]
-         * (Value): string or null. Internal note about this customer. `null` when none is set. Not
-         * returned to customer sessions. internal_note.anyOf[2] (Value): null.
-         * is_merchant_verified (Optional): boolean or null. Flag you set on the customer, for
-         * example after checking ID in store. Promotion and delivery rules can match it. Flint
-         * does not set it; it is unrelated to customer verifications, which prove a buyer controls
-         * an email address. is_merchant_verified.anyOf[1] (Value): boolean. Flag you set on the
-         * customer, for example after checking ID in store. Promotion and delivery rules can match
-         * it. Flint does not set it; it is unrelated to customer verifications, which prove a
-         * buyer controls an email address. is_merchant_verified.anyOf[2] (Value): null.
-         * merchant_id (Optional): string or null. ID of the merchant this resource belongs to.
-         * merchant_id.anyOf[1] (Value): string. ID of the merchant this resource belongs to.
-         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
-         * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
-         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
-         * and size rules. metadata.anyOf[2] (Value): null. name (Optional): string or null or
-         * null. Customer name. `null` when none is set. name.anyOf[1] (Value): string or null.
-         * Customer name. `null` when none is set. name.anyOf[2] (Value): null. phone (Optional):
-         * string or null or null. Customer phone number. `null` when none is set. phone.anyOf[1]
-         * (Value): string or null. Customer phone number. `null` when none is set. phone.anyOf[2]
-         * (Value): null. price_list_id (Optional): string or null or null. ID of the customer's
-         * direct wholesale price list. `null` when none is set. An inactive list can be assigned
-         * but does not apply. Not returned to customer sessions. price_list_id.anyOf[1] (Value):
-         * string or null. ID of the customer's direct wholesale price list. `null` when none is
-         * set. An inactive list can be assigned but does not apply. Not returned to customer
-         * sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". price_list_id.anyOf[2] (Value): null. receivables
-         * (Optional): {@link CustomerReceivables} or null. What this customer owes you on
-         * invoices: the outstanding and overdue amounts, one balance per currency. Present only
-         * when `expand` includes `receivables`. receivables.anyOf[1] (Value): {@link
-         * CustomerReceivables}. What this customer owes you on invoices: the outstanding and
-         * overdue amounts, one balance per currency. Present only when `expand` includes
-         * `receivables`. receivables.anyOf[2] (Value): null. segment (Optional): string or null or
-         * null. Free-form label you assign, such as wholesale, so promotion and delivery rules can
-         * match groups of customers. It is not an ID; Flint does not check it against any
-         * resource. `null` when none is set. Not returned to customer sessions. segment.anyOf[1]
-         * (Value): string or null. Free-form label you assign, such as wholesale, so promotion and
-         * delivery rules can match groups of customers. It is not an ID; Flint does not check it
-         * against any resource. `null` when none is set. Not returned to customer sessions.
-         * segment.anyOf[2] (Value): null. shipping_address (Optional): {@link Address} or null or
-         * null. The customer's default shipping address: a copy of the address of the saved
-         * address marked is_default_shipping. Read-only; change it through
-         * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved
-         * address is the shipping default. shipping_address.anyOf[1] (Value): {@link Address} or
-         * null. The customer's default shipping address: a copy of the address of the saved
-         * address marked is_default_shipping. Read-only; change it through
-         * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved
-         * address is the shipping default. shipping_address.anyOf[1].anyOf[1] (Value): {@link
-         * Address}. A postal address. Every address has country. Addresses Flint checked as
-         * complete (customer and saved addresses, merchant, location, invoice, order delivery
-         * destination, tax identity, fulfillment recipient and pickup addresses) always have line1
-         * and city, and US ones always have state and postal_code. Delivery quote destinations,
-         * buyer locations and postal-code tax locations hold only what was provided, such as
-         * postal_code and country. shipping_address.anyOf[1].anyOf[2] (Value): null.
-         * shipping_address.anyOf[2] (Value): null. status (Optional): string or null. Where the
-         * customer is in the deletion lifecycle. Value enum: "active", "deletion_processing",
-         * "deleted". status.anyOf[1] (Value): string. Where the customer is in the deletion
-         * lifecycle. Value enum: "active", "deletion_processing", "deleted". status.anyOf[2]
-         * (Value): null. tax_exempt (Optional): boolean or null. Whether Flint treats this
-         * customer as exempt from tax on their orders, so it skips tax calculation for them. Not
-         * returned to customer sessions. tax_exempt.anyOf[1] (Value): boolean. Whether Flint
-         * treats this customer as exempt from tax on their orders, so it skips tax calculation for
-         * them. Not returned to customer sessions. tax_exempt.anyOf[2] (Value): null. tax_identity
-         * (Optional): {@link TaxIdentity} or null or null. Legal name, registered address and tax
-         * IDs printed on this customer's invoices and credit notes. `null` when none is set.
-         * Always `null` for customer sessions. tax_identity.anyOf[1] (Value): {@link TaxIdentity}
-         * or null. Legal name, registered address and tax IDs printed on this customer's invoices
-         * and credit notes. `null` when none is set. Always `null` for customer sessions.
-         * tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-         * identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-         * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax
-         * provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax
-         * IDs are an owned collection in display order; replacing the array requires the parent's
-         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
-         * it, or omit its ID to add one. tax_identity.anyOf[1].anyOf[2] (Value): null.
-         * tax_identity.anyOf[2] (Value): null. test_clock_id (Optional): string or null. ID of the
-         * test clock the customer was created on. The customer and its subscriptions read the
-         * clock's `frozen_at` as the current time. Present only for customers created on a test
-         * clock. Not returned to customer sessions. test_clock_id.anyOf[1] (Value): string. ID of
-         * the test clock the customer was created on. The customer and its subscriptions read the
-         * clock's `frozen_at` as the current time. Present only for customers created on a test
-         * clock. Not returned to customer sessions. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-         * test_clock_id.anyOf[2] (Value): null. updated_at (Optional): string or null. RFC3339
-         * timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
-         * integer or null. Current version of this resource's owned state. Send it as
-         * `expected_version` when changing the resource to reject a stale write. version.anyOf[1]
-         * (Value): integer. Current version of this resource's owned state. Send it as
-         * `expected_version` when changing the resource to reject a stale write. Format: uint64.
-         * minimum: 1. version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * The customer's default billing address: a copy of the address of the saved address
-             * marked is_default_billing. Read-only; change it through
-             * /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location
-             * at this address. `null` when no saved address is the billing default. anyOf[1]
-             * (Value): {@link Address} or null. The customer's default billing address: a copy of
-             * the address of the saved address marked is_default_billing. Read-only; change it
-             * through /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax
-             * location at this address. `null` when no saved address is the billing default.
-             * anyOf[1].anyOf[1] (Value): {@link Address}. A postal address. Every address has
-             * country. Addresses Flint checked as complete (customer and saved addresses,
-             * merchant, location, invoice, order delivery destination, tax identity, fulfillment
-             * recipient and pickup addresses) always have line1 and city, and US ones always have
-             * state and postal_code. Delivery quote destinations, buyer locations and postal-code
-             * tax locations hold only what was provided, such as postal_code and country.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "billing_address"?: ((((Address) | (null))) | (null) | (unknown));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Unique identifier for this customer, prefixed `cus_`. anyOf[1] (Value): string.
-             * Unique identifier for this customer, prefixed `cus_`. Example:
-             * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
-             */
-            "customer_id"?: ((string) | (null));
-            /**
-             * ID of the invoice payment term that applies to this customer's invoices created with
-             * `payment_due.type` set to `customer_default`. Absent when none is set. anyOf[1]
-             * (Value): string. ID of the invoice payment term that applies to this customer's
-             * invoices created with `payment_due.type` set to `customer_default`. Absent when none
-             * is set. Example: "ipt_01KEZF7C0064N1V301BBMQ37R4". anyOf[2] (Value): null.
-             */
-            "default_invoice_payment_term_id"?: ((string) | (null));
-            /**
-             * Present only when `expand` includes `default_payment_method`; `null` when expanded
-             * and there is no related payment method. anyOf[1] (Value): {@link
-             * ExpandedPaymentMethodSummary} or null. Present only when `expand` includes
-             * `default_payment_method`; `null` when expanded and there is no related payment
-             * method. anyOf[1].anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
-             * method's summary fields, including type, status, and card details, returned when the
-             * payment method is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "default_payment_method"?: ((((ExpandedPaymentMethodSummary) | (null))) | (null) | (unknown));
-            /**
-             * ID of the customer's default off-session payment method. `null` when none is set.
-             * anyOf[1] (Value): string or null. ID of the customer's default off-session payment
-             * method. `null` when none is set. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2]
-             * (Value): null.
-             */
-            "default_payment_method_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * Customer email. `null` when the customer has none. Unique among the environment's
-             * customers. anyOf[1] (Value): string or null. Customer email. `null` when the
-             * customer has none. Unique among the environment's customers. anyOf[2] (Value): null.
-             */
-            "email"?: ((string | null) | (null) | (unknown));
-            /**
-             * Caller-owned identifier for this customer in an external system. `null` when none is
-             * set. Not returned to customer sessions. anyOf[1] (Value): string or null.
-             * Caller-owned identifier for this customer in an external system. `null` when none is
-             * set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
-             * "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * Internal note about this customer. `null` when none is set. Not returned to customer
-             * sessions. anyOf[1] (Value): string or null. Internal note about this customer.
-             * `null` when none is set. Not returned to customer sessions. anyOf[2] (Value): null.
-             */
-            "internal_note"?: ((string | null) | (null) | (unknown));
-            /**
-             * Flag you set on the customer, for example after checking ID in store. Promotion and
-             * delivery rules can match it. Flint does not set it; it is unrelated to customer
-             * verifications, which prove a buyer controls an email address. anyOf[1] (Value):
-             * boolean. Flag you set on the customer, for example after checking ID in store.
-             * Promotion and delivery rules can match it. Flint does not set it; it is unrelated to
-             * customer verifications, which prove a buyer controls an email address. anyOf[2]
-             * (Value): null.
-             */
-            "is_merchant_verified"?: ((boolean) | (null));
-            /**
-             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
-             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             * anyOf[2] (Value): null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
-             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
-             */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * Customer name. `null` when none is set. anyOf[1] (Value): string or null. Customer
-             * name. `null` when none is set. anyOf[2] (Value): null.
-             */
-            "name"?: ((string | null) | (null) | (unknown));
-            /**
-             * Customer phone number. `null` when none is set. anyOf[1] (Value): string or null.
-             * Customer phone number. `null` when none is set. anyOf[2] (Value): null.
-             */
-            "phone"?: ((string | null) | (null) | (unknown));
-            /**
-             * ID of the customer's direct wholesale price list. `null` when none is set. An
-             * inactive list can be assigned but does not apply. Not returned to customer sessions.
-             * anyOf[1] (Value): string or null. ID of the customer's direct wholesale price list.
-             * `null` when none is set. An inactive list can be assigned but does not apply. Not
-             * returned to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-             * "prl_01KEZF7C00EH39P59GN3XMGS2Q". anyOf[2] (Value): null.
-             */
-            "price_list_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * What this customer owes you on invoices: the outstanding and overdue amounts, one
-             * balance per currency. Present only when `expand` includes `receivables`. anyOf[1]
-             * (Value): {@link CustomerReceivables}. What this customer owes you on invoices: the
-             * outstanding and overdue amounts, one balance per currency. Present only when
-             * `expand` includes `receivables`. anyOf[2] (Value): null.
-             */
-            "receivables"?: ((CustomerReceivables) | (null));
-            /**
-             * Free-form label you assign, such as wholesale, so promotion and delivery rules can
-             * match groups of customers. It is not an ID; Flint does not check it against any
-             * resource. `null` when none is set. Not returned to customer sessions. anyOf[1]
-             * (Value): string or null. Free-form label you assign, such as wholesale, so promotion
-             * and delivery rules can match groups of customers. It is not an ID; Flint does not
-             * check it against any resource. `null` when none is set. Not returned to customer
-             * sessions. anyOf[2] (Value): null.
-             */
-            "segment"?: ((string | null) | (null) | (unknown));
-            /**
-             * The customer's default shipping address: a copy of the address of the saved address
-             * marked is_default_shipping. Read-only; change it through
-             * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved
-             * address is the shipping default. anyOf[1] (Value): {@link Address} or null. The
-             * customer's default shipping address: a copy of the address of the saved address
-             * marked is_default_shipping. Read-only; change it through
-             * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved
-             * address is the shipping default. anyOf[1].anyOf[1] (Value): {@link Address}. A
-             * postal address. Every address has country. Addresses Flint checked as complete
-             * (customer and saved addresses, merchant, location, invoice, order delivery
-             * destination, tax identity, fulfillment recipient and pickup addresses) always have
-             * line1 and city, and US ones always have state and postal_code. Delivery quote
-             * destinations, buyer locations and postal-code tax locations hold only what was
-             * provided, such as postal_code and country. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
-             */
-            "shipping_address"?: ((((Address) | (null))) | (null) | (unknown));
-            /**
-             * Where the customer is in the deletion lifecycle. Value enum: "active",
-             * "deletion_processing", "deleted". anyOf[1] (Value): string. Where the customer is in
-             * the deletion lifecycle. Value enum: "active", "deletion_processing", "deleted".
-             * anyOf[2] (Value): null.
-             */
-            "status"?: (("active" | "deletion_processing" | "deleted" | (string & {})) | (null));
-            /**
-             * Whether Flint treats this customer as exempt from tax on their orders, so it skips
-             * tax calculation for them. Not returned to customer sessions. anyOf[1] (Value):
-             * boolean. Whether Flint treats this customer as exempt from tax on their orders, so
-             * it skips tax calculation for them. Not returned to customer sessions. anyOf[2]
-             * (Value): null.
-             */
-            "tax_exempt"?: ((boolean) | (null));
-            /**
-             * Legal name, registered address and tax IDs printed on this customer's invoices and
-             * credit notes. `null` when none is set. Always `null` for customer sessions. anyOf[1]
-             * (Value): {@link TaxIdentity} or null. Legal name, registered address and tax IDs
-             * printed on this customer's invoices and credit notes. `null` when none is set.
-             * Always `null` for customer sessions. anyOf[1].anyOf[1] (Value): {@link TaxIdentity}.
-             * Merchant-provided legal identity displayed on invoices and credit notes. Flint does
-             * not verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or
-             * NZ destination to its tax provider, which can apply a reverse charge; other IDs do
-             * not change tax treatment. Tax IDs are an owned collection in display order;
-             * replacing the array requires the parent's expected_version. Existing entries retain
-             * their document_tax_id; omit an entry to remove it, or omit its ID to add one.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            /**
-             * ID of the test clock the customer was created on. The customer and its subscriptions
-             * read the clock's `frozen_at` as the current time. Present only for customers created
-             * on a test clock. Not returned to customer sessions. anyOf[1] (Value): string. ID of
-             * the test clock the customer was created on. The customer and its subscriptions read
-             * the clock's `frozen_at` as the current time. Present only for customers created on a
-             * test clock. Not returned to customer sessions. Example:
-             * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". anyOf[2] (Value): null.
-             */
-            "test_clock_id"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
-             * version of this resource's owned state. Send it as `expected_version` when changing
-             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
-             * null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "customer.updated". */
-    "event_type"?: "customer.updated";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `customer.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.billing_address (Required): {@link Address} or null. The
-     * customer's default billing address: a copy of the address of the saved address marked
-     * is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses.
-     * Flint taxes orders with no other tax location at this address. `null` when no saved address
-     * is the billing default. object.billing_address.anyOf[1] (Value): {@link Address}. A postal
-     * address. Every address has country. Addresses Flint checked as complete (customer and saved
-     * addresses, merchant, location, invoice, order delivery destination, tax identity,
-     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
-     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
-     * locations hold only what was provided, such as postal_code and country.
-     * object.billing_address.anyOf[2] (Value): null. object.created_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.customer_id
-     * (Required): string. Unique identifier for this customer, prefixed `cus_`. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.default_invoice_payment_term_id (Optional): string.
-     * ID of the invoice payment term that applies to this customer's invoices created with
-     * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
-     * "ipt_01KEZF7C0064N1V301BBMQ37R4". object.default_payment_method (Optional): {@link
-     * ExpandedPaymentMethodSummary} or null. Present only when `expand` includes
-     * `default_payment_method`; `null` when expanded and there is no related payment method.
-     * object.default_payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A
-     * payment method's summary fields, including type, status, and card details, returned when the
-     * payment method is expanded. object.default_payment_method.anyOf[2] (Value): null.
-     * object.default_payment_method_id (Required): string or null. ID of the customer's default
-     * off-session payment method. `null` when none is set. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.email (Required): string or null. Customer email.
-     * `null` when the customer has none. Unique among the environment's customers.
-     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
-     * customer in an external system. `null` when none is set. Not returned to customer sessions.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842". object.internal_note (Required):
-     * string or null. Internal note about this customer. `null` when none is set. Not returned to
-     * customer sessions. object.is_merchant_verified (Optional): boolean. Flag you set on the
-     * customer, for example after checking ID in store. Promotion and delivery rules can match it.
-     * Flint does not set it; it is unrelated to customer verifications, which prove a buyer
-     * controls an email address. object.merchant_id (Required): string. ID of the merchant this
-     * resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional):
-     * {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
-     * and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-     * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them. object.name
-     * (Required): string or null. Customer name. `null` when none is set. object.phone (Required):
-     * string or null. Customer phone number. `null` when none is set. object.price_list_id
-     * (Required): string or null. ID of the customer's direct wholesale price list. `null` when
-     * none is set. An inactive list can be assigned but does not apply. Not returned to customer
-     * sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
-     * object.receivables (Optional): {@link CustomerReceivables}. What this customer owes you on
-     * invoices: the outstanding and overdue amounts, one balance per currency. Present only when
-     * `expand` includes `receivables`. A customer's receivable balances by currency and when they
-     * were observed. object.segment (Required): string or null. Free-form label you assign, such
-     * as wholesale, so promotion and delivery rules can match groups of customers. It is not an
-     * ID; Flint does not check it against any resource. `null` when none is set. Not returned to
-     * customer sessions. object.shipping_address (Required): {@link Address} or null. The
-     * customer's default shipping address: a copy of the address of the saved address marked
-     * is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses.
-     * Checkout prefills it. `null` when no saved address is the shipping default.
-     * object.shipping_address.anyOf[1] (Value): {@link Address}. A postal address. Every address
-     * has country. Addresses Flint checked as complete (customer and saved addresses, merchant,
-     * location, invoice, order delivery destination, tax identity, fulfillment recipient and
-     * pickup addresses) always have line1 and city, and US ones always have state and postal_code.
-     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
-     * was provided, such as postal_code and country. object.shipping_address.anyOf[2] (Value):
-     * null. object.status (Required): string. Where the customer is in the deletion lifecycle.
-     * Value enum: "active", "deletion_processing", "deleted". object.tax_exempt (Optional):
-     * boolean. Whether Flint treats this customer as exempt from tax on their orders, so it skips
-     * tax calculation for them. Not returned to customer sessions. object.tax_identity (Required):
-     * {@link TaxIdentity} or null. Legal name, registered address and tax IDs printed on this
-     * customer's invoices and credit notes. `null` when none is set. Always `null` for customer
-     * sessions. object.tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. object.tax_identity.anyOf[2] (Value): null. object.test_clock_id
-     * (Optional): string. ID of the test clock the customer was created on. The customer and its
-     * subscriptions read the clock's `frozen_at` as the current time. Present only for customers
-     * created on a test clock. Not returned to customer sessions. Example:
-     * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". object.updated_at (Required): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer.
-     * Current version of this resource's owned state. Send it as `expected_version` when changing
-     * the resource to reject a stale write. Format: uint64. minimum: 1. previous_attributes
-     * (Optional): object. Previous values of changed top-level fields in data.object, at this
-     * delivery's API version. Nested changes include the whole previous top-level value. A value
-     * is null when the field was absent before the change. Omitted when Flint did not record the
-     * previous state, including synthetic test events. previous_attributes.billing_address
-     * (Optional): {@link Address} or null or null. The customer's default billing address: a copy
-     * of the address of the saved address marked is_default_billing. Read-only; change it through
-     * /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location at this
-     * address. `null` when no saved address is the billing default.
-     * previous_attributes.billing_address.anyOf[1] (Value): {@link Address} or null. The
-     * customer's default billing address: a copy of the address of the saved address marked
-     * is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses.
-     * Flint taxes orders with no other tax location at this address. `null` when no saved address
-     * is the billing default. previous_attributes.billing_address.anyOf[1].anyOf[1] (Value):
-     * {@link Address}. A postal address. Every address has country. Addresses Flint checked as
-     * complete (customer and saved addresses, merchant, location, invoice, order delivery
-     * destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and
-     * city, and US ones always have state and postal_code. Delivery quote destinations, buyer
-     * locations and postal-code tax locations hold only what was provided, such as postal_code and
-     * country. previous_attributes.billing_address.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.billing_address.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer_id
-     * (Optional): string or null. Unique identifier for this customer, prefixed `cus_`.
-     * previous_attributes.customer_id.anyOf[1] (Value): string. Unique identifier for this
-     * customer, prefixed `cus_`. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.default_invoice_payment_term_id (Optional): string or null. ID of the
-     * invoice payment term that applies to this customer's invoices created with
-     * `payment_due.type` set to `customer_default`. Absent when none is set.
-     * previous_attributes.default_invoice_payment_term_id.anyOf[1] (Value): string. ID of the
-     * invoice payment term that applies to this customer's invoices created with
-     * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
-     * "ipt_01KEZF7C0064N1V301BBMQ37R4".
-     * previous_attributes.default_invoice_payment_term_id.anyOf[2] (Value): null.
-     * previous_attributes.default_payment_method (Optional): {@link ExpandedPaymentMethodSummary}
-     * or null or null. Present only when `expand` includes `default_payment_method`; `null` when
-     * expanded and there is no related payment method.
-     * previous_attributes.default_payment_method.anyOf[1] (Value): {@link
-     * ExpandedPaymentMethodSummary} or null. Present only when `expand` includes
-     * `default_payment_method`; `null` when expanded and there is no related payment method.
-     * previous_attributes.default_payment_method.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type, status,
-     * and card details, returned when the payment method is expanded.
-     * previous_attributes.default_payment_method.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.default_payment_method.anyOf[2] (Value): null.
-     * previous_attributes.default_payment_method_id (Optional): string or null or null. ID of the
-     * customer's default off-session payment method. `null` when none is set.
-     * previous_attributes.default_payment_method_id.anyOf[1] (Value): string or null. ID of the
-     * customer's default off-session payment method. `null` when none is set. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". previous_attributes.default_payment_method_id.anyOf[2]
-     * (Value): null. previous_attributes.email (Optional): string or null or null. Customer email.
-     * `null` when the customer has none. Unique among the environment's customers.
-     * previous_attributes.email.anyOf[1] (Value): string or null. Customer email. `null` when the
-     * customer has none. Unique among the environment's customers.
-     * previous_attributes.email.anyOf[2] (Value): null. previous_attributes.external_reference_id
-     * (Optional): string or null or null. Caller-owned identifier for this customer in an external
-     * system. `null` when none is set. Not returned to customer sessions.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-     * identifier for this customer in an external system. `null` when none is set. Not returned to
-     * customer sessions. minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.internal_note (Optional): string or null or null. Internal note about
-     * this customer. `null` when none is set. Not returned to customer sessions.
-     * previous_attributes.internal_note.anyOf[1] (Value): string or null. Internal note about this
-     * customer. `null` when none is set. Not returned to customer sessions.
-     * previous_attributes.internal_note.anyOf[2] (Value): null.
-     * previous_attributes.is_merchant_verified (Optional): boolean or null. Flag you set on the
-     * customer, for example after checking ID in store. Promotion and delivery rules can match it.
-     * Flint does not set it; it is unrelated to customer verifications, which prove a buyer
-     * controls an email address. previous_attributes.is_merchant_verified.anyOf[1] (Value):
-     * boolean. Flag you set on the customer, for example after checking ID in store. Promotion and
-     * delivery rules can match it. Flint does not set it; it is unrelated to customer
-     * verifications, which prove a buyer controls an email address.
-     * previous_attributes.is_merchant_verified.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
-     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
-     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
-     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
-     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
-     * (Value): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for
-     * key, value, and size rules. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.name (Optional): string or null or null. Customer name. `null` when none
-     * is set. previous_attributes.name.anyOf[1] (Value): string or null. Customer name. `null`
-     * when none is set. previous_attributes.name.anyOf[2] (Value): null. previous_attributes.phone
-     * (Optional): string or null or null. Customer phone number. `null` when none is set.
-     * previous_attributes.phone.anyOf[1] (Value): string or null. Customer phone number. `null`
-     * when none is set. previous_attributes.phone.anyOf[2] (Value): null.
-     * previous_attributes.price_list_id (Optional): string or null or null. ID of the customer's
-     * direct wholesale price list. `null` when none is set. An inactive list can be assigned but
-     * does not apply. Not returned to customer sessions.
-     * previous_attributes.price_list_id.anyOf[1] (Value): string or null. ID of the customer's
-     * direct wholesale price list. `null` when none is set. An inactive list can be assigned but
-     * does not apply. Not returned to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
-     * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". previous_attributes.price_list_id.anyOf[2]
-     * (Value): null. previous_attributes.receivables (Optional): {@link CustomerReceivables} or
-     * null. What this customer owes you on invoices: the outstanding and overdue amounts, one
-     * balance per currency. Present only when `expand` includes `receivables`.
-     * previous_attributes.receivables.anyOf[1] (Value): {@link CustomerReceivables}. What this
-     * customer owes you on invoices: the outstanding and overdue amounts, one balance per
-     * currency. Present only when `expand` includes `receivables`.
-     * previous_attributes.receivables.anyOf[2] (Value): null. previous_attributes.segment
-     * (Optional): string or null or null. Free-form label you assign, such as wholesale, so
-     * promotion and delivery rules can match groups of customers. It is not an ID; Flint does not
-     * check it against any resource. `null` when none is set. Not returned to customer sessions.
-     * previous_attributes.segment.anyOf[1] (Value): string or null. Free-form label you assign,
-     * such as wholesale, so promotion and delivery rules can match groups of customers. It is not
-     * an ID; Flint does not check it against any resource. `null` when none is set. Not returned
-     * to customer sessions. previous_attributes.segment.anyOf[2] (Value): null.
-     * previous_attributes.shipping_address (Optional): {@link Address} or null or null. The
-     * customer's default shipping address: a copy of the address of the saved address marked
-     * is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses.
-     * Checkout prefills it. `null` when no saved address is the shipping default.
-     * previous_attributes.shipping_address.anyOf[1] (Value): {@link Address} or null. The
-     * customer's default shipping address: a copy of the address of the saved address marked
-     * is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses.
-     * Checkout prefills it. `null` when no saved address is the shipping default.
-     * previous_attributes.shipping_address.anyOf[1].anyOf[1] (Value): {@link Address}. A postal
-     * address. Every address has country. Addresses Flint checked as complete (customer and saved
-     * addresses, merchant, location, invoice, order delivery destination, tax identity,
-     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
-     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
-     * locations hold only what was provided, such as postal_code and country.
-     * previous_attributes.shipping_address.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.shipping_address.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Where the customer is in the deletion lifecycle. Value enum:
-     * "active", "deletion_processing", "deleted". previous_attributes.status.anyOf[1] (Value):
-     * string. Where the customer is in the deletion lifecycle. Value enum: "active",
-     * "deletion_processing", "deleted". previous_attributes.status.anyOf[2] (Value): null.
-     * previous_attributes.tax_exempt (Optional): boolean or null. Whether Flint treats this
-     * customer as exempt from tax on their orders, so it skips tax calculation for them. Not
-     * returned to customer sessions. previous_attributes.tax_exempt.anyOf[1] (Value): boolean.
-     * Whether Flint treats this customer as exempt from tax on their orders, so it skips tax
-     * calculation for them. Not returned to customer sessions.
-     * previous_attributes.tax_exempt.anyOf[2] (Value): null. previous_attributes.tax_identity
-     * (Optional): {@link TaxIdentity} or null or null. Legal name, registered address and tax IDs
-     * printed on this customer's invoices and credit notes. `null` when none is set. Always `null`
-     * for customer sessions. previous_attributes.tax_identity.anyOf[1] (Value): {@link
-     * TaxIdentity} or null. Legal name, registered address and tax IDs printed on this customer's
-     * invoices and credit notes. `null` when none is set. Always `null` for customer sessions.
-     * previous_attributes.tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}.
-     * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not
-     * verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
-     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
-     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
-     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
-     * an entry to remove it, or omit its ID to add one.
-     * previous_attributes.tax_identity.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.tax_identity.anyOf[2] (Value): null. previous_attributes.test_clock_id
-     * (Optional): string or null. ID of the test clock the customer was created on. The customer
-     * and its subscriptions read the clock's `frozen_at` as the current time. Present only for
-     * customers created on a test clock. Not returned to customer sessions.
-     * previous_attributes.test_clock_id.anyOf[1] (Value): string. ID of the test clock the
-     * customer was created on. The customer and its subscriptions read the clock's `frozen_at` as
-     * the current time. Present only for customers created on a test clock. Not returned to
-     * customer sessions. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-     * previous_attributes.test_clock_id.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Current version of this resource's owned state. Send it as
-     * `expected_version` when changing the resource to reject a stale write.
-     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
-     * owned state. Send it as `expected_version` when changing the resource to reject a stale
-     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * billing_address (Required): {@link Address} or null. The customer's default billing
-         * address: a copy of the address of the saved address marked is_default_billing.
-         * Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders
-         * with no other tax location at this address. `null` when no saved address is the billing
-         * default. billing_address.anyOf[1] (Value): {@link Address}. A postal address. Every
-         * address has country. Addresses Flint checked as complete (customer and saved addresses,
-         * merchant, location, invoice, order delivery destination, tax identity, fulfillment
-         * recipient and pickup addresses) always have line1 and city, and US ones always have
-         * state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
-         * locations hold only what was provided, such as postal_code and country.
-         * billing_address.anyOf[2] (Value): null. created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id (Required):
-         * string. Unique identifier for this customer, prefixed `cus_`. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". default_invoice_payment_term_id (Optional): string. ID
-         * of the invoice payment term that applies to this customer's invoices created with
-         * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
-         * "ipt_01KEZF7C0064N1V301BBMQ37R4". default_payment_method (Optional): {@link
-         * ExpandedPaymentMethodSummary} or null. Present only when `expand` includes
-         * `default_payment_method`; `null` when expanded and there is no related payment method.
-         * default_payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
-         * method's summary fields, including type, status, and card details, returned when the
-         * payment method is expanded. default_payment_method.anyOf[2] (Value): null.
-         * default_payment_method_id (Required): string or null. ID of the customer's default
-         * off-session payment method. `null` when none is set. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". email (Required): string or null. Customer email.
-         * `null` when the customer has none. Unique among the environment's customers.
-         * external_reference_id (Required): string or null. Caller-owned identifier for this
-         * customer in an external system. `null` when none is set. Not returned to customer
-         * sessions. minLength: 1. maxLength: 255. Example: "warehouse-1842". internal_note
-         * (Required): string or null. Internal note about this customer. `null` when none is set.
-         * Not returned to customer sessions. is_merchant_verified (Optional): boolean. Flag you
-         * set on the customer, for example after checking ID in store. Promotion and delivery
-         * rules can match it. Flint does not set it; it is unrelated to customer verifications,
-         * which prove a buyer controls an email address. merchant_id (Required): string. ID of the
-         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata
-         * (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput`
-         * for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys
-         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. name (Required): string or null. Customer name. `null` when none is set.
-         * phone (Required): string or null. Customer phone number. `null` when none is set.
-         * price_list_id (Required): string or null. ID of the customer's direct wholesale price
-         * list. `null` when none is set. An inactive list can be assigned but does not apply. Not
-         * returned to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". receivables (Optional): {@link CustomerReceivables}.
-         * What this customer owes you on invoices: the outstanding and overdue amounts, one
-         * balance per currency. Present only when `expand` includes `receivables`. A customer's
-         * receivable balances by currency and when they were observed. segment (Required): string
-         * or null. Free-form label you assign, such as wholesale, so promotion and delivery rules
-         * can match groups of customers. It is not an ID; Flint does not check it against any
-         * resource. `null` when none is set. Not returned to customer sessions. shipping_address
-         * (Required): {@link Address} or null. The customer's default shipping address: a copy of
-         * the address of the saved address marked is_default_shipping. Read-only; change it
-         * through /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no
-         * saved address is the shipping default. shipping_address.anyOf[1] (Value): {@link
-         * Address}. A postal address. Every address has country. Addresses Flint checked as
-         * complete (customer and saved addresses, merchant, location, invoice, order delivery
-         * destination, tax identity, fulfillment recipient and pickup addresses) always have line1
-         * and city, and US ones always have state and postal_code. Delivery quote destinations,
-         * buyer locations and postal-code tax locations hold only what was provided, such as
-         * postal_code and country. shipping_address.anyOf[2] (Value): null. status (Required):
-         * string. Where the customer is in the deletion lifecycle. Value enum: "active",
-         * "deletion_processing", "deleted". tax_exempt (Optional): boolean. Whether Flint treats
-         * this customer as exempt from tax on their orders, so it skips tax calculation for them.
-         * Not returned to customer sessions. tax_identity (Required): {@link TaxIdentity} or null.
-         * Legal name, registered address and tax IDs printed on this customer's invoices and
-         * credit notes. `null` when none is set. Always `null` for customer sessions.
-         * tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity
-         * displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-         * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-         * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-         * owned collection in display order; replacing the array requires the parent's
-         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
-         * it, or omit its ID to add one. tax_identity.anyOf[2] (Value): null. test_clock_id
-         * (Optional): string. ID of the test clock the customer was created on. The customer and
-         * its subscriptions read the clock's `frozen_at` as the current time. Present only for
-         * customers created on a test clock. Not returned to customer sessions. Example:
-         * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". updated_at (Required): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer. Current
-         * version of this resource's owned state. Send it as `expected_version` when changing the
-         * resource to reject a stale write. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * The customer's default billing address: a copy of the address of the saved address
-             * marked is_default_billing. Read-only; change it through
-             * /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location
-             * at this address. `null` when no saved address is the billing default. anyOf[1]
-             * (Value): {@link Address}. A postal address. Every address has country. Addresses
-             * Flint checked as complete (customer and saved addresses, merchant, location,
-             * invoice, order delivery destination, tax identity, fulfillment recipient and pickup
-             * addresses) always have line1 and city, and US ones always have state and
-             * postal_code. Delivery quote destinations, buyer locations and postal-code tax
-             * locations hold only what was provided, such as postal_code and country. anyOf[2]
-             * (Value): null.
-             */
-            "billing_address": ((Address) | (null));
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Unique identifier for this customer, prefixed `cus_`. Example:
-             * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             */
-            "customer_id": string;
-            /**
-             * ID of the invoice payment term that applies to this customer's invoices created with
-             * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
-             * "ipt_01KEZF7C0064N1V301BBMQ37R4".
-             */
-            "default_invoice_payment_term_id"?: string;
-            /**
-             * Present only when `expand` includes `default_payment_method`; `null` when expanded
-             * and there is no related payment method. anyOf[1] (Value): {@link
-             * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type,
-             * status, and card details, returned when the payment method is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "default_payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            /**
-             * ID of the customer's default off-session payment method. `null` when none is set.
-             * Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-             */
-            "default_payment_method_id": string | null;
-            /**
-             * Customer email. `null` when the customer has none. Unique among the environment's
-             * customers.
-             */
-            "email": string | null;
-            /**
-             * Caller-owned identifier for this customer in an external system. `null` when none is
-             * set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
-             * "warehouse-1842".
-             */
-            "external_reference_id": string | null;
-            /**
-             * Internal note about this customer. `null` when none is set. Not returned to customer
-             * sessions.
-             */
-            "internal_note": string | null;
-            /**
-             * Flag you set on the customer, for example after checking ID in store. Promotion and
-             * delivery rules can match it. Flint does not set it; it is unrelated to customer
-             * verifications, which prove a buyer controls an email address.
-             */
-            "is_merchant_verified"?: boolean;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-             * are reserved for Flint and are not returned. Writes follow the limits on
-             * MetadataInput and MetadataPatchInput; maps written before those limits may not
-             * satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /** Customer name. `null` when none is set. */
-            "name": string | null;
-            /** Customer phone number. `null` when none is set. */
-            "phone": string | null;
-            /**
-             * ID of the customer's direct wholesale price list. `null` when none is set. An
-             * inactive list can be assigned but does not apply. Not returned to customer sessions.
-             * pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
-             */
-            "price_list_id": string | null;
-            /**
-             * What this customer owes you on invoices: the outstanding and overdue amounts, one
-             * balance per currency. Present only when `expand` includes `receivables`. A
-             * customer's receivable balances by currency and when they were observed.
-             */
-            "receivables"?: CustomerReceivables;
-            /**
-             * Free-form label you assign, such as wholesale, so promotion and delivery rules can
-             * match groups of customers. It is not an ID; Flint does not check it against any
-             * resource. `null` when none is set. Not returned to customer sessions.
-             */
-            "segment": string | null;
-            /**
-             * The customer's default shipping address: a copy of the address of the saved address
-             * marked is_default_shipping. Read-only; change it through
-             * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved
-             * address is the shipping default. anyOf[1] (Value): {@link Address}. A postal
-             * address. Every address has country. Addresses Flint checked as complete (customer
-             * and saved addresses, merchant, location, invoice, order delivery destination, tax
-             * identity, fulfillment recipient and pickup addresses) always have line1 and city,
-             * and US ones always have state and postal_code. Delivery quote destinations, buyer
-             * locations and postal-code tax locations hold only what was provided, such as
-             * postal_code and country. anyOf[2] (Value): null.
-             */
-            "shipping_address": ((Address) | (null));
-            /**
-             * Where the customer is in the deletion lifecycle. Value enum: "active",
-             * "deletion_processing", "deleted".
-             */
-            "status": "active" | "deletion_processing" | "deleted" | (string & {});
-            /**
-             * Whether Flint treats this customer as exempt from tax on their orders, so it skips
-             * tax calculation for them. Not returned to customer sessions.
-             */
-            "tax_exempt"?: boolean;
-            /**
-             * Legal name, registered address and tax IDs printed on this customer's invoices and
-             * credit notes. `null` when none is set. Always `null` for customer sessions. anyOf[1]
-             * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices
-             * and credit notes. Flint does not verify IDs. On a customer, automatic tax sends the
-             * tax ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a
-             * reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
-             * collection in display order; replacing the array requires the parent's
-             * expected_version. Existing entries retain their document_tax_id; omit an entry to
-             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
-             */
-            "tax_identity": ((TaxIdentity) | (null));
-            /**
-             * ID of the test clock the customer was created on. The customer and its subscriptions
-             * read the clock's `frozen_at` as the current time. Present only for customers created
-             * on a test clock. Not returned to customer sessions. Example:
-             * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-             */
-            "test_clock_id"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. billing_address (Optional): {@link Address} or
-         * null or null. The customer's default billing address: a copy of the address of the saved
-         * address marked is_default_billing. Read-only; change it through
-         * /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location at
-         * this address. `null` when no saved address is the billing default.
-         * billing_address.anyOf[1] (Value): {@link Address} or null. The customer's default
-         * billing address: a copy of the address of the saved address marked is_default_billing.
-         * Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders
-         * with no other tax location at this address. `null` when no saved address is the billing
-         * default. billing_address.anyOf[1].anyOf[1] (Value): {@link Address}. A postal address.
-         * Every address has country. Addresses Flint checked as complete (customer and saved
-         * addresses, merchant, location, invoice, order delivery destination, tax identity,
-         * fulfillment recipient and pickup addresses) always have line1 and city, and US ones
-         * always have state and postal_code. Delivery quote destinations, buyer locations and
-         * postal-code tax locations hold only what was provided, such as postal_code and country.
-         * billing_address.anyOf[1].anyOf[2] (Value): null. billing_address.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null. Unique
-         * identifier for this customer, prefixed `cus_`. customer_id.anyOf[1] (Value): string.
-         * Unique identifier for this customer, prefixed `cus_`. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
-         * default_invoice_payment_term_id (Optional): string or null. ID of the invoice payment
-         * term that applies to this customer's invoices created with `payment_due.type` set to
-         * `customer_default`. Absent when none is set. default_invoice_payment_term_id.anyOf[1]
-         * (Value): string. ID of the invoice payment term that applies to this customer's invoices
-         * created with `payment_due.type` set to `customer_default`. Absent when none is set.
-         * Example: "ipt_01KEZF7C0064N1V301BBMQ37R4". default_invoice_payment_term_id.anyOf[2]
-         * (Value): null. default_payment_method (Optional): {@link ExpandedPaymentMethodSummary}
-         * or null or null. Present only when `expand` includes `default_payment_method`; `null`
-         * when expanded and there is no related payment method. default_payment_method.anyOf[1]
-         * (Value): {@link ExpandedPaymentMethodSummary} or null. Present only when `expand`
-         * includes `default_payment_method`; `null` when expanded and there is no related payment
-         * method. default_payment_method.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type,
-         * status, and card details, returned when the payment method is expanded.
-         * default_payment_method.anyOf[1].anyOf[2] (Value): null. default_payment_method.anyOf[2]
-         * (Value): null. default_payment_method_id (Optional): string or null or null. ID of the
-         * customer's default off-session payment method. `null` when none is set.
-         * default_payment_method_id.anyOf[1] (Value): string or null. ID of the customer's default
-         * off-session payment method. `null` when none is set. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". default_payment_method_id.anyOf[2] (Value): null. email
-         * (Optional): string or null or null. Customer email. `null` when the customer has none.
-         * Unique among the environment's customers. email.anyOf[1] (Value): string or null.
-         * Customer email. `null` when the customer has none. Unique among the environment's
-         * customers. email.anyOf[2] (Value): null. external_reference_id (Optional): string or
-         * null or null. Caller-owned identifier for this customer in an external system. `null`
-         * when none is set. Not returned to customer sessions. external_reference_id.anyOf[1]
-         * (Value): string or null. Caller-owned identifier for this customer in an external
-         * system. `null` when none is set. Not returned to customer sessions. minLength: 1.
-         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
-         * internal_note (Optional): string or null or null. Internal note about this customer.
-         * `null` when none is set. Not returned to customer sessions. internal_note.anyOf[1]
-         * (Value): string or null. Internal note about this customer. `null` when none is set. Not
-         * returned to customer sessions. internal_note.anyOf[2] (Value): null.
-         * is_merchant_verified (Optional): boolean or null. Flag you set on the customer, for
-         * example after checking ID in store. Promotion and delivery rules can match it. Flint
-         * does not set it; it is unrelated to customer verifications, which prove a buyer controls
-         * an email address. is_merchant_verified.anyOf[1] (Value): boolean. Flag you set on the
-         * customer, for example after checking ID in store. Promotion and delivery rules can match
-         * it. Flint does not set it; it is unrelated to customer verifications, which prove a
-         * buyer controls an email address. is_merchant_verified.anyOf[2] (Value): null.
-         * merchant_id (Optional): string or null. ID of the merchant this resource belongs to.
-         * merchant_id.anyOf[1] (Value): string. ID of the merchant this resource belongs to.
-         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
-         * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
-         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
-         * and size rules. metadata.anyOf[2] (Value): null. name (Optional): string or null or
-         * null. Customer name. `null` when none is set. name.anyOf[1] (Value): string or null.
-         * Customer name. `null` when none is set. name.anyOf[2] (Value): null. phone (Optional):
-         * string or null or null. Customer phone number. `null` when none is set. phone.anyOf[1]
-         * (Value): string or null. Customer phone number. `null` when none is set. phone.anyOf[2]
-         * (Value): null. price_list_id (Optional): string or null or null. ID of the customer's
-         * direct wholesale price list. `null` when none is set. An inactive list can be assigned
-         * but does not apply. Not returned to customer sessions. price_list_id.anyOf[1] (Value):
-         * string or null. ID of the customer's direct wholesale price list. `null` when none is
-         * set. An inactive list can be assigned but does not apply. Not returned to customer
-         * sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". price_list_id.anyOf[2] (Value): null. receivables
-         * (Optional): {@link CustomerReceivables} or null. What this customer owes you on
-         * invoices: the outstanding and overdue amounts, one balance per currency. Present only
-         * when `expand` includes `receivables`. receivables.anyOf[1] (Value): {@link
-         * CustomerReceivables}. What this customer owes you on invoices: the outstanding and
-         * overdue amounts, one balance per currency. Present only when `expand` includes
-         * `receivables`. receivables.anyOf[2] (Value): null. segment (Optional): string or null or
-         * null. Free-form label you assign, such as wholesale, so promotion and delivery rules can
-         * match groups of customers. It is not an ID; Flint does not check it against any
-         * resource. `null` when none is set. Not returned to customer sessions. segment.anyOf[1]
-         * (Value): string or null. Free-form label you assign, such as wholesale, so promotion and
-         * delivery rules can match groups of customers. It is not an ID; Flint does not check it
-         * against any resource. `null` when none is set. Not returned to customer sessions.
-         * segment.anyOf[2] (Value): null. shipping_address (Optional): {@link Address} or null or
-         * null. The customer's default shipping address: a copy of the address of the saved
-         * address marked is_default_shipping. Read-only; change it through
-         * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved
-         * address is the shipping default. shipping_address.anyOf[1] (Value): {@link Address} or
-         * null. The customer's default shipping address: a copy of the address of the saved
-         * address marked is_default_shipping. Read-only; change it through
-         * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved
-         * address is the shipping default. shipping_address.anyOf[1].anyOf[1] (Value): {@link
-         * Address}. A postal address. Every address has country. Addresses Flint checked as
-         * complete (customer and saved addresses, merchant, location, invoice, order delivery
-         * destination, tax identity, fulfillment recipient and pickup addresses) always have line1
-         * and city, and US ones always have state and postal_code. Delivery quote destinations,
-         * buyer locations and postal-code tax locations hold only what was provided, such as
-         * postal_code and country. shipping_address.anyOf[1].anyOf[2] (Value): null.
-         * shipping_address.anyOf[2] (Value): null. status (Optional): string or null. Where the
-         * customer is in the deletion lifecycle. Value enum: "active", "deletion_processing",
-         * "deleted". status.anyOf[1] (Value): string. Where the customer is in the deletion
-         * lifecycle. Value enum: "active", "deletion_processing", "deleted". status.anyOf[2]
-         * (Value): null. tax_exempt (Optional): boolean or null. Whether Flint treats this
-         * customer as exempt from tax on their orders, so it skips tax calculation for them. Not
-         * returned to customer sessions. tax_exempt.anyOf[1] (Value): boolean. Whether Flint
-         * treats this customer as exempt from tax on their orders, so it skips tax calculation for
-         * them. Not returned to customer sessions. tax_exempt.anyOf[2] (Value): null. tax_identity
-         * (Optional): {@link TaxIdentity} or null or null. Legal name, registered address and tax
-         * IDs printed on this customer's invoices and credit notes. `null` when none is set.
-         * Always `null` for customer sessions. tax_identity.anyOf[1] (Value): {@link TaxIdentity}
-         * or null. Legal name, registered address and tax IDs printed on this customer's invoices
-         * and credit notes. `null` when none is set. Always `null` for customer sessions.
-         * tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-         * identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-         * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax
-         * provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax
-         * IDs are an owned collection in display order; replacing the array requires the parent's
-         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
-         * it, or omit its ID to add one. tax_identity.anyOf[1].anyOf[2] (Value): null.
-         * tax_identity.anyOf[2] (Value): null. test_clock_id (Optional): string or null. ID of the
-         * test clock the customer was created on. The customer and its subscriptions read the
-         * clock's `frozen_at` as the current time. Present only for customers created on a test
-         * clock. Not returned to customer sessions. test_clock_id.anyOf[1] (Value): string. ID of
-         * the test clock the customer was created on. The customer and its subscriptions read the
-         * clock's `frozen_at` as the current time. Present only for customers created on a test
-         * clock. Not returned to customer sessions. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-         * test_clock_id.anyOf[2] (Value): null. updated_at (Optional): string or null. RFC3339
-         * timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
-         * integer or null. Current version of this resource's owned state. Send it as
-         * `expected_version` when changing the resource to reject a stale write. version.anyOf[1]
-         * (Value): integer. Current version of this resource's owned state. Send it as
-         * `expected_version` when changing the resource to reject a stale write. Format: uint64.
-         * minimum: 1. version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * The customer's default billing address: a copy of the address of the saved address
-             * marked is_default_billing. Read-only; change it through
-             * /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location
-             * at this address. `null` when no saved address is the billing default. anyOf[1]
-             * (Value): {@link Address} or null. The customer's default billing address: a copy of
-             * the address of the saved address marked is_default_billing. Read-only; change it
-             * through /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax
-             * location at this address. `null` when no saved address is the billing default.
-             * anyOf[1].anyOf[1] (Value): {@link Address}. A postal address. Every address has
-             * country. Addresses Flint checked as complete (customer and saved addresses,
-             * merchant, location, invoice, order delivery destination, tax identity, fulfillment
-             * recipient and pickup addresses) always have line1 and city, and US ones always have
-             * state and postal_code. Delivery quote destinations, buyer locations and postal-code
-             * tax locations hold only what was provided, such as postal_code and country.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "billing_address"?: ((((Address) | (null))) | (null) | (unknown));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Unique identifier for this customer, prefixed `cus_`. anyOf[1] (Value): string.
-             * Unique identifier for this customer, prefixed `cus_`. Example:
-             * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
-             */
-            "customer_id"?: ((string) | (null));
-            /**
-             * ID of the invoice payment term that applies to this customer's invoices created with
-             * `payment_due.type` set to `customer_default`. Absent when none is set. anyOf[1]
-             * (Value): string. ID of the invoice payment term that applies to this customer's
-             * invoices created with `payment_due.type` set to `customer_default`. Absent when none
-             * is set. Example: "ipt_01KEZF7C0064N1V301BBMQ37R4". anyOf[2] (Value): null.
-             */
-            "default_invoice_payment_term_id"?: ((string) | (null));
-            /**
-             * Present only when `expand` includes `default_payment_method`; `null` when expanded
-             * and there is no related payment method. anyOf[1] (Value): {@link
-             * ExpandedPaymentMethodSummary} or null. Present only when `expand` includes
-             * `default_payment_method`; `null` when expanded and there is no related payment
-             * method. anyOf[1].anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
-             * method's summary fields, including type, status, and card details, returned when the
-             * payment method is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "default_payment_method"?: ((((ExpandedPaymentMethodSummary) | (null))) | (null) | (unknown));
-            /**
-             * ID of the customer's default off-session payment method. `null` when none is set.
-             * anyOf[1] (Value): string or null. ID of the customer's default off-session payment
-             * method. `null` when none is set. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2]
-             * (Value): null.
-             */
-            "default_payment_method_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * Customer email. `null` when the customer has none. Unique among the environment's
-             * customers. anyOf[1] (Value): string or null. Customer email. `null` when the
-             * customer has none. Unique among the environment's customers. anyOf[2] (Value): null.
-             */
-            "email"?: ((string | null) | (null) | (unknown));
-            /**
-             * Caller-owned identifier for this customer in an external system. `null` when none is
-             * set. Not returned to customer sessions. anyOf[1] (Value): string or null.
-             * Caller-owned identifier for this customer in an external system. `null` when none is
-             * set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
-             * "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * Internal note about this customer. `null` when none is set. Not returned to customer
-             * sessions. anyOf[1] (Value): string or null. Internal note about this customer.
-             * `null` when none is set. Not returned to customer sessions. anyOf[2] (Value): null.
-             */
-            "internal_note"?: ((string | null) | (null) | (unknown));
-            /**
-             * Flag you set on the customer, for example after checking ID in store. Promotion and
-             * delivery rules can match it. Flint does not set it; it is unrelated to customer
-             * verifications, which prove a buyer controls an email address. anyOf[1] (Value):
-             * boolean. Flag you set on the customer, for example after checking ID in store.
-             * Promotion and delivery rules can match it. Flint does not set it; it is unrelated to
-             * customer verifications, which prove a buyer controls an email address. anyOf[2]
-             * (Value): null.
-             */
-            "is_merchant_verified"?: ((boolean) | (null));
-            /**
-             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
-             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             * anyOf[2] (Value): null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
-             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
-             */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * Customer name. `null` when none is set. anyOf[1] (Value): string or null. Customer
-             * name. `null` when none is set. anyOf[2] (Value): null.
-             */
-            "name"?: ((string | null) | (null) | (unknown));
-            /**
-             * Customer phone number. `null` when none is set. anyOf[1] (Value): string or null.
-             * Customer phone number. `null` when none is set. anyOf[2] (Value): null.
-             */
-            "phone"?: ((string | null) | (null) | (unknown));
-            /**
-             * ID of the customer's direct wholesale price list. `null` when none is set. An
-             * inactive list can be assigned but does not apply. Not returned to customer sessions.
-             * anyOf[1] (Value): string or null. ID of the customer's direct wholesale price list.
-             * `null` when none is set. An inactive list can be assigned but does not apply. Not
-             * returned to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-             * "prl_01KEZF7C00EH39P59GN3XMGS2Q". anyOf[2] (Value): null.
-             */
-            "price_list_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * What this customer owes you on invoices: the outstanding and overdue amounts, one
-             * balance per currency. Present only when `expand` includes `receivables`. anyOf[1]
-             * (Value): {@link CustomerReceivables}. What this customer owes you on invoices: the
-             * outstanding and overdue amounts, one balance per currency. Present only when
-             * `expand` includes `receivables`. anyOf[2] (Value): null.
-             */
-            "receivables"?: ((CustomerReceivables) | (null));
-            /**
-             * Free-form label you assign, such as wholesale, so promotion and delivery rules can
-             * match groups of customers. It is not an ID; Flint does not check it against any
-             * resource. `null` when none is set. Not returned to customer sessions. anyOf[1]
-             * (Value): string or null. Free-form label you assign, such as wholesale, so promotion
-             * and delivery rules can match groups of customers. It is not an ID; Flint does not
-             * check it against any resource. `null` when none is set. Not returned to customer
-             * sessions. anyOf[2] (Value): null.
-             */
-            "segment"?: ((string | null) | (null) | (unknown));
-            /**
-             * The customer's default shipping address: a copy of the address of the saved address
-             * marked is_default_shipping. Read-only; change it through
-             * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved
-             * address is the shipping default. anyOf[1] (Value): {@link Address} or null. The
-             * customer's default shipping address: a copy of the address of the saved address
-             * marked is_default_shipping. Read-only; change it through
-             * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved
-             * address is the shipping default. anyOf[1].anyOf[1] (Value): {@link Address}. A
-             * postal address. Every address has country. Addresses Flint checked as complete
-             * (customer and saved addresses, merchant, location, invoice, order delivery
-             * destination, tax identity, fulfillment recipient and pickup addresses) always have
-             * line1 and city, and US ones always have state and postal_code. Delivery quote
-             * destinations, buyer locations and postal-code tax locations hold only what was
-             * provided, such as postal_code and country. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
-             */
-            "shipping_address"?: ((((Address) | (null))) | (null) | (unknown));
-            /**
-             * Where the customer is in the deletion lifecycle. Value enum: "active",
-             * "deletion_processing", "deleted". anyOf[1] (Value): string. Where the customer is in
-             * the deletion lifecycle. Value enum: "active", "deletion_processing", "deleted".
-             * anyOf[2] (Value): null.
-             */
-            "status"?: (("active" | "deletion_processing" | "deleted" | (string & {})) | (null));
-            /**
-             * Whether Flint treats this customer as exempt from tax on their orders, so it skips
-             * tax calculation for them. Not returned to customer sessions. anyOf[1] (Value):
-             * boolean. Whether Flint treats this customer as exempt from tax on their orders, so
-             * it skips tax calculation for them. Not returned to customer sessions. anyOf[2]
-             * (Value): null.
-             */
-            "tax_exempt"?: ((boolean) | (null));
-            /**
-             * Legal name, registered address and tax IDs printed on this customer's invoices and
-             * credit notes. `null` when none is set. Always `null` for customer sessions. anyOf[1]
-             * (Value): {@link TaxIdentity} or null. Legal name, registered address and tax IDs
-             * printed on this customer's invoices and credit notes. `null` when none is set.
-             * Always `null` for customer sessions. anyOf[1].anyOf[1] (Value): {@link TaxIdentity}.
-             * Merchant-provided legal identity displayed on invoices and credit notes. Flint does
-             * not verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or
-             * NZ destination to its tax provider, which can apply a reverse charge; other IDs do
-             * not change tax treatment. Tax IDs are an owned collection in display order;
-             * replacing the array requires the parent's expected_version. Existing entries retain
-             * their document_tax_id; omit an entry to remove it, or omit its ID to add one.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            /**
-             * ID of the test clock the customer was created on. The customer and its subscriptions
-             * read the clock's `frozen_at` as the current time. Present only for customers created
-             * on a test clock. Not returned to customer sessions. anyOf[1] (Value): string. ID of
-             * the test clock the customer was created on. The customer and its subscriptions read
-             * the clock's `frozen_at` as the current time. Present only for customers created on a
-             * test clock. Not returned to customer sessions. Example:
-             * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". anyOf[2] (Value): null.
-             */
-            "test_clock_id"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
-             * version of this resource's owned state. Send it as `expected_version` when changing
-             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
-             * null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "customer.updated". */
-    "event_type"?: "customer.updated";
-});
-/** An email verification requested for linking guest purchases. */
-export type CustomerVerification = {
-    /** How the code was delivered. Value enum: "email". */
-    "channel": "email" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * ID of the customer whose email this verification proves. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id": string;
-    /**
-     * Unique identifier for this customer verification, prefixed `cver_`. Example:
-     * "cver_01KEZF7C00E7S01991S7457CVK".
-     */
-    "customer_verification_id": string;
-    /**
-     * The email address that received the code: the customer's email when the verification was
-     * created.
-     */
-    "email": string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "expires_at": string;
-    /** What the verification is for. Value enum: "link_guest_purchases". */
-    "purpose": "link_guest_purchases" | (string & {});
-    /**
-     * pending while the code can be confirmed; confirmed while an unused proof can link purchases;
-     * used after linking; expired when the code or proof expires. Value enum: "pending",
-     * "confirmed", "used", "expired".
-     */
-    "status": "pending" | "confirmed" | "used" | "expired" | (string & {});
-    /**
-     * Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains
-     * confirm while the code is pending; empty once confirmed, used, expired, or out of attempts.
-     * Expiry is evaluated when Flint serves the response. [] enum: "confirm". [] (Value): string.
-     * Value enum: "confirm".
-     */
-    "supported_actions": Array<"confirm" | (string & {})>;
-};
-/** A page of `CustomerVerification` objects. */
-export type CustomerVerificationListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * CustomerVerification}. An email verification requested for linking guest purchases.
-     */
-    "data": Array<CustomerVerification>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `CustomerVerification` data. */
-export type CustomerVerificationResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. An email verification
-     * requested for linking guest purchases.
-     */
-    "data": CustomerVerification;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type CustomerVerificationsConfirmParams = (InputValue<ConfirmCustomerVerificationRequestInput>);
-export type CustomerVerificationsCreateParams = (InputValue<CreateCustomerVerificationRequestInput>);
-export type CustomerVerificationsGetParams = {};
-export type CustomerVerificationsListParams = {
-    /**
-     * Required exact customer ID. An unknown or inaccessible customer returns an empty page.
-     * pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id": InputValue<string>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-};
-export type CustomersCancelEmailChangeRequestParams = DisputesAcceptParams;
-export type CustomersCreateAccessLinkParams = (InputValue<CreateCustomerAccessLinkRequestInput>);
-export type CustomersCreateAddressParams = (InputValue<CreateCustomerAddressRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type CustomersCreateEmailChangeRequestParams = (InputValue<CreateEmailChangeRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type CustomersCreateParams = (InputValue<CreateCustomerRequestInput>
-    | {
-    "addresses"?: never;
-    "default_invoice_payment_term_id"?: never;
-    "email"?: never;
-    "external_reference_id"?: never;
-    "internal_note"?: never;
-    "is_merchant_verified"?: never;
-    "metadata"?: never;
-    "name"?: never;
-    "on_email_conflict"?: never;
-    "phone"?: never;
-    "price_list_id"?: never;
-    "segment"?: never;
-    "tax_exempt"?: never;
-    "tax_identity"?: never;
-    "test_clock_id"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type CustomersCreateTaxExemptionParams = (InputValue<CreateCustomerTaxExemptionRequestInput>);
-export type CustomersDeleteAddressParams = {
-    /**
-     * Optional address version last read by the caller. Format: uint64. minimum: 1. maximum:
-     * 9007199254740991.
-     */
-    "expected_version"?: InputValue<number>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type CustomersDeleteTaxExemptionParams = {
-    /**
-     * Resource version last read by the caller. Omit to archive the current record. Format:
-     * uint64. minimum: 1. maximum: 9007199254740991.
-     */
-    "expected_version"?: InputValue<number>;
-};
-export type CustomersGetAddressParams = DisputesAcceptParams;
-export type CustomersGetEmailChangeRequestParams = DisputesAcceptParams;
-export type CustomersGetEmailPreferencesParams = DisputesAcceptParams;
-export type CustomersGetParams = {
-    /**
-     * Include related objects in the response. Supported expansions: default_payment_method,
-     * receivables. Expanding the default payment method requires customers.read plus
-     * payments.payment_methods.read. Limits: at most 10 unique expand paths per request. [] enum:
-     * "default_payment_method", "receivables". Value enum: "default_payment_method",
-     * "receivables". anyOf[1] (Value): Array of string. [] enum: "default_payment_method",
-     * "receivables". anyOf[1][] (Value): string. Value enum: "default_payment_method",
-     * "receivables". anyOf[2] (Value): string. Value enum: "default_payment_method",
-     * "receivables".
-     */
-    "expand"?: InputValue<("default_payment_method" | "receivables") | readonly ("default_payment_method" | "receivables")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type CustomersGetTaxExemptionParams = {};
-export type CustomersLinkGuestPurchasesParams = (InputValue<LinkCustomerGuestPurchasesRequestInput>);
-export type CustomersListAddressesParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type CustomersListEmailChangeRequestsParams = {
-    /**
-     * Only return requests in these statuses. Values are trimmed and deduplicated in first-seen
-     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
-     * filters are ANDed. [] enum: "pending", "confirmed", "canceled", "expired". Value enum:
-     * "pending", "confirmed", "canceled", "expired". anyOf[1] (Value): Array of string. minItems:
-     * 1. [] enum: "pending", "confirmed", "canceled", "expired". anyOf[1][] (Value): string. Value
-     * enum: "pending", "confirmed", "canceled", "expired". anyOf[2] (Value): string. Value enum:
-     * "pending", "confirmed", "canceled", "expired".
-     */
-    "status"?: InputValue<("pending" | "confirmed" | "canceled" | "expired")
-        | readonly ("pending" | "confirmed" | "canceled" | "expired")[]>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type CustomersListParams = {
-    /**
-     * Filter by status. Omitted, the list leaves out deleted rows; name deleted to include them.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
-     * "deletion_processing", "deleted". Value enum: "active", "deletion_processing", "deleted".
-     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active", "deletion_processing",
-     * "deleted". anyOf[1][] (Value): string. Value enum: "active", "deletion_processing",
-     * "deleted". anyOf[2] (Value): string. Value enum: "active", "deletion_processing", "deleted".
-     */
-    "status"?: InputValue<("active" | "deletion_processing" | "deleted")
-        | readonly ("active" | "deletion_processing" | "deleted")[]>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Search across customer_id, name, email, phone number, and external_reference_id. Text fields
-     * match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs
-     * match from the start and need the type prefix, such as cus_01.
-     */
-    "query"?: InputValue<string>;
-    /**
-     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842".
-     */
-    "external_reference_id"?: InputValue<string>;
-    /**
-     * Exact whole-address match after trimming surrounding whitespace. Case is ignored and accents
-     * are kept: `Ana@example.com` matches `ana@example.com`, but `josé@example.com` doesn't match
-     * `jose@example.com`.
-     */
-    "email"?: InputValue<string>;
-    /**
-     * Only return customers assigned directly to this price list. pattern:
-     * ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
-     */
-    "price_list_id"?: InputValue<string>;
-    /**
-     * Byte-sensitive whole-value match on the opaque customer segment. Whitespace, casing,
-     * Unicode, and commas are literal. minLength: 1. maxLength: 255.
-     */
-    "segment"?: InputValue<string>;
-    /** Filter by merchant verification, independently of email verification. */
-    "is_merchant_verified"?: InputValue<boolean>;
-    /**
-     * Exact match on a full E.164 phone number, such as `+14155551234`. The leading plus is
-     * required. minLength: 1. pattern: ^\+[1-9][0-9]{1,14}$.
-     */
-    "phone"?: InputValue<string>;
-    /**
-     * Sandbox only. Exact-match filter on `test_clock_id`. A live credential gets `403 FORBIDDEN`
-     * with reason `test_mode_required`. minLength: 1. pattern: ^tclk_[0-9A-HJKMNP-TV-Z]{26}$.
-     * Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-     */
-    "test_clock_id"?: InputValue<string>;
-    /**
-     * Field to sort by. Defaults to created_at; ties are broken by customer_id. Default:
-     * "created_at". Value enum: "name", "email", "created_at", "updated_at".
-     */
-    "sort_by"?: InputValue<"name" | "email" | "created_at" | "updated_at">;
-    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Include related objects in the response. Supported expansions: default_payment_method,
-     * receivables. Include the requested related resources using scoped batch reads for this page.
-     * Each relationship requires its existing target read scopes. Expansion changes the
-     * representation without changing pagination tokens. Limits: at most 10 unique expand paths
-     * per request. [] enum: "default_payment_method", "receivables". Value enum:
-     * "default_payment_method", "receivables". anyOf[1] (Value): Array of string. [] enum:
-     * "default_payment_method", "receivables". anyOf[1][] (Value): string. Value enum:
-     * "default_payment_method", "receivables". anyOf[2] (Value): string. Value enum:
-     * "default_payment_method", "receivables".
-     */
-    "expand"?: InputValue<("default_payment_method" | "receivables") | readonly ("default_payment_method" | "receivables")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type CustomersListTaxExemptionsParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "scheduled", "active", "expired", "archived". Value enum: "scheduled", "active", "expired",
-     * "archived". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "scheduled", "active",
-     * "expired", "archived". anyOf[1][] (Value): string. Value enum: "scheduled", "active",
-     * "expired", "archived". anyOf[2] (Value): string. Value enum: "scheduled", "active",
-     * "expired", "archived".
-     */
-    "status"?: InputValue<("scheduled" | "active" | "expired" | "archived")
-        | readonly ("scheduled" | "active" | "expired" | "archived")[]>;
-};
-export type CustomersRevokeSessionsParams = {};
-export type CustomersUpdateAddressParams = (InputValue<UpdateCustomerAddressRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type CustomersUpdateParams = (InputValue<UpdateCustomerRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type CustomersUpdateTaxExemptionParams = (UpdateCustomerTaxExemptionRequestInput);
-/** The request body for: Decide return inspection line item. */
-export type DecideReturnInspectionLineItemRequest = {
-    /**
-     * Why the units were accepted or rejected after review. Value enum: "inspection_result",
-     * "return_policy", "manual_review", "other".
-     */
-    "acceptance_decision_reason": "inspection_result" | "return_policy" | "manual_review" | "other" | (string & {});
-    /** Detail about `acceptance_decision_reason`. minLength: 1. */
-    "acceptance_decision_reason_message"?: string;
-    /**
-     * Whether the inspected units were accepted, rejected, or need a merchant's decision. Value
-     * enum: "accepted", "rejected".
-     */
-    "acceptance_status": "accepted" | "rejected" | (string & {});
-    /**
-     * Optional version of the return inspection. A stale value returns VERSION_CONFLICT with the
-     * inspection ID and its current version. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-};
-/** The request body for: Decide return inspection line item. */
-export type DecideReturnInspectionLineItemRequestInput = {
-    /**
-     * Why the units were accepted or rejected after review. Value enum: "inspection_result",
-     * "return_policy", "manual_review", "other".
-     */
-    "acceptance_decision_reason": "inspection_result" | "return_policy" | "manual_review" | "other";
-    /** Detail about `acceptance_decision_reason`. minLength: 1. */
-    "acceptance_decision_reason_message"?: string;
-    /**
-     * Whether the inspected units were accepted, rejected, or need a merchant's decision. Value
-     * enum: "accepted", "rejected".
-     */
-    "acceptance_status": "accepted" | "rejected";
-    /**
-     * Optional version of the return inspection. A stale value returns VERSION_CONFLICT with the
-     * inspection ID and its current version. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-};
-export type DecideReturnInspectionLineItemResponse = GetReturnInspectionResponse;
-/** The request body for: Decide return. */
-export type DecideReturnRequest = {
-    /**
-     * Omit to use the mode shared by all pinned policies that set completion_mode, or automatic
-     * when no pinned policy sets one. Conflicting pinned policy modes return 400 naming
-     * completion_mode only when completion_mode is omitted. An explicit manual or automatic value
-     * is used as sent. Value enum: "manual", "automatic".
-     */
-    "completion_mode"?: "manual" | "automatic" | (string & {});
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * One decision for each line. minItems: 1. [] (Value): {@link ReturnLineDecision}. Start from
-     * the pinned policy proposal recomputed for approved_quantity when the line has a policy
-     * evaluation and the proposal can be built. Otherwise start with return_required_quantity
-     * equal to approved_quantity, allowed_resolution_types containing refund, exchange,
-     * replacement, no_monetary_action, and store_credit in that order regardless of whether the
-     * original payment is refundable, no automatic_resolution_type, is_inspection_required false,
-     * and no receiving_location_id. Each supplied field replaces its starting value;
-     * allowed_resolution_types replaces the whole list. Omit automatic_resolution_type to keep its
-     * starting value, or send null to resolve manually. Then fill an omitted release_timing with
-     * after_inspection when merchandise is required and inspection is required, after_receipt when
-     * merchandise is required without inspection, or after_approval when no merchandise is
-     * required. Validate the merged decision for quantity bounds, allowed resolution types, and
-     * reachable timing and inspection requirements. A pinned policy always requires
-     * override_reason when approved_quantity exceeds evaluated eligible_quantity, even when no
-     * proposal can be built. With a pinned policy but no proposal, other decision fields use these
-     * defaults and override_reason is otherwise optional. Example:
-     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ","return_line_item_id":"retli_01KEZF7C001NHF6JPD83VD0MRK"}.
-     */
-    "line_items": Array<ReturnLineDecision>;
-};
-/** The request body for: Decide return. */
-export type DecideReturnRequestInput = {
-    /**
-     * Omit to use the mode shared by all pinned policies that set completion_mode, or automatic
-     * when no pinned policy sets one. Conflicting pinned policy modes return 400 naming
-     * completion_mode only when completion_mode is omitted. An explicit manual or automatic value
-     * is used as sent. Value enum: "manual", "automatic".
-     */
-    "completion_mode"?: "manual" | "automatic";
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * One decision for each line. minItems: 1. [] (Value): {@link ReturnLineDecisionInput}. Start
-     * from the pinned policy proposal recomputed for approved_quantity when the line has a policy
-     * evaluation and the proposal can be built. Otherwise start with return_required_quantity
-     * equal to approved_quantity, allowed_resolution_types containing refund, exchange,
-     * replacement, no_monetary_action, and store_credit in that order regardless of whether the
-     * original payment is refundable, no automatic_resolution_type, is_inspection_required false,
-     * and no receiving_location_id. Each supplied field replaces its starting value;
-     * allowed_resolution_types replaces the whole list. Omit automatic_resolution_type to keep its
-     * starting value, or send null to resolve manually. Then fill an omitted release_timing with
-     * after_inspection when merchandise is required and inspection is required, after_receipt when
-     * merchandise is required without inspection, or after_approval when no merchandise is
-     * required. Validate the merged decision for quantity bounds, allowed resolution types, and
-     * reachable timing and inspection requirements. A pinned policy always requires
-     * override_reason when approved_quantity exceeds evaluated eligible_quantity, even when no
-     * proposal can be built. With a pinned policy but no proposal, other decision fields use these
-     * defaults and override_reason is otherwise optional. Example:
-     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ","return_line_item_id":"retli_01KEZF7C001NHF6JPD83VD0MRK"}.
-     */
-    "line_items": Array<ReturnLineDecisionInput>;
-};
-export type DecideReturnResponse = GetReturnResponse;
-/** The request body for: Decline a payment review. */
-export type DeclinePaymentReviewRequest = {
-    /**
-     * Add the payment's card fingerprint, email and IP address to Flint's default block lists, so
-     * later payments with any of them are blocked. Values the payment didn't have are skipped.
-     * Defaults to false. Default: false.
-     */
-    "add_to_block_lists"?: boolean;
-};
-/** The request body for: Decline a payment review. */
-export type DeclinePaymentReviewRequestInput = DeclinePaymentReviewRequest;
-/**
- * A promotion accepted at subscription signup for the subscription's first charged cycle. It does
- * not discount the signup order.
- */
-export type DeferredPromotion = {
-    /** Name the buyer sees for the promotion, fixed when it was accepted at signup. */
-    "customer_facing_name": string;
-    /**
-     * ID of this order's deferred promotion. Starts with dp_. Send it in deferred_promotion_ids to
-     * POST /v1/orders/{order_id}/discounts/remove to remove the promotion before payment. Example:
-     * "dp_01KEZF7C00AZMP1PY1ER7CQ4SA".
-     */
-    "deferred_promotion_id": string;
-    /** Promotion code accepted at signup. Null when the promotion was applied by ID. */
-    "promotion_code": string | null;
-    /**
-     * ID of the promotion accepted for the subscription. Example:
-     * "promo_01KEZF7C00E1JAV4M413D9DE1P".
-     */
-    "promotion_id": string;
-};

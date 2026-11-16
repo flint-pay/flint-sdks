@@ -58,6 +58,10 @@ Declared alternatives: [CreditNoteIssuedMerchantEventDataPreviousAttributes.cred
 
 Declared alternatives: [CreditNoteIssuedMerchantEventDataPreviousAttributes.external_reference_id](../models/CreditNoteIssuedMerchantEventDataPreviousAttributes.md#creditnoteissuedmerchanteventdatapreviousattributesexternal_reference_id).
 
+### CreditNoteIssuedMerchantEvent.data fields 1.previous_attributes.invoice
+
+Declared alternatives: [CreditNoteIssuedMerchantEventDataPreviousAttributes.invoice](../models/CreditNoteIssuedMerchantEventDataPreviousAttributes.md#creditnoteissuedmerchanteventdatapreviousattributesinvoice).
+
 ### CreditNoteIssuedMerchantEvent.data fields 1.previous_attributes.invoice_id
 
 Declared alternatives: [CreditNoteIssuedMerchantEventDataPreviousAttributes.invoice_id](../models/CreditNoteIssuedMerchantEventDataPreviousAttributes.md#creditnoteissuedmerchanteventdatapreviousattributesinvoice_id).

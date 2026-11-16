@@ -46,11 +46,11 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `archived_at` | Optional | string or null or null | When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. `archived_at`: [declared alternatives](../models/PriceListArchivedInstalledMerchantsEvent.md#pricelistarchivedinstalledmerchantseventdataprevious_attributesarchived_at). |
+| `archived_at` | Optional | string or null | When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. `archived_at`: [declared alternatives](../models/PriceListArchivedInstalledMerchantsEvent.md#pricelistarchivedinstalledmerchantseventdataprevious_attributesarchived_at). |
 | `created_at` | Optional | string or null | When this price list was created, as an RFC3339 timestamp. `created_at`: [declared alternatives](../models/PriceListArchivedInstalledMerchantsEvent.md#pricelistarchivedinstalledmerchantseventdataprevious_attributescreated_at). |
 | `currency` | Optional | string or null | Immutable currency of every price in this list. Currently USD. Uses ISO 4217 currency codes. `currency`: [declared alternatives](../models/PriceListArchivedInstalledMerchantsEvent.md#pricelistarchivedinstalledmerchantseventdataprevious_attributescurrency). |
 | `customer_segments` | Optional | Array of string or null | Customer.segment labels assigned to this list. Empty when no segments are assigned. `customer_segments`: [declared alternatives](../models/PriceListArchivedInstalledMerchantsEvent.md#pricelistarchivedinstalledmerchantseventdataprevious_attributescustomer_segments). |
-| `external_reference_id` | Optional | string or null or null | Caller-owned identifier for this resource in an external system. `null` when unset. `external_reference_id`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesexternal_reference_id). |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `null` when unset. `external_reference_id`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesexternal_reference_id). |
 | `merchant_id` | Optional | string or null | Identifier of the merchant that owns this price list. `merchant_id`: [declared alternatives](../models/PriceListArchivedInstalledMerchantsEvent.md#pricelistarchivedinstalledmerchantseventdataprevious_attributesmerchant_id). |
 | `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) or null | Caller-owned metadata stored on this price list. `metadata`: [declared alternatives](../models/PriceListArchivedInstalledMerchantsEvent.md#pricelistarchivedinstalledmerchantseventdataprevious_attributesmetadata). |
 | `name` | Optional | string or null | Name used to identify this price list. `name`: [declared alternatives](../models/PriceListArchivedInstalledMerchantsEvent.md#pricelistarchivedinstalledmerchantseventdataprevious_attributesname). |
@@ -66,7 +66,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 anyOf variant 1: When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been archived..
 
-- Value shape: (string or null). When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### PriceListArchivedInstalledMerchantsEvent.data.previous_attributes.archived_at variant 2
 
@@ -138,7 +138,7 @@ anyOf variant 2.
 
 ### PriceListArchivedInstalledMerchantsEvent.data.previous_attributes.metadata variant 1
 
-anyOf MetadataMap: Caller-owned metadata stored on this price list..
+anyOf MetadataMapPreviousAttributes.
 
 - Value shape: Map of string. Caller-owned metadata stored on this price list. Map values: maxLength: `4096`. 
 

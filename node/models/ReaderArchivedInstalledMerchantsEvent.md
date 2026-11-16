@@ -46,7 +46,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `connectivity` | Optional | [ReaderConnectivity](../models/ReaderConnectivity.md#readerconnectivity) or null | Smart readers only, and omitted once the reader is archived. Observed reader state: it changes without a write, doesn't advance `version`, and sends no event. Don't gate a sale on it: Flint checks the reader itself before it sends a payment. |
+| `connectivity` | Optional | [ReaderConnectivityPreviousAttributes](../models/ReaderConnectivityPreviousAttributes.md#readerconnectivitypreviousattributes) or null | Smart readers only, and omitted once the reader is archived. Observed reader state: it changes without a write, doesn't advance `version`, and sends no event. Don't gate a sale on it: Flint checks the reader itself before it sends a payment. |
 | `created_at` | Optional | string or null | When the reader was registered. `created_at`: [declared alternatives](../models/ReaderArchivedInstalledMerchantsEvent.md#readerarchivedinstalledmerchantseventdataprevious_attributescreated_at). |
 | `device_id` | Optional | string or null | The register, kiosk or phone the reader takes payments for; on a Tap to Pay reader, the phone it runs on. Omitted when none is set. `device_id`: [declared alternatives](../models/ReaderArchivedInstalledMerchantsEvent.md#readerarchivedinstalledmerchantseventdataprevious_attributesdevice_id). |
 | `is_simulated` | Optional | boolean or null | `true` for a sandbox simulated reader, registered with `registration_code: simulated-s700`. `is_simulated`: [declared alternatives](../models/ReaderArchivedInstalledMerchantsEvent.md#readerarchivedinstalledmerchantseventdataprevious_attributesis_simulated). |
@@ -59,7 +59,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `status` | Optional | string or null | Whether the reader can take payments. Values: `"active"`, `"archived"`. `status`: [declared alternatives](../models/ReaderArchivedInstalledMerchantsEvent.md#readerarchivedinstalledmerchantseventdataprevious_attributesstatus). |
 | `type` | Optional | string or null | What kind of reader it is. A smart reader is driven from your server; a Tap to Pay reader is a phone driven by the Stripe Terminal SDK in your app. Values: `"smart_reader"`, `"tap_to_pay"`. `type`: [declared alternatives](../models/ReaderArchivedInstalledMerchantsEvent.md#readerarchivedinstalledmerchantseventdataprevious_attributestype). |
 | `updated_at` | Optional | string or null | When the reader last changed. `updated_at`: [declared alternatives](../models/ReaderArchivedInstalledMerchantsEvent.md#readerarchivedinstalledmerchantseventdataprevious_attributesupdated_at). |
-| `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesversion). |
+| `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributes.md#buyerexpandedpaymentintentsummarypreviousattributesversion). |
 
 ### ReaderArchivedInstalledMerchantsEvent.data.previous_attributes.created_at
 
@@ -121,7 +121,7 @@ anyOf variant 2.
 
 ### ReaderArchivedInstalledMerchantsEvent.data.previous_attributes.metadata variant 1
 
-anyOf MetadataMap: Your key-value pairs for the reader..
+anyOf MetadataMapPreviousAttributes.
 
 - Value shape: Map of string. Your key-value pairs for the reader. Map values: maxLength: `4096`. 
 
@@ -231,7 +231,7 @@ anyOf variant 2.
 
 ### ReaderArchivedInstalledMerchantsEvent.data.previous_attributes.version
 
-Declared alternatives: [CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.version](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesversion).
+Declared alternatives: [BuyerExpandedPaymentIntentSummaryPreviousAttributes.version](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributes.md#buyerexpandedpaymentintentsummarypreviousattributesversion).
 
 ### ReaderArchivedInstalledMerchantsEvent.source
 

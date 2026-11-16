@@ -106,7 +106,7 @@ final class CreateSubscriptionPlanRequestInput extends Model {
      */
     public function getImages(): array { return $this->get('images'); }
     public function hasImages(): bool { return $this->has('images'); }
-    /** Where tracked demand from this plan is routed: a fixed Location, an allocation policy, or an immutable policy revision. Required when any line item tracks inventory. New subscriptions and payment links for the plan copy it, unless the payment link sends its own. Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`.
+    /** Where tracked demand from this plan is routed: a fixed Location, an allocation policy, or an immutable policy revision. When omitted for tracked demand, Flint stores settings.inventory.default_routing_source if set. Otherwise, exactly one active Location with inventory_allocation_enabled in the current environment supplies the demand. The plan does not store this implicit source and resolves it again when demand is evaluated. Zero or multiple eligible Locations still require a source. New subscriptions and payment links for the plan copy an explicit or stored default source, unless the payment link sends its own. Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`.
      * @return InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_routing_source is omitted; use hasInventoryRoutingSource() or valueOrDefault().
      */

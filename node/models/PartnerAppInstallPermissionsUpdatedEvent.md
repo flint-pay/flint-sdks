@@ -41,7 +41,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
-| `environment_grants` | Optional | Array of [PartnerEnvironmentGrant](../models/PartnerEnvironmentGrant.md#partnerenvironmentgrant) or null | The install's environment grants, at most one for each mode, live and test, that the merchant approved. Omitted when the install has none. `environment_grants`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdataprevious_attributesenvironment_grants). |
+| `environment_grants` | Optional | Array of [PartnerEnvironmentGrantPreviousAttributes](../models/PartnerEnvironmentGrantPreviousAttributes.md#partnerenvironmentgrantpreviousattributes) or null | The install's environment grants, at most one for each mode, live and test, that the merchant approved. Omitted when the install has none. `environment_grants`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdataprevious_attributesenvironment_grants). |
 | `installed_by_user_id` | Optional | string or null | ID of the user who approved the install, or the signup's owner for an install a merchant signup created. Omitted when no user is recorded. `installed_by_user_id`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdataprevious_attributesinstalled_by_user_id). |
 | `merchant_id` | Optional | string or null | ID of the merchant this resource belongs to. `merchant_id`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributesmerchant_id). |
 | `merchant_signup_id` | Optional | string or null | The merchant signup that created the merchant and this install, when one did. The installing merchant reads it too. A merchant has at most one such install. It stays after a revoke, as history, but Flint's emails lead to the app only until the install's first revoke. `merchant_signup_id`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdataprevious_attributesmerchant_signup_id). |
@@ -65,7 +65,7 @@ Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](
 
 anyOf variant 1: The install's environment grants, at most one for each mode, live and test, that the merchant approved. Omitted when the install has none..
 
-- Value shape: Array of [PartnerEnvironmentGrant](../models/PartnerEnvironmentGrant.md#partnerenvironmentgrant). The install's environment grants, at most one for each mode, live and test, that the merchant approved. Omitted when the install has none. 
+- Value shape: Array of [PartnerEnvironmentGrantPreviousAttributes](../models/PartnerEnvironmentGrantPreviousAttributes.md#partnerenvironmentgrantpreviousattributes). The install's environment grants, at most one for each mode, live and test, that the merchant approved. Omitted when the install has none. 
 
 ### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.environment_grants variant 2
 

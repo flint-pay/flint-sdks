@@ -1,7 +1,7 @@
-import { d7493 as c0 } from '../descriptors/data/344.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
-import { d7493 as d7493 } from '../descriptors/data/344.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
+import { d8516 as c0 } from '../descriptors/data/377.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d8516 as d8516 } from '../descriptors/data/377.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7493;
+const read = d8516;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["WebhookSigningMethod"]:c0()}); }
 export { codec as _validate };

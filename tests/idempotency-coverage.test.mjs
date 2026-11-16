@@ -27,7 +27,11 @@ const json = (path) =>
   JSON.parse(readFileSync(new URL(path, import.meta.url), "utf8"));
 const api = json("../spec/openapi.json");
 const common = json("../spec/profiles/full-common-sdk.json");
-const selected = [...new Set(json("../sdk.json").profiles.flatMap((path) => json("../" + path).include))];
+const selected = [
+  ...new Set(
+    json("../sdk.json").profiles.flatMap((path) => json("../" + path).include),
+  ),
+];
 const KEY_PATTERN =
   /^flint-sdk-[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 const ENVELOPELESS = [429, 500, 502, 503, 504];
@@ -100,6 +104,28 @@ test("profile retry and idempotency settings are derived from the pinned OpenAPI
   );
 });
 
+test("payment budgets follow route markers and remove stale derived budgets", () => {
+  const fixture = structuredClone(api);
+  const route =
+    fixture.paths["/v1/subscriptions/{subscription_id}/change-quantity"].post;
+  // An unfamiliar operation ID proves classification does not depend on a hand list.
+  route.operationId = "syntheticFutureCharge";
+  const profile = { ...common, operations: {} };
+  for (const cls of ["payment", "external_provider_action"]) {
+    route["x-flint-route-class"] = cls;
+    const derived = deriveProfile(fixture, profile);
+    assert.deepEqual(derived.operations.syntheticFutureCharge.defaults, {
+      timeoutMs: 150000,
+      deadlineMs: 300000,
+    });
+    route["x-flint-route-class"] = "write";
+    assert.equal(
+      deriveProfile(fixture, derived).operations.syntheticFutureCharge.defaults,
+      undefined,
+    );
+  }
+});
+
 for (const [runtime, load, settings] of [
   ["Node", nodeDescriptors, () => nodeSettings],
   ["PHP", phpDescriptors, () => json("../php/src/descriptors/settings.json")],
@@ -119,6 +145,22 @@ for (const [runtime, load, settings] of [
       assert.ok(contract, `${id} is not in the pinned OpenAPI`);
       assert.equal(descriptor.verb, contract.verb, id);
       counts[contract.cls]++;
+      const source = Object.values(api.paths)
+        .flatMap(Object.values)
+        .find((operation) => operation?.operationId === id);
+      const longBudget = ["payment", "external_provider_action"].includes(
+        source["x-flint-route-class"],
+      );
+      assert.deepEqual(
+        descriptor.defaults,
+        longBudget
+          ? {
+              timeoutMs: 150000,
+              deadlineMs: 300000,
+            }
+          : undefined,
+        `${id} timeout budget`,
+      );
       const { idempotency, retry } = descriptor;
       if (contract.cls === "none")
         assert.equal(idempotency, undefined, `${id} must not send a key`);
@@ -163,6 +205,27 @@ for (const [runtime, load, settings] of [
           `${id} compiles same_request as one attempt`,
         );
     }
+    for (const id of [
+      "changeSubscriptionQuantity",
+      "changeSubscriptionPlan",
+      "renewSubscription",
+      "createSubscriptionPaymentRetry",
+      "createSubscription",
+      "changeMeSubscriptionQuantity",
+      "changeMeSubscriptionPlan",
+      "renewMeSubscription",
+      "createMeSubscriptionPaymentRetry",
+      "collectInvoice",
+      "createRefund",
+    ])
+      assert.deepEqual(
+        compiled.get(id)?.defaults,
+        {
+          timeoutMs: 150000,
+          deadlineMs: 300000,
+        },
+        `${runtime} ${id} must allow synchronous charges to finish`,
+      );
     const expectedCounts = { optional: 0, required: 0, none: 0, retrying: 0 };
     for (const id of selected) {
       const contract = expected.get(id);

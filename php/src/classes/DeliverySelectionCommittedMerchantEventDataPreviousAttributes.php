@@ -2,24 +2,24 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read MoneyValue|null $amount_money
- * @property-read mixed $buyer_location
+ * @property-read MoneyValuePreviousAttributes|null $amount_money
+ * @property-read \stdClass|null $buyer_location
  * @property-read string|null $calculation_expires_at
  * @property-read string|null $checkout_session_id
- * @property-read list<DeliverySelectionChoiceResource>|null $choices
+ * @property-read list<DeliverySelectionChoiceResourcePreviousAttributes>|null $choices
  * @property-read string|null $created_at
  * @property-read string|null $delivery_quote_id
  * @property-read string|null $delivery_selection_id
- * @property-read Address|null $destination_address
+ * @property-read AddressPreviousAttributes|null $destination_address
  * @property-read string|null $expires_at
- * @property-read list<DeliveryInputRequirement>|null $input_requirements
+ * @property-read list<DeliveryInputRequirementPreviousAttributes>|null $input_requirements
  * @property-read string|null $instructions
- * @property-read list<DeliverySelectionLifecycleEventResource>|null $lifecycle_events
+ * @property-read list<DeliverySelectionLifecycleEventResourcePreviousAttributes>|null $lifecycle_events
  * @property-read string|null $lifecycle_updated_at
  * @property-read string|null $limiting_deadline_reason
  * @property-read string|null $order_id
  * @property-read string|null $private_data_status
- * @property-read DeliveryRecipientResource|null $recipient
+ * @property-read DeliveryRecipientResourcePreviousAttributes|null $recipient
  * @property-read string|null $redacted_at
  * @property-read string|null $status
  * @property-read list<string>|null $supported_actions
@@ -27,15 +27,15 @@ namespace Flint;
 final class DeliverySelectionCommittedMerchantEventDataPreviousAttributes extends Model {
     /** @param array{'amount_money'?: mixed, 'buyer_location'?: mixed, 'calculation_expires_at'?: mixed, 'checkout_session_id'?: mixed, 'choices'?: mixed, 'created_at'?: mixed, 'delivery_quote_id'?: mixed, 'delivery_selection_id'?: mixed, 'destination_address'?: mixed, 'expires_at'?: mixed, 'input_requirements'?: mixed, 'instructions'?: mixed, 'lifecycle_events'?: mixed, 'lifecycle_updated_at'?: mixed, 'limiting_deadline_reason'?: mixed, 'order_id'?: mixed, 'private_data_status'?: mixed, 'recipient'?: mixed, 'redacted_at'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliverySelectionCommittedMerchantEventDataPreviousAttributes')); }
-    /** Delivery charge committed by this selection. anyOf[1] (Value): {@see MoneyValue}. Delivery charge committed by this selection. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** Delivery charge committed by this selection. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getAmountMoney(): MoneyValue|null { return $this->get('amount_money'); }
+    public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Buyer location snapshot used to evaluate pickup proximity. Returned with an API key or dashboard credential. anyOf[1] (Value): {@see DeliveryBuyerLocationResource}. Buyer location snapshot used to evaluate pickup proximity. Returned with an API key or dashboard credential. anyOf[2] (Value): null.
-     * @return mixed
+    /** Buyer location snapshot used to evaluate pickup proximity. Returned with an API key or dashboard credential. anyOf[1] (Value): {@see DeliveryBuyerLocationResourcePreviousAttributes}. anyOf[2] (Value): null.
+     * @return \stdClass|null
      */
-    public function getBuyerLocation(): mixed { return $this->get('buyer_location'); }
+    public function getBuyerLocation(): \stdClass|null { return $this->get('buyer_location'); }
     public function hasBuyerLocation(): bool { return $this->has('buyer_location'); }
     /** Deadline after which calculated pricing evidence is no longer valid. Always present with an API key or dashboard credential. anyOf[1] (Value): string. Deadline after which calculated pricing evidence is no longer valid. Always present with an API key or dashboard credential. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -47,8 +47,8 @@ final class DeliverySelectionCommittedMerchantEventDataPreviousAttributes extend
      */
     public function getCheckoutSessionId(): string|null { return $this->get('checkout_session_id'); }
     public function hasCheckoutSessionId(): bool { return $this->has('checkout_session_id'); }
-    /** One chosen option for each required choice group. anyOf[1] (Value): Array of {@see DeliverySelectionChoiceResource}. One chosen option for each required choice group. anyOf[1][] (Value): {@see DeliverySelectionChoiceResource}. A delivery option chosen for one choice group in a delivery selection, with its method, amounts, type-specific details, timezone, and any chosen delivery window. anyOf[2] (Value): null.
-     * @return list<DeliverySelectionChoiceResource>|null
+    /** One chosen option for each required choice group. anyOf[1] (Value): Array of {@see DeliverySelectionChoiceResourcePreviousAttributes}. One chosen option for each required choice group. anyOf[1][] (Value): {@see DeliverySelectionChoiceResourcePreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<DeliverySelectionChoiceResourcePreviousAttributes>|null
      */
     public function getChoices(): array|null { return $this->get('choices'); }
     public function hasChoices(): bool { return $this->has('choices'); }
@@ -67,18 +67,18 @@ final class DeliverySelectionCommittedMerchantEventDataPreviousAttributes extend
      */
     public function getDeliverySelectionId(): string|null { return $this->get('delivery_selection_id'); }
     public function hasDeliverySelectionId(): bool { return $this->has('delivery_selection_id'); }
-    /** Destination address snapshot used for delivery evaluation. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. anyOf[1] (Value): {@see Address}. Destination address snapshot used for delivery evaluation. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. anyOf[2] (Value): null.
-     * @return Address|null
+    /** Destination address snapshot used for delivery evaluation. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. anyOf[1] (Value): {@see AddressPreviousAttributes}. anyOf[2] (Value): null.
+     * @return AddressPreviousAttributes|null
      */
-    public function getDestinationAddress(): Address|null { return $this->get('destination_address'); }
+    public function getDestinationAddress(): AddressPreviousAttributes|null { return $this->get('destination_address'); }
     public function hasDestinationAddress(): bool { return $this->has('destination_address'); }
     /** Deadline after which this provisional selection can no longer be committed. anyOf[1] (Value): string. Deadline after which this provisional selection can no longer be committed. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getExpiresAt(): string|null { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** Inputs this selection still needs before payment: each destination_address member a chosen shipment or local delivery needs that the stored address lacks (line1, city, and country, plus state and postal_code in the US), and each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection reference until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected. anyOf[1] (Value): Array of {@see DeliveryInputRequirement}. Inputs this selection still needs before payment: each destination_address member a chosen shipment or local delivery needs that the stored address lacks (line1, city, and country, plus state and postal_code in the US), and each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection reference until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected. anyOf[1][] (Value): {@see DeliveryInputRequirement}. An input a delivery method needs, such as an address field or time window, with its `field_path`, purpose, and constraint. anyOf[2] (Value): null.
-     * @return list<DeliveryInputRequirement>|null
+    /** Inputs this selection still needs before payment: each destination_address member a chosen shipment or local delivery needs that the stored address lacks (line1, city, and country, plus state and postal_code in the US), and each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection reference until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected. anyOf[1] (Value): Array of {@see DeliveryInputRequirementPreviousAttributes}. Inputs this selection still needs before payment: each destination_address member a chosen shipment or local delivery needs that the stored address lacks (line1, city, and country, plus state and postal_code in the US), and each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection reference until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected. anyOf[1][] (Value): {@see DeliveryInputRequirementPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<DeliveryInputRequirementPreviousAttributes>|null
      */
     public function getInputRequirements(): array|null { return $this->get('input_requirements'); }
     public function hasInputRequirements(): bool { return $this->has('input_requirements'); }
@@ -87,8 +87,8 @@ final class DeliverySelectionCommittedMerchantEventDataPreviousAttributes extend
      */
     public function getInstructions(): string|null { return $this->get('instructions'); }
     public function hasInstructions(): bool { return $this->has('instructions'); }
-    /** Ordered lifecycle events recorded for this selection. anyOf[1] (Value): Array of {@see DeliverySelectionLifecycleEventResource}. Ordered lifecycle events recorded for this selection. anyOf[1][] (Value): {@see DeliverySelectionLifecycleEventResource}. A status change in a delivery selection's history, with the new `status`, the `reason`, and when it happened. anyOf[2] (Value): null.
-     * @return list<DeliverySelectionLifecycleEventResource>|null
+    /** Ordered lifecycle events recorded for this selection. anyOf[1] (Value): Array of {@see DeliverySelectionLifecycleEventResourcePreviousAttributes}. Ordered lifecycle events recorded for this selection. anyOf[1][] (Value): {@see DeliverySelectionLifecycleEventResourcePreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<DeliverySelectionLifecycleEventResourcePreviousAttributes>|null
      */
     public function getLifecycleEvents(): array|null { return $this->get('lifecycle_events'); }
     public function hasLifecycleEvents(): bool { return $this->has('lifecycle_events'); }
@@ -112,10 +112,10 @@ final class DeliverySelectionCommittedMerchantEventDataPreviousAttributes extend
      */
     public function getPrivateDataStatus(): string|null { return $this->get('private_data_status'); }
     public function hasPrivateDataStatus(): bool { return $this->has('private_data_status'); }
-    /** Recipient details captured with the selection. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. anyOf[1] (Value): {@see DeliveryRecipientResource}. Recipient details captured with the selection. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. anyOf[2] (Value): null.
-     * @return DeliveryRecipientResource|null
+    /** Recipient details captured with the selection. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. anyOf[1] (Value): {@see DeliveryRecipientResourcePreviousAttributes}. anyOf[2] (Value): null.
+     * @return DeliveryRecipientResourcePreviousAttributes|null
      */
-    public function getRecipient(): DeliveryRecipientResource|null { return $this->get('recipient'); }
+    public function getRecipient(): DeliveryRecipientResourcePreviousAttributes|null { return $this->get('recipient'); }
     public function hasRecipient(): bool { return $this->has('recipient'); }
     /** Time merchant-private selection evidence was redacted. anyOf[1] (Value): string. Time merchant-private selection evidence was redacted. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

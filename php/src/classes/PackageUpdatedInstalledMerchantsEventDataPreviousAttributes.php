@@ -5,18 +5,18 @@ namespace Flint;
  * @property-read string|null $carrier
  * @property-read string|null $created_at
  * @property-read string|null $delivered_at
- * @property-read Dimensions|null $dimensions
- * @property-read mixed $expected_delivery_at
+ * @property-read DimensionsPreviousAttributes|null $dimensions
+ * @property-read string|null $expected_delivery_at
  * @property-read string|null $external_reference_id
  * @property-read string|null $external_system
  * @property-read string|null $fulfillment_id
  * @property-read string|null $label_url
  * @property-read array<array-key, string>|null $metadata
- * @property-read mixed $order
+ * @property-read ExpandedOrderSummaryPreviousAttributes|null $order
  * @property-read string|null $order_id
  * @property-read string|null $package_id
  * @property-read string|null $return_id
- * @property-read list<ReturnShipmentLineItemAllocation>|null $return_line_items
+ * @property-read list<ReturnShipmentLineItemAllocationPreviousAttributes>|null $return_line_items
  * @property-read string|null $service_code
  * @property-read string|null $shipment_id
  * @property-read string|null $shipped_at
@@ -27,7 +27,7 @@ namespace Flint;
  * @property-read string|null $tracking_url
  * @property-read string|null $updated_at
  * @property-read int|null $version
- * @property-read Weight|null $weight
+ * @property-read WeightPreviousAttributes|null $weight
  * Presence-aware response; omitted optional fields return null. */
 final class PackageUpdatedInstalledMerchantsEventDataPreviousAttributes extends Model {
     /** @param array{'carrier'?: mixed, 'created_at'?: mixed, 'delivered_at'?: mixed, 'dimensions'?: mixed, 'expected_delivery_at'?: mixed, 'external_reference_id'?: mixed, 'external_system'?: mixed, 'fulfillment_id'?: mixed, 'label_url'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_id'?: mixed, 'package_id'?: mixed, 'return_id'?: mixed, 'return_line_items'?: mixed, 'service_code'?: mixed, 'shipment_id'?: mixed, 'shipped_at'?: mixed, 'status'?: mixed, 'status_reason'?: mixed, 'supported_actions'?: mixed, 'tracking_number'?: mixed, 'tracking_url'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, 'weight'?: mixed, ...}|object $values */
@@ -47,15 +47,15 @@ final class PackageUpdatedInstalledMerchantsEventDataPreviousAttributes extends 
      */
     public function getDeliveredAt(): string|null { return $this->get('delivered_at'); }
     public function hasDeliveredAt(): bool { return $this->has('delivered_at'); }
-    /** Physical length, width, and height of the package. anyOf[1] (Value): {@see Dimensions}. Physical length, width, and height of the package. anyOf[2] (Value): null.
-     * @return Dimensions|null
+    /** Physical length, width, and height of the package. anyOf[1] (Value): {@see DimensionsPreviousAttributes}. anyOf[2] (Value): null.
+     * @return DimensionsPreviousAttributes|null
      */
-    public function getDimensions(): Dimensions|null { return $this->get('dimensions'); }
+    public function getDimensions(): DimensionsPreviousAttributes|null { return $this->get('dimensions'); }
     public function hasDimensions(): bool { return $this->has('dimensions'); }
-    /** When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. anyOf[1] (Value): string or null. When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. Format: date-time. anyOf[2] (Value): null.
-     * @return mixed
+    /** When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. anyOf[1] (Value): string. When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getExpectedDeliveryAt(): mixed { return $this->get('expected_delivery_at'); }
+    public function getExpectedDeliveryAt(): string|null { return $this->get('expected_delivery_at'); }
     public function hasExpectedDeliveryAt(): bool { return $this->has('expected_delivery_at'); }
     /** Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. anyOf[1] (Value): string. Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. maxLength: 255. anyOf[2] (Value): null.
      * @return string|null
@@ -77,15 +77,15 @@ final class PackageUpdatedInstalledMerchantsEventDataPreviousAttributes extends 
      */
     public function getLabelUrl(): string|null { return $this->get('label_url'); }
     public function hasLabelUrl(): bool { return $this->has('label_url'); }
-    /** Caller-owned key-value metadata associated with the package. anyOf[1] (Value): {@see MetadataMap}. Caller-owned key-value metadata associated with the package. anyOf[2] (Value): null.
+    /** Caller-owned key-value metadata associated with the package. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
      * @return array<array-key, string>|null
      */
     public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Order summary returned when the order relationship is expanded. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummary} or null. Order summary returned when the order relationship is expanded. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummary}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Order summary returned when the order relationship is expanded. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ExpandedOrderSummaryPreviousAttributes|null
      */
-    public function getOrder(): mixed { return $this->get('order'); }
+    public function getOrder(): ExpandedOrderSummaryPreviousAttributes|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
     /** Order whose items are in the package. anyOf[1] (Value): string. Order whose items are in the package. anyOf[2] (Value): null.
      * @return string|null
@@ -102,8 +102,8 @@ final class PackageUpdatedInstalledMerchantsEventDataPreviousAttributes extends 
      */
     public function getReturnId(): string|null { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Return line quantities allocated to this parcel. Present only on packages of return shipments. anyOf[1] (Value): Array of {@see ReturnShipmentLineItemAllocation}. Return line quantities allocated to this parcel. Present only on packages of return shipments. anyOf[1][] (Value): {@see ReturnShipmentLineItemAllocation}. A return line and the quantity placed in a return shipment or package. anyOf[2] (Value): null.
-     * @return list<ReturnShipmentLineItemAllocation>|null
+    /** Return line quantities allocated to this parcel. Present only on packages of return shipments. anyOf[1] (Value): Array of {@see ReturnShipmentLineItemAllocationPreviousAttributes}. Return line quantities allocated to this parcel. Present only on packages of return shipments. anyOf[1][] (Value): {@see ReturnShipmentLineItemAllocationPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ReturnShipmentLineItemAllocationPreviousAttributes>|null
      */
     public function getReturnLineItems(): array|null { return $this->get('return_line_items'); }
     public function hasReturnLineItems(): bool { return $this->has('return_line_items'); }
@@ -157,9 +157,9 @@ final class PackageUpdatedInstalledMerchantsEventDataPreviousAttributes extends 
      */
     public function getVersion(): int|null { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
-    /** Physical weight of the package. anyOf[1] (Value): {@see Weight}. Physical weight of the package. anyOf[2] (Value): null.
-     * @return Weight|null
+    /** Physical weight of the package. anyOf[1] (Value): {@see WeightPreviousAttributes}. anyOf[2] (Value): null.
+     * @return WeightPreviousAttributes|null
      */
-    public function getWeight(): Weight|null { return $this->get('weight'); }
+    public function getWeight(): WeightPreviousAttributes|null { return $this->get('weight'); }
     public function hasWeight(): bool { return $this->has('weight'); }
 }

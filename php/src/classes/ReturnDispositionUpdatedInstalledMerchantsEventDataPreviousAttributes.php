@@ -3,11 +3,11 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $canceled_at
- * @property-read ReturnActor|null $canceled_by
+ * @property-read ReturnActorPreviousAttributes|null $canceled_by
  * @property-read string|null $cancellation_reason
  * @property-read string|null $cancellation_reason_message
  * @property-read string|null $created_at
- * @property-read ReturnActor|null $created_by
+ * @property-read ReturnActorPreviousAttributes|null $created_by
  * @property-read string|null $disposition_type
  * @property-read string|null $external_reference_id
  * @property-read string|null $failure_code
@@ -24,10 +24,10 @@ namespace Flint;
  * @property-read string|null $replaces_return_disposition_id
  * @property-read string|null $return_disposition_id
  * @property-read string|null $return_id
- * @property-read mixed $return_inspection_id
+ * @property-read string|null $return_inspection_id
  * @property-read string|null $return_inspection_line_item_id
  * @property-read string|null $return_line_item_id
- * @property-read mixed $return_receipt_id
+ * @property-read string|null $return_receipt_id
  * @property-read string|null $return_receipt_line_item_id
  * @property-read string|null $status
  * @property-read list<string>|null $supported_actions
@@ -42,10 +42,10 @@ final class ReturnDispositionUpdatedInstalledMerchantsEventDataPreviousAttribute
      */
     public function getCanceledAt(): string|null { return $this->get('canceled_at'); }
     public function hasCanceledAt(): bool { return $this->has('canceled_at'); }
-    /** Who canceled the disposition. Merchant reads only. anyOf[1] (Value): {@see ReturnActor}. Who canceled the disposition. Merchant reads only. anyOf[2] (Value): null.
-     * @return ReturnActor|null
+    /** Who canceled the disposition. Merchant reads only. anyOf[1] (Value): {@see ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ReturnActorPreviousAttributes|null
      */
-    public function getCanceledBy(): ReturnActor|null { return $this->get('canceled_by'); }
+    public function getCanceledBy(): ReturnActorPreviousAttributes|null { return $this->get('canceled_by'); }
     public function hasCanceledBy(): bool { return $this->has('canceled_by'); }
     /** Why the disposition was canceled. Value enum: "created_in_error", "changed_disposition", "duplicate", "other". anyOf[1] (Value): string. Why the disposition was canceled. Value enum: "created_in_error", "changed_disposition", "duplicate", "other". anyOf[2] (Value): null.
      * @return string|null
@@ -62,10 +62,10 @@ final class ReturnDispositionUpdatedInstalledMerchantsEventDataPreviousAttribute
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Who created the disposition. anyOf[1] (Value): {@see ReturnActor}. Who created the disposition. anyOf[2] (Value): null.
-     * @return ReturnActor|null
+    /** Who created the disposition. anyOf[1] (Value): {@see ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ReturnActorPreviousAttributes|null
      */
-    public function getCreatedBy(): ReturnActor|null { return $this->get('created_by'); }
+    public function getCreatedBy(): ReturnActorPreviousAttributes|null { return $this->get('created_by'); }
     public function hasCreatedBy(): bool { return $this->has('created_by'); }
     /** What happens to the received units. Value enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost". anyOf[1] (Value): string. What happens to the received units. Value enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost". anyOf[2] (Value): null.
      * @return string|null
@@ -102,7 +102,7 @@ final class ReturnDispositionUpdatedInstalledMerchantsEventDataPreviousAttribute
      */
     public function getInventoryReceiptId(): string|null { return $this->get('inventory_receipt_id'); }
     public function hasInventoryReceiptId(): bool { return $this->has('inventory_receipt_id'); }
-    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
      * @return array<array-key, string>|null
      */
     public function getMetadata(): array|null { return $this->get('metadata'); }
@@ -147,10 +147,10 @@ final class ReturnDispositionUpdatedInstalledMerchantsEventDataPreviousAttribute
      */
     public function getReturnId(): string|null { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. anyOf[1] (Value): string or null. Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. anyOf[1] (Value): string. Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getReturnInspectionId(): mixed { return $this->get('return_inspection_id'); }
+    public function getReturnInspectionId(): string|null { return $this->get('return_inspection_id'); }
     public function hasReturnInspectionId(): bool { return $this->has('return_inspection_id'); }
     /** ID of the inspection line the disposition covers. Absent when it covers a receipt line. anyOf[1] (Value): string. ID of the inspection line the disposition covers. Absent when it covers a receipt line. anyOf[2] (Value): null.
      * @return string|null
@@ -162,10 +162,10 @@ final class ReturnDispositionUpdatedInstalledMerchantsEventDataPreviousAttribute
      */
     public function getReturnLineItemId(): string|null { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. anyOf[1] (Value): string or null. Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. anyOf[1] (Value): string. Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getReturnReceiptId(): mixed { return $this->get('return_receipt_id'); }
+    public function getReturnReceiptId(): string|null { return $this->get('return_receipt_id'); }
     public function hasReturnReceiptId(): bool { return $this->has('return_receipt_id'); }
     /** ID of the receipt line the disposition covers. Absent when it covers an inspection line. anyOf[1] (Value): string. ID of the receipt line the disposition covers. Absent when it covers an inspection line. anyOf[2] (Value): null.
      * @return string|null

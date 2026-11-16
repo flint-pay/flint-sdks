@@ -36,7 +36,7 @@ final class PublicPaymentLinkResult extends Model {
      */
     public function getIsPastSalesEnd(): bool { return $this->get('is_past_sales_end'); }
     public function hasIsPastSalesEnd(): bool { return $this->has('is_past_sales_end'); }
-    /** True for an event with no tickets remaining. For other active links with inventory_routing_source, true when any catalog line cannot be bought at its minimum quantity from that source. Untracked and ad hoc lines do not count. A choice line counts only when every offered variant is sold out. Fixed locations use available stock; policies use their allocatable locations. Stock is not reserved by this read.
+    /** True for an event with no tickets remaining. For other active links with tracked demand, true when any catalog line cannot be bought at its minimum quantity from the effective routing source, including the single-Location fallback. Untracked and ad hoc lines do not count. A choice line counts only when every offered variant is sold out. Fixed locations use available stock; policies use their allocatable locations. Stock is not reserved by this read.
      * @return bool
      */
     public function getIsSoldOut(): bool { return $this->get('is_sold_out'); }

@@ -50,7 +50,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `status` | Optional | string or null | Where the test clock is in its lifecycle. Read it before advancing, and after an advance until it's `ready` or `failed`. Values: `"ready"`, `"advancing"`, `"failed"`, `"archived"`. `status`: [declared alternatives](../models/TestClockAdvancingEvent.md#testclockadvancingeventdataprevious_attributesstatus). |
 | `test_clock_id` | Optional | string or null | Unique identifier for the test clock. `test_clock_id`: [declared alternatives](../models/TestClockAdvancingEvent.md#testclockadvancingeventdataprevious_attributestest_clock_id). |
 | `updated_at` | Optional | string or null | When the test clock last changed, in real time. `updated_at`: [declared alternatives](../models/TestClockAdvancingEvent.md#testclockadvancingeventdataprevious_attributesupdated_at). |
-| `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesversion). |
+| `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributes.md#buyerexpandedpaymentintentsummarypreviousattributesversion). |
 
 ### TestClockAdvancingEvent.data.previous_attributes.created_at
 
@@ -138,7 +138,7 @@ anyOf variant 2.
 
 ### TestClockAdvancingEvent.data.previous_attributes.version
 
-Declared alternatives: [CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.version](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesversion).
+Declared alternatives: [BuyerExpandedPaymentIntentSummaryPreviousAttributes.version](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributes.md#buyerexpandedpaymentintentsummarypreviousattributesversion).
 
 ### TestClockAdvancingEvent.request
 

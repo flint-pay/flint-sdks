@@ -1,19 +1,18 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { CancelReturnDispositionResponse } from '../declarations/types-4.js';
+import type { CancelReturnDispositionResponse } from '../declarations/types-5.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { CreateReturnDispositionResponse } from '../declarations/types-12.js';
-import type { GetReturnDispositionResponse } from '../declarations/types-26.js';
-import type { ListReturnDispositionsResponse } from '../declarations/types-35.js';
-import type { RequestOptions, RetryReturnDispositionResponse } from '../declarations/types-54.js';
+import type { CreateReturnDispositionResponse } from '../declarations/types-13.js';
+import type { GetReturnDispositionResponse } from '../declarations/types-28.js';
+import type { ListReturnDispositionsResponse } from '../declarations/types-38.js';
+import type { RequestOptions, RetryReturnDispositionResponse, ReturnDisposition } from '../declarations/types-60.js';
 import type {
-    ReturnDisposition,
     ReturnDispositionsCancelParams,
     ReturnDispositionsCreateParams,
     ReturnDispositionsGetParams,
     ReturnDispositionsListParams,
     ReturnDispositionsRetryParams
-} from '../declarations/types-55.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-61.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -30,47 +29,47 @@ export type {
 } from '../runtime.js';
 export type {
     ReturnDispositionsCancelParams,
-    ReturnDisposition,
     ReturnDispositionsCreateParams,
     ReturnDispositionsGetParams,
     ReturnDispositionsListParams,
-    ReturnDispositionsRetryParams,
-    ReturnActor
-} from '../declarations/types-55.js';
+    ReturnDispositionsRetryParams
+} from '../declarations/types-61.js';
 export type {
     RequestOptions,
+    ReturnDisposition,
     RetryReturnDispositionResponse,
+    ReturnActor,
     ResponseMeta,
     ResponseWarning,
     ResourceReference,
     RetryReturnDispositionRequestInput
-} from '../declarations/types-54.js';
-export type { CancelReturnDispositionResponse, CancelReturnDispositionRequestInput } from '../declarations/types-4.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-60.js';
+export type { CancelReturnDispositionResponse, CancelReturnDispositionRequestInput } from '../declarations/types-5.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export type {
     CreateReturnDispositionResponse,
-    CreateReturnDispositionRequestInput,
     CreateReturnDispositionRequestReceiptLineInput,
     CreateReturnDispositionRequestInspectionLineInput
-} from '../declarations/types-12.js';
-export type { GetReturnDispositionResponse } from '../declarations/types-26.js';
-export type { ListReturnDispositionsResponse } from '../declarations/types-35.js';
+} from '../declarations/types-13.js';
+export type { GetReturnDispositionResponse } from '../declarations/types-28.js';
+export type { ListReturnDispositionsResponse } from '../declarations/types-38.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { MetadataMap, MetadataRequestInput } from '../declarations/types-38.js';
-export type { NextAction, MoneyValue } from '../declarations/types-39.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { DisputesAcceptParams } from '../declarations/types-23.js';
-export { makeCancelReturnDispositionRequest } from '../declarations/types-71.js';
+export type { MetadataMap, MetadataRequestInput } from '../declarations/types-41.js';
+export type { CreateReturnDispositionRequestInput } from '../declarations/types-12.js';
+export type { NextAction, MoneyValue } from '../declarations/types-42.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { DisputesAcceptParams } from '../declarations/types-25.js';
+export { makeCancelReturnDispositionRequest } from '../declarations/types-78.js';
 export {
     makeCreateReturnDispositionRequest,
     makeCreateReturnDispositionRequestInspectionLine,
     makeCreateReturnDispositionRequestReceiptLine
-} from '../declarations/types-74.js';
-export { makeMetadataRequest } from '../declarations/types-78.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
-export { makeRetryReturnDispositionRequest } from '../declarations/types-81.js';
+} from '../declarations/types-81.js';
+export { makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
+export { makeRetryReturnDispositionRequest } from '../declarations/types-88.js';
 export interface ReturnDispositionsResource {
     /**
  * Cancel a disposition that has not started its inventory effect. Cancellation is refused once the

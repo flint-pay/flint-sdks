@@ -43,14 +43,14 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `closed_at` | Optional | string or null | RFC3339 timestamp. `closed_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
-| `closed_reason` | Optional | string or null or null | How the transfer ended. `null` when the transfer isn't closed. Values: `"received"`, `"canceled"`, `"received_with_cancellation"`, `"returned"`, `"lost"`, `"mixed"`, `null`. `closed_reason`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEventInput.md#inventorytransferclosedinstalledmerchantseventinputdataprevious_attributesclosed_reason). |
+| `closed_reason` | Optional | string or null | How the transfer ended. `null` when the transfer isn't closed. Values: `"received"`, `"canceled"`, `"received_with_cancellation"`, `"returned"`, `"lost"`, `"mixed"`, `null`. `closed_reason`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEventInput.md#inventorytransferclosedinstalledmerchantseventinputdataprevious_attributesclosed_reason). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
 | `departed_at` | Optional | string or null | RFC3339 timestamp. `departed_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
 | `destination_location_id` | Optional | string or null | ID of the Location the stock goes to. `destination_location_id`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEventInput.md#inventorytransferclosedinstalledmerchantseventinputdataprevious_attributesdestination_location_id). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEventInput.md#bundlearchivedinstalledmerchantseventinputdataprevious_attributesexternal_reference_id). |
 | `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key. `idempotency_key`: [declared alternatives](../models/InventoryCountAppliedInstalledMerchantsEventInput.md#inventorycountappliedinstalledmerchantseventinputdataprevious_attributesidempotency_key). |
 | `inventory_transfer_id` | Optional | string or null | Unique identifier for this inventory transfer, prefixed `invtr_`. `inventory_transfer_id`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEventInput.md#inventorytransferclosedinstalledmerchantseventinputdataprevious_attributesinventory_transfer_id). |
-| `lines` | Optional | Array of [InventoryTransferLineInput](../models/InventoryTransferLineInput.md#inventorytransferlineinput) or null | Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. `lines`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEventInput.md#inventorytransferclosedinstalledmerchantseventinputdataprevious_attributeslines). |
+| `lines` | Optional | Array of [InventoryTransferLinePreviousAttributesInput](../models/InventoryTransferLinePreviousAttributesInput.md#inventorytransferlinepreviousattributesinput) or null | Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. `lines`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEventInput.md#inventorytransferclosedinstalledmerchantseventinputdataprevious_attributeslines). |
 | `note` | Optional | string or null | Free-text note about the transfer. `note`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEventInput.md#inventorytransferclosedinstalledmerchantseventinputdataprevious_attributesnote). |
 | `origin_location_id` | Optional | string or null | ID of the Location the stock leaves. `origin_location_id`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEventInput.md#inventorytransferclosedinstalledmerchantseventinputdataprevious_attributesorigin_location_id). |
 | `received_at` | Optional | string or null | RFC3339 timestamp. `received_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
@@ -69,7 +69,7 @@ Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created
 
 anyOf variant 1: How the transfer ended. `null` when the transfer isn't closed..
 
-- Value shape: (string or null). How the transfer ended. `null` when the transfer isn't closed. Values: `"received"`, `"canceled"`, `"received_with_cancellation"`, `"returned"`, `"lost"`, `"mixed"`, `null`.
+- Value shape: string. How the transfer ended. `null` when the transfer isn't closed. Values: `"received"`, `"canceled"`, `"received_with_cancellation"`, `"returned"`, `"lost"`, `"mixed"`, `null`.
 
 ### InventoryTransferClosedInstalledMerchantsEventInput.data.previous_attributes.closed_reason variant 2
 
@@ -127,7 +127,7 @@ anyOf variant 2.
 
 anyOf variant 1: Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection..
 
-- Value shape: Array of [InventoryTransferLineInput](../models/InventoryTransferLineInput.md#inventorytransferlineinput). Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. 
+- Value shape: Array of [InventoryTransferLinePreviousAttributesInput](../models/InventoryTransferLinePreviousAttributesInput.md#inventorytransferlinepreviousattributesinput). Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. 
 
 ### InventoryTransferClosedInstalledMerchantsEventInput.data.previous_attributes.lines variant 2
 

@@ -1,11 +1,11 @@
-import { d1437 as c0 } from '../descriptors/data/68.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
-import { d8198 as c1, d8199 as c2, d8200 as c3 } from '../descriptors/data/388.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
-import { d8201 as c4, d8202 as c5 } from '../descriptors/data/389.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
-import { d1437 as d1437 } from '../descriptors/data/68.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
+import { d1835 as c0 } from '../descriptors/data/92.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d9221 as c1, d9222 as c2, d9223 as c3 } from '../descriptors/data/421.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d9224 as c4, d9225 as c5 } from '../descriptors/data/422.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d1835 as d1835 } from '../descriptors/data/92.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1437;
+const read = d1835;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["SaveMeGiftCardRequest"]:c0(),["SharedCodec2186"]:c1(),["SharedCodec2187"]:c2(),["SharedCodec2188"]:c3(),["SharedCodec2189"]:c4(),["SharedCodec2190"]:c5()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["SaveMeGiftCardRequest"]:c0(),["SharedCodec2726"]:c1(),["SharedCodec2727"]:c2(),["SharedCodec2728"]:c3(),["SharedCodec2729"]:c4(),["SharedCodec2730"]:c5()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeSaveMeGiftCardRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

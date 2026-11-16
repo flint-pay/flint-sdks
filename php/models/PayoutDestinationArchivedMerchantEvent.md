@@ -76,21 +76,21 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `available_payout_methods` | Optional | Array of string or null | Payout methods available through Flint for this destination. Only standard is currently available. Items values: `"standard"`. `available_payout_methods`: [declared alternatives](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributesavailable_payout_methods). |
-| `bank_name` | Optional | string or null | Name of the bank, when your processor reports it. `bank_name`: [declared alternatives](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributesbank_name). |
-| `country` | Optional | string or null | ISO 3166-1 alpha-2 country code. `country`: [declared alternatives](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributescountry). |
+| `available_payout_methods` | Optional | Array of string or null | Payout methods available through Flint for this destination. Only standard is currently available. Items values: `"standard"`. `available_payout_methods`: [declared alternatives](../models/ExpandedPayoutDestinationSummaryPreviousAttributes.md#expandedpayoutdestinationsummarypreviousattributesavailable_payout_methods). |
+| `bank_name` | Optional | string or null | Name of the bank, when your processor reports it. `bank_name`: [declared alternatives](../models/ExpandedPayoutDestinationSummaryPreviousAttributes.md#expandedpayoutdestinationsummarypreviousattributesbank_name). |
+| `country` | Optional | string or null | ISO 3166-1 alpha-2 country code. `country`: [declared alternatives](../models/AddressPreviousAttributes.md#addresspreviousattributescountry). |
 | `created_at` | Optional | string or null | When the destination was added. `created_at`: [declared alternatives](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributescreated_at). |
 | `currency` | Optional | string or null | ISO 4217 currency code. `currency`: [declared alternatives](../models/MerchantBillingBalanceUpdatedEvent.md#merchantbillingbalanceupdatedeventdata-fields-1previous_attributescurrency). |
 | `disabled_at` | Optional | string or null | When the destination was last disabled or archived. Absent if it never was. `disabled_at`: [declared alternatives](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributesdisabled_at). |
 | `disabled_reason` | Optional | string or null | Flint-normalized reason the payout destination cannot currently be used. Unknown provider/backend values are returned as destination_unavailable. Values: [7 declared values](#payoutdestinationarchivedmerchanteventdata-fields-1previous_attributes-disabled_reason-values). `disabled_reason`: [declared alternatives](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributesdisabled_reason). |
-| `is_default_for_currency` | Optional | boolean or null | Whether this is the default destination for its currency. Scheduled payouts, and payouts created without payout_destination_id, go to the default, and only an active destination can be it. `is_default_for_currency`: [declared alternatives](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributesis_default_for_currency). |
-| `last4` | Optional | string or null | Last four digits of the account or card number. `last4`: [declared alternatives](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributeslast4). |
+| `is_default_for_currency` | Optional | boolean or null | Whether this is the default destination for its currency. Scheduled payouts, and payouts created without payout_destination_id, go to the default, and only an active destination can be it. `is_default_for_currency`: [declared alternatives](../models/ExpandedPayoutDestinationSummaryPreviousAttributes.md#expandedpayoutdestinationsummarypreviousattributesis_default_for_currency). |
+| `last4` | Optional | string or null | Last four digits of the account or card number. `last4`: [declared alternatives](../models/ExpandedPayoutDestinationSummaryPreviousAttributes.md#expandedpayoutdestinationsummarypreviousattributeslast4). |
 | `merchant_id` | Optional | string or null | Merchant that owns the destination. `merchant_id`: [declared alternatives](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributesmerchant_id). |
-| `metadata` | Optional | Map of string or null | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. `metadata`: [declared alternatives](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesmetadata). |
+| `metadata` | Optional | Map of string or null | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. `metadata`: [declared alternatives](../models/OrderLineItemModifierPreviousAttributes.md#orderlineitemmodifierpreviousattributesmetadata). |
 | `payout_destination_id` | Optional | string or null | Stable identifier of the payout destination. `payout_destination_id`: [declared alternatives](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributespayout_destination_id). |
-| `status` | Optional | string or null | Current status. Archived: deleted, and still readable by ID. Values: `"pending"`, `"active"`, `"verification_required"`, `"disabled"`, `"archived"`, `"failed"`. `status`: [declared alternatives](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributesstatus). |
+| `status` | Optional | string or null | Current status. Archived: deleted, and still readable by ID. Values: `"pending"`, `"active"`, `"verification_required"`, `"disabled"`, `"archived"`, `"failed"`. `status`: [declared alternatives](../models/ExpandedPayoutDestinationSummaryPreviousAttributes.md#expandedpayoutdestinationsummarypreviousattributesstatus). |
 | `status_updated_at` | Optional | string or null | When Flint last recorded the destination's status. `status_updated_at`: [declared alternatives](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributesstatus_updated_at). |
-| `type` | Optional | string or null | Destination type. Unmapped destination types are returned as other. Values: `"bank_account"`, `"debit_card"`, `"other"`. `type`: [declared alternatives](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributestype). |
+| `type` | Optional | string or null | Destination type. Unmapped destination types are returned as other. Values: `"bank_account"`, `"debit_card"`, `"other"`. `type`: [declared alternatives](../models/ExpandedPayoutDestinationSummaryPreviousAttributes.md#expandedpayoutdestinationsummarypreviousattributestype). |
 | `updated_at` | Optional | string or null | When the destination last changed. `updated_at`: [declared alternatives](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributesupdated_at). |
 | `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdata-fields-1previous_attributesversion). |
 
@@ -106,15 +106,15 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 ### PayoutDestinationArchivedMerchantEvent.data fields 1.previous_attributes.available_payout_methods
 
-Declared alternatives: [PayoutDestinationArchivedMerchantEventDataPreviousAttributes.available_payout_methods](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributesavailable_payout_methods).
+Declared alternatives: [ExpandedPayoutDestinationSummaryPreviousAttributes.available_payout_methods](../models/ExpandedPayoutDestinationSummaryPreviousAttributes.md#expandedpayoutdestinationsummarypreviousattributesavailable_payout_methods).
 
 ### PayoutDestinationArchivedMerchantEvent.data fields 1.previous_attributes.bank_name
 
-Declared alternatives: [PayoutDestinationArchivedMerchantEventDataPreviousAttributes.bank_name](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributesbank_name).
+Declared alternatives: [ExpandedPayoutDestinationSummaryPreviousAttributes.bank_name](../models/ExpandedPayoutDestinationSummaryPreviousAttributes.md#expandedpayoutdestinationsummarypreviousattributesbank_name).
 
 ### PayoutDestinationArchivedMerchantEvent.data fields 1.previous_attributes.country
 
-Declared alternatives: [PayoutDestinationArchivedMerchantEventDataPreviousAttributes.country](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributescountry).
+Declared alternatives: [AddressPreviousAttributes.country](../models/AddressPreviousAttributes.md#addresspreviousattributescountry).
 
 ### PayoutDestinationArchivedMerchantEvent.data fields 1.previous_attributes.created_at
 
@@ -134,11 +134,11 @@ Declared alternatives: [PayoutDestinationArchivedMerchantEventDataPreviousAttrib
 
 ### PayoutDestinationArchivedMerchantEvent.data fields 1.previous_attributes.is_default_for_currency
 
-Declared alternatives: [PayoutDestinationArchivedMerchantEventDataPreviousAttributes.is_default_for_currency](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributesis_default_for_currency).
+Declared alternatives: [ExpandedPayoutDestinationSummaryPreviousAttributes.is_default_for_currency](../models/ExpandedPayoutDestinationSummaryPreviousAttributes.md#expandedpayoutdestinationsummarypreviousattributesis_default_for_currency).
 
 ### PayoutDestinationArchivedMerchantEvent.data fields 1.previous_attributes.last4
 
-Declared alternatives: [PayoutDestinationArchivedMerchantEventDataPreviousAttributes.last4](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributeslast4).
+Declared alternatives: [ExpandedPayoutDestinationSummaryPreviousAttributes.last4](../models/ExpandedPayoutDestinationSummaryPreviousAttributes.md#expandedpayoutdestinationsummarypreviousattributeslast4).
 
 ### PayoutDestinationArchivedMerchantEvent.data fields 1.previous_attributes.merchant_id
 
@@ -146,7 +146,7 @@ Declared alternatives: [PayoutDestinationArchivedMerchantEventDataPreviousAttrib
 
 ### PayoutDestinationArchivedMerchantEvent.data fields 1.previous_attributes.metadata
 
-Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.metadata](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesmetadata).
+Declared alternatives: [OrderLineItemModifierPreviousAttributes.metadata](../models/OrderLineItemModifierPreviousAttributes.md#orderlineitemmodifierpreviousattributesmetadata).
 
 ### PayoutDestinationArchivedMerchantEvent.data fields 1.previous_attributes.payout_destination_id
 
@@ -154,7 +154,7 @@ Declared alternatives: [PayoutDestinationArchivedMerchantEventDataPreviousAttrib
 
 ### PayoutDestinationArchivedMerchantEvent.data fields 1.previous_attributes.status
 
-Declared alternatives: [PayoutDestinationArchivedMerchantEventDataPreviousAttributes.status](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributesstatus).
+Declared alternatives: [ExpandedPayoutDestinationSummaryPreviousAttributes.status](../models/ExpandedPayoutDestinationSummaryPreviousAttributes.md#expandedpayoutdestinationsummarypreviousattributesstatus).
 
 ### PayoutDestinationArchivedMerchantEvent.data fields 1.previous_attributes.status_updated_at
 
@@ -162,7 +162,7 @@ Declared alternatives: [PayoutDestinationArchivedMerchantEventDataPreviousAttrib
 
 ### PayoutDestinationArchivedMerchantEvent.data fields 1.previous_attributes.type
 
-Declared alternatives: [PayoutDestinationArchivedMerchantEventDataPreviousAttributes.type](../models/PayoutDestinationArchivedMerchantEventDataPreviousAttributes.md#payoutdestinationarchivedmerchanteventdatapreviousattributestype).
+Declared alternatives: [ExpandedPayoutDestinationSummaryPreviousAttributes.type](../models/ExpandedPayoutDestinationSummaryPreviousAttributes.md#expandedpayoutdestinationsummarypreviousattributestype).
 
 ### PayoutDestinationArchivedMerchantEvent.data fields 1.previous_attributes.updated_at
 

@@ -1,0 +1,1 @@
+{"shared":"DeliveryTieredPricingStrategyQuantityOrMoneyPreviousAttributes","dependencies":["DeliveryPricingTierBandPreviousAttributes","DeliveryTieredPricingStrategyQuantityOrMoneyPreviousAttributes","MoneyValuePreviousAttributes","SharedCodec1063","SharedCodec1065","SharedCodec1067","SharedCodec1068","SharedCodec1778","SharedCodec214","SharedCodec53","SharedCodec744"]}

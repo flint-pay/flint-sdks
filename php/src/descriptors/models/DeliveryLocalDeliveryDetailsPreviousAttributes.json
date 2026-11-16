@@ -1,0 +1,1 @@
+{"shared":"DeliveryShipmentDetailsPreviousAttributes","phpRepresentation":{"kind":"record","fields":{"instructions":{"kind":"nullable","value":{"kind":"value","type":"string"}},"service_level":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["DeliveryShipmentDetailsPreviousAttributes","SharedCodec0"]}

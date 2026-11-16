@@ -1,340 +1,3596 @@
-import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-38.js';
-import type { PromotionApplicationMethod, Promotion } from './types-50.js';
-import type { WebhookPromotion, WebhookPromotionCode } from './types-70.js';
-import type { MoneyValue, MoneyValueInput } from './types-39.js';
-import type { PartnerWebhookEnvelope } from './types-44.js';
-import type { ResponseMeta } from './types-54.js';
+import type { MoneyValue, MoneyValueInput, MoneyValuePreviousAttributes } from './types-42.js';
+import type { OrderLineItemTax, OrderLineItemTaxRequestInput, OrderLineItemTaxPreviousAttributes } from './types-45.js';
+import type {
+    PaymentLinkLineItemBundlePreviousAttributes,
+    PaymentLinkLineItemCustomFixedPreviousAttributes,
+    PaymentLinkLineItemCustomVariablePreviousAttributes,
+    PaymentLinkLineItemInputBundle,
+    PaymentLinkLineItemInputCustomFixed,
+    PaymentLinkLineItemInputCustomVariable,
+    PaymentLinkLineItemInputBundleInput,
+    PaymentLinkLineItemInputCustomFixedInput,
+    PaymentLinkLineItemInputCustomVariableInput,
+    PaymentLink,
+    PaymentLinkCustomField,
+    PaymentLinkCustomFieldPreviousAttributes,
+    PaymentLinkEventConfig,
+    PaymentLinkEventConfigPreviousAttributes,
+    PaymentLinkLineItem
+} from './types-50.js';
+import type { ProductPriceRangePreviousAttributes, ProductPriceRange } from './types-55.js';
+import type { ResponseMeta, ResolvePaymentLinkRequestInput } from './types-60.js';
+import type { Image, ImageAttachment, ImageAttachmentPreviousAttributes } from './types-30.js';
+import type { SubscriptionIntervalOption } from './types-68.js';
+import type { CheckoutBuyerFields, CardDetails, CardDetailsPreviousAttributes } from './types-5.js';
+import type {
+    CheckoutBuyerFieldsPreviousAttributes,
+    CheckoutCustomTextConfig,
+    CheckoutCustomTextConfigPreviousAttributes,
+    CheckoutLegalConfigPreviousAttributes,
+    CheckoutPaymentConfig,
+    CheckoutPaymentConfigPreviousAttributes,
+    CheckoutPromotionConfig,
+    CheckoutPromotionConfigPreviousAttributes,
+    CheckoutRedirects,
+    CheckoutRedirectsPreviousAttributes
+} from './types-6.js';
+import type { CheckoutTaxConfig, CheckoutTipConfig, CheckoutTipConfigPreviousAttributes } from './types-7.js';
+import type {
+    ExpandedSubscriptionPlanSummary,
+    ExpandedSubscriptionPlanSummaryPreviousAttributes,
+    ExpandedCustomerSummary,
+    ExpandedCustomerSummaryPreviousAttributes
+} from './types-26.js';
+import type { InventoryRoutingSource, InventoryRoutingSourcePreviousAttributes } from './types-33.js';
+import type { LegalSettings } from './types-38.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-41.js';
+import type { PartnerWebhookEnvelope } from './types-49.js';
+import type { SubscriptionTaxPreviousAttributes } from './types-70.js';
+import type { ThemeConfig, ThemeConfigPreviousAttributes } from './types-72.js';
 import type { InputValue } from '../runtime.js';
-import type { CreatePromotionCodeRequestInput } from './types-12.js';
-import type { CategoriesDeleteParams } from './types-5.js';
-import type { DisputesAcceptParams } from './types-23.js';
-import type { UpdatePromotionCodeRequestInput } from './types-68.js';
+import type { CreatePaymentLinkRequestInput, CreatePaymentMethodDomainRequestInput } from './types-12.js';
+import type { UpdatePaymentLinkRequestInput, UpdatePaymentMethodDomainRequestInput } from './types-74.js';
+/** The `variant` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputVariant = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "variant". */
+    "type": "variant" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "variant". */
+    "type": "variant" | (string & {});
+})
+    & (({
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    | ({
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids": Array<string>;
+})
+    | (Record<string, unknown>)));
+/** The `variant` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputVariantInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "variant". */
+    "type": "variant";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "variant". */
+    "type": ("variant") & ("variant");
+})
+    & (({
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    | ({
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids": Array<string>;
+}))
+    & (({
+    "bundle_id"?: never;
+})
+    & ({
+    "name"?: never;
+})
+    & ({
+    "unit_price_money"?: never;
+})
+    & ({
+    "description"?: never;
+})
+    & ({
+    "tax"?: never;
+})
+    & ({
+    "allow_unit_price_adjustment"?: never;
+})
+    & ({
+    "min_unit_price_money"?: never;
+})
+    & ({
+    "max_unit_price_money"?: never;
+})
+    & ({
+    "suggested_unit_price_money_options"?: never;
+})
+    & ({
+    "product_type"?: never;
+})
+    & ({
+    "variant_id"?: never;
+} | {
+    "variant_ids"?: never;
+})));
+/** The `bundle` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputBundle = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+}));
+/** The `bundle` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputBundleInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "bundle". */
+    "type": "bundle";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "bundle". */
+    "type": ("bundle") & ("bundle");
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "variant_ids"?: never;
+})
+    & ({
+    "default_variant_id"?: never;
+})
+    & ({
+    "name"?: never;
+})
+    & ({
+    "unit_price_money"?: never;
+})
+    & ({
+    "description"?: never;
+})
+    & ({
+    "tax"?: never;
+})
+    & ({
+    "allow_unit_price_adjustment"?: never;
+})
+    & ({
+    "min_unit_price_money"?: never;
+})
+    & ({
+    "max_unit_price_money"?: never;
+})
+    & ({
+    "suggested_unit_price_money_options"?: never;
+})
+    & ({
+    "product_type"?: never;
+})));
+/** The `custom_fixed` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputCustomFixed = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "custom_fixed". */
+    "type": "custom_fixed" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: false. */
+    "allow_unit_price_adjustment"?: boolean;
+    /** Value enum: "custom_fixed". */
+    "type": "custom_fixed" | (string & {});
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+}));
+/** The `custom_fixed` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputCustomFixedInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "custom_fixed". */
+    "type": "custom_fixed";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValueInput;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: false. */
+    "allow_unit_price_adjustment"?: false;
+    /** Value enum: "custom_fixed". */
+    "type": ("custom_fixed") & ("custom_fixed");
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValueInput;
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "variant_ids"?: never;
+})
+    & ({
+    "default_variant_id"?: never;
+})
+    & ({
+    "bundle_id"?: never;
+})));
+/** The `custom_variable` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputCustomVariable = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment": boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "custom_variable". */
+    "type": "custom_variable" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: true. */
+    "allow_unit_price_adjustment": boolean;
+    /** Value enum: "custom_variable". */
+    "type": "custom_variable" | (string & {});
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+}));
+/** The `custom_variable` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputCustomVariableInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment": boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "custom_variable". */
+    "type": "custom_variable";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: true. */
+    "allow_unit_price_adjustment": true;
+    /** Value enum: "custom_variable". */
+    "type": ("custom_variable") & ("custom_variable");
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "variant_ids"?: never;
+})
+    & ({
+    "default_variant_id"?: never;
+})
+    & ({
+    "bundle_id"?: never;
+})));
+/** The `variant` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputVariant = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "variant". */
+    "type": "variant" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "variant". */
+    "type": "variant" | (string & {});
+})
+    & (({
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    | ({
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids": Array<string>;
+})
+    | (Record<string, unknown>)));
+/** The `variant` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputVariantInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "variant". */
+    "type": "variant";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "variant". */
+    "type": ("variant") & ("variant");
+})
+    & (({
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    | ({
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids": Array<string>;
+}))
+    & (({
+    "bundle_id"?: never;
+})
+    & ({
+    "name"?: never;
+})
+    & ({
+    "unit_price_money"?: never;
+})
+    & ({
+    "description"?: never;
+})
+    & ({
+    "tax"?: never;
+})
+    & ({
+    "allow_unit_price_adjustment"?: never;
+})
+    & ({
+    "min_unit_price_money"?: never;
+})
+    & ({
+    "max_unit_price_money"?: never;
+})
+    & ({
+    "suggested_unit_price_money_options"?: never;
+})
+    & ({
+    "product_type"?: never;
+})
+    & ({
+    "variant_id"?: never;
+} | {
+    "variant_ids"?: never;
+})));
 /**
- * The `promotion.archived` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
+ * A line item in a payment link update. Include its ID to change an existing line item, or omit
+ * the ID to add a new one.
  */
-export type PromotionArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type PaymentLinkLineItemPatchRequest = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /**
+     * How the line item is defined. Value enum: "variant", "bundle", "custom_fixed",
+     * "custom_variable".
+     */
+    "type": "variant" | "bundle" | "custom_fixed" | "custom_variable" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & ((Exclude<PaymentLinkLineItemPatchInputVariant & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemPatchInputBundle & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemPatchInputCustomFixed & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemPatchInputCustomVariable & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * A line item in a payment link update. Include its ID to change an existing line item, or omit
+ * the ID to add a new one.
+ */
+export type PaymentLinkLineItemPatchRequestInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /**
+     * How the line item is defined. Value enum: "variant", "bundle", "custom_fixed",
+     * "custom_variable".
+     */
+    "type": "variant" | "bundle" | "custom_fixed" | "custom_variable";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & ((Exclude<PaymentLinkLineItemPatchInputVariantInput & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemPatchInputBundleInput & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemPatchInputCustomFixedInput & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemPatchInputCustomVariableInput & object, readonly unknown[]>));
+export type PaymentLinkLineItemPreviousAttributes = ({
+    /**
+     * Whether the buyer can change the quantity in checkout. anyOf[1] (Value): boolean. Whether
+     * the buyer can change the quantity in checkout. anyOf[2] (Value): null.
+     */
+    "allow_quantity_adjustment"?: ((boolean) | (null));
+    /**
+     * Whether the buyer sets the unit price. Only `custom_variable` lines allow it. anyOf[1]
+     * (Value): boolean. Whether the buyer sets the unit price. Only `custom_variable` lines allow
+     * it. anyOf[2] (Value): null.
+     */
+    "allow_unit_price_adjustment"?: ((boolean) | (null));
+    /**
+     * ID of the catalog bundle a `bundle` line sells. anyOf[1] (Value): string. ID of the catalog
+     * bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". anyOf[2] (Value):
+     * null.
+     */
+    "bundle_id"?: ((string) | (null));
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. anyOf[1] (Value): string.
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2] (Value):
+     * null.
+     */
+    "default_variant_id"?: ((string) | (null));
+    /**
+     * Description of an ad hoc line item. anyOf[1] (Value): string. Description of an ad hoc line
+     * item. anyOf[2] (Value): null.
+     */
+    "description"?: ((string) | (null));
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items. anyOf[1]
+     * (Value): boolean. True when the referenced variant or bundle cannot be sold, or no listed
+     * variant in variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     * anyOf[2] (Value): null.
+     */
+    "is_catalog_item_unavailable"?: ((boolean) | (null));
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. anyOf[1] (Value): string. Keys the resolve override maps. Stable
+     * line item key used in checkout overrides. Must not have leading or trailing whitespace.
+     * Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used
+     * by explicit keys; retained for an existing line item when omitted on update. anyOf[2]
+     * (Value): null.
+     */
+    "key"?: ((string) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "max_quantity"?: ((number) | (null));
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "max_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "min_quantity"?: ((number) | (null));
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "min_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. anyOf[1] (Value): string.
+     * Name of an ad hoc line item. Catalog lines take the catalog name. anyOf[2] (Value): null.
+     */
+    "name"?: ((string) | (null));
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. anyOf[1] (Value):
+     * string. Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS". anyOf[2] (Value): null.
+     */
+    "payment_link_line_item_id"?: ((string) | (null));
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. anyOf[1] (Value): string. Parent catalog
+     * context only. The product that the variants in variant_ids belong to. Present only on buyer
+     * choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2]
+     * (Value): null.
+     */
+    "product_id"?: ((string) | (null));
+    /**
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[1] (Value): string.
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[2] (Value): null.
+     */
+    "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {})) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "quantity"?: ((number) | (null));
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists. anyOf[1] (Value): string. Current
+     * catalog name of the referenced variant or bundle, or the product name for variant_ids lines.
+     * A variant reads as the product name, plus the variant name when the variant is a named
+     * option combination. This is the catalog value at read time, not a stored snapshot: checkout
+     * resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the
+     * catalog object no longer exists. anyOf[2] (Value): null.
+     */
+    "resolved_name"?: ((string) | (null));
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. anyOf[1] (Value): {@link ProductPriceRangePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "resolved_price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "resolved_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. anyOf[1] (Value):
+     * Array of {@link MoneyValuePreviousAttributes}. Unit prices offered as one-tap choices when
+     * the buyer sets the price. anyOf[1][] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "suggested_unit_price_money_options"?: ((Array<MoneyValuePreviousAttributes>) | (null));
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. anyOf[1] (Value):
+     * {@link OrderLineItemTaxPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "tax"?: ((OrderLineItemTaxPreviousAttributes) | (null));
+    /**
+     * How the line item is defined. Value enum: "variant", "bundle", "custom_fixed",
+     * "custom_variable". anyOf[1] (Value): string. How the line item is defined. Value enum:
+     * "variant", "bundle", "custom_fixed", "custom_variable". anyOf[2] (Value): null.
+     */
+    "type"?: (("variant" | "bundle" | "custom_fixed" | "custom_variable" | (string & {})) | (null));
+    /**
+     * Price of one unit of a `custom_fixed` line item. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * ID of the catalog variant a `variant` line sells. anyOf[1] (Value): string. ID of the
+     * catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2]
+     * (Value): null.
+     */
+    "variant_id"?: ((string) | (null));
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. anyOf[1]
+     * (Value): Array of string. Variant IDs buyers may choose from, in the order offered. Contains
+     * 1 to 100 unique, active, sellable variants of one product in one currency. Available only on
+     * standard payment links. Mutually exclusive with variant_id, bundle_id, and ad hoc line item
+     * fields. minItems: 1. maxItems: 100. uniqueItems: true. anyOf[1][] (Value): string. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2] (Value):
+     * null.
+     */
+    "variant_ids"?: ((Array<string>) | (null));
+})
+    & (((Exclude<PaymentLinkLineItemVariantPreviousAttributes & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemBundlePreviousAttributes & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemCustomFixedPreviousAttributes & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemCustomVariablePreviousAttributes & object, readonly unknown[]>)
+    | (Record<string, unknown>)));
+/**
+ * A line item you add to a payment link when creating it, from a catalog variant, a bundle, or an
+ * ad hoc name and price.
+ */
+export type PaymentLinkLineItemRequest = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /**
+     * How the line item is defined. Value enum: "variant", "bundle", "custom_fixed",
+     * "custom_variable".
+     */
+    "type": "variant" | "bundle" | "custom_fixed" | "custom_variable" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & ((Exclude<PaymentLinkLineItemInputVariant & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemInputBundle & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemInputCustomFixed & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemInputCustomVariable & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * A line item you add to a payment link when creating it, from a catalog variant, a bundle, or an
+ * ad hoc name and price.
+ */
+export type PaymentLinkLineItemRequestInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /**
+     * How the line item is defined. Value enum: "variant", "bundle", "custom_fixed",
+     * "custom_variable".
+     */
+    "type": "variant" | "bundle" | "custom_fixed" | "custom_variable";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & ((Exclude<PaymentLinkLineItemInputVariantInput & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemInputBundleInput & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemInputCustomFixedInput & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemInputCustomVariableInput & object, readonly unknown[]>));
+/** A line item on a payment link. */
+export type PaymentLinkLineItemVariant = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. */
+    "description"?: string;
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     */
+    "is_catalog_item_unavailable": boolean;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name"?: string;
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id": string;
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: string;
+    /**
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null.
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {}) | null;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists.
+     */
+    "resolved_name"?: string;
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. The lowest and highest unit prices across a product's variants.
+     */
+    "resolved_price_range"?: ProductPriceRange;
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "resolved_unit_price_money"?: MoneyValue;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "variant". */
+    "type": "variant" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "variant". */
+    "type": "variant" | (string & {});
+})
+    & (({
+    /**
+     * ID of the catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    | ({
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids": Array<string>;
+})
+    | (Record<string, unknown>)));
+export type PaymentLinkLineItemVariantPreviousAttributes = ({
+    /**
+     * Whether the buyer can change the quantity in checkout. anyOf[1] (Value): boolean. Whether
+     * the buyer can change the quantity in checkout. anyOf[2] (Value): null.
+     */
+    "allow_quantity_adjustment"?: ((boolean) | (null));
+    /**
+     * Whether the buyer sets the unit price. Only `custom_variable` lines allow it. anyOf[1]
+     * (Value): boolean. Whether the buyer sets the unit price. Only `custom_variable` lines allow
+     * it. anyOf[2] (Value): null.
+     */
+    "allow_unit_price_adjustment"?: ((boolean) | (null));
+    /**
+     * ID of the catalog bundle a `bundle` line sells. anyOf[1] (Value): string. ID of the catalog
+     * bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". anyOf[2] (Value):
+     * null.
+     */
+    "bundle_id"?: ((string) | (null));
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. anyOf[1] (Value): string.
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2] (Value):
+     * null.
+     */
+    "default_variant_id"?: ((string) | (null));
+    /**
+     * Description of an ad hoc line item. anyOf[1] (Value): string. Description of an ad hoc line
+     * item. anyOf[2] (Value): null.
+     */
+    "description"?: ((string) | (null));
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items. anyOf[1]
+     * (Value): boolean. True when the referenced variant or bundle cannot be sold, or no listed
+     * variant in variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     * anyOf[2] (Value): null.
+     */
+    "is_catalog_item_unavailable"?: ((boolean) | (null));
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. anyOf[1] (Value): string. Keys the resolve override maps. Stable
+     * line item key used in checkout overrides. Must not have leading or trailing whitespace.
+     * Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used
+     * by explicit keys; retained for an existing line item when omitted on update. anyOf[2]
+     * (Value): null.
+     */
+    "key"?: ((string) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "max_quantity"?: ((number) | (null));
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "max_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "min_quantity"?: ((number) | (null));
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "min_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. anyOf[1] (Value): string.
+     * Name of an ad hoc line item. Catalog lines take the catalog name. anyOf[2] (Value): null.
+     */
+    "name"?: ((string) | (null));
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. anyOf[1] (Value):
+     * string. Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS". anyOf[2] (Value): null.
+     */
+    "payment_link_line_item_id"?: ((string) | (null));
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. anyOf[1] (Value): string. Parent catalog
+     * context only. The product that the variants in variant_ids belong to. Present only on buyer
+     * choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2]
+     * (Value): null.
+     */
+    "product_id"?: ((string) | (null));
+    /**
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[1] (Value): string.
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[2] (Value): null.
+     */
+    "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {})) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
+     * (Value): null.
+     */
+    "quantity"?: ((number) | (null));
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists. anyOf[1] (Value): string. Current
+     * catalog name of the referenced variant or bundle, or the product name for variant_ids lines.
+     * A variant reads as the product name, plus the variant name when the variant is a named
+     * option combination. This is the catalog value at read time, not a stored snapshot: checkout
+     * resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the
+     * catalog object no longer exists. anyOf[2] (Value): null.
+     */
+    "resolved_name"?: ((string) | (null));
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. anyOf[1] (Value): {@link ProductPriceRangePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "resolved_price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "resolved_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. anyOf[1] (Value):
+     * Array of {@link MoneyValuePreviousAttributes}. Unit prices offered as one-tap choices when
+     * the buyer sets the price. anyOf[1][] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "suggested_unit_price_money_options"?: ((Array<MoneyValuePreviousAttributes>) | (null));
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. anyOf[1] (Value):
+     * {@link OrderLineItemTaxPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "tax"?: ((OrderLineItemTaxPreviousAttributes) | (null));
+    /**
+     * How the line item is defined. Value enum: "variant". anyOf[1] (Value): string. How the line
+     * item is defined. Value enum: "variant". anyOf[2] (Value): null.
+     */
+    "type"?: (("variant" | (string & {})) | (null));
+    /**
+     * Price of one unit of a `custom_fixed` line item. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * ID of the catalog variant a `variant` line sells. anyOf[1] (Value): string. ID of the
+     * catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2]
+     * (Value): null.
+     */
+    "variant_id"?: ((string) | (null));
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. anyOf[1]
+     * (Value): Array of string. Variant IDs buyers may choose from, in the order offered. Contains
+     * 1 to 100 unique, active, sellable variants of one product in one currency. Available only on
+     * standard payment links. Mutually exclusive with variant_id, bundle_id, and ad hoc line item
+     * fields. minItems: 1. maxItems: 100. uniqueItems: true. anyOf[1][] (Value): string. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2] (Value):
+     * null.
+     */
+    "variant_ids"?: ((Array<string>) | (null));
+})
+    & (({
+    /**
+     * Value enum: "variant". anyOf[1] (Value): string. Value enum: "variant". anyOf[2] (Value):
+     * null.
+     */
+    "type"?: (("variant" | (string & {})) | (null));
+})
+    & (((unknown) | (unknown) | (Record<string, unknown>))));
+/** A page of `PaymentLink` objects. */
+export type PaymentLinkListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * PaymentLink}. A reusable link that opens checkout.
+     */
+    "data": Array<PaymentLink>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Payment settings on a payment link: the enabled payment options and a note shown with payment.
+ */
+export type PaymentLinkPaymentConfigInput = {
+    /**
+     * Payment options for this payment link. Checkout offers only the options that are also
+     * enabled in settings.checkout.enabled_payment_options; omit the list to use that setting. []
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+     */
+    "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
+    /** A note shown to the buyer with the payment options. minLength: 1. maxLength: 500. */
+    "payment_note"?: string;
+};
+/** Changes to a payment link's payment settings. Send null on the payment note to clear it. */
+export type PaymentLinkPaymentPatchRequest = {
+    /**
+     * Payment options for this payment link. Checkout offers only the options that are also
+     * enabled in settings.checkout.enabled_payment_options; omit the list to use that setting. []
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+     */
+    "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
+    /** Send null to clear it. minLength: 1. maxLength: 500. */
+    "payment_note"?: string | null;
+};
+/** Changes to a payment link's payment settings. Send null on the payment note to clear it. */
+export type PaymentLinkPaymentPatchRequestInput = {
+    /**
+     * Payment options for this payment link. Checkout offers only the options that are also
+     * enabled in settings.checkout.enabled_payment_options; omit the list to use that setting. []
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+     */
+    "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
+    /** Send null to clear it. minLength: 1. maxLength: 500. */
+    "payment_note"?: string | null;
+};
+/**
+ * An active product option offered on a payment link, with values used by its available variants.
+ */
+export type PaymentLinkProductOption = {
+    /** Product option name, such as Size or Color. */
+    "name": string;
+    /** ID of the product option. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8". */
+    "option_id": string;
+    /**
+     * Values used by at least one available variant, in product option value position order. []
+     * (Value): {@link PaymentLinkProductOptionValue}. A product option value used by an available
+     * payment link variant.
+     */
+    "values": Array<PaymentLinkProductOptionValue>;
+};
+/** A product option value used by an available payment link variant. */
+export type PaymentLinkProductOptionValue = {
+    /** ID of the product option value. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F". */
+    "option_value_id": string;
+    /** Product option value shown to the buyer, such as M or Blue. */
+    "value": string;
+};
+/**
+ * Changes to a payment link's hosted checkout destinations. Omit a URL to leave it unchanged, or
+ * send null to clear it.
+ */
+export type PaymentLinkRedirectsPatchRequest = {
+    /**
+     * Where the buyer goes when they leave checkout without paying. The session stays open until
+     * it expires. Absolute HTTPS URL; test mode also accepts HTTP loopback URLs. Up to 2,048
+     * characters. Send null to clear it. Format: uri. minLength: 1. maxLength: 2048. Example:
+     * "https://example.com/receipt".
+     */
+    "cancel_url"?: string | null;
+    /**
+     * Where Flint sends a buyer who opens the session after it expires. Without it, the buyer sees
+     * Flint's expired-checkout page. Absolute HTTPS URL; test mode also accepts HTTP loopback
+     * URLs. Up to 2,048 characters. Send null to clear it. Format: uri. minLength: 1. maxLength:
+     * 2048. Example: "https://example.com/receipt".
+     */
+    "expired_url"?: string | null;
+    /**
+     * Where the buyer goes after paying. Flint adds checkout_session_id and order_id query
+     * parameters, replacing any with those names. The redirect doesn't prove payment: confirm with
+     * the order.paid webhook or by reading the session. Absolute HTTPS URL; test mode also accepts
+     * HTTP loopback URLs. Up to 2,048 characters. Send null to clear it. Format: uri. minLength:
+     * 1. maxLength: 2048. Example: "https://example.com/receipt".
+     */
+    "success_url"?: string | null;
+};
+/**
+ * Changes to a payment link's hosted checkout destinations. Omit a URL to leave it unchanged, or
+ * send null to clear it.
+ */
+export type PaymentLinkRedirectsPatchRequestInput = PaymentLinkRedirectsPatchRequest;
+/** Buyer-editable email prefill for payment-link checkout. It never identifies a customer. */
+export type PaymentLinkResolvePrefillRequestInput = {
+    /**
+     * Email to fill in for the buyer, who can change it. It is not verified, so it never links the
+     * purchase to an existing customer. Format: email. minLength: 1. maxLength: 320. Example:
+     * "buyer@example.com".
+     */
+    "email"?: string;
+};
+/** A response containing `PaymentLink` data. */
+export type PaymentLinkResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A reusable link that
+     * opens checkout.
+     */
+    "data": PaymentLink;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Paid-order sales totals for a payment link, computed on request. Paid means the order's
+ * collection has completed. Fully and partially refunded orders still count, and paid_totals
+ * reports the amount collected before refunds. Each order counts once even if it has multiple
+ * checkout sessions.
+ */
+export type PaymentLinkSalesSummary = {
+    /**
+     * Tickets for this payment link that are checked in now, counted when the summary is read.
+     * Undoing a check-in or voiding a ticket lowers it. 0 for links that have issued no tickets.
+     * Format: int32. minimum: 0.
+     */
+    "checked_in_ticket_count": number;
+    /**
+     * UTC time at which the summary was computed, at second precision. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "computed_at": string;
+    /**
+     * Number of orders whose collection has completed, across all currencies, including fully and
+     * partially refunded orders. Format: int64.
+     */
+    "paid_order_count": number;
+    /**
+     * Gross paid totals in integer minor units, one Money object per currency with paid orders,
+     * sorted by currency. Refunds are not subtracted. Empty array when there are no paid orders.
+     * [] (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "paid_totals": Array<MoneyValue>;
+    /**
+     * Refunded totals in integer minor units on the same paid orders as paid_totals. One Money
+     * object per currency with paid orders, sorted by currency, including zero when nothing was
+     * refunded. Empty array when there are no paid orders. [] (Value): {@link MoneyValue}.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "refunded_totals": Array<MoneyValue>;
+};
+export type PaymentLinkSalesSummaryPreviousAttributes = {
+    /**
+     * Tickets for this payment link that are checked in now, counted when the summary is read.
+     * Undoing a check-in or voiding a ticket lowers it. 0 for links that have issued no tickets.
+     * anyOf[1] (Value): integer. Tickets for this payment link that are checked in now, counted
+     * when the summary is read. Undoing a check-in or voiding a ticket lowers it. 0 for links that
+     * have issued no tickets. Format: int32. minimum: 0. anyOf[2] (Value): null.
+     */
+    "checked_in_ticket_count"?: ((number) | (null));
+    /**
+     * UTC time at which the summary was computed, at second precision. anyOf[1] (Value): string.
+     * UTC time at which the summary was computed, at second precision. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "computed_at"?: ((string) | (null));
+    /**
+     * Number of orders whose collection has completed, across all currencies, including fully and
+     * partially refunded orders. anyOf[1] (Value): integer. Number of orders whose collection has
+     * completed, across all currencies, including fully and partially refunded orders. Format:
+     * int64. anyOf[2] (Value): null.
+     */
+    "paid_order_count"?: ((number) | (null));
+    /**
+     * Gross paid totals in integer minor units, one Money object per currency with paid orders,
+     * sorted by currency. Refunds are not subtracted. Empty array when there are no paid orders.
+     * anyOf[1] (Value): Array of {@link MoneyValuePreviousAttributes}. Gross paid totals in
+     * integer minor units, one Money object per currency with paid orders, sorted by currency.
+     * Refunds are not subtracted. Empty array when there are no paid orders. anyOf[1][] (Value):
+     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "paid_totals"?: ((Array<MoneyValuePreviousAttributes>) | (null));
+    /**
+     * Refunded totals in integer minor units on the same paid orders as paid_totals. One Money
+     * object per currency with paid orders, sorted by currency, including zero when nothing was
+     * refunded. Empty array when there are no paid orders. anyOf[1] (Value): Array of {@link
+     * MoneyValuePreviousAttributes}. Refunded totals in integer minor units on the same paid
+     * orders as paid_totals. One Money object per currency with paid orders, sorted by currency,
+     * including zero when nothing was refunded. Empty array when there are no paid orders.
+     * anyOf[1][] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "refunded_totals"?: ((Array<MoneyValuePreviousAttributes>) | (null));
+};
+/**
+ * Subscription terms shown before an active plan-backed payment link creates a checkout session.
+ */
+export type PaymentLinkSubscriptionPreview = {
+    /**
+     * Unit of the billing period the plan charges on by default. Read with
+     * `billing_interval_count`. Value enum: "daily", "weekly", "monthly", "yearly".
+     */
+    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
+    /** Number of billing intervals between recurring charges. Format: int32. */
+    "billing_interval_count": number;
+    /**
+     * Billing intervals the plan offers, which the buyer chooses among on the checkout this link
+     * opens. The same values as the subscription plan's `billing_interval_options`. maxItems: 12.
+     * uniqueItems: true. [] (Value): {@link SubscriptionIntervalOption}. A billing interval, such
+     * as every 2 months, that a plan, offer, or subscription lets buyers choose. Prices of lines
+     * that ship are per delivery, and each option charges for all deliveries in its period.
+     * Without a delivery cadence there is one delivery per period, so every option bills the same
+     * line prices once per period. With a delivery cadence, a longer period bills more deliveries
+     * of the lines that ship; other lines bill once per period. For a different price per interval
+     * with no delivery cadence, create separate plans.
+     */
+    "billing_interval_options": Array<SubscriptionIntervalOption>;
+    /**
+     * The term agreed with the buyer, in months, when configured. Flint records it on the
+     * subscription and does not stop the buyer from canceling earlier. Format: int32.
+     */
+    "contract_term_months"?: number;
+    /**
+     * True when the plan has a line that ships or is delivered, so each renewal adds a shipping or
+     * delivery charge chosen at checkout. The amount is not known until the buyer enters an
+     * address and chooses a method.
+     */
+    "delivery_required": boolean;
+    /**
+     * The fee agreed for canceling before the recorded term ends, when configured. Flint records
+     * it on the subscription but never charges it. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "early_termination_fee_money"?: MoneyValue;
+    /**
+     * Identified plan lines with buyer quantity permissions and bounds. The checkout freezes the
+     * terms when it is created. [] (Value): object. [].allow_quantity_adjustment (Required):
+     * boolean. Whether the buyer may adjust this line quantity. [].max_quantity (Required):
+     * integer. Maximum buyer quantity, defaulting to 9999. Whole-number quantity; fractional
+     * quantities are not supported. Format: int32. minimum: 1. maximum: 9999. [].min_quantity
+     * (Required): integer. Minimum buyer quantity, defaulting to 1. Whole-number quantity;
+     * fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999. [].name
+     * (Required): string. The captured line name. [].quantity (Required): integer. The line
+     * quantity is the seat count. Nothing multiplies it. Whole-number quantity; fractional
+     * quantities are not supported. Format: int32. minimum: 1. maximum: 9999.
+     * [].subscription_plan_line_item_id (Optional): string. The plan line whose terms were
+     * captured. Absent when an older snapshot did not record its plan line ID. pattern:
+     * ^spli_[0-9A-HJKMNP-TV-Z]{26}$. Example: "spli_01KEZF7C00H9FGC2KBRF82H87N".
+     * [].unit_price_money (Required): {@link MoneyValue}. The captured unit price. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "line_items": Array<{
+        /** Whether the buyer may adjust this line quantity. */
+        "allow_quantity_adjustment": boolean;
+        /**
+         * Maximum buyer quantity, defaulting to 9999. Whole-number quantity; fractional quantities
+         * are not supported. Format: int32. minimum: 1. maximum: 9999.
+         */
+        "max_quantity": number;
+        /**
+         * Minimum buyer quantity, defaulting to 1. Whole-number quantity; fractional quantities
+         * are not supported. Format: int32. minimum: 1. maximum: 9999.
+         */
+        "min_quantity": number;
+        /** The captured line name. */
+        "name": string;
+        /**
+         * The line quantity is the seat count. Nothing multiplies it. Whole-number quantity;
+         * fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999.
+         */
+        "quantity": number;
+        /**
+         * The plan line whose terms were captured. Absent when an older snapshot did not record
+         * its plan line ID. pattern: ^spli_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * "spli_01KEZF7C00H9FGC2KBRF82H87N".
+         */
+        "subscription_plan_line_item_id"?: string;
+        /**
+         * The captured unit price. Monetary amount represented as integer minor units plus an ISO
+         * 4217 currency code.
+         */
+        "unit_price_money": MoneyValue;
+    }>;
+    /**
+     * Plan image shown to the buyer, when configured. An image with its URL, size, and alt text.
+     */
+    "plan_image"?: Image;
+    /** Plan name shown to the buyer. */
+    "plan_name": string;
+    /**
+     * Recurring total for one billing interval, including line quantities and resolved modifiers.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "recurring_total_money": MoneyValue;
+    /**
+     * Setup fee added to the first amount due, when configured. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "setup_fee_money"?: MoneyValue;
+    /** Number of trial days before the first recurring charge, when configured. Format: int32. */
+    "trial_period_days"?: number;
+};
+/** Theme settings for a payment link's checkout: accent color, primary color, and title. */
+export type PaymentLinkThemeConfigInput = {
+    /** Accent color of the checkout, such as #1A73E8. minLength: 1. maxLength: 50. */
+    "accent_color"?: string;
+    /** Primary color of the checkout, such as #1A73E8. minLength: 1. maxLength: 50. */
+    "primary_color"?: string;
+    /** Title shown in place of the merchant's business name. minLength: 1. maxLength: 255. */
+    "title"?: string;
+};
+/** Changes to a payment link's checkout theme. Send null on a field to clear it. */
+export type PaymentLinkThemePatchRequest = {
+    /** Send null to clear it. minLength: 1. maxLength: 50. */
+    "accent_color"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 50. */
+    "primary_color"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 255. */
+    "title"?: string | null;
+};
+/** Changes to a payment link's checkout theme. Send null on a field to clear it. */
+export type PaymentLinkThemePatchRequestInput = PaymentLinkThemePatchRequest;
+export type PaymentLinkUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "buyer_fields"?: CheckoutBuyerFields;
+            "checkout_session_expires_in_seconds"?: number;
+            "completed_count": number;
+            "created_at": string;
+            "custom_fields"?: Array<PaymentLinkCustomField>;
+            "custom_text"?: CheckoutCustomTextConfig;
+            "delivery_method_ids": Array<string>;
+            "description"?: string;
+            "donation_max_amount_money"?: MoneyValue;
+            "donation_min_amount_money"?: MoneyValue;
+            "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+            "event_config"?: PaymentLinkEventConfig;
+            "external_reference_id"?: string;
+            "image"?: ImageAttachment;
+            "inactive_message"?: string;
+            "inventory_routing_source"?: InventoryRoutingSource;
+            "legal"?: LegalSettings;
+            "line_items"?: Array<PaymentLinkLineItem>;
+            "max_completions"?: number;
+            "merchant_id": string;
+            "metadata"?: MetadataMap;
+            "name": string;
+            "payment_link_id": string;
+            "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+            "payments"?: CheckoutPaymentConfig;
+            "promotion_config"?: CheckoutPromotionConfig;
+            "redirects"?: CheckoutRedirects;
+            "sales_end_at"?: string;
+            "sales_summary"?: PaymentLinkSalesSummary;
+            "status": "active" | "inactive" | (string & {});
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+            "subscription_plan_id"?: string;
+            "tax"?: CheckoutTaxConfig;
+            "theme"?: ThemeConfig;
+            "tip"?: CheckoutTipConfig;
+            "total_quantity_sold": number;
+            "updated_at": string;
+            "url": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
+            "checkout_session_expires_in_seconds"?: ((number) | (null));
+            "completed_count"?: ((number) | (null));
+            "created_at"?: ((string) | (null));
+            "custom_fields"?: ((Array<PaymentLinkCustomFieldPreviousAttributes>) | (null));
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
+            "delivery_method_ids"?: ((Array<string>) | (null));
+            "description"?: ((string) | (null));
+            "donation_max_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "donation_min_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "donation_suggested_amount_money_options"?: ((Array<MoneyValuePreviousAttributes>) | (null));
+            "event_config"?: ((PaymentLinkEventConfigPreviousAttributes) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "image"?: ((ImageAttachmentPreviousAttributes) | (null));
+            "inactive_message"?: ((string) | (null));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
+            "line_items"?: ((Array<PaymentLinkLineItemPreviousAttributes>) | (null));
+            "max_completions"?: ((number) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "payment_link_id"?: ((string) | (null));
+            "payment_link_type"?: (("standard" | "donation" | "event" | (string & {})) | (null));
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
+            "sales_end_at"?: ((string) | (null));
+            "sales_summary"?: ((PaymentLinkSalesSummaryPreviousAttributes) | (null));
+            "status"?: (("active" | "inactive" | (string & {})) | (null));
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null));
+            "subscription_plan_id"?: ((string) | (null));
+            "tax"?: ((SubscriptionTaxPreviousAttributes) | (null));
+            "theme"?: ((ThemeConfigPreviousAttributes) | (null));
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
+            "total_quantity_sold"?: ((number) | (null));
+            "updated_at"?: ((string) | (null));
+            "url"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "payment_link.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "buyer_fields"?: CheckoutBuyerFields;
+            "checkout_session_expires_in_seconds"?: number;
+            "completed_count": number;
+            "created_at": string;
+            "custom_fields"?: Array<PaymentLinkCustomField>;
+            "custom_text"?: CheckoutCustomTextConfig;
+            "delivery_method_ids": Array<string>;
+            "description"?: string;
+            "donation_max_amount_money"?: MoneyValue;
+            "donation_min_amount_money"?: MoneyValue;
+            "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+            "event_config"?: PaymentLinkEventConfig;
+            "external_reference_id"?: string;
+            "image"?: ImageAttachment;
+            "inactive_message"?: string;
+            "inventory_routing_source"?: InventoryRoutingSource;
+            "legal"?: LegalSettings;
+            "line_items"?: Array<PaymentLinkLineItem>;
+            "max_completions"?: number;
+            "merchant_id": string;
+            "metadata"?: MetadataMap;
+            "name": string;
+            "payment_link_id": string;
+            "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+            "payments"?: CheckoutPaymentConfig;
+            "promotion_config"?: CheckoutPromotionConfig;
+            "redirects"?: CheckoutRedirects;
+            "sales_end_at"?: string;
+            "sales_summary"?: PaymentLinkSalesSummary;
+            "status": "active" | "inactive" | (string & {});
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+            "subscription_plan_id"?: string;
+            "tax"?: CheckoutTaxConfig;
+            "theme"?: ThemeConfig;
+            "tip"?: CheckoutTipConfig;
+            "total_quantity_sold": number;
+            "updated_at": string;
+            "url": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
+            "checkout_session_expires_in_seconds"?: ((number) | (null));
+            "completed_count"?: ((number) | (null));
+            "created_at"?: ((string) | (null));
+            "custom_fields"?: ((Array<PaymentLinkCustomFieldPreviousAttributes>) | (null));
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
+            "delivery_method_ids"?: ((Array<string>) | (null));
+            "description"?: ((string) | (null));
+            "donation_max_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "donation_min_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "donation_suggested_amount_money_options"?: ((Array<MoneyValuePreviousAttributes>) | (null));
+            "event_config"?: ((PaymentLinkEventConfigPreviousAttributes) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "image"?: ((ImageAttachmentPreviousAttributes) | (null));
+            "inactive_message"?: ((string) | (null));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
+            "line_items"?: ((Array<PaymentLinkLineItemPreviousAttributes>) | (null));
+            "max_completions"?: ((number) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "payment_link_id"?: ((string) | (null));
+            "payment_link_type"?: (("standard" | "donation" | "event" | (string & {})) | (null));
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
+            "sales_end_at"?: ((string) | (null));
+            "sales_summary"?: ((PaymentLinkSalesSummaryPreviousAttributes) | (null));
+            "status"?: (("active" | "inactive" | (string & {})) | (null));
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null));
+            "subscription_plan_id"?: ((string) | (null));
+            "tax"?: ((SubscriptionTaxPreviousAttributes) | (null));
+            "theme"?: ((ThemeConfigPreviousAttributes) | (null));
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
+            "total_quantity_sold"?: ((number) | (null));
+            "updated_at"?: ((string) | (null));
+            "url"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "payment_link.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "payment_link.updated";
+});
+/**
+ * The `payment_link.updated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PaymentLinkUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): {@link WebhookPromotion}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `codes`. previous_attributes (Optional): object. Previous values
-     * of changed top-level fields in data.object, at this delivery's API version. Nested changes
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.buyer_fields (Optional): {@link CheckoutBuyerFields}. What
+     * checkout asks the buyer for. Each field you leave out uses your checkout settings.
+     * object.checkout_session_expires_in_seconds (Optional): integer. Seconds each checkout
+     * session the link starts stays open, from 60 to 86,400. Omit it to use your checkout
+     * settings, or 24 hours. It doesn't end the link; use sales_end_at for that. Format: int64.
+     * minimum: 60. maximum: 86400. object.completed_count (Required): integer. Number of paid
+     * checkout sessions started from this link. Format: int32. object.created_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.custom_fields (Optional): Array of {@link PaymentLinkCustomField}. Questions buyers
+     * answer before paying. Answers are recorded on the order and checkout session in
+     * `custom_field_answers`. object.custom_fields[] (Value): {@link PaymentLinkCustomField}. A
+     * custom field on a payment link that collects an answer from the buyer. object.custom_text
+     * (Optional): {@link CheckoutCustomTextConfig}. Custom text for checkouts started from this
+     * link. Custom text shown in checkout: an order summary message and a shipping address label.
+     * object.delivery_method_ids (Required): Array of string. Delivery methods the link offers.
+     * Empty when the link has none, and then its checkouts offer
+     * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+     * object.delivery_method_ids[] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * object.description (Optional): string. Text about what the link sells, returned to buyers
+     * when they open it. object.donation_max_amount_money (Optional): {@link MoneyValue}. Largest
+     * amount a buyer can give on a donation link. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code. object.donation_min_amount_money (Optional): {@link
+     * MoneyValue}. Smallest amount a buyer can give on a donation link. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     * object.donation_suggested_amount_money_options (Optional): Array of {@link MoneyValue}.
+     * Amounts a donation link offers as one-tap choices.
+     * object.donation_suggested_amount_money_options[] (Value): {@link MoneyValue}. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.event_config (Optional): {@link PaymentLinkEventConfig}. Event details for an `event`
+     * link: when and where it takes place and how many tickets it sells. Event settings on an
+     * event payment link, such as its date, venue, ticket limit, and ticket emails.
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.image (Optional):
+     * {@link ImageAttachment}. Image shown to buyers with the link. An image attached to a
+     * resource, with its display properties and attachment metadata. object.inactive_message
+     * (Optional): string. Message to show the buyer when the link is inactive.
+     * object.inventory_routing_source (Optional): {@link InventoryRoutingSource}. The inventory
+     * location or routing policy that supplies stock for the link's catalog lines. Absent when
+     * using the implicit single-Location fallback, which is evaluated again on use. Where an
+     * order, payment link, or reservation routes inventory from: a fixed Location, an inventory
+     * allocation policy, or one policy revision. object.legal (Optional): {@link LegalSettings}.
+     * The terms and policy links checkouts started from this link show the buyer. Legal settings
+     * for a checkout: whether buyers must accept terms, and links to the terms, refund policy,
+     * shipping policy, and contract. object.line_items (Optional): Array of {@link
+     * PaymentLinkLineItem}. What the link sells. object.line_items[] (Value): {@link
+     * PaymentLinkLineItem}. A line item on a payment link. object.max_completions (Optional):
+     * integer. Most payments the link accepts, counted by `completed_count`. Absent means no
+     * limit. Once the limit is reached, resolving the link fails with a request error. It can't be
+     * set below `completed_count`. Format: int32. object.merchant_id (Required): string. ID of the
+     * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.name (Required): string. Name of the payment link.
+     * object.payment_link_id (Required): string. Unique identifier for this payment link, prefixed
+     * `pl_`. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_type (Optional):
+     * string. What kind of link this is. Value enum: "standard", "donation", "event".
+     * object.payments (Optional): {@link CheckoutPaymentConfig}. Payment options for checkouts
+     * started from this link. Payment settings for a checkout: the enabled payment options and a
+     * note shown with payment. object.promotion_config (Optional): {@link
+     * CheckoutPromotionConfig}. Whether automatic promotions apply to checkouts started from this
+     * link and whether buyers can enter promotion codes. Promotion settings for a checkout:
+     * whether automatic promotions apply and whether the buyer can apply promotion codes.
+     * object.redirects (Optional): {@link CheckoutRedirects}. Where checkout sessions started from
+     * this payment link send the buyer after payment, cancellation, or expiration. Where hosted
+     * checkout sends the buyer. Not allowed when surface is headless; use payment_return_url.
+     * object.sales_end_at (Optional): string. RFC3339 timestamp after which the link stops
+     * starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`.
+     * Unset means sales do not end on their own, except that an event link without sales_end_at
+     * stops selling at event_config.event_at. A checkout opened before the end can still start
+     * payment for up to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.sales_summary (Optional): {@link PaymentLinkSalesSummary}. Present only with
+     * expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}.
+     * Available to merchant callers, including dashboard sessions and API keys with
+     * checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales
+     * summary. Paid-order sales totals for a payment link, computed on request. Paid means the
+     * order's collection has completed. Fully and partially refunded orders still count, and
+     * paid_totals reports the amount collected before refunds. Each order counts once even if it
+     * has multiple checkout sessions. object.status (Required): string. Whether the link can start
+     * new checkouts. Value enum: "active", "inactive". object.subscription_plan (Optional): {@link
+     * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
+     * `subscription_plan`; `null` when expanded and there is no related subscription plan.
+     * object.subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
+     * subscription plan's summary fields, including name, billing interval, currency, and status,
+     * returned when the plan is expanded. object.subscription_plan.anyOf[2] (Value): null.
+     * object.subscription_plan_id (Optional): string. ID of the subscription plan the link sells.
+     * Absent for a link that doesn't sell a subscription. Example:
+     * "plan_01KEZF7C004CY5ZR33XST2AASV". object.tax (Optional): {@link CheckoutTaxConfig}. Tax
+     * settings for checkouts started from this link. Whether tax is collected for a checkout
+     * session or payment link. object.theme (Optional): {@link ThemeConfig}. The title and colors
+     * for checkouts started from this link, over your branding settings. Colors and title applied
+     * to a payment link's checkout page. object.tip (Optional): {@link CheckoutTipConfig}. Tip
+     * options for checkouts started from this link. Tip settings for a checkout: whether tips are
+     * enabled, the percent or fixed amount options, the default tip, and custom tips.
+     * object.total_quantity_sold (Required): integer. Whole-number quantity; fractional quantities
+     * are not supported. Format: int32. object.updated_at (Required): string. RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.url (Required): string. URL
+     * buyers open to use the link. object.version (Required): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
      * include the whole previous top-level value. A value is null when the field was absent before
      * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events. previous_attributes.application_method (Optional): {@link
-     * PromotionApplicationMethod} or null. Discount effect and how it applies to eligible items or
-     * charges. previous_attributes.application_method.anyOf[1] (Value): {@link
-     * PromotionApplicationMethod}. Discount effect and how it applies to eligible items or
-     * charges. previous_attributes.application_method.anyOf[2] (Value): null.
-     * previous_attributes.available (Optional): boolean or null. Whether the promotion can apply
-     * right now: it is active, inside its schedule, under its max_uses, and, when code-gated, has
-     * at least one redeemable code. previous_attributes.available.anyOf[1] (Value): boolean.
-     * Whether the promotion can apply right now: it is active, inside its schedule, under its
-     * max_uses, and, when code-gated, has at least one redeemable code.
-     * previous_attributes.available.anyOf[2] (Value): null. previous_attributes.codes_summary
-     * (Optional): {@link PromotionCodesSummary} or null. Read-only rollup of this promotion's
-     * codes. Present only on code-gated promotions; automatic promotions omit it.
-     * previous_attributes.codes_summary.anyOf[1] (Value): {@link PromotionCodesSummary}. Read-only
-     * rollup of this promotion's codes. Present only on code-gated promotions; automatic
-     * promotions omit it. previous_attributes.codes_summary.anyOf[2] (Value): null.
-     * previous_attributes.combines_with (Optional): {@link PromotionCombinesWith} or null. Which
-     * promotion discount classes this promotion may share an order with. Both promotions must
-     * allow each other's class. Manual discounts are ignored. See Promotion for the evaluation
-     * order. previous_attributes.combines_with.anyOf[1] (Value): {@link PromotionCombinesWith}.
-     * Which promotion discount classes this promotion may share an order with. Both promotions
-     * must allow each other's class. Manual discounts are ignored. See Promotion for the
-     * evaluation order. previous_attributes.combines_with.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. When the promotion was created,
-     * as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string. When the
-     * promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
-     * previous_attributes.description (Optional): string or null. Optional description of the
-     * promotion for your own records. previous_attributes.description.anyOf[1] (Value): string.
-     * Optional description of the promotion for your own records.
-     * previous_attributes.description.anyOf[2] (Value): null. previous_attributes.discount_class
-     * (Optional): string or null. Whether the promotion discounts the order, individual line
-     * items, or service charges. Value enum: "order", "line_item", "service_charge".
-     * previous_attributes.discount_class.anyOf[1] (Value): string. Whether the promotion discounts
-     * the order, individual line items, or service charges. Value enum: "order", "line_item",
-     * "service_charge". previous_attributes.discount_class.anyOf[2] (Value): null.
-     * previous_attributes.display_name (Optional): string or null. Buyer-facing promotion name
-     * shown in checkout and order discount surfaces. previous_attributes.display_name.anyOf[1]
-     * (Value): string. Buyer-facing promotion name shown in checkout and order discount surfaces.
-     * previous_attributes.display_name.anyOf[2] (Value): null.
-     * previous_attributes.eligibility_rules (Optional): {@link PromotionRuleGroup} or null.
-     * Conditions an order must satisfy for the promotion to apply. Omitted when the promotion has
-     * no eligibility conditions. previous_attributes.eligibility_rules.anyOf[1] (Value): {@link
-     * PromotionRuleGroup}. Conditions an order must satisfy for the promotion to apply. Omitted
-     * when the promotion has no eligibility conditions.
-     * previous_attributes.eligibility_rules.anyOf[2] (Value): null.
-     * previous_attributes.exclusivity (Optional): {@link PromotionExclusivity} or null. Optional
-     * group and priority used to choose one promotion from competing promotions in the same group.
-     * See Promotion for the evaluation order. previous_attributes.exclusivity.anyOf[1] (Value):
-     * {@link PromotionExclusivity}. Optional group and priority used to choose one promotion from
-     * competing promotions in the same group. See Promotion for the evaluation order.
-     * previous_attributes.exclusivity.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
-     * identifier for this resource in an external system.
+     * events. previous_attributes.buyer_fields (Optional): {@link
+     * CheckoutBuyerFieldsPreviousAttributes} or null. What checkout asks the buyer for. Each field
+     * you leave out uses your checkout settings. previous_attributes.buyer_fields.anyOf[1]
+     * (Value): {@link CheckoutBuyerFieldsPreviousAttributes}.
+     * previous_attributes.buyer_fields.anyOf[2] (Value): null.
+     * previous_attributes.checkout_session_expires_in_seconds (Optional): integer or null. Seconds
+     * each checkout session the link starts stays open, from 60 to 86,400. Omit it to use your
+     * checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that.
+     * previous_attributes.checkout_session_expires_in_seconds.anyOf[1] (Value): integer. Seconds
+     * each checkout session the link starts stays open, from 60 to 86,400. Omit it to use your
+     * checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that. Format:
+     * int64. minimum: 60. maximum: 86400.
+     * previous_attributes.checkout_session_expires_in_seconds.anyOf[2] (Value): null.
+     * previous_attributes.completed_count (Optional): integer or null. Number of paid checkout
+     * sessions started from this link. previous_attributes.completed_count.anyOf[1] (Value):
+     * integer. Number of paid checkout sessions started from this link. Format: int32.
+     * previous_attributes.completed_count.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.custom_fields
+     * (Optional): Array of {@link PaymentLinkCustomFieldPreviousAttributes} or null. Questions
+     * buyers answer before paying. Answers are recorded on the order and checkout session in
+     * `custom_field_answers`. previous_attributes.custom_fields.anyOf[1] (Value): Array of {@link
+     * PaymentLinkCustomFieldPreviousAttributes}. Questions buyers answer before paying. Answers
+     * are recorded on the order and checkout session in `custom_field_answers`.
+     * previous_attributes.custom_fields.anyOf[1][] (Value): {@link
+     * PaymentLinkCustomFieldPreviousAttributes}. previous_attributes.custom_fields.anyOf[2]
+     * (Value): null. previous_attributes.custom_text (Optional): {@link
+     * CheckoutCustomTextConfigPreviousAttributes} or null. Custom text for checkouts started from
+     * this link. previous_attributes.custom_text.anyOf[1] (Value): {@link
+     * CheckoutCustomTextConfigPreviousAttributes}. previous_attributes.custom_text.anyOf[2]
+     * (Value): null. previous_attributes.delivery_method_ids (Optional): Array of string or null.
+     * Delivery methods the link offers. Empty when the link has none, and then its checkouts offer
+     * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+     * previous_attributes.delivery_method_ids.anyOf[1] (Value): Array of string. Delivery methods
+     * the link offers. Empty when the link has none, and then its checkouts offer
+     * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+     * previous_attributes.delivery_method_ids.anyOf[1][] (Value): string. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". previous_attributes.delivery_method_ids.anyOf[2] (Value):
+     * null. previous_attributes.description (Optional): string or null. Text about what the link
+     * sells, returned to buyers when they open it. previous_attributes.description.anyOf[1]
+     * (Value): string. Text about what the link sells, returned to buyers when they open it.
+     * previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.donation_max_amount_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. Largest amount a buyer can give on a donation link.
+     * previous_attributes.donation_max_amount_money.anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. previous_attributes.donation_max_amount_money.anyOf[2]
+     * (Value): null. previous_attributes.donation_min_amount_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. Smallest amount a buyer can give on a donation link.
+     * previous_attributes.donation_min_amount_money.anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. previous_attributes.donation_min_amount_money.anyOf[2]
+     * (Value): null. previous_attributes.donation_suggested_amount_money_options (Optional): Array
+     * of {@link MoneyValuePreviousAttributes} or null. Amounts a donation link offers as one-tap
+     * choices. previous_attributes.donation_suggested_amount_money_options.anyOf[1] (Value): Array
+     * of {@link MoneyValuePreviousAttributes}. Amounts a donation link offers as one-tap choices.
+     * previous_attributes.donation_suggested_amount_money_options.anyOf[1][] (Value): {@link
+     * MoneyValuePreviousAttributes}.
+     * previous_attributes.donation_suggested_amount_money_options.anyOf[2] (Value): null.
+     * previous_attributes.event_config (Optional): {@link
+     * PaymentLinkEventConfigPreviousAttributes} or null. Event details for an `event` link: when
+     * and where it takes place and how many tickets it sells.
+     * previous_attributes.event_config.anyOf[1] (Value): {@link
+     * PaymentLinkEventConfigPreviousAttributes}. previous_attributes.event_config.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
      * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
      * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.max_uses (Optional): integer or null. Maximum number of redemptions
-     * across all codes and automatic applications. Omitted when there is no redemption limit.
-     * previous_attributes.max_uses.anyOf[1] (Value): integer. Maximum number of redemptions across
-     * all codes and automatic applications. Omitted when there is no redemption limit. Format:
-     * int64. previous_attributes.max_uses.anyOf[2] (Value): null.
-     * previous_attributes.max_uses_per_customer (Optional): integer or null or null. Maximum
-     * reserved and redeemed uses per identified customer across every code and automatic or
-     * ID-based application. Checked atomically when payment starts. Failed, canceled, or expired
-     * attempts release their reservation; refunds do not restore uses. Counts only within the same
-     * merchant and environment; live and test mode are separate. Without an identified customer,
-     * returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no
-     * per-customer limit. previous_attributes.max_uses_per_customer.anyOf[1] (Value): integer or
-     * null. Maximum reserved and redeemed uses per identified customer across every code and
-     * automatic or ID-based application. Checked atomically when payment starts. Failed, canceled,
-     * or expired attempts release their reservation; refunds do not restore uses. Counts only
-     * within the same merchant and environment; live and test mode are separate. Without an
-     * identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when
-     * there is no per-customer limit. Format: int64. minimum: 1.
-     * previous_attributes.max_uses_per_customer.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
-     * owns the promotion. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
-     * the merchant that owns the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.image
+     * (Optional): {@link ImageAttachmentPreviousAttributes} or null. Image shown to buyers with
+     * the link. previous_attributes.image.anyOf[1] (Value): {@link
+     * ImageAttachmentPreviousAttributes}. previous_attributes.image.anyOf[2] (Value): null.
+     * previous_attributes.inactive_message (Optional): string or null. Message to show the buyer
+     * when the link is inactive. previous_attributes.inactive_message.anyOf[1] (Value): string.
+     * Message to show the buyer when the link is inactive.
+     * previous_attributes.inactive_message.anyOf[2] (Value): null.
+     * previous_attributes.inventory_routing_source (Optional): {@link
+     * InventoryRoutingSourcePreviousAttributes} or null. The inventory location or routing policy
+     * that supplies stock for the link's catalog lines. Absent when using the implicit
+     * single-Location fallback, which is evaluated again on use.
+     * previous_attributes.inventory_routing_source.anyOf[1] (Value): {@link
+     * InventoryRoutingSourcePreviousAttributes}.
+     * previous_attributes.inventory_routing_source.anyOf[2] (Value): null.
+     * previous_attributes.legal (Optional): {@link CheckoutLegalConfigPreviousAttributes} or null.
+     * The terms and policy links checkouts started from this link show the buyer.
+     * previous_attributes.legal.anyOf[1] (Value): {@link CheckoutLegalConfigPreviousAttributes}.
+     * previous_attributes.legal.anyOf[2] (Value): null. previous_attributes.line_items (Optional):
+     * Array of {@link PaymentLinkLineItemPreviousAttributes} or null. What the link sells.
+     * previous_attributes.line_items.anyOf[1] (Value): Array of {@link
+     * PaymentLinkLineItemPreviousAttributes}. What the link sells.
+     * previous_attributes.line_items.anyOf[1][] (Value): {@link
+     * PaymentLinkLineItemPreviousAttributes}. previous_attributes.line_items.anyOf[2] (Value):
+     * null. previous_attributes.max_completions (Optional): integer or null. Most payments the
+     * link accepts, counted by `completed_count`. Absent means no limit. Once the limit is
+     * reached, resolving the link fails with a request error. It can't be set below
+     * `completed_count`. previous_attributes.max_completions.anyOf[1] (Value): integer. Most
+     * payments the link accepts, counted by `completed_count`. Absent means no limit. Once the
+     * limit is reached, resolving the link fails with a request error. It can't be set below
+     * `completed_count`. Format: int32. previous_attributes.max_completions.anyOf[2] (Value):
+     * null. previous_attributes.merchant_id (Optional): string or null. ID of the merchant this
+     * resource belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the
+     * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
-     * (Optional): {@link MetadataMap} or null. Key-value data you attach to the promotion.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Key-value data you
-     * attach to the promotion. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.name (Optional): string or null. Internal promotion name for dashboards,
-     * searching, and reporting. previous_attributes.name.anyOf[1] (Value): string. Internal
-     * promotion name for dashboards, searching, and reporting. previous_attributes.name.anyOf[2]
-     * (Value): null. previous_attributes.promotion_id (Optional): string or null. Unique
-     * identifier for the promotion. previous_attributes.promotion_id.anyOf[1] (Value): string.
-     * Unique identifier for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     * previous_attributes.promotion_id.anyOf[2] (Value): null. previous_attributes.redemption_type
-     * (Optional): string or null. Whether the promotion applies automatically when its rules match
-     * or requires a promotion code. Value enum: "automatic", "code".
-     * previous_attributes.redemption_type.anyOf[1] (Value): string. Whether the promotion applies
-     * automatically when its rules match or requires a promotion code. Value enum: "automatic",
-     * "code". previous_attributes.redemption_type.anyOf[2] (Value): null.
-     * previous_attributes.schedule (Optional): {@link PromotionSchedule} or null. Optional start
-     * and end times that limit when the promotion can apply. previous_attributes.schedule.anyOf[1]
-     * (Value): {@link PromotionSchedule}. Optional start and end times that limit when the
-     * promotion can apply. previous_attributes.schedule.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Lifecycle status. Set active or
-     * inactive with PATCH; DELETE sets archived. An active promotion can still be unavailable:
-     * read available. Value enum: "active", "inactive", "archived".
-     * previous_attributes.status.anyOf[1] (Value): string. Lifecycle status. Set active or
-     * inactive with PATCH; DELETE sets archived. An active promotion can still be unavailable:
-     * read available. Value enum: "active", "inactive", "archived".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.unavailable_reason
-     * (Optional): string or null. Why available is false. Present only when available is false.
-     * Value enum: "inactive", "archived", "not_yet_started", "expired", "exhausted",
-     * "no_active_codes". previous_attributes.unavailable_reason.anyOf[1] (Value): string. Why
-     * available is false. Present only when available is false. Value enum: "inactive",
-     * "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
-     * previous_attributes.unavailable_reason.anyOf[2] (Value): null.
-     * previous_attributes.updated_at (Optional): string or null. When the promotion was last
-     * updated, as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string.
-     * When the promotion was last updated, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
-     * previous_attributes.uses_count (Optional): integer or null. Number of times the promotion
-     * has been redeemed. previous_attributes.uses_count.anyOf[1] (Value): integer. Number of times
-     * the promotion has been redeemed. Format: int64. previous_attributes.uses_count.anyOf[2]
-     * (Value): null. previous_attributes.version (Optional): integer or null. Persisted
-     * owned-state version. Clock-based availability and expanded resources do not advance this
-     * counter. previous_attributes.version.anyOf[1] (Value): integer. Persisted owned-state
-     * version. Clock-based availability and expanded resources do not advance this counter.
-     * Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Name of the payment link.
+     * previous_attributes.name.anyOf[1] (Value): string. Name of the payment link.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.payment_link_id
+     * (Optional): string or null. Unique identifier for this payment link, prefixed `pl_`.
+     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Unique identifier for this
+     * payment link, prefixed `pl_`. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     * previous_attributes.payment_link_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_link_type (Optional): string or null. What kind of link this is.
+     * Value enum: "standard", "donation", "event". previous_attributes.payment_link_type.anyOf[1]
+     * (Value): string. What kind of link this is. Value enum: "standard", "donation", "event".
+     * previous_attributes.payment_link_type.anyOf[2] (Value): null. previous_attributes.payments
+     * (Optional): {@link CheckoutPaymentConfigPreviousAttributes} or null. Payment options for
+     * checkouts started from this link. previous_attributes.payments.anyOf[1] (Value): {@link
+     * CheckoutPaymentConfigPreviousAttributes}. previous_attributes.payments.anyOf[2] (Value):
+     * null. previous_attributes.promotion_config (Optional): {@link
+     * CheckoutPromotionConfigPreviousAttributes} or null. Whether automatic promotions apply to
+     * checkouts started from this link and whether buyers can enter promotion codes.
+     * previous_attributes.promotion_config.anyOf[1] (Value): {@link
+     * CheckoutPromotionConfigPreviousAttributes}. previous_attributes.promotion_config.anyOf[2]
+     * (Value): null. previous_attributes.redirects (Optional): {@link
+     * CheckoutRedirectsPreviousAttributes} or null. Where checkout sessions started from this
+     * payment link send the buyer after payment, cancellation, or expiration.
+     * previous_attributes.redirects.anyOf[1] (Value): {@link CheckoutRedirectsPreviousAttributes}.
+     * previous_attributes.redirects.anyOf[2] (Value): null. previous_attributes.sales_end_at
+     * (Optional): string or null. RFC3339 timestamp after which the link stops starting checkouts
+     * and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do
+     * not end on their own, except that an event link without sales_end_at stops selling at
+     * event_config.event_at. A checkout opened before the end can still start payment for up to 15
+     * minutes after it. previous_attributes.sales_end_at.anyOf[1] (Value): string. RFC3339
+     * timestamp after which the link stops starting checkouts and resolve fails with
+     * `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own,
+     * except that an event link without sales_end_at stops selling at event_config.event_at. A
+     * checkout opened before the end can still start payment for up to 15 minutes after it.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.sales_end_at.anyOf[2] (Value): null. previous_attributes.sales_summary
+     * (Optional): {@link PaymentLinkSalesSummaryPreviousAttributes} or null. Present only with
+     * expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}.
+     * Available to merchant callers, including dashboard sessions and API keys with
+     * checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales
+     * summary. previous_attributes.sales_summary.anyOf[1] (Value): {@link
+     * PaymentLinkSalesSummaryPreviousAttributes}. previous_attributes.sales_summary.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Whether the link can
+     * start new checkouts. Value enum: "active", "inactive". previous_attributes.status.anyOf[1]
+     * (Value): string. Whether the link can start new checkouts. Value enum: "active", "inactive".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_plan
+     * (Optional): {@link ExpandedSubscriptionPlanSummaryPreviousAttributes} or null. Present only
+     * when `expand` includes `subscription_plan`; `null` when expanded and there is no related
+     * subscription plan. previous_attributes.subscription_plan.anyOf[1] (Value): {@link
+     * ExpandedSubscriptionPlanSummaryPreviousAttributes}.
+     * previous_attributes.subscription_plan.anyOf[2] (Value): null.
+     * previous_attributes.subscription_plan_id (Optional): string or null. ID of the subscription
+     * plan the link sells. Absent for a link that doesn't sell a subscription.
+     * previous_attributes.subscription_plan_id.anyOf[1] (Value): string. ID of the subscription
+     * plan the link sells. Absent for a link that doesn't sell a subscription. Example:
+     * "plan_01KEZF7C004CY5ZR33XST2AASV". previous_attributes.subscription_plan_id.anyOf[2]
+     * (Value): null. previous_attributes.tax (Optional): {@link SubscriptionTaxPreviousAttributes}
+     * or null. Tax settings for checkouts started from this link. previous_attributes.tax.anyOf[1]
+     * (Value): {@link SubscriptionTaxPreviousAttributes}. previous_attributes.tax.anyOf[2]
+     * (Value): null. previous_attributes.theme (Optional): {@link ThemeConfigPreviousAttributes}
+     * or null. The title and colors for checkouts started from this link, over your branding
+     * settings. previous_attributes.theme.anyOf[1] (Value): {@link ThemeConfigPreviousAttributes}.
+     * previous_attributes.theme.anyOf[2] (Value): null. previous_attributes.tip (Optional): {@link
+     * CheckoutTipConfigPreviousAttributes} or null. Tip options for checkouts started from this
+     * link. previous_attributes.tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}.
+     * previous_attributes.tip.anyOf[2] (Value): null. previous_attributes.total_quantity_sold
+     * (Optional): integer or null. Whole-number quantity; fractional quantities are not supported.
+     * previous_attributes.total_quantity_sold.anyOf[1] (Value): integer. Whole-number quantity;
+     * fractional quantities are not supported. Format: int32.
+     * previous_attributes.total_quantity_sold.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.url (Optional): string or null. URL buyers open to use the link.
+     * previous_attributes.url.anyOf[1] (Value): string. URL buyers open to use the link.
+     * previous_attributes.url.anyOf[2] (Value): null. previous_attributes.version (Optional):
+     * integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: int64. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
-        /** The resource snapshot, without expansions. Webhooks omit these fields: `codes`. */
-        "object": WebhookPromotion;
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * buyer_fields (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for.
+         * Each field you leave out uses your checkout settings.
+         * checkout_session_expires_in_seconds (Optional): integer. Seconds each checkout session
+         * the link starts stays open, from 60 to 86,400. Omit it to use your checkout settings, or
+         * 24 hours. It doesn't end the link; use sales_end_at for that. Format: int64. minimum:
+         * 60. maximum: 86400. completed_count (Required): integer. Number of paid checkout
+         * sessions started from this link. Format: int32. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". custom_fields (Optional):
+         * Array of {@link PaymentLinkCustomField}. Questions buyers answer before paying. Answers
+         * are recorded on the order and checkout session in `custom_field_answers`.
+         * custom_fields[] (Value): {@link PaymentLinkCustomField}. A custom field on a payment
+         * link that collects an answer from the buyer. custom_text (Optional): {@link
+         * CheckoutCustomTextConfig}. Custom text for checkouts started from this link. Custom text
+         * shown in checkout: an order summary message and a shipping address label.
+         * delivery_method_ids (Required): Array of string. Delivery methods the link offers. Empty
+         * when the link has none, and then its checkouts offer
+         * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+         * delivery_method_ids[] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+         * description (Optional): string. Text about what the link sells, returned to buyers when
+         * they open it. donation_max_amount_money (Optional): {@link MoneyValue}. Largest amount a
+         * buyer can give on a donation link. Monetary amount represented as integer minor units
+         * plus an ISO 4217 currency code. donation_min_amount_money (Optional): {@link
+         * MoneyValue}. Smallest amount a buyer can give on a donation link. Monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code.
+         * donation_suggested_amount_money_options (Optional): Array of {@link MoneyValue}. Amounts
+         * a donation link offers as one-tap choices. donation_suggested_amount_money_options[]
+         * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
+         * ISO 4217 currency code. event_config (Optional): {@link PaymentLinkEventConfig}. Event
+         * details for an `event` link: when and where it takes place and how many tickets it
+         * sells. Event settings on an event payment link, such as its date, venue, ticket limit,
+         * and ticket emails. external_reference_id (Optional): string. Caller-owned identifier for
+         * this resource in an external system. maxLength: 255. Example: "warehouse-1842". image
+         * (Optional): {@link ImageAttachment}. Image shown to buyers with the link. An image
+         * attached to a resource, with its display properties and attachment metadata.
+         * inactive_message (Optional): string. Message to show the buyer when the link is
+         * inactive. inventory_routing_source (Optional): {@link InventoryRoutingSource}. The
+         * inventory location or routing policy that supplies stock for the link's catalog lines.
+         * Absent when using the implicit single-Location fallback, which is evaluated again on
+         * use. Where an order, payment link, or reservation routes inventory from: a fixed
+         * Location, an inventory allocation policy, or one policy revision. legal (Optional):
+         * {@link LegalSettings}. The terms and policy links checkouts started from this link show
+         * the buyer. Legal settings for a checkout: whether buyers must accept terms, and links to
+         * the terms, refund policy, shipping policy, and contract. line_items (Optional): Array of
+         * {@link PaymentLinkLineItem}. What the link sells. line_items[] (Value): {@link
+         * PaymentLinkLineItem}. A line item on a payment link. max_completions (Optional):
+         * integer. Most payments the link accepts, counted by `completed_count`. Absent means no
+         * limit. Once the limit is reached, resolving the link fails with a request error. It
+         * can't be set below `completed_count`. Format: int32. merchant_id (Required): string. ID
+         * of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+         * limits may not satisfy them. name (Required): string. Name of the payment link.
+         * payment_link_id (Required): string. Unique identifier for this payment link, prefixed
+         * `pl_`. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_type (Optional): string.
+         * What kind of link this is. Value enum: "standard", "donation", "event". payments
+         * (Optional): {@link CheckoutPaymentConfig}. Payment options for checkouts started from
+         * this link. Payment settings for a checkout: the enabled payment options and a note shown
+         * with payment. promotion_config (Optional): {@link CheckoutPromotionConfig}. Whether
+         * automatic promotions apply to checkouts started from this link and whether buyers can
+         * enter promotion codes. Promotion settings for a checkout: whether automatic promotions
+         * apply and whether the buyer can apply promotion codes. redirects (Optional): {@link
+         * CheckoutRedirects}. Where checkout sessions started from this payment link send the
+         * buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer.
+         * Not allowed when surface is headless; use payment_return_url. sales_end_at (Optional):
+         * string. RFC3339 timestamp after which the link stops starting checkouts and resolve
+         * fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end
+         * on their own, except that an event link without sales_end_at stops selling at
+         * event_config.event_at. A checkout opened before the end can still start payment for up
+         * to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * sales_summary (Optional): {@link PaymentLinkSalesSummary}. Present only with
+         * expand=sales_summary on GET /v1/payment-links or GET
+         * /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard
+         * sessions and API keys with checkouts.payment_links.read. Uses the same paid-order
+         * definition as the merchant sales summary. Paid-order sales totals for a payment link,
+         * computed on request. Paid means the order's collection has completed. Fully and
+         * partially refunded orders still count, and paid_totals reports the amount collected
+         * before refunds. Each order counts once even if it has multiple checkout sessions. status
+         * (Required): string. Whether the link can start new checkouts. Value enum: "active",
+         * "inactive". subscription_plan (Optional): {@link ExpandedSubscriptionPlanSummary} or
+         * null. Present only when `expand` includes `subscription_plan`; `null` when expanded and
+         * there is no related subscription plan. subscription_plan.anyOf[1] (Value): {@link
+         * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including name,
+         * billing interval, currency, and status, returned when the plan is expanded.
+         * subscription_plan.anyOf[2] (Value): null. subscription_plan_id (Optional): string. ID of
+         * the subscription plan the link sells. Absent for a link that doesn't sell a
+         * subscription. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". tax (Optional): {@link
+         * CheckoutTaxConfig}. Tax settings for checkouts started from this link. Whether tax is
+         * collected for a checkout session or payment link. theme (Optional): {@link ThemeConfig}.
+         * The title and colors for checkouts started from this link, over your branding settings.
+         * Colors and title applied to a payment link's checkout page. tip (Optional): {@link
+         * CheckoutTipConfig}. Tip options for checkouts started from this link. Tip settings for a
+         * checkout: whether tips are enabled, the percent or fixed amount options, the default
+         * tip, and custom tips. total_quantity_sold (Required): integer. Whole-number quantity;
+         * fractional quantities are not supported. Format: int32. updated_at (Required): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". url (Required):
+         * string. URL buyers open to use the link. version (Required): integer. Current version of
+         * this resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: int64.
+         */
+        "object": {
+            /**
+             * What checkout asks the buyer for. Each field you leave out uses your checkout
+             * settings.
+             */
+            "buyer_fields"?: CheckoutBuyerFields;
+            /**
+             * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it
+             * to use your checkout settings, or 24 hours. It doesn't end the link; use
+             * sales_end_at for that. Format: int64. minimum: 60. maximum: 86400.
+             */
+            "checkout_session_expires_in_seconds"?: number;
+            /** Number of paid checkout sessions started from this link. Format: int32. */
+            "completed_count": number;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Questions buyers answer before paying. Answers are recorded on the order and
+             * checkout session in `custom_field_answers`. [] (Value): {@link
+             * PaymentLinkCustomField}. A custom field on a payment link that collects an answer
+             * from the buyer.
+             */
+            "custom_fields"?: Array<PaymentLinkCustomField>;
+            /**
+             * Custom text for checkouts started from this link. Custom text shown in checkout: an
+             * order summary message and a shipping address label.
+             */
+            "custom_text"?: CheckoutCustomTextConfig;
+            /**
+             * Delivery methods the link offers. Empty when the link has none, and then its
+             * checkouts offer settings.checkout.default_delivery_method_ids when the order has
+             * items to deliver. [] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+             */
+            "delivery_method_ids": Array<string>;
+            /** Text about what the link sells, returned to buyers when they open it. */
+            "description"?: string;
+            /**
+             * Largest amount a buyer can give on a donation link. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_max_amount_money"?: MoneyValue;
+            /**
+             * Smallest amount a buyer can give on a donation link. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_min_amount_money"?: MoneyValue;
+            /**
+             * Amounts a donation link offers as one-tap choices. [] (Value): {@link MoneyValue}.
+             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+            /**
+             * Event details for an `event` link: when and where it takes place and how many
+             * tickets it sells. Event settings on an event payment link, such as its date, venue,
+             * ticket limit, and ticket emails.
+             */
+            "event_config"?: PaymentLinkEventConfig;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Image shown to buyers with the link. An image attached to a resource, with its
+             * display properties and attachment metadata.
+             */
+            "image"?: ImageAttachment;
+            /** Message to show the buyer when the link is inactive. */
+            "inactive_message"?: string;
+            /**
+             * The inventory location or routing policy that supplies stock for the link's catalog
+             * lines. Absent when using the implicit single-Location fallback, which is evaluated
+             * again on use. Where an order, payment link, or reservation routes inventory from: a
+             * fixed Location, an inventory allocation policy, or one policy revision.
+             */
+            "inventory_routing_source"?: InventoryRoutingSource;
+            /**
+             * The terms and policy links checkouts started from this link show the buyer. Legal
+             * settings for a checkout: whether buyers must accept terms, and links to the terms,
+             * refund policy, shipping policy, and contract.
+             */
+            "legal"?: LegalSettings;
+            /**
+             * What the link sells. [] (Value): {@link PaymentLinkLineItem}. A line item on a
+             * payment link.
+             */
+            "line_items"?: Array<PaymentLinkLineItem>;
+            /**
+             * Most payments the link accepts, counted by `completed_count`. Absent means no limit.
+             * Once the limit is reached, resolving the link fails with a request error. It can't
+             * be set below `completed_count`. Format: int32.
+             */
+            "max_completions"?: number;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /** Name of the payment link. */
+            "name": string;
+            /**
+             * Unique identifier for this payment link, prefixed `pl_`. Example:
+             * "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+             */
+            "payment_link_id": string;
+            /** What kind of link this is. Value enum: "standard", "donation", "event". */
+            "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+            /**
+             * Payment options for checkouts started from this link. Payment settings for a
+             * checkout: the enabled payment options and a note shown with payment.
+             */
+            "payments"?: CheckoutPaymentConfig;
+            /**
+             * Whether automatic promotions apply to checkouts started from this link and whether
+             * buyers can enter promotion codes. Promotion settings for a checkout: whether
+             * automatic promotions apply and whether the buyer can apply promotion codes.
+             */
+            "promotion_config"?: CheckoutPromotionConfig;
+            /**
+             * Where checkout sessions started from this payment link send the buyer after payment,
+             * cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when
+             * surface is headless; use payment_return_url.
+             */
+            "redirects"?: CheckoutRedirects;
+            /**
+             * RFC3339 timestamp after which the link stops starting checkouts and resolve fails
+             * with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on
+             * their own, except that an event link without sales_end_at stops selling at
+             * event_config.event_at. A checkout opened before the end can still start payment for
+             * up to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "sales_end_at"?: string;
+            /**
+             * Present only with expand=sales_summary on GET /v1/payment-links or GET
+             * /v1/payment-links/{payment_link_id}. Available to merchant callers, including
+             * dashboard sessions and API keys with checkouts.payment_links.read. Uses the same
+             * paid-order definition as the merchant sales summary. Paid-order sales totals for a
+             * payment link, computed on request. Paid means the order's collection has completed.
+             * Fully and partially refunded orders still count, and paid_totals reports the amount
+             * collected before refunds. Each order counts once even if it has multiple checkout
+             * sessions.
+             */
+            "sales_summary"?: PaymentLinkSalesSummary;
+            /** Whether the link can start new checkouts. Value enum: "active", "inactive". */
+            "status": "active" | "inactive" | (string & {});
+            /**
+             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
+             * there is no related subscription plan. anyOf[1] (Value): {@link
+             * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
+             * name, billing interval, currency, and status, returned when the plan is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+            /**
+             * ID of the subscription plan the link sells. Absent for a link that doesn't sell a
+             * subscription. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+             */
+            "subscription_plan_id"?: string;
+            /**
+             * Tax settings for checkouts started from this link. Whether tax is collected for a
+             * checkout session or payment link.
+             */
+            "tax"?: CheckoutTaxConfig;
+            /**
+             * The title and colors for checkouts started from this link, over your branding
+             * settings. Colors and title applied to a payment link's checkout page.
+             */
+            "theme"?: ThemeConfig;
+            /**
+             * Tip options for checkouts started from this link. Tip settings for a checkout:
+             * whether tips are enabled, the percent or fixed amount options, the default tip, and
+             * custom tips.
+             */
+            "tip"?: CheckoutTipConfig;
+            /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+            "total_quantity_sold": number;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /** URL buyers open to use the link. */
+            "url": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64.
+             */
+            "version": number;
+        };
         /**
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. application_method (Optional): {@link
-         * PromotionApplicationMethod} or null. Discount effect and how it applies to eligible
-         * items or charges. application_method.anyOf[1] (Value): {@link
-         * PromotionApplicationMethod}. Discount effect and how it applies to eligible items or
-         * charges. application_method.anyOf[2] (Value): null. available (Optional): boolean or
-         * null. Whether the promotion can apply right now: it is active, inside its schedule,
-         * under its max_uses, and, when code-gated, has at least one redeemable code.
-         * available.anyOf[1] (Value): boolean. Whether the promotion can apply right now: it is
-         * active, inside its schedule, under its max_uses, and, when code-gated, has at least one
-         * redeemable code. available.anyOf[2] (Value): null. codes_summary (Optional): {@link
-         * PromotionCodesSummary} or null. Read-only rollup of this promotion's codes. Present only
-         * on code-gated promotions; automatic promotions omit it. codes_summary.anyOf[1] (Value):
-         * {@link PromotionCodesSummary}. Read-only rollup of this promotion's codes. Present only
-         * on code-gated promotions; automatic promotions omit it. codes_summary.anyOf[2] (Value):
-         * null. combines_with (Optional): {@link PromotionCombinesWith} or null. Which promotion
-         * discount classes this promotion may share an order with. Both promotions must allow each
-         * other's class. Manual discounts are ignored. See Promotion for the evaluation order.
-         * combines_with.anyOf[1] (Value): {@link PromotionCombinesWith}. Which promotion discount
-         * classes this promotion may share an order with. Both promotions must allow each other's
-         * class. Manual discounts are ignored. See Promotion for the evaluation order.
-         * combines_with.anyOf[2] (Value): null. created_at (Optional): string or null. When the
-         * promotion was created, as an RFC3339 timestamp. created_at.anyOf[1] (Value): string.
-         * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. description (Optional):
-         * string or null. Optional description of the promotion for your own records.
-         * description.anyOf[1] (Value): string. Optional description of the promotion for your own
-         * records. description.anyOf[2] (Value): null. discount_class (Optional): string or null.
-         * Whether the promotion discounts the order, individual line items, or service charges.
-         * Value enum: "order", "line_item", "service_charge". discount_class.anyOf[1] (Value):
-         * string. Whether the promotion discounts the order, individual line items, or service
-         * charges. Value enum: "order", "line_item", "service_charge". discount_class.anyOf[2]
-         * (Value): null. display_name (Optional): string or null. Buyer-facing promotion name
-         * shown in checkout and order discount surfaces. display_name.anyOf[1] (Value): string.
-         * Buyer-facing promotion name shown in checkout and order discount surfaces.
-         * display_name.anyOf[2] (Value): null. eligibility_rules (Optional): {@link
-         * PromotionRuleGroup} or null. Conditions an order must satisfy for the promotion to
-         * apply. Omitted when the promotion has no eligibility conditions.
-         * eligibility_rules.anyOf[1] (Value): {@link PromotionRuleGroup}. Conditions an order must
-         * satisfy for the promotion to apply. Omitted when the promotion has no eligibility
-         * conditions. eligibility_rules.anyOf[2] (Value): null. exclusivity (Optional): {@link
-         * PromotionExclusivity} or null. Optional group and priority used to choose one promotion
-         * from competing promotions in the same group. See Promotion for the evaluation order.
-         * exclusivity.anyOf[1] (Value): {@link PromotionExclusivity}. Optional group and priority
-         * used to choose one promotion from competing promotions in the same group. See Promotion
-         * for the evaluation order. exclusivity.anyOf[2] (Value): null. external_reference_id
-         * (Optional): string or null. Caller-owned identifier for this resource in an external
-         * system. external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * state, including synthetic test events. buyer_fields (Optional): {@link
+         * CheckoutBuyerFieldsPreviousAttributes} or null. What checkout asks the buyer for. Each
+         * field you leave out uses your checkout settings. buyer_fields.anyOf[1] (Value): {@link
+         * CheckoutBuyerFieldsPreviousAttributes}. buyer_fields.anyOf[2] (Value): null.
+         * checkout_session_expires_in_seconds (Optional): integer or null. Seconds each checkout
+         * session the link starts stays open, from 60 to 86,400. Omit it to use your checkout
+         * settings, or 24 hours. It doesn't end the link; use sales_end_at for that.
+         * checkout_session_expires_in_seconds.anyOf[1] (Value): integer. Seconds each checkout
+         * session the link starts stays open, from 60 to 86,400. Omit it to use your checkout
+         * settings, or 24 hours. It doesn't end the link; use sales_end_at for that. Format:
+         * int64. minimum: 60. maximum: 86400. checkout_session_expires_in_seconds.anyOf[2]
+         * (Value): null. completed_count (Optional): integer or null. Number of paid checkout
+         * sessions started from this link. completed_count.anyOf[1] (Value): integer. Number of
+         * paid checkout sessions started from this link. Format: int32. completed_count.anyOf[2]
+         * (Value): null. created_at (Optional): string or null. RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. custom_fields (Optional):
+         * Array of {@link PaymentLinkCustomFieldPreviousAttributes} or null. Questions buyers
+         * answer before paying. Answers are recorded on the order and checkout session in
+         * `custom_field_answers`. custom_fields.anyOf[1] (Value): Array of {@link
+         * PaymentLinkCustomFieldPreviousAttributes}. Questions buyers answer before paying.
+         * Answers are recorded on the order and checkout session in `custom_field_answers`.
+         * custom_fields.anyOf[1][] (Value): {@link PaymentLinkCustomFieldPreviousAttributes}.
+         * custom_fields.anyOf[2] (Value): null. custom_text (Optional): {@link
+         * CheckoutCustomTextConfigPreviousAttributes} or null. Custom text for checkouts started
+         * from this link. custom_text.anyOf[1] (Value): {@link
+         * CheckoutCustomTextConfigPreviousAttributes}. custom_text.anyOf[2] (Value): null.
+         * delivery_method_ids (Optional): Array of string or null. Delivery methods the link
+         * offers. Empty when the link has none, and then its checkouts offer
+         * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+         * delivery_method_ids.anyOf[1] (Value): Array of string. Delivery methods the link offers.
+         * Empty when the link has none, and then its checkouts offer
+         * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+         * delivery_method_ids.anyOf[1][] (Value): string. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_ids.anyOf[2] (Value): null.
+         * description (Optional): string or null. Text about what the link sells, returned to
+         * buyers when they open it. description.anyOf[1] (Value): string. Text about what the link
+         * sells, returned to buyers when they open it. description.anyOf[2] (Value): null.
+         * donation_max_amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+         * Largest amount a buyer can give on a donation link. donation_max_amount_money.anyOf[1]
+         * (Value): {@link MoneyValuePreviousAttributes}. donation_max_amount_money.anyOf[2]
+         * (Value): null. donation_min_amount_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. Smallest amount a buyer can give on a donation
+         * link. donation_min_amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+         * donation_min_amount_money.anyOf[2] (Value): null.
+         * donation_suggested_amount_money_options (Optional): Array of {@link
+         * MoneyValuePreviousAttributes} or null. Amounts a donation link offers as one-tap
+         * choices. donation_suggested_amount_money_options.anyOf[1] (Value): Array of {@link
+         * MoneyValuePreviousAttributes}. Amounts a donation link offers as one-tap choices.
+         * donation_suggested_amount_money_options.anyOf[1][] (Value): {@link
+         * MoneyValuePreviousAttributes}. donation_suggested_amount_money_options.anyOf[2] (Value):
+         * null. event_config (Optional): {@link PaymentLinkEventConfigPreviousAttributes} or null.
+         * Event details for an `event` link: when and where it takes place and how many tickets it
+         * sells. event_config.anyOf[1] (Value): {@link PaymentLinkEventConfigPreviousAttributes}.
+         * event_config.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
+         * Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
          * resource in an external system. maxLength: 255. Example: "warehouse-1842".
-         * external_reference_id.anyOf[2] (Value): null. max_uses (Optional): integer or null.
-         * Maximum number of redemptions across all codes and automatic applications. Omitted when
-         * there is no redemption limit. max_uses.anyOf[1] (Value): integer. Maximum number of
-         * redemptions across all codes and automatic applications. Omitted when there is no
-         * redemption limit. Format: int64. max_uses.anyOf[2] (Value): null. max_uses_per_customer
-         * (Optional): integer or null or null. Maximum reserved and redeemed uses per identified
-         * customer across every code and automatic or ID-based application. Checked atomically
-         * when payment starts. Failed, canceled, or expired attempts release their reservation;
-         * refunds do not restore uses. Counts only within the same merchant and environment; live
-         * and test mode are separate. Without an identified customer, returns 409
-         * PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
-         * limit. max_uses_per_customer.anyOf[1] (Value): integer or null. Maximum reserved and
-         * redeemed uses per identified customer across every code and automatic or ID-based
-         * application. Checked atomically when payment starts. Failed, canceled, or expired
-         * attempts release their reservation; refunds do not restore uses. Counts only within the
-         * same merchant and environment; live and test mode are separate. Without an identified
-         * customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there
-         * is no per-customer limit. Format: int64. minimum: 1. max_uses_per_customer.anyOf[2]
-         * (Value): null. merchant_id (Optional): string or null. Identifier of the merchant that
-         * owns the promotion. merchant_id.anyOf[1] (Value): string. Identifier of the merchant
-         * that owns the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
-         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Key-value data you
-         * attach to the promotion. metadata.anyOf[1] (Value): {@link MetadataMap}. Key-value data
-         * you attach to the promotion. metadata.anyOf[2] (Value): null. name (Optional): string or
-         * null. Internal promotion name for dashboards, searching, and reporting. name.anyOf[1]
-         * (Value): string. Internal promotion name for dashboards, searching, and reporting.
-         * name.anyOf[2] (Value): null. promotion_id (Optional): string or null. Unique identifier
-         * for the promotion. promotion_id.anyOf[1] (Value): string. Unique identifier for the
-         * promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". promotion_id.anyOf[2] (Value):
-         * null. redemption_type (Optional): string or null. Whether the promotion applies
-         * automatically when its rules match or requires a promotion code. Value enum:
-         * "automatic", "code". redemption_type.anyOf[1] (Value): string. Whether the promotion
-         * applies automatically when its rules match or requires a promotion code. Value enum:
-         * "automatic", "code". redemption_type.anyOf[2] (Value): null. schedule (Optional): {@link
-         * PromotionSchedule} or null. Optional start and end times that limit when the promotion
-         * can apply. schedule.anyOf[1] (Value): {@link PromotionSchedule}. Optional start and end
-         * times that limit when the promotion can apply. schedule.anyOf[2] (Value): null. status
-         * (Optional): string or null. Lifecycle status. Set active or inactive with PATCH; DELETE
-         * sets archived. An active promotion can still be unavailable: read available. Value enum:
-         * "active", "inactive", "archived". status.anyOf[1] (Value): string. Lifecycle status. Set
-         * active or inactive with PATCH; DELETE sets archived. An active promotion can still be
-         * unavailable: read available. Value enum: "active", "inactive", "archived".
-         * status.anyOf[2] (Value): null. unavailable_reason (Optional): string or null. Why
-         * available is false. Present only when available is false. Value enum: "inactive",
-         * "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
-         * unavailable_reason.anyOf[1] (Value): string. Why available is false. Present only when
-         * available is false. Value enum: "inactive", "archived", "not_yet_started", "expired",
-         * "exhausted", "no_active_codes". unavailable_reason.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null. When the promotion was last updated, as an RFC3339
-         * timestamp. updated_at.anyOf[1] (Value): string. When the promotion was last updated, as
-         * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. uses_count (Optional): integer or null. Number of
-         * times the promotion has been redeemed. uses_count.anyOf[1] (Value): integer. Number of
-         * times the promotion has been redeemed. Format: int64. uses_count.anyOf[2] (Value): null.
-         * version (Optional): integer or null. Persisted owned-state version. Clock-based
-         * availability and expanded resources do not advance this counter. version.anyOf[1]
-         * (Value): integer. Persisted owned-state version. Clock-based availability and expanded
-         * resources do not advance this counter. Format: uint64. minimum: 1. version.anyOf[2]
-         * (Value): null.
+         * external_reference_id.anyOf[2] (Value): null. image (Optional): {@link
+         * ImageAttachmentPreviousAttributes} or null. Image shown to buyers with the link.
+         * image.anyOf[1] (Value): {@link ImageAttachmentPreviousAttributes}. image.anyOf[2]
+         * (Value): null. inactive_message (Optional): string or null. Message to show the buyer
+         * when the link is inactive. inactive_message.anyOf[1] (Value): string. Message to show
+         * the buyer when the link is inactive. inactive_message.anyOf[2] (Value): null.
+         * inventory_routing_source (Optional): {@link InventoryRoutingSourcePreviousAttributes} or
+         * null. The inventory location or routing policy that supplies stock for the link's
+         * catalog lines. Absent when using the implicit single-Location fallback, which is
+         * evaluated again on use. inventory_routing_source.anyOf[1] (Value): {@link
+         * InventoryRoutingSourcePreviousAttributes}. inventory_routing_source.anyOf[2] (Value):
+         * null. legal (Optional): {@link CheckoutLegalConfigPreviousAttributes} or null. The terms
+         * and policy links checkouts started from this link show the buyer. legal.anyOf[1]
+         * (Value): {@link CheckoutLegalConfigPreviousAttributes}. legal.anyOf[2] (Value): null.
+         * line_items (Optional): Array of {@link PaymentLinkLineItemPreviousAttributes} or null.
+         * What the link sells. line_items.anyOf[1] (Value): Array of {@link
+         * PaymentLinkLineItemPreviousAttributes}. What the link sells. line_items.anyOf[1][]
+         * (Value): {@link PaymentLinkLineItemPreviousAttributes}. line_items.anyOf[2] (Value):
+         * null. max_completions (Optional): integer or null. Most payments the link accepts,
+         * counted by `completed_count`. Absent means no limit. Once the limit is reached,
+         * resolving the link fails with a request error. It can't be set below `completed_count`.
+         * max_completions.anyOf[1] (Value): integer. Most payments the link accepts, counted by
+         * `completed_count`. Absent means no limit. Once the limit is reached, resolving the link
+         * fails with a request error. It can't be set below `completed_count`. Format: int32.
+         * max_completions.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID of
+         * the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of the
+         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null. name
+         * (Optional): string or null. Name of the payment link. name.anyOf[1] (Value): string.
+         * Name of the payment link. name.anyOf[2] (Value): null. payment_link_id (Optional):
+         * string or null. Unique identifier for this payment link, prefixed `pl_`.
+         * payment_link_id.anyOf[1] (Value): string. Unique identifier for this payment link,
+         * prefixed `pl_`. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2]
+         * (Value): null. payment_link_type (Optional): string or null. What kind of link this is.
+         * Value enum: "standard", "donation", "event". payment_link_type.anyOf[1] (Value): string.
+         * What kind of link this is. Value enum: "standard", "donation", "event".
+         * payment_link_type.anyOf[2] (Value): null. payments (Optional): {@link
+         * CheckoutPaymentConfigPreviousAttributes} or null. Payment options for checkouts started
+         * from this link. payments.anyOf[1] (Value): {@link
+         * CheckoutPaymentConfigPreviousAttributes}. payments.anyOf[2] (Value): null.
+         * promotion_config (Optional): {@link CheckoutPromotionConfigPreviousAttributes} or null.
+         * Whether automatic promotions apply to checkouts started from this link and whether
+         * buyers can enter promotion codes. promotion_config.anyOf[1] (Value): {@link
+         * CheckoutPromotionConfigPreviousAttributes}. promotion_config.anyOf[2] (Value): null.
+         * redirects (Optional): {@link CheckoutRedirectsPreviousAttributes} or null. Where
+         * checkout sessions started from this payment link send the buyer after payment,
+         * cancellation, or expiration. redirects.anyOf[1] (Value): {@link
+         * CheckoutRedirectsPreviousAttributes}. redirects.anyOf[2] (Value): null. sales_end_at
+         * (Optional): string or null. RFC3339 timestamp after which the link stops starting
+         * checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset
+         * means sales do not end on their own, except that an event link without sales_end_at
+         * stops selling at event_config.event_at. A checkout opened before the end can still start
+         * payment for up to 15 minutes after it. sales_end_at.anyOf[1] (Value): string. RFC3339
+         * timestamp after which the link stops starting checkouts and resolve fails with
+         * `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their
+         * own, except that an event link without sales_end_at stops selling at
+         * event_config.event_at. A checkout opened before the end can still start payment for up
+         * to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * sales_end_at.anyOf[2] (Value): null. sales_summary (Optional): {@link
+         * PaymentLinkSalesSummaryPreviousAttributes} or null. Present only with
+         * expand=sales_summary on GET /v1/payment-links or GET
+         * /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard
+         * sessions and API keys with checkouts.payment_links.read. Uses the same paid-order
+         * definition as the merchant sales summary. sales_summary.anyOf[1] (Value): {@link
+         * PaymentLinkSalesSummaryPreviousAttributes}. sales_summary.anyOf[2] (Value): null. status
+         * (Optional): string or null. Whether the link can start new checkouts. Value enum:
+         * "active", "inactive". status.anyOf[1] (Value): string. Whether the link can start new
+         * checkouts. Value enum: "active", "inactive". status.anyOf[2] (Value): null.
+         * subscription_plan (Optional): {@link ExpandedSubscriptionPlanSummaryPreviousAttributes}
+         * or null. Present only when `expand` includes `subscription_plan`; `null` when expanded
+         * and there is no related subscription plan. subscription_plan.anyOf[1] (Value): {@link
+         * ExpandedSubscriptionPlanSummaryPreviousAttributes}. subscription_plan.anyOf[2] (Value):
+         * null. subscription_plan_id (Optional): string or null. ID of the subscription plan the
+         * link sells. Absent for a link that doesn't sell a subscription.
+         * subscription_plan_id.anyOf[1] (Value): string. ID of the subscription plan the link
+         * sells. Absent for a link that doesn't sell a subscription. Example:
+         * "plan_01KEZF7C004CY5ZR33XST2AASV". subscription_plan_id.anyOf[2] (Value): null. tax
+         * (Optional): {@link SubscriptionTaxPreviousAttributes} or null. Tax settings for
+         * checkouts started from this link. tax.anyOf[1] (Value): {@link
+         * SubscriptionTaxPreviousAttributes}. tax.anyOf[2] (Value): null. theme (Optional): {@link
+         * ThemeConfigPreviousAttributes} or null. The title and colors for checkouts started from
+         * this link, over your branding settings. theme.anyOf[1] (Value): {@link
+         * ThemeConfigPreviousAttributes}. theme.anyOf[2] (Value): null. tip (Optional): {@link
+         * CheckoutTipConfigPreviousAttributes} or null. Tip options for checkouts started from
+         * this link. tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}.
+         * tip.anyOf[2] (Value): null. total_quantity_sold (Optional): integer or null.
+         * Whole-number quantity; fractional quantities are not supported.
+         * total_quantity_sold.anyOf[1] (Value): integer. Whole-number quantity; fractional
+         * quantities are not supported. Format: int32. total_quantity_sold.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. url (Optional): string or null. URL buyers open to
+         * use the link. url.anyOf[1] (Value): string. URL buyers open to use the link.
+         * url.anyOf[2] (Value): null. version (Optional): integer or null. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: int64. version.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
         })
             & ({
             /**
-             * Discount effect and how it applies to eligible items or charges. anyOf[1] (Value):
-             * {@link PromotionApplicationMethod}. Discount effect and how it applies to eligible
-             * items or charges. anyOf[2] (Value): null.
+             * What checkout asks the buyer for. Each field you leave out uses your checkout
+             * settings. anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}. anyOf[2]
+             * (Value): null.
              */
-            "application_method"?: ((PromotionApplicationMethod) | (null) | (unknown));
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
             /**
-             * Whether the promotion can apply right now: it is active, inside its schedule, under
-             * its max_uses, and, when code-gated, has at least one redeemable code. anyOf[1]
-             * (Value): boolean. Whether the promotion can apply right now: it is active, inside
-             * its schedule, under its max_uses, and, when code-gated, has at least one redeemable
-             * code. anyOf[2] (Value): null.
+             * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it
+             * to use your checkout settings, or 24 hours. It doesn't end the link; use
+             * sales_end_at for that. anyOf[1] (Value): integer. Seconds each checkout session the
+             * link starts stays open, from 60 to 86,400. Omit it to use your checkout settings, or
+             * 24 hours. It doesn't end the link; use sales_end_at for that. Format: int64.
+             * minimum: 60. maximum: 86400. anyOf[2] (Value): null.
              */
-            "available"?: ((boolean) | (null));
+            "checkout_session_expires_in_seconds"?: ((number) | (null));
             /**
-             * Read-only rollup of this promotion's codes. Present only on code-gated promotions;
-             * automatic promotions omit it. anyOf[1] (Value): {@link PromotionCodesSummary}.
-             * Read-only rollup of this promotion's codes. Present only on code-gated promotions;
-             * automatic promotions omit it. anyOf[2] (Value): null.
+             * Number of paid checkout sessions started from this link. anyOf[1] (Value): integer.
+             * Number of paid checkout sessions started from this link. Format: int32. anyOf[2]
+             * (Value): null.
              */
-            "codes_summary"?: ((PromotionCodesSummary) | (null));
+            "completed_count"?: ((number) | (null));
             /**
-             * Which promotion discount classes this promotion may share an order with. Both
-             * promotions must allow each other's class. Manual discounts are ignored. See
-             * Promotion for the evaluation order. anyOf[1] (Value): {@link PromotionCombinesWith}.
-             * Which promotion discount classes this promotion may share an order with. Both
-             * promotions must allow each other's class. Manual discounts are ignored. See
-             * Promotion for the evaluation order. anyOf[2] (Value): null.
-             */
-            "combines_with"?: ((PromotionCombinesWith) | (null));
-            /**
-             * When the promotion was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
-             * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "created_at"?: ((string) | (null));
             /**
-             * Optional description of the promotion for your own records. anyOf[1] (Value):
-             * string. Optional description of the promotion for your own records. anyOf[2]
+             * Questions buyers answer before paying. Answers are recorded on the order and
+             * checkout session in `custom_field_answers`. anyOf[1] (Value): Array of {@link
+             * PaymentLinkCustomFieldPreviousAttributes}. Questions buyers answer before paying.
+             * Answers are recorded on the order and checkout session in `custom_field_answers`.
+             * anyOf[1][] (Value): {@link PaymentLinkCustomFieldPreviousAttributes}. anyOf[2]
              * (Value): null.
+             */
+            "custom_fields"?: ((Array<PaymentLinkCustomFieldPreviousAttributes>) | (null));
+            /**
+             * Custom text for checkouts started from this link. anyOf[1] (Value): {@link
+             * CheckoutCustomTextConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
+            /**
+             * Delivery methods the link offers. Empty when the link has none, and then its
+             * checkouts offer settings.checkout.default_delivery_method_ids when the order has
+             * items to deliver. anyOf[1] (Value): Array of string. Delivery methods the link
+             * offers. Empty when the link has none, and then its checkouts offer
+             * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+             * anyOf[1][] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2]
+             * (Value): null.
+             */
+            "delivery_method_ids"?: ((Array<string>) | (null));
+            /**
+             * Text about what the link sells, returned to buyers when they open it. anyOf[1]
+             * (Value): string. Text about what the link sells, returned to buyers when they open
+             * it. anyOf[2] (Value): null.
              */
             "description"?: ((string) | (null));
             /**
-             * Whether the promotion discounts the order, individual line items, or service
-             * charges. Value enum: "order", "line_item", "service_charge". anyOf[1] (Value):
-             * string. Whether the promotion discounts the order, individual line items, or service
-             * charges. Value enum: "order", "line_item", "service_charge". anyOf[2] (Value): null.
+             * Largest amount a buyer can give on a donation link. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "discount_class"?: (("order" | "line_item" | "service_charge" | (string & {})) | (null));
+            "donation_max_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
-             * Buyer-facing promotion name shown in checkout and order discount surfaces. anyOf[1]
-             * (Value): string. Buyer-facing promotion name shown in checkout and order discount
-             * surfaces. anyOf[2] (Value): null.
+             * Smallest amount a buyer can give on a donation link. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "display_name"?: ((string) | (null));
+            "donation_min_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
-             * Conditions an order must satisfy for the promotion to apply. Omitted when the
-             * promotion has no eligibility conditions. anyOf[1] (Value): {@link
-             * PromotionRuleGroup}. Conditions an order must satisfy for the promotion to apply.
-             * Omitted when the promotion has no eligibility conditions. anyOf[2] (Value): null.
+             * Amounts a donation link offers as one-tap choices. anyOf[1] (Value): Array of {@link
+             * MoneyValuePreviousAttributes}. Amounts a donation link offers as one-tap choices.
+             * anyOf[1][] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "eligibility_rules"?: ((PromotionRuleGroup) | (null) | (unknown));
+            "donation_suggested_amount_money_options"?: ((Array<MoneyValuePreviousAttributes>) | (null));
             /**
-             * Optional group and priority used to choose one promotion from competing promotions
-             * in the same group. See Promotion for the evaluation order. anyOf[1] (Value): {@link
-             * PromotionExclusivity}. Optional group and priority used to choose one promotion from
-             * competing promotions in the same group. See Promotion for the evaluation order.
-             * anyOf[2] (Value): null.
+             * Event details for an `event` link: when and where it takes place and how many
+             * tickets it sells. anyOf[1] (Value): {@link
+             * PaymentLinkEventConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "exclusivity"?: ((PromotionExclusivity) | (null));
+            "event_config"?: ((PaymentLinkEventConfigPreviousAttributes) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
              * string. Caller-owned identifier for this resource in an external system. maxLength:
@@ -342,2165 +3598,1223 @@ export type PromotionArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
              */
             "external_reference_id"?: ((string) | (null));
             /**
-             * Maximum number of redemptions across all codes and automatic applications. Omitted
-             * when there is no redemption limit. anyOf[1] (Value): integer. Maximum number of
-             * redemptions across all codes and automatic applications. Omitted when there is no
-             * redemption limit. Format: int64. anyOf[2] (Value): null.
+             * Image shown to buyers with the link. anyOf[1] (Value): {@link
+             * ImageAttachmentPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "max_uses"?: ((number) | (null));
+            "image"?: ((ImageAttachmentPreviousAttributes) | (null));
             /**
-             * Maximum reserved and redeemed uses per identified customer across every code and
-             * automatic or ID-based application. Checked atomically when payment starts. Failed,
-             * canceled, or expired attempts release their reservation; refunds do not restore
-             * uses. Counts only within the same merchant and environment; live and test mode are
-             * separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
-             * customer_required. Null when there is no per-customer limit. anyOf[1] (Value):
-             * integer or null. Maximum reserved and redeemed uses per identified customer across
-             * every code and automatic or ID-based application. Checked atomically when payment
-             * starts. Failed, canceled, or expired attempts release their reservation; refunds do
-             * not restore uses. Counts only within the same merchant and environment; live and
-             * test mode are separate. Without an identified customer, returns 409
-             * PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
-             * limit. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             * Message to show the buyer when the link is inactive. anyOf[1] (Value): string.
+             * Message to show the buyer when the link is inactive. anyOf[2] (Value): null.
              */
-            "max_uses_per_customer"?: ((number | null) | (null) | (unknown));
+            "inactive_message"?: ((string) | (null));
             /**
-             * Identifier of the merchant that owns the promotion. anyOf[1] (Value): string.
-             * Identifier of the merchant that owns the promotion. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             * The inventory location or routing policy that supplies stock for the link's catalog
+             * lines. Absent when using the implicit single-Location fallback, which is evaluated
+             * again on use. anyOf[1] (Value): {@link InventoryRoutingSourcePreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
+            /**
+             * The terms and policy links checkouts started from this link show the buyer. anyOf[1]
+             * (Value): {@link CheckoutLegalConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
+            /**
+             * What the link sells. anyOf[1] (Value): Array of {@link
+             * PaymentLinkLineItemPreviousAttributes}. What the link sells. anyOf[1][] (Value):
+             * {@link PaymentLinkLineItemPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<PaymentLinkLineItemPreviousAttributes>) | (null));
+            /**
+             * Most payments the link accepts, counted by `completed_count`. Absent means no limit.
+             * Once the limit is reached, resolving the link fails with a request error. It can't
+             * be set below `completed_count`. anyOf[1] (Value): integer. Most payments the link
+             * accepts, counted by `completed_count`. Absent means no limit. Once the limit is
+             * reached, resolving the link fails with a request error. It can't be set below
+             * `completed_count`. Format: int32. anyOf[2] (Value): null.
+             */
+            "max_completions"?: ((number) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
              */
             "merchant_id"?: ((string) | (null));
             /**
-             * Key-value data you attach to the promotion. anyOf[1] (Value): {@link MetadataMap}.
-             * Key-value data you attach to the promotion. anyOf[2] (Value): null.
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
             "metadata"?: ((MetadataMap) | (null));
             /**
-             * Internal promotion name for dashboards, searching, and reporting. anyOf[1] (Value):
-             * string. Internal promotion name for dashboards, searching, and reporting. anyOf[2]
-             * (Value): null.
+             * Name of the payment link. anyOf[1] (Value): string. Name of the payment link.
+             * anyOf[2] (Value): null.
              */
             "name"?: ((string) | (null));
             /**
-             * Unique identifier for the promotion. anyOf[1] (Value): string. Unique identifier for
-             * the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". anyOf[2] (Value): null.
+             * Unique identifier for this payment link, prefixed `pl_`. anyOf[1] (Value): string.
+             * Unique identifier for this payment link, prefixed `pl_`. Example:
+             * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". anyOf[2] (Value): null.
              */
-            "promotion_id"?: ((string) | (null));
+            "payment_link_id"?: ((string) | (null));
             /**
-             * Whether the promotion applies automatically when its rules match or requires a
-             * promotion code. Value enum: "automatic", "code". anyOf[1] (Value): string. Whether
-             * the promotion applies automatically when its rules match or requires a promotion
-             * code. Value enum: "automatic", "code". anyOf[2] (Value): null.
+             * What kind of link this is. Value enum: "standard", "donation", "event". anyOf[1]
+             * (Value): string. What kind of link this is. Value enum: "standard", "donation",
+             * "event". anyOf[2] (Value): null.
              */
-            "redemption_type"?: (("automatic" | "code" | (string & {})) | (null));
+            "payment_link_type"?: (("standard" | "donation" | "event" | (string & {})) | (null));
             /**
-             * Optional start and end times that limit when the promotion can apply. anyOf[1]
-             * (Value): {@link PromotionSchedule}. Optional start and end times that limit when the
-             * promotion can apply. anyOf[2] (Value): null.
+             * Payment options for checkouts started from this link. anyOf[1] (Value): {@link
+             * CheckoutPaymentConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "schedule"?: ((PromotionSchedule) | (null));
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
             /**
-             * Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active
-             * promotion can still be unavailable: read available. Value enum: "active",
-             * "inactive", "archived". anyOf[1] (Value): string. Lifecycle status. Set active or
-             * inactive with PATCH; DELETE sets archived. An active promotion can still be
-             * unavailable: read available. Value enum: "active", "inactive", "archived". anyOf[2]
-             * (Value): null.
+             * Whether automatic promotions apply to checkouts started from this link and whether
+             * buyers can enter promotion codes. anyOf[1] (Value): {@link
+             * CheckoutPromotionConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
             /**
-             * Why available is false. Present only when available is false. Value enum:
-             * "inactive", "archived", "not_yet_started", "expired", "exhausted",
-             * "no_active_codes". anyOf[1] (Value): string. Why available is false. Present only
-             * when available is false. Value enum: "inactive", "archived", "not_yet_started",
-             * "expired", "exhausted", "no_active_codes". anyOf[2] (Value): null.
+             * Where checkout sessions started from this payment link send the buyer after payment,
+             * cancellation, or expiration. anyOf[1] (Value): {@link
+             * CheckoutRedirectsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "unavailable_reason"?: (("inactive"
-                | "archived"
-                | "not_yet_started"
-                | "expired"
-                | "exhausted"
-                | "no_active_codes"
-                | (string & {}))
-                | (null));
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
             /**
-             * When the promotion was last updated, as an RFC3339 timestamp. anyOf[1] (Value):
-             * string. When the promotion was last updated, as an RFC3339 timestamp. Format:
+             * RFC3339 timestamp after which the link stops starting checkouts and resolve fails
+             * with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on
+             * their own, except that an event link without sales_end_at stops selling at
+             * event_config.event_at. A checkout opened before the end can still start payment for
+             * up to 15 minutes after it. anyOf[1] (Value): string. RFC3339 timestamp after which
+             * the link stops starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and
+             * reason `not_offered`. Unset means sales do not end on their own, except that an
+             * event link without sales_end_at stops selling at event_config.event_at. A checkout
+             * opened before the end can still start payment for up to 15 minutes after it. Format:
              * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "sales_end_at"?: ((string) | (null));
+            /**
+             * Present only with expand=sales_summary on GET /v1/payment-links or GET
+             * /v1/payment-links/{payment_link_id}. Available to merchant callers, including
+             * dashboard sessions and API keys with checkouts.payment_links.read. Uses the same
+             * paid-order definition as the merchant sales summary. anyOf[1] (Value): {@link
+             * PaymentLinkSalesSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "sales_summary"?: ((PaymentLinkSalesSummaryPreviousAttributes) | (null));
+            /**
+             * Whether the link can start new checkouts. Value enum: "active", "inactive". anyOf[1]
+             * (Value): string. Whether the link can start new checkouts. Value enum: "active",
+             * "inactive". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | (string & {})) | (null));
+            /**
+             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
+             * there is no related subscription plan. anyOf[1] (Value): {@link
+             * ExpandedSubscriptionPlanSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the subscription plan the link sells. Absent for a link that doesn't sell a
+             * subscription. anyOf[1] (Value): string. ID of the subscription plan the link sells.
+             * Absent for a link that doesn't sell a subscription. Example:
+             * "plan_01KEZF7C004CY5ZR33XST2AASV". anyOf[2] (Value): null.
+             */
+            "subscription_plan_id"?: ((string) | (null));
+            /**
+             * Tax settings for checkouts started from this link. anyOf[1] (Value): {@link
+             * SubscriptionTaxPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "tax"?: ((SubscriptionTaxPreviousAttributes) | (null));
+            /**
+             * The title and colors for checkouts started from this link, over your branding
+             * settings. anyOf[1] (Value): {@link ThemeConfigPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "theme"?: ((ThemeConfigPreviousAttributes) | (null));
+            /**
+             * Tip options for checkouts started from this link. anyOf[1] (Value): {@link
+             * CheckoutTipConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
+            /**
+             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
+             * integer. Whole-number quantity; fractional quantities are not supported. Format:
+             * int32. anyOf[2] (Value): null.
+             */
+            "total_quantity_sold"?: ((number) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "updated_at"?: ((string) | (null));
             /**
-             * Number of times the promotion has been redeemed. anyOf[1] (Value): integer. Number
-             * of times the promotion has been redeemed. Format: int64. anyOf[2] (Value): null.
+             * URL buyers open to use the link. anyOf[1] (Value): string. URL buyers open to use
+             * the link. anyOf[2] (Value): null.
              */
-            "uses_count"?: ((number) | (null));
+            "url"?: ((string) | (null));
             /**
-             * Persisted owned-state version. Clock-based availability and expanded resources do
-             * not advance this counter. anyOf[1] (Value): integer. Persisted owned-state version.
-             * Clock-based availability and expanded resources do not advance this counter. Format:
-             * uint64. minimum: 1. anyOf[2] (Value): null.
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. anyOf[2] (Value): null.
              */
             "version"?: ((number) | (null));
         });
     };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "promotion.archived". */
-    "event_type"?: "promotion.archived";
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "payment_link.updated". */
+    "event_type"?: "payment_link.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
 });
-/** The `buy_x_get_y` variant of `PromotionApplicationMethod`. */
-export type PromotionBuyXGetYMethod = {
-    /**
-     * How the effect is applied across the matched items or charges. each applies the effect to
-     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
-     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
-     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
-     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
-     * is taken from the combined subtotal. For percent_off the two produce the same total and
-     * differ only in how the discount is attributed to individual line items; for amount_off they
-     * differ by the number of matched items, so set it deliberately. Defaults to each for
-     * line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across" | (string & {});
-    /**
-     * Number of qualifying units needed for one application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "buy_min_quantity": number;
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
-     * "subtotal_pre_tax", "subtotal_post_tax".
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | (string & {});
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "discounted_item_rules": PromotionRuleGroup;
-    /**
-     * Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items
-     * free. minimum: 1. maximum: 100. multipleOf: 0.0001.
-     */
-    "get_percent_off": number;
-    /**
-     * Maximum number of reward units discounted per application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "get_quantity": number;
-    /**
-     * Maximum number of times the buy_x_get_y promotion can apply to one order. Omit for no limit
-     * beyond the qualifying and reward quantities. Format: int32. minimum: 1.
-     */
-    "max_applications_per_order"?: number;
-    /**
-     * Rules that identify the items counted toward buy_min_quantity for a buy_x_get_y promotion. A
-     * rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
-     * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
-     * rules, or send null where the field is clearable. Responses list rules before nested groups.
-     * Under any, a nested group containing only one rule reads back as that rule. Under all,
-     * nested groups keep their boundaries to preserve matched_items.subtotal scope. These
-     * deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the
-     * line items matched by the line_item.* rules in the same all group, including its nested
-     * groups.
-     */
-    "qualifying_item_rules": PromotionRuleGroup;
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
-     * subscription: once, for a number of charged payments, or forever.
-     */
-    "recurrence"?: PromotionRecurrence;
-    /**
-     * Which matching reward items receive the discount: the cheapest, the highest priced, or those
-     * added first to the order. Defaults to cheapest. Default: "cheapest". Value enum: "cheapest",
-     * "highest_price", "first_added".
-     */
-    "reward_selection"?: "cheapest" | "highest_price" | "first_added" | (string & {});
-    /**
-     * Selects the buy_x_get_y discount effect and its allowed fields. Value enum: "buy_x_get_y".
-     */
-    "type": "buy_x_get_y" | (string & {});
-};
-/** The `buy_x_get_y` variant of `PromotionApplicationMethodInput`. */
-export type PromotionBuyXGetYMethodRequest = {
-    /**
-     * How the effect is applied across the matched items or charges. each applies the effect to
-     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
-     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
-     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
-     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
-     * is taken from the combined subtotal. For percent_off the two produce the same total and
-     * differ only in how the discount is attributed to individual line items; for amount_off they
-     * differ by the number of matched items, so set it deliberately. Defaults to each for
-     * line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across" | (string & {});
-    /**
-     * Number of qualifying units needed for one application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "buy_min_quantity": number;
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
-     * "subtotal_pre_tax", "subtotal_post_tax".
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | (string & {});
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "discounted_item_rules": PromotionRuleGroupRequest;
-    /**
-     * Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items
-     * free. minimum: 1. maximum: 100. multipleOf: 0.0001.
-     */
-    "get_percent_off": number;
-    /**
-     * Maximum number of reward units discounted per application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "get_quantity": number;
-    /**
-     * Maximum number of times the buy_x_get_y promotion can apply to one order. Omit for no limit
-     * beyond the qualifying and reward quantities. Format: int32. minimum: 1.
-     */
-    "max_applications_per_order"?: number;
-    /**
-     * Rules that identify the items counted toward buy_min_quantity for a buy_x_get_y promotion. A
-     * rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
-     * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
-     * rules, or send null where the field is clearable. Responses list rules before nested groups.
-     * Under any, a nested group containing only one rule reads back as that rule. Under all,
-     * nested groups keep their boundaries to preserve matched_items.subtotal scope. These
-     * deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the
-     * line items matched by the line_item.* rules in the same all group, including its nested
-     * groups.
-     */
-    "qualifying_item_rules": PromotionRuleGroupRequest;
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
-     * subscription: once, for a number of charged payments, or forever.
-     */
-    "recurrence"?: PromotionRecurrence;
-    /**
-     * Which matching reward items receive the discount: the cheapest, the highest priced, or those
-     * added first to the order. Defaults to cheapest. Default: "cheapest". Value enum: "cheapest",
-     * "highest_price", "first_added".
-     */
-    "reward_selection"?: "cheapest" | "highest_price" | "first_added" | (string & {});
-    /**
-     * Selects the buy_x_get_y discount effect and its allowed fields. Value enum: "buy_x_get_y".
-     */
-    "type": "buy_x_get_y" | (string & {});
-};
-/** The `buy_x_get_y` variant of `PromotionApplicationMethodInput`. */
-export type PromotionBuyXGetYMethodRequestInput = {
-    /**
-     * How the effect is applied across the matched items or charges. each applies the effect to
-     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
-     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
-     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
-     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
-     * is taken from the combined subtotal. For percent_off the two produce the same total and
-     * differ only in how the discount is attributed to individual line items; for amount_off they
-     * differ by the number of matched items, so set it deliberately. Defaults to each for
-     * line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across";
-    /**
-     * Number of qualifying units needed for one application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "buy_min_quantity": number;
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
-     * "subtotal_pre_tax", "subtotal_post_tax".
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax";
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "discounted_item_rules": PromotionRuleGroupRequestInput;
-    /**
-     * Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items
-     * free. minimum: 1. maximum: 100. multipleOf: 0.0001.
-     */
-    "get_percent_off": number;
-    /**
-     * Maximum number of reward units discounted per application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "get_quantity": number;
-    /**
-     * Maximum number of times the buy_x_get_y promotion can apply to one order. Omit for no limit
-     * beyond the qualifying and reward quantities. Format: int32. minimum: 1.
-     */
-    "max_applications_per_order"?: number;
-    /**
-     * Rules that identify the items counted toward buy_min_quantity for a buy_x_get_y promotion. A
-     * rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
-     * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
-     * rules, or send null where the field is clearable. Responses list rules before nested groups.
-     * Under any, a nested group containing only one rule reads back as that rule. Under all,
-     * nested groups keep their boundaries to preserve matched_items.subtotal scope. These
-     * deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the
-     * line items matched by the line_item.* rules in the same all group, including its nested
-     * groups.
-     */
-    "qualifying_item_rules": PromotionRuleGroupRequestInput;
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
-     * subscription: once, for a number of charged payments, or forever.
-     */
-    "recurrence"?: PromotionRecurrenceRequestInput;
-    /**
-     * Which matching reward items receive the discount: the cheapest, the highest priced, or those
-     * added first to the order. Defaults to cheapest. Default: "cheapest". Value enum: "cheapest",
-     * "highest_price", "first_added".
-     */
-    "reward_selection"?: "cheapest" | "highest_price" | "first_added";
-    /**
-     * Selects the buy_x_get_y discount effect and its allowed fields. Value enum: "buy_x_get_y".
-     */
-    "type": "buy_x_get_y";
-};
 /**
- * A promotion considered for an order, with its discount amounts, its stacking rules, and why it
- * was or was not applied.
+ * The `payment_link.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
  */
-export type PromotionCandidate = {
+export type PaymentLinkUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Calculated discount amount for this promotion candidate before final application, when
-     * available. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Discount amount applied to the order for candidates in applied[]. Monetary amount
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.buyer_fields (Optional): {@link CheckoutBuyerFields}. What
+     * checkout asks the buyer for. Each field you leave out uses your checkout settings.
+     * object.checkout_session_expires_in_seconds (Optional): integer. Seconds each checkout
+     * session the link starts stays open, from 60 to 86,400. Omit it to use your checkout
+     * settings, or 24 hours. It doesn't end the link; use sales_end_at for that. Format: int64.
+     * minimum: 60. maximum: 86400. object.completed_count (Required): integer. Number of paid
+     * checkout sessions started from this link. Format: int32. object.created_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.custom_fields (Optional): Array of {@link PaymentLinkCustomField}. Questions buyers
+     * answer before paying. Answers are recorded on the order and checkout session in
+     * `custom_field_answers`. object.custom_fields[] (Value): {@link PaymentLinkCustomField}. A
+     * custom field on a payment link that collects an answer from the buyer. object.custom_text
+     * (Optional): {@link CheckoutCustomTextConfig}. Custom text for checkouts started from this
+     * link. Custom text shown in checkout: an order summary message and a shipping address label.
+     * object.delivery_method_ids (Required): Array of string. Delivery methods the link offers.
+     * Empty when the link has none, and then its checkouts offer
+     * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+     * object.delivery_method_ids[] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * object.description (Optional): string. Text about what the link sells, returned to buyers
+     * when they open it. object.donation_max_amount_money (Optional): {@link MoneyValue}. Largest
+     * amount a buyer can give on a donation link. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code. object.donation_min_amount_money (Optional): {@link
+     * MoneyValue}. Smallest amount a buyer can give on a donation link. Monetary amount
      * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "applied_money"?: MoneyValue;
-    /**
-     * Which promotion discount classes this promotion may share an order with. Both promotions
-     * must allow each other's class. Which kinds of discounts a promotion can combine with: line
-     * item, order, and service charge discounts.
-     */
-    "combines_with"?: PromotionCombinesWith;
-    /**
-     * Current money amount counted toward threshold_money for available[] candidates. Monetary
+     * object.donation_suggested_amount_money_options (Optional): Array of {@link MoneyValue}.
+     * Amounts a donation link offers as one-tap choices.
+     * object.donation_suggested_amount_money_options[] (Value): {@link MoneyValue}. Monetary
      * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "current_money"?: MoneyValue;
-    /**
-     * The name buyers see for the promotion: its `display_name`, or its `name` when it has no
-     * display name.
-     */
-    "customer_facing_name": string;
-    /**
-     * Whether the promotion discounts the order, individual line items, or service charges. Value
-     * enum: "order", "line_item", "service_charge".
-     */
-    "discount_class"?: "order" | "line_item" | "service_charge" | (string & {});
-    /**
-     * The promotion's exclusivity group and priority. Promotions in the same group compete, and
-     * only one of them applies. Only one promotion in an exclusivity group continues. See
-     * Promotion for the evaluation order.
-     */
-    "exclusivity"?: PromotionExclusivity;
-    /**
-     * Additional money amount needed to reach threshold_money for available[] candidates. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "gap_money"?: MoneyValue;
-    /**
-     * IDs of the order charges the discount applies to. Set for `service_charge` promotions. []
-     * (Value): string. Example: "och_01KEZF7C00XX8AKACP0GHKFWWT".
-     */
-    "order_charge_ids"?: Array<string>;
-    /**
-     * IDs of the order line items the discount applies to. Omitted when it applies to none. []
-     * (Value): string. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
-     */
-    "order_line_item_ids"?: Array<string>;
-    /** The code the buyer entered. Omitted when the promotion applies automatically. */
-    "promotion_code"?: string;
-    /**
-     * ID of the promotion code the buyer entered. Omitted when the promotion applies
-     * automatically. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
-     */
-    "promotion_code_id"?: string;
-    /**
-     * Why the promotion did not apply, or stopped applying. Omitted for a promotion that applies.
-     * Value enum: "already_applied", "automatic_disabled", "buy_item_missing", "code_invalid",
-     * "code_required", "codes_disabled", "currency_mismatch", "customer_limit_reached",
-     * "customer_mismatch", "customer_required", "exhausted", "expired", "inactive",
-     * "max_promotions_reached", "minimum_not_met", "no_discountable_balance", "not_combinable",
-     * "not_eligible", "not_yet_started", "recurrence_completed", "superseded",
-     * "superseded_by_better_offer", "superseded_by_higher_priority", "unknown_type".
-     */
-    "promotion_decline_reason"?: "already_applied"
-        | "automatic_disabled"
-        | "buy_item_missing"
-        | "code_invalid"
-        | "code_required"
-        | "codes_disabled"
-        | "currency_mismatch"
-        | "customer_limit_reached"
-        | "customer_mismatch"
-        | "customer_required"
-        | "exhausted"
-        | "expired"
-        | "inactive"
-        | "max_promotions_reached"
-        | "minimum_not_met"
-        | "no_discountable_balance"
-        | "not_combinable"
-        | "not_eligible"
-        | "not_yet_started"
-        | "recurrence_completed"
-        | "superseded"
-        | "superseded_by_better_offer"
-        | "superseded_by_higher_priority"
-        | "unknown_type"
-        | (string & {});
-    /** ID of the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". */
-    "promotion_id": string;
-    /**
-     * Minimum money amount required by a threshold rule for available[] candidates. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "threshold_money"?: MoneyValue;
-    /**
-     * Discount amount this candidate would have applied if it had been eligible and won conflict
-     * resolution. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "would_have_applied_money"?: MoneyValue;
-};
-/** A code a buyer enters to claim a promotion. */
-export type PromotionCode = {
-    /**
-     * Whether a buyer can redeem the code right now: the code is active, not expired, and under
-     * its max_uses, and its promotion is available.
-     */
-    "available": boolean;
-    /** Code a buyer enters to redeem the promotion. */
-    "code": string;
-    /**
-     * When the promotion code was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "created_at": string;
-    /**
-     * Only this identified customer can redeem the code. The customer must belong to the same
-     * merchant and environment. A checkout may use its merchant-named or email-verified customer;
-     * a typed email does not identify a customer. Null when the code is unbound. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id": string | null;
-    /**
-     * When the code stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the
-     * code does not expire. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "expires_at"?: string;
-    /**
-     * Maximum number of times this code can be redeemed. Omitted when the code has no redemption
-     * limit. Format: int64.
-     */
-    "max_uses"?: number;
-    /**
-     * Identifier of the merchant that owns the promotion code. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id": string;
-    /**
-     * Key-value data you attach to the promotion code. Caller-owned key-value data stored on a
+     * object.event_config (Optional): {@link PaymentLinkEventConfig}. Event details for an `event`
+     * link: when and where it takes place and how many tickets it sells. Event settings on an
+     * event payment link, such as its date, venue, ticket limit, and ticket emails.
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.image (Optional):
+     * {@link ImageAttachment}. Image shown to buyers with the link. An image attached to a
+     * resource, with its display properties and attachment metadata. object.inactive_message
+     * (Optional): string. Message to show the buyer when the link is inactive.
+     * object.inventory_routing_source (Optional): {@link InventoryRoutingSource}. The inventory
+     * location or routing policy that supplies stock for the link's catalog lines. Absent when
+     * using the implicit single-Location fallback, which is evaluated again on use. Where an
+     * order, payment link, or reservation routes inventory from: a fixed Location, an inventory
+     * allocation policy, or one policy revision. object.legal (Optional): {@link LegalSettings}.
+     * The terms and policy links checkouts started from this link show the buyer. Legal settings
+     * for a checkout: whether buyers must accept terms, and links to the terms, refund policy,
+     * shipping policy, and contract. object.line_items (Optional): Array of {@link
+     * PaymentLinkLineItem}. What the link sells. object.line_items[] (Value): {@link
+     * PaymentLinkLineItem}. A line item on a payment link. object.max_completions (Optional):
+     * integer. Most payments the link accepts, counted by `completed_count`. Absent means no
+     * limit. Once the limit is reached, resolving the link fails with a request error. It can't be
+     * set below `completed_count`. Format: int32. object.merchant_id (Required): string. ID of the
+     * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
      * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
      * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * The promotion this code belongs to. Present only when the list request asked for
-     * expand=promotion. Promotion evaluation order: manual discounts stay, do not count toward the
-     * cap, and are ignored by combines_with. Frozen subscription-term promotions are admitted
-     * first and are exempt from exclusivity, combines_with, and the cap. Candidates include codes
-     * being applied, existing promotion discounts, and qualifying automatic promotions. Each
-     * exclusivity group keeps its highest-priority member, then the larger standalone discount,
-     * earlier created_at, and lower promotion_id. Remaining candidates rank by standalone
-     * discount, then earlier created_at and lower promotion_id; each is admitted unless
-     * max_promotions_per_order is reached or both promotions do not allow each other's discount
-     * class. Admitted promotions price line item first, then order, then service charge. A
-     * zero-value promotion is dropped and selection runs again.
-     */
-    "promotion"?: Promotion;
-    /** Unique identifier for the promotion code. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T". */
-    "promotion_code_id": string;
-    /**
-     * Identifier of the promotion this code redeems. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id": string;
-    /**
-     * Lifecycle status: active, inactive, or archived. Set active or inactive with PATCH; DELETE
-     * sets archived. An active code can still be unavailable: read available. Value enum:
-     * "active", "inactive", "archived".
-     */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /**
-     * IANA zone the code's times were entered in, used for display. expires_at is an absolute
-     * timestamp, so this does not change when the code expires.
-     */
-    "timezone"?: string;
-    /**
-     * Why available is false. Present only when available is false. The code's own state is
-     * reported first; promotion_unavailable means the code is usable but its promotion is not.
-     * Value enum: "archived", "inactive", "expired", "exhausted", "promotion_unavailable".
-     */
-    "unavailable_reason"?: "archived" | "inactive" | "expired" | "exhausted" | "promotion_unavailable" | (string & {});
-    /**
-     * When the promotion code was last updated, as an RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "updated_at": string;
-    /** Number of times this code has been redeemed. Format: int64. */
-    "uses_count": number;
-    /**
-     * Persisted owned-state version. Clock-based availability and expanded resources do not
-     * advance this counter. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
-export type PromotionCodeArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookPromotionCode;
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "available"?: ((boolean) | (null));
-            "code"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "customer_id"?: ((string | null) | (null) | (unknown));
-            "expires_at"?: ((string) | (null));
-            "max_uses"?: ((number) | (null));
-            "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "promotion_code_id"?: ((string) | (null));
-            "promotion_id"?: ((string) | (null));
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "timezone"?: ((string) | (null));
-            "unavailable_reason"?: (("archived" | "inactive" | "expired" | "exhausted" | "promotion_unavailable" | (string & {}))
-                | (null));
-            "updated_at"?: ((string) | (null));
-            "uses_count"?: ((number) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "promotion_code.archived";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookPromotionCode;
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "available"?: ((boolean) | (null));
-            "code"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "customer_id"?: ((string | null) | (null) | (unknown));
-            "expires_at"?: ((string) | (null));
-            "max_uses"?: ((number) | (null));
-            "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "promotion_code_id"?: ((string) | (null));
-            "promotion_id"?: ((string) | (null));
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "timezone"?: ((string) | (null));
-            "unavailable_reason"?: (("archived" | "inactive" | "expired" | "exhausted" | "promotion_unavailable" | (string & {}))
-                | (null));
-            "updated_at"?: ((string) | (null));
-            "uses_count"?: ((number) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "promotion_code.archived";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "promotion_code.archived";
-});
-/**
- * The `promotion_code.archived` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type PromotionCodeArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookPromotionCode}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `promotion`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.available (Optional): boolean or null. Whether a
-     * buyer can redeem the code right now: the code is active, not expired, and under its
-     * max_uses, and its promotion is available. previous_attributes.available.anyOf[1] (Value):
-     * boolean. Whether a buyer can redeem the code right now: the code is active, not expired, and
-     * under its max_uses, and its promotion is available. previous_attributes.available.anyOf[2]
-     * (Value): null. previous_attributes.code (Optional): string or null. Code a buyer enters to
-     * redeem the promotion. previous_attributes.code.anyOf[1] (Value): string. Code a buyer enters
-     * to redeem the promotion. previous_attributes.code.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. When the promotion code was
-     * created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
-     * When the promotion code was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null or null. Only this identified
-     * customer can redeem the code. The customer must belong to the same merchant and environment.
-     * A checkout may use its merchant-named or email-verified customer; a typed email does not
-     * identify a customer. Null when the code is unbound. previous_attributes.customer_id.anyOf[1]
-     * (Value): string or null. Only this identified customer can redeem the code. The customer
-     * must belong to the same merchant and environment. A checkout may use its merchant-named or
-     * email-verified customer; a typed email does not identify a customer. Null when the code is
-     * unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2]
-     * (Value): null. previous_attributes.expires_at (Optional): string or null. When the code
-     * stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not
-     * expire. previous_attributes.expires_at.anyOf[1] (Value): string. When the code stops being
-     * redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not expire. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value):
-     * null. previous_attributes.max_uses (Optional): integer or null. Maximum number of times this
-     * code can be redeemed. Omitted when the code has no redemption limit.
-     * previous_attributes.max_uses.anyOf[1] (Value): integer. Maximum number of times this code
-     * can be redeemed. Omitted when the code has no redemption limit. Format: int64.
-     * previous_attributes.max_uses.anyOf[2] (Value): null. previous_attributes.merchant_id
-     * (Optional): string or null. Identifier of the merchant that owns the promotion code.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of the merchant that
-     * owns the promotion code. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * may not satisfy them. object.name (Required): string. Name of the payment link.
+     * object.payment_link_id (Required): string. Unique identifier for this payment link, prefixed
+     * `pl_`. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_type (Optional):
+     * string. What kind of link this is. Value enum: "standard", "donation", "event".
+     * object.payments (Optional): {@link CheckoutPaymentConfig}. Payment options for checkouts
+     * started from this link. Payment settings for a checkout: the enabled payment options and a
+     * note shown with payment. object.promotion_config (Optional): {@link
+     * CheckoutPromotionConfig}. Whether automatic promotions apply to checkouts started from this
+     * link and whether buyers can enter promotion codes. Promotion settings for a checkout:
+     * whether automatic promotions apply and whether the buyer can apply promotion codes.
+     * object.redirects (Optional): {@link CheckoutRedirects}. Where checkout sessions started from
+     * this payment link send the buyer after payment, cancellation, or expiration. Where hosted
+     * checkout sends the buyer. Not allowed when surface is headless; use payment_return_url.
+     * object.sales_end_at (Optional): string. RFC3339 timestamp after which the link stops
+     * starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`.
+     * Unset means sales do not end on their own, except that an event link without sales_end_at
+     * stops selling at event_config.event_at. A checkout opened before the end can still start
+     * payment for up to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.sales_summary (Optional): {@link PaymentLinkSalesSummary}. Present only with
+     * expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}.
+     * Available to merchant callers, including dashboard sessions and API keys with
+     * checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales
+     * summary. Paid-order sales totals for a payment link, computed on request. Paid means the
+     * order's collection has completed. Fully and partially refunded orders still count, and
+     * paid_totals reports the amount collected before refunds. Each order counts once even if it
+     * has multiple checkout sessions. object.status (Required): string. Whether the link can start
+     * new checkouts. Value enum: "active", "inactive". object.subscription_plan (Optional): {@link
+     * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
+     * `subscription_plan`; `null` when expanded and there is no related subscription plan.
+     * object.subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
+     * subscription plan's summary fields, including name, billing interval, currency, and status,
+     * returned when the plan is expanded. object.subscription_plan.anyOf[2] (Value): null.
+     * object.subscription_plan_id (Optional): string. ID of the subscription plan the link sells.
+     * Absent for a link that doesn't sell a subscription. Example:
+     * "plan_01KEZF7C004CY5ZR33XST2AASV". object.tax (Optional): {@link CheckoutTaxConfig}. Tax
+     * settings for checkouts started from this link. Whether tax is collected for a checkout
+     * session or payment link. object.theme (Optional): {@link ThemeConfig}. The title and colors
+     * for checkouts started from this link, over your branding settings. Colors and title applied
+     * to a payment link's checkout page. object.tip (Optional): {@link CheckoutTipConfig}. Tip
+     * options for checkouts started from this link. Tip settings for a checkout: whether tips are
+     * enabled, the percent or fixed amount options, the default tip, and custom tips.
+     * object.total_quantity_sold (Required): integer. Whole-number quantity; fractional quantities
+     * are not supported. Format: int32. object.updated_at (Required): string. RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.url (Required): string. URL
+     * buyers open to use the link. object.version (Required): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events. previous_attributes.buyer_fields (Optional): {@link
+     * CheckoutBuyerFieldsPreviousAttributes} or null. What checkout asks the buyer for. Each field
+     * you leave out uses your checkout settings. previous_attributes.buyer_fields.anyOf[1]
+     * (Value): {@link CheckoutBuyerFieldsPreviousAttributes}.
+     * previous_attributes.buyer_fields.anyOf[2] (Value): null.
+     * previous_attributes.checkout_session_expires_in_seconds (Optional): integer or null. Seconds
+     * each checkout session the link starts stays open, from 60 to 86,400. Omit it to use your
+     * checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that.
+     * previous_attributes.checkout_session_expires_in_seconds.anyOf[1] (Value): integer. Seconds
+     * each checkout session the link starts stays open, from 60 to 86,400. Omit it to use your
+     * checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that. Format:
+     * int64. minimum: 60. maximum: 86400.
+     * previous_attributes.checkout_session_expires_in_seconds.anyOf[2] (Value): null.
+     * previous_attributes.completed_count (Optional): integer or null. Number of paid checkout
+     * sessions started from this link. previous_attributes.completed_count.anyOf[1] (Value):
+     * integer. Number of paid checkout sessions started from this link. Format: int32.
+     * previous_attributes.completed_count.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.custom_fields
+     * (Optional): Array of {@link PaymentLinkCustomFieldPreviousAttributes} or null. Questions
+     * buyers answer before paying. Answers are recorded on the order and checkout session in
+     * `custom_field_answers`. previous_attributes.custom_fields.anyOf[1] (Value): Array of {@link
+     * PaymentLinkCustomFieldPreviousAttributes}. Questions buyers answer before paying. Answers
+     * are recorded on the order and checkout session in `custom_field_answers`.
+     * previous_attributes.custom_fields.anyOf[1][] (Value): {@link
+     * PaymentLinkCustomFieldPreviousAttributes}. previous_attributes.custom_fields.anyOf[2]
+     * (Value): null. previous_attributes.custom_text (Optional): {@link
+     * CheckoutCustomTextConfigPreviousAttributes} or null. Custom text for checkouts started from
+     * this link. previous_attributes.custom_text.anyOf[1] (Value): {@link
+     * CheckoutCustomTextConfigPreviousAttributes}. previous_attributes.custom_text.anyOf[2]
+     * (Value): null. previous_attributes.delivery_method_ids (Optional): Array of string or null.
+     * Delivery methods the link offers. Empty when the link has none, and then its checkouts offer
+     * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+     * previous_attributes.delivery_method_ids.anyOf[1] (Value): Array of string. Delivery methods
+     * the link offers. Empty when the link has none, and then its checkouts offer
+     * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+     * previous_attributes.delivery_method_ids.anyOf[1][] (Value): string. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". previous_attributes.delivery_method_ids.anyOf[2] (Value):
+     * null. previous_attributes.description (Optional): string or null. Text about what the link
+     * sells, returned to buyers when they open it. previous_attributes.description.anyOf[1]
+     * (Value): string. Text about what the link sells, returned to buyers when they open it.
+     * previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.donation_max_amount_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. Largest amount a buyer can give on a donation link.
+     * previous_attributes.donation_max_amount_money.anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. previous_attributes.donation_max_amount_money.anyOf[2]
+     * (Value): null. previous_attributes.donation_min_amount_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. Smallest amount a buyer can give on a donation link.
+     * previous_attributes.donation_min_amount_money.anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. previous_attributes.donation_min_amount_money.anyOf[2]
+     * (Value): null. previous_attributes.donation_suggested_amount_money_options (Optional): Array
+     * of {@link MoneyValuePreviousAttributes} or null. Amounts a donation link offers as one-tap
+     * choices. previous_attributes.donation_suggested_amount_money_options.anyOf[1] (Value): Array
+     * of {@link MoneyValuePreviousAttributes}. Amounts a donation link offers as one-tap choices.
+     * previous_attributes.donation_suggested_amount_money_options.anyOf[1][] (Value): {@link
+     * MoneyValuePreviousAttributes}.
+     * previous_attributes.donation_suggested_amount_money_options.anyOf[2] (Value): null.
+     * previous_attributes.event_config (Optional): {@link
+     * PaymentLinkEventConfigPreviousAttributes} or null. Event details for an `event` link: when
+     * and where it takes place and how many tickets it sells.
+     * previous_attributes.event_config.anyOf[1] (Value): {@link
+     * PaymentLinkEventConfigPreviousAttributes}. previous_attributes.event_config.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.image
+     * (Optional): {@link ImageAttachmentPreviousAttributes} or null. Image shown to buyers with
+     * the link. previous_attributes.image.anyOf[1] (Value): {@link
+     * ImageAttachmentPreviousAttributes}. previous_attributes.image.anyOf[2] (Value): null.
+     * previous_attributes.inactive_message (Optional): string or null. Message to show the buyer
+     * when the link is inactive. previous_attributes.inactive_message.anyOf[1] (Value): string.
+     * Message to show the buyer when the link is inactive.
+     * previous_attributes.inactive_message.anyOf[2] (Value): null.
+     * previous_attributes.inventory_routing_source (Optional): {@link
+     * InventoryRoutingSourcePreviousAttributes} or null. The inventory location or routing policy
+     * that supplies stock for the link's catalog lines. Absent when using the implicit
+     * single-Location fallback, which is evaluated again on use.
+     * previous_attributes.inventory_routing_source.anyOf[1] (Value): {@link
+     * InventoryRoutingSourcePreviousAttributes}.
+     * previous_attributes.inventory_routing_source.anyOf[2] (Value): null.
+     * previous_attributes.legal (Optional): {@link CheckoutLegalConfigPreviousAttributes} or null.
+     * The terms and policy links checkouts started from this link show the buyer.
+     * previous_attributes.legal.anyOf[1] (Value): {@link CheckoutLegalConfigPreviousAttributes}.
+     * previous_attributes.legal.anyOf[2] (Value): null. previous_attributes.line_items (Optional):
+     * Array of {@link PaymentLinkLineItemPreviousAttributes} or null. What the link sells.
+     * previous_attributes.line_items.anyOf[1] (Value): Array of {@link
+     * PaymentLinkLineItemPreviousAttributes}. What the link sells.
+     * previous_attributes.line_items.anyOf[1][] (Value): {@link
+     * PaymentLinkLineItemPreviousAttributes}. previous_attributes.line_items.anyOf[2] (Value):
+     * null. previous_attributes.max_completions (Optional): integer or null. Most payments the
+     * link accepts, counted by `completed_count`. Absent means no limit. Once the limit is
+     * reached, resolving the link fails with a request error. It can't be set below
+     * `completed_count`. previous_attributes.max_completions.anyOf[1] (Value): integer. Most
+     * payments the link accepts, counted by `completed_count`. Absent means no limit. Once the
+     * limit is reached, resolving the link fails with a request error. It can't be set below
+     * `completed_count`. Format: int32. previous_attributes.max_completions.anyOf[2] (Value):
+     * null. previous_attributes.merchant_id (Optional): string or null. ID of the merchant this
+     * resource belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the
+     * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
-     * (Optional): {@link MetadataMap} or null. Key-value data you attach to the promotion code.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Key-value data you
-     * attach to the promotion code. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.promotion_code_id (Optional): string or null. Unique identifier for the
-     * promotion code. previous_attributes.promotion_code_id.anyOf[1] (Value): string. Unique
-     * identifier for the promotion code. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
-     * previous_attributes.promotion_code_id.anyOf[2] (Value): null.
-     * previous_attributes.promotion_id (Optional): string or null. Identifier of the promotion
-     * this code redeems. previous_attributes.promotion_id.anyOf[1] (Value): string. Identifier of
-     * the promotion this code redeems. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     * previous_attributes.promotion_id.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Lifecycle status: active, inactive, or archived. Set active or
-     * inactive with PATCH; DELETE sets archived. An active code can still be unavailable: read
-     * available. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1]
-     * (Value): string. Lifecycle status: active, inactive, or archived. Set active or inactive
-     * with PATCH; DELETE sets archived. An active code can still be unavailable: read available.
-     * Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[2] (Value):
-     * null. previous_attributes.timezone (Optional): string or null. IANA zone the code's times
-     * were entered in, used for display. expires_at is an absolute timestamp, so this does not
-     * change when the code expires. previous_attributes.timezone.anyOf[1] (Value): string. IANA
-     * zone the code's times were entered in, used for display. expires_at is an absolute
-     * timestamp, so this does not change when the code expires.
-     * previous_attributes.timezone.anyOf[2] (Value): null. previous_attributes.unavailable_reason
-     * (Optional): string or null. Why available is false. Present only when available is false.
-     * The code's own state is reported first; promotion_unavailable means the code is usable but
-     * its promotion is not. Value enum: "archived", "inactive", "expired", "exhausted",
-     * "promotion_unavailable". previous_attributes.unavailable_reason.anyOf[1] (Value): string.
-     * Why available is false. Present only when available is false. The code's own state is
-     * reported first; promotion_unavailable means the code is usable but its promotion is not.
-     * Value enum: "archived", "inactive", "expired", "exhausted", "promotion_unavailable".
-     * previous_attributes.unavailable_reason.anyOf[2] (Value): null.
-     * previous_attributes.updated_at (Optional): string or null. When the promotion code was last
-     * updated, as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string.
-     * When the promotion code was last updated, as an RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
-     * previous_attributes.uses_count (Optional): integer or null. Number of times this code has
-     * been redeemed. previous_attributes.uses_count.anyOf[1] (Value): integer. Number of times
-     * this code has been redeemed. Format: int64. previous_attributes.uses_count.anyOf[2] (Value):
-     * null. previous_attributes.version (Optional): integer or null. Persisted owned-state
-     * version. Clock-based availability and expanded resources do not advance this counter.
-     * previous_attributes.version.anyOf[1] (Value): integer. Persisted owned-state version.
-     * Clock-based availability and expanded resources do not advance this counter. Format: uint64.
-     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Name of the payment link.
+     * previous_attributes.name.anyOf[1] (Value): string. Name of the payment link.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.payment_link_id
+     * (Optional): string or null. Unique identifier for this payment link, prefixed `pl_`.
+     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Unique identifier for this
+     * payment link, prefixed `pl_`. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     * previous_attributes.payment_link_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_link_type (Optional): string or null. What kind of link this is.
+     * Value enum: "standard", "donation", "event". previous_attributes.payment_link_type.anyOf[1]
+     * (Value): string. What kind of link this is. Value enum: "standard", "donation", "event".
+     * previous_attributes.payment_link_type.anyOf[2] (Value): null. previous_attributes.payments
+     * (Optional): {@link CheckoutPaymentConfigPreviousAttributes} or null. Payment options for
+     * checkouts started from this link. previous_attributes.payments.anyOf[1] (Value): {@link
+     * CheckoutPaymentConfigPreviousAttributes}. previous_attributes.payments.anyOf[2] (Value):
+     * null. previous_attributes.promotion_config (Optional): {@link
+     * CheckoutPromotionConfigPreviousAttributes} or null. Whether automatic promotions apply to
+     * checkouts started from this link and whether buyers can enter promotion codes.
+     * previous_attributes.promotion_config.anyOf[1] (Value): {@link
+     * CheckoutPromotionConfigPreviousAttributes}. previous_attributes.promotion_config.anyOf[2]
+     * (Value): null. previous_attributes.redirects (Optional): {@link
+     * CheckoutRedirectsPreviousAttributes} or null. Where checkout sessions started from this
+     * payment link send the buyer after payment, cancellation, or expiration.
+     * previous_attributes.redirects.anyOf[1] (Value): {@link CheckoutRedirectsPreviousAttributes}.
+     * previous_attributes.redirects.anyOf[2] (Value): null. previous_attributes.sales_end_at
+     * (Optional): string or null. RFC3339 timestamp after which the link stops starting checkouts
+     * and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do
+     * not end on their own, except that an event link without sales_end_at stops selling at
+     * event_config.event_at. A checkout opened before the end can still start payment for up to 15
+     * minutes after it. previous_attributes.sales_end_at.anyOf[1] (Value): string. RFC3339
+     * timestamp after which the link stops starting checkouts and resolve fails with
+     * `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own,
+     * except that an event link without sales_end_at stops selling at event_config.event_at. A
+     * checkout opened before the end can still start payment for up to 15 minutes after it.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.sales_end_at.anyOf[2] (Value): null. previous_attributes.sales_summary
+     * (Optional): {@link PaymentLinkSalesSummaryPreviousAttributes} or null. Present only with
+     * expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}.
+     * Available to merchant callers, including dashboard sessions and API keys with
+     * checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales
+     * summary. previous_attributes.sales_summary.anyOf[1] (Value): {@link
+     * PaymentLinkSalesSummaryPreviousAttributes}. previous_attributes.sales_summary.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Whether the link can
+     * start new checkouts. Value enum: "active", "inactive". previous_attributes.status.anyOf[1]
+     * (Value): string. Whether the link can start new checkouts. Value enum: "active", "inactive".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_plan
+     * (Optional): {@link ExpandedSubscriptionPlanSummaryPreviousAttributes} or null. Present only
+     * when `expand` includes `subscription_plan`; `null` when expanded and there is no related
+     * subscription plan. previous_attributes.subscription_plan.anyOf[1] (Value): {@link
+     * ExpandedSubscriptionPlanSummaryPreviousAttributes}.
+     * previous_attributes.subscription_plan.anyOf[2] (Value): null.
+     * previous_attributes.subscription_plan_id (Optional): string or null. ID of the subscription
+     * plan the link sells. Absent for a link that doesn't sell a subscription.
+     * previous_attributes.subscription_plan_id.anyOf[1] (Value): string. ID of the subscription
+     * plan the link sells. Absent for a link that doesn't sell a subscription. Example:
+     * "plan_01KEZF7C004CY5ZR33XST2AASV". previous_attributes.subscription_plan_id.anyOf[2]
+     * (Value): null. previous_attributes.tax (Optional): {@link SubscriptionTaxPreviousAttributes}
+     * or null. Tax settings for checkouts started from this link. previous_attributes.tax.anyOf[1]
+     * (Value): {@link SubscriptionTaxPreviousAttributes}. previous_attributes.tax.anyOf[2]
+     * (Value): null. previous_attributes.theme (Optional): {@link ThemeConfigPreviousAttributes}
+     * or null. The title and colors for checkouts started from this link, over your branding
+     * settings. previous_attributes.theme.anyOf[1] (Value): {@link ThemeConfigPreviousAttributes}.
+     * previous_attributes.theme.anyOf[2] (Value): null. previous_attributes.tip (Optional): {@link
+     * CheckoutTipConfigPreviousAttributes} or null. Tip options for checkouts started from this
+     * link. previous_attributes.tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}.
+     * previous_attributes.tip.anyOf[2] (Value): null. previous_attributes.total_quantity_sold
+     * (Optional): integer or null. Whole-number quantity; fractional quantities are not supported.
+     * previous_attributes.total_quantity_sold.anyOf[1] (Value): integer. Whole-number quantity;
+     * fractional quantities are not supported. Format: int32.
+     * previous_attributes.total_quantity_sold.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.url (Optional): string or null. URL buyers open to use the link.
+     * previous_attributes.url.anyOf[1] (Value): string. URL buyers open to use the link.
+     * previous_attributes.url.anyOf[2] (Value): null. previous_attributes.version (Optional):
+     * integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: int64. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
-        /** The resource snapshot, without expansions. Webhooks omit these fields: `promotion`. */
-        "object": WebhookPromotionCode;
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * buyer_fields (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for.
+         * Each field you leave out uses your checkout settings.
+         * checkout_session_expires_in_seconds (Optional): integer. Seconds each checkout session
+         * the link starts stays open, from 60 to 86,400. Omit it to use your checkout settings, or
+         * 24 hours. It doesn't end the link; use sales_end_at for that. Format: int64. minimum:
+         * 60. maximum: 86400. completed_count (Required): integer. Number of paid checkout
+         * sessions started from this link. Format: int32. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". custom_fields (Optional):
+         * Array of {@link PaymentLinkCustomField}. Questions buyers answer before paying. Answers
+         * are recorded on the order and checkout session in `custom_field_answers`.
+         * custom_fields[] (Value): {@link PaymentLinkCustomField}. A custom field on a payment
+         * link that collects an answer from the buyer. custom_text (Optional): {@link
+         * CheckoutCustomTextConfig}. Custom text for checkouts started from this link. Custom text
+         * shown in checkout: an order summary message and a shipping address label.
+         * delivery_method_ids (Required): Array of string. Delivery methods the link offers. Empty
+         * when the link has none, and then its checkouts offer
+         * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+         * delivery_method_ids[] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+         * description (Optional): string. Text about what the link sells, returned to buyers when
+         * they open it. donation_max_amount_money (Optional): {@link MoneyValue}. Largest amount a
+         * buyer can give on a donation link. Monetary amount represented as integer minor units
+         * plus an ISO 4217 currency code. donation_min_amount_money (Optional): {@link
+         * MoneyValue}. Smallest amount a buyer can give on a donation link. Monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code.
+         * donation_suggested_amount_money_options (Optional): Array of {@link MoneyValue}. Amounts
+         * a donation link offers as one-tap choices. donation_suggested_amount_money_options[]
+         * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
+         * ISO 4217 currency code. event_config (Optional): {@link PaymentLinkEventConfig}. Event
+         * details for an `event` link: when and where it takes place and how many tickets it
+         * sells. Event settings on an event payment link, such as its date, venue, ticket limit,
+         * and ticket emails. external_reference_id (Optional): string. Caller-owned identifier for
+         * this resource in an external system. maxLength: 255. Example: "warehouse-1842". image
+         * (Optional): {@link ImageAttachment}. Image shown to buyers with the link. An image
+         * attached to a resource, with its display properties and attachment metadata.
+         * inactive_message (Optional): string. Message to show the buyer when the link is
+         * inactive. inventory_routing_source (Optional): {@link InventoryRoutingSource}. The
+         * inventory location or routing policy that supplies stock for the link's catalog lines.
+         * Absent when using the implicit single-Location fallback, which is evaluated again on
+         * use. Where an order, payment link, or reservation routes inventory from: a fixed
+         * Location, an inventory allocation policy, or one policy revision. legal (Optional):
+         * {@link LegalSettings}. The terms and policy links checkouts started from this link show
+         * the buyer. Legal settings for a checkout: whether buyers must accept terms, and links to
+         * the terms, refund policy, shipping policy, and contract. line_items (Optional): Array of
+         * {@link PaymentLinkLineItem}. What the link sells. line_items[] (Value): {@link
+         * PaymentLinkLineItem}. A line item on a payment link. max_completions (Optional):
+         * integer. Most payments the link accepts, counted by `completed_count`. Absent means no
+         * limit. Once the limit is reached, resolving the link fails with a request error. It
+         * can't be set below `completed_count`. Format: int32. merchant_id (Required): string. ID
+         * of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+         * limits may not satisfy them. name (Required): string. Name of the payment link.
+         * payment_link_id (Required): string. Unique identifier for this payment link, prefixed
+         * `pl_`. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_type (Optional): string.
+         * What kind of link this is. Value enum: "standard", "donation", "event". payments
+         * (Optional): {@link CheckoutPaymentConfig}. Payment options for checkouts started from
+         * this link. Payment settings for a checkout: the enabled payment options and a note shown
+         * with payment. promotion_config (Optional): {@link CheckoutPromotionConfig}. Whether
+         * automatic promotions apply to checkouts started from this link and whether buyers can
+         * enter promotion codes. Promotion settings for a checkout: whether automatic promotions
+         * apply and whether the buyer can apply promotion codes. redirects (Optional): {@link
+         * CheckoutRedirects}. Where checkout sessions started from this payment link send the
+         * buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer.
+         * Not allowed when surface is headless; use payment_return_url. sales_end_at (Optional):
+         * string. RFC3339 timestamp after which the link stops starting checkouts and resolve
+         * fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end
+         * on their own, except that an event link without sales_end_at stops selling at
+         * event_config.event_at. A checkout opened before the end can still start payment for up
+         * to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * sales_summary (Optional): {@link PaymentLinkSalesSummary}. Present only with
+         * expand=sales_summary on GET /v1/payment-links or GET
+         * /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard
+         * sessions and API keys with checkouts.payment_links.read. Uses the same paid-order
+         * definition as the merchant sales summary. Paid-order sales totals for a payment link,
+         * computed on request. Paid means the order's collection has completed. Fully and
+         * partially refunded orders still count, and paid_totals reports the amount collected
+         * before refunds. Each order counts once even if it has multiple checkout sessions. status
+         * (Required): string. Whether the link can start new checkouts. Value enum: "active",
+         * "inactive". subscription_plan (Optional): {@link ExpandedSubscriptionPlanSummary} or
+         * null. Present only when `expand` includes `subscription_plan`; `null` when expanded and
+         * there is no related subscription plan. subscription_plan.anyOf[1] (Value): {@link
+         * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including name,
+         * billing interval, currency, and status, returned when the plan is expanded.
+         * subscription_plan.anyOf[2] (Value): null. subscription_plan_id (Optional): string. ID of
+         * the subscription plan the link sells. Absent for a link that doesn't sell a
+         * subscription. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". tax (Optional): {@link
+         * CheckoutTaxConfig}. Tax settings for checkouts started from this link. Whether tax is
+         * collected for a checkout session or payment link. theme (Optional): {@link ThemeConfig}.
+         * The title and colors for checkouts started from this link, over your branding settings.
+         * Colors and title applied to a payment link's checkout page. tip (Optional): {@link
+         * CheckoutTipConfig}. Tip options for checkouts started from this link. Tip settings for a
+         * checkout: whether tips are enabled, the percent or fixed amount options, the default
+         * tip, and custom tips. total_quantity_sold (Required): integer. Whole-number quantity;
+         * fractional quantities are not supported. Format: int32. updated_at (Required): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". url (Required):
+         * string. URL buyers open to use the link. version (Required): integer. Current version of
+         * this resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: int64.
+         */
+        "object": {
+            /**
+             * What checkout asks the buyer for. Each field you leave out uses your checkout
+             * settings.
+             */
+            "buyer_fields"?: CheckoutBuyerFields;
+            /**
+             * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it
+             * to use your checkout settings, or 24 hours. It doesn't end the link; use
+             * sales_end_at for that. Format: int64. minimum: 60. maximum: 86400.
+             */
+            "checkout_session_expires_in_seconds"?: number;
+            /** Number of paid checkout sessions started from this link. Format: int32. */
+            "completed_count": number;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Questions buyers answer before paying. Answers are recorded on the order and
+             * checkout session in `custom_field_answers`. [] (Value): {@link
+             * PaymentLinkCustomField}. A custom field on a payment link that collects an answer
+             * from the buyer.
+             */
+            "custom_fields"?: Array<PaymentLinkCustomField>;
+            /**
+             * Custom text for checkouts started from this link. Custom text shown in checkout: an
+             * order summary message and a shipping address label.
+             */
+            "custom_text"?: CheckoutCustomTextConfig;
+            /**
+             * Delivery methods the link offers. Empty when the link has none, and then its
+             * checkouts offer settings.checkout.default_delivery_method_ids when the order has
+             * items to deliver. [] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+             */
+            "delivery_method_ids": Array<string>;
+            /** Text about what the link sells, returned to buyers when they open it. */
+            "description"?: string;
+            /**
+             * Largest amount a buyer can give on a donation link. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_max_amount_money"?: MoneyValue;
+            /**
+             * Smallest amount a buyer can give on a donation link. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_min_amount_money"?: MoneyValue;
+            /**
+             * Amounts a donation link offers as one-tap choices. [] (Value): {@link MoneyValue}.
+             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+            /**
+             * Event details for an `event` link: when and where it takes place and how many
+             * tickets it sells. Event settings on an event payment link, such as its date, venue,
+             * ticket limit, and ticket emails.
+             */
+            "event_config"?: PaymentLinkEventConfig;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Image shown to buyers with the link. An image attached to a resource, with its
+             * display properties and attachment metadata.
+             */
+            "image"?: ImageAttachment;
+            /** Message to show the buyer when the link is inactive. */
+            "inactive_message"?: string;
+            /**
+             * The inventory location or routing policy that supplies stock for the link's catalog
+             * lines. Absent when using the implicit single-Location fallback, which is evaluated
+             * again on use. Where an order, payment link, or reservation routes inventory from: a
+             * fixed Location, an inventory allocation policy, or one policy revision.
+             */
+            "inventory_routing_source"?: InventoryRoutingSource;
+            /**
+             * The terms and policy links checkouts started from this link show the buyer. Legal
+             * settings for a checkout: whether buyers must accept terms, and links to the terms,
+             * refund policy, shipping policy, and contract.
+             */
+            "legal"?: LegalSettings;
+            /**
+             * What the link sells. [] (Value): {@link PaymentLinkLineItem}. A line item on a
+             * payment link.
+             */
+            "line_items"?: Array<PaymentLinkLineItem>;
+            /**
+             * Most payments the link accepts, counted by `completed_count`. Absent means no limit.
+             * Once the limit is reached, resolving the link fails with a request error. It can't
+             * be set below `completed_count`. Format: int32.
+             */
+            "max_completions"?: number;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /** Name of the payment link. */
+            "name": string;
+            /**
+             * Unique identifier for this payment link, prefixed `pl_`. Example:
+             * "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+             */
+            "payment_link_id": string;
+            /** What kind of link this is. Value enum: "standard", "donation", "event". */
+            "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+            /**
+             * Payment options for checkouts started from this link. Payment settings for a
+             * checkout: the enabled payment options and a note shown with payment.
+             */
+            "payments"?: CheckoutPaymentConfig;
+            /**
+             * Whether automatic promotions apply to checkouts started from this link and whether
+             * buyers can enter promotion codes. Promotion settings for a checkout: whether
+             * automatic promotions apply and whether the buyer can apply promotion codes.
+             */
+            "promotion_config"?: CheckoutPromotionConfig;
+            /**
+             * Where checkout sessions started from this payment link send the buyer after payment,
+             * cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when
+             * surface is headless; use payment_return_url.
+             */
+            "redirects"?: CheckoutRedirects;
+            /**
+             * RFC3339 timestamp after which the link stops starting checkouts and resolve fails
+             * with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on
+             * their own, except that an event link without sales_end_at stops selling at
+             * event_config.event_at. A checkout opened before the end can still start payment for
+             * up to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "sales_end_at"?: string;
+            /**
+             * Present only with expand=sales_summary on GET /v1/payment-links or GET
+             * /v1/payment-links/{payment_link_id}. Available to merchant callers, including
+             * dashboard sessions and API keys with checkouts.payment_links.read. Uses the same
+             * paid-order definition as the merchant sales summary. Paid-order sales totals for a
+             * payment link, computed on request. Paid means the order's collection has completed.
+             * Fully and partially refunded orders still count, and paid_totals reports the amount
+             * collected before refunds. Each order counts once even if it has multiple checkout
+             * sessions.
+             */
+            "sales_summary"?: PaymentLinkSalesSummary;
+            /** Whether the link can start new checkouts. Value enum: "active", "inactive". */
+            "status": "active" | "inactive" | (string & {});
+            /**
+             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
+             * there is no related subscription plan. anyOf[1] (Value): {@link
+             * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
+             * name, billing interval, currency, and status, returned when the plan is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+            /**
+             * ID of the subscription plan the link sells. Absent for a link that doesn't sell a
+             * subscription. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+             */
+            "subscription_plan_id"?: string;
+            /**
+             * Tax settings for checkouts started from this link. Whether tax is collected for a
+             * checkout session or payment link.
+             */
+            "tax"?: CheckoutTaxConfig;
+            /**
+             * The title and colors for checkouts started from this link, over your branding
+             * settings. Colors and title applied to a payment link's checkout page.
+             */
+            "theme"?: ThemeConfig;
+            /**
+             * Tip options for checkouts started from this link. Tip settings for a checkout:
+             * whether tips are enabled, the percent or fixed amount options, the default tip, and
+             * custom tips.
+             */
+            "tip"?: CheckoutTipConfig;
+            /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+            "total_quantity_sold": number;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /** URL buyers open to use the link. */
+            "url": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64.
+             */
+            "version": number;
+        };
         /**
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. available (Optional): boolean or null. Whether a
-         * buyer can redeem the code right now: the code is active, not expired, and under its
-         * max_uses, and its promotion is available. available.anyOf[1] (Value): boolean. Whether a
-         * buyer can redeem the code right now: the code is active, not expired, and under its
-         * max_uses, and its promotion is available. available.anyOf[2] (Value): null. code
-         * (Optional): string or null. Code a buyer enters to redeem the promotion. code.anyOf[1]
-         * (Value): string. Code a buyer enters to redeem the promotion. code.anyOf[2] (Value):
-         * null. created_at (Optional): string or null. When the promotion code was created, as an
-         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. When the promotion code was
-         * created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null or null. Only
-         * this identified customer can redeem the code. The customer must belong to the same
-         * merchant and environment. A checkout may use its merchant-named or email-verified
-         * customer; a typed email does not identify a customer. Null when the code is unbound.
-         * customer_id.anyOf[1] (Value): string or null. Only this identified customer can redeem
-         * the code. The customer must belong to the same merchant and environment. A checkout may
-         * use its merchant-named or email-verified customer; a typed email does not identify a
-         * customer. Null when the code is unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-         * customer_id.anyOf[2] (Value): null. expires_at (Optional): string or null. When the code
-         * stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not
-         * expire. expires_at.anyOf[1] (Value): string. When the code stops being redeemable, as an
-         * absolute RFC3339 timestamp. Omitted when the code does not expire. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null. max_uses (Optional):
-         * integer or null. Maximum number of times this code can be redeemed. Omitted when the
-         * code has no redemption limit. max_uses.anyOf[1] (Value): integer. Maximum number of
-         * times this code can be redeemed. Omitted when the code has no redemption limit. Format:
-         * int64. max_uses.anyOf[2] (Value): null. merchant_id (Optional): string or null.
-         * Identifier of the merchant that owns the promotion code. merchant_id.anyOf[1] (Value):
-         * string. Identifier of the merchant that owns the promotion code. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Key-value data you attach to the promotion
-         * code. metadata.anyOf[1] (Value): {@link MetadataMap}. Key-value data you attach to the
-         * promotion code. metadata.anyOf[2] (Value): null. promotion_code_id (Optional): string or
-         * null. Unique identifier for the promotion code. promotion_code_id.anyOf[1] (Value):
-         * string. Unique identifier for the promotion code. Example:
-         * "pcode_01KEZF7C00JCC7QXWC262EF05T". promotion_code_id.anyOf[2] (Value): null.
-         * promotion_id (Optional): string or null. Identifier of the promotion this code redeems.
-         * promotion_id.anyOf[1] (Value): string. Identifier of the promotion this code redeems.
-         * Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". promotion_id.anyOf[2] (Value): null. status
-         * (Optional): string or null. Lifecycle status: active, inactive, or archived. Set active
-         * or inactive with PATCH; DELETE sets archived. An active code can still be unavailable:
-         * read available. Value enum: "active", "inactive", "archived". status.anyOf[1] (Value):
-         * string. Lifecycle status: active, inactive, or archived. Set active or inactive with
-         * PATCH; DELETE sets archived. An active code can still be unavailable: read available.
-         * Value enum: "active", "inactive", "archived". status.anyOf[2] (Value): null. timezone
-         * (Optional): string or null. IANA zone the code's times were entered in, used for
-         * display. expires_at is an absolute timestamp, so this does not change when the code
-         * expires. timezone.anyOf[1] (Value): string. IANA zone the code's times were entered in,
-         * used for display. expires_at is an absolute timestamp, so this does not change when the
-         * code expires. timezone.anyOf[2] (Value): null. unavailable_reason (Optional): string or
-         * null. Why available is false. Present only when available is false. The code's own state
-         * is reported first; promotion_unavailable means the code is usable but its promotion is
-         * not. Value enum: "archived", "inactive", "expired", "exhausted",
-         * "promotion_unavailable". unavailable_reason.anyOf[1] (Value): string. Why available is
-         * false. Present only when available is false. The code's own state is reported first;
-         * promotion_unavailable means the code is usable but its promotion is not. Value enum:
-         * "archived", "inactive", "expired", "exhausted", "promotion_unavailable".
-         * unavailable_reason.anyOf[2] (Value): null. updated_at (Optional): string or null. When
-         * the promotion code was last updated, as an RFC3339 timestamp. updated_at.anyOf[1]
-         * (Value): string. When the promotion code was last updated, as an RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null.
-         * uses_count (Optional): integer or null. Number of times this code has been redeemed.
-         * uses_count.anyOf[1] (Value): integer. Number of times this code has been redeemed.
-         * Format: int64. uses_count.anyOf[2] (Value): null. version (Optional): integer or null.
-         * Persisted owned-state version. Clock-based availability and expanded resources do not
-         * advance this counter. version.anyOf[1] (Value): integer. Persisted owned-state version.
-         * Clock-based availability and expanded resources do not advance this counter. Format:
-         * uint64. minimum: 1. version.anyOf[2] (Value): null.
+         * state, including synthetic test events. buyer_fields (Optional): {@link
+         * CheckoutBuyerFieldsPreviousAttributes} or null. What checkout asks the buyer for. Each
+         * field you leave out uses your checkout settings. buyer_fields.anyOf[1] (Value): {@link
+         * CheckoutBuyerFieldsPreviousAttributes}. buyer_fields.anyOf[2] (Value): null.
+         * checkout_session_expires_in_seconds (Optional): integer or null. Seconds each checkout
+         * session the link starts stays open, from 60 to 86,400. Omit it to use your checkout
+         * settings, or 24 hours. It doesn't end the link; use sales_end_at for that.
+         * checkout_session_expires_in_seconds.anyOf[1] (Value): integer. Seconds each checkout
+         * session the link starts stays open, from 60 to 86,400. Omit it to use your checkout
+         * settings, or 24 hours. It doesn't end the link; use sales_end_at for that. Format:
+         * int64. minimum: 60. maximum: 86400. checkout_session_expires_in_seconds.anyOf[2]
+         * (Value): null. completed_count (Optional): integer or null. Number of paid checkout
+         * sessions started from this link. completed_count.anyOf[1] (Value): integer. Number of
+         * paid checkout sessions started from this link. Format: int32. completed_count.anyOf[2]
+         * (Value): null. created_at (Optional): string or null. RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. custom_fields (Optional):
+         * Array of {@link PaymentLinkCustomFieldPreviousAttributes} or null. Questions buyers
+         * answer before paying. Answers are recorded on the order and checkout session in
+         * `custom_field_answers`. custom_fields.anyOf[1] (Value): Array of {@link
+         * PaymentLinkCustomFieldPreviousAttributes}. Questions buyers answer before paying.
+         * Answers are recorded on the order and checkout session in `custom_field_answers`.
+         * custom_fields.anyOf[1][] (Value): {@link PaymentLinkCustomFieldPreviousAttributes}.
+         * custom_fields.anyOf[2] (Value): null. custom_text (Optional): {@link
+         * CheckoutCustomTextConfigPreviousAttributes} or null. Custom text for checkouts started
+         * from this link. custom_text.anyOf[1] (Value): {@link
+         * CheckoutCustomTextConfigPreviousAttributes}. custom_text.anyOf[2] (Value): null.
+         * delivery_method_ids (Optional): Array of string or null. Delivery methods the link
+         * offers. Empty when the link has none, and then its checkouts offer
+         * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+         * delivery_method_ids.anyOf[1] (Value): Array of string. Delivery methods the link offers.
+         * Empty when the link has none, and then its checkouts offer
+         * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+         * delivery_method_ids.anyOf[1][] (Value): string. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_ids.anyOf[2] (Value): null.
+         * description (Optional): string or null. Text about what the link sells, returned to
+         * buyers when they open it. description.anyOf[1] (Value): string. Text about what the link
+         * sells, returned to buyers when they open it. description.anyOf[2] (Value): null.
+         * donation_max_amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+         * Largest amount a buyer can give on a donation link. donation_max_amount_money.anyOf[1]
+         * (Value): {@link MoneyValuePreviousAttributes}. donation_max_amount_money.anyOf[2]
+         * (Value): null. donation_min_amount_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. Smallest amount a buyer can give on a donation
+         * link. donation_min_amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+         * donation_min_amount_money.anyOf[2] (Value): null.
+         * donation_suggested_amount_money_options (Optional): Array of {@link
+         * MoneyValuePreviousAttributes} or null. Amounts a donation link offers as one-tap
+         * choices. donation_suggested_amount_money_options.anyOf[1] (Value): Array of {@link
+         * MoneyValuePreviousAttributes}. Amounts a donation link offers as one-tap choices.
+         * donation_suggested_amount_money_options.anyOf[1][] (Value): {@link
+         * MoneyValuePreviousAttributes}. donation_suggested_amount_money_options.anyOf[2] (Value):
+         * null. event_config (Optional): {@link PaymentLinkEventConfigPreviousAttributes} or null.
+         * Event details for an `event` link: when and where it takes place and how many tickets it
+         * sells. event_config.anyOf[1] (Value): {@link PaymentLinkEventConfigPreviousAttributes}.
+         * event_config.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
+         * Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. image (Optional): {@link
+         * ImageAttachmentPreviousAttributes} or null. Image shown to buyers with the link.
+         * image.anyOf[1] (Value): {@link ImageAttachmentPreviousAttributes}. image.anyOf[2]
+         * (Value): null. inactive_message (Optional): string or null. Message to show the buyer
+         * when the link is inactive. inactive_message.anyOf[1] (Value): string. Message to show
+         * the buyer when the link is inactive. inactive_message.anyOf[2] (Value): null.
+         * inventory_routing_source (Optional): {@link InventoryRoutingSourcePreviousAttributes} or
+         * null. The inventory location or routing policy that supplies stock for the link's
+         * catalog lines. Absent when using the implicit single-Location fallback, which is
+         * evaluated again on use. inventory_routing_source.anyOf[1] (Value): {@link
+         * InventoryRoutingSourcePreviousAttributes}. inventory_routing_source.anyOf[2] (Value):
+         * null. legal (Optional): {@link CheckoutLegalConfigPreviousAttributes} or null. The terms
+         * and policy links checkouts started from this link show the buyer. legal.anyOf[1]
+         * (Value): {@link CheckoutLegalConfigPreviousAttributes}. legal.anyOf[2] (Value): null.
+         * line_items (Optional): Array of {@link PaymentLinkLineItemPreviousAttributes} or null.
+         * What the link sells. line_items.anyOf[1] (Value): Array of {@link
+         * PaymentLinkLineItemPreviousAttributes}. What the link sells. line_items.anyOf[1][]
+         * (Value): {@link PaymentLinkLineItemPreviousAttributes}. line_items.anyOf[2] (Value):
+         * null. max_completions (Optional): integer or null. Most payments the link accepts,
+         * counted by `completed_count`. Absent means no limit. Once the limit is reached,
+         * resolving the link fails with a request error. It can't be set below `completed_count`.
+         * max_completions.anyOf[1] (Value): integer. Most payments the link accepts, counted by
+         * `completed_count`. Absent means no limit. Once the limit is reached, resolving the link
+         * fails with a request error. It can't be set below `completed_count`. Format: int32.
+         * max_completions.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID of
+         * the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of the
+         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null. name
+         * (Optional): string or null. Name of the payment link. name.anyOf[1] (Value): string.
+         * Name of the payment link. name.anyOf[2] (Value): null. payment_link_id (Optional):
+         * string or null. Unique identifier for this payment link, prefixed `pl_`.
+         * payment_link_id.anyOf[1] (Value): string. Unique identifier for this payment link,
+         * prefixed `pl_`. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2]
+         * (Value): null. payment_link_type (Optional): string or null. What kind of link this is.
+         * Value enum: "standard", "donation", "event". payment_link_type.anyOf[1] (Value): string.
+         * What kind of link this is. Value enum: "standard", "donation", "event".
+         * payment_link_type.anyOf[2] (Value): null. payments (Optional): {@link
+         * CheckoutPaymentConfigPreviousAttributes} or null. Payment options for checkouts started
+         * from this link. payments.anyOf[1] (Value): {@link
+         * CheckoutPaymentConfigPreviousAttributes}. payments.anyOf[2] (Value): null.
+         * promotion_config (Optional): {@link CheckoutPromotionConfigPreviousAttributes} or null.
+         * Whether automatic promotions apply to checkouts started from this link and whether
+         * buyers can enter promotion codes. promotion_config.anyOf[1] (Value): {@link
+         * CheckoutPromotionConfigPreviousAttributes}. promotion_config.anyOf[2] (Value): null.
+         * redirects (Optional): {@link CheckoutRedirectsPreviousAttributes} or null. Where
+         * checkout sessions started from this payment link send the buyer after payment,
+         * cancellation, or expiration. redirects.anyOf[1] (Value): {@link
+         * CheckoutRedirectsPreviousAttributes}. redirects.anyOf[2] (Value): null. sales_end_at
+         * (Optional): string or null. RFC3339 timestamp after which the link stops starting
+         * checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset
+         * means sales do not end on their own, except that an event link without sales_end_at
+         * stops selling at event_config.event_at. A checkout opened before the end can still start
+         * payment for up to 15 minutes after it. sales_end_at.anyOf[1] (Value): string. RFC3339
+         * timestamp after which the link stops starting checkouts and resolve fails with
+         * `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their
+         * own, except that an event link without sales_end_at stops selling at
+         * event_config.event_at. A checkout opened before the end can still start payment for up
+         * to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * sales_end_at.anyOf[2] (Value): null. sales_summary (Optional): {@link
+         * PaymentLinkSalesSummaryPreviousAttributes} or null. Present only with
+         * expand=sales_summary on GET /v1/payment-links or GET
+         * /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard
+         * sessions and API keys with checkouts.payment_links.read. Uses the same paid-order
+         * definition as the merchant sales summary. sales_summary.anyOf[1] (Value): {@link
+         * PaymentLinkSalesSummaryPreviousAttributes}. sales_summary.anyOf[2] (Value): null. status
+         * (Optional): string or null. Whether the link can start new checkouts. Value enum:
+         * "active", "inactive". status.anyOf[1] (Value): string. Whether the link can start new
+         * checkouts. Value enum: "active", "inactive". status.anyOf[2] (Value): null.
+         * subscription_plan (Optional): {@link ExpandedSubscriptionPlanSummaryPreviousAttributes}
+         * or null. Present only when `expand` includes `subscription_plan`; `null` when expanded
+         * and there is no related subscription plan. subscription_plan.anyOf[1] (Value): {@link
+         * ExpandedSubscriptionPlanSummaryPreviousAttributes}. subscription_plan.anyOf[2] (Value):
+         * null. subscription_plan_id (Optional): string or null. ID of the subscription plan the
+         * link sells. Absent for a link that doesn't sell a subscription.
+         * subscription_plan_id.anyOf[1] (Value): string. ID of the subscription plan the link
+         * sells. Absent for a link that doesn't sell a subscription. Example:
+         * "plan_01KEZF7C004CY5ZR33XST2AASV". subscription_plan_id.anyOf[2] (Value): null. tax
+         * (Optional): {@link SubscriptionTaxPreviousAttributes} or null. Tax settings for
+         * checkouts started from this link. tax.anyOf[1] (Value): {@link
+         * SubscriptionTaxPreviousAttributes}. tax.anyOf[2] (Value): null. theme (Optional): {@link
+         * ThemeConfigPreviousAttributes} or null. The title and colors for checkouts started from
+         * this link, over your branding settings. theme.anyOf[1] (Value): {@link
+         * ThemeConfigPreviousAttributes}. theme.anyOf[2] (Value): null. tip (Optional): {@link
+         * CheckoutTipConfigPreviousAttributes} or null. Tip options for checkouts started from
+         * this link. tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}.
+         * tip.anyOf[2] (Value): null. total_quantity_sold (Optional): integer or null.
+         * Whole-number quantity; fractional quantities are not supported.
+         * total_quantity_sold.anyOf[1] (Value): integer. Whole-number quantity; fractional
+         * quantities are not supported. Format: int32. total_quantity_sold.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. url (Optional): string or null. URL buyers open to
+         * use the link. url.anyOf[1] (Value): string. URL buyers open to use the link.
+         * url.anyOf[2] (Value): null. version (Optional): integer or null. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: int64. version.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
         })
             & ({
             /**
-             * Whether a buyer can redeem the code right now: the code is active, not expired, and
-             * under its max_uses, and its promotion is available. anyOf[1] (Value): boolean.
-             * Whether a buyer can redeem the code right now: the code is active, not expired, and
-             * under its max_uses, and its promotion is available. anyOf[2] (Value): null.
+             * What checkout asks the buyer for. Each field you leave out uses your checkout
+             * settings. anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}. anyOf[2]
+             * (Value): null.
              */
-            "available"?: ((boolean) | (null));
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
             /**
-             * Code a buyer enters to redeem the promotion. anyOf[1] (Value): string. Code a buyer
-             * enters to redeem the promotion. anyOf[2] (Value): null.
+             * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it
+             * to use your checkout settings, or 24 hours. It doesn't end the link; use
+             * sales_end_at for that. anyOf[1] (Value): integer. Seconds each checkout session the
+             * link starts stays open, from 60 to 86,400. Omit it to use your checkout settings, or
+             * 24 hours. It doesn't end the link; use sales_end_at for that. Format: int64.
+             * minimum: 60. maximum: 86400. anyOf[2] (Value): null.
              */
-            "code"?: ((string) | (null));
+            "checkout_session_expires_in_seconds"?: ((number) | (null));
             /**
-             * When the promotion code was created, as an RFC3339 timestamp. anyOf[1] (Value):
-             * string. When the promotion code was created, as an RFC3339 timestamp. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * Number of paid checkout sessions started from this link. anyOf[1] (Value): integer.
+             * Number of paid checkout sessions started from this link. Format: int32. anyOf[2]
+             * (Value): null.
+             */
+            "completed_count"?: ((number) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "created_at"?: ((string) | (null));
             /**
-             * Only this identified customer can redeem the code. The customer must belong to the
-             * same merchant and environment. A checkout may use its merchant-named or
-             * email-verified customer; a typed email does not identify a customer. Null when the
-             * code is unbound. anyOf[1] (Value): string or null. Only this identified customer can
-             * redeem the code. The customer must belong to the same merchant and environment. A
-             * checkout may use its merchant-named or email-verified customer; a typed email does
-             * not identify a customer. Null when the code is unbound. Example:
-             * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
-             */
-            "customer_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * When the code stops being redeemable, as an absolute RFC3339 timestamp. Omitted when
-             * the code does not expire. anyOf[1] (Value): string. When the code stops being
-             * redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not expire.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "expires_at"?: ((string) | (null));
-            /**
-             * Maximum number of times this code can be redeemed. Omitted when the code has no
-             * redemption limit. anyOf[1] (Value): integer. Maximum number of times this code can
-             * be redeemed. Omitted when the code has no redemption limit. Format: int64. anyOf[2]
+             * Questions buyers answer before paying. Answers are recorded on the order and
+             * checkout session in `custom_field_answers`. anyOf[1] (Value): Array of {@link
+             * PaymentLinkCustomFieldPreviousAttributes}. Questions buyers answer before paying.
+             * Answers are recorded on the order and checkout session in `custom_field_answers`.
+             * anyOf[1][] (Value): {@link PaymentLinkCustomFieldPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "max_uses"?: ((number) | (null));
+            "custom_fields"?: ((Array<PaymentLinkCustomFieldPreviousAttributes>) | (null));
             /**
-             * Identifier of the merchant that owns the promotion code. anyOf[1] (Value): string.
-             * Identifier of the merchant that owns the promotion code. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             * Custom text for checkouts started from this link. anyOf[1] (Value): {@link
+             * CheckoutCustomTextConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
+            /**
+             * Delivery methods the link offers. Empty when the link has none, and then its
+             * checkouts offer settings.checkout.default_delivery_method_ids when the order has
+             * items to deliver. anyOf[1] (Value): Array of string. Delivery methods the link
+             * offers. Empty when the link has none, and then its checkouts offer
+             * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+             * anyOf[1][] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2]
+             * (Value): null.
+             */
+            "delivery_method_ids"?: ((Array<string>) | (null));
+            /**
+             * Text about what the link sells, returned to buyers when they open it. anyOf[1]
+             * (Value): string. Text about what the link sells, returned to buyers when they open
+             * it. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Largest amount a buyer can give on a donation link. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "donation_max_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            /**
+             * Smallest amount a buyer can give on a donation link. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "donation_min_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            /**
+             * Amounts a donation link offers as one-tap choices. anyOf[1] (Value): Array of {@link
+             * MoneyValuePreviousAttributes}. Amounts a donation link offers as one-tap choices.
+             * anyOf[1][] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "donation_suggested_amount_money_options"?: ((Array<MoneyValuePreviousAttributes>) | (null));
+            /**
+             * Event details for an `event` link: when and where it takes place and how many
+             * tickets it sells. anyOf[1] (Value): {@link
+             * PaymentLinkEventConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "event_config"?: ((PaymentLinkEventConfigPreviousAttributes) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Image shown to buyers with the link. anyOf[1] (Value): {@link
+             * ImageAttachmentPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "image"?: ((ImageAttachmentPreviousAttributes) | (null));
+            /**
+             * Message to show the buyer when the link is inactive. anyOf[1] (Value): string.
+             * Message to show the buyer when the link is inactive. anyOf[2] (Value): null.
+             */
+            "inactive_message"?: ((string) | (null));
+            /**
+             * The inventory location or routing policy that supplies stock for the link's catalog
+             * lines. Absent when using the implicit single-Location fallback, which is evaluated
+             * again on use. anyOf[1] (Value): {@link InventoryRoutingSourcePreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
+            /**
+             * The terms and policy links checkouts started from this link show the buyer. anyOf[1]
+             * (Value): {@link CheckoutLegalConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
+            /**
+             * What the link sells. anyOf[1] (Value): Array of {@link
+             * PaymentLinkLineItemPreviousAttributes}. What the link sells. anyOf[1][] (Value):
+             * {@link PaymentLinkLineItemPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<PaymentLinkLineItemPreviousAttributes>) | (null));
+            /**
+             * Most payments the link accepts, counted by `completed_count`. Absent means no limit.
+             * Once the limit is reached, resolving the link fails with a request error. It can't
+             * be set below `completed_count`. anyOf[1] (Value): integer. Most payments the link
+             * accepts, counted by `completed_count`. Absent means no limit. Once the limit is
+             * reached, resolving the link fails with a request error. It can't be set below
+             * `completed_count`. Format: int32. anyOf[2] (Value): null.
+             */
+            "max_completions"?: ((number) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
              */
             "merchant_id"?: ((string) | (null));
             /**
-             * Key-value data you attach to the promotion code. anyOf[1] (Value): {@link
-             * MetadataMap}. Key-value data you attach to the promotion code. anyOf[2] (Value):
-             * null.
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
             "metadata"?: ((MetadataMap) | (null));
             /**
-             * Unique identifier for the promotion code. anyOf[1] (Value): string. Unique
-             * identifier for the promotion code. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
+             * Name of the payment link. anyOf[1] (Value): string. Name of the payment link.
              * anyOf[2] (Value): null.
              */
-            "promotion_code_id"?: ((string) | (null));
+            "name"?: ((string) | (null));
             /**
-             * Identifier of the promotion this code redeems. anyOf[1] (Value): string. Identifier
-             * of the promotion this code redeems. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-             * anyOf[2] (Value): null.
+             * Unique identifier for this payment link, prefixed `pl_`. anyOf[1] (Value): string.
+             * Unique identifier for this payment link, prefixed `pl_`. Example:
+             * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". anyOf[2] (Value): null.
              */
-            "promotion_id"?: ((string) | (null));
+            "payment_link_id"?: ((string) | (null));
             /**
-             * Lifecycle status: active, inactive, or archived. Set active or inactive with PATCH;
-             * DELETE sets archived. An active code can still be unavailable: read available. Value
-             * enum: "active", "inactive", "archived". anyOf[1] (Value): string. Lifecycle status:
-             * active, inactive, or archived. Set active or inactive with PATCH; DELETE sets
-             * archived. An active code can still be unavailable: read available. Value enum:
-             * "active", "inactive", "archived". anyOf[2] (Value): null.
+             * What kind of link this is. Value enum: "standard", "donation", "event". anyOf[1]
+             * (Value): string. What kind of link this is. Value enum: "standard", "donation",
+             * "event". anyOf[2] (Value): null.
              */
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "payment_link_type"?: (("standard" | "donation" | "event" | (string & {})) | (null));
             /**
-             * IANA zone the code's times were entered in, used for display. expires_at is an
-             * absolute timestamp, so this does not change when the code expires. anyOf[1] (Value):
-             * string. IANA zone the code's times were entered in, used for display. expires_at is
-             * an absolute timestamp, so this does not change when the code expires. anyOf[2]
-             * (Value): null.
+             * Payment options for checkouts started from this link. anyOf[1] (Value): {@link
+             * CheckoutPaymentConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "timezone"?: ((string) | (null));
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
             /**
-             * Why available is false. Present only when available is false. The code's own state
-             * is reported first; promotion_unavailable means the code is usable but its promotion
-             * is not. Value enum: "archived", "inactive", "expired", "exhausted",
-             * "promotion_unavailable". anyOf[1] (Value): string. Why available is false. Present
-             * only when available is false. The code's own state is reported first;
-             * promotion_unavailable means the code is usable but its promotion is not. Value enum:
-             * "archived", "inactive", "expired", "exhausted", "promotion_unavailable". anyOf[2]
-             * (Value): null.
+             * Whether automatic promotions apply to checkouts started from this link and whether
+             * buyers can enter promotion codes. anyOf[1] (Value): {@link
+             * CheckoutPromotionConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "unavailable_reason"?: (("archived" | "inactive" | "expired" | "exhausted" | "promotion_unavailable" | (string & {}))
-                | (null));
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
             /**
-             * When the promotion code was last updated, as an RFC3339 timestamp. anyOf[1] (Value):
-             * string. When the promotion code was last updated, as an RFC3339 timestamp. Format:
+             * Where checkout sessions started from this payment link send the buyer after payment,
+             * cancellation, or expiration. anyOf[1] (Value): {@link
+             * CheckoutRedirectsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
+            /**
+             * RFC3339 timestamp after which the link stops starting checkouts and resolve fails
+             * with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on
+             * their own, except that an event link without sales_end_at stops selling at
+             * event_config.event_at. A checkout opened before the end can still start payment for
+             * up to 15 minutes after it. anyOf[1] (Value): string. RFC3339 timestamp after which
+             * the link stops starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and
+             * reason `not_offered`. Unset means sales do not end on their own, except that an
+             * event link without sales_end_at stops selling at event_config.event_at. A checkout
+             * opened before the end can still start payment for up to 15 minutes after it. Format:
              * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "updated_at"?: ((string) | (null));
+            "sales_end_at"?: ((string) | (null));
             /**
-             * Number of times this code has been redeemed. anyOf[1] (Value): integer. Number of
-             * times this code has been redeemed. Format: int64. anyOf[2] (Value): null.
+             * Present only with expand=sales_summary on GET /v1/payment-links or GET
+             * /v1/payment-links/{payment_link_id}. Available to merchant callers, including
+             * dashboard sessions and API keys with checkouts.payment_links.read. Uses the same
+             * paid-order definition as the merchant sales summary. anyOf[1] (Value): {@link
+             * PaymentLinkSalesSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "uses_count"?: ((number) | (null));
+            "sales_summary"?: ((PaymentLinkSalesSummaryPreviousAttributes) | (null));
             /**
-             * Persisted owned-state version. Clock-based availability and expanded resources do
-             * not advance this counter. anyOf[1] (Value): integer. Persisted owned-state version.
-             * Clock-based availability and expanded resources do not advance this counter. Format:
-             * uint64. minimum: 1. anyOf[2] (Value): null.
+             * Whether the link can start new checkouts. Value enum: "active", "inactive". anyOf[1]
+             * (Value): string. Whether the link can start new checkouts. Value enum: "active",
+             * "inactive". anyOf[2] (Value): null.
              */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "promotion_code.archived". */
-    "event_type"?: "promotion_code.archived";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `promotion_code.archived` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type PromotionCodeArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookPromotionCode}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `promotion`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.available (Optional): boolean or null. Whether a
-     * buyer can redeem the code right now: the code is active, not expired, and under its
-     * max_uses, and its promotion is available. previous_attributes.available.anyOf[1] (Value):
-     * boolean. Whether a buyer can redeem the code right now: the code is active, not expired, and
-     * under its max_uses, and its promotion is available. previous_attributes.available.anyOf[2]
-     * (Value): null. previous_attributes.code (Optional): string or null. Code a buyer enters to
-     * redeem the promotion. previous_attributes.code.anyOf[1] (Value): string. Code a buyer enters
-     * to redeem the promotion. previous_attributes.code.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. When the promotion code was
-     * created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
-     * When the promotion code was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null or null. Only this identified
-     * customer can redeem the code. The customer must belong to the same merchant and environment.
-     * A checkout may use its merchant-named or email-verified customer; a typed email does not
-     * identify a customer. Null when the code is unbound. previous_attributes.customer_id.anyOf[1]
-     * (Value): string or null. Only this identified customer can redeem the code. The customer
-     * must belong to the same merchant and environment. A checkout may use its merchant-named or
-     * email-verified customer; a typed email does not identify a customer. Null when the code is
-     * unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2]
-     * (Value): null. previous_attributes.expires_at (Optional): string or null. When the code
-     * stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not
-     * expire. previous_attributes.expires_at.anyOf[1] (Value): string. When the code stops being
-     * redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not expire. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value):
-     * null. previous_attributes.max_uses (Optional): integer or null. Maximum number of times this
-     * code can be redeemed. Omitted when the code has no redemption limit.
-     * previous_attributes.max_uses.anyOf[1] (Value): integer. Maximum number of times this code
-     * can be redeemed. Omitted when the code has no redemption limit. Format: int64.
-     * previous_attributes.max_uses.anyOf[2] (Value): null. previous_attributes.merchant_id
-     * (Optional): string or null. Identifier of the merchant that owns the promotion code.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of the merchant that
-     * owns the promotion code. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
-     * (Optional): {@link MetadataMap} or null. Key-value data you attach to the promotion code.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Key-value data you
-     * attach to the promotion code. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.promotion_code_id (Optional): string or null. Unique identifier for the
-     * promotion code. previous_attributes.promotion_code_id.anyOf[1] (Value): string. Unique
-     * identifier for the promotion code. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
-     * previous_attributes.promotion_code_id.anyOf[2] (Value): null.
-     * previous_attributes.promotion_id (Optional): string or null. Identifier of the promotion
-     * this code redeems. previous_attributes.promotion_id.anyOf[1] (Value): string. Identifier of
-     * the promotion this code redeems. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     * previous_attributes.promotion_id.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Lifecycle status: active, inactive, or archived. Set active or
-     * inactive with PATCH; DELETE sets archived. An active code can still be unavailable: read
-     * available. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1]
-     * (Value): string. Lifecycle status: active, inactive, or archived. Set active or inactive
-     * with PATCH; DELETE sets archived. An active code can still be unavailable: read available.
-     * Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[2] (Value):
-     * null. previous_attributes.timezone (Optional): string or null. IANA zone the code's times
-     * were entered in, used for display. expires_at is an absolute timestamp, so this does not
-     * change when the code expires. previous_attributes.timezone.anyOf[1] (Value): string. IANA
-     * zone the code's times were entered in, used for display. expires_at is an absolute
-     * timestamp, so this does not change when the code expires.
-     * previous_attributes.timezone.anyOf[2] (Value): null. previous_attributes.unavailable_reason
-     * (Optional): string or null. Why available is false. Present only when available is false.
-     * The code's own state is reported first; promotion_unavailable means the code is usable but
-     * its promotion is not. Value enum: "archived", "inactive", "expired", "exhausted",
-     * "promotion_unavailable". previous_attributes.unavailable_reason.anyOf[1] (Value): string.
-     * Why available is false. Present only when available is false. The code's own state is
-     * reported first; promotion_unavailable means the code is usable but its promotion is not.
-     * Value enum: "archived", "inactive", "expired", "exhausted", "promotion_unavailable".
-     * previous_attributes.unavailable_reason.anyOf[2] (Value): null.
-     * previous_attributes.updated_at (Optional): string or null. When the promotion code was last
-     * updated, as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string.
-     * When the promotion code was last updated, as an RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
-     * previous_attributes.uses_count (Optional): integer or null. Number of times this code has
-     * been redeemed. previous_attributes.uses_count.anyOf[1] (Value): integer. Number of times
-     * this code has been redeemed. Format: int64. previous_attributes.uses_count.anyOf[2] (Value):
-     * null. previous_attributes.version (Optional): integer or null. Persisted owned-state
-     * version. Clock-based availability and expanded resources do not advance this counter.
-     * previous_attributes.version.anyOf[1] (Value): integer. Persisted owned-state version.
-     * Clock-based availability and expanded resources do not advance this counter. Format: uint64.
-     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /** The resource snapshot, without expansions. Webhooks omit these fields: `promotion`. */
-        "object": WebhookPromotionCode;
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. available (Optional): boolean or null. Whether a
-         * buyer can redeem the code right now: the code is active, not expired, and under its
-         * max_uses, and its promotion is available. available.anyOf[1] (Value): boolean. Whether a
-         * buyer can redeem the code right now: the code is active, not expired, and under its
-         * max_uses, and its promotion is available. available.anyOf[2] (Value): null. code
-         * (Optional): string or null. Code a buyer enters to redeem the promotion. code.anyOf[1]
-         * (Value): string. Code a buyer enters to redeem the promotion. code.anyOf[2] (Value):
-         * null. created_at (Optional): string or null. When the promotion code was created, as an
-         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. When the promotion code was
-         * created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null or null. Only
-         * this identified customer can redeem the code. The customer must belong to the same
-         * merchant and environment. A checkout may use its merchant-named or email-verified
-         * customer; a typed email does not identify a customer. Null when the code is unbound.
-         * customer_id.anyOf[1] (Value): string or null. Only this identified customer can redeem
-         * the code. The customer must belong to the same merchant and environment. A checkout may
-         * use its merchant-named or email-verified customer; a typed email does not identify a
-         * customer. Null when the code is unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-         * customer_id.anyOf[2] (Value): null. expires_at (Optional): string or null. When the code
-         * stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not
-         * expire. expires_at.anyOf[1] (Value): string. When the code stops being redeemable, as an
-         * absolute RFC3339 timestamp. Omitted when the code does not expire. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null. max_uses (Optional):
-         * integer or null. Maximum number of times this code can be redeemed. Omitted when the
-         * code has no redemption limit. max_uses.anyOf[1] (Value): integer. Maximum number of
-         * times this code can be redeemed. Omitted when the code has no redemption limit. Format:
-         * int64. max_uses.anyOf[2] (Value): null. merchant_id (Optional): string or null.
-         * Identifier of the merchant that owns the promotion code. merchant_id.anyOf[1] (Value):
-         * string. Identifier of the merchant that owns the promotion code. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Key-value data you attach to the promotion
-         * code. metadata.anyOf[1] (Value): {@link MetadataMap}. Key-value data you attach to the
-         * promotion code. metadata.anyOf[2] (Value): null. promotion_code_id (Optional): string or
-         * null. Unique identifier for the promotion code. promotion_code_id.anyOf[1] (Value):
-         * string. Unique identifier for the promotion code. Example:
-         * "pcode_01KEZF7C00JCC7QXWC262EF05T". promotion_code_id.anyOf[2] (Value): null.
-         * promotion_id (Optional): string or null. Identifier of the promotion this code redeems.
-         * promotion_id.anyOf[1] (Value): string. Identifier of the promotion this code redeems.
-         * Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". promotion_id.anyOf[2] (Value): null. status
-         * (Optional): string or null. Lifecycle status: active, inactive, or archived. Set active
-         * or inactive with PATCH; DELETE sets archived. An active code can still be unavailable:
-         * read available. Value enum: "active", "inactive", "archived". status.anyOf[1] (Value):
-         * string. Lifecycle status: active, inactive, or archived. Set active or inactive with
-         * PATCH; DELETE sets archived. An active code can still be unavailable: read available.
-         * Value enum: "active", "inactive", "archived". status.anyOf[2] (Value): null. timezone
-         * (Optional): string or null. IANA zone the code's times were entered in, used for
-         * display. expires_at is an absolute timestamp, so this does not change when the code
-         * expires. timezone.anyOf[1] (Value): string. IANA zone the code's times were entered in,
-         * used for display. expires_at is an absolute timestamp, so this does not change when the
-         * code expires. timezone.anyOf[2] (Value): null. unavailable_reason (Optional): string or
-         * null. Why available is false. Present only when available is false. The code's own state
-         * is reported first; promotion_unavailable means the code is usable but its promotion is
-         * not. Value enum: "archived", "inactive", "expired", "exhausted",
-         * "promotion_unavailable". unavailable_reason.anyOf[1] (Value): string. Why available is
-         * false. Present only when available is false. The code's own state is reported first;
-         * promotion_unavailable means the code is usable but its promotion is not. Value enum:
-         * "archived", "inactive", "expired", "exhausted", "promotion_unavailable".
-         * unavailable_reason.anyOf[2] (Value): null. updated_at (Optional): string or null. When
-         * the promotion code was last updated, as an RFC3339 timestamp. updated_at.anyOf[1]
-         * (Value): string. When the promotion code was last updated, as an RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null.
-         * uses_count (Optional): integer or null. Number of times this code has been redeemed.
-         * uses_count.anyOf[1] (Value): integer. Number of times this code has been redeemed.
-         * Format: int64. uses_count.anyOf[2] (Value): null. version (Optional): integer or null.
-         * Persisted owned-state version. Clock-based availability and expanded resources do not
-         * advance this counter. version.anyOf[1] (Value): integer. Persisted owned-state version.
-         * Clock-based availability and expanded resources do not advance this counter. Format:
-         * uint64. minimum: 1. version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
+            "status"?: (("active" | "inactive" | (string & {})) | (null));
             /**
-             * Whether a buyer can redeem the code right now: the code is active, not expired, and
-             * under its max_uses, and its promotion is available. anyOf[1] (Value): boolean.
-             * Whether a buyer can redeem the code right now: the code is active, not expired, and
-             * under its max_uses, and its promotion is available. anyOf[2] (Value): null.
+             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
+             * there is no related subscription plan. anyOf[1] (Value): {@link
+             * ExpandedSubscriptionPlanSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "available"?: ((boolean) | (null));
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null));
             /**
-             * Code a buyer enters to redeem the promotion. anyOf[1] (Value): string. Code a buyer
-             * enters to redeem the promotion. anyOf[2] (Value): null.
+             * ID of the subscription plan the link sells. Absent for a link that doesn't sell a
+             * subscription. anyOf[1] (Value): string. ID of the subscription plan the link sells.
+             * Absent for a link that doesn't sell a subscription. Example:
+             * "plan_01KEZF7C004CY5ZR33XST2AASV". anyOf[2] (Value): null.
              */
-            "code"?: ((string) | (null));
+            "subscription_plan_id"?: ((string) | (null));
             /**
-             * When the promotion code was created, as an RFC3339 timestamp. anyOf[1] (Value):
-             * string. When the promotion code was created, as an RFC3339 timestamp. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * Tax settings for checkouts started from this link. anyOf[1] (Value): {@link
+             * SubscriptionTaxPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "created_at"?: ((string) | (null));
+            "tax"?: ((SubscriptionTaxPreviousAttributes) | (null));
             /**
-             * Only this identified customer can redeem the code. The customer must belong to the
-             * same merchant and environment. A checkout may use its merchant-named or
-             * email-verified customer; a typed email does not identify a customer. Null when the
-             * code is unbound. anyOf[1] (Value): string or null. Only this identified customer can
-             * redeem the code. The customer must belong to the same merchant and environment. A
-             * checkout may use its merchant-named or email-verified customer; a typed email does
-             * not identify a customer. Null when the code is unbound. Example:
-             * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
-             */
-            "customer_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * When the code stops being redeemable, as an absolute RFC3339 timestamp. Omitted when
-             * the code does not expire. anyOf[1] (Value): string. When the code stops being
-             * redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not expire.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "expires_at"?: ((string) | (null));
-            /**
-             * Maximum number of times this code can be redeemed. Omitted when the code has no
-             * redemption limit. anyOf[1] (Value): integer. Maximum number of times this code can
-             * be redeemed. Omitted when the code has no redemption limit. Format: int64. anyOf[2]
-             * (Value): null.
-             */
-            "max_uses"?: ((number) | (null));
-            /**
-             * Identifier of the merchant that owns the promotion code. anyOf[1] (Value): string.
-             * Identifier of the merchant that owns the promotion code. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Key-value data you attach to the promotion code. anyOf[1] (Value): {@link
-             * MetadataMap}. Key-value data you attach to the promotion code. anyOf[2] (Value):
+             * The title and colors for checkouts started from this link, over your branding
+             * settings. anyOf[1] (Value): {@link ThemeConfigPreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null));
+            "theme"?: ((ThemeConfigPreviousAttributes) | (null));
             /**
-             * Unique identifier for the promotion code. anyOf[1] (Value): string. Unique
-             * identifier for the promotion code. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
-             * anyOf[2] (Value): null.
+             * Tip options for checkouts started from this link. anyOf[1] (Value): {@link
+             * CheckoutTipConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "promotion_code_id"?: ((string) | (null));
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
             /**
-             * Identifier of the promotion this code redeems. anyOf[1] (Value): string. Identifier
-             * of the promotion this code redeems. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-             * anyOf[2] (Value): null.
+             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
+             * integer. Whole-number quantity; fractional quantities are not supported. Format:
+             * int32. anyOf[2] (Value): null.
              */
-            "promotion_id"?: ((string) | (null));
+            "total_quantity_sold"?: ((number) | (null));
             /**
-             * Lifecycle status: active, inactive, or archived. Set active or inactive with PATCH;
-             * DELETE sets archived. An active code can still be unavailable: read available. Value
-             * enum: "active", "inactive", "archived". anyOf[1] (Value): string. Lifecycle status:
-             * active, inactive, or archived. Set active or inactive with PATCH; DELETE sets
-             * archived. An active code can still be unavailable: read available. Value enum:
-             * "active", "inactive", "archived". anyOf[2] (Value): null.
-             */
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            /**
-             * IANA zone the code's times were entered in, used for display. expires_at is an
-             * absolute timestamp, so this does not change when the code expires. anyOf[1] (Value):
-             * string. IANA zone the code's times were entered in, used for display. expires_at is
-             * an absolute timestamp, so this does not change when the code expires. anyOf[2]
-             * (Value): null.
-             */
-            "timezone"?: ((string) | (null));
-            /**
-             * Why available is false. Present only when available is false. The code's own state
-             * is reported first; promotion_unavailable means the code is usable but its promotion
-             * is not. Value enum: "archived", "inactive", "expired", "exhausted",
-             * "promotion_unavailable". anyOf[1] (Value): string. Why available is false. Present
-             * only when available is false. The code's own state is reported first;
-             * promotion_unavailable means the code is usable but its promotion is not. Value enum:
-             * "archived", "inactive", "expired", "exhausted", "promotion_unavailable". anyOf[2]
-             * (Value): null.
-             */
-            "unavailable_reason"?: (("archived" | "inactive" | "expired" | "exhausted" | "promotion_unavailable" | (string & {}))
-                | (null));
-            /**
-             * When the promotion code was last updated, as an RFC3339 timestamp. anyOf[1] (Value):
-             * string. When the promotion code was last updated, as an RFC3339 timestamp. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "updated_at"?: ((string) | (null));
             /**
-             * Number of times this code has been redeemed. anyOf[1] (Value): integer. Number of
-             * times this code has been redeemed. Format: int64. anyOf[2] (Value): null.
+             * URL buyers open to use the link. anyOf[1] (Value): string. URL buyers open to use
+             * the link. anyOf[2] (Value): null.
              */
-            "uses_count"?: ((number) | (null));
+            "url"?: ((string) | (null));
             /**
-             * Persisted owned-state version. Clock-based availability and expanded resources do
-             * not advance this counter. anyOf[1] (Value): integer. Persisted owned-state version.
-             * Clock-based availability and expanded resources do not advance this counter. Format:
-             * uint64. minimum: 1. anyOf[2] (Value): null.
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. anyOf[2] (Value): null.
              */
             "version"?: ((number) | (null));
         });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
-    /** Value enum: "promotion_code.archived". */
-    "event_type"?: "promotion_code.archived";
+    /** Value enum: "payment_link.updated". */
+    "event_type"?: "payment_link.updated";
 });
-export type PromotionCodeCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookPromotionCode;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "promotion_code.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookPromotionCode;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "promotion_code.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "promotion_code.created";
-});
-/**
- * The `promotion_code.created` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type PromotionCodeCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookPromotionCode}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `promotion`.
-     */
-    "data"?: {
-        /** The resource snapshot, without expansions. Webhooks omit these fields: `promotion`. */
-        "object": WebhookPromotionCode;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "promotion_code.created". */
-    "event_type"?: "promotion_code.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `promotion_code.created` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type PromotionCodeCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookPromotionCode}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `promotion`.
-     */
-    "data"?: {
-        /** The resource snapshot, without expansions. Webhooks omit these fields: `promotion`. */
-        "object": WebhookPromotionCode;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "promotion_code.created". */
-    "event_type"?: "promotion_code.created";
-});
-/** A page of `PromotionCode` objects. */
-export type PromotionCodeListResponse = {
-    /**
-     * Promotion codes returned in the requested sort order. [] (Value): {@link PromotionCode}. A
-     * code a buyer enters to claim a promotion.
-     */
-    "data": Array<PromotionCode>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Token for the next page. Omitted when there are no more results. */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A promotion code to create inline with its promotion. The promotion supplies its parent ID. */
-export type PromotionCodeRequest = {
-    /** Code a buyer enters to redeem the promotion. minLength: 1. maxLength: 100. */
-    "code": string;
-    /**
-     * Only this identified customer can redeem the code. The customer must belong to the same
-     * merchant and environment. A checkout may use its merchant-named or email-verified customer;
-     * a typed email does not identify a customer. Omit or send null to create an unbound code.
-     * minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string | null;
-    /**
-     * When the code stops being redeemable, as an absolute RFC3339 timestamp. Omit for no expiry.
-     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expires_at"?: string;
-    /**
-     * Maximum number of times this code can be redeemed. Omit for no redemption limit. Format:
-     * int64.
-     */
-    "max_uses"?: number;
-    /**
-     * Key-value data you attach to the promotion code. Caller-owned key-value data for a new or
-     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
-     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
-     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Lifecycle status. Defaults to active; send inactive to create a code that cannot be
-     * redeemed. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /**
-     * IANA zone the code's times were entered in, used for display. expires_at is an absolute
-     * timestamp, so this does not change when the code expires. minLength: 1. maxLength: 255.
-     */
-    "timezone"?: string;
-};
-/** A promotion code to create inline with its promotion. The promotion supplies its parent ID. */
-export type PromotionCodeRequestInput = {
-    /** Code a buyer enters to redeem the promotion. minLength: 1. maxLength: 100. */
-    "code": string;
-    /**
-     * Only this identified customer can redeem the code. The customer must belong to the same
-     * merchant and environment. A checkout may use its merchant-named or email-verified customer;
-     * a typed email does not identify a customer. Omit or send null to create an unbound code.
-     * minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string | null;
-    /**
-     * When the code stops being redeemable, as an absolute RFC3339 timestamp. Omit for no expiry.
-     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expires_at"?: string | globalThis.Date;
-    /**
-     * Maximum number of times this code can be redeemed. Omit for no redemption limit. Format:
-     * int64.
-     */
-    "max_uses"?: number;
-    /**
-     * Key-value data you attach to the promotion code. Caller-owned key-value data for a new or
-     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
-     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
-     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Lifecycle status. Defaults to active; send inactive to create a code that cannot be
-     * redeemed. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /**
-     * IANA zone the code's times were entered in, used for display. expires_at is an absolute
-     * timestamp, so this does not change when the code expires. minLength: 1. maxLength: 255.
-     */
-    "timezone"?: string;
-};
-/** A response containing `PromotionCode` data. */
-export type PromotionCodeResponse = {
-    /** The requested promotion code. A code a buyer enters to claim a promotion. */
-    "data": PromotionCode;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type PromotionCodeUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookPromotionCode;
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "available"?: ((boolean) | (null));
-            "code"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "customer_id"?: ((string | null) | (null) | (unknown));
-            "expires_at"?: ((string) | (null));
-            "max_uses"?: ((number) | (null));
-            "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "promotion_code_id"?: ((string) | (null));
-            "promotion_id"?: ((string) | (null));
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "timezone"?: ((string) | (null));
-            "unavailable_reason"?: (("archived" | "inactive" | "expired" | "exhausted" | "promotion_unavailable" | (string & {}))
-                | (null));
-            "updated_at"?: ((string) | (null));
-            "uses_count"?: ((number) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "promotion_code.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookPromotionCode;
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "available"?: ((boolean) | (null));
-            "code"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "customer_id"?: ((string | null) | (null) | (unknown));
-            "expires_at"?: ((string) | (null));
-            "max_uses"?: ((number) | (null));
-            "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "promotion_code_id"?: ((string) | (null));
-            "promotion_id"?: ((string) | (null));
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "timezone"?: ((string) | (null));
-            "unavailable_reason"?: (("archived" | "inactive" | "expired" | "exhausted" | "promotion_unavailable" | (string & {}))
-                | (null));
-            "updated_at"?: ((string) | (null));
-            "uses_count"?: ((number) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "promotion_code.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "promotion_code.updated";
-});
-/**
- * The `promotion_code.updated` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type PromotionCodeUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookPromotionCode}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `promotion`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.available (Optional): boolean or null. Whether a
-     * buyer can redeem the code right now: the code is active, not expired, and under its
-     * max_uses, and its promotion is available. previous_attributes.available.anyOf[1] (Value):
-     * boolean. Whether a buyer can redeem the code right now: the code is active, not expired, and
-     * under its max_uses, and its promotion is available. previous_attributes.available.anyOf[2]
-     * (Value): null. previous_attributes.code (Optional): string or null. Code a buyer enters to
-     * redeem the promotion. previous_attributes.code.anyOf[1] (Value): string. Code a buyer enters
-     * to redeem the promotion. previous_attributes.code.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. When the promotion code was
-     * created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
-     * When the promotion code was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null or null. Only this identified
-     * customer can redeem the code. The customer must belong to the same merchant and environment.
-     * A checkout may use its merchant-named or email-verified customer; a typed email does not
-     * identify a customer. Null when the code is unbound. previous_attributes.customer_id.anyOf[1]
-     * (Value): string or null. Only this identified customer can redeem the code. The customer
-     * must belong to the same merchant and environment. A checkout may use its merchant-named or
-     * email-verified customer; a typed email does not identify a customer. Null when the code is
-     * unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2]
-     * (Value): null. previous_attributes.expires_at (Optional): string or null. When the code
-     * stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not
-     * expire. previous_attributes.expires_at.anyOf[1] (Value): string. When the code stops being
-     * redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not expire. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value):
-     * null. previous_attributes.max_uses (Optional): integer or null. Maximum number of times this
-     * code can be redeemed. Omitted when the code has no redemption limit.
-     * previous_attributes.max_uses.anyOf[1] (Value): integer. Maximum number of times this code
-     * can be redeemed. Omitted when the code has no redemption limit. Format: int64.
-     * previous_attributes.max_uses.anyOf[2] (Value): null. previous_attributes.merchant_id
-     * (Optional): string or null. Identifier of the merchant that owns the promotion code.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of the merchant that
-     * owns the promotion code. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
-     * (Optional): {@link MetadataMap} or null. Key-value data you attach to the promotion code.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Key-value data you
-     * attach to the promotion code. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.promotion_code_id (Optional): string or null. Unique identifier for the
-     * promotion code. previous_attributes.promotion_code_id.anyOf[1] (Value): string. Unique
-     * identifier for the promotion code. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
-     * previous_attributes.promotion_code_id.anyOf[2] (Value): null.
-     * previous_attributes.promotion_id (Optional): string or null. Identifier of the promotion
-     * this code redeems. previous_attributes.promotion_id.anyOf[1] (Value): string. Identifier of
-     * the promotion this code redeems. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     * previous_attributes.promotion_id.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Lifecycle status: active, inactive, or archived. Set active or
-     * inactive with PATCH; DELETE sets archived. An active code can still be unavailable: read
-     * available. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1]
-     * (Value): string. Lifecycle status: active, inactive, or archived. Set active or inactive
-     * with PATCH; DELETE sets archived. An active code can still be unavailable: read available.
-     * Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[2] (Value):
-     * null. previous_attributes.timezone (Optional): string or null. IANA zone the code's times
-     * were entered in, used for display. expires_at is an absolute timestamp, so this does not
-     * change when the code expires. previous_attributes.timezone.anyOf[1] (Value): string. IANA
-     * zone the code's times were entered in, used for display. expires_at is an absolute
-     * timestamp, so this does not change when the code expires.
-     * previous_attributes.timezone.anyOf[2] (Value): null. previous_attributes.unavailable_reason
-     * (Optional): string or null. Why available is false. Present only when available is false.
-     * The code's own state is reported first; promotion_unavailable means the code is usable but
-     * its promotion is not. Value enum: "archived", "inactive", "expired", "exhausted",
-     * "promotion_unavailable". previous_attributes.unavailable_reason.anyOf[1] (Value): string.
-     * Why available is false. Present only when available is false. The code's own state is
-     * reported first; promotion_unavailable means the code is usable but its promotion is not.
-     * Value enum: "archived", "inactive", "expired", "exhausted", "promotion_unavailable".
-     * previous_attributes.unavailable_reason.anyOf[2] (Value): null.
-     * previous_attributes.updated_at (Optional): string or null. When the promotion code was last
-     * updated, as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string.
-     * When the promotion code was last updated, as an RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
-     * previous_attributes.uses_count (Optional): integer or null. Number of times this code has
-     * been redeemed. previous_attributes.uses_count.anyOf[1] (Value): integer. Number of times
-     * this code has been redeemed. Format: int64. previous_attributes.uses_count.anyOf[2] (Value):
-     * null. previous_attributes.version (Optional): integer or null. Persisted owned-state
-     * version. Clock-based availability and expanded resources do not advance this counter.
-     * previous_attributes.version.anyOf[1] (Value): integer. Persisted owned-state version.
-     * Clock-based availability and expanded resources do not advance this counter. Format: uint64.
-     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /** The resource snapshot, without expansions. Webhooks omit these fields: `promotion`. */
-        "object": WebhookPromotionCode;
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. available (Optional): boolean or null. Whether a
-         * buyer can redeem the code right now: the code is active, not expired, and under its
-         * max_uses, and its promotion is available. available.anyOf[1] (Value): boolean. Whether a
-         * buyer can redeem the code right now: the code is active, not expired, and under its
-         * max_uses, and its promotion is available. available.anyOf[2] (Value): null. code
-         * (Optional): string or null. Code a buyer enters to redeem the promotion. code.anyOf[1]
-         * (Value): string. Code a buyer enters to redeem the promotion. code.anyOf[2] (Value):
-         * null. created_at (Optional): string or null. When the promotion code was created, as an
-         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. When the promotion code was
-         * created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null or null. Only
-         * this identified customer can redeem the code. The customer must belong to the same
-         * merchant and environment. A checkout may use its merchant-named or email-verified
-         * customer; a typed email does not identify a customer. Null when the code is unbound.
-         * customer_id.anyOf[1] (Value): string or null. Only this identified customer can redeem
-         * the code. The customer must belong to the same merchant and environment. A checkout may
-         * use its merchant-named or email-verified customer; a typed email does not identify a
-         * customer. Null when the code is unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-         * customer_id.anyOf[2] (Value): null. expires_at (Optional): string or null. When the code
-         * stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not
-         * expire. expires_at.anyOf[1] (Value): string. When the code stops being redeemable, as an
-         * absolute RFC3339 timestamp. Omitted when the code does not expire. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null. max_uses (Optional):
-         * integer or null. Maximum number of times this code can be redeemed. Omitted when the
-         * code has no redemption limit. max_uses.anyOf[1] (Value): integer. Maximum number of
-         * times this code can be redeemed. Omitted when the code has no redemption limit. Format:
-         * int64. max_uses.anyOf[2] (Value): null. merchant_id (Optional): string or null.
-         * Identifier of the merchant that owns the promotion code. merchant_id.anyOf[1] (Value):
-         * string. Identifier of the merchant that owns the promotion code. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Key-value data you attach to the promotion
-         * code. metadata.anyOf[1] (Value): {@link MetadataMap}. Key-value data you attach to the
-         * promotion code. metadata.anyOf[2] (Value): null. promotion_code_id (Optional): string or
-         * null. Unique identifier for the promotion code. promotion_code_id.anyOf[1] (Value):
-         * string. Unique identifier for the promotion code. Example:
-         * "pcode_01KEZF7C00JCC7QXWC262EF05T". promotion_code_id.anyOf[2] (Value): null.
-         * promotion_id (Optional): string or null. Identifier of the promotion this code redeems.
-         * promotion_id.anyOf[1] (Value): string. Identifier of the promotion this code redeems.
-         * Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". promotion_id.anyOf[2] (Value): null. status
-         * (Optional): string or null. Lifecycle status: active, inactive, or archived. Set active
-         * or inactive with PATCH; DELETE sets archived. An active code can still be unavailable:
-         * read available. Value enum: "active", "inactive", "archived". status.anyOf[1] (Value):
-         * string. Lifecycle status: active, inactive, or archived. Set active or inactive with
-         * PATCH; DELETE sets archived. An active code can still be unavailable: read available.
-         * Value enum: "active", "inactive", "archived". status.anyOf[2] (Value): null. timezone
-         * (Optional): string or null. IANA zone the code's times were entered in, used for
-         * display. expires_at is an absolute timestamp, so this does not change when the code
-         * expires. timezone.anyOf[1] (Value): string. IANA zone the code's times were entered in,
-         * used for display. expires_at is an absolute timestamp, so this does not change when the
-         * code expires. timezone.anyOf[2] (Value): null. unavailable_reason (Optional): string or
-         * null. Why available is false. Present only when available is false. The code's own state
-         * is reported first; promotion_unavailable means the code is usable but its promotion is
-         * not. Value enum: "archived", "inactive", "expired", "exhausted",
-         * "promotion_unavailable". unavailable_reason.anyOf[1] (Value): string. Why available is
-         * false. Present only when available is false. The code's own state is reported first;
-         * promotion_unavailable means the code is usable but its promotion is not. Value enum:
-         * "archived", "inactive", "expired", "exhausted", "promotion_unavailable".
-         * unavailable_reason.anyOf[2] (Value): null. updated_at (Optional): string or null. When
-         * the promotion code was last updated, as an RFC3339 timestamp. updated_at.anyOf[1]
-         * (Value): string. When the promotion code was last updated, as an RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null.
-         * uses_count (Optional): integer or null. Number of times this code has been redeemed.
-         * uses_count.anyOf[1] (Value): integer. Number of times this code has been redeemed.
-         * Format: int64. uses_count.anyOf[2] (Value): null. version (Optional): integer or null.
-         * Persisted owned-state version. Clock-based availability and expanded resources do not
-         * advance this counter. version.anyOf[1] (Value): integer. Persisted owned-state version.
-         * Clock-based availability and expanded resources do not advance this counter. Format:
-         * uint64. minimum: 1. version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Whether a buyer can redeem the code right now: the code is active, not expired, and
-             * under its max_uses, and its promotion is available. anyOf[1] (Value): boolean.
-             * Whether a buyer can redeem the code right now: the code is active, not expired, and
-             * under its max_uses, and its promotion is available. anyOf[2] (Value): null.
-             */
-            "available"?: ((boolean) | (null));
-            /**
-             * Code a buyer enters to redeem the promotion. anyOf[1] (Value): string. Code a buyer
-             * enters to redeem the promotion. anyOf[2] (Value): null.
-             */
-            "code"?: ((string) | (null));
-            /**
-             * When the promotion code was created, as an RFC3339 timestamp. anyOf[1] (Value):
-             * string. When the promotion code was created, as an RFC3339 timestamp. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Only this identified customer can redeem the code. The customer must belong to the
-             * same merchant and environment. A checkout may use its merchant-named or
-             * email-verified customer; a typed email does not identify a customer. Null when the
-             * code is unbound. anyOf[1] (Value): string or null. Only this identified customer can
-             * redeem the code. The customer must belong to the same merchant and environment. A
-             * checkout may use its merchant-named or email-verified customer; a typed email does
-             * not identify a customer. Null when the code is unbound. Example:
-             * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
-             */
-            "customer_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * When the code stops being redeemable, as an absolute RFC3339 timestamp. Omitted when
-             * the code does not expire. anyOf[1] (Value): string. When the code stops being
-             * redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not expire.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "expires_at"?: ((string) | (null));
-            /**
-             * Maximum number of times this code can be redeemed. Omitted when the code has no
-             * redemption limit. anyOf[1] (Value): integer. Maximum number of times this code can
-             * be redeemed. Omitted when the code has no redemption limit. Format: int64. anyOf[2]
-             * (Value): null.
-             */
-            "max_uses"?: ((number) | (null));
-            /**
-             * Identifier of the merchant that owns the promotion code. anyOf[1] (Value): string.
-             * Identifier of the merchant that owns the promotion code. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Key-value data you attach to the promotion code. anyOf[1] (Value): {@link
-             * MetadataMap}. Key-value data you attach to the promotion code. anyOf[2] (Value):
-             * null.
-             */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * Unique identifier for the promotion code. anyOf[1] (Value): string. Unique
-             * identifier for the promotion code. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
-             * anyOf[2] (Value): null.
-             */
-            "promotion_code_id"?: ((string) | (null));
-            /**
-             * Identifier of the promotion this code redeems. anyOf[1] (Value): string. Identifier
-             * of the promotion this code redeems. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-             * anyOf[2] (Value): null.
-             */
-            "promotion_id"?: ((string) | (null));
-            /**
-             * Lifecycle status: active, inactive, or archived. Set active or inactive with PATCH;
-             * DELETE sets archived. An active code can still be unavailable: read available. Value
-             * enum: "active", "inactive", "archived". anyOf[1] (Value): string. Lifecycle status:
-             * active, inactive, or archived. Set active or inactive with PATCH; DELETE sets
-             * archived. An active code can still be unavailable: read available. Value enum:
-             * "active", "inactive", "archived". anyOf[2] (Value): null.
-             */
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            /**
-             * IANA zone the code's times were entered in, used for display. expires_at is an
-             * absolute timestamp, so this does not change when the code expires. anyOf[1] (Value):
-             * string. IANA zone the code's times were entered in, used for display. expires_at is
-             * an absolute timestamp, so this does not change when the code expires. anyOf[2]
-             * (Value): null.
-             */
-            "timezone"?: ((string) | (null));
-            /**
-             * Why available is false. Present only when available is false. The code's own state
-             * is reported first; promotion_unavailable means the code is usable but its promotion
-             * is not. Value enum: "archived", "inactive", "expired", "exhausted",
-             * "promotion_unavailable". anyOf[1] (Value): string. Why available is false. Present
-             * only when available is false. The code's own state is reported first;
-             * promotion_unavailable means the code is usable but its promotion is not. Value enum:
-             * "archived", "inactive", "expired", "exhausted", "promotion_unavailable". anyOf[2]
-             * (Value): null.
-             */
-            "unavailable_reason"?: (("archived" | "inactive" | "expired" | "exhausted" | "promotion_unavailable" | (string & {}))
-                | (null));
-            /**
-             * When the promotion code was last updated, as an RFC3339 timestamp. anyOf[1] (Value):
-             * string. When the promotion code was last updated, as an RFC3339 timestamp. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Number of times this code has been redeemed. anyOf[1] (Value): integer. Number of
-             * times this code has been redeemed. Format: int64. anyOf[2] (Value): null.
-             */
-            "uses_count"?: ((number) | (null));
-            /**
-             * Persisted owned-state version. Clock-based availability and expanded resources do
-             * not advance this counter. anyOf[1] (Value): integer. Persisted owned-state version.
-             * Clock-based availability and expanded resources do not advance this counter. Format:
-             * uint64. minimum: 1. anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "promotion_code.updated". */
-    "event_type"?: "promotion_code.updated";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `promotion_code.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type PromotionCodeUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookPromotionCode}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `promotion`. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events. previous_attributes.available (Optional): boolean or null. Whether a
-     * buyer can redeem the code right now: the code is active, not expired, and under its
-     * max_uses, and its promotion is available. previous_attributes.available.anyOf[1] (Value):
-     * boolean. Whether a buyer can redeem the code right now: the code is active, not expired, and
-     * under its max_uses, and its promotion is available. previous_attributes.available.anyOf[2]
-     * (Value): null. previous_attributes.code (Optional): string or null. Code a buyer enters to
-     * redeem the promotion. previous_attributes.code.anyOf[1] (Value): string. Code a buyer enters
-     * to redeem the promotion. previous_attributes.code.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. When the promotion code was
-     * created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
-     * When the promotion code was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null or null. Only this identified
-     * customer can redeem the code. The customer must belong to the same merchant and environment.
-     * A checkout may use its merchant-named or email-verified customer; a typed email does not
-     * identify a customer. Null when the code is unbound. previous_attributes.customer_id.anyOf[1]
-     * (Value): string or null. Only this identified customer can redeem the code. The customer
-     * must belong to the same merchant and environment. A checkout may use its merchant-named or
-     * email-verified customer; a typed email does not identify a customer. Null when the code is
-     * unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2]
-     * (Value): null. previous_attributes.expires_at (Optional): string or null. When the code
-     * stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not
-     * expire. previous_attributes.expires_at.anyOf[1] (Value): string. When the code stops being
-     * redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not expire. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value):
-     * null. previous_attributes.max_uses (Optional): integer or null. Maximum number of times this
-     * code can be redeemed. Omitted when the code has no redemption limit.
-     * previous_attributes.max_uses.anyOf[1] (Value): integer. Maximum number of times this code
-     * can be redeemed. Omitted when the code has no redemption limit. Format: int64.
-     * previous_attributes.max_uses.anyOf[2] (Value): null. previous_attributes.merchant_id
-     * (Optional): string or null. Identifier of the merchant that owns the promotion code.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of the merchant that
-     * owns the promotion code. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
-     * (Optional): {@link MetadataMap} or null. Key-value data you attach to the promotion code.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Key-value data you
-     * attach to the promotion code. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.promotion_code_id (Optional): string or null. Unique identifier for the
-     * promotion code. previous_attributes.promotion_code_id.anyOf[1] (Value): string. Unique
-     * identifier for the promotion code. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
-     * previous_attributes.promotion_code_id.anyOf[2] (Value): null.
-     * previous_attributes.promotion_id (Optional): string or null. Identifier of the promotion
-     * this code redeems. previous_attributes.promotion_id.anyOf[1] (Value): string. Identifier of
-     * the promotion this code redeems. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     * previous_attributes.promotion_id.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Lifecycle status: active, inactive, or archived. Set active or
-     * inactive with PATCH; DELETE sets archived. An active code can still be unavailable: read
-     * available. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1]
-     * (Value): string. Lifecycle status: active, inactive, or archived. Set active or inactive
-     * with PATCH; DELETE sets archived. An active code can still be unavailable: read available.
-     * Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[2] (Value):
-     * null. previous_attributes.timezone (Optional): string or null. IANA zone the code's times
-     * were entered in, used for display. expires_at is an absolute timestamp, so this does not
-     * change when the code expires. previous_attributes.timezone.anyOf[1] (Value): string. IANA
-     * zone the code's times were entered in, used for display. expires_at is an absolute
-     * timestamp, so this does not change when the code expires.
-     * previous_attributes.timezone.anyOf[2] (Value): null. previous_attributes.unavailable_reason
-     * (Optional): string or null. Why available is false. Present only when available is false.
-     * The code's own state is reported first; promotion_unavailable means the code is usable but
-     * its promotion is not. Value enum: "archived", "inactive", "expired", "exhausted",
-     * "promotion_unavailable". previous_attributes.unavailable_reason.anyOf[1] (Value): string.
-     * Why available is false. Present only when available is false. The code's own state is
-     * reported first; promotion_unavailable means the code is usable but its promotion is not.
-     * Value enum: "archived", "inactive", "expired", "exhausted", "promotion_unavailable".
-     * previous_attributes.unavailable_reason.anyOf[2] (Value): null.
-     * previous_attributes.updated_at (Optional): string or null. When the promotion code was last
-     * updated, as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string.
-     * When the promotion code was last updated, as an RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
-     * previous_attributes.uses_count (Optional): integer or null. Number of times this code has
-     * been redeemed. previous_attributes.uses_count.anyOf[1] (Value): integer. Number of times
-     * this code has been redeemed. Format: int64. previous_attributes.uses_count.anyOf[2] (Value):
-     * null. previous_attributes.version (Optional): integer or null. Persisted owned-state
-     * version. Clock-based availability and expanded resources do not advance this counter.
-     * previous_attributes.version.anyOf[1] (Value): integer. Persisted owned-state version.
-     * Clock-based availability and expanded resources do not advance this counter. Format: uint64.
-     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /** The resource snapshot, without expansions. Webhooks omit these fields: `promotion`. */
-        "object": WebhookPromotionCode;
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. available (Optional): boolean or null. Whether a
-         * buyer can redeem the code right now: the code is active, not expired, and under its
-         * max_uses, and its promotion is available. available.anyOf[1] (Value): boolean. Whether a
-         * buyer can redeem the code right now: the code is active, not expired, and under its
-         * max_uses, and its promotion is available. available.anyOf[2] (Value): null. code
-         * (Optional): string or null. Code a buyer enters to redeem the promotion. code.anyOf[1]
-         * (Value): string. Code a buyer enters to redeem the promotion. code.anyOf[2] (Value):
-         * null. created_at (Optional): string or null. When the promotion code was created, as an
-         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. When the promotion code was
-         * created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null or null. Only
-         * this identified customer can redeem the code. The customer must belong to the same
-         * merchant and environment. A checkout may use its merchant-named or email-verified
-         * customer; a typed email does not identify a customer. Null when the code is unbound.
-         * customer_id.anyOf[1] (Value): string or null. Only this identified customer can redeem
-         * the code. The customer must belong to the same merchant and environment. A checkout may
-         * use its merchant-named or email-verified customer; a typed email does not identify a
-         * customer. Null when the code is unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-         * customer_id.anyOf[2] (Value): null. expires_at (Optional): string or null. When the code
-         * stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not
-         * expire. expires_at.anyOf[1] (Value): string. When the code stops being redeemable, as an
-         * absolute RFC3339 timestamp. Omitted when the code does not expire. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null. max_uses (Optional):
-         * integer or null. Maximum number of times this code can be redeemed. Omitted when the
-         * code has no redemption limit. max_uses.anyOf[1] (Value): integer. Maximum number of
-         * times this code can be redeemed. Omitted when the code has no redemption limit. Format:
-         * int64. max_uses.anyOf[2] (Value): null. merchant_id (Optional): string or null.
-         * Identifier of the merchant that owns the promotion code. merchant_id.anyOf[1] (Value):
-         * string. Identifier of the merchant that owns the promotion code. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Key-value data you attach to the promotion
-         * code. metadata.anyOf[1] (Value): {@link MetadataMap}. Key-value data you attach to the
-         * promotion code. metadata.anyOf[2] (Value): null. promotion_code_id (Optional): string or
-         * null. Unique identifier for the promotion code. promotion_code_id.anyOf[1] (Value):
-         * string. Unique identifier for the promotion code. Example:
-         * "pcode_01KEZF7C00JCC7QXWC262EF05T". promotion_code_id.anyOf[2] (Value): null.
-         * promotion_id (Optional): string or null. Identifier of the promotion this code redeems.
-         * promotion_id.anyOf[1] (Value): string. Identifier of the promotion this code redeems.
-         * Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". promotion_id.anyOf[2] (Value): null. status
-         * (Optional): string or null. Lifecycle status: active, inactive, or archived. Set active
-         * or inactive with PATCH; DELETE sets archived. An active code can still be unavailable:
-         * read available. Value enum: "active", "inactive", "archived". status.anyOf[1] (Value):
-         * string. Lifecycle status: active, inactive, or archived. Set active or inactive with
-         * PATCH; DELETE sets archived. An active code can still be unavailable: read available.
-         * Value enum: "active", "inactive", "archived". status.anyOf[2] (Value): null. timezone
-         * (Optional): string or null. IANA zone the code's times were entered in, used for
-         * display. expires_at is an absolute timestamp, so this does not change when the code
-         * expires. timezone.anyOf[1] (Value): string. IANA zone the code's times were entered in,
-         * used for display. expires_at is an absolute timestamp, so this does not change when the
-         * code expires. timezone.anyOf[2] (Value): null. unavailable_reason (Optional): string or
-         * null. Why available is false. Present only when available is false. The code's own state
-         * is reported first; promotion_unavailable means the code is usable but its promotion is
-         * not. Value enum: "archived", "inactive", "expired", "exhausted",
-         * "promotion_unavailable". unavailable_reason.anyOf[1] (Value): string. Why available is
-         * false. Present only when available is false. The code's own state is reported first;
-         * promotion_unavailable means the code is usable but its promotion is not. Value enum:
-         * "archived", "inactive", "expired", "exhausted", "promotion_unavailable".
-         * unavailable_reason.anyOf[2] (Value): null. updated_at (Optional): string or null. When
-         * the promotion code was last updated, as an RFC3339 timestamp. updated_at.anyOf[1]
-         * (Value): string. When the promotion code was last updated, as an RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null.
-         * uses_count (Optional): integer or null. Number of times this code has been redeemed.
-         * uses_count.anyOf[1] (Value): integer. Number of times this code has been redeemed.
-         * Format: int64. uses_count.anyOf[2] (Value): null. version (Optional): integer or null.
-         * Persisted owned-state version. Clock-based availability and expanded resources do not
-         * advance this counter. version.anyOf[1] (Value): integer. Persisted owned-state version.
-         * Clock-based availability and expanded resources do not advance this counter. Format:
-         * uint64. minimum: 1. version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Whether a buyer can redeem the code right now: the code is active, not expired, and
-             * under its max_uses, and its promotion is available. anyOf[1] (Value): boolean.
-             * Whether a buyer can redeem the code right now: the code is active, not expired, and
-             * under its max_uses, and its promotion is available. anyOf[2] (Value): null.
-             */
-            "available"?: ((boolean) | (null));
-            /**
-             * Code a buyer enters to redeem the promotion. anyOf[1] (Value): string. Code a buyer
-             * enters to redeem the promotion. anyOf[2] (Value): null.
-             */
-            "code"?: ((string) | (null));
-            /**
-             * When the promotion code was created, as an RFC3339 timestamp. anyOf[1] (Value):
-             * string. When the promotion code was created, as an RFC3339 timestamp. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Only this identified customer can redeem the code. The customer must belong to the
-             * same merchant and environment. A checkout may use its merchant-named or
-             * email-verified customer; a typed email does not identify a customer. Null when the
-             * code is unbound. anyOf[1] (Value): string or null. Only this identified customer can
-             * redeem the code. The customer must belong to the same merchant and environment. A
-             * checkout may use its merchant-named or email-verified customer; a typed email does
-             * not identify a customer. Null when the code is unbound. Example:
-             * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
-             */
-            "customer_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * When the code stops being redeemable, as an absolute RFC3339 timestamp. Omitted when
-             * the code does not expire. anyOf[1] (Value): string. When the code stops being
-             * redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not expire.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "expires_at"?: ((string) | (null));
-            /**
-             * Maximum number of times this code can be redeemed. Omitted when the code has no
-             * redemption limit. anyOf[1] (Value): integer. Maximum number of times this code can
-             * be redeemed. Omitted when the code has no redemption limit. Format: int64. anyOf[2]
-             * (Value): null.
-             */
-            "max_uses"?: ((number) | (null));
-            /**
-             * Identifier of the merchant that owns the promotion code. anyOf[1] (Value): string.
-             * Identifier of the merchant that owns the promotion code. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Key-value data you attach to the promotion code. anyOf[1] (Value): {@link
-             * MetadataMap}. Key-value data you attach to the promotion code. anyOf[2] (Value):
-             * null.
-             */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * Unique identifier for the promotion code. anyOf[1] (Value): string. Unique
-             * identifier for the promotion code. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
-             * anyOf[2] (Value): null.
-             */
-            "promotion_code_id"?: ((string) | (null));
-            /**
-             * Identifier of the promotion this code redeems. anyOf[1] (Value): string. Identifier
-             * of the promotion this code redeems. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-             * anyOf[2] (Value): null.
-             */
-            "promotion_id"?: ((string) | (null));
-            /**
-             * Lifecycle status: active, inactive, or archived. Set active or inactive with PATCH;
-             * DELETE sets archived. An active code can still be unavailable: read available. Value
-             * enum: "active", "inactive", "archived". anyOf[1] (Value): string. Lifecycle status:
-             * active, inactive, or archived. Set active or inactive with PATCH; DELETE sets
-             * archived. An active code can still be unavailable: read available. Value enum:
-             * "active", "inactive", "archived". anyOf[2] (Value): null.
-             */
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            /**
-             * IANA zone the code's times were entered in, used for display. expires_at is an
-             * absolute timestamp, so this does not change when the code expires. anyOf[1] (Value):
-             * string. IANA zone the code's times were entered in, used for display. expires_at is
-             * an absolute timestamp, so this does not change when the code expires. anyOf[2]
-             * (Value): null.
-             */
-            "timezone"?: ((string) | (null));
-            /**
-             * Why available is false. Present only when available is false. The code's own state
-             * is reported first; promotion_unavailable means the code is usable but its promotion
-             * is not. Value enum: "archived", "inactive", "expired", "exhausted",
-             * "promotion_unavailable". anyOf[1] (Value): string. Why available is false. Present
-             * only when available is false. The code's own state is reported first;
-             * promotion_unavailable means the code is usable but its promotion is not. Value enum:
-             * "archived", "inactive", "expired", "exhausted", "promotion_unavailable". anyOf[2]
-             * (Value): null.
-             */
-            "unavailable_reason"?: (("archived" | "inactive" | "expired" | "exhausted" | "promotion_unavailable" | (string & {}))
-                | (null));
-            /**
-             * When the promotion code was last updated, as an RFC3339 timestamp. anyOf[1] (Value):
-             * string. When the promotion code was last updated, as an RFC3339 timestamp. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Number of times this code has been redeemed. anyOf[1] (Value): integer. Number of
-             * times this code has been redeemed. Format: int64. anyOf[2] (Value): null.
-             */
-            "uses_count"?: ((number) | (null));
-            /**
-             * Persisted owned-state version. Clock-based availability and expanded resources do
-             * not advance this counter. anyOf[1] (Value): integer. Persisted owned-state version.
-             * Clock-based availability and expanded resources do not advance this counter. Format:
-             * uint64. minimum: 1. anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "promotion_code.updated". */
-    "event_type"?: "promotion_code.updated";
-});
-export type PromotionCodesCreateParams = (InputValue<CreatePromotionCodeRequestInput>)
+export type PaymentLinksCreateParams = (InputValue<CreatePaymentLinkRequestInput>)
     & {
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
@@ -2521,49 +4835,40 @@ export type PromotionCodesCreateParams = (InputValue<CreatePromotionCodeRequestI
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type PromotionCodesDeleteParams = CategoriesDeleteParams;
-export type PromotionCodesGetParams = DisputesAcceptParams;
-export type PromotionCodesListParams = {
+export type PaymentLinksGetParams = {
     /**
-     * Exact match on the parent promotion ID. pattern: ^promo_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+     * Include related objects in the response. Supported expansions: sales_summary,
+     * subscription_plan. sales_summary requires checkouts.payment_links.read and is also available
+     * to dashboard sessions. subscription_plan additionally requires
+     * commerce.subscription_plans.read. sales_summary is supported only on this get route. Limits:
+     * at most 10 unique expand paths per request. [] enum: "sales_summary", "subscription_plan".
+     * Value enum: "sales_summary", "subscription_plan". anyOf[1] (Value): Array of string. []
+     * enum: "sales_summary", "subscription_plan". anyOf[1][] (Value): string. Value enum:
+     * "sales_summary", "subscription_plan". anyOf[2] (Value): string. Value enum: "sales_summary",
+     * "subscription_plan".
      */
-    "promotion_id"?: InputValue<string>;
+    "expand"?: InputValue<("sales_summary" | "subscription_plan") | readonly ("sales_summary" | "subscription_plan")[]>;
     /**
-     * Exact match on the customer bound to the code. Unbound codes are excluded. minLength: 1.
-     * pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "customer_id"?: InputValue<string>;
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     * Exact match that ignores case and accents: CAFÉ matches cafe. This is the same rule that
-     * makes promotion codes unique. Codes preserve their original spelling. Leading and trailing
-     * whitespace are rejected, not trimmed. minLength: 1. maxLength: 100.
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "code"?: InputValue<string>;
+    "Flint-Mode"?: InputValue<"test" | "live">;
     /**
-     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
-     * "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value):
-     * Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value):
-     * string. Value enum: "active", "inactive", "archived". anyOf[2] (Value): string. Value enum:
-     * "active", "inactive", "archived".
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
-    /**
-     * Filter by whether a code can be redeemed now or why it cannot. available matches available:
-     * true; every other value matches unavailable_reason. Values are ORed and ANDed with status.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "available", "inactive", "expired", "exhausted", "promotion_unavailable". Value enum:
-     * "available", "inactive", "expired", "exhausted", "promotion_unavailable". anyOf[1] (Value):
-     * Array of string. minItems: 1. [] enum: "available", "inactive", "expired", "exhausted",
-     * "promotion_unavailable". anyOf[1][] (Value): string. Value enum: "available", "inactive",
-     * "expired", "exhausted", "promotion_unavailable". anyOf[2] (Value): string. Value enum:
-     * "available", "inactive", "expired", "exhausted", "promotion_unavailable".
-     */
-    "availability"?: InputValue<("available" | "inactive" | "expired" | "exhausted" | "promotion_unavailable")
-        | readonly ("available" | "inactive" | "expired" | "exhausted" | "promotion_unavailable")[]>;
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PaymentLinksGetPublicParams = {};
+export type PaymentLinksListParams = {
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
      * 100. Default: 20.
@@ -2577,7 +4882,38 @@ export type PromotionCodesListParams = {
      */
     "page_token"?: InputValue<string>;
     /**
-     * Field to sort by. Defaults to created_at; ties are broken by promotion_code_id. Default:
+     * Filter by payment link status. Values are trimmed and deduplicated in first-seen order;
+     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
+     * are ANDed. [] enum: "active", "inactive". Value enum: "active", "inactive". anyOf[1]
+     * (Value): Array of string. minItems: 1. [] enum: "active", "inactive". anyOf[1][] (Value):
+     * string. Value enum: "active", "inactive". anyOf[2] (Value): string. Value enum: "active",
+     * "inactive".
+     */
+    "status"?: InputValue<("active" | "inactive") | readonly ("active" | "inactive")[]>;
+    /**
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842".
+     */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Search across payment link ID, external reference ID, name, and description. Text fields
+     * match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs
+     * match from the start and need the type prefix, such as pl_01.
+     */
+    "query"?: InputValue<string>;
+    /**
+     * Filter by payment link type. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "standard", "donation", "event". Value enum: "standard", "donation",
+     * "event". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "standard", "donation",
+     * "event". anyOf[1][] (Value): string. Value enum: "standard", "donation", "event". anyOf[2]
+     * (Value): string. Value enum: "standard", "donation", "event".
+     */
+    "payment_link_type"?: InputValue<("standard" | "donation" | "event") | readonly ("standard" | "donation" | "event")[]>;
+    /** Filter by whether the payment link references a subscription plan. */
+    "has_subscription_plan"?: InputValue<boolean>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by payment_link_id. Default:
      * "created_at". Value enum: "created_at", "updated_at".
      */
     "sort_by"?: InputValue<"created_at" | "updated_at">;
@@ -2592,13 +4928,17 @@ export type PromotionCodesListParams = {
     /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "updated_before"?: InputValue<string | globalThis.Date>;
     /**
-     * Include related objects in the response. Supported expansions: promotion. Expand each code's
-     * parent promotion. Expansion requires commerce.promotions.read. Limits: at most 10 unique
-     * expand paths per request. [] enum: "promotion". Value enum: "promotion". anyOf[1] (Value):
-     * Array of string. [] enum: "promotion". anyOf[1][] (Value): string. Value enum: "promotion".
-     * anyOf[2] (Value): string. Value enum: "promotion".
+     * Include related objects in the response. Supported expansions: sales_summary,
+     * subscription_plan. Include the requested related resources using scoped batch reads for this
+     * page. Each relationship requires its existing target read scopes. Expansion changes the
+     * representation without changing pagination tokens. Limits: at most 10 unique expand paths
+     * per request. [] enum: "sales_summary", "subscription_plan". Value enum: "sales_summary",
+     * "subscription_plan". anyOf[1] (Value): Array of string. [] enum: "sales_summary",
+     * "subscription_plan". anyOf[1][] (Value): string. Value enum: "sales_summary",
+     * "subscription_plan". anyOf[2] (Value): string. Value enum: "sales_summary",
+     * "subscription_plan".
      */
-    "expand"?: InputValue<("promotion") | readonly ("promotion")[]>;
+    "expand"?: InputValue<("sales_summary" | "subscription_plan") | readonly ("sales_summary" | "subscription_plan")[]>;
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
      * a merchant-bound one, which it must match. Other credentials may send it only with their own
@@ -2618,23 +4958,8 @@ export type PromotionCodesListParams = {
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/**
- * A count of a promotion's codes, including how many are redeemable now and the newest redeemable
- * code.
- */
-export type PromotionCodesSummary = {
-    /**
-     * Number of codes a buyer can redeem now: active, not expired, and under their max_uses. When
-     * it is 0, a code-gated promotion is unavailable with unavailable_reason no_active_codes.
-     * Format: int32.
-     */
-    "active_count": number;
-    /** Most recently created redeemable code. Omitted when active_count is zero. */
-    "newest_active_code"?: string;
-    /** Number of codes on the promotion, excluding archived codes. Format: int32. */
-    "total_count": number;
-};
-export type PromotionCodesUpdateParams = (InputValue<UpdatePromotionCodeRequestInput>)
+export type PaymentLinksResolveParams = (InputValue<ResolvePaymentLinkRequestInput>);
+export type PaymentLinksUpdateParams = (InputValue<UpdatePaymentLinkRequestInput>)
     & {
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
@@ -2655,55 +4980,148 @@ export type PromotionCodesUpdateParams = (InputValue<UpdatePromotionCodeRequestI
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/**
- * Which kinds of discounts a promotion can combine with: line item, order, and service charge
- * discounts.
- */
-export type PromotionCombinesWith = {
-    /** Allow line item promotions, subject to the evaluation order on Promotion. */
-    "line_item": boolean;
-    /** Allow order promotions, subject to the evaluation order on Promotion. */
-    "order": boolean;
-    /** Allow service charge promotions, subject to the evaluation order on Promotion. */
-    "service_charge": boolean;
+/** A customer's saved payment details. */
+export type PaymentMethod = {
+    /**
+     * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a payment
+     * method: brand, expiration month and year, last four digits, and the wallet when one was
+     * used.
+     */
+    "card"?: CardDetails;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary fields,
+     * returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
+     */
+    "customer"?: ((ExpandedCustomerSummary) | (null));
+    /** Customer this payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+    "customer_id": string;
+    /**
+     * A value that is the same for every saved copy of one card number at this merchant and
+     * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A card
+     * added through Apple Pay or Google Pay can have a different fingerprint from the same card
+     * typed in.
+     */
+    "fingerprint"?: string;
+    /**
+     * Whether this is the customer's default payment method, the one
+     * Customer.default_payment_method_id names. Change the default with PATCH
+     * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+     */
+    "is_default": boolean;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /**
+     * Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ".
+     */
+    "payment_method_id": string;
+    /**
+     * Where the buyer saved this payment method. Returned on /v1/me/payment-methods responses when
+     * Flint wallet support is enabled. Accept future values. Value enum: "flint", "store".
+     */
+    "saved_with"?: "flint" | "store" | (string & {});
+    /**
+     * Whether the payment method can be charged. Treat any value other than active as not
+     * chargeable, including values added later. Value enum: "pending", "active", "expired",
+     * "archived", "failed".
+     */
+    "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+    /** Kind of payment method. Value enum: "card". */
+    "type": "card" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * When Flint may charge the payment method. off_session payment methods can pay subscriptions,
+     * automatic invoices, and other charges without the buyer, and can be a customer's default.
+     * on_session payment methods were saved by the buyer in checkout for faster checkout at this
+     * merchant; Flint charges them only in checkouts the buyer completes and refuses them for any
+     * charge without the buyer and as a default. Payment methods saved before usage existed are
+     * off_session. Value enum: "on_session", "off_session".
+     */
+    "usage": "on_session" | "off_session" | (string & {});
 };
-/**
- * Change which promotion discount classes this promotion can combine with. Omitted classes keep
- * their current values. minProperties: 1.
- */
-export type PromotionCombinesWithPatch = {
-    /** Allow line item promotions, subject to the evaluation order on Promotion. */
-    "line_item"?: boolean;
-    /** Allow order promotions, subject to the evaluation order on Promotion. */
-    "order"?: boolean;
-    /** Allow service charge promotions, subject to the evaluation order on Promotion. */
-    "service_charge"?: boolean;
-};
-/**
- * Change which promotion discount classes this promotion can combine with. Omitted classes keep
- * their current values. minProperties: 1.
- */
-export type PromotionCombinesWithPatchInput = PromotionCombinesWithPatch;
-/**
- * Which promotion discount classes this promotion can combine with. Omitted classes default to
- * true.
- */
-export type PromotionCombinesWithRequestInput = PromotionCombinesWithPatch;
-export type PromotionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type PaymentMethodActivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": WebhookPromotion;
+        "object": {
+            "card"?: CardDetails;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id": string;
+            "fingerprint"?: string;
+            "is_default": boolean;
+            "merchant_id": string;
+            "payment_method_id": string;
+            "saved_with"?: "flint" | "store" | (string & {});
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            "type": "card" | (string & {});
+            "updated_at": string;
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "fingerprint"?: ((string) | (null));
+            "is_default"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "payment_method_id"?: ((string) | (null));
+            "saved_with"?: (("flint" | "store" | (string & {})) | (null));
+            "status"?: (("pending" | "active" | "expired" | "archived" | "failed" | (string & {})) | (null));
+            "type"?: (("card" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "usage"?: (("on_session" | "off_session" | (string & {})) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "promotion.created";
+    "event_type"?: "payment_method.activated";
 }))
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": WebhookPromotion;
+        "object": {
+            "card"?: CardDetails;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id": string;
+            "fingerprint"?: string;
+            "is_default": boolean;
+            "merchant_id": string;
+            "payment_method_id": string;
+            "saved_with"?: "flint" | "store" | (string & {});
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            "type": "card" | (string & {});
+            "updated_at": string;
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "fingerprint"?: ((string) | (null));
+            "is_default"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "payment_method_id"?: ((string) | (null));
+            "saved_with"?: (("flint" | "store" | (string & {})) | (null));
+            "status"?: (("pending" | "active" | "expired" | "archived" | "failed" | (string & {})) | (null));
+            "type"?: (("card" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "usage"?: (("on_session" | "off_session" | (string & {})) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "promotion.created";
+    "event_type"?: "payment_method.activated";
     "source"?: ({
         "environment_grant_id": string;
         "merchant_id": string;
@@ -2713,26 +5131,407 @@ export type PromotionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object
     });
 })))
     & {
-    "event_type": "promotion.created";
+    "event_type": "payment_method.activated";
 });
 /**
- * The `promotion.created` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
+ * The `payment_method.activated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
  */
-export type PromotionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type PaymentMethodActivatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): {@link WebhookPromotion}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `codes`.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
+     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
+     * month and year, last four digits, and the wallet when one was used. object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+     * fields, returned in place of a customer ID when the customer is expanded.
+     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint
+     * (Optional): string. A value that is the same for every saved copy of one card number at this
+     * merchant and environment, so you can spot duplicates. It doesn't identify the card anywhere
+     * else. A card added through Apple Pay or Google Pay can have a different fingerprint from the
+     * same card typed in. object.is_default (Required): boolean. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. object.merchant_id (Required): string. ID of the merchant this resource belongs to.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string.
+     * Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
+     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
+     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
+     * string. Whether the payment method can be charged. Treat any value other than active as not
+     * chargeable, including values added later. Value enum: "pending", "active", "expired",
+     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
+     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events. previous_attributes.card (Optional): {@link CardDetailsPreviousAttributes} or null.
+     * Brand, expiry and last four digits. Present when `type` is `card`.
+     * previous_attributes.card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
+     * previous_attributes.card.anyOf[2] (Value): null. previous_attributes.created_at (Optional):
+     * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. Customer this payment
+     * method belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.fingerprint
+     * (Optional): string or null. A value that is the same for every saved copy of one card number
+     * at this merchant and environment, so you can spot duplicates. It doesn't identify the card
+     * anywhere else. A card added through Apple Pay or Google Pay can have a different fingerprint
+     * from the same card typed in. previous_attributes.fingerprint.anyOf[1] (Value): string. A
+     * value that is the same for every saved copy of one card number at this merchant and
+     * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A card
+     * added through Apple Pay or Google Pay can have a different fingerprint from the same card
+     * typed in. previous_attributes.fingerprint.anyOf[2] (Value): null.
+     * previous_attributes.is_default (Optional): boolean or null. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. previous_attributes.is_default.anyOf[1] (Value): boolean. Whether this is the
+     * customer's default payment method, the one Customer.default_payment_method_id names. Change
+     * the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a
+     * payment method event. previous_attributes.is_default.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_method_id (Optional): string or null. Unique identifier for this
+     * payment method, prefixed `pm_`. previous_attributes.payment_method_id.anyOf[1] (Value):
+     * string. Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". previous_attributes.payment_method_id.anyOf[2] (Value):
+     * null. previous_attributes.saved_with (Optional): string or null. Where the buyer saved this
+     * payment method. Returned on /v1/me/payment-methods responses when Flint wallet support is
+     * enabled. Accept future values. Value enum: "flint", "store".
+     * previous_attributes.saved_with.anyOf[1] (Value): string. Where the buyer saved this payment
+     * method. Returned on /v1/me/payment-methods responses when Flint wallet support is enabled.
+     * Accept future values. Value enum: "flint", "store". previous_attributes.saved_with.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Whether the payment
+     * method can be charged. Treat any value other than active as not chargeable, including values
+     * added later. Value enum: "pending", "active", "expired", "archived", "failed".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether the payment method can be
+     * charged. Treat any value other than active as not chargeable, including values added later.
+     * Value enum: "pending", "active", "expired", "archived", "failed".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.type (Optional):
+     * string or null. Kind of payment method. Value enum: "card".
+     * previous_attributes.type.anyOf[1] (Value): string. Kind of payment method. Value enum:
+     * "card". previous_attributes.type.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.usage (Optional):
+     * string or null. When Flint may charge the payment method. off_session payment methods can
+     * pay subscriptions, automatic invoices, and other charges without the buyer, and can be a
+     * customer's default. on_session payment methods were saved by the buyer in checkout for
+     * faster checkout at this merchant; Flint charges them only in checkouts the buyer completes
+     * and refuses them for any charge without the buyer and as a default. Payment methods saved
+     * before usage existed are off_session. Value enum: "on_session", "off_session".
+     * previous_attributes.usage.anyOf[1] (Value): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes.usage.anyOf[2] (Value): null.
      */
     "data"?: {
-        /** The resource snapshot, without expansions. Webhooks omit these fields: `codes`. */
-        "object": WebhookPromotion;
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
+         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
+         * is `card`. Card details on a payment method: brand, expiration month and year, last four
+         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
+         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
+         * (Required): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional): string. A value that is the
+         * same for every saved copy of one card number at this merchant and environment, so you
+         * can spot duplicates. It doesn't identify the card anywhere else. A card added through
+         * Apple Pay or Google Pay can have a different fingerprint from the same card typed in.
+         * is_default (Required): boolean. Whether this is the customer's default payment method,
+         * the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id (Required): string. Unique
+         * identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
+         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
+         * support is enabled. Accept future values. Value enum: "flint", "store". status
+         * (Required): string. Whether the payment method can be charged. Treat any value other
+         * than active as not chargeable, including values added later. Value enum: "pending",
+         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
+         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
+         * charge the payment method. off_session payment methods can pay subscriptions, automatic
+         * invoices, and other charges without the buyer, and can be a customer's default.
+         * on_session payment methods were saved by the buyer in checkout for faster checkout at
+         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
+         * for any charge without the buyer and as a default. Payment methods saved before usage
+         * existed are off_session. Value enum: "on_session", "off_session".
+         */
+        "object": {
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
+             * payment method: brand, expiration month and year, last four digits, and the wallet
+             * when one was used.
+             */
+            "card"?: CardDetails;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /**
+             * Customer this payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string;
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in.
+             */
+            "fingerprint"?: string;
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event.
+             */
+            "is_default": boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
+             */
+            "payment_method_id": string;
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store".
+             */
+            "saved_with"?: "flint" | "store" | (string & {});
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed".
+             */
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            /** Kind of payment method. Value enum: "card". */
+            "type": "card" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session".
+             */
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. card (Optional): {@link
+         * CardDetailsPreviousAttributes} or null. Brand, expiry and last four digits. Present when
+         * `type` is `card`. card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
+         * card.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. Customer this payment method belongs to.
+         * customer_id.anyOf[1] (Value): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. fingerprint
+         * (Optional): string or null. A value that is the same for every saved copy of one card
+         * number at this merchant and environment, so you can spot duplicates. It doesn't identify
+         * the card anywhere else. A card added through Apple Pay or Google Pay can have a
+         * different fingerprint from the same card typed in. fingerprint.anyOf[1] (Value): string.
+         * A value that is the same for every saved copy of one card number at this merchant and
+         * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A
+         * card added through Apple Pay or Google Pay can have a different fingerprint from the
+         * same card typed in. fingerprint.anyOf[2] (Value): null. is_default (Optional): boolean
+         * or null. Whether this is the customer's default payment method, the one
+         * Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * is_default.anyOf[1] (Value): boolean. Whether this is the customer's default payment
+         * method, the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * is_default.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID of the
+         * merchant this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of the
+         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. payment_method_id (Optional): string or null. Unique
+         * identifier for this payment method, prefixed `pm_`. payment_method_id.anyOf[1] (Value):
+         * string. Unique identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". payment_method_id.anyOf[2] (Value): null. saved_with
+         * (Optional): string or null. Where the buyer saved this payment method. Returned on
+         * /v1/me/payment-methods responses when Flint wallet support is enabled. Accept future
+         * values. Value enum: "flint", "store". saved_with.anyOf[1] (Value): string. Where the
+         * buyer saved this payment method. Returned on /v1/me/payment-methods responses when Flint
+         * wallet support is enabled. Accept future values. Value enum: "flint", "store".
+         * saved_with.anyOf[2] (Value): null. status (Optional): string or null. Whether the
+         * payment method can be charged. Treat any value other than active as not chargeable,
+         * including values added later. Value enum: "pending", "active", "expired", "archived",
+         * "failed". status.anyOf[1] (Value): string. Whether the payment method can be charged.
+         * Treat any value other than active as not chargeable, including values added later. Value
+         * enum: "pending", "active", "expired", "archived", "failed". status.anyOf[2] (Value):
+         * null. type (Optional): string or null. Kind of payment method. Value enum: "card".
+         * type.anyOf[1] (Value): string. Kind of payment method. Value enum: "card". type.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. usage (Optional): string or
+         * null. When Flint may charge the payment method. off_session payment methods can pay
+         * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+         * customer's default. on_session payment methods were saved by the buyer in checkout for
+         * faster checkout at this merchant; Flint charges them only in checkouts the buyer
+         * completes and refuses them for any charge without the buyer and as a default. Payment
+         * methods saved before usage existed are off_session. Value enum: "on_session",
+         * "off_session". usage.anyOf[1] (Value): string. When Flint may charge the payment method.
+         * off_session payment methods can pay subscriptions, automatic invoices, and other charges
+         * without the buyer, and can be a customer's default. on_session payment methods were
+         * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them
+         * only in checkouts the buyer completes and refuses them for any charge without the buyer
+         * and as a default. Payment methods saved before usage existed are off_session. Value
+         * enum: "on_session", "off_session". usage.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value):
+             * {@link CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * Customer this payment method belongs to. anyOf[1] (Value): string. Customer this
+             * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in. anyOf[1] (Value): string. A value that is the same for
+             * every saved copy of one card number at this merchant and environment, so you can
+             * spot duplicates. It doesn't identify the card anywhere else. A card added through
+             * Apple Pay or Google Pay can have a different fingerprint from the same card typed
+             * in. anyOf[2] (Value): null.
+             */
+            "fingerprint"?: ((string) | (null));
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event. anyOf[1] (Value): boolean. Whether this is the customer's default payment
+             * method, the one Customer.default_payment_method_id names. Change the default with
+             * PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event. anyOf[2] (Value): null.
+             */
+            "is_default"?: ((boolean) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. anyOf[1] (Value): string.
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value): null.
+             */
+            "payment_method_id"?: ((string) | (null));
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store". anyOf[1] (Value): string. Where the buyer saved this payment
+             * method. Returned on /v1/me/payment-methods responses when Flint wallet support is
+             * enabled. Accept future values. Value enum: "flint", "store". anyOf[2] (Value): null.
+             */
+            "saved_with"?: (("flint" | "store" | (string & {})) | (null));
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed". anyOf[1] (Value): string. Whether the payment
+             * method can be charged. Treat any value other than active as not chargeable,
+             * including values added later. Value enum: "pending", "active", "expired",
+             * "archived", "failed". anyOf[2] (Value): null.
+             */
+            "status"?: (("pending" | "active" | "expired" | "archived" | "failed" | (string & {})) | (null));
+            /**
+             * Kind of payment method. Value enum: "card". anyOf[1] (Value): string. Kind of
+             * payment method. Value enum: "card". anyOf[2] (Value): null.
+             */
+            "type"?: (("card" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session". anyOf[1] (Value): string. When Flint may charge the
+             * payment method. off_session payment methods can pay subscriptions, automatic
+             * invoices, and other charges without the buyer, and can be a customer's default.
+             * on_session payment methods were saved by the buyer in checkout for faster checkout
+             * at this merchant; Flint charges them only in checkouts the buyer completes and
+             * refuses them for any charge without the buyer and as a default. Payment methods
+             * saved before usage existed are off_session. Value enum: "on_session", "off_session".
+             * anyOf[2] (Value): null.
+             */
+            "usage"?: (("on_session" | "off_session" | (string & {})) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "promotion.created". */
-    "event_type"?: "promotion.created";
+    /** Value enum: "payment_method.activated". */
+    "event_type"?: "payment_method.activated";
     /**
      *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
      * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
@@ -2769,774 +5568,2940 @@ export type PromotionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
     });
 });
 /**
- * The `promotion.created` webhook payload for the `merchant` event source. Fields shared by
+ * The `payment_method.activated` webhook payload for the `merchant` event source. Fields shared by
  * merchant webhook payloads.
  */
-export type PromotionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type PaymentMethodActivatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): {@link WebhookPromotion}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `codes`.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
+     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
+     * month and year, last four digits, and the wallet when one was used. object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+     * fields, returned in place of a customer ID when the customer is expanded.
+     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint
+     * (Optional): string. A value that is the same for every saved copy of one card number at this
+     * merchant and environment, so you can spot duplicates. It doesn't identify the card anywhere
+     * else. A card added through Apple Pay or Google Pay can have a different fingerprint from the
+     * same card typed in. object.is_default (Required): boolean. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. object.merchant_id (Required): string. ID of the merchant this resource belongs to.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string.
+     * Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
+     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
+     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
+     * string. Whether the payment method can be charged. Treat any value other than active as not
+     * chargeable, including values added later. Value enum: "pending", "active", "expired",
+     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
+     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events. previous_attributes.card (Optional): {@link CardDetailsPreviousAttributes} or null.
+     * Brand, expiry and last four digits. Present when `type` is `card`.
+     * previous_attributes.card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
+     * previous_attributes.card.anyOf[2] (Value): null. previous_attributes.created_at (Optional):
+     * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. Customer this payment
+     * method belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.fingerprint
+     * (Optional): string or null. A value that is the same for every saved copy of one card number
+     * at this merchant and environment, so you can spot duplicates. It doesn't identify the card
+     * anywhere else. A card added through Apple Pay or Google Pay can have a different fingerprint
+     * from the same card typed in. previous_attributes.fingerprint.anyOf[1] (Value): string. A
+     * value that is the same for every saved copy of one card number at this merchant and
+     * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A card
+     * added through Apple Pay or Google Pay can have a different fingerprint from the same card
+     * typed in. previous_attributes.fingerprint.anyOf[2] (Value): null.
+     * previous_attributes.is_default (Optional): boolean or null. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. previous_attributes.is_default.anyOf[1] (Value): boolean. Whether this is the
+     * customer's default payment method, the one Customer.default_payment_method_id names. Change
+     * the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a
+     * payment method event. previous_attributes.is_default.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_method_id (Optional): string or null. Unique identifier for this
+     * payment method, prefixed `pm_`. previous_attributes.payment_method_id.anyOf[1] (Value):
+     * string. Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". previous_attributes.payment_method_id.anyOf[2] (Value):
+     * null. previous_attributes.saved_with (Optional): string or null. Where the buyer saved this
+     * payment method. Returned on /v1/me/payment-methods responses when Flint wallet support is
+     * enabled. Accept future values. Value enum: "flint", "store".
+     * previous_attributes.saved_with.anyOf[1] (Value): string. Where the buyer saved this payment
+     * method. Returned on /v1/me/payment-methods responses when Flint wallet support is enabled.
+     * Accept future values. Value enum: "flint", "store". previous_attributes.saved_with.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Whether the payment
+     * method can be charged. Treat any value other than active as not chargeable, including values
+     * added later. Value enum: "pending", "active", "expired", "archived", "failed".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether the payment method can be
+     * charged. Treat any value other than active as not chargeable, including values added later.
+     * Value enum: "pending", "active", "expired", "archived", "failed".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.type (Optional):
+     * string or null. Kind of payment method. Value enum: "card".
+     * previous_attributes.type.anyOf[1] (Value): string. Kind of payment method. Value enum:
+     * "card". previous_attributes.type.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.usage (Optional):
+     * string or null. When Flint may charge the payment method. off_session payment methods can
+     * pay subscriptions, automatic invoices, and other charges without the buyer, and can be a
+     * customer's default. on_session payment methods were saved by the buyer in checkout for
+     * faster checkout at this merchant; Flint charges them only in checkouts the buyer completes
+     * and refuses them for any charge without the buyer and as a default. Payment methods saved
+     * before usage existed are off_session. Value enum: "on_session", "off_session".
+     * previous_attributes.usage.anyOf[1] (Value): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes.usage.anyOf[2] (Value): null.
      */
     "data"?: {
-        /** The resource snapshot, without expansions. Webhooks omit these fields: `codes`. */
-        "object": WebhookPromotion;
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
+         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
+         * is `card`. Card details on a payment method: brand, expiration month and year, last four
+         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
+         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
+         * (Required): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional): string. A value that is the
+         * same for every saved copy of one card number at this merchant and environment, so you
+         * can spot duplicates. It doesn't identify the card anywhere else. A card added through
+         * Apple Pay or Google Pay can have a different fingerprint from the same card typed in.
+         * is_default (Required): boolean. Whether this is the customer's default payment method,
+         * the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id (Required): string. Unique
+         * identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
+         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
+         * support is enabled. Accept future values. Value enum: "flint", "store". status
+         * (Required): string. Whether the payment method can be charged. Treat any value other
+         * than active as not chargeable, including values added later. Value enum: "pending",
+         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
+         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
+         * charge the payment method. off_session payment methods can pay subscriptions, automatic
+         * invoices, and other charges without the buyer, and can be a customer's default.
+         * on_session payment methods were saved by the buyer in checkout for faster checkout at
+         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
+         * for any charge without the buyer and as a default. Payment methods saved before usage
+         * existed are off_session. Value enum: "on_session", "off_session".
+         */
+        "object": {
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
+             * payment method: brand, expiration month and year, last four digits, and the wallet
+             * when one was used.
+             */
+            "card"?: CardDetails;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /**
+             * Customer this payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string;
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in.
+             */
+            "fingerprint"?: string;
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event.
+             */
+            "is_default": boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
+             */
+            "payment_method_id": string;
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store".
+             */
+            "saved_with"?: "flint" | "store" | (string & {});
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed".
+             */
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            /** Kind of payment method. Value enum: "card". */
+            "type": "card" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session".
+             */
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. card (Optional): {@link
+         * CardDetailsPreviousAttributes} or null. Brand, expiry and last four digits. Present when
+         * `type` is `card`. card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
+         * card.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. Customer this payment method belongs to.
+         * customer_id.anyOf[1] (Value): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. fingerprint
+         * (Optional): string or null. A value that is the same for every saved copy of one card
+         * number at this merchant and environment, so you can spot duplicates. It doesn't identify
+         * the card anywhere else. A card added through Apple Pay or Google Pay can have a
+         * different fingerprint from the same card typed in. fingerprint.anyOf[1] (Value): string.
+         * A value that is the same for every saved copy of one card number at this merchant and
+         * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A
+         * card added through Apple Pay or Google Pay can have a different fingerprint from the
+         * same card typed in. fingerprint.anyOf[2] (Value): null. is_default (Optional): boolean
+         * or null. Whether this is the customer's default payment method, the one
+         * Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * is_default.anyOf[1] (Value): boolean. Whether this is the customer's default payment
+         * method, the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * is_default.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID of the
+         * merchant this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of the
+         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. payment_method_id (Optional): string or null. Unique
+         * identifier for this payment method, prefixed `pm_`. payment_method_id.anyOf[1] (Value):
+         * string. Unique identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". payment_method_id.anyOf[2] (Value): null. saved_with
+         * (Optional): string or null. Where the buyer saved this payment method. Returned on
+         * /v1/me/payment-methods responses when Flint wallet support is enabled. Accept future
+         * values. Value enum: "flint", "store". saved_with.anyOf[1] (Value): string. Where the
+         * buyer saved this payment method. Returned on /v1/me/payment-methods responses when Flint
+         * wallet support is enabled. Accept future values. Value enum: "flint", "store".
+         * saved_with.anyOf[2] (Value): null. status (Optional): string or null. Whether the
+         * payment method can be charged. Treat any value other than active as not chargeable,
+         * including values added later. Value enum: "pending", "active", "expired", "archived",
+         * "failed". status.anyOf[1] (Value): string. Whether the payment method can be charged.
+         * Treat any value other than active as not chargeable, including values added later. Value
+         * enum: "pending", "active", "expired", "archived", "failed". status.anyOf[2] (Value):
+         * null. type (Optional): string or null. Kind of payment method. Value enum: "card".
+         * type.anyOf[1] (Value): string. Kind of payment method. Value enum: "card". type.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. usage (Optional): string or
+         * null. When Flint may charge the payment method. off_session payment methods can pay
+         * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+         * customer's default. on_session payment methods were saved by the buyer in checkout for
+         * faster checkout at this merchant; Flint charges them only in checkouts the buyer
+         * completes and refuses them for any charge without the buyer and as a default. Payment
+         * methods saved before usage existed are off_session. Value enum: "on_session",
+         * "off_session". usage.anyOf[1] (Value): string. When Flint may charge the payment method.
+         * off_session payment methods can pay subscriptions, automatic invoices, and other charges
+         * without the buyer, and can be a customer's default. on_session payment methods were
+         * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them
+         * only in checkouts the buyer completes and refuses them for any charge without the buyer
+         * and as a default. Payment methods saved before usage existed are off_session. Value
+         * enum: "on_session", "off_session". usage.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value):
+             * {@link CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * Customer this payment method belongs to. anyOf[1] (Value): string. Customer this
+             * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in. anyOf[1] (Value): string. A value that is the same for
+             * every saved copy of one card number at this merchant and environment, so you can
+             * spot duplicates. It doesn't identify the card anywhere else. A card added through
+             * Apple Pay or Google Pay can have a different fingerprint from the same card typed
+             * in. anyOf[2] (Value): null.
+             */
+            "fingerprint"?: ((string) | (null));
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event. anyOf[1] (Value): boolean. Whether this is the customer's default payment
+             * method, the one Customer.default_payment_method_id names. Change the default with
+             * PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event. anyOf[2] (Value): null.
+             */
+            "is_default"?: ((boolean) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. anyOf[1] (Value): string.
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value): null.
+             */
+            "payment_method_id"?: ((string) | (null));
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store". anyOf[1] (Value): string. Where the buyer saved this payment
+             * method. Returned on /v1/me/payment-methods responses when Flint wallet support is
+             * enabled. Accept future values. Value enum: "flint", "store". anyOf[2] (Value): null.
+             */
+            "saved_with"?: (("flint" | "store" | (string & {})) | (null));
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed". anyOf[1] (Value): string. Whether the payment
+             * method can be charged. Treat any value other than active as not chargeable,
+             * including values added later. Value enum: "pending", "active", "expired",
+             * "archived", "failed". anyOf[2] (Value): null.
+             */
+            "status"?: (("pending" | "active" | "expired" | "archived" | "failed" | (string & {})) | (null));
+            /**
+             * Kind of payment method. Value enum: "card". anyOf[1] (Value): string. Kind of
+             * payment method. Value enum: "card". anyOf[2] (Value): null.
+             */
+            "type"?: (("card" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session". anyOf[1] (Value): string. When Flint may charge the
+             * payment method. off_session payment methods can pay subscriptions, automatic
+             * invoices, and other charges without the buyer, and can be a customer's default.
+             * on_session payment methods were saved by the buyer in checkout for faster checkout
+             * at this merchant; Flint charges them only in checkouts the buyer completes and
+             * refuses them for any charge without the buyer and as a default. Payment methods
+             * saved before usage existed are off_session. Value enum: "on_session", "off_session".
+             * anyOf[2] (Value): null.
+             */
+            "usage"?: (("on_session" | "off_session" | (string & {})) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
-    /** Value enum: "promotion.created". */
-    "event_type"?: "promotion.created";
+    /** Value enum: "payment_method.activated". */
+    "event_type"?: "payment_method.activated";
 });
-/** Only one promotion in an exclusivity group continues. See Promotion for the evaluation order. */
-export type PromotionExclusivity = {
-    /**
-     * Exact, case-sensitive group name, 1 to 100 characters after trimming. minLength: 1.
-     * maxLength: 100.
-     */
-    "group": string;
-    /**
-     * Higher priority wins. Equal priorities favor the larger standalone discount, then the
-     * earlier created_at, then the lower promotion_id. Format: int32. Default: 0.
-     */
-    "priority": number;
-};
+export type PaymentMethodArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "card"?: CardDetails;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id": string;
+            "fingerprint"?: string;
+            "is_default": boolean;
+            "merchant_id": string;
+            "payment_method_id": string;
+            "saved_with"?: "flint" | "store" | (string & {});
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            "type": "card" | (string & {});
+            "updated_at": string;
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "fingerprint"?: ((string) | (null));
+            "is_default"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "payment_method_id"?: ((string) | (null));
+            "saved_with"?: (("flint" | "store" | (string & {})) | (null));
+            "status"?: (("pending" | "active" | "expired" | "archived" | "failed" | (string & {})) | (null));
+            "type"?: (("card" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "usage"?: (("on_session" | "off_session" | (string & {})) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "payment_method.archived";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "card"?: CardDetails;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id": string;
+            "fingerprint"?: string;
+            "is_default": boolean;
+            "merchant_id": string;
+            "payment_method_id": string;
+            "saved_with"?: "flint" | "store" | (string & {});
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            "type": "card" | (string & {});
+            "updated_at": string;
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "fingerprint"?: ((string) | (null));
+            "is_default"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "payment_method_id"?: ((string) | (null));
+            "saved_with"?: (("flint" | "store" | (string & {})) | (null));
+            "status"?: (("pending" | "active" | "expired" | "archived" | "failed" | (string & {})) | (null));
+            "type"?: (("card" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "usage"?: (("on_session" | "off_session" | (string & {})) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "payment_method.archived";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "payment_method.archived";
+});
 /**
- * Send only fields to change. Omitted fields keep their stored values. Send priority 0 to reset
- * it. An empty object is invalid. minProperties: 1.
+ * The `payment_method.archived` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
  */
-export type PromotionExclusivityPatch = {
+export type PaymentMethodArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Exact, case-sensitive group name, 1 to 100 characters after trimming. minLength: 1.
-     * maxLength: 100.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
+     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
+     * month and year, last four digits, and the wallet when one was used. object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+     * fields, returned in place of a customer ID when the customer is expanded.
+     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint
+     * (Optional): string. A value that is the same for every saved copy of one card number at this
+     * merchant and environment, so you can spot duplicates. It doesn't identify the card anywhere
+     * else. A card added through Apple Pay or Google Pay can have a different fingerprint from the
+     * same card typed in. object.is_default (Required): boolean. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. object.merchant_id (Required): string. ID of the merchant this resource belongs to.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string.
+     * Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
+     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
+     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
+     * string. Whether the payment method can be charged. Treat any value other than active as not
+     * chargeable, including values added later. Value enum: "pending", "active", "expired",
+     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
+     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events. previous_attributes.card (Optional): {@link CardDetailsPreviousAttributes} or null.
+     * Brand, expiry and last four digits. Present when `type` is `card`.
+     * previous_attributes.card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
+     * previous_attributes.card.anyOf[2] (Value): null. previous_attributes.created_at (Optional):
+     * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. Customer this payment
+     * method belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.fingerprint
+     * (Optional): string or null. A value that is the same for every saved copy of one card number
+     * at this merchant and environment, so you can spot duplicates. It doesn't identify the card
+     * anywhere else. A card added through Apple Pay or Google Pay can have a different fingerprint
+     * from the same card typed in. previous_attributes.fingerprint.anyOf[1] (Value): string. A
+     * value that is the same for every saved copy of one card number at this merchant and
+     * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A card
+     * added through Apple Pay or Google Pay can have a different fingerprint from the same card
+     * typed in. previous_attributes.fingerprint.anyOf[2] (Value): null.
+     * previous_attributes.is_default (Optional): boolean or null. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. previous_attributes.is_default.anyOf[1] (Value): boolean. Whether this is the
+     * customer's default payment method, the one Customer.default_payment_method_id names. Change
+     * the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a
+     * payment method event. previous_attributes.is_default.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_method_id (Optional): string or null. Unique identifier for this
+     * payment method, prefixed `pm_`. previous_attributes.payment_method_id.anyOf[1] (Value):
+     * string. Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". previous_attributes.payment_method_id.anyOf[2] (Value):
+     * null. previous_attributes.saved_with (Optional): string or null. Where the buyer saved this
+     * payment method. Returned on /v1/me/payment-methods responses when Flint wallet support is
+     * enabled. Accept future values. Value enum: "flint", "store".
+     * previous_attributes.saved_with.anyOf[1] (Value): string. Where the buyer saved this payment
+     * method. Returned on /v1/me/payment-methods responses when Flint wallet support is enabled.
+     * Accept future values. Value enum: "flint", "store". previous_attributes.saved_with.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Whether the payment
+     * method can be charged. Treat any value other than active as not chargeable, including values
+     * added later. Value enum: "pending", "active", "expired", "archived", "failed".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether the payment method can be
+     * charged. Treat any value other than active as not chargeable, including values added later.
+     * Value enum: "pending", "active", "expired", "archived", "failed".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.type (Optional):
+     * string or null. Kind of payment method. Value enum: "card".
+     * previous_attributes.type.anyOf[1] (Value): string. Kind of payment method. Value enum:
+     * "card". previous_attributes.type.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.usage (Optional):
+     * string or null. When Flint may charge the payment method. off_session payment methods can
+     * pay subscriptions, automatic invoices, and other charges without the buyer, and can be a
+     * customer's default. on_session payment methods were saved by the buyer in checkout for
+     * faster checkout at this merchant; Flint charges them only in checkouts the buyer completes
+     * and refuses them for any charge without the buyer and as a default. Payment methods saved
+     * before usage existed are off_session. Value enum: "on_session", "off_session".
+     * previous_attributes.usage.anyOf[1] (Value): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes.usage.anyOf[2] (Value): null.
      */
-    "group"?: string;
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
+         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
+         * is `card`. Card details on a payment method: brand, expiration month and year, last four
+         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
+         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
+         * (Required): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional): string. A value that is the
+         * same for every saved copy of one card number at this merchant and environment, so you
+         * can spot duplicates. It doesn't identify the card anywhere else. A card added through
+         * Apple Pay or Google Pay can have a different fingerprint from the same card typed in.
+         * is_default (Required): boolean. Whether this is the customer's default payment method,
+         * the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id (Required): string. Unique
+         * identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
+         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
+         * support is enabled. Accept future values. Value enum: "flint", "store". status
+         * (Required): string. Whether the payment method can be charged. Treat any value other
+         * than active as not chargeable, including values added later. Value enum: "pending",
+         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
+         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
+         * charge the payment method. off_session payment methods can pay subscriptions, automatic
+         * invoices, and other charges without the buyer, and can be a customer's default.
+         * on_session payment methods were saved by the buyer in checkout for faster checkout at
+         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
+         * for any charge without the buyer and as a default. Payment methods saved before usage
+         * existed are off_session. Value enum: "on_session", "off_session".
+         */
+        "object": {
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
+             * payment method: brand, expiration month and year, last four digits, and the wallet
+             * when one was used.
+             */
+            "card"?: CardDetails;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /**
+             * Customer this payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string;
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in.
+             */
+            "fingerprint"?: string;
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event.
+             */
+            "is_default": boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
+             */
+            "payment_method_id": string;
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store".
+             */
+            "saved_with"?: "flint" | "store" | (string & {});
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed".
+             */
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            /** Kind of payment method. Value enum: "card". */
+            "type": "card" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session".
+             */
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. card (Optional): {@link
+         * CardDetailsPreviousAttributes} or null. Brand, expiry and last four digits. Present when
+         * `type` is `card`. card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
+         * card.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. Customer this payment method belongs to.
+         * customer_id.anyOf[1] (Value): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. fingerprint
+         * (Optional): string or null. A value that is the same for every saved copy of one card
+         * number at this merchant and environment, so you can spot duplicates. It doesn't identify
+         * the card anywhere else. A card added through Apple Pay or Google Pay can have a
+         * different fingerprint from the same card typed in. fingerprint.anyOf[1] (Value): string.
+         * A value that is the same for every saved copy of one card number at this merchant and
+         * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A
+         * card added through Apple Pay or Google Pay can have a different fingerprint from the
+         * same card typed in. fingerprint.anyOf[2] (Value): null. is_default (Optional): boolean
+         * or null. Whether this is the customer's default payment method, the one
+         * Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * is_default.anyOf[1] (Value): boolean. Whether this is the customer's default payment
+         * method, the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * is_default.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID of the
+         * merchant this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of the
+         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. payment_method_id (Optional): string or null. Unique
+         * identifier for this payment method, prefixed `pm_`. payment_method_id.anyOf[1] (Value):
+         * string. Unique identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". payment_method_id.anyOf[2] (Value): null. saved_with
+         * (Optional): string or null. Where the buyer saved this payment method. Returned on
+         * /v1/me/payment-methods responses when Flint wallet support is enabled. Accept future
+         * values. Value enum: "flint", "store". saved_with.anyOf[1] (Value): string. Where the
+         * buyer saved this payment method. Returned on /v1/me/payment-methods responses when Flint
+         * wallet support is enabled. Accept future values. Value enum: "flint", "store".
+         * saved_with.anyOf[2] (Value): null. status (Optional): string or null. Whether the
+         * payment method can be charged. Treat any value other than active as not chargeable,
+         * including values added later. Value enum: "pending", "active", "expired", "archived",
+         * "failed". status.anyOf[1] (Value): string. Whether the payment method can be charged.
+         * Treat any value other than active as not chargeable, including values added later. Value
+         * enum: "pending", "active", "expired", "archived", "failed". status.anyOf[2] (Value):
+         * null. type (Optional): string or null. Kind of payment method. Value enum: "card".
+         * type.anyOf[1] (Value): string. Kind of payment method. Value enum: "card". type.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. usage (Optional): string or
+         * null. When Flint may charge the payment method. off_session payment methods can pay
+         * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+         * customer's default. on_session payment methods were saved by the buyer in checkout for
+         * faster checkout at this merchant; Flint charges them only in checkouts the buyer
+         * completes and refuses them for any charge without the buyer and as a default. Payment
+         * methods saved before usage existed are off_session. Value enum: "on_session",
+         * "off_session". usage.anyOf[1] (Value): string. When Flint may charge the payment method.
+         * off_session payment methods can pay subscriptions, automatic invoices, and other charges
+         * without the buyer, and can be a customer's default. on_session payment methods were
+         * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them
+         * only in checkouts the buyer completes and refuses them for any charge without the buyer
+         * and as a default. Payment methods saved before usage existed are off_session. Value
+         * enum: "on_session", "off_session". usage.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value):
+             * {@link CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * Customer this payment method belongs to. anyOf[1] (Value): string. Customer this
+             * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in. anyOf[1] (Value): string. A value that is the same for
+             * every saved copy of one card number at this merchant and environment, so you can
+             * spot duplicates. It doesn't identify the card anywhere else. A card added through
+             * Apple Pay or Google Pay can have a different fingerprint from the same card typed
+             * in. anyOf[2] (Value): null.
+             */
+            "fingerprint"?: ((string) | (null));
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event. anyOf[1] (Value): boolean. Whether this is the customer's default payment
+             * method, the one Customer.default_payment_method_id names. Change the default with
+             * PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event. anyOf[2] (Value): null.
+             */
+            "is_default"?: ((boolean) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. anyOf[1] (Value): string.
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value): null.
+             */
+            "payment_method_id"?: ((string) | (null));
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store". anyOf[1] (Value): string. Where the buyer saved this payment
+             * method. Returned on /v1/me/payment-methods responses when Flint wallet support is
+             * enabled. Accept future values. Value enum: "flint", "store". anyOf[2] (Value): null.
+             */
+            "saved_with"?: (("flint" | "store" | (string & {})) | (null));
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed". anyOf[1] (Value): string. Whether the payment
+             * method can be charged. Treat any value other than active as not chargeable,
+             * including values added later. Value enum: "pending", "active", "expired",
+             * "archived", "failed". anyOf[2] (Value): null.
+             */
+            "status"?: (("pending" | "active" | "expired" | "archived" | "failed" | (string & {})) | (null));
+            /**
+             * Kind of payment method. Value enum: "card". anyOf[1] (Value): string. Kind of
+             * payment method. Value enum: "card". anyOf[2] (Value): null.
+             */
+            "type"?: (("card" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session". anyOf[1] (Value): string. When Flint may charge the
+             * payment method. off_session payment methods can pay subscriptions, automatic
+             * invoices, and other charges without the buyer, and can be a customer's default.
+             * on_session payment methods were saved by the buyer in checkout for faster checkout
+             * at this merchant; Flint charges them only in checkouts the buyer completes and
+             * refuses them for any charge without the buyer and as a default. Payment methods
+             * saved before usage existed are off_session. Value enum: "on_session", "off_session".
+             * anyOf[2] (Value): null.
+             */
+            "usage"?: (("on_session" | "off_session" | (string & {})) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "payment_method.archived". */
+    "event_type"?: "payment_method.archived";
     /**
-     * Higher priority wins. Equal priorities favor the larger standalone discount, then the
-     * earlier created_at, then the lower promotion_id. Format: int32. Default: 0.
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
      */
-    "priority"?: number;
-};
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
 /**
- * Send only fields to change. Omitted fields keep their stored values. Send priority 0 to reset
- * it. An empty object is invalid. minProperties: 1.
+ * The `payment_method.archived` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
  */
-export type PromotionExclusivityPatchInput = PromotionExclusivityPatch;
-/** Only one promotion in an exclusivity group continues. See Promotion for the evaluation order. */
-export type PromotionExclusivityRequest = {
+export type PaymentMethodArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Exact, case-sensitive group name, 1 to 100 characters after trimming. minLength: 1.
-     * maxLength: 100.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
+     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
+     * month and year, last four digits, and the wallet when one was used. object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+     * fields, returned in place of a customer ID when the customer is expanded.
+     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint
+     * (Optional): string. A value that is the same for every saved copy of one card number at this
+     * merchant and environment, so you can spot duplicates. It doesn't identify the card anywhere
+     * else. A card added through Apple Pay or Google Pay can have a different fingerprint from the
+     * same card typed in. object.is_default (Required): boolean. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. object.merchant_id (Required): string. ID of the merchant this resource belongs to.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string.
+     * Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
+     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
+     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
+     * string. Whether the payment method can be charged. Treat any value other than active as not
+     * chargeable, including values added later. Value enum: "pending", "active", "expired",
+     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
+     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events. previous_attributes.card (Optional): {@link CardDetailsPreviousAttributes} or null.
+     * Brand, expiry and last four digits. Present when `type` is `card`.
+     * previous_attributes.card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
+     * previous_attributes.card.anyOf[2] (Value): null. previous_attributes.created_at (Optional):
+     * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. Customer this payment
+     * method belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.fingerprint
+     * (Optional): string or null. A value that is the same for every saved copy of one card number
+     * at this merchant and environment, so you can spot duplicates. It doesn't identify the card
+     * anywhere else. A card added through Apple Pay or Google Pay can have a different fingerprint
+     * from the same card typed in. previous_attributes.fingerprint.anyOf[1] (Value): string. A
+     * value that is the same for every saved copy of one card number at this merchant and
+     * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A card
+     * added through Apple Pay or Google Pay can have a different fingerprint from the same card
+     * typed in. previous_attributes.fingerprint.anyOf[2] (Value): null.
+     * previous_attributes.is_default (Optional): boolean or null. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. previous_attributes.is_default.anyOf[1] (Value): boolean. Whether this is the
+     * customer's default payment method, the one Customer.default_payment_method_id names. Change
+     * the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a
+     * payment method event. previous_attributes.is_default.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_method_id (Optional): string or null. Unique identifier for this
+     * payment method, prefixed `pm_`. previous_attributes.payment_method_id.anyOf[1] (Value):
+     * string. Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". previous_attributes.payment_method_id.anyOf[2] (Value):
+     * null. previous_attributes.saved_with (Optional): string or null. Where the buyer saved this
+     * payment method. Returned on /v1/me/payment-methods responses when Flint wallet support is
+     * enabled. Accept future values. Value enum: "flint", "store".
+     * previous_attributes.saved_with.anyOf[1] (Value): string. Where the buyer saved this payment
+     * method. Returned on /v1/me/payment-methods responses when Flint wallet support is enabled.
+     * Accept future values. Value enum: "flint", "store". previous_attributes.saved_with.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Whether the payment
+     * method can be charged. Treat any value other than active as not chargeable, including values
+     * added later. Value enum: "pending", "active", "expired", "archived", "failed".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether the payment method can be
+     * charged. Treat any value other than active as not chargeable, including values added later.
+     * Value enum: "pending", "active", "expired", "archived", "failed".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.type (Optional):
+     * string or null. Kind of payment method. Value enum: "card".
+     * previous_attributes.type.anyOf[1] (Value): string. Kind of payment method. Value enum:
+     * "card". previous_attributes.type.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.usage (Optional):
+     * string or null. When Flint may charge the payment method. off_session payment methods can
+     * pay subscriptions, automatic invoices, and other charges without the buyer, and can be a
+     * customer's default. on_session payment methods were saved by the buyer in checkout for
+     * faster checkout at this merchant; Flint charges them only in checkouts the buyer completes
+     * and refuses them for any charge without the buyer and as a default. Payment methods saved
+     * before usage existed are off_session. Value enum: "on_session", "off_session".
+     * previous_attributes.usage.anyOf[1] (Value): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes.usage.anyOf[2] (Value): null.
      */
-    "group": string;
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
+         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
+         * is `card`. Card details on a payment method: brand, expiration month and year, last four
+         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
+         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
+         * (Required): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional): string. A value that is the
+         * same for every saved copy of one card number at this merchant and environment, so you
+         * can spot duplicates. It doesn't identify the card anywhere else. A card added through
+         * Apple Pay or Google Pay can have a different fingerprint from the same card typed in.
+         * is_default (Required): boolean. Whether this is the customer's default payment method,
+         * the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id (Required): string. Unique
+         * identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
+         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
+         * support is enabled. Accept future values. Value enum: "flint", "store". status
+         * (Required): string. Whether the payment method can be charged. Treat any value other
+         * than active as not chargeable, including values added later. Value enum: "pending",
+         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
+         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
+         * charge the payment method. off_session payment methods can pay subscriptions, automatic
+         * invoices, and other charges without the buyer, and can be a customer's default.
+         * on_session payment methods were saved by the buyer in checkout for faster checkout at
+         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
+         * for any charge without the buyer and as a default. Payment methods saved before usage
+         * existed are off_session. Value enum: "on_session", "off_session".
+         */
+        "object": {
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
+             * payment method: brand, expiration month and year, last four digits, and the wallet
+             * when one was used.
+             */
+            "card"?: CardDetails;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /**
+             * Customer this payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string;
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in.
+             */
+            "fingerprint"?: string;
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event.
+             */
+            "is_default": boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
+             */
+            "payment_method_id": string;
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store".
+             */
+            "saved_with"?: "flint" | "store" | (string & {});
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed".
+             */
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            /** Kind of payment method. Value enum: "card". */
+            "type": "card" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session".
+             */
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. card (Optional): {@link
+         * CardDetailsPreviousAttributes} or null. Brand, expiry and last four digits. Present when
+         * `type` is `card`. card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
+         * card.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. Customer this payment method belongs to.
+         * customer_id.anyOf[1] (Value): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. fingerprint
+         * (Optional): string or null. A value that is the same for every saved copy of one card
+         * number at this merchant and environment, so you can spot duplicates. It doesn't identify
+         * the card anywhere else. A card added through Apple Pay or Google Pay can have a
+         * different fingerprint from the same card typed in. fingerprint.anyOf[1] (Value): string.
+         * A value that is the same for every saved copy of one card number at this merchant and
+         * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A
+         * card added through Apple Pay or Google Pay can have a different fingerprint from the
+         * same card typed in. fingerprint.anyOf[2] (Value): null. is_default (Optional): boolean
+         * or null. Whether this is the customer's default payment method, the one
+         * Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * is_default.anyOf[1] (Value): boolean. Whether this is the customer's default payment
+         * method, the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * is_default.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID of the
+         * merchant this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of the
+         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. payment_method_id (Optional): string or null. Unique
+         * identifier for this payment method, prefixed `pm_`. payment_method_id.anyOf[1] (Value):
+         * string. Unique identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". payment_method_id.anyOf[2] (Value): null. saved_with
+         * (Optional): string or null. Where the buyer saved this payment method. Returned on
+         * /v1/me/payment-methods responses when Flint wallet support is enabled. Accept future
+         * values. Value enum: "flint", "store". saved_with.anyOf[1] (Value): string. Where the
+         * buyer saved this payment method. Returned on /v1/me/payment-methods responses when Flint
+         * wallet support is enabled. Accept future values. Value enum: "flint", "store".
+         * saved_with.anyOf[2] (Value): null. status (Optional): string or null. Whether the
+         * payment method can be charged. Treat any value other than active as not chargeable,
+         * including values added later. Value enum: "pending", "active", "expired", "archived",
+         * "failed". status.anyOf[1] (Value): string. Whether the payment method can be charged.
+         * Treat any value other than active as not chargeable, including values added later. Value
+         * enum: "pending", "active", "expired", "archived", "failed". status.anyOf[2] (Value):
+         * null. type (Optional): string or null. Kind of payment method. Value enum: "card".
+         * type.anyOf[1] (Value): string. Kind of payment method. Value enum: "card". type.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. usage (Optional): string or
+         * null. When Flint may charge the payment method. off_session payment methods can pay
+         * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+         * customer's default. on_session payment methods were saved by the buyer in checkout for
+         * faster checkout at this merchant; Flint charges them only in checkouts the buyer
+         * completes and refuses them for any charge without the buyer and as a default. Payment
+         * methods saved before usage existed are off_session. Value enum: "on_session",
+         * "off_session". usage.anyOf[1] (Value): string. When Flint may charge the payment method.
+         * off_session payment methods can pay subscriptions, automatic invoices, and other charges
+         * without the buyer, and can be a customer's default. on_session payment methods were
+         * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them
+         * only in checkouts the buyer completes and refuses them for any charge without the buyer
+         * and as a default. Payment methods saved before usage existed are off_session. Value
+         * enum: "on_session", "off_session". usage.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value):
+             * {@link CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * Customer this payment method belongs to. anyOf[1] (Value): string. Customer this
+             * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in. anyOf[1] (Value): string. A value that is the same for
+             * every saved copy of one card number at this merchant and environment, so you can
+             * spot duplicates. It doesn't identify the card anywhere else. A card added through
+             * Apple Pay or Google Pay can have a different fingerprint from the same card typed
+             * in. anyOf[2] (Value): null.
+             */
+            "fingerprint"?: ((string) | (null));
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event. anyOf[1] (Value): boolean. Whether this is the customer's default payment
+             * method, the one Customer.default_payment_method_id names. Change the default with
+             * PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event. anyOf[2] (Value): null.
+             */
+            "is_default"?: ((boolean) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. anyOf[1] (Value): string.
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value): null.
+             */
+            "payment_method_id"?: ((string) | (null));
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store". anyOf[1] (Value): string. Where the buyer saved this payment
+             * method. Returned on /v1/me/payment-methods responses when Flint wallet support is
+             * enabled. Accept future values. Value enum: "flint", "store". anyOf[2] (Value): null.
+             */
+            "saved_with"?: (("flint" | "store" | (string & {})) | (null));
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed". anyOf[1] (Value): string. Whether the payment
+             * method can be charged. Treat any value other than active as not chargeable,
+             * including values added later. Value enum: "pending", "active", "expired",
+             * "archived", "failed". anyOf[2] (Value): null.
+             */
+            "status"?: (("pending" | "active" | "expired" | "archived" | "failed" | (string & {})) | (null));
+            /**
+             * Kind of payment method. Value enum: "card". anyOf[1] (Value): string. Kind of
+             * payment method. Value enum: "card". anyOf[2] (Value): null.
+             */
+            "type"?: (("card" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session". anyOf[1] (Value): string. When Flint may charge the
+             * payment method. off_session payment methods can pay subscriptions, automatic
+             * invoices, and other charges without the buyer, and can be a customer's default.
+             * on_session payment methods were saved by the buyer in checkout for faster checkout
+             * at this merchant; Flint charges them only in checkouts the buyer completes and
+             * refuses them for any charge without the buyer and as a default. Payment methods
+             * saved before usage existed are off_session. Value enum: "on_session", "off_session".
+             * anyOf[2] (Value): null.
+             */
+            "usage"?: (("on_session" | "off_session" | (string & {})) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "payment_method.archived". */
+    "event_type"?: "payment_method.archived";
+});
+/** A domain registered for browser payment methods. */
+export type PaymentMethodDomain = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
     /**
-     * Higher priority wins. Equal priorities favor the larger standalone discount, then the
-     * earlier created_at, then the lower promotion_id. Format: int32. Default: 0.
+     * The registered hostname, trimmed and lowercased. ASCII only, at least two labels, each up to
+     * 63 characters, 253 characters in total; no scheme, path, port, IP address, or wildcard.
      */
-    "priority"?: number;
+    "domain_name": string;
+    /**
+     * Flint payment method domain ID, starting with pmdom_. Example:
+     * "pmdom_01KEZF7C001WQCSRGH9GWR6628".
+     */
+    "payment_method_domain_id": string;
+    /**
+     * Availability and validation status of each payment option on this domain. [] (Value): {@link
+     * PaymentMethodDomainPaymentOptionStatus}. Whether a wallet payment option, Apple Pay or
+     * Google Pay, is active, inactive, or unavailable for a payment method domain.
+     */
+    "payment_option_statuses": Array<PaymentMethodDomainPaymentOptionStatus>;
+    /**
+     * Whether wallet buttons are on for the hostname. Change it with `PATCH`. Value enum:
+     * "active", "inactive".
+     */
+    "status": "active" | "inactive" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Whether the hostname passed the checks wallets need, summarizing `payment_option_statuses`.
+     * Value enum: "active", "action_required", "unavailable".
+     */
+    "validation_status": "active" | "action_required" | "unavailable" | (string & {});
+    /**
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. Format: uint64. minimum: 1.
+     */
+    "version": number;
 };
-/** Only one promotion in an exclusivity group continues. See Promotion for the evaluation order. */
-export type PromotionExclusivityRequestInput = PromotionExclusivityRequest;
-/** A page of `Promotion` objects. */
-export type PromotionListResponse = {
+/** A page of `PaymentMethodDomain` objects. */
+export type PaymentMethodDomainListResponse = {
     /**
-     * Promotions returned in the requested sort order. [] (Value): {@link Promotion}. Promotion
-     * evaluation order: manual discounts stay, do not count toward the cap, and are ignored by
-     * combines_with. Frozen subscription-term promotions are admitted first and are exempt from
-     * exclusivity, combines_with, and the cap. Candidates include codes being applied, existing
-     * promotion discounts, and qualifying automatic promotions. Each exclusivity group keeps its
-     * highest-priority member, then the larger standalone discount, earlier created_at, and lower
-     * promotion_id. Remaining candidates rank by standalone discount, then earlier created_at and
-     * lower promotion_id; each is admitted unless max_promotions_per_order is reached or both
-     * promotions do not allow each other's discount class. Admitted promotions price line item
-     * first, then order, then service charge. A zero-value promotion is dropped and selection runs
-     * again.
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * PaymentMethodDomain}. A domain registered for browser payment methods.
      */
-    "data": Array<Promotion>;
+    "data": Array<PaymentMethodDomain>;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
-    /** Token for the next page. Omitted when there are no more results. */
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
     "next_page_token"?: string;
     /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
-/** The `percent_off` variant of `PromotionApplicationMethod`. */
-export type PromotionPercentOffMethod = {
-    /**
-     * How the effect is applied across the matched items or charges. each applies the effect to
-     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
-     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
-     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
-     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
-     * is taken from the combined subtotal. For percent_off the two produce the same total and
-     * differ only in how the discount is attributed to individual line items; for amount_off they
-     * differ by the number of matched items, so set it deliberately. Defaults to each for
-     * line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across" | (string & {});
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
-     * "subtotal_pre_tax", "subtotal_post_tax".
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | (string & {});
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "discounted_item_rules"?: PromotionRuleGroup;
-    /**
-     * Maximum number of matched units that receive the discount. Only valid when type is
-     * percent_off, and requires allocation each. Sending it with amount_off or buy_x_get_y returns
-     * `400 INVALID_REQUEST` naming this field. Whole-number quantity; fractional quantities are
-     * not supported. Flint discounts the first matched units in line-item order (the order items
-     * were added), not the cheapest. Format: int32. minimum: 1.
-     */
-    "max_discounted_quantity"?: number;
-    /** Percentage to discount, from 1 to 100. minimum: 1. maximum: 100. multipleOf: 0.0001. */
-    "percent_off": number;
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
-     * subscription: once, for a number of charged payments, or forever.
-     */
-    "recurrence"?: PromotionRecurrence;
-    /**
-     * Selects the percent_off discount effect and its allowed fields. Value enum: "percent_off".
-     */
-    "type": "percent_off" | (string & {});
-};
-/** The `percent_off` variant of `PromotionApplicationMethodInput`. */
-export type PromotionPercentOffMethodRequest = {
-    /**
-     * How the effect is applied across the matched items or charges. each applies the effect to
-     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
-     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
-     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
-     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
-     * is taken from the combined subtotal. For percent_off the two produce the same total and
-     * differ only in how the discount is attributed to individual line items; for amount_off they
-     * differ by the number of matched items, so set it deliberately. Defaults to each for
-     * line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across" | (string & {});
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
-     * "subtotal_pre_tax", "subtotal_post_tax".
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | (string & {});
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "discounted_item_rules"?: PromotionRuleGroupRequest;
-    /**
-     * Maximum number of matched units that receive the discount. Only valid when type is
-     * percent_off, and requires allocation each. Sending it with amount_off or buy_x_get_y returns
-     * `400 INVALID_REQUEST` naming this field. Whole-number quantity; fractional quantities are
-     * not supported. Flint discounts the first matched units in line-item order (the order items
-     * were added), not the cheapest. Format: int32. minimum: 1.
-     */
-    "max_discounted_quantity"?: number;
-    /** Percentage to discount, from 1 to 100. minimum: 1. maximum: 100. multipleOf: 0.0001. */
-    "percent_off": number;
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
-     * subscription: once, for a number of charged payments, or forever.
-     */
-    "recurrence"?: PromotionRecurrence;
-    /**
-     * Selects the percent_off discount effect and its allowed fields. Value enum: "percent_off".
-     */
-    "type": "percent_off" | (string & {});
-};
-/** The `percent_off` variant of `PromotionApplicationMethodInput`. */
-export type PromotionPercentOffMethodRequestInput = {
-    /**
-     * How the effect is applied across the matched items or charges. each applies the effect to
-     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
-     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
-     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
-     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
-     * is taken from the combined subtotal. For percent_off the two produce the same total and
-     * differ only in how the discount is attributed to individual line items; for amount_off they
-     * differ by the number of matched items, so set it deliberately. Defaults to each for
-     * line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across";
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
-     * "subtotal_pre_tax", "subtotal_post_tax".
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax";
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "discounted_item_rules"?: PromotionRuleGroupRequestInput;
-    /**
-     * Maximum number of matched units that receive the discount. Only valid when type is
-     * percent_off, and requires allocation each. Sending it with amount_off or buy_x_get_y returns
-     * `400 INVALID_REQUEST` naming this field. Whole-number quantity; fractional quantities are
-     * not supported. Flint discounts the first matched units in line-item order (the order items
-     * were added), not the cheapest. Format: int32. minimum: 1.
-     */
-    "max_discounted_quantity"?: number;
-    /** Percentage to discount, from 1 to 100. minimum: 1. maximum: 100. multipleOf: 0.0001. */
-    "percent_off": number;
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
-     * subscription: once, for a number of charged payments, or forever.
-     */
-    "recurrence"?: PromotionRecurrenceRequestInput;
-    /**
-     * Selects the percent_off discount effect and its allowed fields. Value enum: "percent_off".
-     */
-    "type": "percent_off";
-};
 /**
- * How often a promotion's discount repeats on a subscription: once, for a number of charged
- * payments, or forever.
+ * Whether a wallet payment option, Apple Pay or Google Pay, is active, inactive, or unavailable
+ * for a payment method domain.
  */
-export type PromotionRecurrence = ({
+export type PaymentMethodDomainPaymentOptionStatus = {
+    /** The wallet this status is for. Value enum: "apple_pay", "google_pay". */
+    "payment_option": "apple_pay" | "google_pay" | (string & {});
     /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
+     * Whether this wallet's button can show on the hostname. Value enum: "active", "inactive",
+     * "unavailable".
      */
-    "period_count"?: number;
+    "status": "active" | "inactive" | "unavailable" | (string & {});
+};
+/** A response containing `PaymentMethodDomain` data. */
+export type PaymentMethodDomainResponse = {
     /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum: "once",
-     * "repeating", "forever".
+     * Resource, collection, or operation result returned by this request. A domain registered for
+     * browser payment methods.
      */
-    "type": "once" | "repeating" | "forever" | (string & {});
-})
-    & ((Exclude<PromotionRecurrenceOnce & object, readonly unknown[]>)
-    | (Exclude<PromotionRecurrenceRepeating & object, readonly unknown[]>)
-    | (Exclude<PromotionRecurrenceForever & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The `forever` variant of `PromotionRecurrence`. */
-export type PromotionRecurrenceForever = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count"?: number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum:
-     * "forever".
-     */
-    "type": "forever" | (string & {});
-})
-    & (({
-    /** Apply the promotion to every charged subscription payment. Value enum: "forever". */
-    "type": unknown;
-}));
-/** The `forever` variant of `PromotionRecurrence`. */
-export type PromotionRecurrenceForeverRequestInput = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count"?: number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum:
-     * "forever".
-     */
-    "type": "forever";
-})
-    & (({
-    /** Apply the promotion to every charged subscription payment. Value enum: "forever". */
-    "type": ("forever") & ("forever");
-})
-    & ({
-    "period_count"?: never;
-}));
-/** The `once` variant of `PromotionRecurrence`. */
-export type PromotionRecurrenceOnce = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count"?: number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum: "once".
-     */
-    "type": "once" | (string & {});
-})
-    & (({
-    /** Apply the promotion to the first charged subscription payment. Value enum: "once". */
-    "type": unknown;
-}));
-/** The `once` variant of `PromotionRecurrence`. */
-export type PromotionRecurrenceOnceRequestInput = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count"?: number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum: "once".
-     */
-    "type": "once";
-})
-    & (({
-    /** Apply the promotion to the first charged subscription payment. Value enum: "once". */
-    "type": ("once") & ("once");
-})
-    & ({
-    "period_count"?: never;
-}));
-/** The `repeating` variant of `PromotionRecurrence`. */
-export type PromotionRecurrenceRepeating = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count": number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum:
-     * "repeating".
-     */
-    "type": "repeating" | (string & {});
-})
-    & ({
-    /**
-     * Apply the promotion to period_count charged subscription payments. Value enum: "repeating".
-     */
-    "type": unknown;
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count": number;
-});
-/** The `repeating` variant of `PromotionRecurrence`. */
-export type PromotionRecurrenceRepeatingRequestInput = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count": number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum:
-     * "repeating".
-     */
-    "type": "repeating";
-})
-    & ({
-    /**
-     * Apply the promotion to period_count charged subscription payments. Value enum: "repeating".
-     */
-    "type": ("repeating") & ("repeating");
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count": number;
-});
-/**
- * How often a promotion's discount repeats on a subscription: once, for a number of charged
- * payments, or forever.
- */
-export type PromotionRecurrenceRequestInput = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count"?: number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum: "once",
-     * "repeating", "forever".
-     */
-    "type": "once" | "repeating" | "forever";
-})
-    & ((Exclude<PromotionRecurrenceOnceRequestInput & object, readonly unknown[]>)
-    | (Exclude<PromotionRecurrenceRepeatingRequestInput & object, readonly unknown[]>)
-    | (Exclude<PromotionRecurrenceForeverRequestInput & object, readonly unknown[]>));
-/** The `Promotion code` variant of `PromotionRefInput`. */
-export type PromotionRefInputPromotionCode = ({
-    /** Human-entered promotion code to apply. minLength: 1. */
-    "promotion_code": string;
-    /**
-     * Promotion to apply by ID, including a code-gated promotion applied without a code. Counts
-     * only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`.
-     * minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id"?: string;
-});
-/** The `Promotion code` variant of `PromotionRefInput`. */
-export type PromotionRefInputPromotionCodeInput = ({
-    /** Human-entered promotion code to apply. minLength: 1. */
-    "promotion_code": string;
-    /**
-     * Promotion to apply by ID, including a code-gated promotion applied without a code. Counts
-     * only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`.
-     * minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id"?: string;
-})
-    & (({
-    "promotion_id"?: never;
-}));
-/** The `Promotion ID` variant of `PromotionRefInput`. */
-export type PromotionRefInputPromotionID = ({
-    /** Human-entered promotion code to apply. minLength: 1. */
-    "promotion_code"?: string;
-    /**
-     * Promotion to apply by ID, including a code-gated promotion applied without a code. Counts
-     * only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`.
-     * minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id": string;
-});
-/** The `Promotion ID` variant of `PromotionRefInput`. */
-export type PromotionRefInputPromotionIDInput = ({
-    /** Human-entered promotion code to apply. minLength: 1. */
-    "promotion_code"?: string;
-    /**
-     * Promotion to apply by ID, including a code-gated promotion applied without a code. Counts
-     * only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`.
-     * minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id": string;
-})
-    & (({
-    "promotion_code"?: never;
-}));
-/** Identifies the promotion to apply, by promotion code or by promotion ID. */
-export type PromotionRefRequest = ({
-    /** Human-entered promotion code to apply. minLength: 1. */
-    "promotion_code"?: string;
-    /**
-     * Promotion to apply by ID, including a code-gated promotion applied without a code. Counts
-     * only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`.
-     * minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id"?: string;
-})
-    & ((Exclude<PromotionRefInputPromotionID & object, readonly unknown[]>)
-    | (Exclude<PromotionRefInputPromotionCode & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** Identifies the promotion to apply, by promotion code or by promotion ID. */
-export type PromotionRefRequestInput = ({
-    /** Human-entered promotion code to apply. minLength: 1. */
-    "promotion_code"?: string;
-    /**
-     * Promotion to apply by ID, including a code-gated promotion applied without a code. Counts
-     * only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`.
-     * minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id"?: string;
-})
-    & ((Exclude<PromotionRefInputPromotionIDInput & object, readonly unknown[]>)
-    | (Exclude<PromotionRefInputPromotionCodeInput & object, readonly unknown[]>));
-/** A response containing `Promotion` data. */
-export type PromotionResponse = {
-    /**
-     * The requested promotion. Promotion evaluation order: manual discounts stay, do not count
-     * toward the cap, and are ignored by combines_with. Frozen subscription-term promotions are
-     * admitted first and are exempt from exclusivity, combines_with, and the cap. Candidates
-     * include codes being applied, existing promotion discounts, and qualifying automatic
-     * promotions. Each exclusivity group keeps its highest-priority member, then the larger
-     * standalone discount, earlier created_at, and lower promotion_id. Remaining candidates rank
-     * by standalone discount, then earlier created_at and lower promotion_id; each is admitted
-     * unless max_promotions_per_order is reached or both promotions do not allow each other's
-     * discount class. Admitted promotions price line item first, then order, then service charge.
-     * A zero-value promotion is dropped and selection runs again.
-     */
-    "data": Promotion;
+    "data": PaymentMethodDomain;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
     /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
-/**
- * One condition in a promotion rule group, which tests an attribute with an operator and values.
- */
-export type PromotionRule = {
+export type PaymentMethodDomainsCreateParams = (InputValue<CreatePaymentMethodDomainRequestInput>);
+export type PaymentMethodDomainsGetParams = {};
+export type PaymentMethodDomainsListParams = {
     /**
-     * Field the rule tests. The attribute fixes the value type and the operators that are legal
-     * for it: money attributes accept comparison operators but not eq or in, booleans accept eq
-     * only, and so on. The full attribute/type/operator matrix is machine-readable in
-     * x-flint-rule-attributes on this schema. metadata.<key> reads a string from the customer's
-     * metadata and accepts the string operators. A disallowed operator returns `400
-     * INVALID_REQUEST` naming the operator, and the message lists the operators the attribute
-     * allows. customer.paid_order_count counts the customer's other orders in the same merchant
-     * and environment, with live and test mode counted separately, that have at least one
-     * successfully settled payment above zero, including partial payments, or are completed
-     * zero-total orders, including orders completed with a 100% promotion or gift card. Later
-     * refunds and disputes do not remove an order. The current order, failed, canceled, or expired
-     * attempts, unpaid drafts, and unpaid open invoices do not count. Guest purchases linked
-     * through link_guest_purchases count; unlinked guest orders are never matched by email. The
-     * order's customer takes precedence over a checkout session's merchant-named or email-verified
-     * customer; typed email alone does not identify a customer. Without an identified customer the
-     * promotion is declined with customer_required. Combine eq 0 with max_uses_per_customer: 1 for
-     * a first-order guarantee across concurrent checkouts.
+     * Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown
+     * entries are rejected. Values within this filter are ORed; separate filters are ANDed. []
+     * enum: "active", "inactive". Value enum: "active", "inactive". anyOf[1] (Value): Array of
+     * string. minItems: 1. [] enum: "active", "inactive". anyOf[1][] (Value): string. Value enum:
+     * "active", "inactive". anyOf[2] (Value): string. Value enum: "active", "inactive".
      */
-    "attribute": string;
+    "status"?: InputValue<("active" | "inactive") | readonly ("active" | "inactive")[]>;
     /**
-     * Alternative thresholds for money-valued rules, keyed by currency code. Each Money currency
-     * must match its key. * (Value): {@link MoneyValue}. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
+     * Exact hostname filter after trimming whitespace and converting to lowercase. Accepts an
+     * ASCII fully-qualified hostname without a URL, port, wildcard, or IP address. Matches the
+     * entire stored domain name. minLength: 1. maxLength: 253. pattern: ^[\t\n\v\f\r
+     * ]*(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?[\t\n\v\f\r
+     * ]*$.
      */
-    "currency_options"?: Record<string, MoneyValue>;
+    "domain_name"?: InputValue<(string)>;
     /**
-     * Comparison to apply to the attribute. The attribute determines which operators are allowed.
-     * Value enum: "eq", "ne", "gt", "gte", "lt", "lte", "in", "contains", "is_defined".
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
      */
-    "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined" | (string & {});
+    "page_size"?: InputValue<number>;
     /**
-     * Comparison values with the type required by the attribute. Omit for is_defined, which tests
-     * whether the attribute is present. [] (Value): {@link PromotionRuleValue}. Rule comparison
-     * value. Use a primitive string, number, boolean, or a money object.
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
      */
-    "values"?: Array<PromotionRuleValue>;
+    "page_token"?: InputValue<string>;
 };
+export type PaymentMethodDomainsUpdateParams = (InputValue<UpdatePaymentMethodDomainRequestInput>);
+export type PaymentMethodFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "card"?: CardDetails;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id": string;
+            "fingerprint"?: string;
+            "is_default": boolean;
+            "merchant_id": string;
+            "payment_method_id": string;
+            "saved_with"?: "flint" | "store" | (string & {});
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            "type": "card" | (string & {});
+            "updated_at": string;
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "fingerprint"?: ((string) | (null));
+            "is_default"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "payment_method_id"?: ((string) | (null));
+            "saved_with"?: (("flint" | "store" | (string & {})) | (null));
+            "status"?: (("pending" | "active" | "expired" | "archived" | "failed" | (string & {})) | (null));
+            "type"?: (("card" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "usage"?: (("on_session" | "off_session" | (string & {})) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "payment_method.failed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "card"?: CardDetails;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id": string;
+            "fingerprint"?: string;
+            "is_default": boolean;
+            "merchant_id": string;
+            "payment_method_id": string;
+            "saved_with"?: "flint" | "store" | (string & {});
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            "type": "card" | (string & {});
+            "updated_at": string;
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "fingerprint"?: ((string) | (null));
+            "is_default"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "payment_method_id"?: ((string) | (null));
+            "saved_with"?: (("flint" | "store" | (string & {})) | (null));
+            "status"?: (("pending" | "active" | "expired" | "archived" | "failed" | (string & {})) | (null));
+            "type"?: (("card" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "usage"?: (("on_session" | "off_session" | (string & {})) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "payment_method.failed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "payment_method.failed";
+});
 /**
- * A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
- * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules,
- * or send null where the field is clearable. Responses list rules before nested groups. Under any,
- * a nested group containing only one rule reads back as that rule. Under all, nested groups keep
- * their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
- * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
- * line_item.* rules in the same all group, including its nested groups.
+ * The `payment_method.failed` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
  */
-export type PromotionRuleGroup = (({
+export type PaymentMethodFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Rules and nested groups that must all match. minItems: 1. [] (Value): {@link PromotionRule}
-     * or {@link PromotionRuleGroup}. [].oneOf[1] (Value): {@link PromotionRule}. One condition in
-     * a promotion rule group, which tests an attribute with an operator and values. [].oneOf[2]
-     * (Value): {@link PromotionRuleGroup}. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
+     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
+     * month and year, last four digits, and the wallet when one was used. object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+     * fields, returned in place of a customer ID when the customer is expanded.
+     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint
+     * (Optional): string. A value that is the same for every saved copy of one card number at this
+     * merchant and environment, so you can spot duplicates. It doesn't identify the card anywhere
+     * else. A card added through Apple Pay or Google Pay can have a different fingerprint from the
+     * same card typed in. object.is_default (Required): boolean. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. object.merchant_id (Required): string. ID of the merchant this resource belongs to.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string.
+     * Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
+     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
+     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
+     * string. Whether the payment method can be charged. Treat any value other than active as not
+     * chargeable, including values added later. Value enum: "pending", "active", "expired",
+     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
+     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events. previous_attributes.card (Optional): {@link CardDetailsPreviousAttributes} or null.
+     * Brand, expiry and last four digits. Present when `type` is `card`.
+     * previous_attributes.card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
+     * previous_attributes.card.anyOf[2] (Value): null. previous_attributes.created_at (Optional):
+     * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. Customer this payment
+     * method belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.fingerprint
+     * (Optional): string or null. A value that is the same for every saved copy of one card number
+     * at this merchant and environment, so you can spot duplicates. It doesn't identify the card
+     * anywhere else. A card added through Apple Pay or Google Pay can have a different fingerprint
+     * from the same card typed in. previous_attributes.fingerprint.anyOf[1] (Value): string. A
+     * value that is the same for every saved copy of one card number at this merchant and
+     * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A card
+     * added through Apple Pay or Google Pay can have a different fingerprint from the same card
+     * typed in. previous_attributes.fingerprint.anyOf[2] (Value): null.
+     * previous_attributes.is_default (Optional): boolean or null. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. previous_attributes.is_default.anyOf[1] (Value): boolean. Whether this is the
+     * customer's default payment method, the one Customer.default_payment_method_id names. Change
+     * the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a
+     * payment method event. previous_attributes.is_default.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_method_id (Optional): string or null. Unique identifier for this
+     * payment method, prefixed `pm_`. previous_attributes.payment_method_id.anyOf[1] (Value):
+     * string. Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". previous_attributes.payment_method_id.anyOf[2] (Value):
+     * null. previous_attributes.saved_with (Optional): string or null. Where the buyer saved this
+     * payment method. Returned on /v1/me/payment-methods responses when Flint wallet support is
+     * enabled. Accept future values. Value enum: "flint", "store".
+     * previous_attributes.saved_with.anyOf[1] (Value): string. Where the buyer saved this payment
+     * method. Returned on /v1/me/payment-methods responses when Flint wallet support is enabled.
+     * Accept future values. Value enum: "flint", "store". previous_attributes.saved_with.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Whether the payment
+     * method can be charged. Treat any value other than active as not chargeable, including values
+     * added later. Value enum: "pending", "active", "expired", "archived", "failed".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether the payment method can be
+     * charged. Treat any value other than active as not chargeable, including values added later.
+     * Value enum: "pending", "active", "expired", "archived", "failed".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.type (Optional):
+     * string or null. Kind of payment method. Value enum: "card".
+     * previous_attributes.type.anyOf[1] (Value): string. Kind of payment method. Value enum:
+     * "card". previous_attributes.type.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.usage (Optional):
+     * string or null. When Flint may charge the payment method. off_session payment methods can
+     * pay subscriptions, automatic invoices, and other charges without the buyer, and can be a
+     * customer's default. on_session payment methods were saved by the buyer in checkout for
+     * faster checkout at this merchant; Flint charges them only in checkouts the buyer completes
+     * and refuses them for any charge without the buyer and as a default. Payment methods saved
+     * before usage existed are off_session. Value enum: "on_session", "off_session".
+     * previous_attributes.usage.anyOf[1] (Value): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes.usage.anyOf[2] (Value): null.
      */
-    "all": Array<((PromotionRule) | (PromotionRuleGroup) | (unknown))>;
-})
-    | ({
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
+         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
+         * is `card`. Card details on a payment method: brand, expiration month and year, last four
+         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
+         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
+         * (Required): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional): string. A value that is the
+         * same for every saved copy of one card number at this merchant and environment, so you
+         * can spot duplicates. It doesn't identify the card anywhere else. A card added through
+         * Apple Pay or Google Pay can have a different fingerprint from the same card typed in.
+         * is_default (Required): boolean. Whether this is the customer's default payment method,
+         * the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id (Required): string. Unique
+         * identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
+         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
+         * support is enabled. Accept future values. Value enum: "flint", "store". status
+         * (Required): string. Whether the payment method can be charged. Treat any value other
+         * than active as not chargeable, including values added later. Value enum: "pending",
+         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
+         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
+         * charge the payment method. off_session payment methods can pay subscriptions, automatic
+         * invoices, and other charges without the buyer, and can be a customer's default.
+         * on_session payment methods were saved by the buyer in checkout for faster checkout at
+         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
+         * for any charge without the buyer and as a default. Payment methods saved before usage
+         * existed are off_session. Value enum: "on_session", "off_session".
+         */
+        "object": {
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
+             * payment method: brand, expiration month and year, last four digits, and the wallet
+             * when one was used.
+             */
+            "card"?: CardDetails;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /**
+             * Customer this payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string;
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in.
+             */
+            "fingerprint"?: string;
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event.
+             */
+            "is_default": boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
+             */
+            "payment_method_id": string;
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store".
+             */
+            "saved_with"?: "flint" | "store" | (string & {});
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed".
+             */
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            /** Kind of payment method. Value enum: "card". */
+            "type": "card" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session".
+             */
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. card (Optional): {@link
+         * CardDetailsPreviousAttributes} or null. Brand, expiry and last four digits. Present when
+         * `type` is `card`. card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
+         * card.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. Customer this payment method belongs to.
+         * customer_id.anyOf[1] (Value): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. fingerprint
+         * (Optional): string or null. A value that is the same for every saved copy of one card
+         * number at this merchant and environment, so you can spot duplicates. It doesn't identify
+         * the card anywhere else. A card added through Apple Pay or Google Pay can have a
+         * different fingerprint from the same card typed in. fingerprint.anyOf[1] (Value): string.
+         * A value that is the same for every saved copy of one card number at this merchant and
+         * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A
+         * card added through Apple Pay or Google Pay can have a different fingerprint from the
+         * same card typed in. fingerprint.anyOf[2] (Value): null. is_default (Optional): boolean
+         * or null. Whether this is the customer's default payment method, the one
+         * Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * is_default.anyOf[1] (Value): boolean. Whether this is the customer's default payment
+         * method, the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * is_default.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID of the
+         * merchant this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of the
+         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. payment_method_id (Optional): string or null. Unique
+         * identifier for this payment method, prefixed `pm_`. payment_method_id.anyOf[1] (Value):
+         * string. Unique identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". payment_method_id.anyOf[2] (Value): null. saved_with
+         * (Optional): string or null. Where the buyer saved this payment method. Returned on
+         * /v1/me/payment-methods responses when Flint wallet support is enabled. Accept future
+         * values. Value enum: "flint", "store". saved_with.anyOf[1] (Value): string. Where the
+         * buyer saved this payment method. Returned on /v1/me/payment-methods responses when Flint
+         * wallet support is enabled. Accept future values. Value enum: "flint", "store".
+         * saved_with.anyOf[2] (Value): null. status (Optional): string or null. Whether the
+         * payment method can be charged. Treat any value other than active as not chargeable,
+         * including values added later. Value enum: "pending", "active", "expired", "archived",
+         * "failed". status.anyOf[1] (Value): string. Whether the payment method can be charged.
+         * Treat any value other than active as not chargeable, including values added later. Value
+         * enum: "pending", "active", "expired", "archived", "failed". status.anyOf[2] (Value):
+         * null. type (Optional): string or null. Kind of payment method. Value enum: "card".
+         * type.anyOf[1] (Value): string. Kind of payment method. Value enum: "card". type.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. usage (Optional): string or
+         * null. When Flint may charge the payment method. off_session payment methods can pay
+         * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+         * customer's default. on_session payment methods were saved by the buyer in checkout for
+         * faster checkout at this merchant; Flint charges them only in checkouts the buyer
+         * completes and refuses them for any charge without the buyer and as a default. Payment
+         * methods saved before usage existed are off_session. Value enum: "on_session",
+         * "off_session". usage.anyOf[1] (Value): string. When Flint may charge the payment method.
+         * off_session payment methods can pay subscriptions, automatic invoices, and other charges
+         * without the buyer, and can be a customer's default. on_session payment methods were
+         * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them
+         * only in checkouts the buyer completes and refuses them for any charge without the buyer
+         * and as a default. Payment methods saved before usage existed are off_session. Value
+         * enum: "on_session", "off_session". usage.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value):
+             * {@link CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * Customer this payment method belongs to. anyOf[1] (Value): string. Customer this
+             * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in. anyOf[1] (Value): string. A value that is the same for
+             * every saved copy of one card number at this merchant and environment, so you can
+             * spot duplicates. It doesn't identify the card anywhere else. A card added through
+             * Apple Pay or Google Pay can have a different fingerprint from the same card typed
+             * in. anyOf[2] (Value): null.
+             */
+            "fingerprint"?: ((string) | (null));
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event. anyOf[1] (Value): boolean. Whether this is the customer's default payment
+             * method, the one Customer.default_payment_method_id names. Change the default with
+             * PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event. anyOf[2] (Value): null.
+             */
+            "is_default"?: ((boolean) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. anyOf[1] (Value): string.
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value): null.
+             */
+            "payment_method_id"?: ((string) | (null));
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store". anyOf[1] (Value): string. Where the buyer saved this payment
+             * method. Returned on /v1/me/payment-methods responses when Flint wallet support is
+             * enabled. Accept future values. Value enum: "flint", "store". anyOf[2] (Value): null.
+             */
+            "saved_with"?: (("flint" | "store" | (string & {})) | (null));
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed". anyOf[1] (Value): string. Whether the payment
+             * method can be charged. Treat any value other than active as not chargeable,
+             * including values added later. Value enum: "pending", "active", "expired",
+             * "archived", "failed". anyOf[2] (Value): null.
+             */
+            "status"?: (("pending" | "active" | "expired" | "archived" | "failed" | (string & {})) | (null));
+            /**
+             * Kind of payment method. Value enum: "card". anyOf[1] (Value): string. Kind of
+             * payment method. Value enum: "card". anyOf[2] (Value): null.
+             */
+            "type"?: (("card" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session". anyOf[1] (Value): string. When Flint may charge the
+             * payment method. off_session payment methods can pay subscriptions, automatic
+             * invoices, and other charges without the buyer, and can be a customer's default.
+             * on_session payment methods were saved by the buyer in checkout for faster checkout
+             * at this merchant; Flint charges them only in checkouts the buyer completes and
+             * refuses them for any charge without the buyer and as a default. Payment methods
+             * saved before usage existed are off_session. Value enum: "on_session", "off_session".
+             * anyOf[2] (Value): null.
+             */
+            "usage"?: (("on_session" | "off_session" | (string & {})) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "payment_method.failed". */
+    "event_type"?: "payment_method.failed";
     /**
-     * Rules and nested groups of which at least one must match. minItems: 1. [] (Value): {@link
-     * PromotionRule} or {@link PromotionRuleGroup}. [].oneOf[1] (Value): {@link PromotionRule}.
-     * One condition in a promotion rule group, which tests an attribute with an operator and
-     * values. [].oneOf[2] (Value): {@link PromotionRuleGroup}. A rule group is an object with
-     * exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty
-     * groups, and a rules key are invalid. Omit the field for no rules, or send null where the
-     * field is clearable. Responses list rules before nested groups. Under any, a nested group
-     * containing only one rule reads back as that rule. Under all, nested groups keep their
-     * boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
-     * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
-     * line_item.* rules in the same all group, including its nested groups.
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
      */
-    "any": Array<((PromotionRule) | (PromotionRuleGroup) | (unknown))>;
-})
-    | (Record<string, unknown>));
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
 /**
- * A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
- * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules,
- * or send null where the field is clearable. Responses list rules before nested groups. Under any,
- * a nested group containing only one rule reads back as that rule. Under all, nested groups keep
- * their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
- * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
- * line_item.* rules in the same all group, including its nested groups.
+ * The `payment_method.failed` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
  */
-export type PromotionRuleGroupRequest = (({
+export type PaymentMethodFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Rules and nested groups that must all match. minItems: 1. [] (Value): {@link PromotionRule}
-     * or {@link PromotionRuleGroupRequest}. [].oneOf[1] (Value): {@link PromotionRule}. One
-     * condition you set in a promotion rule group, which tests an attribute with an operator and
-     * values. [].oneOf[2] (Value): {@link PromotionRuleGroupRequest}. A rule group is an object
-     * with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays,
-     * empty groups, and a rules key are invalid. Omit the field for no rules, or send null where
-     * the field is clearable. Responses list rules before nested groups. Under any, a nested group
-     * containing only one rule reads back as that rule. Under all, nested groups keep their
-     * boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
-     * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
-     * line_item.* rules in the same all group, including its nested groups.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
+     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
+     * month and year, last four digits, and the wallet when one was used. object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+     * fields, returned in place of a customer ID when the customer is expanded.
+     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint
+     * (Optional): string. A value that is the same for every saved copy of one card number at this
+     * merchant and environment, so you can spot duplicates. It doesn't identify the card anywhere
+     * else. A card added through Apple Pay or Google Pay can have a different fingerprint from the
+     * same card typed in. object.is_default (Required): boolean. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. object.merchant_id (Required): string. ID of the merchant this resource belongs to.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string.
+     * Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
+     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
+     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
+     * string. Whether the payment method can be charged. Treat any value other than active as not
+     * chargeable, including values added later. Value enum: "pending", "active", "expired",
+     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
+     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events. previous_attributes.card (Optional): {@link CardDetailsPreviousAttributes} or null.
+     * Brand, expiry and last four digits. Present when `type` is `card`.
+     * previous_attributes.card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
+     * previous_attributes.card.anyOf[2] (Value): null. previous_attributes.created_at (Optional):
+     * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. Customer this payment
+     * method belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.fingerprint
+     * (Optional): string or null. A value that is the same for every saved copy of one card number
+     * at this merchant and environment, so you can spot duplicates. It doesn't identify the card
+     * anywhere else. A card added through Apple Pay or Google Pay can have a different fingerprint
+     * from the same card typed in. previous_attributes.fingerprint.anyOf[1] (Value): string. A
+     * value that is the same for every saved copy of one card number at this merchant and
+     * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A card
+     * added through Apple Pay or Google Pay can have a different fingerprint from the same card
+     * typed in. previous_attributes.fingerprint.anyOf[2] (Value): null.
+     * previous_attributes.is_default (Optional): boolean or null. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. previous_attributes.is_default.anyOf[1] (Value): boolean. Whether this is the
+     * customer's default payment method, the one Customer.default_payment_method_id names. Change
+     * the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a
+     * payment method event. previous_attributes.is_default.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_method_id (Optional): string or null. Unique identifier for this
+     * payment method, prefixed `pm_`. previous_attributes.payment_method_id.anyOf[1] (Value):
+     * string. Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". previous_attributes.payment_method_id.anyOf[2] (Value):
+     * null. previous_attributes.saved_with (Optional): string or null. Where the buyer saved this
+     * payment method. Returned on /v1/me/payment-methods responses when Flint wallet support is
+     * enabled. Accept future values. Value enum: "flint", "store".
+     * previous_attributes.saved_with.anyOf[1] (Value): string. Where the buyer saved this payment
+     * method. Returned on /v1/me/payment-methods responses when Flint wallet support is enabled.
+     * Accept future values. Value enum: "flint", "store". previous_attributes.saved_with.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Whether the payment
+     * method can be charged. Treat any value other than active as not chargeable, including values
+     * added later. Value enum: "pending", "active", "expired", "archived", "failed".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether the payment method can be
+     * charged. Treat any value other than active as not chargeable, including values added later.
+     * Value enum: "pending", "active", "expired", "archived", "failed".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.type (Optional):
+     * string or null. Kind of payment method. Value enum: "card".
+     * previous_attributes.type.anyOf[1] (Value): string. Kind of payment method. Value enum:
+     * "card". previous_attributes.type.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.usage (Optional):
+     * string or null. When Flint may charge the payment method. off_session payment methods can
+     * pay subscriptions, automatic invoices, and other charges without the buyer, and can be a
+     * customer's default. on_session payment methods were saved by the buyer in checkout for
+     * faster checkout at this merchant; Flint charges them only in checkouts the buyer completes
+     * and refuses them for any charge without the buyer and as a default. Payment methods saved
+     * before usage existed are off_session. Value enum: "on_session", "off_session".
+     * previous_attributes.usage.anyOf[1] (Value): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes.usage.anyOf[2] (Value): null.
      */
-    "all": Array<((PromotionRule) | (PromotionRuleGroupRequest) | (unknown))>;
-})
-    | ({
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
+         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
+         * is `card`. Card details on a payment method: brand, expiration month and year, last four
+         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
+         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
+         * (Required): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional): string. A value that is the
+         * same for every saved copy of one card number at this merchant and environment, so you
+         * can spot duplicates. It doesn't identify the card anywhere else. A card added through
+         * Apple Pay or Google Pay can have a different fingerprint from the same card typed in.
+         * is_default (Required): boolean. Whether this is the customer's default payment method,
+         * the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id (Required): string. Unique
+         * identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
+         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
+         * support is enabled. Accept future values. Value enum: "flint", "store". status
+         * (Required): string. Whether the payment method can be charged. Treat any value other
+         * than active as not chargeable, including values added later. Value enum: "pending",
+         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
+         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
+         * charge the payment method. off_session payment methods can pay subscriptions, automatic
+         * invoices, and other charges without the buyer, and can be a customer's default.
+         * on_session payment methods were saved by the buyer in checkout for faster checkout at
+         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
+         * for any charge without the buyer and as a default. Payment methods saved before usage
+         * existed are off_session. Value enum: "on_session", "off_session".
+         */
+        "object": {
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
+             * payment method: brand, expiration month and year, last four digits, and the wallet
+             * when one was used.
+             */
+            "card"?: CardDetails;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /**
+             * Customer this payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string;
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in.
+             */
+            "fingerprint"?: string;
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event.
+             */
+            "is_default": boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
+             */
+            "payment_method_id": string;
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store".
+             */
+            "saved_with"?: "flint" | "store" | (string & {});
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed".
+             */
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            /** Kind of payment method. Value enum: "card". */
+            "type": "card" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session".
+             */
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. card (Optional): {@link
+         * CardDetailsPreviousAttributes} or null. Brand, expiry and last four digits. Present when
+         * `type` is `card`. card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
+         * card.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. Customer this payment method belongs to.
+         * customer_id.anyOf[1] (Value): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. fingerprint
+         * (Optional): string or null. A value that is the same for every saved copy of one card
+         * number at this merchant and environment, so you can spot duplicates. It doesn't identify
+         * the card anywhere else. A card added through Apple Pay or Google Pay can have a
+         * different fingerprint from the same card typed in. fingerprint.anyOf[1] (Value): string.
+         * A value that is the same for every saved copy of one card number at this merchant and
+         * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A
+         * card added through Apple Pay or Google Pay can have a different fingerprint from the
+         * same card typed in. fingerprint.anyOf[2] (Value): null. is_default (Optional): boolean
+         * or null. Whether this is the customer's default payment method, the one
+         * Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * is_default.anyOf[1] (Value): boolean. Whether this is the customer's default payment
+         * method, the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * is_default.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID of the
+         * merchant this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of the
+         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. payment_method_id (Optional): string or null. Unique
+         * identifier for this payment method, prefixed `pm_`. payment_method_id.anyOf[1] (Value):
+         * string. Unique identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". payment_method_id.anyOf[2] (Value): null. saved_with
+         * (Optional): string or null. Where the buyer saved this payment method. Returned on
+         * /v1/me/payment-methods responses when Flint wallet support is enabled. Accept future
+         * values. Value enum: "flint", "store". saved_with.anyOf[1] (Value): string. Where the
+         * buyer saved this payment method. Returned on /v1/me/payment-methods responses when Flint
+         * wallet support is enabled. Accept future values. Value enum: "flint", "store".
+         * saved_with.anyOf[2] (Value): null. status (Optional): string or null. Whether the
+         * payment method can be charged. Treat any value other than active as not chargeable,
+         * including values added later. Value enum: "pending", "active", "expired", "archived",
+         * "failed". status.anyOf[1] (Value): string. Whether the payment method can be charged.
+         * Treat any value other than active as not chargeable, including values added later. Value
+         * enum: "pending", "active", "expired", "archived", "failed". status.anyOf[2] (Value):
+         * null. type (Optional): string or null. Kind of payment method. Value enum: "card".
+         * type.anyOf[1] (Value): string. Kind of payment method. Value enum: "card". type.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. usage (Optional): string or
+         * null. When Flint may charge the payment method. off_session payment methods can pay
+         * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+         * customer's default. on_session payment methods were saved by the buyer in checkout for
+         * faster checkout at this merchant; Flint charges them only in checkouts the buyer
+         * completes and refuses them for any charge without the buyer and as a default. Payment
+         * methods saved before usage existed are off_session. Value enum: "on_session",
+         * "off_session". usage.anyOf[1] (Value): string. When Flint may charge the payment method.
+         * off_session payment methods can pay subscriptions, automatic invoices, and other charges
+         * without the buyer, and can be a customer's default. on_session payment methods were
+         * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them
+         * only in checkouts the buyer completes and refuses them for any charge without the buyer
+         * and as a default. Payment methods saved before usage existed are off_session. Value
+         * enum: "on_session", "off_session". usage.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value):
+             * {@link CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * Customer this payment method belongs to. anyOf[1] (Value): string. Customer this
+             * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in. anyOf[1] (Value): string. A value that is the same for
+             * every saved copy of one card number at this merchant and environment, so you can
+             * spot duplicates. It doesn't identify the card anywhere else. A card added through
+             * Apple Pay or Google Pay can have a different fingerprint from the same card typed
+             * in. anyOf[2] (Value): null.
+             */
+            "fingerprint"?: ((string) | (null));
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event. anyOf[1] (Value): boolean. Whether this is the customer's default payment
+             * method, the one Customer.default_payment_method_id names. Change the default with
+             * PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event. anyOf[2] (Value): null.
+             */
+            "is_default"?: ((boolean) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. anyOf[1] (Value): string.
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value): null.
+             */
+            "payment_method_id"?: ((string) | (null));
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store". anyOf[1] (Value): string. Where the buyer saved this payment
+             * method. Returned on /v1/me/payment-methods responses when Flint wallet support is
+             * enabled. Accept future values. Value enum: "flint", "store". anyOf[2] (Value): null.
+             */
+            "saved_with"?: (("flint" | "store" | (string & {})) | (null));
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed". anyOf[1] (Value): string. Whether the payment
+             * method can be charged. Treat any value other than active as not chargeable,
+             * including values added later. Value enum: "pending", "active", "expired",
+             * "archived", "failed". anyOf[2] (Value): null.
+             */
+            "status"?: (("pending" | "active" | "expired" | "archived" | "failed" | (string & {})) | (null));
+            /**
+             * Kind of payment method. Value enum: "card". anyOf[1] (Value): string. Kind of
+             * payment method. Value enum: "card". anyOf[2] (Value): null.
+             */
+            "type"?: (("card" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session". anyOf[1] (Value): string. When Flint may charge the
+             * payment method. off_session payment methods can pay subscriptions, automatic
+             * invoices, and other charges without the buyer, and can be a customer's default.
+             * on_session payment methods were saved by the buyer in checkout for faster checkout
+             * at this merchant; Flint charges them only in checkouts the buyer completes and
+             * refuses them for any charge without the buyer and as a default. Payment methods
+             * saved before usage existed are off_session. Value enum: "on_session", "off_session".
+             * anyOf[2] (Value): null.
+             */
+            "usage"?: (("on_session" | "off_session" | (string & {})) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "payment_method.failed". */
+    "event_type"?: "payment_method.failed";
+});
+/** A page of `PaymentMethod` objects. */
+export type PaymentMethodListResponse = {
     /**
-     * Rules and nested groups of which at least one must match. minItems: 1. [] (Value): {@link
-     * PromotionRule} or {@link PromotionRuleGroupRequest}. [].oneOf[1] (Value): {@link
-     * PromotionRule}. One condition you set in a promotion rule group, which tests an attribute
-     * with an operator and values. [].oneOf[2] (Value): {@link PromotionRuleGroupRequest}. A rule
-     * group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested
-     * groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or
-     * send null where the field is clearable. Responses list rules before nested groups. Under
-     * any, a nested group containing only one rule reads back as that rule. Under all, nested
-     * groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic
-     * normalizations stabilize after one round trip. matched_items.subtotal sums the line items
-     * matched by the line_item.* rules in the same all group, including its nested groups.
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * PaymentMethod}. A customer's saved payment details.
      */
-    "any": Array<((PromotionRule) | (PromotionRuleGroupRequest) | (unknown))>;
-})
-    | (Record<string, unknown>));
-/**
- * A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
- * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules,
- * or send null where the field is clearable. Responses list rules before nested groups. Under any,
- * a nested group containing only one rule reads back as that rule. Under all, nested groups keep
- * their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
- * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
- * line_item.* rules in the same all group, including its nested groups.
- */
-export type PromotionRuleGroupRequestInput = (({
+    "data": Array<PaymentMethod>;
     /**
-     * Rules and nested groups that must all match. minItems: 1. [] (Value): {@link
-     * PromotionRuleRequestInput} or {@link PromotionRuleGroupRequestInput}. [].oneOf[1] (Value):
-     * {@link PromotionRuleRequestInput}. One condition you set in a promotion rule group, which
-     * tests an attribute with an operator and values. [].oneOf[2] (Value): {@link
-     * PromotionRuleGroupRequestInput}. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
-    "all": Array<((PromotionRuleRequestInput) | (PromotionRuleGroupRequestInput))>;
-})
-    | ({
+    "meta"?: ResponseMeta;
     /**
-     * Rules and nested groups of which at least one must match. minItems: 1. [] (Value): {@link
-     * PromotionRuleRequestInput} or {@link PromotionRuleGroupRequestInput}. [].oneOf[1] (Value):
-     * {@link PromotionRuleRequestInput}. One condition you set in a promotion rule group, which
-     * tests an attribute with an operator and values. [].oneOf[2] (Value): {@link
-     * PromotionRuleGroupRequestInput}. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
      */
-    "any": Array<((PromotionRuleRequestInput) | (PromotionRuleGroupRequestInput))>;
-}));
-/**
- * One condition you set in a promotion rule group, which tests an attribute with an operator and
- * values.
- */
-export type PromotionRuleRequestInput = {
+    "next_page_token"?: string;
     /**
-     * Field the rule tests. The attribute fixes the value type and the operators that are legal
-     * for it: money attributes accept comparison operators but not eq or in, booleans accept eq
-     * only, and so on. The full attribute/type/operator matrix is machine-readable in
-     * x-flint-rule-attributes on this schema. metadata.<key> reads a string from the customer's
-     * metadata and accepts the string operators. A disallowed operator returns `400
-     * INVALID_REQUEST` naming the operator, and the message lists the operators the attribute
-     * allows. customer.paid_order_count counts the customer's other orders in the same merchant
-     * and environment, with live and test mode counted separately, that have at least one
-     * successfully settled payment above zero, including partial payments, or are completed
-     * zero-total orders, including orders completed with a 100% promotion or gift card. Later
-     * refunds and disputes do not remove an order. The current order, failed, canceled, or expired
-     * attempts, unpaid drafts, and unpaid open invoices do not count. Guest purchases linked
-     * through link_guest_purchases count; unlinked guest orders are never matched by email. The
-     * order's customer takes precedence over a checkout session's merchant-named or email-verified
-     * customer; typed email alone does not identify a customer. Without an identified customer the
-     * promotion is declined with customer_required. Combine eq 0 with max_uses_per_customer: 1 for
-     * a first-order guarantee across concurrent checkouts. minLength: 1.
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "attribute": string;
-    /**
-     * Alternative thresholds for money-valued rules, keyed by currency code. Each Money currency
-     * must match its key. * (Value): {@link MoneyValueInput}. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "currency_options"?: Record<string, MoneyValueInput>;
-    /**
-     * Comparison to apply to the attribute. The attribute determines which operators are allowed.
-     * Value enum: "eq", "ne", "gt", "gte", "lt", "lte", "in", "contains", "is_defined".
-     */
-    "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined";
-    /**
-     * Comparison values with the type required by the attribute. Omit for is_defined, which tests
-     * whether the attribute is present. [] (Value): {@link PromotionRuleValueRequestInput}. Rule
-     * comparison value. Use a primitive string, number, boolean, or a money object.
-     */
-    "values"?: Array<PromotionRuleValueRequestInput>;
+    "request_id": string;
 };
-/** Rule comparison value. Use a primitive string, number, boolean, or a money object. */
-export type PromotionRuleValue = ((string) | (number) | (boolean) | (MoneyValue) | (unknown));
-/** Rule comparison value. Use a primitive string, number, boolean, or a money object. */
-export type PromotionRuleValueRequestInput = ((string) | (number) | (boolean) | (MoneyValueInput));
-/**
- * When a promotion is active, with a start time, an end time, and the time zone it was entered in.
- */
-export type PromotionSchedule = {
+/** A response containing `PaymentMethod` data. */
+export type PaymentMethodResponse = {
     /**
-     * Time after which the promotion can no longer apply, as an absolute RFC3339 timestamp.
-     * Omitted when it has no end time. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
+     * Resource, collection, or operation result returned by this request. A customer's saved
+     * payment details.
      */
-    "ends_at"?: string;
+    "data": PaymentMethod;
     /**
-     * Earliest time the promotion can apply, as an absolute RFC3339 timestamp. Omitted when it has
-     * no start time. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
-    "starts_at"?: string;
+    "meta"?: ResponseMeta;
     /**
-     * IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute
-     * timestamps, so this does not change when the promotion starts or ends. minLength: 1.
-     * maxLength: 255.
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "timezone"?: string;
+    "request_id": string;
 };
+export type PaymentMethodUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "card"?: CardDetails;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id": string;
+            "fingerprint"?: string;
+            "is_default": boolean;
+            "merchant_id": string;
+            "payment_method_id": string;
+            "saved_with"?: "flint" | "store" | (string & {});
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            "type": "card" | (string & {});
+            "updated_at": string;
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "fingerprint"?: ((string) | (null));
+            "is_default"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "payment_method_id"?: ((string) | (null));
+            "saved_with"?: (("flint" | "store" | (string & {})) | (null));
+            "status"?: (("pending" | "active" | "expired" | "archived" | "failed" | (string & {})) | (null));
+            "type"?: (("card" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "usage"?: (("on_session" | "off_session" | (string & {})) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "payment_method.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "card"?: CardDetails;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id": string;
+            "fingerprint"?: string;
+            "is_default": boolean;
+            "merchant_id": string;
+            "payment_method_id": string;
+            "saved_with"?: "flint" | "store" | (string & {});
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            "type": "card" | (string & {});
+            "updated_at": string;
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "fingerprint"?: ((string) | (null));
+            "is_default"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "payment_method_id"?: ((string) | (null));
+            "saved_with"?: (("flint" | "store" | (string & {})) | (null));
+            "status"?: (("pending" | "active" | "expired" | "archived" | "failed" | (string & {})) | (null));
+            "type"?: (("card" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "usage"?: (("on_session" | "off_session" | (string & {})) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "payment_method.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "payment_method.updated";
+});
+/**
+ * The `payment_method.updated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PaymentMethodUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
+     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
+     * month and year, last four digits, and the wallet when one was used. object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+     * fields, returned in place of a customer ID when the customer is expanded.
+     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint
+     * (Optional): string. A value that is the same for every saved copy of one card number at this
+     * merchant and environment, so you can spot duplicates. It doesn't identify the card anywhere
+     * else. A card added through Apple Pay or Google Pay can have a different fingerprint from the
+     * same card typed in. object.is_default (Required): boolean. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. object.merchant_id (Required): string. ID of the merchant this resource belongs to.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string.
+     * Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
+     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
+     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
+     * string. Whether the payment method can be charged. Treat any value other than active as not
+     * chargeable, including values added later. Value enum: "pending", "active", "expired",
+     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
+     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events. previous_attributes.card (Optional): {@link CardDetailsPreviousAttributes} or null.
+     * Brand, expiry and last four digits. Present when `type` is `card`.
+     * previous_attributes.card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
+     * previous_attributes.card.anyOf[2] (Value): null. previous_attributes.created_at (Optional):
+     * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. Customer this payment
+     * method belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.fingerprint
+     * (Optional): string or null. A value that is the same for every saved copy of one card number
+     * at this merchant and environment, so you can spot duplicates. It doesn't identify the card
+     * anywhere else. A card added through Apple Pay or Google Pay can have a different fingerprint
+     * from the same card typed in. previous_attributes.fingerprint.anyOf[1] (Value): string. A
+     * value that is the same for every saved copy of one card number at this merchant and
+     * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A card
+     * added through Apple Pay or Google Pay can have a different fingerprint from the same card
+     * typed in. previous_attributes.fingerprint.anyOf[2] (Value): null.
+     * previous_attributes.is_default (Optional): boolean or null. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. previous_attributes.is_default.anyOf[1] (Value): boolean. Whether this is the
+     * customer's default payment method, the one Customer.default_payment_method_id names. Change
+     * the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a
+     * payment method event. previous_attributes.is_default.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_method_id (Optional): string or null. Unique identifier for this
+     * payment method, prefixed `pm_`. previous_attributes.payment_method_id.anyOf[1] (Value):
+     * string. Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". previous_attributes.payment_method_id.anyOf[2] (Value):
+     * null. previous_attributes.saved_with (Optional): string or null. Where the buyer saved this
+     * payment method. Returned on /v1/me/payment-methods responses when Flint wallet support is
+     * enabled. Accept future values. Value enum: "flint", "store".
+     * previous_attributes.saved_with.anyOf[1] (Value): string. Where the buyer saved this payment
+     * method. Returned on /v1/me/payment-methods responses when Flint wallet support is enabled.
+     * Accept future values. Value enum: "flint", "store". previous_attributes.saved_with.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Whether the payment
+     * method can be charged. Treat any value other than active as not chargeable, including values
+     * added later. Value enum: "pending", "active", "expired", "archived", "failed".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether the payment method can be
+     * charged. Treat any value other than active as not chargeable, including values added later.
+     * Value enum: "pending", "active", "expired", "archived", "failed".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.type (Optional):
+     * string or null. Kind of payment method. Value enum: "card".
+     * previous_attributes.type.anyOf[1] (Value): string. Kind of payment method. Value enum:
+     * "card". previous_attributes.type.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.usage (Optional):
+     * string or null. When Flint may charge the payment method. off_session payment methods can
+     * pay subscriptions, automatic invoices, and other charges without the buyer, and can be a
+     * customer's default. on_session payment methods were saved by the buyer in checkout for
+     * faster checkout at this merchant; Flint charges them only in checkouts the buyer completes
+     * and refuses them for any charge without the buyer and as a default. Payment methods saved
+     * before usage existed are off_session. Value enum: "on_session", "off_session".
+     * previous_attributes.usage.anyOf[1] (Value): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes.usage.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
+         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
+         * is `card`. Card details on a payment method: brand, expiration month and year, last four
+         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
+         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
+         * (Required): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional): string. A value that is the
+         * same for every saved copy of one card number at this merchant and environment, so you
+         * can spot duplicates. It doesn't identify the card anywhere else. A card added through
+         * Apple Pay or Google Pay can have a different fingerprint from the same card typed in.
+         * is_default (Required): boolean. Whether this is the customer's default payment method,
+         * the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id (Required): string. Unique
+         * identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
+         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
+         * support is enabled. Accept future values. Value enum: "flint", "store". status
+         * (Required): string. Whether the payment method can be charged. Treat any value other
+         * than active as not chargeable, including values added later. Value enum: "pending",
+         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
+         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
+         * charge the payment method. off_session payment methods can pay subscriptions, automatic
+         * invoices, and other charges without the buyer, and can be a customer's default.
+         * on_session payment methods were saved by the buyer in checkout for faster checkout at
+         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
+         * for any charge without the buyer and as a default. Payment methods saved before usage
+         * existed are off_session. Value enum: "on_session", "off_session".
+         */
+        "object": {
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
+             * payment method: brand, expiration month and year, last four digits, and the wallet
+             * when one was used.
+             */
+            "card"?: CardDetails;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /**
+             * Customer this payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string;
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in.
+             */
+            "fingerprint"?: string;
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event.
+             */
+            "is_default": boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
+             */
+            "payment_method_id": string;
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store".
+             */
+            "saved_with"?: "flint" | "store" | (string & {});
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed".
+             */
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            /** Kind of payment method. Value enum: "card". */
+            "type": "card" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session".
+             */
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. card (Optional): {@link
+         * CardDetailsPreviousAttributes} or null. Brand, expiry and last four digits. Present when
+         * `type` is `card`. card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
+         * card.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. Customer this payment method belongs to.
+         * customer_id.anyOf[1] (Value): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. fingerprint
+         * (Optional): string or null. A value that is the same for every saved copy of one card
+         * number at this merchant and environment, so you can spot duplicates. It doesn't identify
+         * the card anywhere else. A card added through Apple Pay or Google Pay can have a
+         * different fingerprint from the same card typed in. fingerprint.anyOf[1] (Value): string.
+         * A value that is the same for every saved copy of one card number at this merchant and
+         * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A
+         * card added through Apple Pay or Google Pay can have a different fingerprint from the
+         * same card typed in. fingerprint.anyOf[2] (Value): null. is_default (Optional): boolean
+         * or null. Whether this is the customer's default payment method, the one
+         * Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * is_default.anyOf[1] (Value): boolean. Whether this is the customer's default payment
+         * method, the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * is_default.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID of the
+         * merchant this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of the
+         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. payment_method_id (Optional): string or null. Unique
+         * identifier for this payment method, prefixed `pm_`. payment_method_id.anyOf[1] (Value):
+         * string. Unique identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". payment_method_id.anyOf[2] (Value): null. saved_with
+         * (Optional): string or null. Where the buyer saved this payment method. Returned on
+         * /v1/me/payment-methods responses when Flint wallet support is enabled. Accept future
+         * values. Value enum: "flint", "store". saved_with.anyOf[1] (Value): string. Where the
+         * buyer saved this payment method. Returned on /v1/me/payment-methods responses when Flint
+         * wallet support is enabled. Accept future values. Value enum: "flint", "store".
+         * saved_with.anyOf[2] (Value): null. status (Optional): string or null. Whether the
+         * payment method can be charged. Treat any value other than active as not chargeable,
+         * including values added later. Value enum: "pending", "active", "expired", "archived",
+         * "failed". status.anyOf[1] (Value): string. Whether the payment method can be charged.
+         * Treat any value other than active as not chargeable, including values added later. Value
+         * enum: "pending", "active", "expired", "archived", "failed". status.anyOf[2] (Value):
+         * null. type (Optional): string or null. Kind of payment method. Value enum: "card".
+         * type.anyOf[1] (Value): string. Kind of payment method. Value enum: "card". type.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. usage (Optional): string or
+         * null. When Flint may charge the payment method. off_session payment methods can pay
+         * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+         * customer's default. on_session payment methods were saved by the buyer in checkout for
+         * faster checkout at this merchant; Flint charges them only in checkouts the buyer
+         * completes and refuses them for any charge without the buyer and as a default. Payment
+         * methods saved before usage existed are off_session. Value enum: "on_session",
+         * "off_session". usage.anyOf[1] (Value): string. When Flint may charge the payment method.
+         * off_session payment methods can pay subscriptions, automatic invoices, and other charges
+         * without the buyer, and can be a customer's default. on_session payment methods were
+         * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them
+         * only in checkouts the buyer completes and refuses them for any charge without the buyer
+         * and as a default. Payment methods saved before usage existed are off_session. Value
+         * enum: "on_session", "off_session". usage.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value):
+             * {@link CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * Customer this payment method belongs to. anyOf[1] (Value): string. Customer this
+             * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in. anyOf[1] (Value): string. A value that is the same for
+             * every saved copy of one card number at this merchant and environment, so you can
+             * spot duplicates. It doesn't identify the card anywhere else. A card added through
+             * Apple Pay or Google Pay can have a different fingerprint from the same card typed
+             * in. anyOf[2] (Value): null.
+             */
+            "fingerprint"?: ((string) | (null));
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event. anyOf[1] (Value): boolean. Whether this is the customer's default payment
+             * method, the one Customer.default_payment_method_id names. Change the default with
+             * PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event. anyOf[2] (Value): null.
+             */
+            "is_default"?: ((boolean) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. anyOf[1] (Value): string.
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value): null.
+             */
+            "payment_method_id"?: ((string) | (null));
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store". anyOf[1] (Value): string. Where the buyer saved this payment
+             * method. Returned on /v1/me/payment-methods responses when Flint wallet support is
+             * enabled. Accept future values. Value enum: "flint", "store". anyOf[2] (Value): null.
+             */
+            "saved_with"?: (("flint" | "store" | (string & {})) | (null));
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed". anyOf[1] (Value): string. Whether the payment
+             * method can be charged. Treat any value other than active as not chargeable,
+             * including values added later. Value enum: "pending", "active", "expired",
+             * "archived", "failed". anyOf[2] (Value): null.
+             */
+            "status"?: (("pending" | "active" | "expired" | "archived" | "failed" | (string & {})) | (null));
+            /**
+             * Kind of payment method. Value enum: "card". anyOf[1] (Value): string. Kind of
+             * payment method. Value enum: "card". anyOf[2] (Value): null.
+             */
+            "type"?: (("card" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session". anyOf[1] (Value): string. When Flint may charge the
+             * payment method. off_session payment methods can pay subscriptions, automatic
+             * invoices, and other charges without the buyer, and can be a customer's default.
+             * on_session payment methods were saved by the buyer in checkout for faster checkout
+             * at this merchant; Flint charges them only in checkouts the buyer completes and
+             * refuses them for any charge without the buyer and as a default. Payment methods
+             * saved before usage existed are off_session. Value enum: "on_session", "off_session".
+             * anyOf[2] (Value): null.
+             */
+            "usage"?: (("on_session" | "off_session" | (string & {})) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "payment_method.updated". */
+    "event_type"?: "payment_method.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});

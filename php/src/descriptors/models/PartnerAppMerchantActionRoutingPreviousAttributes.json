@@ -1,0 +1,1 @@
+{"shared":"PartnerAppMerchantActionRoutingPreviousAttributes","phpRepresentation":{"kind":"record","fields":{"expires_at":{"kind":"nullable","value":{"kind":"value","type":"string"}},"url":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["PartnerAppMerchantActionRoutingPreviousAttributes","SharedCodec0","SharedCodec20"]}

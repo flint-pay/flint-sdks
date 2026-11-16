@@ -68,7 +68,7 @@ anyOf variant 2.
 
 anyOf variant 1: Resources currently preventing approval, computed when the request is read. Present only for pending_review, including an empty array when nothing blocks approval. Uses the same references as RESOURCE_IN_USE: non-canceled subscriptions and active or pending payment methods, ordered by resource_type then resource_id, capped at 25 of each type. List the customer's subscriptions and payment methods for the remaining resources when blocking_resource_count exceeds this array's length. Approval rechecks the blockers; cancel_subscriptions and remove_payment_methods can clear the matching resources before erasure..
 
-- Value shape: Array of [ErrorResourceReference](../models/ErrorResourceReference.md#errorresourcereference). Resources currently preventing approval, computed when the request is read. Present only for pending_review, including an empty array when nothing blocks approval. Uses the same references as RESOURCE_IN_USE: non-canceled subscriptions and active or pending payment methods, ordered by resource_type then resource_id, capped at 25 of each type. List the customer's subscriptions and payment methods for the remaining resources when blocking_resource_count exceeds this array's length. Approval rechecks the blockers; cancel_subscriptions and remove_payment_methods can clear the matching resources before erasure. 
+- Value shape: Array of [ErrorResourceReferencePreviousAttributes](../models/ErrorResourceReferencePreviousAttributes.md#errorresourcereferencepreviousattributes). Resources currently preventing approval, computed when the request is read. Present only for pending_review, including an empty array when nothing blocks approval. Uses the same references as RESOURCE_IN_USE: non-canceled subscriptions and active or pending payment methods, ordered by resource_type then resource_id, capped at 25 of each type. List the customer's subscriptions and payment methods for the remaining resources when blocking_resource_count exceeds this array's length. Approval rechecks the blockers; cancel_subscriptions and remove_payment_methods can clear the matching resources before erasure. 
 
 ### CustomerDeletionRequestCompletedEvent.data fields 1.previous_attributes.blocking_resources variant 2
 
@@ -78,7 +78,43 @@ anyOf variant 2.
 
 ### CustomerDeletionRequestCompletedEvent.data fields 1.previous_attributes.blocking_resources variant 1.[] fields 1
 
-Field definitions: [CustomerDeletionRequestResponse.data.blocking_resources[]](../models/CustomerDeletionRequestResponse.md#customerdeletionrequestresponsedatablocking_resources).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `resource_id` | Optional | string or null | Public Flint ID of the referenced resource. `resource_id`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_by-variant-1resource_id). |
+| `resource_type` | Optional | string or null | Stable public resource name for the referenced resource: a ResourceType value, or resource when the resource has no public type. `resource_type`: [declared alternatives](../models/CustomerDeletionRequestCompletedEvent.md#customerdeletionrequestcompletedeventdata-fields-1previous_attributesblocking_resources-variant-1-fields-1resource_type). |
+| `status` | Optional | string or null | Current public status of the referenced resource when available. `status`: [declared alternatives](../models/CustomerDeletionRequestCompletedEvent.md#customerdeletionrequestcompletedeventdata-fields-1previous_attributesblocking_resources-variant-1-fields-1status). |
+
+### CustomerDeletionRequestCompletedEvent.data fields 1.previous_attributes.blocking_resources variant 1.[] fields 1.resource_id
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_by variant 1.resource_id](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_by-variant-1resource_id).
+
+### CustomerDeletionRequestCompletedEvent.data fields 1.previous_attributes.blocking_resources variant 1.[] fields 1.resource_type
+
+### CustomerDeletionRequestCompletedEvent.data fields 1.previous_attributes.blocking_resources variant 1.[] fields 1.resource_type variant 1
+
+anyOf variant 1: Stable public resource name for the referenced resource: a ResourceType value, or resource when the resource has no public type..
+
+- Value shape: string. Stable public resource name for the referenced resource: a ResourceType value, or resource when the resource has no public type. Stable public resource name for the referenced resource: a ResourceType value, or resource when the resource has no public type. Example: `"order"`. 
+
+### CustomerDeletionRequestCompletedEvent.data fields 1.previous_attributes.blocking_resources variant 1.[] fields 1.resource_type variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Stable public resource name for the referenced resource: a ResourceType value, or resource when the resource has no public type. 
+
+### CustomerDeletionRequestCompletedEvent.data fields 1.previous_attributes.blocking_resources variant 1.[] fields 1.status
+
+### CustomerDeletionRequestCompletedEvent.data fields 1.previous_attributes.blocking_resources variant 1.[] fields 1.status variant 1
+
+anyOf variant 1: Current public status of the referenced resource when available..
+
+- Value shape: string. Current public status of the referenced resource when available. 
+
+### CustomerDeletionRequestCompletedEvent.data fields 1.previous_attributes.blocking_resources variant 1.[] fields 1.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Current public status of the referenced resource when available. 
 
 ### CustomerDeletionRequestCompletedEvent.data fields 1.previous_attributes.canceled_subscription_ids
 
@@ -128,7 +164,7 @@ anyOf variant 2.
 
 anyOf variant 1: Time of the most recent approve or reject decision. `null` when the request is pending_review or when a pre-existing decision time cannot be determined. Approval sets this before asynchronous erasure finishes; retry approval sets it again..
 
-- Value shape: (string or null). Time of the most recent approve or reject decision. `null` when the request is pending_review or when a pre-existing decision time cannot be determined. Approval sets this before asynchronous erasure finishes; retry approval sets it again. Time of the most recent approve or reject decision. `null` when the request is pending_review or when a pre-existing decision time cannot be determined. Approval sets this before asynchronous erasure finishes; retry approval sets it again. Format: `date-time`. 
+- Value shape: string. Time of the most recent approve or reject decision. `null` when the request is pending_review or when a pre-existing decision time cannot be determined. Approval sets this before asynchronous erasure finishes; retry approval sets it again. Time of the most recent approve or reject decision. `null` when the request is pending_review or when a pre-existing decision time cannot be determined. Approval sets this before asynchronous erasure finishes; retry approval sets it again. Format: `date-time`. 
 
 ### CustomerDeletionRequestCompletedEvent.data fields 1.previous_attributes.decided_at variant 2
 
@@ -142,7 +178,7 @@ anyOf variant 2.
 
 anyOf variant 1: Merchant's plain-text explanation for rejecting the request, visible to the buyer. `null` when no reason was provided or the customer's personal data has since been erased..
 
-- Value shape: (string or null). Merchant's plain-text explanation for rejecting the request, visible to the buyer. `null` when no reason was provided or the customer's personal data has since been erased. 
+- Value shape: string. Merchant's plain-text explanation for rejecting the request, visible to the buyer. `null` when no reason was provided or the customer's personal data has since been erased. 
 
 ### CustomerDeletionRequestCompletedEvent.data fields 1.previous_attributes.decision_reason variant 2
 
@@ -174,7 +210,7 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 anyOf variant 1: Who opened the request: buyer from the buyer account, or merchant on the buyer's behalf. `null` when the source of a pre-existing request cannot be determined..
 
-- Value shape: (string or null). Who opened the request: buyer from the buyer account, or merchant on the buyer's behalf. `null` when the source of a pre-existing request cannot be determined. Values: `"buyer"`, `"merchant"`, `null`.
+- Value shape: string. Who opened the request: buyer from the buyer account, or merchant on the buyer's behalf. `null` when the source of a pre-existing request cannot be determined. Values: `"buyer"`, `"merchant"`, `null`.
 
 ### CustomerDeletionRequestCompletedEvent.data fields 1.previous_attributes.requested_by variant 2
 

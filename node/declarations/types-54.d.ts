@@ -1,550 +1,377 @@
-import type { InputValue, RequestOptions as RuntimeRequestOptions, CredentialProvider } from '../runtime.js';
-import type { RememberedBuyerTokenRequestInput, RefundDestinations, RefundDestinationsInput } from './types-53.js';
-import type { ConfigurationVersionRequestInput, ConfirmReturnResolutionRequestInput } from './types-7.js';
-import type { GetReturnResponse, GetReturnDispositionResponse } from './types-26.js';
-import type { PublicDownload, Refund } from './types-52.js';
-import type { MerchantWebhookEnvelope } from './types-38.js';
-import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-29.js';
-import type { CreateReportRequestInput } from './types-12.js';
-import type { AuthMode, BuyerCheckoutSessionWithSecret } from './types-1.js';
-import type { Credentials } from './types-14.js';
-import type { CreateDemoSessionRequestInput } from './types-9.js';
-import type { TextModifierRequest } from './types-65.js';
-import type { CheckoutSubscriptionTermsRequest, CheckoutSubscriptionTermsRequestInput } from './types-6.js';
-import type { MoneyValue, MoneyValueInput, NextAction } from './types-39.js';
-import type { SendOrderReceiptRequest } from './types-59.js';
-import type { PaymentLinkResolvePrefillRequestInput } from './types-46.js';
-import type { OrderEdit } from './types-40.js';
-export type RememberedBuyersLookupParams = (InputValue<RememberedBuyerTokenRequestInput>);
-export type RememberedBuyersRevokeParams = RememberedBuyersLookupParams;
-/**
- * Removes pending order discounts or promotions deferred to subscription billing. Send at least
- * one ID across order_discount_ids and deferred_promotion_ids.
- */
-export type RemoveDiscountsRequest = ({
+import type {
+    PendingPaymentActionPaymentIntentSubject,
+    PendingPaymentActionPaymentIntentSubjectPreviousAttributes
+} from './types-53.js';
+import type { Address, AddressPreviousAttributes } from './types-0.js';
+import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-42.js';
+import type { ResponseMeta, ResourceReference } from './types-60.js';
+import type { InputValue } from '../runtime.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-41.js';
+import type { PartnerWebhookEnvelope } from './types-49.js';
+import type { QuantityPriceBreak, QuantityPriceBreakRequestInput } from './types-57.js';
+import type { CreatePriceListRequestInput, CreatePriceListPricesRequestInput } from './types-12.js';
+import type { DisputesAcceptParams } from './types-25.js';
+import type { UpdatePriceListRequestInput, UpdatePriceListPriceRequestInput } from './types-74.js';
+/** The payment method setup that needs buyer authentication in a pending payment action. */
+export type PendingPaymentActionSetupPaymentSourceSubject = {
     /**
-     * IDs from the order's deferred_promotions to remove before payment. May be omitted or empty
-     * when order_discount_ids contains an ID. [] (Value): string. minLength: 1. Example:
-     * "dp_01KEZF7C00KR2DPPXEHRHG12N7".
+     * ID of the payment method being saved, which needs the buyer's authentication first. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ".
      */
-    "deferred_promotion_ids"?: Array<string>;
-    /**
-     * Optional order version from the last order read. The mutation fails if the order changed.
-     * Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * IDs from the order's discounts to remove. May be omitted or empty when
-     * deferred_promotion_ids contains an ID. [] (Value): string. minLength: 1. Example:
-     * "ad_01KEZF7C00T30DH97GR0A9BF31".
-     */
-    "order_discount_ids"?: Array<string>;
-})
-    & (({
-    /** IDs of the order discounts to remove. minItems: 1. */
-    "order_discount_ids": unknown;
-})
-    | ({
-    /**
-     * IDs from the order's deferred_promotions to remove before payment. May be omitted or empty
-     * when order_discount_ids contains an ID. minItems: 1.
-     */
-    "deferred_promotion_ids": unknown;
-})
-    | (Record<string, unknown>));
-/**
- * Removes pending order discounts or promotions deferred to subscription billing. Send at least
- * one ID across order_discount_ids and deferred_promotion_ids.
- */
-export type RemoveDiscountsRequestInput = ({
-    /**
-     * IDs from the order's deferred_promotions to remove before payment. May be omitted or empty
-     * when order_discount_ids contains an ID. [] (Value): string. minLength: 1. Example:
-     * "dp_01KEZF7C00KR2DPPXEHRHG12N7".
-     */
-    "deferred_promotion_ids"?: Array<string>;
-    /**
-     * Optional order version from the last order read. The mutation fails if the order changed.
-     * Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * IDs from the order's discounts to remove. May be omitted or empty when
-     * deferred_promotion_ids contains an ID. [] (Value): string. minLength: 1. Example:
-     * "ad_01KEZF7C00T30DH97GR0A9BF31".
-     */
-    "order_discount_ids"?: Array<string>;
-})
-    & (({
-    /** IDs of the order discounts to remove. minItems: 1. */
-    "order_discount_ids": unknown;
-})
-    | ({
-    /**
-     * IDs from the order's deferred_promotions to remove before payment. May be omitted or empty
-     * when order_discount_ids contains an ID. minItems: 1.
-     */
-    "deferred_promotion_ids": unknown;
-}));
-/** The request body for: Remove subscription promotions. */
-export type RemoveSubscriptionPromotionsRequest = {
-    /**
-     * Remove only if this matches the subscription's current version. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Active or scheduled promotions to remove. Renewal orders created after removal omit them;
-     * paid orders and the unpaid past_due order keep their discounts. Consumed cycles are kept for
-     * reattachment. minItems: 1. maxItems: 5. uniqueItems: true. [] (Value): string. minLength: 1.
-     * pattern: ^promo_[0-9A-HJKMNP-TV-Z]{26}$. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_ids": Array<string>;
+    "payment_method_id": string;
 };
-/** The request body for: Remove subscription promotions. */
-export type RemoveSubscriptionPromotionsRequestInput = RemoveSubscriptionPromotionsRequest;
-/** The request body for: Renew subscription now. */
-export type RenewSubscriptionRequestInput = ConfigurationVersionRequestInput;
-/** The request body for: Reopen return. */
-export type ReopenReturnRequest = {
+export type PendingPaymentActionSetupPaymentSourceSubjectPreviousAttributes = {
     /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: int64. minimum: 1.
+     * ID of the payment method being saved, which needs the buyer's authentication first. anyOf[1]
+     * (Value): string. ID of the payment method being saved, which needs the buyer's
+     * authentication first. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value): null.
      */
-    "expected_version"?: number;
+    "payment_method_id"?: ((string) | (null));
+};
+/** Typed subject for a pending order payment action. Exactly one subject is present. */
+export type PendingPaymentActionSubject = {
     /**
-     * Why the Return is being reopened. Value enum: "linked_effect_changed",
-     * "correction_required", "additional_merchandise_received", "merchant_request", "other".
+     * PaymentIntent that requires buyer authentication or card presentment. It can be a standalone
+     * intent or an order-owned payment leg. The payment intent that needs buyer authentication in
+     * a pending payment action.
      */
-    "reason": "linked_effect_changed"
-        | "correction_required"
-        | "additional_merchandise_received"
-        | "merchant_request"
-        | "other"
+    "payment_intent"?: PendingPaymentActionPaymentIntentSubject;
+    /**
+     * Future-billing payment method setup that requires buyer authentication. The payment method
+     * setup that needs buyer authentication in a pending payment action.
+     */
+    "setup_payment_source"?: PendingPaymentActionSetupPaymentSourceSubject;
+};
+export type PendingPaymentActionSubjectPreviousAttributes = {
+    /**
+     * PaymentIntent that requires buyer authentication or card presentment. It can be a standalone
+     * intent or an order-owned payment leg. anyOf[1] (Value): {@link
+     * PendingPaymentActionPaymentIntentSubjectPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "payment_intent"?: ((PendingPaymentActionPaymentIntentSubjectPreviousAttributes) | (null));
+    /**
+     * Future-billing payment method setup that requires buyer authentication. anyOf[1] (Value):
+     * {@link PendingPaymentActionSetupPaymentSourceSubjectPreviousAttributes}. anyOf[2] (Value):
+     * null.
+     */
+    "setup_payment_source"?: ((PendingPaymentActionSetupPaymentSourceSubjectPreviousAttributes) | (null));
+};
+/**
+ * Pickup details. For a pickup that checkout creates, location_name, address, and instructions
+ * name the store the buyer chose and the delivery method's pickup instructions. The note the buyer
+ * left for the store is in recipient.instructions.
+ */
+export type PickupFulfillmentDetails = {
+    /**
+     * Address where the buyer collects the order. A postal address. Every address has country.
+     * Addresses Flint checked as complete (customer and saved addresses, merchant, location,
+     * invoice, order delivery destination, tax identity, fulfillment recipient and pickup
+     * addresses) always have line1 and city, and US ones always have state and postal_code.
+     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
+     * was provided, such as postal_code and country.
+     */
+    "address"?: Address;
+    /** Instructions specific to curbside handoff. maxLength: 2048. */
+    "curbside_instructions"?: string;
+    /**
+     * Buyer-reported arrival time for curbside or counter pickup. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "customer_arrived_at"?: string;
+    /** Pickup instructions for the buyer, such as where to go on arrival. */
+    "instructions"?: string;
+    /** Name of the store or place where the buyer collects the order. */
+    "location_name"?: string;
+    /**
+     * When the recipient collected the items, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "picked_up_at"?: string;
+    /**
+     * Time by which the buyer should collect the order. Passing it does not change status or emit
+     * an event automatically; the merchant decides how to follow up. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "pickup_due_at"?: string;
+    /**
+     * How the buyer collects the items, such as in store or curbside. Value enum: "in_store",
+     * "curbside", "locker", "other".
+     */
+    "pickup_mode"?: "in_store" | "curbside" | "locker" | "other" | (string & {});
+    /**
+     * Width of the promised pickup window, from 0 to 86400 seconds. Format: int64. minimum: 0.
+     * maximum: 86400.
+     */
+    "pickup_window_duration_seconds"?: number;
+    /**
+     * Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds.
+     * Format: int64. minimum: 0. maximum: 86400.
+     */
+    "prep_time_duration_seconds"?: number;
+    /**
+     * When the items became ready for pickup, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "ready_at"?: string;
+    /** Timezone used to display the pickup window. Uses an IANA time zone name. */
+    "timezone"?: string;
+    /**
+     * Buyer vehicle description used for curbside handoff. Omitted for a checkout session
+     * credential that doesn't act for the customer the buyer verified. maxLength: 500.
+     */
+    "vehicle_description"?: string;
+    /**
+     * End of the promised pickup window, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "window_end_at"?: string;
+    /**
+     * Start of the promised pickup window, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "window_start_at"?: string;
+};
+export type PickupFulfillmentDetailsPreviousAttributes = {
+    /**
+     * Address where the buyer collects the order. anyOf[1] (Value): {@link
+     * AddressPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "address"?: ((AddressPreviousAttributes) | (null));
+    /**
+     * Instructions specific to curbside handoff. anyOf[1] (Value): string. Instructions specific
+     * to curbside handoff. maxLength: 2048. anyOf[2] (Value): null.
+     */
+    "curbside_instructions"?: ((string) | (null));
+    /**
+     * Buyer-reported arrival time for curbside or counter pickup. anyOf[1] (Value): string.
+     * Buyer-reported arrival time for curbside or counter pickup. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "customer_arrived_at"?: ((string) | (null));
+    /**
+     * Pickup instructions for the buyer, such as where to go on arrival. anyOf[1] (Value): string.
+     * Pickup instructions for the buyer, such as where to go on arrival. anyOf[2] (Value): null.
+     */
+    "instructions"?: ((string) | (null));
+    /**
+     * Name of the store or place where the buyer collects the order. anyOf[1] (Value): string.
+     * Name of the store or place where the buyer collects the order. anyOf[2] (Value): null.
+     */
+    "location_name"?: ((string) | (null));
+    /**
+     * When the recipient collected the items, in RFC3339 format. anyOf[1] (Value): string. When
+     * the recipient collected the items, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "picked_up_at"?: ((string) | (null));
+    /**
+     * Time by which the buyer should collect the order. Passing it does not change status or emit
+     * an event automatically; the merchant decides how to follow up. anyOf[1] (Value): string.
+     * Time by which the buyer should collect the order. Passing it does not change status or emit
+     * an event automatically; the merchant decides how to follow up. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "pickup_due_at"?: ((string) | (null));
+    /**
+     * How the buyer collects the items, such as in store or curbside. Value enum: "in_store",
+     * "curbside", "locker", "other". anyOf[1] (Value): string. How the buyer collects the items,
+     * such as in store or curbside. Value enum: "in_store", "curbside", "locker", "other".
+     * anyOf[2] (Value): null.
+     */
+    "pickup_mode"?: (("in_store" | "curbside" | "locker" | "other" | (string & {})) | (null));
+    /**
+     * Width of the promised pickup window, from 0 to 86400 seconds. anyOf[1] (Value): integer.
+     * Width of the promised pickup window, from 0 to 86400 seconds. Format: int64. minimum: 0.
+     * maximum: 86400. anyOf[2] (Value): null.
+     */
+    "pickup_window_duration_seconds"?: ((number) | (null));
+    /**
+     * Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds.
+     * anyOf[1] (Value): integer. Expected preparation time for restaurant and made-to-order
+     * pickup, from 0 to 86400 seconds. Format: int64. minimum: 0. maximum: 86400. anyOf[2]
+     * (Value): null.
+     */
+    "prep_time_duration_seconds"?: ((number) | (null));
+    /**
+     * When the items became ready for pickup, in RFC3339 format. anyOf[1] (Value): string. When
+     * the items became ready for pickup, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "ready_at"?: ((string) | (null));
+    /**
+     * Timezone used to display the pickup window. Uses an IANA time zone name. anyOf[1] (Value):
+     * string. Timezone used to display the pickup window. Uses an IANA time zone name. anyOf[2]
+     * (Value): null.
+     */
+    "timezone"?: ((string) | (null));
+    /**
+     * Buyer vehicle description used for curbside handoff. Omitted for a checkout session
+     * credential that doesn't act for the customer the buyer verified. anyOf[1] (Value): string.
+     * Buyer vehicle description used for curbside handoff. Omitted for a checkout session
+     * credential that doesn't act for the customer the buyer verified. maxLength: 500. anyOf[2]
+     * (Value): null.
+     */
+    "vehicle_description"?: ((string) | (null));
+    /**
+     * End of the promised pickup window, in RFC3339 format. anyOf[1] (Value): string. End of the
+     * promised pickup window, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "window_end_at"?: ((string) | (null));
+    /**
+     * Start of the promised pickup window, in RFC3339 format. anyOf[1] (Value): string. Start of
+     * the promised pickup window, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "window_start_at"?: ((string) | (null));
+};
+/**
+ * A platform fee your partner app charged, or asked to charge, on a payment it created for an
+ * installed merchant. Owned by the merchant that owns the partner app.
+ */
+export type PlatformFee = {
+    /**
+     * The fee Flint will charge until the payment succeeds, then the fee charged. Flint lowers it
+     * at confirm and capture to fit the merchant's cap and Flint's own fees; 0 once canceled.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Why Flint collected no fee. Present only when status is canceled. Can gain values. Value
+     * enum: "payment_not_completed", "install_revoked", "platform_capability_inactive",
+     * "uncollectible".
+     */
+    "canceled_reason"?: "payment_not_completed"
+        | "install_revoked"
+        | "platform_capability_inactive"
+        | "uncollectible"
         | (string & {});
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
-};
-/** The request body for: Reopen return. */
-export type ReopenReturnRequestInput = {
     /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: int64. minimum: 1.
+     * The checkout session the payment came from. Absent when the fee was sent with the payment
+     * itself. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
      */
-    "expected_version"?: number;
+    "checkout_session_id"?: string;
     /**
-     * Why the Return is being reopened. Value enum: "linked_effect_changed",
-     * "correction_required", "additional_merchandise_received", "merchant_request", "other".
+     * When Flint collected the fee with the payment. Absent unless status is succeeded. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
      */
-    "reason": "linked_effect_changed"
-        | "correction_required"
-        | "additional_merchandise_received"
-        | "merchant_request"
-        | "other";
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
-};
-export type ReopenReturnResponse = GetReturnResponse;
-/** A report generated from the merchant's activity. */
-export type Report = ({
+    "collected_at"?: string;
     /**
-     * Present only for receivables_aging_v1. The calendar date in timezone whose receivables are
-     * reported. Format: date. Example: "2026-08-02".
+     * When the payment's create recorded the fee. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
      */
-    "as_of_date"?: string;
-    /** When the report was requested. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "created_at": string;
     /**
-     * Currency the report covers. A report never combines currencies. Uses ISO 4217 currency
-     * codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * The installed merchant charged the fee, as on the install. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id": string;
+    /** The partner app that charged the fee. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV". */
+    "partner_app_id": string;
+    /**
+     * The install whose partner app token created the payment. Example:
+     * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+     */
+    "partner_app_install_id": string;
+    /**
+     * The payment the fee rides on, owned by the installed merchant. After that merchant resets
+     * the sandbox the payment was in, the ID no longer resolves. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string;
+    /**
+     * Unique identifier for the platform fee, the payment intent's platform_fee.platform_fee_id.
+     * Example: "pfee_01KEZF7C00JHAZN19B3MMW0R3A".
+     */
+    "platform_fee_id": string;
+    /**
+     * The fee debited from the platform for returns so far, including opted-in payment refunds and
+     * returns of the whole application fee. Matches the platform ledger, including returns
+     * awaiting completion; reversals reduce the total. 0 when nothing has been debited. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "refunded_money": MoneyValue;
+    /**
+     * The fee the request asked for. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "requested_amount_money": MoneyValue;
+    /**
+     * When the held share is due to return to your available balance. Absent until the fee posts,
+     * and when nothing was held. Setting it sends no event. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "reserve_available_at"?: string;
+    /**
+     * The share of the fee Flint held in your reserve when it posted the fee to your ledger.
+     * Absent until then. A snapshot: loss coverage draws on the reserve as a whole, so read
+     * PlatformFeeBalance.reserve_money for what is held now. Setting it sends no event. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "reserve_hold_money"?: MoneyValue;
+    /** Where the fee stands. canceled is final. Value enum: "pending", "succeeded", "canceled". */
+    "status": "pending" | "succeeded" | "canceled" | (string & {});
+    /** When the fee last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+/** One partner app's platform fee balance in one currency. */
+export type PlatformFeeBalance = {
+    /**
+     * Fees Flint holds as available funds, net of the reserve. It can be negative: a fee returned
+     * after payout is owed back from your next fees. available_money plus pending_money equals the
+     * sum of amount_money over the app's balance transactions in this currency. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "available_money": MoneyValue;
+    /**
+     * ISO 4217 currency code of every amount on the balance. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
      */
     "currency": string;
     /**
-     * Link to download the generated report. Present only when status is succeeded. A temporary
-     * link for downloading a generated report.
+     * The next scheduled payout run. Absent until scheduled. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
      */
-    "download"?: PublicDownload;
+    "next_payout_at"?: string;
+    /** The partner app the balance belongs to. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV". */
+    "partner_app_id": string;
     /**
-     * Why the report failed. Present only when status is failed: limit_exceeded when the report
-     * hit a size or time limit, data_unavailable when data it needs wasn't available yet, and
-     * generation_failed for other errors. Treat an unknown value like generation_failed. Value
-     * enum: "generation_failed", "data_unavailable", "limit_exceeded".
+     * Why payouts wait. Present only when payouts_enabled is false. Can gain values. Value enum:
+     * "platform_paused", "merchant_payouts_unavailable".
      */
-    "failure_reason"?: "generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {});
+    "payouts_disabled_reason"?: "platform_paused" | "merchant_payouts_unavailable" | (string & {});
     /**
-     * Exclusive interval end instant. Each report type matches its own occurrence time. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
+     * Whether your platform and merchant account can receive payouts. Flint deferring a run for
+     * cash safety doesn't disable payouts.
      */
-    "interval_end_at": string;
+    "payouts_enabled": boolean;
     /**
-     * Inclusive interval start instant. Each report type matches its own occurrence time. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
+     * Fees Flint hasn't received as available funds yet, net of their reserve holds. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
      */
-    "interval_start_at": string;
+    "pending_money": MoneyValue;
+    /** Unique identifier for the balance. Example: "pfbal_01KEZF7C005QNZBGFAR0NNPEQ4". */
+    "platform_fee_balance_id": string;
     /**
-     * Stable identifier of the report. pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "rep_01KEZF7C00M947R0GYFMT8VXKJ".
+     * What Flint holds in your reserve now: reserve holds minus releases. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
      */
-    "report_id": string;
-    /**
-     * The report's type and column version. See the Reports guide for its columns. Value enum:
-     * "receivables_aging_v1", "invoices_itemized_v1", "gift_card_liability_v1",
-     * "orders_itemized_v1", "orders_itemized_v2", "payments_itemized_v1",
-     * "balance_transactions_itemized_v1", "payouts_itemized_v1", "tax_itemized_v1",
-     * "tax_summarized_v1", "merchant_billing_itemized_v1", "tax_transactions_itemized_v1",
-     * "tax_transactions_itemized_v2".
-     */
-    "report_type": "receivables_aging_v1"
-        | "invoices_itemized_v1"
-        | "gift_card_liability_v1"
-        | "orders_itemized_v1"
-        | "orders_itemized_v2"
-        | "payments_itemized_v1"
-        | "balance_transactions_itemized_v1"
-        | "payouts_itemized_v1"
-        | "tax_itemized_v1"
-        | "tax_summarized_v1"
-        | "merchant_billing_itemized_v1"
-        | "tax_transactions_itemized_v1"
-        | "tax_transactions_itemized_v2"
-        | (string & {});
-    /**
-     * pending while Flint generates the report, then succeeded with a download or failed with a
-     * failure_reason. Flint sends report.succeeded or report.failed when it finishes. Value enum:
-     * "pending", "succeeded", "failed".
-     */
-    "status": "pending" | "succeeded" | "failed" | (string & {});
-    /**
-     * IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its
-     * arrival_date in this timezone.
-     */
-    "timezone": string;
-})
-    & ((Exclude<ReportPending & object, readonly unknown[]>)
-    | (Exclude<ReportSucceeded & object, readonly unknown[]>)
-    | (Exclude<ReportFailed & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-export type ReportDownloadsGetParams = {};
-export type ReportDownloadsGetResponse = {
-    location?: string;
+    "reserve_money": MoneyValue;
+    /** When the balance last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
 };
-/** A report generated from the merchant's activity. */
-export type ReportFailed = ({
-    /**
-     * Present only for receivables_aging_v1. The calendar date in timezone whose receivables are
-     * reported. Format: date. Example: "2026-08-02".
-     */
-    "as_of_date"?: string;
-    /** When the report was requested. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * Currency the report covers. A report never combines currencies. Uses ISO 4217 currency
-     * codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency": string;
-    /**
-     * Link to download the generated report. Present only when status is succeeded. A temporary
-     * link for downloading a generated report.
-     */
-    "download"?: PublicDownload;
-    /**
-     * Why the report failed. Present only when status is failed: limit_exceeded when the report
-     * hit a size or time limit, data_unavailable when data it needs wasn't available yet, and
-     * generation_failed for other errors. Treat an unknown value like generation_failed. Value
-     * enum: "generation_failed", "data_unavailable", "limit_exceeded".
-     */
-    "failure_reason": "generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {});
-    /**
-     * Exclusive interval end instant. Each report type matches its own occurrence time. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "interval_end_at": string;
-    /**
-     * Inclusive interval start instant. Each report type matches its own occurrence time. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "interval_start_at": string;
-    /**
-     * Stable identifier of the report. pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "rep_01KEZF7C00M947R0GYFMT8VXKJ".
-     */
-    "report_id": string;
-    /**
-     * The report's type and column version. See the Reports guide for its columns. Value enum:
-     * "receivables_aging_v1", "invoices_itemized_v1", "gift_card_liability_v1",
-     * "orders_itemized_v1", "orders_itemized_v2", "payments_itemized_v1",
-     * "balance_transactions_itemized_v1", "payouts_itemized_v1", "tax_itemized_v1",
-     * "tax_summarized_v1", "merchant_billing_itemized_v1", "tax_transactions_itemized_v1",
-     * "tax_transactions_itemized_v2".
-     */
-    "report_type": "receivables_aging_v1"
-        | "invoices_itemized_v1"
-        | "gift_card_liability_v1"
-        | "orders_itemized_v1"
-        | "orders_itemized_v2"
-        | "payments_itemized_v1"
-        | "balance_transactions_itemized_v1"
-        | "payouts_itemized_v1"
-        | "tax_itemized_v1"
-        | "tax_summarized_v1"
-        | "merchant_billing_itemized_v1"
-        | "tax_transactions_itemized_v1"
-        | "tax_transactions_itemized_v2"
-        | (string & {});
-    /**
-     * pending while Flint generates the report, then succeeded with a download or failed with a
-     * failure_reason. Flint sends report.succeeded or report.failed when it finishes. Value enum:
-     * "failed".
-     */
-    "status": "failed" | (string & {});
-    /**
-     * IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its
-     * arrival_date in this timezone.
-     */
-    "timezone": string;
-})
-    & (({
-    /** Value enum: "failed". */
-    "status"?: "failed" | (string & {});
-    /**
-     * Why the report failed. Present only when status is failed: limit_exceeded when the report
-     * hit a size or time limit, data_unavailable when data it needs wasn't available yet, and
-     * generation_failed for other errors. Treat an unknown value like generation_failed. Value
-     * enum: "generation_failed", "data_unavailable", "limit_exceeded".
-     */
-    "failure_reason": "generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {});
-}));
-export type ReportFailedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": ({
-            "as_of_date"?: string;
-            "created_at": string;
-            "currency": string;
-            "download"?: PublicDownload;
-            "failure_reason"?: "generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {});
-            "interval_end_at": string;
-            "interval_start_at": string;
-            "report_id": string;
-            "report_type": "receivables_aging_v1"
-                | "invoices_itemized_v1"
-                | "gift_card_liability_v1"
-                | "orders_itemized_v1"
-                | "orders_itemized_v2"
-                | "payments_itemized_v1"
-                | "balance_transactions_itemized_v1"
-                | "payouts_itemized_v1"
-                | "tax_itemized_v1"
-                | "tax_summarized_v1"
-                | "merchant_billing_itemized_v1"
-                | "tax_transactions_itemized_v1"
-                | "tax_transactions_itemized_v2"
-                | (string & {});
-            "status": "pending" | "succeeded" | "failed" | (string & {});
-            "timezone": string;
-        })
-            & ((Exclude<ReportPending & object, readonly unknown[]>)
-            | (Exclude<ReportSucceeded & object, readonly unknown[]>)
-            | (Exclude<ReportFailed & object, readonly unknown[]>)
-            | (Record<string, unknown>));
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & (({
-            "as_of_date"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "currency"?: ((string) | (null));
-            "download"?: ((PublicDownload) | (null));
-            "failure_reason"?: (("generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {})) | (null));
-            "interval_end_at"?: ((string) | (null));
-            "interval_start_at"?: ((string) | (null));
-            "report_id"?: ((string) | (null));
-            "report_type"?: (("receivables_aging_v1"
-                | "invoices_itemized_v1"
-                | "gift_card_liability_v1"
-                | "orders_itemized_v1"
-                | "orders_itemized_v2"
-                | "payments_itemized_v1"
-                | "balance_transactions_itemized_v1"
-                | "payouts_itemized_v1"
-                | "tax_itemized_v1"
-                | "tax_summarized_v1"
-                | "merchant_billing_itemized_v1"
-                | "tax_transactions_itemized_v1"
-                | "tax_transactions_itemized_v2"
-                | (string & {}))
-                | (null));
-            "status"?: (("pending" | "succeeded" | "failed" | (string & {})) | (null));
-            "timezone"?: ((string) | (null));
-        })
-            & (((({
-            "as_of_date"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "currency"?: ((string) | (null));
-            "download"?: ((PublicDownload) | (null));
-            "failure_reason"?: (("generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {})) | (null));
-            "interval_end_at"?: ((string) | (null));
-            "interval_start_at"?: ((string) | (null));
-            "report_id"?: ((string) | (null));
-            "report_type"?: (("receivables_aging_v1"
-                | "invoices_itemized_v1"
-                | "gift_card_liability_v1"
-                | "orders_itemized_v1"
-                | "orders_itemized_v2"
-                | "payments_itemized_v1"
-                | "balance_transactions_itemized_v1"
-                | "payouts_itemized_v1"
-                | "tax_itemized_v1"
-                | "tax_summarized_v1"
-                | "merchant_billing_itemized_v1"
-                | "tax_transactions_itemized_v1"
-                | "tax_transactions_itemized_v2"
-                | (string & {}))
-                | (null));
-            "status"?: (("pending" | (string & {})) | (null));
-            "timezone"?: ((string) | (null));
-        })
-            & ({
-            "status"?: (("pending" | (string & {})) | (null));
-        }))
-            | (({
-            "as_of_date"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "currency"?: ((string) | (null));
-            "download"?: ((PublicDownload) | (null));
-            "failure_reason"?: (("generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {})) | (null));
-            "interval_end_at"?: ((string) | (null));
-            "interval_start_at"?: ((string) | (null));
-            "report_id"?: ((string) | (null));
-            "report_type"?: (("receivables_aging_v1"
-                | "invoices_itemized_v1"
-                | "gift_card_liability_v1"
-                | "orders_itemized_v1"
-                | "orders_itemized_v2"
-                | "payments_itemized_v1"
-                | "balance_transactions_itemized_v1"
-                | "payouts_itemized_v1"
-                | "tax_itemized_v1"
-                | "tax_summarized_v1"
-                | "merchant_billing_itemized_v1"
-                | "tax_transactions_itemized_v1"
-                | "tax_transactions_itemized_v2"
-                | (string & {}))
-                | (null));
-            "status"?: (("succeeded" | (string & {})) | (null));
-            "timezone"?: ((string) | (null));
-        })
-            & ({
-            "status"?: (("succeeded" | (string & {})) | (null));
-        }))
-            | (({
-            "as_of_date"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "currency"?: ((string) | (null));
-            "download"?: ((PublicDownload) | (null));
-            "failure_reason"?: (("generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {})) | (null));
-            "interval_end_at"?: ((string) | (null));
-            "interval_start_at"?: ((string) | (null));
-            "report_id"?: ((string) | (null));
-            "report_type"?: (("receivables_aging_v1"
-                | "invoices_itemized_v1"
-                | "gift_card_liability_v1"
-                | "orders_itemized_v1"
-                | "orders_itemized_v2"
-                | "payments_itemized_v1"
-                | "balance_transactions_itemized_v1"
-                | "payouts_itemized_v1"
-                | "tax_itemized_v1"
-                | "tax_summarized_v1"
-                | "merchant_billing_itemized_v1"
-                | "tax_transactions_itemized_v1"
-                | "tax_transactions_itemized_v2"
-                | (string & {}))
-                | (null));
-            "status"?: (("failed" | (string & {})) | (null));
-            "timezone"?: ((string) | (null));
-        })
-            & ({
-            "status"?: (("failed" | (string & {})) | (null));
-        }))
-            | (Record<string, unknown>))));
-    };
-    "event_source"?: "merchant" | (string & {});
-    "event_type"?: "report.failed";
-})
-    & {
-    "event_type": "report.failed";
-});
-/** Records in-transit stock as lost. */
-export type ReportInventoryTransferLossRequest = {
-    /** Transfer version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Transfer lines this action changes, each with a cumulative target. 1 to 100 lines. minItems:
-     * 1. maxItems: 100. [] (Value): object. [].inventory_transfer_line_id (Required): string.
-     * Transfer line this action changes. minLength: 1. Example:
-     * "invtrln_01KEZF7C00CK297J6QVV5J0PFV". [].target_lost_quantity (Required): integer.
-     * Cumulative quantity that should be recorded as lost in transit. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. minimum: 0.
-     */
-    "lines": Array<{
-        /**
-         * Transfer line this action changes. minLength: 1. Example:
-         * "invtrln_01KEZF7C00CK297J6QVV5J0PFV".
-         */
-        "inventory_transfer_line_id": string;
-        /**
-         * Cumulative quantity that should be recorded as lost in transit. Whole-number quantity;
-         * fractional quantities are not supported. Format: int64. minimum: 0.
-         */
-        "target_lost_quantity": number;
-    }>;
-    /**
-     * When and where the stock moved. Optional; when omitted, the movements record the time Flint
-     * received the command as occurred_at and a null source_system. Where and when an inventory
-     * event happened: the source system, external actor, and time.
-     */
-    "provenance"?: InventoryProvenanceRequest;
-};
-/** Records in-transit stock as lost. */
-export type ReportInventoryTransferLossRequestInput = {
-    /** Transfer version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Transfer lines this action changes, each with a cumulative target. 1 to 100 lines. minItems:
-     * 1. maxItems: 100. [] (Value): object. [].inventory_transfer_line_id (Required): string.
-     * Transfer line this action changes. minLength: 1. Example:
-     * "invtrln_01KEZF7C00CK297J6QVV5J0PFV". [].target_lost_quantity (Required): integer.
-     * Cumulative quantity that should be recorded as lost in transit. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. minimum: 0.
-     */
-    "lines": Array<{
-        /**
-         * Transfer line this action changes. minLength: 1. Example:
-         * "invtrln_01KEZF7C00CK297J6QVV5J0PFV".
-         */
-        "inventory_transfer_line_id": string;
-        /**
-         * Cumulative quantity that should be recorded as lost in transit. Whole-number quantity;
-         * fractional quantities are not supported. Format: int64. minimum: 0.
-         */
-        "target_lost_quantity": number;
-    }>;
-    /**
-     * When and where the stock moved. Optional; when omitted, the movements record the time Flint
-     * received the command as occurred_at and a null source_system. Where and when an inventory
-     * event happened: the source system, external actor, and time.
-     */
-    "provenance"?: InventoryProvenanceRequestInput;
-};
-/** A page of `Report` objects. */
-export type ReportListResponse = {
+/** A page of `PlatformFeeBalance` objects. */
+export type PlatformFeeBalanceListResponse = {
     /**
      * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * Report}. A report generated from the merchant's activity.
+     * PlatformFeeBalance}. One partner app's platform fee balance in one currency.
      */
-    "data": Array<Report>;
+    "data": Array<PlatformFeeBalance>;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -561,1313 +388,82 @@ export type ReportListResponse = {
      */
     "request_id": string;
 };
-/** A report generated from the merchant's activity. */
-export type ReportPending = ({
+/**
+ * One entry of a partner app's platform fee ledger. Entries keep their amounts; status,
+ * available_at and the payout link can be filled later.
+ */
+export type PlatformFeeBalanceTransaction = {
     /**
-     * Present only for receivables_aging_v1. The calendar date in timezone whose receivables are
-     * reported. Format: date. Example: "2026-08-02".
+     * The signed effect on available_money plus pending_money: positive for money in, negative for
+     * money out. Signed monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
      */
-    "as_of_date"?: string;
-    /** When the report was requested. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "amount_money": MoneyValue;
+    /**
+     * When the entry becomes, or became, available. Absent while Flint hasn't verified the
+     * application fee that carries it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "available_at"?: string;
+    /** When Flint recorded the entry. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "created_at": string;
+    /** Display text, not for matching. */
+    "description"?: string;
+    /** When the movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "occurred_at": string;
+    /** The partner app the entry belongs to. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV". */
+    "partner_app_id": string;
     /**
-     * Currency the report covers. A report never combines currencies. Uses ISO 4217 currency
-     * codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * Unique identifier for the balance transaction. Example: "pfbt_01KEZF7C0079KPKMAHC7C60G1T".
      */
-    "currency": string;
+    "platform_fee_balance_transaction_id": string;
     /**
-     * Link to download the generated report. Present only when status is succeeded. A temporary
-     * link for downloading a generated report.
+     * The fee the entry concerns, when it concerns one. Example:
+     * "pfee_01KEZF7C00JHAZN19B3MMW0R3A".
      */
-    "download"?: PublicDownload;
+    "platform_fee_id"?: string;
     /**
-     * Why the report failed. Present only when status is failed: limit_exceeded when the report
-     * hit a size or time limit, data_unavailable when data it needs wasn't available yet, and
-     * generation_failed for other errors. Treat an unknown value like generation_failed. Value
-     * enum: "generation_failed", "data_unavailable", "limit_exceeded".
+     * The payout that carried the entry. Set once when a payout is prepared, and never changed.
+     * Example: "pfpo_01KEZF7C00H58B147FK286D4A4".
      */
-    "failure_reason"?: "generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {});
+    "platform_fee_payout_id"?: string;
     /**
-     * Exclusive interval end instant. Each report type matches its own occurrence time. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
+     * Earlier entries this one is linked to. Empty when none. [] (Value): string. Example:
+     * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
      */
-    "interval_end_at": string;
+    "related_balance_transaction_ids": Array<string>;
     /**
-     * Inclusive interval start instant. Each report type matches its own occurrence time. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "interval_start_at": string;
-    /**
-     * Stable identifier of the report. pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "rep_01KEZF7C00M947R0GYFMT8VXKJ".
-     */
-    "report_id": string;
-    /**
-     * The report's type and column version. See the Reports guide for its columns. Value enum:
-     * "receivables_aging_v1", "invoices_itemized_v1", "gift_card_liability_v1",
-     * "orders_itemized_v1", "orders_itemized_v2", "payments_itemized_v1",
-     * "balance_transactions_itemized_v1", "payouts_itemized_v1", "tax_itemized_v1",
-     * "tax_summarized_v1", "merchant_billing_itemized_v1", "tax_transactions_itemized_v1",
-     * "tax_transactions_itemized_v2".
-     */
-    "report_type": "receivables_aging_v1"
-        | "invoices_itemized_v1"
-        | "gift_card_liability_v1"
-        | "orders_itemized_v1"
-        | "orders_itemized_v2"
-        | "payments_itemized_v1"
-        | "balance_transactions_itemized_v1"
-        | "payouts_itemized_v1"
-        | "tax_itemized_v1"
-        | "tax_summarized_v1"
-        | "merchant_billing_itemized_v1"
-        | "tax_transactions_itemized_v1"
-        | "tax_transactions_itemized_v2"
-        | (string & {});
-    /**
-     * pending while Flint generates the report, then succeeded with a download or failed with a
-     * failure_reason. Flint sends report.succeeded or report.failed when it finishes. Value enum:
-     * "pending".
-     */
-    "status": "pending" | (string & {});
-    /**
-     * IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its
-     * arrival_date in this timezone.
-     */
-    "timezone": string;
-})
-    & (({
-    /** Value enum: "pending". */
-    "status"?: "pending" | (string & {});
-}));
-/** A response containing `Report` data. */
-export type ReportResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A report generated from
-     * the merchant's activity.
-     */
-    "data": Report;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A report generated from the merchant's activity. */
-export type ReportSucceeded = ({
-    /**
-     * Present only for receivables_aging_v1. The calendar date in timezone whose receivables are
-     * reported. Format: date. Example: "2026-08-02".
-     */
-    "as_of_date"?: string;
-    /** When the report was requested. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * Currency the report covers. A report never combines currencies. Uses ISO 4217 currency
-     * codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency": string;
-    /**
-     * Link to download the generated report. Present only when status is succeeded. A temporary
-     * link for downloading a generated report.
-     */
-    "download": PublicDownload;
-    /**
-     * Why the report failed. Present only when status is failed: limit_exceeded when the report
-     * hit a size or time limit, data_unavailable when data it needs wasn't available yet, and
-     * generation_failed for other errors. Treat an unknown value like generation_failed. Value
-     * enum: "generation_failed", "data_unavailable", "limit_exceeded".
-     */
-    "failure_reason"?: "generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {});
-    /**
-     * Exclusive interval end instant. Each report type matches its own occurrence time. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "interval_end_at": string;
-    /**
-     * Inclusive interval start instant. Each report type matches its own occurrence time. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "interval_start_at": string;
-    /**
-     * Stable identifier of the report. pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "rep_01KEZF7C00M947R0GYFMT8VXKJ".
-     */
-    "report_id": string;
-    /**
-     * The report's type and column version. See the Reports guide for its columns. Value enum:
-     * "receivables_aging_v1", "invoices_itemized_v1", "gift_card_liability_v1",
-     * "orders_itemized_v1", "orders_itemized_v2", "payments_itemized_v1",
-     * "balance_transactions_itemized_v1", "payouts_itemized_v1", "tax_itemized_v1",
-     * "tax_summarized_v1", "merchant_billing_itemized_v1", "tax_transactions_itemized_v1",
-     * "tax_transactions_itemized_v2".
-     */
-    "report_type": "receivables_aging_v1"
-        | "invoices_itemized_v1"
-        | "gift_card_liability_v1"
-        | "orders_itemized_v1"
-        | "orders_itemized_v2"
-        | "payments_itemized_v1"
-        | "balance_transactions_itemized_v1"
-        | "payouts_itemized_v1"
-        | "tax_itemized_v1"
-        | "tax_summarized_v1"
-        | "merchant_billing_itemized_v1"
-        | "tax_transactions_itemized_v1"
-        | "tax_transactions_itemized_v2"
-        | (string & {});
-    /**
-     * pending while Flint generates the report, then succeeded with a download or failed with a
-     * failure_reason. Flint sends report.succeeded or report.failed when it finishes. Value enum:
-     * "succeeded".
-     */
-    "status": "succeeded" | (string & {});
-    /**
-     * IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its
-     * arrival_date in this timezone.
-     */
-    "timezone": string;
-})
-    & (({
-    /** Value enum: "succeeded". */
-    "status"?: "succeeded" | (string & {});
-    /**
-     * Link to download the generated report. Present only when status is succeeded. A temporary
-     * link for downloading a generated report.
-     */
-    "download": PublicDownload;
-}));
-export type ReportSucceededEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": ({
-            "as_of_date"?: string;
-            "created_at": string;
-            "currency": string;
-            "download"?: PublicDownload;
-            "failure_reason"?: "generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {});
-            "interval_end_at": string;
-            "interval_start_at": string;
-            "report_id": string;
-            "report_type": "receivables_aging_v1"
-                | "invoices_itemized_v1"
-                | "gift_card_liability_v1"
-                | "orders_itemized_v1"
-                | "orders_itemized_v2"
-                | "payments_itemized_v1"
-                | "balance_transactions_itemized_v1"
-                | "payouts_itemized_v1"
-                | "tax_itemized_v1"
-                | "tax_summarized_v1"
-                | "merchant_billing_itemized_v1"
-                | "tax_transactions_itemized_v1"
-                | "tax_transactions_itemized_v2"
-                | (string & {});
-            "status": "pending" | "succeeded" | "failed" | (string & {});
-            "timezone": string;
-        })
-            & ((Exclude<ReportPending & object, readonly unknown[]>)
-            | (Exclude<ReportSucceeded & object, readonly unknown[]>)
-            | (Exclude<ReportFailed & object, readonly unknown[]>)
-            | (Record<string, unknown>));
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & (({
-            "as_of_date"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "currency"?: ((string) | (null));
-            "download"?: ((PublicDownload) | (null));
-            "failure_reason"?: (("generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {})) | (null));
-            "interval_end_at"?: ((string) | (null));
-            "interval_start_at"?: ((string) | (null));
-            "report_id"?: ((string) | (null));
-            "report_type"?: (("receivables_aging_v1"
-                | "invoices_itemized_v1"
-                | "gift_card_liability_v1"
-                | "orders_itemized_v1"
-                | "orders_itemized_v2"
-                | "payments_itemized_v1"
-                | "balance_transactions_itemized_v1"
-                | "payouts_itemized_v1"
-                | "tax_itemized_v1"
-                | "tax_summarized_v1"
-                | "merchant_billing_itemized_v1"
-                | "tax_transactions_itemized_v1"
-                | "tax_transactions_itemized_v2"
-                | (string & {}))
-                | (null));
-            "status"?: (("pending" | "succeeded" | "failed" | (string & {})) | (null));
-            "timezone"?: ((string) | (null));
-        })
-            & (((({
-            "as_of_date"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "currency"?: ((string) | (null));
-            "download"?: ((PublicDownload) | (null));
-            "failure_reason"?: (("generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {})) | (null));
-            "interval_end_at"?: ((string) | (null));
-            "interval_start_at"?: ((string) | (null));
-            "report_id"?: ((string) | (null));
-            "report_type"?: (("receivables_aging_v1"
-                | "invoices_itemized_v1"
-                | "gift_card_liability_v1"
-                | "orders_itemized_v1"
-                | "orders_itemized_v2"
-                | "payments_itemized_v1"
-                | "balance_transactions_itemized_v1"
-                | "payouts_itemized_v1"
-                | "tax_itemized_v1"
-                | "tax_summarized_v1"
-                | "merchant_billing_itemized_v1"
-                | "tax_transactions_itemized_v1"
-                | "tax_transactions_itemized_v2"
-                | (string & {}))
-                | (null));
-            "status"?: (("pending" | (string & {})) | (null));
-            "timezone"?: ((string) | (null));
-        })
-            & ({
-            "status"?: (("pending" | (string & {})) | (null));
-        }))
-            | (({
-            "as_of_date"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "currency"?: ((string) | (null));
-            "download"?: ((PublicDownload) | (null));
-            "failure_reason"?: (("generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {})) | (null));
-            "interval_end_at"?: ((string) | (null));
-            "interval_start_at"?: ((string) | (null));
-            "report_id"?: ((string) | (null));
-            "report_type"?: (("receivables_aging_v1"
-                | "invoices_itemized_v1"
-                | "gift_card_liability_v1"
-                | "orders_itemized_v1"
-                | "orders_itemized_v2"
-                | "payments_itemized_v1"
-                | "balance_transactions_itemized_v1"
-                | "payouts_itemized_v1"
-                | "tax_itemized_v1"
-                | "tax_summarized_v1"
-                | "merchant_billing_itemized_v1"
-                | "tax_transactions_itemized_v1"
-                | "tax_transactions_itemized_v2"
-                | (string & {}))
-                | (null));
-            "status"?: (("succeeded" | (string & {})) | (null));
-            "timezone"?: ((string) | (null));
-        })
-            & ({
-            "status"?: (("succeeded" | (string & {})) | (null));
-        }))
-            | (({
-            "as_of_date"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "currency"?: ((string) | (null));
-            "download"?: ((PublicDownload) | (null));
-            "failure_reason"?: (("generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {})) | (null));
-            "interval_end_at"?: ((string) | (null));
-            "interval_start_at"?: ((string) | (null));
-            "report_id"?: ((string) | (null));
-            "report_type"?: (("receivables_aging_v1"
-                | "invoices_itemized_v1"
-                | "gift_card_liability_v1"
-                | "orders_itemized_v1"
-                | "orders_itemized_v2"
-                | "payments_itemized_v1"
-                | "balance_transactions_itemized_v1"
-                | "payouts_itemized_v1"
-                | "tax_itemized_v1"
-                | "tax_summarized_v1"
-                | "merchant_billing_itemized_v1"
-                | "tax_transactions_itemized_v1"
-                | "tax_transactions_itemized_v2"
-                | (string & {}))
-                | (null));
-            "status"?: (("failed" | (string & {})) | (null));
-            "timezone"?: ((string) | (null));
-        })
-            & ({
-            "status"?: (("failed" | (string & {})) | (null));
-        }))
-            | (Record<string, unknown>))));
-    };
-    "event_source"?: "merchant" | (string & {});
-    "event_type"?: "report.succeeded";
-})
-    & {
-    "event_type": "report.succeeded";
-});
-export type ReportsCreateParams = (CreateReportRequestInput);
-export type ReportsGetParams = {};
-export type ReportsListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Return reports with any of these report types. Values are trimmed and deduplicated in
-     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
-     * separate filters are ANDed. [] enum: "receivables_aging_v1", "invoices_itemized_v1",
-     * "gift_card_liability_v1", "orders_itemized_v1", "orders_itemized_v2",
-     * "payments_itemized_v1", "balance_transactions_itemized_v1", "payouts_itemized_v1",
-     * "tax_itemized_v1", "tax_summarized_v1", "merchant_billing_itemized_v1",
-     * "tax_transactions_itemized_v1", "tax_transactions_itemized_v2". Value enum:
-     * "receivables_aging_v1", "invoices_itemized_v1", "gift_card_liability_v1",
-     * "orders_itemized_v1", "orders_itemized_v2", "payments_itemized_v1",
-     * "balance_transactions_itemized_v1", "payouts_itemized_v1", "tax_itemized_v1",
-     * "tax_summarized_v1", "merchant_billing_itemized_v1", "tax_transactions_itemized_v1",
-     * "tax_transactions_itemized_v2". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "receivables_aging_v1", "invoices_itemized_v1", "gift_card_liability_v1",
-     * "orders_itemized_v1", "orders_itemized_v2", "payments_itemized_v1",
-     * "balance_transactions_itemized_v1", "payouts_itemized_v1", "tax_itemized_v1",
-     * "tax_summarized_v1", "merchant_billing_itemized_v1", "tax_transactions_itemized_v1",
-     * "tax_transactions_itemized_v2". anyOf[1][] (Value): string. Value enum:
-     * "receivables_aging_v1", "invoices_itemized_v1", "gift_card_liability_v1",
-     * "orders_itemized_v1", "orders_itemized_v2", "payments_itemized_v1",
-     * "balance_transactions_itemized_v1", "payouts_itemized_v1", "tax_itemized_v1",
-     * "tax_summarized_v1", "merchant_billing_itemized_v1", "tax_transactions_itemized_v1",
-     * "tax_transactions_itemized_v2". anyOf[2] (Value): string. Value enum:
-     * "receivables_aging_v1", "invoices_itemized_v1", "gift_card_liability_v1",
-     * "orders_itemized_v1", "orders_itemized_v2", "payments_itemized_v1",
-     * "balance_transactions_itemized_v1", "payouts_itemized_v1", "tax_itemized_v1",
-     * "tax_summarized_v1", "merchant_billing_itemized_v1", "tax_transactions_itemized_v1",
-     * "tax_transactions_itemized_v2".
-     */
-    "report_type"?: InputValue<("receivables_aging_v1"
-        | "invoices_itemized_v1"
-        | "gift_card_liability_v1"
-        | "orders_itemized_v1"
-        | "orders_itemized_v2"
-        | "payments_itemized_v1"
-        | "balance_transactions_itemized_v1"
-        | "payouts_itemized_v1"
-        | "tax_itemized_v1"
-        | "tax_summarized_v1"
-        | "merchant_billing_itemized_v1"
-        | "tax_transactions_itemized_v1"
-        | "tax_transactions_itemized_v2")
-        | readonly ("receivables_aging_v1"
-        | "invoices_itemized_v1"
-        | "gift_card_liability_v1"
-        | "orders_itemized_v1"
-        | "orders_itemized_v2"
-        | "payments_itemized_v1"
-        | "balance_transactions_itemized_v1"
-        | "payouts_itemized_v1"
-        | "tax_itemized_v1"
-        | "tax_summarized_v1"
-        | "merchant_billing_itemized_v1"
-        | "tax_transactions_itemized_v1"
-        | "tax_transactions_itemized_v2")[]>;
-    /**
-     * Return reports in any of these statuses. Values are trimmed and deduplicated in first-seen
-     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
-     * filters are ANDed. [] enum: "pending", "succeeded", "failed". Value enum: "pending",
-     * "succeeded", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending",
-     * "succeeded", "failed". anyOf[1][] (Value): string. Value enum: "pending", "succeeded",
-     * "failed". anyOf[2] (Value): string. Value enum: "pending", "succeeded", "failed".
-     */
-    "status"?: InputValue<("pending" | "succeeded" | "failed") | readonly ("pending" | "succeeded" | "failed")[]>;
-};
-/** The request body for: Reprice discounts. */
-export type RepriceDiscountsRequestInput = {
-    /**
-     * Optional order version from the last order read. The mutation fails if the order changed.
-     * Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-};
-/** Per-call authentication and request overrides. See RUNTIME.md#requestoptions. */
-export type RequestOptions<M extends AuthMode = AuthMode> = Omit<RuntimeRequestOptions, 'authMode' | 'credentials'>
-    & {
-    "apiKey"?: "merchant" extends M ? (string | CredentialProvider) : never;
-    "checkoutToken"?: "checkout" extends M ? (string | CredentialProvider) : never;
-    "customerToken"?: "customer" extends M ? (string | CredentialProvider) : never;
-    "invoiceToken"?: "invoice" extends M ? (string | CredentialProvider) : never;
-    "onboardingToken"?: "onboarding" extends M ? (string | CredentialProvider) : never;
-    "token"?: "merchant" extends M ? (string | CredentialProvider) : never;
-}
-    & ({
-    authMode?: undefined;
-    credentials?: Credentials[M];
-}
-    | {
-    [K in M]: {
-        authMode: K;
-        credentials?: Credentials[K];
-    };
-}[M]);
-/** The request body for: Resend webhook delivery. */
-export type ResendWebhookDeliveryRequest = {
-    /** Your note explaining this action. minLength: 1. maxLength: 500. */
-    "reason_message"?: string;
-};
-/** The request body for: Resend webhook delivery. */
-export type ResendWebhookDeliveryRequestInput = ResendWebhookDeliveryRequest;
-/** The request body for: Reset demo session. */
-export type ResetDemoSessionRequest = {
-    /**
-     * Omit to use quickstart. An explicit empty or unsupported template is invalid. Default:
-     * "quickstart". Value enum: "quickstart".
-     */
-    "template"?: "quickstart" | (string & {});
-};
-/** The request body for: Reset demo session. */
-export type ResetDemoSessionRequestInput = CreateDemoSessionRequestInput;
-/** The request body for: Resolve a customer deletion request. */
-export type ResolveCustomerDeletionRequest = {
-    /**
-     * When decision is approve, cancel every non-canceled subscription immediately before erasure.
-     * Defaults to false. Saved on first approval; omit on retries or send the original value.
-     */
-    "cancel_subscriptions"?: boolean;
-    /**
-     * Whether to erase the customer's personal data or keep the customer as is. Value enum:
-     * "approve", "reject".
-     */
-    "decision": "approve" | "reject" | (string & {});
-    /**
-     * Optional plain-text explanation visible to the buyer. Only allowed when decision is reject.
-     * Trimmed before storage; must contain 1 to 500 characters after trimming. `null` is not
-     * allowed. Reasons are erased if the customer is later deleted. minLength: 1.
-     */
-    "decision_reason"?: string;
-    /**
-     * When decision is approve, archive active and pending saved payment methods before erasure.
-     * Defaults to false. Subscriptions are canceled first when both options are selected. Saved on
-     * first approval; omit on retries or send the original value.
-     */
-    "remove_payment_methods"?: boolean;
-};
-/** The request body for: Resolve a customer deletion request. */
-export type ResolveCustomerDeletionRequestInput = {
-    /**
-     * When decision is approve, cancel every non-canceled subscription immediately before erasure.
-     * Defaults to false. Saved on first approval; omit on retries or send the original value.
-     */
-    "cancel_subscriptions"?: boolean;
-    /**
-     * Whether to erase the customer's personal data or keep the customer as is. Value enum:
-     * "approve", "reject".
-     */
-    "decision": "approve" | "reject";
-    /**
-     * Optional plain-text explanation visible to the buyer. Only allowed when decision is reject.
-     * Trimmed before storage; must contain 1 to 500 characters after trimming. `null` is not
-     * allowed. Reasons are erased if the customer is later deleted. minLength: 1.
-     */
-    "decision_reason"?: string;
-    /**
-     * When decision is approve, archive active and pending saved payment methods before erasure.
-     * Defaults to false. Subscriptions are canceled first when both options are selected. Saved on
-     * first approval; omit on retries or send the original value.
-     */
-    "remove_payment_methods"?: boolean;
-};
-/** The request body for: Resolve order inventory exception. */
-export type ResolveOrderInventoryExceptionRequestInput = {
-    /**
-     * Your note explaining this action. Leading and trailing whitespace is removed; the remaining
-     * note can contain at most 500 characters. minLength: 1.
-     */
-    "reason_message"?: string;
-};
-/**
- * A modifier selection for a payment link line item: a modifier option with a quantity, or a text
- * value.
- */
-export type ResolvePaymentLinkLineItemModifierRequest = {
-    /**
-     * ID of the modifier option the buyer chose. Send exactly one of `modifier_id` or `text`.
-     * minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
-     */
-    "modifier_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity"?: number;
-    /**
-     * The text the buyer entered for a text modifier group. Send exactly one of `modifier_id` or
-     * `text`. The text a buyer entered for a text modifier group on a payment link line item.
-     */
-    "text"?: TextModifierRequest;
-};
-/**
- * A modifier selection for a payment link line item: a modifier option with a quantity, or a text
- * value.
- */
-export type ResolvePaymentLinkLineItemModifierRequestInput = {
-    /**
-     * ID of the modifier option the buyer chose. Send exactly one of `modifier_id` or `text`.
-     * minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
-     */
-    "modifier_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity"?: number;
-    /**
-     * The text the buyer entered for a text modifier group. Send exactly one of `modifier_id` or
-     * `text`. The text a buyer entered for a text modifier group on a payment link line item.
-     */
-    "text"?: ResolvePaymentLinkTextModifierRequestInput;
-};
-/** The modifier selections for one payment link line item when resolving a payment link. */
-export type ResolvePaymentLinkLineItemModifiers = {
-    /**
-     * The buyer's modifier selections for the line item. Required, and `null` is not accepted.
-     * Send an empty array when the buyer chose none. [] (Value): {@link
-     * ResolvePaymentLinkLineItemModifierRequest}. A modifier selection for a payment link line
-     * item: a modifier option with a quantity, or a text value.
-     */
-    "modifiers"?: Array<ResolvePaymentLinkLineItemModifierRequest>;
-};
-/** The modifier selections for one payment link line item when resolving a payment link. */
-export type ResolvePaymentLinkLineItemModifiersInput = {
-    /**
-     * The buyer's modifier selections for the line item. Required, and `null` is not accepted.
-     * Send an empty array when the buyer chose none. [] (Value): {@link
-     * ResolvePaymentLinkLineItemModifierRequestInput}. A modifier selection for a payment link
-     * line item: a modifier option with a quantity, or a text value.
-     */
-    "modifiers"?: Array<ResolvePaymentLinkLineItemModifierRequestInput>;
-};
-/** The request body for: Resolve payment link. */
-export type ResolvePaymentLinkRequest = {
-    /**
-     * One attendee name per ticket on an event payment link, in line_items order: each tier's
-     * tickets in turn, skipping tiers with quantity 0. The count must equal the tickets being
-     * bought. Required when event_config.collect_attendee_names is true, and optional otherwise.
-     * Flint trims each name, which must then be 1 to 200 characters. Duplicate names are allowed.
-     * Flint copies the names onto the tickets when the order is paid, as each ticket's
-     * attendee_name, and never stores them in metadata. minItems: 1. [] (Value): string.
-     * minLength: 1.
-     */
-    "attendee_names"?: Array<string>;
-    /**
-     * Your reference for the buyer or cart this checkout is for, such as your user ID. It cannot
-     * contain the NUL character. Copied to the checkout session and order, preserving all
-     * characters exactly. Anyone with the link can change it, so do not use it as proof of who
-     * paid. minLength: 1. maxLength: 255.
-     */
-    "client_reference"?: string;
-    /**
-     * Buyer answers keyed by custom field key. Checkbox answers must be exactly true or false as
-     * strings, and a required checkbox must be true. Flint records the answers on the order and
-     * checkout session in `custom_field_answers`; omitted and empty answers to optional fields are
-     * not recorded. * (Value): string. minLength: 1.
-     */
-    "custom_field_values"?: Record<string, string>;
-    /**
-     * Modifier choices keyed by line item key, for catalog items. * (Value): {@link
-     * ResolvePaymentLinkLineItemModifiers}. The modifier selections for one payment link line item
-     * when resolving a payment link.
-     */
-    "modifiers"?: Record<string, ResolvePaymentLinkLineItemModifiers>;
-    /**
-     * Email to fill in on the next checkout step. The buyer can change it; it never links an
-     * existing customer. Buyer-editable email prefill for payment-link checkout. It never
-     * identifies a customer.
-     */
-    "prefill"?: SendOrderReceiptRequest;
-    /**
-     * Quantities keyed by line item key (line_items[].key), each within that item's min_quantity
-     * and max_quantity. Event tiers accept 0. Whole-number quantities; fractional quantities are
-     * not supported. * (Value): integer. Whole-number quantity value; fractional quantities are
-     * not supported. Format: int32.
-     */
-    "quantity_overrides"?: Record<string, number>;
-    /**
-     * Private resolution context returned by GET /v1/payment-links/{payment_link_id}/public. Send
-     * it unchanged when resolving the same link; read the link again after checkout_start_due_at.
-     * minLength: 1.
-     */
-    "resolution_context": string;
-    /**
-     * Buyer choices for a subscription plan link. Line quantities must obey the plan line
-     * adjustment policy exposed by subscription_preview.line_items. Subscription choices for a
-     * checkout session: billing interval, interval count, line quantities, and gift recipient.
-     */
-    "subscription_terms"?: CheckoutSubscriptionTermsRequest;
-    /**
-     * Prices keyed by line item key, for items with allow_unit_price_adjustment, between
-     * min_unit_price_money and max_unit_price_money. A donation link has one line item, keyed
-     * donation. * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "unit_price_overrides"?: Record<string, MoneyValue>;
-    /**
-     * Variant IDs keyed by line item key (line_items[].key), for lines with variant_ids. Each
-     * selection must be offered by that line and priced in its current currency. Omit a key to use
-     * default_variant_id; a line without a default requires a selection. Null is not accepted. *
-     * (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_selections"?: Record<string, string>;
-};
-/** The request body for: Resolve payment link. */
-export type ResolvePaymentLinkRequestInput = {
-    /**
-     * One attendee name per ticket on an event payment link, in line_items order: each tier's
-     * tickets in turn, skipping tiers with quantity 0. The count must equal the tickets being
-     * bought. Required when event_config.collect_attendee_names is true, and optional otherwise.
-     * Flint trims each name, which must then be 1 to 200 characters. Duplicate names are allowed.
-     * Flint copies the names onto the tickets when the order is paid, as each ticket's
-     * attendee_name, and never stores them in metadata. minItems: 1. [] (Value): string.
-     * minLength: 1.
-     */
-    "attendee_names"?: Array<string>;
-    /**
-     * Your reference for the buyer or cart this checkout is for, such as your user ID. It cannot
-     * contain the NUL character. Copied to the checkout session and order, preserving all
-     * characters exactly. Anyone with the link can change it, so do not use it as proof of who
-     * paid. minLength: 1. maxLength: 255.
-     */
-    "client_reference"?: string;
-    /**
-     * Buyer answers keyed by custom field key. Checkbox answers must be exactly true or false as
-     * strings, and a required checkbox must be true. Flint records the answers on the order and
-     * checkout session in `custom_field_answers`; omitted and empty answers to optional fields are
-     * not recorded. * (Value): string. minLength: 1.
-     */
-    "custom_field_values"?: Record<string, string>;
-    /**
-     * Modifier choices keyed by line item key, for catalog items. * (Value): {@link
-     * ResolvePaymentLinkLineItemModifiersInput}. The modifier selections for one payment link line
-     * item when resolving a payment link.
-     */
-    "modifiers"?: Record<string, ResolvePaymentLinkLineItemModifiersInput>;
-    /**
-     * Email to fill in on the next checkout step. The buyer can change it; it never links an
-     * existing customer. Buyer-editable email prefill for payment-link checkout. It never
-     * identifies a customer.
-     */
-    "prefill"?: PaymentLinkResolvePrefillRequestInput;
-    /**
-     * Quantities keyed by line item key (line_items[].key), each within that item's min_quantity
-     * and max_quantity. Event tiers accept 0. Whole-number quantities; fractional quantities are
-     * not supported. * (Value): integer. Whole-number quantity value; fractional quantities are
-     * not supported. Format: int32.
-     */
-    "quantity_overrides"?: Record<string, number>;
-    /**
-     * Private resolution context returned by GET /v1/payment-links/{payment_link_id}/public. Send
-     * it unchanged when resolving the same link; read the link again after checkout_start_due_at.
-     * minLength: 1.
-     */
-    "resolution_context": string;
-    /**
-     * Buyer choices for a subscription plan link. Line quantities must obey the plan line
-     * adjustment policy exposed by subscription_preview.line_items. Subscription choices for a
-     * checkout session: billing interval, interval count, line quantities, and gift recipient.
-     */
-    "subscription_terms"?: CheckoutSubscriptionTermsRequestInput;
-    /**
-     * Prices keyed by line item key, for items with allow_unit_price_adjustment, between
-     * min_unit_price_money and max_unit_price_money. A donation link has one line item, keyed
-     * donation. * (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "unit_price_overrides"?: Record<string, MoneyValueInput>;
-    /**
-     * Variant IDs keyed by line item key (line_items[].key), for lines with variant_ids. Each
-     * selection must be offered by that line and priced in its current currency. Omit a key to use
-     * default_variant_id; a line without a default requires a selection. Null is not accepted. *
-     * (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_selections"?: Record<string, string>;
-};
-/** A response containing `BuyerCheckoutSessionWithSecret` data. */
-export type ResolvePaymentLinkResponse = {
-    /**
-     * The buyer checkout session and its checkout credential, created from the payment link. The
-     * checkout session with any newly issued checkout credential. Hosted launches return url
-     * without checkout_auth_token. Headless launches return checkout_auth_token without url.
-     * Customer binding confirmation returns its newly issued credential for either surface. A
-     * session in which a buyer completes an order's payment.
-     */
-    "data": BuyerCheckoutSessionWithSecret;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The text a buyer entered for a text modifier group on a payment link line item. */
-export type ResolvePaymentLinkTextModifierRequestInput = {
-    /**
-     * ID of the text modifier group the buyer answered. minLength: 1. Example:
-     * "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id": string;
-    /** The text the buyer entered. minLength: 1. */
-    "value": string;
-};
-/** A reference to another resource by `resource_type` and `resource_id`. */
-export type ResourceReference = {
-    /** Public Flint ID of the referenced resource. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
-    "resource_id": string;
-    /**
-     * Public resource kind identified by resource_id, such as payment_intent for a payment.
-     * Example: "order". Value enum: "api_key", "api_request_log", "balance",
-     * "balance_transaction", "bundle", "bundle_component", "category", "checkout_session",
-     * "checkout_session_customer_verification", "credit_note", "credit_note_allocation",
-     * "custom_domain", "customer", "customer_address", "customer_deletion_request",
-     * "customer_email_preferences", "customer_session", "customer_tax_exemption",
-     * "customer_verification", "delivery_choice_group", "delivery_location_set",
-     * "delivery_method", "delivery_profile", "delivery_quote", "delivery_rate",
-     * "delivery_rate_callback", "delivery_revocation", "delivery_selection", "delivery_zone",
-     * "demo_session", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
-     * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
-     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
-     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
-     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
-     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
-     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
-     * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
-     * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
-     * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
-     * "partner_app", "partner_app_credential", "partner_app_install", "payment_intent",
-     * "payment_link", "payment_link_custom_field", "payment_link_line_item", "payment_method",
-     * "payment_method_domain", "payment_review", "payment_split", "payout", "payout_destination",
-     * "payout_settings", "platform_fee", "platform_fee_balance_transaction",
-     * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
-     * "product_option_value", "product_variant", "promotion", "promotion_code",
-     * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
-     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
-     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
-     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
-     * "tax_calculation_callback", "tax_connection", "tax_registration", "test_clock", "ticket",
-     * "user", "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
-     */
-    "resource_type": "api_key"
-        | "api_request_log"
-        | "balance"
-        | "balance_transaction"
-        | "bundle"
-        | "bundle_component"
-        | "category"
-        | "checkout_session"
-        | "checkout_session_customer_verification"
-        | "credit_note"
-        | "credit_note_allocation"
-        | "custom_domain"
-        | "customer"
-        | "customer_address"
-        | "customer_deletion_request"
-        | "customer_email_preferences"
-        | "customer_session"
-        | "customer_tax_exemption"
-        | "customer_verification"
-        | "delivery_choice_group"
-        | "delivery_location_set"
-        | "delivery_method"
-        | "delivery_profile"
-        | "delivery_quote"
-        | "delivery_rate"
-        | "delivery_rate_callback"
-        | "delivery_revocation"
-        | "delivery_selection"
-        | "delivery_zone"
-        | "demo_session"
-        | "device"
-        | "discount"
-        | "dispute"
-        | "email_change_request"
-        | "environment_grant"
-        | "feedback_report"
-        | "file"
-        | "flint_wallet"
-        | "flint_wallet_card"
-        | "fraud_warning"
-        | "fulfillment"
-        | "fulfillment_event"
-        | "fulfillment_notification"
-        | "gift_card"
-        | "gift_card_funding_disposition"
-        | "gift_card_load"
-        | "gift_card_notification"
-        | "gift_card_redemption"
-        | "gift_card_transaction"
-        | "image"
-        | "inventory_adjustment"
-        | "inventory_allocation_policy"
-        | "inventory_allocation_policy_revision"
-        | "inventory_count"
-        | "inventory_item"
-        | "inventory_level"
-        | "inventory_movement"
-        | "inventory_receipt"
-        | "inventory_reservation"
-        | "inventory_reservation_line"
-        | "inventory_transfer"
-        | "inventory_transfer_line"
-        | "invoice"
-        | "invoice_delivery_attempt"
-        | "invoice_late_fee"
-        | "invoice_line_item"
-        | "invoice_manual_payment"
-        | "invoice_payment_attempt"
-        | "invoice_payment_term"
-        | "location"
-        | "merchant"
-        | "merchant_billing_balance"
-        | "merchant_billing_entry"
-        | "merchant_billing_invoice"
-        | "merchant_signup"
-        | "modifier"
-        | "modifier_group"
-        | "modifier_set"
-        | "order"
-        | "order_charge"
-        | "order_edit"
-        | "order_line_item"
-        | "order_line_item_modifier"
-        | "order_payment_attempt"
-        | "package"
-        | "package_item"
-        | "partner_app"
-        | "partner_app_credential"
-        | "partner_app_install"
-        | "payment_intent"
-        | "payment_link"
-        | "payment_link_custom_field"
-        | "payment_link_line_item"
-        | "payment_method"
-        | "payment_method_domain"
-        | "payment_review"
-        | "payment_split"
-        | "payout"
-        | "payout_destination"
-        | "payout_settings"
-        | "platform_fee"
-        | "platform_fee_balance_transaction"
-        | "platform_fee_payout"
-        | "price_list"
-        | "price_list_price"
-        | "product"
-        | "product_option"
-        | "product_option_value"
-        | "product_variant"
-        | "promotion"
-        | "promotion_code"
-        | "purchase_refund_allocation"
-        | "reader"
-        | "refund"
-        | "refund_allocation"
-        | "refund_line_item_adjustment"
-        | "remembered_buyer"
-        | "report"
-        | "report_download"
-        | "return"
-        | "return_activity"
-        | "return_disposition"
-        | "return_inspection"
-        | "return_inspection_line_item"
-        | "return_line_item"
-        | "return_policy"
-        | "return_policy_revision"
-        | "return_reason"
-        | "return_receipt"
-        | "return_receipt_line_item"
-        | "return_resolution"
-        | "risk_list"
-        | "risk_list_item"
-        | "risk_rule"
-        | "sandbox"
-        | "settings"
-        | "shipment"
-        | "subscription"
-        | "subscription_delivery_migration"
-        | "subscription_line_item"
-        | "subscription_offer"
-        | "subscription_payment_retry"
-        | "subscription_plan"
-        | "subscription_plan_line_item"
-        | "tax_calculation_callback"
-        | "tax_connection"
-        | "tax_registration"
-        | "test_clock"
-        | "ticket"
-        | "user"
-        | "webhook_delivery"
-        | "webhook_endpoint"
-        | "webhook_event"
-        | "workload_identity"
-        | (string & {});
-};
-/**
- * The activity timeline for one resource, such as API requests, webhook events and deliveries, and
- * image changes. Request entries include the resource itself and one level of directly owned
- * resources, resolved when the timeline is read: orders include their payment intents, public
- * refunds, fulfillments, returns, invoices, and disputes; payment intents include their public
- * refunds and disputes. Included requests require the caller's read access to each owned resource
- * type. Types the caller cannot read are excluded before pagination. Ownership follows the child
- * resource's order_id or payment_intent_id. Other resource types include only directly attributed
- * requests. Internal payment-refund children are excluded. attributed_resource always names the
- * resource the request log is attributed to. Webhook and image entries remain scoped to the
- * timeline resource. Page sizes and ordering are unchanged.
- */
-export type ResourceTimeline = {
-    /**
-     * Timeline entries for the resource, each tagged by `entry_type`. Narrowed by `include`,
-     * `occurred_after`, and `occurred_before`. [] (Value): {@link ResourceTimelineEntry}. One
-     * entry in a resource timeline. The `entry_type` selects which of the request, webhook, or
-     * image fields are present.
-     */
-    "entries": Array<ResourceTimelineEntry>;
-    /** ID of the resource this timeline is for. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
-    "resource_id": string;
-    /**
-     * Type of the resource this timeline is for. Example: "order". Value enum: "api_key",
-     * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component",
-     * "category", "checkout_session", "checkout_session_customer_verification", "credit_note",
-     * "credit_note_allocation", "custom_domain", "customer", "customer_address",
-     * "customer_deletion_request", "customer_email_preferences", "customer_session",
-     * "customer_tax_exemption", "customer_verification", "delivery_choice_group",
-     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
-     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
-     * "delivery_zone", "demo_session", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
-     * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
-     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
-     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
-     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
-     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
-     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
-     * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
-     * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
-     * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
-     * "partner_app", "partner_app_credential", "partner_app_install", "payment_intent",
-     * "payment_link", "payment_link_custom_field", "payment_link_line_item", "payment_method",
-     * "payment_method_domain", "payment_review", "payment_split", "payout", "payout_destination",
-     * "payout_settings", "platform_fee", "platform_fee_balance_transaction",
-     * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
-     * "product_option_value", "product_variant", "promotion", "promotion_code",
-     * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
-     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
-     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
-     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
-     * "tax_calculation_callback", "tax_connection", "tax_registration", "test_clock", "ticket",
-     * "user", "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
-     */
-    "resource_type": "api_key"
-        | "api_request_log"
-        | "balance"
-        | "balance_transaction"
-        | "bundle"
-        | "bundle_component"
-        | "category"
-        | "checkout_session"
-        | "checkout_session_customer_verification"
-        | "credit_note"
-        | "credit_note_allocation"
-        | "custom_domain"
-        | "customer"
-        | "customer_address"
-        | "customer_deletion_request"
-        | "customer_email_preferences"
-        | "customer_session"
-        | "customer_tax_exemption"
-        | "customer_verification"
-        | "delivery_choice_group"
-        | "delivery_location_set"
-        | "delivery_method"
-        | "delivery_profile"
-        | "delivery_quote"
-        | "delivery_rate"
-        | "delivery_rate_callback"
-        | "delivery_revocation"
-        | "delivery_selection"
-        | "delivery_zone"
-        | "demo_session"
-        | "device"
-        | "discount"
-        | "dispute"
-        | "email_change_request"
-        | "environment_grant"
-        | "feedback_report"
-        | "file"
-        | "flint_wallet"
-        | "flint_wallet_card"
-        | "fraud_warning"
-        | "fulfillment"
-        | "fulfillment_event"
-        | "fulfillment_notification"
-        | "gift_card"
-        | "gift_card_funding_disposition"
-        | "gift_card_load"
-        | "gift_card_notification"
-        | "gift_card_redemption"
-        | "gift_card_transaction"
-        | "image"
-        | "inventory_adjustment"
-        | "inventory_allocation_policy"
-        | "inventory_allocation_policy_revision"
-        | "inventory_count"
-        | "inventory_item"
-        | "inventory_level"
-        | "inventory_movement"
-        | "inventory_receipt"
-        | "inventory_reservation"
-        | "inventory_reservation_line"
-        | "inventory_transfer"
-        | "inventory_transfer_line"
-        | "invoice"
-        | "invoice_delivery_attempt"
-        | "invoice_late_fee"
-        | "invoice_line_item"
-        | "invoice_manual_payment"
-        | "invoice_payment_attempt"
-        | "invoice_payment_term"
-        | "location"
-        | "merchant"
-        | "merchant_billing_balance"
-        | "merchant_billing_entry"
-        | "merchant_billing_invoice"
-        | "merchant_signup"
-        | "modifier"
-        | "modifier_group"
-        | "modifier_set"
-        | "order"
-        | "order_charge"
-        | "order_edit"
-        | "order_line_item"
-        | "order_line_item_modifier"
-        | "order_payment_attempt"
-        | "package"
-        | "package_item"
-        | "partner_app"
-        | "partner_app_credential"
-        | "partner_app_install"
-        | "payment_intent"
-        | "payment_link"
-        | "payment_link_custom_field"
-        | "payment_link_line_item"
-        | "payment_method"
-        | "payment_method_domain"
-        | "payment_review"
-        | "payment_split"
-        | "payout"
-        | "payout_destination"
-        | "payout_settings"
-        | "platform_fee"
-        | "platform_fee_balance_transaction"
-        | "platform_fee_payout"
-        | "price_list"
-        | "price_list_price"
-        | "product"
-        | "product_option"
-        | "product_option_value"
-        | "product_variant"
-        | "promotion"
-        | "promotion_code"
-        | "purchase_refund_allocation"
-        | "reader"
-        | "refund"
-        | "refund_allocation"
-        | "refund_line_item_adjustment"
-        | "remembered_buyer"
-        | "report"
-        | "report_download"
-        | "return"
-        | "return_activity"
-        | "return_disposition"
-        | "return_inspection"
-        | "return_inspection_line_item"
-        | "return_line_item"
-        | "return_policy"
-        | "return_policy_revision"
-        | "return_reason"
-        | "return_receipt"
-        | "return_receipt_line_item"
-        | "return_resolution"
-        | "risk_list"
-        | "risk_list_item"
-        | "risk_rule"
-        | "sandbox"
-        | "settings"
-        | "shipment"
-        | "subscription"
-        | "subscription_delivery_migration"
-        | "subscription_line_item"
-        | "subscription_offer"
-        | "subscription_payment_retry"
-        | "subscription_plan"
-        | "subscription_plan_line_item"
-        | "tax_calculation_callback"
-        | "tax_connection"
-        | "tax_registration"
-        | "test_clock"
-        | "ticket"
-        | "user"
-        | "webhook_delivery"
-        | "webhook_endpoint"
-        | "webhook_event"
-        | "workload_identity"
-        | (string & {});
-    /** `true` when the timeline is for test mode data and `false` for live data. */
-    "test": boolean;
-};
-/** An API request recorded in this resource's timeline. */
-export type ResourceTimelineAPIRequestEntry = {
-    /** Stable identifier of this log entry. Example: "rlog_01KEZF7C008XJCH6BHA224X46F". */
-    "api_request_log_id": string;
-    /**
-     * The resource this request log is attributed to. Always present: the timeline resource for a
-     * direct request, or its directly owned resource for an included request. A reference to
+     * The Flint resource behind the entry, when it has one other than the fee. A reference to
      * another resource by `resource_type` and `resource_id`.
      */
-    "attributed_resource": ResourceReference;
+    "related_resource"?: ResourceReference;
+    /** Whether the amount counts toward available_money yet. Value enum: "pending", "available". */
+    "status": "pending" | "available" | (string & {});
     /**
-     * Who made this request. An API key, workload token, or partner app token records that API
-     * key, workload identity, or partner app installation. A Dashboard write, CLI login, or
-     * onboarding session records the user. A buyer checkout request records the checkout session.
-     * A buyer account request records the customer session. A request made with invoice access
-     * records the invoice. Absent when Flint cannot attribute the request. A reference to another
-     * resource by `resource_type` and `resource_id`.
+     * What the entry records. Can gain values; treat an unknown value as other. Value enum:
+     * "platform_fee", "reserve_hold", "reserve_release", "loss_coverage",
+     * "loss_coverage_reversal", "platform_fee_refund", "platform_fee_refund_reversal",
+     * "platform_fee_payout", "platform_fee_payout_reversal", "other".
      */
-    "caller"?: ResourceReference;
-    /**
-     * The caller's X-Request-Id, matched exactly and case-sensitively. Absent when the caller sent
-     * none. minLength: 1. maxLength: 128. pattern: ^[\x21-\x7E]+$. Example: "checkout-1842".
-     */
-    "client_request_id"?: string;
-    /**
-     * The trace ID from a valid W3C traceparent, for correlation with the caller's tracing. Flint
-     * starts its own trace. Absent when no valid traceparent was sent. pattern: ^[0-9a-f]{32}$.
-     * Example: "0123456789abcdef0123456789abcdef".
-     */
-    "client_trace_id"?: string;
-    /** Always `api_request` for this kind of entry. Value enum: "api_request". */
-    "entry_type": "api_request" | (string & {});
-    /** The response's top-level error `code`. Absent for successful requests. */
-    "error_code"?: string;
-    /** A short explanation of why the request failed. Absent for successful requests. */
-    "error_summary"?: string;
-    /**
-     * The error envelope's `type` for this response. Value enum: "authentication_error",
-     * "authorization_error", "validation_error", "not_found_error", "conflict_error",
-     * "rate_limit_error", "external_service_error", "timeout_error", "unavailable_error",
-     * "internal_error", "protocol_error".
-     */
-    "error_type"?: "authentication_error"
-        | "authorization_error"
-        | "validation_error"
-        | "not_found_error"
-        | "conflict_error"
-        | "rate_limit_error"
-        | "external_service_error"
-        | "timeout_error"
-        | "unavailable_error"
-        | "internal_error"
-        | "protocol_error"
+    "type": "platform_fee"
+        | "reserve_hold"
+        | "reserve_release"
+        | "loss_coverage"
+        | "loss_coverage_reversal"
+        | "platform_fee_refund"
+        | "platform_fee_refund_reversal"
+        | "platform_fee_payout"
+        | "platform_fee_payout_reversal"
+        | "other"
         | (string & {});
-    /** HTTP method of the request. */
-    "http_method": string;
-    /** Time Flint spent handling the request, in milliseconds. Format: int64. */
-    "latency_milliseconds": number;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at": string;
-    /** Request path as sent, with real IDs, such as /v1/orders/ord_123. */
-    "path": string;
-    /** The next action to resolve the failure. Absent when no action applies. */
-    "recommended_action"?: string;
-    /**
-     * Full URL of the Flint guide that explains this failure. Absent when no guide applies.
-     * Format: uri. Example: "https://example.com/receipt".
-     */
-    "reference_url"?: string;
-    /**
-     * Records created before server-minted request IDs keep their original ID. maxLength: 128.
-     * Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-    /** ID of this timeline entry. Example: "rlog_01KEZF7C008XJCH6BHA224X46F". */
-    "resource_timeline_entry_id": string;
-    /**
-     * Whether sending this request again can succeed, and how. It depends only on code and
-     * details[0].reason; the errors reference lists the value for each. Value enum:
-     * "same_request", "after_refresh", "none".
-     */
-    "retry"?: "same_request" | "after_refresh" | "none" | (string & {});
-    /** The matched route as a method and path template, such as `POST /v1/orders`. */
-    "route_pattern": string;
-    /** HTTP status Flint returned. Format: int32. */
-    "status_code": number;
 };
-/**
- * One entry in a resource timeline. The `entry_type` selects which of the request, webhook, or
- * image fields are present.
- */
-export type ResourceTimelineEntry = ((ResourceTimelineAPIRequestEntry)
-    | (ResourceTimelineWebhookEventEntry)
-    | (ResourceTimelineWebhookDeliveryAttemptEntry)
-    | (ResourceTimelineImageMutationEntry)
-    | (Record<string, unknown>));
-/** A change to this resource's image attachments recorded in its timeline. */
-export type ResourceTimelineImageMutationEntry = {
-    /** Always `image_mutation` for this kind of entry. Value enum: "image_mutation". */
-    "entry_type": "image_mutation" | (string & {});
-    /** Version of the resource's image attachments after this change. Format: int64. */
-    "image_version": number;
-    /** The change made to the resource's images. Value enum: "replaced". */
-    "mutation_kind": "replaced" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at": string;
+/** A page of `PlatformFeeBalanceTransaction` objects. */
+export type PlatformFeeBalanceTransactionListResponse = {
     /**
-     * Records created before server-minted request IDs keep their original ID. maxLength: 128.
-     * Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * PlatformFeeBalanceTransaction}. One entry of a partner app's platform fee ledger. Entries
+     * keep their amounts; status, available_at and the payout link can be filled later.
      */
-    "request_id"?: string;
-    /** ID of this timeline entry. Example: "iomevt_01KEZF7C00D4JSSDP6AB68EFF2". */
-    "resource_timeline_entry_id": string;
-};
-/** A response containing `ResourceTimeline` data. */
-export type ResourceTimelineResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The activity timeline
-     * for one resource, such as API requests, webhook events and deliveries, and image changes.
-     * Request entries include the resource itself and one level of directly owned resources,
-     * resolved when the timeline is read: orders include their payment intents, public refunds,
-     * fulfillments, returns, invoices, and disputes; payment intents include their public refunds
-     * and disputes. Included requests require the caller's read access to each owned resource
-     * type. Types the caller cannot read are excluded before pagination. Ownership follows the
-     * child resource's order_id or payment_intent_id. Other resource types include only directly
-     * attributed requests. Internal payment-refund children are excluded. attributed_resource
-     * always names the resource the request log is attributed to. Webhook and image entries remain
-     * scoped to the timeline resource. Page sizes and ordering are unchanged.
-     */
-    "data": ResourceTimeline;
+    "data": Array<PlatformFeeBalanceTransaction>;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -1884,585 +480,27 @@ export type ResourceTimelineResponse = {
      */
     "request_id": string;
 };
-/** A webhook delivery attempt recorded in this resource's timeline. */
-export type ResourceTimelineWebhookDeliveryAttemptEntry = {
+/** A response containing `PlatformFeeBalanceTransaction` data. */
+export type PlatformFeeBalanceTransactionResponse = {
     /**
-     * ID of the API request log associated with this attempt. Omitted when no request log is
-     * associated. Example: "rlog_01KEZF7C008XJCH6BHA224X46F".
+     * Resource, collection, or operation result returned by this request. One entry of a partner
+     * app's platform fee ledger. Entries keep their amounts; status, available_at and the payout
+     * link can be filled later.
      */
-    "api_request_log_id"?: string;
-    /** Which attempt this is for the delivery, starting at 1. Format: int32. */
-    "attempt_number": number;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "completed_at"?: string;
+    "data": PlatformFeeBalanceTransaction;
     /**
-     * What caused this attempt. Value enum: "automatic_delivery", "automatic_retry",
-     * "manual_resend", "manual_delivery".
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
-    "delivery_trigger": "automatic_delivery" | "automatic_retry" | "manual_resend" | "manual_delivery" | (string & {});
-    /** How long the attempt took, in milliseconds. Format: int64. */
-    "duration_milliseconds"?: number;
+    "meta"?: ResponseMeta;
     /**
-     * Always `webhook_delivery_attempt` for this kind of entry. Value enum:
-     * "webhook_delivery_attempt".
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "entry_type": "webhook_delivery_attempt" | (string & {});
-    /**
-     * The kind of failure for this attempt. Present only when this attempt's `status` is `failed`.
-     * Value enum: "webhook_timeout", "webhook_dns", "webhook_tls", "webhook_connection",
-     * "webhook_blocked_target", "webhook_request", "webhook_redirect", "webhook_http_4xx",
-     * "webhook_http_5xx", "webhook_payload_render", "webhook_delivery".
-     */
-    "error_category"?: "webhook_timeout"
-        | "webhook_dns"
-        | "webhook_tls"
-        | "webhook_connection"
-        | "webhook_blocked_target"
-        | "webhook_request"
-        | "webhook_redirect"
-        | "webhook_http_4xx"
-        | "webhook_http_5xx"
-        | "webhook_payload_render"
-        | "webhook_delivery"
-        | (string & {});
-    /**
-     * A concise explanation of the failure for this attempt. Present only when this attempt's
-     * `status` is `failed`.
-     */
-    "error_summary"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at": string;
-    /** The note supplied when this action was requested. */
-    "reason_message"?: string;
-    /**
-     * The next step to resolve this attempt's failure. Present only when this attempt's `status`
-     * is `failed`.
-     */
-    "recommended_action"?: string;
-    /**
-     * Records created before server-minted request IDs keep their original ID. maxLength: 128.
-     * Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-    /** ID of this timeline entry. Example: "watt_01KEZF7C00RG6XMCAFJB8HH55R". */
-    "resource_timeline_entry_id": string;
-    /**
-     * Whether sending this delivery again without changing your endpoint is likely to succeed.
-     * Present only when this attempt's `status` is `failed`. While the delivery is pending, Flint
-     * retries automatically either way.
-     */
-    "retryable"?: boolean;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "started_at"?: string;
-    /**
-     * Outcome of this individual delivery attempt. Value enum: "pending", "delivered", "failed".
-     */
-    "status": "pending" | "delivered" | "failed" | (string & {});
-    /** HTTP status code the endpoint returned. Format: int32. */
-    "status_code"?: number;
-    /** ID of the delivery attempt. Example: "watt_01KEZF7C00RG6XMCAFJB8HH55R". */
-    "webhook_delivery_attempt_id": string;
-    /** ID of the delivery the attempt belongs to. Example: "wdel_01KEZF7C001DWSNDCDZHCTBN0A". */
-    "webhook_delivery_id": string;
-    /** ID of the endpoint the delivery goes to. Example: "whep_01KEZF7C006FXYTAJRZCGCBJTN". */
-    "webhook_endpoint_id": string;
-    /** ID of the event being delivered. Example: "whev_01KEZF7C00362MS3HV970TRZGS". */
-    "webhook_event_id": string;
+    "request_id": string;
 };
-/** A webhook event recorded in this resource's timeline. */
-export type ResourceTimelineWebhookEventEntry = {
-    /**
-     * ID of the API request log associated with this event. Omitted when no request log is
-     * associated. Example: "rlog_01KEZF7C008XJCH6BHA224X46F".
-     */
-    "api_request_log_id"?: string;
-    /** Always `webhook_event` for this kind of entry. Value enum: "webhook_event". */
-    "entry_type": "webhook_event" | (string & {});
-    /**
-     * Type of webhook event recorded for this resource. Value enum: "api_key.created",
-     * "api_key.revoked", "api_key.updated", "balance.updated", "balance_transaction.created",
-     * "balance_transaction.updated", "bundle.archived", "bundle.created", "bundle.updated",
-     * "category.created", "category.deleted", "category.updated", "checkout_session.closed",
-     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
-     * "checkout_session.paid", "checkout_session.partially_paid", "checkout_session.updated",
-     * "credit_note.created", "credit_note.issued", "credit_note.updated", "credit_note.voided",
-     * "credit_note_allocation.created", "credit_note_allocation.reversed",
-     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
-     * "customer.updated", "customer_deletion_request.completed",
-     * "customer_deletion_request.created", "customer_deletion_request.failed",
-     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
-     * "customer_email_preferences.updated", "delivery_location_set.archived",
-     * "delivery_location_set.created", "delivery_location_set.updated",
-     * "delivery_method.activated", "delivery_method.archived", "delivery_method.created",
-     * "delivery_method.deactivated", "delivery_method.updated", "delivery_profile.archived",
-     * "delivery_profile.created", "delivery_profile.updated", "delivery_rate_callback.activated",
-     * "delivery_rate_callback.archived", "delivery_rate_callback.created",
-     * "delivery_rate_callback.deactivated", "delivery_rate_callback.updated",
-     * "delivery_revocation.created", "delivery_selection.committed", "delivery_zone.archived",
-     * "delivery_zone.created", "delivery_zone.updated", "dispute.created",
-     * "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response", "dispute.prevented",
-     * "dispute.updated", "dispute.won", "environment_grant.created", "environment_grant.revoked",
-     * "environment_grant.updated", "fraud_warning.created", "fraud_warning.updated",
-     * "fulfillment.canceled", "fulfillment.completed", "fulfillment.created",
-     * "fulfillment.failed", "fulfillment.updated", "fulfillment_event.created",
-     * "gift_card.created", "gift_card.updated", "gift_card_load.created",
-     * "gift_card_load.updated", "gift_card_notification.created",
-     * "gift_card_notification.updated", "gift_card_redemption.created",
-     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
-     * "inventory_count.updated", "inventory_level.shortage_detected", "inventory_level.updated",
-     * "inventory_receipt.created", "inventory_reservation.action_required",
-     * "inventory_reservation.at_risk", "inventory_reservation.closed",
-     * "inventory_reservation.committed", "inventory_reservation.consumed",
-     * "inventory_reservation.created", "inventory_reservation.hold_expired",
-     * "inventory_reservation.released", "inventory_reservation.updated",
-     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
-     * "inventory_transfer.received", "inventory_transfer.returned", "inventory_transfer.updated",
-     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
-     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
-     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
-     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
-     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
-     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
-     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
-     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
-     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
-     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.succeeded", "merchant.readiness_updated", "merchant.updated",
-     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
-     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
-     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
-     * "modifier_set.updated", "order.closed", "order.created",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
-     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "order_edit.canceled", "order_edit.completed", "order_edit.created", "order_edit.updated",
-     * "package.created", "package.updated", "partner_app.platform_approved",
-     * "partner_app.platform_limited", "partner_app.platform_rejected", "partner_app.updated",
-     * "partner_app_install.created", "partner_app_install.permissions_updated",
-     * "partner_app_install.revoked", "partner_app_install.updated",
-     * "payment_intent.authorization_expiring", "payment_intent.canceled",
-     * "payment_intent.created", "payment_intent.expired",
-     * "payment_intent.fulfillment_hold_updated", "payment_intent.payment_failed",
-     * "payment_intent.processing", "payment_intent.requires_action",
-     * "payment_intent.requires_capture", "payment_intent.succeeded", "payment_intent.updated",
-     * "payment_link.created", "payment_link.updated", "payment_method.activated",
-     * "payment_method.archived", "payment_method.failed", "payment_method.updated",
-     * "payment_review.closed", "payment_review.opened", "payment_review.reopened",
-     * "payment_split.canceled", "payment_split.created", "payment_split.failed",
-     * "payment_split.succeeded", "payment_split.updated", "payout.canceled", "payout.created",
-     * "payout.failed", "payout.reversed", "payout.succeeded", "payout.updated",
-     * "payout_destination.archived", "payout_destination.created", "payout_destination.disabled",
-     * "payout_destination.updated", "payout_settings.updated", "platform_fee.canceled",
-     * "platform_fee.created", "platform_fee.succeeded", "platform_fee.updated",
-     * "platform_fee_payout.created", "platform_fee_payout.failed",
-     * "platform_fee_payout.succeeded", "price_list.archived", "price_list.created",
-     * "price_list.updated", "product.archived", "product.created", "product.updated",
-     * "product_variant.archived", "product_variant.created", "product_variant.updated",
-     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
-     * "promotion_code.created", "promotion_code.updated", "reader.archived", "reader.created",
-     * "reader.updated", "refund.created", "refund.failed", "refund.partially_succeeded",
-     * "refund.succeeded", "refund.updated", "report.failed", "report.succeeded",
-     * "return.canceled", "return.completed", "return.created", "return.decision_recorded",
-     * "return.reopened", "return.updated", "return_disposition.created",
-     * "return_disposition.updated", "return_inspection.acceptance_decided",
-     * "return_inspection.created", "return_inspection.superseded", "return_receipt.created",
-     * "return_receipt.superseded", "return_receipt.verified", "return_resolution.created",
-     * "return_resolution.updated", "shipment.created", "shipment.updated",
-     * "subscription.activated", "subscription.canceled", "subscription.cancellation_scheduled",
-     * "subscription.created", "subscription.cycle_skipped",
-     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
-     * "subscription.delivery_updated", "subscription.dunning_exhausted",
-     * "subscription.end_upcoming", "subscription.past_due", "subscription.paused",
-     * "subscription.payment_succeeded", "subscription.plan_change_canceled",
-     * "subscription.plan_change_scheduled", "subscription.plan_changed",
-     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
-     * "subscription.trial_ending", "subscription.updated",
-     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
-     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
-     * "tax_calculation_callback.activated", "tax_calculation_callback.archived",
-     * "tax_calculation_callback.created", "tax_calculation_callback.deactivated",
-     * "tax_calculation_callback.updated", "tax_connection.updated", "test_clock.advancing",
-     * "test_clock.archived", "test_clock.created", "test_clock.failed", "test_clock.ready",
-     * "ticket.checked_in", "ticket.created", "ticket.updated", "ticket.voided".
-     */
-    "event_type": "api_key.created"
-        | "api_key.revoked"
-        | "api_key.updated"
-        | "balance.updated"
-        | "balance_transaction.created"
-        | "balance_transaction.updated"
-        | "bundle.archived"
-        | "bundle.created"
-        | "bundle.updated"
-        | "category.created"
-        | "category.deleted"
-        | "category.updated"
-        | "checkout_session.closed"
-        | "checkout_session.created"
-        | "checkout_session.expired"
-        | "checkout_session.invalidated"
-        | "checkout_session.paid"
-        | "checkout_session.partially_paid"
-        | "checkout_session.updated"
-        | "credit_note.created"
-        | "credit_note.issued"
-        | "credit_note.updated"
-        | "credit_note.voided"
-        | "credit_note_allocation.created"
-        | "credit_note_allocation.reversed"
-        | "custom_domain.archived"
-        | "custom_domain.updated"
-        | "customer.created"
-        | "customer.deleted"
-        | "customer.updated"
-        | "customer_deletion_request.completed"
-        | "customer_deletion_request.created"
-        | "customer_deletion_request.failed"
-        | "customer_deletion_request.processing"
-        | "customer_deletion_request.rejected"
-        | "customer_email_preferences.updated"
-        | "delivery_location_set.archived"
-        | "delivery_location_set.created"
-        | "delivery_location_set.updated"
-        | "delivery_method.activated"
-        | "delivery_method.archived"
-        | "delivery_method.created"
-        | "delivery_method.deactivated"
-        | "delivery_method.updated"
-        | "delivery_profile.archived"
-        | "delivery_profile.created"
-        | "delivery_profile.updated"
-        | "delivery_rate_callback.activated"
-        | "delivery_rate_callback.archived"
-        | "delivery_rate_callback.created"
-        | "delivery_rate_callback.deactivated"
-        | "delivery_rate_callback.updated"
-        | "delivery_revocation.created"
-        | "delivery_selection.committed"
-        | "delivery_zone.archived"
-        | "delivery_zone.created"
-        | "delivery_zone.updated"
-        | "dispute.created"
-        | "dispute.inquiry_closed"
-        | "dispute.lost"
-        | "dispute.needs_response"
-        | "dispute.prevented"
-        | "dispute.updated"
-        | "dispute.won"
-        | "environment_grant.created"
-        | "environment_grant.revoked"
-        | "environment_grant.updated"
-        | "fraud_warning.created"
-        | "fraud_warning.updated"
-        | "fulfillment.canceled"
-        | "fulfillment.completed"
-        | "fulfillment.created"
-        | "fulfillment.failed"
-        | "fulfillment.updated"
-        | "fulfillment_event.created"
-        | "gift_card.created"
-        | "gift_card.updated"
-        | "gift_card_load.created"
-        | "gift_card_load.updated"
-        | "gift_card_notification.created"
-        | "gift_card_notification.updated"
-        | "gift_card_redemption.created"
-        | "gift_card_redemption.updated"
-        | "gift_card_transaction.created"
-        | "inventory_count.applied"
-        | "inventory_count.updated"
-        | "inventory_level.shortage_detected"
-        | "inventory_level.updated"
-        | "inventory_receipt.created"
-        | "inventory_reservation.action_required"
-        | "inventory_reservation.at_risk"
-        | "inventory_reservation.closed"
-        | "inventory_reservation.committed"
-        | "inventory_reservation.consumed"
-        | "inventory_reservation.created"
-        | "inventory_reservation.hold_expired"
-        | "inventory_reservation.released"
-        | "inventory_reservation.updated"
-        | "inventory_transfer.closed"
-        | "inventory_transfer.departed"
-        | "inventory_transfer.lost"
-        | "inventory_transfer.received"
-        | "inventory_transfer.returned"
-        | "inventory_transfer.updated"
-        | "invoice.collection_block_resolved"
-        | "invoice.collection_blocked"
-        | "invoice.created"
-        | "invoice.credited"
-        | "invoice.issue_failed"
-        | "invoice.issued"
-        | "invoice.late_fee_assessed"
-        | "invoice.late_fee_due"
-        | "invoice.late_fee_waived"
-        | "invoice.marked_uncollectible"
-        | "invoice.overdue"
-        | "invoice.paid"
-        | "invoice.partially_paid"
-        | "invoice.partially_refunded"
-        | "invoice.refunded"
-        | "invoice.reminder_due"
-        | "invoice.reopened"
-        | "invoice.sent"
-        | "invoice.updated"
-        | "invoice.voided"
-        | "invoice_delivery_attempt.failed"
-        | "invoice_delivery_attempt.sent"
-        | "invoice_delivery_attempt.suppressed"
-        | "invoice_manual_payment.created"
-        | "invoice_manual_payment.reversed"
-        | "invoice_payment_attempt.canceled"
-        | "invoice_payment_attempt.expired"
-        | "invoice_payment_attempt.failed"
-        | "invoice_payment_attempt.processing"
-        | "invoice_payment_attempt.succeeded"
-        | "merchant.readiness_updated"
-        | "merchant.updated"
-        | "merchant_billing_balance.updated"
-        | "merchant_billing_invoice.issued"
-        | "merchant_billing_invoice.updated"
-        | "modifier_group.archived"
-        | "modifier_group.created"
-        | "modifier_group.updated"
-        | "modifier_set.archived"
-        | "modifier_set.created"
-        | "modifier_set.updated"
-        | "order.closed"
-        | "order.created"
-        | "order.inventory_exception_created"
-        | "order.inventory_exception_resolved"
-        | "order.paid"
-        | "order.partially_paid"
-        | "order.partially_refunded"
-        | "order.refunded"
-        | "order.updated"
-        | "order_edit.canceled"
-        | "order_edit.completed"
-        | "order_edit.created"
-        | "order_edit.updated"
-        | "package.created"
-        | "package.updated"
-        | "partner_app.platform_approved"
-        | "partner_app.platform_limited"
-        | "partner_app.platform_rejected"
-        | "partner_app.updated"
-        | "partner_app_install.created"
-        | "partner_app_install.permissions_updated"
-        | "partner_app_install.revoked"
-        | "partner_app_install.updated"
-        | "payment_intent.authorization_expiring"
-        | "payment_intent.canceled"
-        | "payment_intent.created"
-        | "payment_intent.expired"
-        | "payment_intent.fulfillment_hold_updated"
-        | "payment_intent.payment_failed"
-        | "payment_intent.processing"
-        | "payment_intent.requires_action"
-        | "payment_intent.requires_capture"
-        | "payment_intent.succeeded"
-        | "payment_intent.updated"
-        | "payment_link.created"
-        | "payment_link.updated"
-        | "payment_method.activated"
-        | "payment_method.archived"
-        | "payment_method.failed"
-        | "payment_method.updated"
-        | "payment_review.closed"
-        | "payment_review.opened"
-        | "payment_review.reopened"
-        | "payment_split.canceled"
-        | "payment_split.created"
-        | "payment_split.failed"
-        | "payment_split.succeeded"
-        | "payment_split.updated"
-        | "payout.canceled"
-        | "payout.created"
-        | "payout.failed"
-        | "payout.reversed"
-        | "payout.succeeded"
-        | "payout.updated"
-        | "payout_destination.archived"
-        | "payout_destination.created"
-        | "payout_destination.disabled"
-        | "payout_destination.updated"
-        | "payout_settings.updated"
-        | "platform_fee.canceled"
-        | "platform_fee.created"
-        | "platform_fee.succeeded"
-        | "platform_fee.updated"
-        | "platform_fee_payout.created"
-        | "platform_fee_payout.failed"
-        | "platform_fee_payout.succeeded"
-        | "price_list.archived"
-        | "price_list.created"
-        | "price_list.updated"
-        | "product.archived"
-        | "product.created"
-        | "product.updated"
-        | "product_variant.archived"
-        | "product_variant.created"
-        | "product_variant.updated"
-        | "promotion.archived"
-        | "promotion.created"
-        | "promotion.updated"
-        | "promotion_code.archived"
-        | "promotion_code.created"
-        | "promotion_code.updated"
-        | "reader.archived"
-        | "reader.created"
-        | "reader.updated"
-        | "refund.created"
-        | "refund.failed"
-        | "refund.partially_succeeded"
-        | "refund.succeeded"
-        | "refund.updated"
-        | "report.failed"
-        | "report.succeeded"
-        | "return.canceled"
-        | "return.completed"
-        | "return.created"
-        | "return.decision_recorded"
-        | "return.reopened"
-        | "return.updated"
-        | "return_disposition.created"
-        | "return_disposition.updated"
-        | "return_inspection.acceptance_decided"
-        | "return_inspection.created"
-        | "return_inspection.superseded"
-        | "return_receipt.created"
-        | "return_receipt.superseded"
-        | "return_receipt.verified"
-        | "return_resolution.created"
-        | "return_resolution.updated"
-        | "shipment.created"
-        | "shipment.updated"
-        | "subscription.activated"
-        | "subscription.canceled"
-        | "subscription.cancellation_scheduled"
-        | "subscription.created"
-        | "subscription.cycle_skipped"
-        | "subscription.delivery_action_required"
-        | "subscription.delivery_pause_upcoming"
-        | "subscription.delivery_updated"
-        | "subscription.dunning_exhausted"
-        | "subscription.end_upcoming"
-        | "subscription.past_due"
-        | "subscription.paused"
-        | "subscription.payment_succeeded"
-        | "subscription.plan_change_canceled"
-        | "subscription.plan_change_scheduled"
-        | "subscription.plan_changed"
-        | "subscription.reactivated"
-        | "subscription.renewal_upcoming"
-        | "subscription.resumed"
-        | "subscription.trial_ending"
-        | "subscription.updated"
-        | "subscription_delivery_migration.completed"
-        | "subscription_payment_retry.created"
-        | "subscription_payment_retry.failed"
-        | "subscription_payment_retry.succeeded"
-        | "tax_calculation_callback.activated"
-        | "tax_calculation_callback.archived"
-        | "tax_calculation_callback.created"
-        | "tax_calculation_callback.deactivated"
-        | "tax_calculation_callback.updated"
-        | "tax_connection.updated"
-        | "test_clock.advancing"
-        | "test_clock.archived"
-        | "test_clock.created"
-        | "test_clock.failed"
-        | "test_clock.ready"
-        | "ticket.checked_in"
-        | "ticket.created"
-        | "ticket.updated"
-        | "ticket.voided"
-        | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at": string;
-    /**
-     * Records created before server-minted request IDs keep their original ID. maxLength: 128.
-     * Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-    /** ID of this timeline entry. Example: "whev_01KEZF7C00362MS3HV970TRZGS". */
-    "resource_timeline_entry_id": string;
-    /** ID of the event being delivered. Example: "whev_01KEZF7C00362MS3HV970TRZGS". */
-    "webhook_event_id": string;
-};
-export type ResourceTimelinesGetParams = {
-    /**
-     * Optional resource type. Must match the resource_id prefix when present. Value enum:
-     * "balance", "balance_transaction", "bundle", "category", "checkout_session", "credit_note",
-     * "credit_note_allocation", "customer", "dispute", "fraud_warning", "inventory_count",
-     * "inventory_level", "inventory_receipt", "inventory_reservation",
-     * "inventory_reservation_line", "inventory_transfer", "invoice", "invoice_payment_term",
-     * "merchant_billing_balance", "merchant_billing_invoice", "merchant_signup", "modifier",
-     * "modifier_group", "modifier_set", "order", "payment_intent", "payment_link",
-     * "payment_method", "payment_method_domain", "payment_review", "payout", "payout_destination",
-     * "payout_settings", "product", "product_variant", "promotion", "promotion_code", "reader",
-     * "refund", "return", "return_activity", "return_disposition", "return_inspection",
-     * "return_receipt", "return_resolution", "risk_list", "risk_list_item", "risk_rule",
-     * "subscription", "subscription_plan", "test_clock".
-     */
-    "resource_type"?: InputValue<"balance"
-        | "balance_transaction"
-        | "bundle"
-        | "category"
-        | "checkout_session"
-        | "credit_note"
-        | "credit_note_allocation"
-        | "customer"
-        | "dispute"
-        | "fraud_warning"
-        | "inventory_count"
-        | "inventory_level"
-        | "inventory_receipt"
-        | "inventory_reservation"
-        | "inventory_reservation_line"
-        | "inventory_transfer"
-        | "invoice"
-        | "invoice_payment_term"
-        | "merchant_billing_balance"
-        | "merchant_billing_invoice"
-        | "merchant_signup"
-        | "modifier"
-        | "modifier_group"
-        | "modifier_set"
-        | "order"
-        | "payment_intent"
-        | "payment_link"
-        | "payment_method"
-        | "payment_method_domain"
-        | "payment_review"
-        | "payout"
-        | "payout_destination"
-        | "payout_settings"
-        | "product"
-        | "product_variant"
-        | "promotion"
-        | "promotion_code"
-        | "reader"
-        | "refund"
-        | "return"
-        | "return_activity"
-        | "return_disposition"
-        | "return_inspection"
-        | "return_receipt"
-        | "return_resolution"
-        | "risk_list"
-        | "risk_list_item"
-        | "risk_rule"
-        | "subscription"
-        | "subscription_plan"
-        | "test_clock">;
-    /**
-     * Timeline entry groups to include. Defaults to all four: requests, webhooks, attempts,
-     * image_mutations. [] enum: "requests", "webhooks", "attempts", "image_mutations". [] (Value):
-     * string. Value enum: "requests", "webhooks", "attempts", "image_mutations".
-     */
-    "include"?: InputValue<Array<"requests" | "webhooks" | "attempts" | "image_mutations">>;
+export type PlatformFeeBalanceTransactionsGetParams = {};
+export type PlatformFeeBalanceTransactionsListParams = {
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
      * 100. Default: 20.
@@ -2475,608 +513,425 @@ export type ResourceTimelinesGetParams = {
      * invalid, expired, or mismatched token returns a validation error.
      */
     "page_token"?: InputValue<string>;
+    /**
+     * Exact match on the partner app. minLength: 1. pattern: ^papp_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+     */
+    "partner_app_id"?: InputValue<string>;
+    /**
+     * Exact match on the fee the entry concerns. minLength: 1. pattern:
+     * ^pfee_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pfee_01KEZF7C00JHAZN19B3MMW0R3A".
+     */
+    "platform_fee_id"?: InputValue<string>;
+    /**
+     * Exact match on the payout that carried the entry. minLength: 1. pattern:
+     * ^pfpo_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pfpo_01KEZF7C00H58B147FK286D4A4".
+     */
+    "platform_fee_payout_id"?: InputValue<string>;
+    /**
+     * Types to include. Omit it to list every type. Values are trimmed and deduplicated in
+     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
+     * separate filters are ANDed. [] enum: "platform_fee", "reserve_hold", "reserve_release",
+     * "loss_coverage", "loss_coverage_reversal", "platform_fee_refund",
+     * "platform_fee_refund_reversal", "platform_fee_payout", "platform_fee_payout_reversal". Value
+     * enum: "platform_fee", "reserve_hold", "reserve_release", "loss_coverage",
+     * "loss_coverage_reversal", "platform_fee_refund", "platform_fee_refund_reversal",
+     * "platform_fee_payout", "platform_fee_payout_reversal". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "platform_fee", "reserve_hold", "reserve_release", "loss_coverage",
+     * "loss_coverage_reversal", "platform_fee_refund", "platform_fee_refund_reversal",
+     * "platform_fee_payout", "platform_fee_payout_reversal". anyOf[1][] (Value): string. Value
+     * enum: "platform_fee", "reserve_hold", "reserve_release", "loss_coverage",
+     * "loss_coverage_reversal", "platform_fee_refund", "platform_fee_refund_reversal",
+     * "platform_fee_payout", "platform_fee_payout_reversal". anyOf[2] (Value): string. Value enum:
+     * "platform_fee", "reserve_hold", "reserve_release", "loss_coverage",
+     * "loss_coverage_reversal", "platform_fee_refund", "platform_fee_refund_reversal",
+     * "platform_fee_payout", "platform_fee_payout_reversal".
+     */
+    "type"?: InputValue<("platform_fee"
+        | "reserve_hold"
+        | "reserve_release"
+        | "loss_coverage"
+        | "loss_coverage_reversal"
+        | "platform_fee_refund"
+        | "platform_fee_refund_reversal"
+        | "platform_fee_payout"
+        | "platform_fee_payout_reversal")
+        | readonly ("platform_fee"
+        | "reserve_hold"
+        | "reserve_release"
+        | "loss_coverage"
+        | "loss_coverage_reversal"
+        | "platform_fee_refund"
+        | "platform_fee_refund_reversal"
+        | "platform_fee_payout"
+        | "platform_fee_payout_reversal")[]>;
     /** Inclusive lower bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "occurred_after"?: InputValue<string | globalThis.Date>;
     /** Exclusive upper bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "occurred_before"?: InputValue<string | globalThis.Date>;
 };
-/**
- * Public resource type: the resource's ID field name without `_id`. Clients must accept values
- * added in future releases. Value enum: "api_key", "api_request_log", "balance",
- * "balance_transaction", "bundle", "bundle_component", "category", "checkout_session",
- * "checkout_session_customer_verification", "credit_note", "credit_note_allocation",
- * "custom_domain", "customer", "customer_address", "customer_deletion_request",
- * "customer_email_preferences", "customer_session", "customer_tax_exemption",
- * "customer_verification", "delivery_choice_group", "delivery_location_set", "delivery_method",
- * "delivery_profile", "delivery_quote", "delivery_rate", "delivery_rate_callback",
- * "delivery_revocation", "delivery_selection", "delivery_zone", "demo_session", "device",
- * "discount", "dispute", "email_change_request", "environment_grant", "feedback_report", "file",
- * "flint_wallet", "flint_wallet_card", "fraud_warning", "fulfillment", "fulfillment_event",
- * "fulfillment_notification", "gift_card", "gift_card_funding_disposition", "gift_card_load",
- * "gift_card_notification", "gift_card_redemption", "gift_card_transaction", "image",
- * "inventory_adjustment", "inventory_allocation_policy", "inventory_allocation_policy_revision",
- * "inventory_count", "inventory_item", "inventory_level", "inventory_movement",
- * "inventory_receipt", "inventory_reservation", "inventory_reservation_line",
- * "inventory_transfer", "inventory_transfer_line", "invoice", "invoice_delivery_attempt",
- * "invoice_late_fee", "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
- * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
- * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
- * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
- * "order_line_item_modifier", "order_payment_attempt", "package", "package_item", "partner_app",
- * "partner_app_credential", "partner_app_install", "payment_intent", "payment_link",
- * "payment_link_custom_field", "payment_link_line_item", "payment_method",
- * "payment_method_domain", "payment_review", "payment_split", "payout", "payout_destination",
- * "payout_settings", "platform_fee", "platform_fee_balance_transaction", "platform_fee_payout",
- * "price_list", "price_list_price", "product", "product_option", "product_option_value",
- * "product_variant", "promotion", "promotion_code", "purchase_refund_allocation", "reader",
- * "refund", "refund_allocation", "refund_line_item_adjustment", "remembered_buyer", "report",
- * "report_download", "return", "return_activity", "return_disposition", "return_inspection",
- * "return_inspection_line_item", "return_line_item", "return_policy", "return_policy_revision",
- * "return_reason", "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
- * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
- * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
- * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
- * "tax_calculation_callback", "tax_connection", "tax_registration", "test_clock", "ticket",
- * "user", "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
- */
-export type ResourceType = "api_key"
-    | "api_request_log"
-    | "balance"
-    | "balance_transaction"
-    | "bundle"
-    | "bundle_component"
-    | "category"
-    | "checkout_session"
-    | "checkout_session_customer_verification"
-    | "credit_note"
-    | "credit_note_allocation"
-    | "custom_domain"
-    | "customer"
-    | "customer_address"
-    | "customer_deletion_request"
-    | "customer_email_preferences"
-    | "customer_session"
-    | "customer_tax_exemption"
-    | "customer_verification"
-    | "delivery_choice_group"
-    | "delivery_location_set"
-    | "delivery_method"
-    | "delivery_profile"
-    | "delivery_quote"
-    | "delivery_rate"
-    | "delivery_rate_callback"
-    | "delivery_revocation"
-    | "delivery_selection"
-    | "delivery_zone"
-    | "demo_session"
-    | "device"
-    | "discount"
-    | "dispute"
-    | "email_change_request"
-    | "environment_grant"
-    | "feedback_report"
-    | "file"
-    | "flint_wallet"
-    | "flint_wallet_card"
-    | "fraud_warning"
-    | "fulfillment"
-    | "fulfillment_event"
-    | "fulfillment_notification"
-    | "gift_card"
-    | "gift_card_funding_disposition"
-    | "gift_card_load"
-    | "gift_card_notification"
-    | "gift_card_redemption"
-    | "gift_card_transaction"
-    | "image"
-    | "inventory_adjustment"
-    | "inventory_allocation_policy"
-    | "inventory_allocation_policy_revision"
-    | "inventory_count"
-    | "inventory_item"
-    | "inventory_level"
-    | "inventory_movement"
-    | "inventory_receipt"
-    | "inventory_reservation"
-    | "inventory_reservation_line"
-    | "inventory_transfer"
-    | "inventory_transfer_line"
-    | "invoice"
-    | "invoice_delivery_attempt"
-    | "invoice_late_fee"
-    | "invoice_line_item"
-    | "invoice_manual_payment"
-    | "invoice_payment_attempt"
-    | "invoice_payment_term"
-    | "location"
-    | "merchant"
-    | "merchant_billing_balance"
-    | "merchant_billing_entry"
-    | "merchant_billing_invoice"
-    | "merchant_signup"
-    | "modifier"
-    | "modifier_group"
-    | "modifier_set"
-    | "order"
-    | "order_charge"
-    | "order_edit"
-    | "order_line_item"
-    | "order_line_item_modifier"
-    | "order_payment_attempt"
-    | "package"
-    | "package_item"
-    | "partner_app"
-    | "partner_app_credential"
-    | "partner_app_install"
-    | "payment_intent"
-    | "payment_link"
-    | "payment_link_custom_field"
-    | "payment_link_line_item"
-    | "payment_method"
-    | "payment_method_domain"
-    | "payment_review"
-    | "payment_split"
-    | "payout"
-    | "payout_destination"
-    | "payout_settings"
-    | "platform_fee"
-    | "platform_fee_balance_transaction"
-    | "platform_fee_payout"
-    | "price_list"
-    | "price_list_price"
-    | "product"
-    | "product_option"
-    | "product_option_value"
-    | "product_variant"
-    | "promotion"
-    | "promotion_code"
-    | "purchase_refund_allocation"
-    | "reader"
-    | "refund"
-    | "refund_allocation"
-    | "refund_line_item_adjustment"
-    | "remembered_buyer"
-    | "report"
-    | "report_download"
-    | "return"
-    | "return_activity"
-    | "return_disposition"
-    | "return_inspection"
-    | "return_inspection_line_item"
-    | "return_line_item"
-    | "return_policy"
-    | "return_policy_revision"
-    | "return_reason"
-    | "return_receipt"
-    | "return_receipt_line_item"
-    | "return_resolution"
-    | "risk_list"
-    | "risk_list_item"
-    | "risk_rule"
-    | "sandbox"
-    | "settings"
-    | "shipment"
-    | "subscription"
-    | "subscription_delivery_migration"
-    | "subscription_line_item"
-    | "subscription_offer"
-    | "subscription_payment_retry"
-    | "subscription_plan"
-    | "subscription_plan_line_item"
-    | "tax_calculation_callback"
-    | "tax_connection"
-    | "tax_registration"
-    | "test_clock"
-    | "ticket"
-    | "user"
-    | "webhook_delivery"
-    | "webhook_endpoint"
-    | "webhook_event"
-    | "workload_identity"
-    | (string & {});
-/**
- * The request body for: Mark invoice uncollectible; Regenerate invoice public link; Resume one of
- * the current buyer's subscriptions; Resume subscription; Reverse credit note allocation; Void
- * credit note; Void invoice.
- */
-export type ResourceVersionRequestInput = ConfirmReturnResolutionRequestInput;
-/**
- * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request
- * was replayed, and any warnings.
- */
-export type ResponseMeta = {
-    /** API version used to produce this response. */
-    "api_version"?: string;
-    /** Whether this response replays a stored result for the supplied Idempotency-Key. */
-    "idempotency_replayed"?: boolean;
+export type PlatformFeeBalancesListParams = {
     /**
-     * Trace identifier to include when contacting Flint about this request. Example:
-     * "0123456789abcdef0123456789abcdef".
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
      */
-    "trace_id"?: string;
+    "page_size"?: InputValue<number>;
     /**
-     * Conditions that need attention even though the request succeeded. [] (Value): {@link
-     * ResponseWarning}. A non-blocking condition reported with a response. The `code` identifies
-     * the condition and `severity` says how urgent it is.
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
      */
-    "warnings"?: Array<ResponseWarning>;
+    "page_token"?: InputValue<string>;
+    /**
+     * Exact match on the partner app. minLength: 1. pattern: ^papp_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+     */
+    "partner_app_id"?: InputValue<string>;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency"?: InputValue<string>;
+};
+export type PlatformFeeCanceledEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "canceled_reason"?: "payment_not_completed"
+                | "install_revoked"
+                | "platform_capability_inactive"
+                | "uncollectible"
+                | (string & {});
+            "checkout_session_id"?: string;
+            "collected_at"?: string;
+            "created_at": string;
+            "merchant_id": string;
+            "partner_app_id": string;
+            "partner_app_install_id": string;
+            "payment_intent_id": string;
+            "platform_fee_id": string;
+            "refunded_money": MoneyValue;
+            "requested_amount_money": MoneyValue;
+            "reserve_available_at"?: string;
+            "reserve_hold_money"?: MoneyValue;
+            "status": "pending" | "succeeded" | "canceled" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "canceled_reason"?: (("payment_not_completed"
+                | "install_revoked"
+                | "platform_capability_inactive"
+                | "uncollectible"
+                | (string & {}))
+                | (null));
+            "checkout_session_id"?: ((string) | (null));
+            "collected_at"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "partner_app_id"?: ((string) | (null));
+            "partner_app_install_id"?: ((string) | (null));
+            "payment_intent_id"?: ((string) | (null));
+            "platform_fee_id"?: ((string) | (null));
+            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "requested_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "reserve_available_at"?: ((string) | (null));
+            "reserve_hold_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "status"?: (("pending" | "succeeded" | "canceled" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "platform_fee.canceled";
+})
+    & {
+    "event_type": "platform_fee.canceled";
+});
+/**
+ * The most a platform fee can take from one payment. The largest platform fee on a payment is
+ * percent of the amount it collects, rounded half up to the minor unit, plus the currency's fixed
+ * part if it has one, and never more than the currency's maximum: a cap of 1% + 0.30 USD with a
+ * 5.00 USD maximum allows up to 1.30 USD on a 100.00 USD payment. A currency without a maximum
+ * can't carry a platform fee.
+ */
+export type PlatformFeeCap = {
+    /**
+     * The fixed part of the cap per payment, keyed by currency code, added to the percentage part.
+     * Omitted when no currency has one. Only USD today. * (Value): {@link MoneyValue}. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "fixed_fee_currency_options"?: Record<string, MoneyValue>;
+    /**
+     * The maximum fee on one payment, keyed by currency code. Only USD today. * (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "maximum_fee_currency_options": Record<string, MoneyValue>;
+    /**
+     * The percentage part of the cap, in percent: 2.5 means 2.5%. 0 when the cap is a fixed part
+     * alone. minimum: 0. maximum: 25. multipleOf: 0.0001.
+     */
+    "percent": number;
+};
+export type PlatformFeeCapPreviousAttributes = {
+    /**
+     * The fixed part of the cap per payment, keyed by currency code, added to the percentage part.
+     * Omitted when no currency has one. Only USD today. anyOf[1] (Value): Map of {@link
+     * MoneyValuePreviousAttributes}. anyOf[1].* (Value): {@link MoneyValuePreviousAttributes}.
+     * anyOf[2] (Value): null.
+     */
+    "fixed_fee_currency_options"?: ((Record<string, MoneyValuePreviousAttributes>) | (null));
+    /**
+     * The maximum fee on one payment, keyed by currency code. Only USD today. anyOf[1] (Value):
+     * Map of {@link MoneyValuePreviousAttributes}. anyOf[1].* (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "maximum_fee_currency_options"?: ((Record<string, MoneyValuePreviousAttributes>) | (null));
+    /**
+     * The percentage part of the cap, in percent: 2.5 means 2.5%. 0 when the cap is a fixed part
+     * alone. anyOf[1] (Value): number. The percentage part of the cap, in percent: 2.5 means 2.5%.
+     * 0 when the cap is a fixed part alone. minimum: 0. maximum: 25. multipleOf: 0.0001. anyOf[2]
+     * (Value): null.
+     */
+    "percent"?: ((number) | (null));
 };
 /**
- * A non-blocking condition reported with a response. The `code` identifies the condition and
- * `severity` says how urgent it is.
+ * The whole platform fee cap. The largest platform fee on a payment is percent of the amount it
+ * collects, rounded half up to the minor unit, plus the currency's fixed part if it has one, and
+ * never more than the currency's maximum: a cap of 1% + 0.30 USD with a 5.00 USD maximum allows up
+ * to 1.30 USD on a 100.00 USD payment. percent and maximum_fee_currency_options are required. A
+ * write replaces the cap whole, so a cap sent without fixed_fee_currency_options has no fixed
+ * part.
  */
-export type ResponseWarning = {
+export type PlatformFeeCapRequestInput = {
     /**
-     * Merchant capability for merchant_onboarding_deadline, merchant_capability_pending, or
-     * merchant_capability_inactive. Allowed for `merchant_onboarding_deadline`,
-     * `merchant_capability_pending`, `merchant_capability_inactive` warnings. Value enum:
-     * "accept_card_payments", "save_payment_methods", "accept_affirm_payments",
-     * "accept_ach_debit_payments", "receive_payouts", "create_standard_payouts",
-     * "manage_payout_destinations", "manage_payout_settings".
+     * The fixed part of the cap per payment, keyed by currency code, added to the percentage part:
+     * 30 USD minor units with percent 1 is 1% + 0.30 USD. Optional. Each is from 1 minor unit to
+     * the same currency's maximum, and a currency needs a maximum to have one; otherwise
+     * INVALID_REQUEST with INVALID_VALUE on the entry. Each key must equal its Money's currency.
+     * Only USD today. * (Value): {@link MoneyValueInput}. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
      */
-    "capability"?: "accept_card_payments"
-        | "save_payment_methods"
-        | "accept_affirm_payments"
-        | "accept_ach_debit_payments"
-        | "receive_payouts"
-        | "create_standard_payouts"
-        | "manage_payout_destinations"
-        | "manage_payout_settings"
-        | (string & {});
+    "fixed_fee_currency_options"?: Record<string, MoneyValueInput>;
     /**
-     * Warning code. Clients must accept values added in future releases. Value enum:
-     * "billing_interval_options_same_price", "merchant_onboarding_past_due",
-     * "merchant_onboarding_deadline", "merchant_capability_pending",
-     * "merchant_capability_inactive", "payout_settings_reconciling", "promotion_declined",
-     * "promotion_removed", "risk_rule_limit_reached", "rule_evaluation_stage_changed",
-     * "external_paid_orders_over_allowance", "replacement_codes_unavailable".
+     * The maximum fee on one payment, keyed by currency code: from 1 to 1,000,000 minor units
+     * ($0.01 to $10,000.00). Each key must equal its Money's currency. Only USD today.
+     * minProperties: 1. * (Value): {@link MoneyValueInput}. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
      */
-    "code": "billing_interval_options_same_price"
-        | "merchant_onboarding_past_due"
-        | "merchant_onboarding_deadline"
-        | "merchant_capability_pending"
-        | "merchant_capability_inactive"
-        | "payout_settings_reconciling"
-        | "promotion_declined"
-        | "promotion_removed"
-        | "risk_rule_limit_reached"
-        | "rule_evaluation_stage_changed"
-        | "external_paid_orders_over_allowance"
-        | "replacement_codes_unavailable"
-        | (string & {});
+    "maximum_fee_currency_options": Record<string, MoneyValueInput>;
     /**
-     * Time by which the merchant must submit onboarding requirements, as an RFC 3339 UTC
-     * timestamp. Present only for merchant_onboarding_deadline or merchant_onboarding_past_due
-     * when a submission deadline is set. Allowed for `merchant_onboarding_past_due`,
-     * `merchant_onboarding_deadline` warnings. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * The percentage part of the cap, in percent: from 0 to 25, with up to four decimal places.
+     * 2.5 means 2.5%. 0 needs a fixed part in every currency with a maximum, so the cap is a flat
+     * fee per payment; otherwise INVALID_REQUEST with INVALID_VALUE on the maximum of the currency
+     * without one. minimum: 0. maximum: 25. multipleOf: 0.0001.
      */
-    "due_at"?: string;
-    /** Description of the non-blocking condition. */
-    "message": string;
+    "percent": number;
+};
+export type PlatformFeeCreatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "canceled_reason"?: "payment_not_completed"
+                | "install_revoked"
+                | "platform_capability_inactive"
+                | "uncollectible"
+                | (string & {});
+            "checkout_session_id"?: string;
+            "collected_at"?: string;
+            "created_at": string;
+            "merchant_id": string;
+            "partner_app_id": string;
+            "partner_app_install_id": string;
+            "payment_intent_id": string;
+            "platform_fee_id": string;
+            "refunded_money": MoneyValue;
+            "requested_amount_money": MoneyValue;
+            "reserve_available_at"?: string;
+            "reserve_hold_money"?: MoneyValue;
+            "status": "pending" | "succeeded" | "canceled" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "platform_fee.created";
+})
+    & {
+    "event_type": "platform_fee.created";
+});
+/** A page of `PlatformFee` objects. */
+export type PlatformFeeListResponse = {
     /**
-     * Suggested actions for addressing the warning. Allowed for `merchant_onboarding_past_due`,
-     * `merchant_onboarding_deadline`, `merchant_capability_pending`,
-     * `merchant_capability_inactive`, `payout_settings_reconciling` warnings. [] (Value): {@link
-     * NextAction}. A follow-up action. When target_resource is present, send its resource_id in
-     * the target request field named {resource_type}_id.
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * PlatformFee}. A platform fee your partner app charged, or asked to charge, on a payment it
+     * created for an installed merchant. Owned by the merchant that owns the partner app.
      */
-    "next_actions"?: Array<NextAction>;
+    "data": Array<PlatformFee>;
     /**
-     * Last synchronization time for merchant_onboarding_past_due, merchant_onboarding_deadline,
-     * merchant_capability_pending, or merchant_capability_inactive, when available. Allowed for
-     * `merchant_onboarding_past_due`, `merchant_onboarding_deadline`,
-     * `merchant_capability_pending`, `merchant_capability_inactive` warnings. Format: date-time.
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * A payout from your partner app's platform fee balance to your merchant balance. Owned by the
+ * merchant that owns the partner app.
+ */
+export type PlatformFeePayout = {
+    /**
+     * The amount transferred to your merchant balance. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * The credit on your merchant ledger. Present once Flint observes it; linking it sends no
+     * payout event and doesn't advance version. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+     */
+    "balance_transaction_id"?: string;
+    /** When Flint prepared the payout. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Why the payout failed. Present only when status is failed. Can gain values; treat unknown
+     * values as payout_failed. Value enum: "merchant_cannot_receive", "payout_failed".
+     */
+    "failure_reason"?: "merchant_cannot_receive" | "payout_failed" | (string & {});
+    /**
+     * The partner app whose fee balance funded the payout. Example:
+     * "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+     */
+    "partner_app_id": string;
+    /**
+     * Unique identifier for the platform fee payout. Example: "pfpo_01KEZF7C00H58B147FK286D4A4".
+     */
+    "platform_fee_payout_id": string;
+    /**
+     * Where the payout stands. succeeded and failed are final. Value enum: "pending", "succeeded",
+     * "failed".
+     */
+    "status": "pending" | "succeeded" | "failed" | (string & {});
+    /**
+     * When the transfer succeeded. Present only when status is succeeded. Format: date-time.
      * Example: "2026-08-02T16:00:00Z".
      */
-    "observed_at"?: string;
+    "succeeded_at"?: string;
     /**
-     * Previous risk rule evaluation stage for rule_evaluation_stage_changed. Allowed for
-     * `rule_evaluation_stage_changed` warnings. Value enum: "pre_authorization",
-     * "post_authorization".
+     * When the payout's owned state last changed. Retry bookkeeping and observing the credit don't
+     * change it. Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
-    "previous_stage"?: "pre_authorization" | "post_authorization" | (string & {});
+    "updated_at": string;
     /**
-     * Promotion code that was accepted but did not apply, on a promotion_declined warning, or the
-     * code of a removed promotion discount, on a promotion_removed warning. Allowed for
-     * `promotion_declined`, `promotion_removed` warnings.
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. Format: uint64. minimum: 1.
      */
-    "promotion_code"?: string;
-    /**
-     * Stable Flint reason code. On a promotion_declined or promotion_removed warning this is the
-     * promotion decline reason (for example superseded_by_better_offer); an unrecognized value
-     * falls back to not_eligible. See the Promotions reference for the full list. Allowed for
-     * `promotion_declined`, `promotion_removed` warnings. Value enum: "already_applied",
-     * "automatic_disabled", "buy_item_missing", "code_invalid", "code_required", "codes_disabled",
-     * "currency_mismatch", "customer_limit_reached", "customer_mismatch", "customer_required",
-     * "exhausted", "expired", "inactive", "max_promotions_reached", "minimum_not_met",
-     * "no_discountable_balance", "not_combinable", "not_eligible", "not_yet_started",
-     * "recurrence_completed", "superseded", "superseded_by_better_offer",
-     * "superseded_by_higher_priority", "unknown_type".
-     */
-    "reason"?: "already_applied"
-        | "automatic_disabled"
-        | "buy_item_missing"
-        | "code_invalid"
-        | "code_required"
-        | "codes_disabled"
-        | "currency_mismatch"
-        | "customer_limit_reached"
-        | "customer_mismatch"
-        | "customer_required"
-        | "exhausted"
-        | "expired"
-        | "inactive"
-        | "max_promotions_reached"
-        | "minimum_not_met"
-        | "no_discountable_balance"
-        | "not_combinable"
-        | "not_eligible"
-        | "not_yet_started"
-        | "recurrence_completed"
-        | "superseded"
-        | "superseded_by_better_offer"
-        | "superseded_by_higher_priority"
-        | "unknown_type"
-        | (string & {});
-    /**
-     * End of the original order reservation's usage period, at the start of a New York calendar
-     * month, as an RFC 3339 UTC timestamp. Replays preserve this original reset time. Allowed for
-     * `external_paid_orders_over_allowance` warnings. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "resets_at"?: string;
-    /**
-     * Resource ID, paired with resource_type when the warning identifies a resource. Allowed for
-     * `billing_interval_options_same_price`, `merchant_onboarding_past_due`,
-     * `merchant_onboarding_deadline`, `merchant_capability_pending`,
-     * `merchant_capability_inactive`, `payout_settings_reconciling`, `promotion_declined`,
-     * `promotion_removed`, `risk_rule_limit_reached`, `rule_evaluation_stage_changed`,
-     * `external_paid_orders_over_allowance`, `replacement_codes_unavailable` warnings. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "resource_id"?: string;
-    /**
-     * Type of the resource identified by resource_id. Allowed for
-     * `billing_interval_options_same_price`, `merchant_onboarding_past_due`,
-     * `merchant_onboarding_deadline`, `merchant_capability_pending`,
-     * `merchant_capability_inactive`, `payout_settings_reconciling`, `promotion_declined`,
-     * `promotion_removed`, `risk_rule_limit_reached`, `rule_evaluation_stage_changed`,
-     * `external_paid_orders_over_allowance`, `replacement_codes_unavailable` warnings. Example:
-     * "order". Value enum: "api_key", "api_request_log", "balance", "balance_transaction",
-     * "bundle", "bundle_component", "category", "checkout_session",
-     * "checkout_session_customer_verification", "credit_note", "credit_note_allocation",
-     * "custom_domain", "customer", "customer_address", "customer_deletion_request",
-     * "customer_email_preferences", "customer_session", "customer_tax_exemption",
-     * "customer_verification", "delivery_choice_group", "delivery_location_set",
-     * "delivery_method", "delivery_profile", "delivery_quote", "delivery_rate",
-     * "delivery_rate_callback", "delivery_revocation", "delivery_selection", "delivery_zone",
-     * "demo_session", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
-     * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
-     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
-     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
-     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
-     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
-     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
-     * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
-     * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
-     * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
-     * "partner_app", "partner_app_credential", "partner_app_install", "payment_intent",
-     * "payment_link", "payment_link_custom_field", "payment_link_line_item", "payment_method",
-     * "payment_method_domain", "payment_review", "payment_split", "payout", "payout_destination",
-     * "payout_settings", "platform_fee", "platform_fee_balance_transaction",
-     * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
-     * "product_option_value", "product_variant", "promotion", "promotion_code",
-     * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
-     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
-     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
-     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
-     * "tax_calculation_callback", "tax_connection", "tax_registration", "test_clock", "ticket",
-     * "user", "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
-     */
-    "resource_type"?: "api_key"
-        | "api_request_log"
-        | "balance"
-        | "balance_transaction"
-        | "bundle"
-        | "bundle_component"
-        | "category"
-        | "checkout_session"
-        | "checkout_session_customer_verification"
-        | "credit_note"
-        | "credit_note_allocation"
-        | "custom_domain"
-        | "customer"
-        | "customer_address"
-        | "customer_deletion_request"
-        | "customer_email_preferences"
-        | "customer_session"
-        | "customer_tax_exemption"
-        | "customer_verification"
-        | "delivery_choice_group"
-        | "delivery_location_set"
-        | "delivery_method"
-        | "delivery_profile"
-        | "delivery_quote"
-        | "delivery_rate"
-        | "delivery_rate_callback"
-        | "delivery_revocation"
-        | "delivery_selection"
-        | "delivery_zone"
-        | "demo_session"
-        | "device"
-        | "discount"
-        | "dispute"
-        | "email_change_request"
-        | "environment_grant"
-        | "feedback_report"
-        | "file"
-        | "flint_wallet"
-        | "flint_wallet_card"
-        | "fraud_warning"
-        | "fulfillment"
-        | "fulfillment_event"
-        | "fulfillment_notification"
-        | "gift_card"
-        | "gift_card_funding_disposition"
-        | "gift_card_load"
-        | "gift_card_notification"
-        | "gift_card_redemption"
-        | "gift_card_transaction"
-        | "image"
-        | "inventory_adjustment"
-        | "inventory_allocation_policy"
-        | "inventory_allocation_policy_revision"
-        | "inventory_count"
-        | "inventory_item"
-        | "inventory_level"
-        | "inventory_movement"
-        | "inventory_receipt"
-        | "inventory_reservation"
-        | "inventory_reservation_line"
-        | "inventory_transfer"
-        | "inventory_transfer_line"
-        | "invoice"
-        | "invoice_delivery_attempt"
-        | "invoice_late_fee"
-        | "invoice_line_item"
-        | "invoice_manual_payment"
-        | "invoice_payment_attempt"
-        | "invoice_payment_term"
-        | "location"
-        | "merchant"
-        | "merchant_billing_balance"
-        | "merchant_billing_entry"
-        | "merchant_billing_invoice"
-        | "merchant_signup"
-        | "modifier"
-        | "modifier_group"
-        | "modifier_set"
-        | "order"
-        | "order_charge"
-        | "order_edit"
-        | "order_line_item"
-        | "order_line_item_modifier"
-        | "order_payment_attempt"
-        | "package"
-        | "package_item"
-        | "partner_app"
-        | "partner_app_credential"
-        | "partner_app_install"
-        | "payment_intent"
-        | "payment_link"
-        | "payment_link_custom_field"
-        | "payment_link_line_item"
-        | "payment_method"
-        | "payment_method_domain"
-        | "payment_review"
-        | "payment_split"
-        | "payout"
-        | "payout_destination"
-        | "payout_settings"
-        | "platform_fee"
-        | "platform_fee_balance_transaction"
-        | "platform_fee_payout"
-        | "price_list"
-        | "price_list_price"
-        | "product"
-        | "product_option"
-        | "product_option_value"
-        | "product_variant"
-        | "promotion"
-        | "promotion_code"
-        | "purchase_refund_allocation"
-        | "reader"
-        | "refund"
-        | "refund_allocation"
-        | "refund_line_item_adjustment"
-        | "remembered_buyer"
-        | "report"
-        | "report_download"
-        | "return"
-        | "return_activity"
-        | "return_disposition"
-        | "return_inspection"
-        | "return_inspection_line_item"
-        | "return_line_item"
-        | "return_policy"
-        | "return_policy_revision"
-        | "return_reason"
-        | "return_receipt"
-        | "return_receipt_line_item"
-        | "return_resolution"
-        | "risk_list"
-        | "risk_list_item"
-        | "risk_rule"
-        | "sandbox"
-        | "settings"
-        | "shipment"
-        | "subscription"
-        | "subscription_delivery_migration"
-        | "subscription_line_item"
-        | "subscription_offer"
-        | "subscription_payment_retry"
-        | "subscription_plan"
-        | "subscription_plan_line_item"
-        | "tax_calculation_callback"
-        | "tax_connection"
-        | "tax_registration"
-        | "test_clock"
-        | "ticket"
-        | "user"
-        | "webhook_delivery"
-        | "webhook_endpoint"
-        | "webhook_event"
-        | "workload_identity"
-        | (string & {});
-    /** Warning severity. Value enum: "warning", "critical". */
-    "severity": "warning" | "critical" | (string & {});
-    /**
-     * New risk rule evaluation stage for rule_evaluation_stage_changed. Allowed for
-     * `rule_evaluation_stage_changed` warnings. Value enum: "pre_authorization",
-     * "post_authorization".
-     */
-    "stage"?: "pre_authorization" | "post_authorization" | (string & {});
-    /**
-     * Discount amount this promotion would have applied had it won, on a promotion_declined
-     * warning, or the amount a removed promotion discount applied before removal, on a
-     * promotion_removed warning. Allowed for `promotion_declined`, `promotion_removed` warnings.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "would_have_applied_money"?: MoneyValue;
+    "version": number;
 };
-/** Retry the remaining refund money after refund processing has failed. */
-export type RetryOrderEditRefundRequest = {
+export type PlatformFeePayoutCreatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "balance_transaction_id"?: string;
+            "created_at": string;
+            "failure_reason"?: "merchant_cannot_receive" | "payout_failed" | (string & {});
+            "partner_app_id": string;
+            "platform_fee_payout_id": string;
+            "status": "pending" | "succeeded" | "failed" | (string & {});
+            "succeeded_at"?: string;
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "platform_fee_payout.created";
+})
+    & {
+    "event_type": "platform_fee_payout.created";
+});
+export type PlatformFeePayoutFailedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "balance_transaction_id"?: string;
+            "created_at": string;
+            "failure_reason"?: "merchant_cannot_receive" | "payout_failed" | (string & {});
+            "partner_app_id": string;
+            "platform_fee_payout_id": string;
+            "status": "pending" | "succeeded" | "failed" | (string & {});
+            "succeeded_at"?: string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "balance_transaction_id"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "failure_reason"?: (("merchant_cannot_receive" | "payout_failed" | (string & {})) | (null));
+            "partner_app_id"?: ((string) | (null));
+            "platform_fee_payout_id"?: ((string) | (null));
+            "status"?: (("pending" | "succeeded" | "failed" | (string & {})) | (null));
+            "succeeded_at"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "platform_fee_payout.failed";
+})
+    & {
+    "event_type": "platform_fee_payout.failed";
+});
+/** A page of `PlatformFeePayout` objects. */
+export type PlatformFeePayoutListResponse = {
     /**
-     * Refund destinations, with the same shape as on create. Omit to reuse the destinations frozen
-     * on the edit. Default refund destinations for payment intent and gift card redemption
-     * allocations planned by Flint. Each tender type defaults to original when omitted.
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * PlatformFeePayout}. A payout from your partner app's platform fee balance to your merchant
+     * balance. Owned by the merchant that owns the partner app.
      */
-    "destinations"?: RefundDestinations;
+    "data": Array<PlatformFeePayout>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
 };
-/** Retry the remaining refund money after refund processing has failed. */
-export type RetryOrderEditRefundRequestInput = {
+/** A response containing `PlatformFeePayout` data. */
+export type PlatformFeePayoutResponse = {
     /**
-     * Refund destinations, with the same shape as on create. Omit to reuse the destinations frozen
-     * on the edit. Default refund destinations for payment intent and gift card redemption
-     * allocations planned by Flint. Each tender type defaults to original when omitted.
+     * Resource, collection, or operation result returned by this request. A payout from your
+     * partner app's platform fee balance to your merchant balance. Owned by the merchant that owns
+     * the partner app.
      */
-    "destinations"?: RefundDestinationsInput;
-};
-/** A response containing `RetryOrderEditRefundResult` data. */
-export type RetryOrderEditRefundResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The order edit after a
-     * refund retry, with the refunds that attempt created for its remaining money.
-     */
-    "data": RetryOrderEditRefundResult;
+    "data": PlatformFeePayout;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -3088,105 +943,2727 @@ export type RetryOrderEditRefundResponse = {
      */
     "request_id": string;
 };
+export type PlatformFeePayoutSucceededEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "balance_transaction_id"?: string;
+            "created_at": string;
+            "failure_reason"?: "merchant_cannot_receive" | "payout_failed" | (string & {});
+            "partner_app_id": string;
+            "platform_fee_payout_id": string;
+            "status": "pending" | "succeeded" | "failed" | (string & {});
+            "succeeded_at"?: string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "balance_transaction_id"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "failure_reason"?: (("merchant_cannot_receive" | "payout_failed" | (string & {})) | (null));
+            "partner_app_id"?: ((string) | (null));
+            "platform_fee_payout_id"?: ((string) | (null));
+            "status"?: (("pending" | "succeeded" | "failed" | (string & {})) | (null));
+            "succeeded_at"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "platform_fee_payout.succeeded";
+})
+    & {
+    "event_type": "platform_fee_payout.succeeded";
+});
+export type PlatformFeePayoutsGetParams = {};
+export type PlatformFeePayoutsListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Exact match on the partner app. minLength: 1. pattern: ^papp_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+     */
+    "partner_app_id"?: InputValue<string>;
+    /**
+     * Statuses to include. Omit it to list every status. Values are trimmed and deduplicated in
+     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
+     * separate filters are ANDed. [] enum: "pending", "succeeded", "failed". Value enum:
+     * "pending", "succeeded", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "pending", "succeeded", "failed". anyOf[1][] (Value): string. Value enum: "pending",
+     * "succeeded", "failed". anyOf[2] (Value): string. Value enum: "pending", "succeeded",
+     * "failed".
+     */
+    "status"?: InputValue<("pending" | "succeeded" | "failed") | readonly ("pending" | "succeeded" | "failed")[]>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+};
 /**
- * The order edit after a refund retry, with the refunds that attempt created for its remaining
- * money.
+ * A platform fee the partner app charges on the payment, beside Flint's fees. The installed
+ * merchant pays it, and Flint takes no share of it.
  */
-export type RetryOrderEditRefundResult = {
+export type PlatformFeeRequest = {
     /**
-     * The edit with its current unrefunded money and supported actions. Nested child of an order
-     * with frozen item changes, balance and refund amounts. A pending edit changes the order only
-     * when its balance payment succeeds. Refund completion is tracked on the refunds.
+     * The fee in minor units, in the payment's currency. A fixed amount: compute any percentage
+     * yourself. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      */
-    "order_edit": OrderEdit;
-    /**
-     * Refunds created by this retry attempt. [] (Value): {@link Refund}. Money returned against a
-     * collected payment.
-     */
-    "refunds": Array<Refund>;
+    "amount_money": MoneyValue;
 };
-/** The request body for: Retry return disposition. */
-export type RetryReturnDispositionRequest = {
+/**
+ * A platform fee the partner app charges on the payment, beside Flint's fees. The installed
+ * merchant pays it, and Flint takes no share of it.
+ */
+export type PlatformFeeRequestInput = {
     /**
-     * Optional. The disposition's current version; a stale value returns 409 VERSION_CONFLICT.
-     * Format: int64. minimum: 1.
+     * The fee in minor units, in the payment's currency. A fixed amount: compute any percentage
+     * yourself. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      */
-    "expected_version"?: number;
-    /**
-     * Why the disposition is being run again. Value enum: "dependency_recovered",
-     * "mapping_corrected", "operator_retry", "other".
-     */
-    "reason": "dependency_recovered" | "mapping_corrected" | "operator_retry" | "other" | (string & {});
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
+    "amount_money": MoneyValueInput;
 };
-/** The request body for: Retry return disposition. */
-export type RetryReturnDispositionRequestInput = {
+/** A response containing `PlatformFee` data. */
+export type PlatformFeeResponse = {
     /**
-     * Optional. The disposition's current version; a stale value returns 409 VERSION_CONFLICT.
-     * Format: int64. minimum: 1.
+     * Resource, collection, or operation result returned by this request. A platform fee your
+     * partner app charged, or asked to charge, on a payment it created for an installed merchant.
+     * Owned by the merchant that owns the partner app.
      */
-    "expected_version"?: number;
+    "data": PlatformFee;
     /**
-     * Why the disposition is being run again. Value enum: "dependency_recovered",
-     * "mapping_corrected", "operator_retry", "other".
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
-    "reason": "dependency_recovered" | "mapping_corrected" | "operator_retry" | "other";
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
 };
-export type RetryReturnDispositionResponse = GetReturnDispositionResponse;
-/** The request body for: Retry return resolution. */
-export type RetryReturnResolutionRequest = {
+export type PlatformFeeSucceededEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "canceled_reason"?: "payment_not_completed"
+                | "install_revoked"
+                | "platform_capability_inactive"
+                | "uncollectible"
+                | (string & {});
+            "checkout_session_id"?: string;
+            "collected_at"?: string;
+            "created_at": string;
+            "merchant_id": string;
+            "partner_app_id": string;
+            "partner_app_install_id": string;
+            "payment_intent_id": string;
+            "platform_fee_id": string;
+            "refunded_money": MoneyValue;
+            "requested_amount_money": MoneyValue;
+            "reserve_available_at"?: string;
+            "reserve_hold_money"?: MoneyValue;
+            "status": "pending" | "succeeded" | "canceled" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "canceled_reason"?: (("payment_not_completed"
+                | "install_revoked"
+                | "platform_capability_inactive"
+                | "uncollectible"
+                | (string & {}))
+                | (null));
+            "checkout_session_id"?: ((string) | (null));
+            "collected_at"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "partner_app_id"?: ((string) | (null));
+            "partner_app_install_id"?: ((string) | (null));
+            "payment_intent_id"?: ((string) | (null));
+            "platform_fee_id"?: ((string) | (null));
+            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "requested_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "reserve_available_at"?: ((string) | (null));
+            "reserve_hold_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "status"?: (("pending" | "succeeded" | "canceled" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "platform_fee.succeeded";
+})
+    & {
+    "event_type": "platform_fee.succeeded";
+});
+export type PlatformFeeUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "canceled_reason"?: "payment_not_completed"
+                | "install_revoked"
+                | "platform_capability_inactive"
+                | "uncollectible"
+                | (string & {});
+            "checkout_session_id"?: string;
+            "collected_at"?: string;
+            "created_at": string;
+            "merchant_id": string;
+            "partner_app_id": string;
+            "partner_app_install_id": string;
+            "payment_intent_id": string;
+            "platform_fee_id": string;
+            "refunded_money": MoneyValue;
+            "requested_amount_money": MoneyValue;
+            "reserve_available_at"?: string;
+            "reserve_hold_money"?: MoneyValue;
+            "status": "pending" | "succeeded" | "canceled" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "canceled_reason"?: (("payment_not_completed"
+                | "install_revoked"
+                | "platform_capability_inactive"
+                | "uncollectible"
+                | (string & {}))
+                | (null));
+            "checkout_session_id"?: ((string) | (null));
+            "collected_at"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "partner_app_id"?: ((string) | (null));
+            "partner_app_install_id"?: ((string) | (null));
+            "payment_intent_id"?: ((string) | (null));
+            "platform_fee_id"?: ((string) | (null));
+            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "requested_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "reserve_available_at"?: ((string) | (null));
+            "reserve_hold_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "status"?: (("pending" | "succeeded" | "canceled" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "platform_fee.updated";
+})
+    & {
+    "event_type": "platform_fee.updated";
+});
+export type PlatformFeesGetParams = {};
+export type PlatformFeesListParams = {
     /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: int64. minimum: 1.
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
      */
-    "expected_version"?: number;
+    "page_size"?: InputValue<number>;
     /**
-     * Where the gift-card-paid portion is refunded. original credits the original gift card;
-     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
-     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action;
-     * sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination
-     * and conflicting_fields naming resolution_type. Store credit and its corrections always issue
-     * new gift cards. PATCH can change it only while proposed. Retry persists the chosen
-     * destination before starting the new attempt. Default: "original". Value enum: "original",
-     * "new_gift_card".
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
      */
-    "gift_card_refund_destination"?: "original" | "new_gift_card" | (string & {});
+    "page_token"?: InputValue<string>;
     /**
-     * Why the resolution is being run again. Value enum: "dependency_recovered",
-     * "payment_method_updated", "operator_retry", "other".
+     * Exact match on the partner app. minLength: 1. pattern: ^papp_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
      */
-    "reason": "dependency_recovered" | "payment_method_updated" | "operator_retry" | "other" | (string & {});
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
+    "partner_app_id"?: InputValue<string>;
+    /**
+     * Exact match on the install whose token created the payment. minLength: 1. pattern:
+     * ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+     */
+    "partner_app_install_id"?: InputValue<string>;
+    /**
+     * Exact match on the installed merchant charged the fee. minLength: 1. pattern:
+     * ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: InputValue<string>;
+    /**
+     * Exact match on the payment the fee rides on. minLength: 1. pattern:
+     * ^pi_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: InputValue<string>;
+    /**
+     * Statuses to include. Omit it to list every status. Values are trimmed and deduplicated in
+     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
+     * separate filters are ANDed. [] enum: "pending", "succeeded", "canceled". Value enum:
+     * "pending", "succeeded", "canceled". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "pending", "succeeded", "canceled". anyOf[1][] (Value): string. Value enum: "pending",
+     * "succeeded", "canceled". anyOf[2] (Value): string. Value enum: "pending", "succeeded",
+     * "canceled".
+     */
+    "status"?: InputValue<("pending" | "succeeded" | "canceled") | readonly ("pending" | "succeeded" | "canceled")[]>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
 };
-/** The request body for: Retry return resolution. */
-export type RetryReturnResolutionRequestInput = {
+/** A merchant-only set of variant prices for individual customers or customer segments. */
+export type PriceList = {
     /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: int64. minimum: 1.
+     * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been
+     * archived. Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
-    "expected_version"?: number;
+    "archived_at": string | null;
     /**
-     * Where the gift-card-paid portion is refunded. original credits the original gift card;
-     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
-     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action;
-     * sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination
-     * and conflicting_fields naming resolution_type. Store credit and its corrections always issue
-     * new gift cards. PATCH can change it only while proposed. Retry persists the chosen
-     * destination before starting the new attempt. Default: "original". Value enum: "original",
-     * "new_gift_card".
+     * When this price list was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
      */
-    "gift_card_refund_destination"?: "original" | "new_gift_card";
+    "created_at": string;
     /**
-     * Why the resolution is being run again. Value enum: "dependency_recovered",
-     * "payment_method_updated", "operator_retry", "other".
+     * Immutable currency of every price in this list. Currently USD. Uses ISO 4217 currency codes.
+     * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
-    "reason": "dependency_recovered" | "payment_method_updated" | "operator_retry" | "other";
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
+    "currency": string;
+    /**
+     * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+     * maxItems: 20. uniqueItems: true. [] (Value): string.
+     */
+    "customer_segments": Array<string>;
+    /**
+     * Caller-owned identifier for this resource in an external system. `null` when unset.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string | null;
+    /**
+     * Identifier of the merchant that owns this price list. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id": string;
+    /**
+     * Caller-owned metadata stored on this price list. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them.
+     */
+    "metadata": MetadataMap;
+    /** Name used to identify this price list. */
+    "name": string;
+    /** Number of variant prices in the list. Format: int64. minimum: 0. maximum: 10000. */
+    "price_count": number;
+    /**
+     * Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     */
+    "price_list_id": string;
+    /**
+     * Availability or retirement state. Derived as archived when archived_at is set; otherwise
+     * active or inactive. Value enum: "active", "inactive", "archived".
+     */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /**
+     * When this price list or its prices last changed, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "updated_at": string;
+    /**
+     * Aggregate version, increased once for a request that changes the list or its prices. No-op
+     * writes preserve it. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+export type PriceListArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "archived_at": string | null;
+            "created_at": string;
+            "currency": string;
+            "customer_segments": Array<string>;
+            "external_reference_id": string | null;
+            "merchant_id": string;
+            "metadata": MetadataMap;
+            "name": string;
+            "price_count": number;
+            "price_list_id": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "archived_at"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "currency"?: ((string) | (null));
+            "customer_segments"?: ((Array<string>) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "price_count"?: ((number) | (null));
+            "price_list_id"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "price_list.archived";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "archived_at": string | null;
+            "created_at": string;
+            "currency": string;
+            "customer_segments": Array<string>;
+            "external_reference_id": string | null;
+            "merchant_id": string;
+            "metadata": MetadataMap;
+            "name": string;
+            "price_count": number;
+            "price_list_id": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "archived_at"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "currency"?: ((string) | (null));
+            "customer_segments"?: ((Array<string>) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "price_count"?: ((number) | (null));
+            "price_list_id"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "price_list.archived";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "price_list.archived";
+});
+/**
+ * The `price_list.archived` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PriceListArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.archived_at (Required): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. When this
+     * price list was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.currency (Required): string. Immutable currency of every
+     * price in this list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD". object.customer_segments (Required): Array of string.
+     * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+     * maxItems: 20. uniqueItems: true. object.customer_segments[] (Value): string.
+     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
+     * resource in an external system. `null` when unset. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". object.merchant_id (Required): string. Identifier of the merchant that
+     * owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Required):
+     * {@link MetadataMap}. Caller-owned metadata stored on this price list. Caller-owned key-value
+     * data stored on a resource. Keys starting with flint_ are reserved for Flint and are not
+     * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+     * before those limits may not satisfy them. object.name (Required): string. Name used to
+     * identify this price list. object.price_count (Required): integer. Number of variant prices
+     * in the list. Format: int64. minimum: 0. maximum: 10000. object.price_list_id (Required):
+     * string. Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". object.status (Required): string. Availability or
+     * retirement state. Derived as archived when archived_at is set; otherwise active or inactive.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Required): string. When
+     * this price list or its prices last changed, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Aggregate version,
+     * increased once for a request that changes the list or its prices. No-op writes preserve it.
+     * Format: uint64. minimum: 1. previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events. previous_attributes.archived_at (Optional): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived.
+     * previous_attributes.archived_at.anyOf[1] (Value): string. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.archived_at.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When this price
+     * list was created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value):
+     * string. When this price list was created, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.currency (Optional): string or null. Immutable currency of every price
+     * in this list. Currently USD. Uses ISO 4217 currency codes.
+     * previous_attributes.currency.anyOf[1] (Value): string. Immutable currency of every price in
+     * this list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD". previous_attributes.currency.anyOf[2] (Value): null.
+     * previous_attributes.customer_segments (Optional): Array of string or null. Customer.segment
+     * labels assigned to this list. Empty when no segments are assigned.
+     * previous_attributes.customer_segments.anyOf[1] (Value): Array of string. Customer.segment
+     * labels assigned to this list. Empty when no segments are assigned. maxItems: 20.
+     * uniqueItems: true. previous_attributes.customer_segments.anyOf[1][] (Value): string.
+     * previous_attributes.customer_segments.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system. `null` when unset.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this price list. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier
+     * of the merchant that owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this price list.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Name used to identify this price list. previous_attributes.name.anyOf[1]
+     * (Value): string. Name used to identify this price list. previous_attributes.name.anyOf[2]
+     * (Value): null. previous_attributes.price_count (Optional): integer or null. Number of
+     * variant prices in the list. previous_attributes.price_count.anyOf[1] (Value): integer.
+     * Number of variant prices in the list. Format: int64. minimum: 0. maximum: 10000.
+     * previous_attributes.price_count.anyOf[2] (Value): null. previous_attributes.price_list_id
+     * (Optional): string or null. Stable identifier of this price list.
+     * previous_attributes.price_list_id.anyOf[1] (Value): string. Stable identifier of this price
+     * list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     * previous_attributes.price_list_id.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Availability or retirement state. Derived as archived when
+     * archived_at is set; otherwise active or inactive. Value enum: "active", "inactive",
+     * "archived". previous_attributes.status.anyOf[1] (Value): string. Availability or retirement
+     * state. Derived as archived when archived_at is set; otherwise active or inactive. Value
+     * enum: "active", "inactive", "archived". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. When this price list or its
+     * prices last changed, as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. When this price list or its prices last changed, as an RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null. Aggregate version,
+     * increased once for a request that changes the list or its prices. No-op writes preserve it.
+     * previous_attributes.version.anyOf[1] (Value): integer. Aggregate version, increased once for
+     * a request that changes the list or its prices. No-op writes preserve it. Format: uint64.
+     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * archived_at (Required): string or null. When this price list was soft-deleted, as an
+         * RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When this price list was created,
+         * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". currency
+         * (Required): string. Immutable currency of every price in this list. Currently USD. Uses
+         * ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+         * "USD". customer_segments (Required): Array of string. Customer.segment labels assigned
+         * to this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments[] (Value): string. external_reference_id (Required): string or null.
+         * Caller-owned identifier for this resource in an external system. `null` when unset.
+         * minLength: 1. maxLength: 255. Example: "warehouse-1842". merchant_id (Required): string.
+         * Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Required): {@link MetadataMap}. Caller-owned
+         * metadata stored on this price list. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. name (Required): string. Name used to identify this price list.
+         * price_count (Required): integer. Number of variant prices in the list. Format: int64.
+         * minimum: 0. maximum: 10000. price_list_id (Required): string. Stable identifier of this
+         * price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". status (Required): string. Availability or retirement
+         * state. Derived as archived when archived_at is set; otherwise active or inactive. Value
+         * enum: "active", "inactive", "archived". updated_at (Required): string. When this price
+         * list or its prices last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Aggregate version, increased once
+         * for a request that changes the list or its prices. No-op writes preserve it. Format:
+         * uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
+             * been archived. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "archived_at": string | null;
+            /**
+             * When this price list was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at": string;
+            /**
+             * Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+             * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+             */
+            "currency": string;
+            /**
+             * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+             * maxItems: 20. uniqueItems: true. [] (Value): string.
+             */
+            "customer_segments": Array<string>;
+            /**
+             * Caller-owned identifier for this resource in an external system. `null` when unset.
+             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_reference_id": string | null;
+            /**
+             * Identifier of the merchant that owns this price list. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Caller-owned metadata stored on this price list. Caller-owned key-value data stored
+             * on a resource. Keys starting with flint_ are reserved for Flint and are not
+             * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+             * written before those limits may not satisfy them.
+             */
+            "metadata": MetadataMap;
+            /** Name used to identify this price list. */
+            "name": string;
+            /** Number of variant prices in the list. Format: int64. minimum: 0. maximum: 10000. */
+            "price_count": number;
+            /**
+             * Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+             * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+             */
+            "price_list_id": string;
+            /**
+             * Availability or retirement state. Derived as archived when archived_at is set;
+             * otherwise active or inactive. Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When this price list or its prices last changed, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at": string;
+            /**
+             * Aggregate version, increased once for a request that changes the list or its prices.
+             * No-op writes preserve it. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. archived_at (Optional): string or null. When
+         * this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been
+         * archived. archived_at.anyOf[1] (Value): string. When this price list was soft-deleted,
+         * as an RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". archived_at.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. When this price list was created, as an RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. When this price list was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. currency (Optional): string or null. Immutable currency of every price in
+         * this list. Currently USD. Uses ISO 4217 currency codes. currency.anyOf[1] (Value):
+         * string. Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+         * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         * currency.anyOf[2] (Value): null. customer_segments (Optional): Array of string or null.
+         * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+         * customer_segments.anyOf[1] (Value): Array of string. Customer.segment labels assigned to
+         * this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments.anyOf[1][] (Value): string. customer_segments.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. `null` when unset. external_reference_id.anyOf[1]
+         * (Value): string. Caller-owned identifier for this resource in an external system. `null`
+         * when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns this price list. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this price
+         * list. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Name used to identify this price list. name.anyOf[1]
+         * (Value): string. Name used to identify this price list. name.anyOf[2] (Value): null.
+         * price_count (Optional): integer or null. Number of variant prices in the list.
+         * price_count.anyOf[1] (Value): integer. Number of variant prices in the list. Format:
+         * int64. minimum: 0. maximum: 10000. price_count.anyOf[2] (Value): null. price_list_id
+         * (Optional): string or null. Stable identifier of this price list. price_list_id.anyOf[1]
+         * (Value): string. Stable identifier of this price list. pattern:
+         * ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+         * price_list_id.anyOf[2] (Value): null. status (Optional): string or null. Availability or
+         * retirement state. Derived as archived when archived_at is set; otherwise active or
+         * inactive. Value enum: "active", "inactive", "archived". status.anyOf[1] (Value): string.
+         * Availability or retirement state. Derived as archived when archived_at is set; otherwise
+         * active or inactive. Value enum: "active", "inactive", "archived". status.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. When this price list or its prices
+         * last changed, as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When this
+         * price list or its prices last changed, as an RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Aggregate version, increased once for a request that changes the list
+         * or its prices. No-op writes preserve it. version.anyOf[1] (Value): integer. Aggregate
+         * version, increased once for a request that changes the list or its prices. No-op writes
+         * preserve it. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
+             * been archived. anyOf[1] (Value): string. When this price list was soft-deleted, as
+             * an RFC3339 timestamp. Null when it has not been archived. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "archived_at"?: ((string) | (null));
+            /**
+             * When this price list was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this price list was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+             * currency codes. anyOf[1] (Value): string. Immutable currency of every price in this
+             * list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3.
+             * pattern: ^[A-Z]{3}$. Example: "USD". anyOf[2] (Value): null.
+             */
+            "currency"?: ((string) | (null));
+            /**
+             * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+             * anyOf[1] (Value): Array of string. Customer.segment labels assigned to this list.
+             * Empty when no segments are assigned. maxItems: 20. uniqueItems: true. anyOf[1][]
+             * (Value): string. anyOf[2] (Value): null.
+             */
+            "customer_segments"?: ((Array<string>) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. `null` when unset.
+             * anyOf[1] (Value): string. Caller-owned identifier for this resource in an external
+             * system. `null` when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             * anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Identifier of the merchant that owns this price list. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this price list. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this price list. anyOf[1] (Value): {@link
+             * MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Name used to identify this price list. anyOf[1] (Value): string. Name used to
+             * identify this price list. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Number of variant prices in the list. anyOf[1] (Value): integer. Number of variant
+             * prices in the list. Format: int64. minimum: 0. maximum: 10000. anyOf[2] (Value):
+             * null.
+             */
+            "price_count"?: ((number) | (null));
+            /**
+             * Stable identifier of this price list. anyOf[1] (Value): string. Stable identifier of
+             * this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+             * "prl_01KEZF7C00EH39P59GN3XMGS2Q". anyOf[2] (Value): null.
+             */
+            "price_list_id"?: ((string) | (null));
+            /**
+             * Availability or retirement state. Derived as archived when archived_at is set;
+             * otherwise active or inactive. Value enum: "active", "inactive", "archived". anyOf[1]
+             * (Value): string. Availability or retirement state. Derived as archived when
+             * archived_at is set; otherwise active or inactive. Value enum: "active", "inactive",
+             * "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * When this price list or its prices last changed, as an RFC3339 timestamp. anyOf[1]
+             * (Value): string. When this price list or its prices last changed, as an RFC3339
+             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Aggregate version, increased once for a request that changes the list or its prices.
+             * No-op writes preserve it. anyOf[1] (Value): integer. Aggregate version, increased
+             * once for a request that changes the list or its prices. No-op writes preserve it.
+             * Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "price_list.archived". */
+    "event_type"?: "price_list.archived";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `price_list.archived` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type PriceListArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.archived_at (Required): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. When this
+     * price list was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.currency (Required): string. Immutable currency of every
+     * price in this list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD". object.customer_segments (Required): Array of string.
+     * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+     * maxItems: 20. uniqueItems: true. object.customer_segments[] (Value): string.
+     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
+     * resource in an external system. `null` when unset. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". object.merchant_id (Required): string. Identifier of the merchant that
+     * owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Required):
+     * {@link MetadataMap}. Caller-owned metadata stored on this price list. Caller-owned key-value
+     * data stored on a resource. Keys starting with flint_ are reserved for Flint and are not
+     * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+     * before those limits may not satisfy them. object.name (Required): string. Name used to
+     * identify this price list. object.price_count (Required): integer. Number of variant prices
+     * in the list. Format: int64. minimum: 0. maximum: 10000. object.price_list_id (Required):
+     * string. Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". object.status (Required): string. Availability or
+     * retirement state. Derived as archived when archived_at is set; otherwise active or inactive.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Required): string. When
+     * this price list or its prices last changed, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Aggregate version,
+     * increased once for a request that changes the list or its prices. No-op writes preserve it.
+     * Format: uint64. minimum: 1. previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events. previous_attributes.archived_at (Optional): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived.
+     * previous_attributes.archived_at.anyOf[1] (Value): string. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.archived_at.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When this price
+     * list was created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value):
+     * string. When this price list was created, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.currency (Optional): string or null. Immutable currency of every price
+     * in this list. Currently USD. Uses ISO 4217 currency codes.
+     * previous_attributes.currency.anyOf[1] (Value): string. Immutable currency of every price in
+     * this list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD". previous_attributes.currency.anyOf[2] (Value): null.
+     * previous_attributes.customer_segments (Optional): Array of string or null. Customer.segment
+     * labels assigned to this list. Empty when no segments are assigned.
+     * previous_attributes.customer_segments.anyOf[1] (Value): Array of string. Customer.segment
+     * labels assigned to this list. Empty when no segments are assigned. maxItems: 20.
+     * uniqueItems: true. previous_attributes.customer_segments.anyOf[1][] (Value): string.
+     * previous_attributes.customer_segments.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system. `null` when unset.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this price list. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier
+     * of the merchant that owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this price list.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Name used to identify this price list. previous_attributes.name.anyOf[1]
+     * (Value): string. Name used to identify this price list. previous_attributes.name.anyOf[2]
+     * (Value): null. previous_attributes.price_count (Optional): integer or null. Number of
+     * variant prices in the list. previous_attributes.price_count.anyOf[1] (Value): integer.
+     * Number of variant prices in the list. Format: int64. minimum: 0. maximum: 10000.
+     * previous_attributes.price_count.anyOf[2] (Value): null. previous_attributes.price_list_id
+     * (Optional): string or null. Stable identifier of this price list.
+     * previous_attributes.price_list_id.anyOf[1] (Value): string. Stable identifier of this price
+     * list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     * previous_attributes.price_list_id.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Availability or retirement state. Derived as archived when
+     * archived_at is set; otherwise active or inactive. Value enum: "active", "inactive",
+     * "archived". previous_attributes.status.anyOf[1] (Value): string. Availability or retirement
+     * state. Derived as archived when archived_at is set; otherwise active or inactive. Value
+     * enum: "active", "inactive", "archived". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. When this price list or its
+     * prices last changed, as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. When this price list or its prices last changed, as an RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null. Aggregate version,
+     * increased once for a request that changes the list or its prices. No-op writes preserve it.
+     * previous_attributes.version.anyOf[1] (Value): integer. Aggregate version, increased once for
+     * a request that changes the list or its prices. No-op writes preserve it. Format: uint64.
+     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * archived_at (Required): string or null. When this price list was soft-deleted, as an
+         * RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When this price list was created,
+         * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". currency
+         * (Required): string. Immutable currency of every price in this list. Currently USD. Uses
+         * ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+         * "USD". customer_segments (Required): Array of string. Customer.segment labels assigned
+         * to this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments[] (Value): string. external_reference_id (Required): string or null.
+         * Caller-owned identifier for this resource in an external system. `null` when unset.
+         * minLength: 1. maxLength: 255. Example: "warehouse-1842". merchant_id (Required): string.
+         * Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Required): {@link MetadataMap}. Caller-owned
+         * metadata stored on this price list. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. name (Required): string. Name used to identify this price list.
+         * price_count (Required): integer. Number of variant prices in the list. Format: int64.
+         * minimum: 0. maximum: 10000. price_list_id (Required): string. Stable identifier of this
+         * price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". status (Required): string. Availability or retirement
+         * state. Derived as archived when archived_at is set; otherwise active or inactive. Value
+         * enum: "active", "inactive", "archived". updated_at (Required): string. When this price
+         * list or its prices last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Aggregate version, increased once
+         * for a request that changes the list or its prices. No-op writes preserve it. Format:
+         * uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
+             * been archived. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "archived_at": string | null;
+            /**
+             * When this price list was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at": string;
+            /**
+             * Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+             * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+             */
+            "currency": string;
+            /**
+             * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+             * maxItems: 20. uniqueItems: true. [] (Value): string.
+             */
+            "customer_segments": Array<string>;
+            /**
+             * Caller-owned identifier for this resource in an external system. `null` when unset.
+             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_reference_id": string | null;
+            /**
+             * Identifier of the merchant that owns this price list. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Caller-owned metadata stored on this price list. Caller-owned key-value data stored
+             * on a resource. Keys starting with flint_ are reserved for Flint and are not
+             * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+             * written before those limits may not satisfy them.
+             */
+            "metadata": MetadataMap;
+            /** Name used to identify this price list. */
+            "name": string;
+            /** Number of variant prices in the list. Format: int64. minimum: 0. maximum: 10000. */
+            "price_count": number;
+            /**
+             * Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+             * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+             */
+            "price_list_id": string;
+            /**
+             * Availability or retirement state. Derived as archived when archived_at is set;
+             * otherwise active or inactive. Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When this price list or its prices last changed, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at": string;
+            /**
+             * Aggregate version, increased once for a request that changes the list or its prices.
+             * No-op writes preserve it. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. archived_at (Optional): string or null. When
+         * this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been
+         * archived. archived_at.anyOf[1] (Value): string. When this price list was soft-deleted,
+         * as an RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". archived_at.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. When this price list was created, as an RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. When this price list was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. currency (Optional): string or null. Immutable currency of every price in
+         * this list. Currently USD. Uses ISO 4217 currency codes. currency.anyOf[1] (Value):
+         * string. Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+         * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         * currency.anyOf[2] (Value): null. customer_segments (Optional): Array of string or null.
+         * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+         * customer_segments.anyOf[1] (Value): Array of string. Customer.segment labels assigned to
+         * this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments.anyOf[1][] (Value): string. customer_segments.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. `null` when unset. external_reference_id.anyOf[1]
+         * (Value): string. Caller-owned identifier for this resource in an external system. `null`
+         * when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns this price list. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this price
+         * list. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Name used to identify this price list. name.anyOf[1]
+         * (Value): string. Name used to identify this price list. name.anyOf[2] (Value): null.
+         * price_count (Optional): integer or null. Number of variant prices in the list.
+         * price_count.anyOf[1] (Value): integer. Number of variant prices in the list. Format:
+         * int64. minimum: 0. maximum: 10000. price_count.anyOf[2] (Value): null. price_list_id
+         * (Optional): string or null. Stable identifier of this price list. price_list_id.anyOf[1]
+         * (Value): string. Stable identifier of this price list. pattern:
+         * ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+         * price_list_id.anyOf[2] (Value): null. status (Optional): string or null. Availability or
+         * retirement state. Derived as archived when archived_at is set; otherwise active or
+         * inactive. Value enum: "active", "inactive", "archived". status.anyOf[1] (Value): string.
+         * Availability or retirement state. Derived as archived when archived_at is set; otherwise
+         * active or inactive. Value enum: "active", "inactive", "archived". status.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. When this price list or its prices
+         * last changed, as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When this
+         * price list or its prices last changed, as an RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Aggregate version, increased once for a request that changes the list
+         * or its prices. No-op writes preserve it. version.anyOf[1] (Value): integer. Aggregate
+         * version, increased once for a request that changes the list or its prices. No-op writes
+         * preserve it. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
+             * been archived. anyOf[1] (Value): string. When this price list was soft-deleted, as
+             * an RFC3339 timestamp. Null when it has not been archived. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "archived_at"?: ((string) | (null));
+            /**
+             * When this price list was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this price list was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+             * currency codes. anyOf[1] (Value): string. Immutable currency of every price in this
+             * list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3.
+             * pattern: ^[A-Z]{3}$. Example: "USD". anyOf[2] (Value): null.
+             */
+            "currency"?: ((string) | (null));
+            /**
+             * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+             * anyOf[1] (Value): Array of string. Customer.segment labels assigned to this list.
+             * Empty when no segments are assigned. maxItems: 20. uniqueItems: true. anyOf[1][]
+             * (Value): string. anyOf[2] (Value): null.
+             */
+            "customer_segments"?: ((Array<string>) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. `null` when unset.
+             * anyOf[1] (Value): string. Caller-owned identifier for this resource in an external
+             * system. `null` when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             * anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Identifier of the merchant that owns this price list. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this price list. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this price list. anyOf[1] (Value): {@link
+             * MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Name used to identify this price list. anyOf[1] (Value): string. Name used to
+             * identify this price list. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Number of variant prices in the list. anyOf[1] (Value): integer. Number of variant
+             * prices in the list. Format: int64. minimum: 0. maximum: 10000. anyOf[2] (Value):
+             * null.
+             */
+            "price_count"?: ((number) | (null));
+            /**
+             * Stable identifier of this price list. anyOf[1] (Value): string. Stable identifier of
+             * this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+             * "prl_01KEZF7C00EH39P59GN3XMGS2Q". anyOf[2] (Value): null.
+             */
+            "price_list_id"?: ((string) | (null));
+            /**
+             * Availability or retirement state. Derived as archived when archived_at is set;
+             * otherwise active or inactive. Value enum: "active", "inactive", "archived". anyOf[1]
+             * (Value): string. Availability or retirement state. Derived as archived when
+             * archived_at is set; otherwise active or inactive. Value enum: "active", "inactive",
+             * "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * When this price list or its prices last changed, as an RFC3339 timestamp. anyOf[1]
+             * (Value): string. When this price list or its prices last changed, as an RFC3339
+             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Aggregate version, increased once for a request that changes the list or its prices.
+             * No-op writes preserve it. anyOf[1] (Value): integer. Aggregate version, increased
+             * once for a request that changes the list or its prices. No-op writes preserve it.
+             * Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "price_list.archived". */
+    "event_type"?: "price_list.archived";
+});
+export type PriceListCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "archived_at": string | null;
+            "created_at": string;
+            "currency": string;
+            "customer_segments": Array<string>;
+            "external_reference_id": string | null;
+            "merchant_id": string;
+            "metadata": MetadataMap;
+            "name": string;
+            "price_count": number;
+            "price_list_id": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "price_list.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "archived_at": string | null;
+            "created_at": string;
+            "currency": string;
+            "customer_segments": Array<string>;
+            "external_reference_id": string | null;
+            "merchant_id": string;
+            "metadata": MetadataMap;
+            "name": string;
+            "price_count": number;
+            "price_list_id": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "price_list.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "price_list.created";
+});
+/**
+ * The `price_list.created` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PriceListCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.archived_at (Required): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. When this
+     * price list was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.currency (Required): string. Immutable currency of every
+     * price in this list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD". object.customer_segments (Required): Array of string.
+     * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+     * maxItems: 20. uniqueItems: true. object.customer_segments[] (Value): string.
+     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
+     * resource in an external system. `null` when unset. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". object.merchant_id (Required): string. Identifier of the merchant that
+     * owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Required):
+     * {@link MetadataMap}. Caller-owned metadata stored on this price list. Caller-owned key-value
+     * data stored on a resource. Keys starting with flint_ are reserved for Flint and are not
+     * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+     * before those limits may not satisfy them. object.name (Required): string. Name used to
+     * identify this price list. object.price_count (Required): integer. Number of variant prices
+     * in the list. Format: int64. minimum: 0. maximum: 10000. object.price_list_id (Required):
+     * string. Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". object.status (Required): string. Availability or
+     * retirement state. Derived as archived when archived_at is set; otherwise active or inactive.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Required): string. When
+     * this price list or its prices last changed, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Aggregate version,
+     * increased once for a request that changes the list or its prices. No-op writes preserve it.
+     * Format: uint64. minimum: 1.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * archived_at (Required): string or null. When this price list was soft-deleted, as an
+         * RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When this price list was created,
+         * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". currency
+         * (Required): string. Immutable currency of every price in this list. Currently USD. Uses
+         * ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+         * "USD". customer_segments (Required): Array of string. Customer.segment labels assigned
+         * to this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments[] (Value): string. external_reference_id (Required): string or null.
+         * Caller-owned identifier for this resource in an external system. `null` when unset.
+         * minLength: 1. maxLength: 255. Example: "warehouse-1842". merchant_id (Required): string.
+         * Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Required): {@link MetadataMap}. Caller-owned
+         * metadata stored on this price list. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. name (Required): string. Name used to identify this price list.
+         * price_count (Required): integer. Number of variant prices in the list. Format: int64.
+         * minimum: 0. maximum: 10000. price_list_id (Required): string. Stable identifier of this
+         * price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". status (Required): string. Availability or retirement
+         * state. Derived as archived when archived_at is set; otherwise active or inactive. Value
+         * enum: "active", "inactive", "archived". updated_at (Required): string. When this price
+         * list or its prices last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Aggregate version, increased once
+         * for a request that changes the list or its prices. No-op writes preserve it. Format:
+         * uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
+             * been archived. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "archived_at": string | null;
+            /**
+             * When this price list was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at": string;
+            /**
+             * Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+             * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+             */
+            "currency": string;
+            /**
+             * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+             * maxItems: 20. uniqueItems: true. [] (Value): string.
+             */
+            "customer_segments": Array<string>;
+            /**
+             * Caller-owned identifier for this resource in an external system. `null` when unset.
+             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_reference_id": string | null;
+            /**
+             * Identifier of the merchant that owns this price list. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Caller-owned metadata stored on this price list. Caller-owned key-value data stored
+             * on a resource. Keys starting with flint_ are reserved for Flint and are not
+             * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+             * written before those limits may not satisfy them.
+             */
+            "metadata": MetadataMap;
+            /** Name used to identify this price list. */
+            "name": string;
+            /** Number of variant prices in the list. Format: int64. minimum: 0. maximum: 10000. */
+            "price_count": number;
+            /**
+             * Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+             * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+             */
+            "price_list_id": string;
+            /**
+             * Availability or retirement state. Derived as archived when archived_at is set;
+             * otherwise active or inactive. Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When this price list or its prices last changed, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at": string;
+            /**
+             * Aggregate version, increased once for a request that changes the list or its prices.
+             * No-op writes preserve it. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "price_list.created". */
+    "event_type"?: "price_list.created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `price_list.created` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type PriceListCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.archived_at (Required): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. When this
+     * price list was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.currency (Required): string. Immutable currency of every
+     * price in this list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD". object.customer_segments (Required): Array of string.
+     * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+     * maxItems: 20. uniqueItems: true. object.customer_segments[] (Value): string.
+     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
+     * resource in an external system. `null` when unset. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". object.merchant_id (Required): string. Identifier of the merchant that
+     * owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Required):
+     * {@link MetadataMap}. Caller-owned metadata stored on this price list. Caller-owned key-value
+     * data stored on a resource. Keys starting with flint_ are reserved for Flint and are not
+     * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+     * before those limits may not satisfy them. object.name (Required): string. Name used to
+     * identify this price list. object.price_count (Required): integer. Number of variant prices
+     * in the list. Format: int64. minimum: 0. maximum: 10000. object.price_list_id (Required):
+     * string. Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". object.status (Required): string. Availability or
+     * retirement state. Derived as archived when archived_at is set; otherwise active or inactive.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Required): string. When
+     * this price list or its prices last changed, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Aggregate version,
+     * increased once for a request that changes the list or its prices. No-op writes preserve it.
+     * Format: uint64. minimum: 1.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * archived_at (Required): string or null. When this price list was soft-deleted, as an
+         * RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When this price list was created,
+         * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". currency
+         * (Required): string. Immutable currency of every price in this list. Currently USD. Uses
+         * ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+         * "USD". customer_segments (Required): Array of string. Customer.segment labels assigned
+         * to this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments[] (Value): string. external_reference_id (Required): string or null.
+         * Caller-owned identifier for this resource in an external system. `null` when unset.
+         * minLength: 1. maxLength: 255. Example: "warehouse-1842". merchant_id (Required): string.
+         * Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Required): {@link MetadataMap}. Caller-owned
+         * metadata stored on this price list. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. name (Required): string. Name used to identify this price list.
+         * price_count (Required): integer. Number of variant prices in the list. Format: int64.
+         * minimum: 0. maximum: 10000. price_list_id (Required): string. Stable identifier of this
+         * price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". status (Required): string. Availability or retirement
+         * state. Derived as archived when archived_at is set; otherwise active or inactive. Value
+         * enum: "active", "inactive", "archived". updated_at (Required): string. When this price
+         * list or its prices last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Aggregate version, increased once
+         * for a request that changes the list or its prices. No-op writes preserve it. Format:
+         * uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
+             * been archived. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "archived_at": string | null;
+            /**
+             * When this price list was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at": string;
+            /**
+             * Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+             * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+             */
+            "currency": string;
+            /**
+             * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+             * maxItems: 20. uniqueItems: true. [] (Value): string.
+             */
+            "customer_segments": Array<string>;
+            /**
+             * Caller-owned identifier for this resource in an external system. `null` when unset.
+             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_reference_id": string | null;
+            /**
+             * Identifier of the merchant that owns this price list. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Caller-owned metadata stored on this price list. Caller-owned key-value data stored
+             * on a resource. Keys starting with flint_ are reserved for Flint and are not
+             * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+             * written before those limits may not satisfy them.
+             */
+            "metadata": MetadataMap;
+            /** Name used to identify this price list. */
+            "name": string;
+            /** Number of variant prices in the list. Format: int64. minimum: 0. maximum: 10000. */
+            "price_count": number;
+            /**
+             * Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+             * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+             */
+            "price_list_id": string;
+            /**
+             * Availability or retirement state. Derived as archived when archived_at is set;
+             * otherwise active or inactive. Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When this price list or its prices last changed, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at": string;
+            /**
+             * Aggregate version, increased once for a request that changes the list or its prices.
+             * No-op writes preserve it. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "price_list.created". */
+    "event_type"?: "price_list.created";
+});
+/** A page of `PriceList` objects. */
+export type PriceListListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * PriceList}. A merchant-only set of variant prices for individual customers or customer
+     * segments.
+     */
+    "data": Array<PriceList>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** One variant's base net unit price and quantity schedule within a price list. */
+export type PriceListPrice = {
+    /**
+     * When this price was added, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "created_at": string;
+    /**
+     * Identifier of the price list that owns this price. Example:
+     * "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     */
+    "price_list_id": string;
+    /**
+     * Stable identifier of this price within its list. pattern: ^prlp_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "prlp_01KEZF7C007DQ721A29CDR73DN".
+     */
+    "price_list_price_id": string;
+    /**
+     * Identifier of the product that owns this variant. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id": string;
+    /**
+     * Up to 10 quantity breaks, ordered by increasing minimum_quantity and strictly decreasing
+     * unit price. [] means the base price applies at every quantity. maxItems: 10. [] (Value):
+     * {@link QuantityPriceBreak}. A net unit price that applies when one catalog line reaches
+     * minimum_quantity.
+     */
+    "quantity_price_breaks": Array<QuantityPriceBreak>;
+    /**
+     * Positive base net unit price in the price list's currency, in the currency's smallest unit.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /**
+     * When this price last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "updated_at": string;
+    /**
+     * Identifier of the priced product variant. Bundles and gift cards are not supported. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+    /**
+     * Version of this variant price and its quantity schedule. No-op writes preserve it. Format:
+     * uint64. minimum: 1.
+     */
+    "version": number;
+};
+/** Outcome for one requested variant price. */
+export type PriceListPriceAddition = {
+    /**
+     * Whether the price was created, returned unchanged, or updated. Value enum: "created",
+     * "existing", "updated".
+     */
+    "outcome": "created" | "existing" | "updated" | (string & {});
+    /**
+     * Price stored for this variant after the request. One variant's base net unit price and
+     * quantity schedule within a price list.
+     */
+    "price_list_price": PriceListPrice;
+};
+/** A page of `PriceListPrice` objects. */
+export type PriceListPriceListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * PriceListPrice}. One variant's base net unit price and quantity schedule within a price
+     * list.
+     */
+    "data": Array<PriceListPrice>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A variant price to add to a price list. */
+export type PriceListPriceRequest = {
+    /**
+     * Complete quantity schedule, up to 10 breaks. Omit or send [] for no quantity breaks. Each
+     * price must be lower than the preceding one. maxItems: 10. [] (Value): {@link
+     * QuantityPriceBreak}. A net unit price that applies when one catalog line reaches
+     * minimum_quantity.
+     */
+    "quantity_price_breaks"?: Array<QuantityPriceBreak>;
+    /**
+     * Positive base net unit price, in the price list's currency. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /**
+     * Product variant to price. Bundles and gift cards are refused. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+};
+/** A variant price to add to a price list. */
+export type PriceListPriceRequestInput = {
+    /**
+     * Complete quantity schedule, up to 10 breaks. Omit or send [] for no quantity breaks. Each
+     * price must be lower than the preceding one. maxItems: 10. [] (Value): {@link
+     * QuantityPriceBreakRequestInput}. A net unit price that applies when one catalog line reaches
+     * minimum_quantity.
+     */
+    "quantity_price_breaks"?: Array<QuantityPriceBreakRequestInput>;
+    /**
+     * Positive base net unit price, in the price list's currency. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValueInput;
+    /**
+     * Product variant to price. Bundles and gift cards are refused. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+};
+/** A response containing `PriceListPrice` data. */
+export type PriceListPriceResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. One variant's base net
+     * unit price and quantity schedule within a price list.
+     */
+    "data": PriceListPrice;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `PriceList` data. */
+export type PriceListResourceResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A merchant-only set of
+     * variant prices for individual customers or customer segments.
+     */
+    "data": PriceList;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type PriceListUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "archived_at": string | null;
+            "created_at": string;
+            "currency": string;
+            "customer_segments": Array<string>;
+            "external_reference_id": string | null;
+            "merchant_id": string;
+            "metadata": MetadataMap;
+            "name": string;
+            "price_count": number;
+            "price_list_id": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "archived_at"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "currency"?: ((string) | (null));
+            "customer_segments"?: ((Array<string>) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "price_count"?: ((number) | (null));
+            "price_list_id"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "price_list.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "archived_at": string | null;
+            "created_at": string;
+            "currency": string;
+            "customer_segments": Array<string>;
+            "external_reference_id": string | null;
+            "merchant_id": string;
+            "metadata": MetadataMap;
+            "name": string;
+            "price_count": number;
+            "price_list_id": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "archived_at"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "currency"?: ((string) | (null));
+            "customer_segments"?: ((Array<string>) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "price_count"?: ((number) | (null));
+            "price_list_id"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "price_list.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "price_list.updated";
+});
+/**
+ * The `price_list.updated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PriceListUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.archived_at (Required): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. When this
+     * price list was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.currency (Required): string. Immutable currency of every
+     * price in this list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD". object.customer_segments (Required): Array of string.
+     * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+     * maxItems: 20. uniqueItems: true. object.customer_segments[] (Value): string.
+     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
+     * resource in an external system. `null` when unset. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". object.merchant_id (Required): string. Identifier of the merchant that
+     * owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Required):
+     * {@link MetadataMap}. Caller-owned metadata stored on this price list. Caller-owned key-value
+     * data stored on a resource. Keys starting with flint_ are reserved for Flint and are not
+     * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+     * before those limits may not satisfy them. object.name (Required): string. Name used to
+     * identify this price list. object.price_count (Required): integer. Number of variant prices
+     * in the list. Format: int64. minimum: 0. maximum: 10000. object.price_list_id (Required):
+     * string. Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". object.status (Required): string. Availability or
+     * retirement state. Derived as archived when archived_at is set; otherwise active or inactive.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Required): string. When
+     * this price list or its prices last changed, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Aggregate version,
+     * increased once for a request that changes the list or its prices. No-op writes preserve it.
+     * Format: uint64. minimum: 1. previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events. previous_attributes.archived_at (Optional): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived.
+     * previous_attributes.archived_at.anyOf[1] (Value): string. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.archived_at.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When this price
+     * list was created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value):
+     * string. When this price list was created, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.currency (Optional): string or null. Immutable currency of every price
+     * in this list. Currently USD. Uses ISO 4217 currency codes.
+     * previous_attributes.currency.anyOf[1] (Value): string. Immutable currency of every price in
+     * this list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD". previous_attributes.currency.anyOf[2] (Value): null.
+     * previous_attributes.customer_segments (Optional): Array of string or null. Customer.segment
+     * labels assigned to this list. Empty when no segments are assigned.
+     * previous_attributes.customer_segments.anyOf[1] (Value): Array of string. Customer.segment
+     * labels assigned to this list. Empty when no segments are assigned. maxItems: 20.
+     * uniqueItems: true. previous_attributes.customer_segments.anyOf[1][] (Value): string.
+     * previous_attributes.customer_segments.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system. `null` when unset.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this price list. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier
+     * of the merchant that owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this price list.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Name used to identify this price list. previous_attributes.name.anyOf[1]
+     * (Value): string. Name used to identify this price list. previous_attributes.name.anyOf[2]
+     * (Value): null. previous_attributes.price_count (Optional): integer or null. Number of
+     * variant prices in the list. previous_attributes.price_count.anyOf[1] (Value): integer.
+     * Number of variant prices in the list. Format: int64. minimum: 0. maximum: 10000.
+     * previous_attributes.price_count.anyOf[2] (Value): null. previous_attributes.price_list_id
+     * (Optional): string or null. Stable identifier of this price list.
+     * previous_attributes.price_list_id.anyOf[1] (Value): string. Stable identifier of this price
+     * list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     * previous_attributes.price_list_id.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Availability or retirement state. Derived as archived when
+     * archived_at is set; otherwise active or inactive. Value enum: "active", "inactive",
+     * "archived". previous_attributes.status.anyOf[1] (Value): string. Availability or retirement
+     * state. Derived as archived when archived_at is set; otherwise active or inactive. Value
+     * enum: "active", "inactive", "archived". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. When this price list or its
+     * prices last changed, as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. When this price list or its prices last changed, as an RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null. Aggregate version,
+     * increased once for a request that changes the list or its prices. No-op writes preserve it.
+     * previous_attributes.version.anyOf[1] (Value): integer. Aggregate version, increased once for
+     * a request that changes the list or its prices. No-op writes preserve it. Format: uint64.
+     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * archived_at (Required): string or null. When this price list was soft-deleted, as an
+         * RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When this price list was created,
+         * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". currency
+         * (Required): string. Immutable currency of every price in this list. Currently USD. Uses
+         * ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+         * "USD". customer_segments (Required): Array of string. Customer.segment labels assigned
+         * to this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments[] (Value): string. external_reference_id (Required): string or null.
+         * Caller-owned identifier for this resource in an external system. `null` when unset.
+         * minLength: 1. maxLength: 255. Example: "warehouse-1842". merchant_id (Required): string.
+         * Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Required): {@link MetadataMap}. Caller-owned
+         * metadata stored on this price list. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. name (Required): string. Name used to identify this price list.
+         * price_count (Required): integer. Number of variant prices in the list. Format: int64.
+         * minimum: 0. maximum: 10000. price_list_id (Required): string. Stable identifier of this
+         * price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". status (Required): string. Availability or retirement
+         * state. Derived as archived when archived_at is set; otherwise active or inactive. Value
+         * enum: "active", "inactive", "archived". updated_at (Required): string. When this price
+         * list or its prices last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Aggregate version, increased once
+         * for a request that changes the list or its prices. No-op writes preserve it. Format:
+         * uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
+             * been archived. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "archived_at": string | null;
+            /**
+             * When this price list was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at": string;
+            /**
+             * Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+             * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+             */
+            "currency": string;
+            /**
+             * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+             * maxItems: 20. uniqueItems: true. [] (Value): string.
+             */
+            "customer_segments": Array<string>;
+            /**
+             * Caller-owned identifier for this resource in an external system. `null` when unset.
+             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_reference_id": string | null;
+            /**
+             * Identifier of the merchant that owns this price list. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Caller-owned metadata stored on this price list. Caller-owned key-value data stored
+             * on a resource. Keys starting with flint_ are reserved for Flint and are not
+             * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+             * written before those limits may not satisfy them.
+             */
+            "metadata": MetadataMap;
+            /** Name used to identify this price list. */
+            "name": string;
+            /** Number of variant prices in the list. Format: int64. minimum: 0. maximum: 10000. */
+            "price_count": number;
+            /**
+             * Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+             * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+             */
+            "price_list_id": string;
+            /**
+             * Availability or retirement state. Derived as archived when archived_at is set;
+             * otherwise active or inactive. Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When this price list or its prices last changed, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at": string;
+            /**
+             * Aggregate version, increased once for a request that changes the list or its prices.
+             * No-op writes preserve it. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. archived_at (Optional): string or null. When
+         * this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been
+         * archived. archived_at.anyOf[1] (Value): string. When this price list was soft-deleted,
+         * as an RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". archived_at.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. When this price list was created, as an RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. When this price list was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. currency (Optional): string or null. Immutable currency of every price in
+         * this list. Currently USD. Uses ISO 4217 currency codes. currency.anyOf[1] (Value):
+         * string. Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+         * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         * currency.anyOf[2] (Value): null. customer_segments (Optional): Array of string or null.
+         * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+         * customer_segments.anyOf[1] (Value): Array of string. Customer.segment labels assigned to
+         * this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments.anyOf[1][] (Value): string. customer_segments.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. `null` when unset. external_reference_id.anyOf[1]
+         * (Value): string. Caller-owned identifier for this resource in an external system. `null`
+         * when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns this price list. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this price
+         * list. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Name used to identify this price list. name.anyOf[1]
+         * (Value): string. Name used to identify this price list. name.anyOf[2] (Value): null.
+         * price_count (Optional): integer or null. Number of variant prices in the list.
+         * price_count.anyOf[1] (Value): integer. Number of variant prices in the list. Format:
+         * int64. minimum: 0. maximum: 10000. price_count.anyOf[2] (Value): null. price_list_id
+         * (Optional): string or null. Stable identifier of this price list. price_list_id.anyOf[1]
+         * (Value): string. Stable identifier of this price list. pattern:
+         * ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+         * price_list_id.anyOf[2] (Value): null. status (Optional): string or null. Availability or
+         * retirement state. Derived as archived when archived_at is set; otherwise active or
+         * inactive. Value enum: "active", "inactive", "archived". status.anyOf[1] (Value): string.
+         * Availability or retirement state. Derived as archived when archived_at is set; otherwise
+         * active or inactive. Value enum: "active", "inactive", "archived". status.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. When this price list or its prices
+         * last changed, as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When this
+         * price list or its prices last changed, as an RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Aggregate version, increased once for a request that changes the list
+         * or its prices. No-op writes preserve it. version.anyOf[1] (Value): integer. Aggregate
+         * version, increased once for a request that changes the list or its prices. No-op writes
+         * preserve it. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
+             * been archived. anyOf[1] (Value): string. When this price list was soft-deleted, as
+             * an RFC3339 timestamp. Null when it has not been archived. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "archived_at"?: ((string) | (null));
+            /**
+             * When this price list was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this price list was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+             * currency codes. anyOf[1] (Value): string. Immutable currency of every price in this
+             * list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3.
+             * pattern: ^[A-Z]{3}$. Example: "USD". anyOf[2] (Value): null.
+             */
+            "currency"?: ((string) | (null));
+            /**
+             * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+             * anyOf[1] (Value): Array of string. Customer.segment labels assigned to this list.
+             * Empty when no segments are assigned. maxItems: 20. uniqueItems: true. anyOf[1][]
+             * (Value): string. anyOf[2] (Value): null.
+             */
+            "customer_segments"?: ((Array<string>) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. `null` when unset.
+             * anyOf[1] (Value): string. Caller-owned identifier for this resource in an external
+             * system. `null` when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             * anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Identifier of the merchant that owns this price list. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this price list. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this price list. anyOf[1] (Value): {@link
+             * MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Name used to identify this price list. anyOf[1] (Value): string. Name used to
+             * identify this price list. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Number of variant prices in the list. anyOf[1] (Value): integer. Number of variant
+             * prices in the list. Format: int64. minimum: 0. maximum: 10000. anyOf[2] (Value):
+             * null.
+             */
+            "price_count"?: ((number) | (null));
+            /**
+             * Stable identifier of this price list. anyOf[1] (Value): string. Stable identifier of
+             * this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+             * "prl_01KEZF7C00EH39P59GN3XMGS2Q". anyOf[2] (Value): null.
+             */
+            "price_list_id"?: ((string) | (null));
+            /**
+             * Availability or retirement state. Derived as archived when archived_at is set;
+             * otherwise active or inactive. Value enum: "active", "inactive", "archived". anyOf[1]
+             * (Value): string. Availability or retirement state. Derived as archived when
+             * archived_at is set; otherwise active or inactive. Value enum: "active", "inactive",
+             * "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * When this price list or its prices last changed, as an RFC3339 timestamp. anyOf[1]
+             * (Value): string. When this price list or its prices last changed, as an RFC3339
+             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Aggregate version, increased once for a request that changes the list or its prices.
+             * No-op writes preserve it. anyOf[1] (Value): integer. Aggregate version, increased
+             * once for a request that changes the list or its prices. No-op writes preserve it.
+             * Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "price_list.updated". */
+    "event_type"?: "price_list.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `price_list.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type PriceListUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.archived_at (Required): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. When this
+     * price list was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.currency (Required): string. Immutable currency of every
+     * price in this list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD". object.customer_segments (Required): Array of string.
+     * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+     * maxItems: 20. uniqueItems: true. object.customer_segments[] (Value): string.
+     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
+     * resource in an external system. `null` when unset. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". object.merchant_id (Required): string. Identifier of the merchant that
+     * owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Required):
+     * {@link MetadataMap}. Caller-owned metadata stored on this price list. Caller-owned key-value
+     * data stored on a resource. Keys starting with flint_ are reserved for Flint and are not
+     * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+     * before those limits may not satisfy them. object.name (Required): string. Name used to
+     * identify this price list. object.price_count (Required): integer. Number of variant prices
+     * in the list. Format: int64. minimum: 0. maximum: 10000. object.price_list_id (Required):
+     * string. Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". object.status (Required): string. Availability or
+     * retirement state. Derived as archived when archived_at is set; otherwise active or inactive.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Required): string. When
+     * this price list or its prices last changed, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Aggregate version,
+     * increased once for a request that changes the list or its prices. No-op writes preserve it.
+     * Format: uint64. minimum: 1. previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events. previous_attributes.archived_at (Optional): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived.
+     * previous_attributes.archived_at.anyOf[1] (Value): string. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.archived_at.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When this price
+     * list was created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value):
+     * string. When this price list was created, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.currency (Optional): string or null. Immutable currency of every price
+     * in this list. Currently USD. Uses ISO 4217 currency codes.
+     * previous_attributes.currency.anyOf[1] (Value): string. Immutable currency of every price in
+     * this list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD". previous_attributes.currency.anyOf[2] (Value): null.
+     * previous_attributes.customer_segments (Optional): Array of string or null. Customer.segment
+     * labels assigned to this list. Empty when no segments are assigned.
+     * previous_attributes.customer_segments.anyOf[1] (Value): Array of string. Customer.segment
+     * labels assigned to this list. Empty when no segments are assigned. maxItems: 20.
+     * uniqueItems: true. previous_attributes.customer_segments.anyOf[1][] (Value): string.
+     * previous_attributes.customer_segments.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system. `null` when unset.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this price list. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier
+     * of the merchant that owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this price list.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Name used to identify this price list. previous_attributes.name.anyOf[1]
+     * (Value): string. Name used to identify this price list. previous_attributes.name.anyOf[2]
+     * (Value): null. previous_attributes.price_count (Optional): integer or null. Number of
+     * variant prices in the list. previous_attributes.price_count.anyOf[1] (Value): integer.
+     * Number of variant prices in the list. Format: int64. minimum: 0. maximum: 10000.
+     * previous_attributes.price_count.anyOf[2] (Value): null. previous_attributes.price_list_id
+     * (Optional): string or null. Stable identifier of this price list.
+     * previous_attributes.price_list_id.anyOf[1] (Value): string. Stable identifier of this price
+     * list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     * previous_attributes.price_list_id.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Availability or retirement state. Derived as archived when
+     * archived_at is set; otherwise active or inactive. Value enum: "active", "inactive",
+     * "archived". previous_attributes.status.anyOf[1] (Value): string. Availability or retirement
+     * state. Derived as archived when archived_at is set; otherwise active or inactive. Value
+     * enum: "active", "inactive", "archived". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. When this price list or its
+     * prices last changed, as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. When this price list or its prices last changed, as an RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null. Aggregate version,
+     * increased once for a request that changes the list or its prices. No-op writes preserve it.
+     * previous_attributes.version.anyOf[1] (Value): integer. Aggregate version, increased once for
+     * a request that changes the list or its prices. No-op writes preserve it. Format: uint64.
+     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * archived_at (Required): string or null. When this price list was soft-deleted, as an
+         * RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When this price list was created,
+         * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". currency
+         * (Required): string. Immutable currency of every price in this list. Currently USD. Uses
+         * ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+         * "USD". customer_segments (Required): Array of string. Customer.segment labels assigned
+         * to this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments[] (Value): string. external_reference_id (Required): string or null.
+         * Caller-owned identifier for this resource in an external system. `null` when unset.
+         * minLength: 1. maxLength: 255. Example: "warehouse-1842". merchant_id (Required): string.
+         * Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Required): {@link MetadataMap}. Caller-owned
+         * metadata stored on this price list. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. name (Required): string. Name used to identify this price list.
+         * price_count (Required): integer. Number of variant prices in the list. Format: int64.
+         * minimum: 0. maximum: 10000. price_list_id (Required): string. Stable identifier of this
+         * price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". status (Required): string. Availability or retirement
+         * state. Derived as archived when archived_at is set; otherwise active or inactive. Value
+         * enum: "active", "inactive", "archived". updated_at (Required): string. When this price
+         * list or its prices last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Aggregate version, increased once
+         * for a request that changes the list or its prices. No-op writes preserve it. Format:
+         * uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
+             * been archived. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "archived_at": string | null;
+            /**
+             * When this price list was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at": string;
+            /**
+             * Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+             * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+             */
+            "currency": string;
+            /**
+             * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+             * maxItems: 20. uniqueItems: true. [] (Value): string.
+             */
+            "customer_segments": Array<string>;
+            /**
+             * Caller-owned identifier for this resource in an external system. `null` when unset.
+             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_reference_id": string | null;
+            /**
+             * Identifier of the merchant that owns this price list. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Caller-owned metadata stored on this price list. Caller-owned key-value data stored
+             * on a resource. Keys starting with flint_ are reserved for Flint and are not
+             * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+             * written before those limits may not satisfy them.
+             */
+            "metadata": MetadataMap;
+            /** Name used to identify this price list. */
+            "name": string;
+            /** Number of variant prices in the list. Format: int64. minimum: 0. maximum: 10000. */
+            "price_count": number;
+            /**
+             * Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+             * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+             */
+            "price_list_id": string;
+            /**
+             * Availability or retirement state. Derived as archived when archived_at is set;
+             * otherwise active or inactive. Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When this price list or its prices last changed, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at": string;
+            /**
+             * Aggregate version, increased once for a request that changes the list or its prices.
+             * No-op writes preserve it. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. archived_at (Optional): string or null. When
+         * this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been
+         * archived. archived_at.anyOf[1] (Value): string. When this price list was soft-deleted,
+         * as an RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". archived_at.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. When this price list was created, as an RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. When this price list was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. currency (Optional): string or null. Immutable currency of every price in
+         * this list. Currently USD. Uses ISO 4217 currency codes. currency.anyOf[1] (Value):
+         * string. Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+         * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         * currency.anyOf[2] (Value): null. customer_segments (Optional): Array of string or null.
+         * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+         * customer_segments.anyOf[1] (Value): Array of string. Customer.segment labels assigned to
+         * this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments.anyOf[1][] (Value): string. customer_segments.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. `null` when unset. external_reference_id.anyOf[1]
+         * (Value): string. Caller-owned identifier for this resource in an external system. `null`
+         * when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns this price list. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this price
+         * list. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Name used to identify this price list. name.anyOf[1]
+         * (Value): string. Name used to identify this price list. name.anyOf[2] (Value): null.
+         * price_count (Optional): integer or null. Number of variant prices in the list.
+         * price_count.anyOf[1] (Value): integer. Number of variant prices in the list. Format:
+         * int64. minimum: 0. maximum: 10000. price_count.anyOf[2] (Value): null. price_list_id
+         * (Optional): string or null. Stable identifier of this price list. price_list_id.anyOf[1]
+         * (Value): string. Stable identifier of this price list. pattern:
+         * ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+         * price_list_id.anyOf[2] (Value): null. status (Optional): string or null. Availability or
+         * retirement state. Derived as archived when archived_at is set; otherwise active or
+         * inactive. Value enum: "active", "inactive", "archived". status.anyOf[1] (Value): string.
+         * Availability or retirement state. Derived as archived when archived_at is set; otherwise
+         * active or inactive. Value enum: "active", "inactive", "archived". status.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. When this price list or its prices
+         * last changed, as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When this
+         * price list or its prices last changed, as an RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Aggregate version, increased once for a request that changes the list
+         * or its prices. No-op writes preserve it. version.anyOf[1] (Value): integer. Aggregate
+         * version, increased once for a request that changes the list or its prices. No-op writes
+         * preserve it. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
+             * been archived. anyOf[1] (Value): string. When this price list was soft-deleted, as
+             * an RFC3339 timestamp. Null when it has not been archived. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "archived_at"?: ((string) | (null));
+            /**
+             * When this price list was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this price list was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+             * currency codes. anyOf[1] (Value): string. Immutable currency of every price in this
+             * list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3.
+             * pattern: ^[A-Z]{3}$. Example: "USD". anyOf[2] (Value): null.
+             */
+            "currency"?: ((string) | (null));
+            /**
+             * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+             * anyOf[1] (Value): Array of string. Customer.segment labels assigned to this list.
+             * Empty when no segments are assigned. maxItems: 20. uniqueItems: true. anyOf[1][]
+             * (Value): string. anyOf[2] (Value): null.
+             */
+            "customer_segments"?: ((Array<string>) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. `null` when unset.
+             * anyOf[1] (Value): string. Caller-owned identifier for this resource in an external
+             * system. `null` when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             * anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Identifier of the merchant that owns this price list. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this price list. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this price list. anyOf[1] (Value): {@link
+             * MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Name used to identify this price list. anyOf[1] (Value): string. Name used to
+             * identify this price list. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Number of variant prices in the list. anyOf[1] (Value): integer. Number of variant
+             * prices in the list. Format: int64. minimum: 0. maximum: 10000. anyOf[2] (Value):
+             * null.
+             */
+            "price_count"?: ((number) | (null));
+            /**
+             * Stable identifier of this price list. anyOf[1] (Value): string. Stable identifier of
+             * this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+             * "prl_01KEZF7C00EH39P59GN3XMGS2Q". anyOf[2] (Value): null.
+             */
+            "price_list_id"?: ((string) | (null));
+            /**
+             * Availability or retirement state. Derived as archived when archived_at is set;
+             * otherwise active or inactive. Value enum: "active", "inactive", "archived". anyOf[1]
+             * (Value): string. Availability or retirement state. Derived as archived when
+             * archived_at is set; otherwise active or inactive. Value enum: "active", "inactive",
+             * "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * When this price list or its prices last changed, as an RFC3339 timestamp. anyOf[1]
+             * (Value): string. When this price list or its prices last changed, as an RFC3339
+             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Aggregate version, increased once for a request that changes the list or its prices.
+             * No-op writes preserve it. anyOf[1] (Value): integer. Aggregate version, increased
+             * once for a request that changes the list or its prices. No-op writes preserve it.
+             * Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "price_list.updated". */
+    "event_type"?: "price_list.updated";
+});
+export type PriceListsCreateParams = (InputValue<CreatePriceListRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PriceListsCreatePricesParams = (InputValue<CreatePriceListPricesRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PriceListsDeleteParams = {
+    /** Version last read by the caller. Format: uint64. minimum: 1. maximum: 9007199254740991. */
+    "expected_version"?: InputValue<number>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PriceListsDeletePriceParams = PriceListsDeleteParams;
+export type PriceListsGetParams = DisputesAcceptParams;
+export type PriceListsGetPriceParams = DisputesAcceptParams;
+export type PriceListsListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
+     * "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value):
+     * string. Value enum: "active", "inactive", "archived". anyOf[2] (Value): string. Value enum:
+     * "active", "inactive", "archived".
+     */
+    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
+    /** Exact match on a Customer.segment label assigned to this price list. */
+    "customer_segment"?: InputValue<string>;
+    /**
+     * Exact match on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842".
+     */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Search across price list ID, name, and external reference ID. Text fields match any part of
+     * the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start
+     * and need the type prefix, such as prl_01.
+     */
+    "query"?: InputValue<string>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by price_list_id. Default:
+     * "created_at". Value enum: "created_at", "updated_at", "name".
+     */
+    "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PriceListsListPricesParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Exact match on the priced variant ID. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: InputValue<string>;
+    /**
+     * Exact match on the product owning the priced variant. pattern:
+     * ^prod_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: InputValue<string>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by price_list_price_id. Default:
+     * "created_at". Value enum: "created_at", "updated_at".
+     */
+    "sort_by"?: InputValue<"created_at" | "updated_at">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PriceListsUpdateParams = (InputValue<UpdatePriceListRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PriceListsUpdatePriceParams = (InputValue<UpdatePriceListPriceRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };

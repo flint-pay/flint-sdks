@@ -8,14 +8,14 @@ import type {
     CustomerAddressListResponse,
     CustomerAddressResponse,
     CustomerEmailPreferences,
-    CustomerEmailPreferencesResponse
-} from '../declarations/types-15.js';
-import type {
+    CustomerEmailPreferencesResponse,
     CustomerListResponse,
     CustomerResponse,
     CustomerSessionsRevocation,
     CustomerSessionsRevocationResponse,
-    CustomerTaxExemption,
+    CustomerTaxExemption
+} from '../declarations/types-16.js';
+import type {
     CustomerTaxExemptionListResponse,
     CustomerTaxExemptionResponse,
     CustomersCancelEmailChangeRequestParams,
@@ -40,11 +40,11 @@ import type {
     CustomersUpdateAddressParams,
     CustomersUpdateParams,
     CustomersUpdateTaxExemptionParams
-} from '../declarations/types-16.js';
-import type { EmailChangeRequest, EmailChangeRequestListResponse, EmailChangeRequestResponse } from '../declarations/types-24.js';
-import type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-28.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-17.js';
+import type { EmailChangeRequest, EmailChangeRequestListResponse, EmailChangeRequestResponse } from '../declarations/types-26.js';
+import type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-30.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -62,12 +62,10 @@ export type {
 export type {
     CustomersCancelEmailChangeRequestParams,
     CustomersCreateParams,
-    CustomerResponse,
     CustomersCreateAccessLinkParams,
     CustomersCreateAddressParams,
     CustomersCreateEmailChangeRequestParams,
     CustomersCreateTaxExemptionParams,
-    CustomerTaxExemption,
     CustomerTaxExemptionResponse,
     CustomersDeleteAddressParams,
     CustomersDeleteTaxExemptionParams,
@@ -80,25 +78,15 @@ export type {
     CustomersListAddressesParams,
     CustomersListEmailChangeRequestsParams,
     CustomersListParams,
-    CustomerListResponse,
     CustomersListTaxExemptionsParams,
     CustomerTaxExemptionListResponse,
     CustomersRevokeSessionsParams,
-    CustomerSessionsRevocation,
-    CustomerSessionsRevocationResponse,
     CustomersUpdateParams,
     CustomersUpdateAddressParams,
     CustomersUpdateTaxExemptionParams,
-    CustomerReceivables,
-    CustomerReceivableBalance,
-    CustomerTaxExemptionCoverageRequestInput,
-    CustomerTaxExemptionCoverageAllStatesRequestInput,
-    CustomerTaxExemptionCoverageStatesRequestInput,
-    CustomerTaxExemptionCoverage,
-    CustomerTaxExemptionCoverageAllStates,
-    CustomerTaxExemptionCoverageStates
-} from '../declarations/types-16.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+    CustomerTaxExemptionCoverageStatesRequestInput
+} from '../declarations/types-17.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
 export type {
     EmailChangeRequest,
     EmailChangeRequestResponse,
@@ -106,67 +94,78 @@ export type {
     DocumentTaxIDRequestInput,
     ExpandedPaymentMethodSummary,
     DocumentTaxID
-} from '../declarations/types-24.js';
+} from '../declarations/types-26.js';
 export type {
     Customer,
+    CustomerResponse,
     CustomerAccessLink,
     CustomerAccessLinkResponse,
     CustomerAddress,
     CustomerAddressResponse,
+    CustomerTaxExemption,
     CustomerEmailPreferences,
     CustomerEmailPreferencesResponse,
     CustomerAddressListResponse,
+    CustomerListResponse,
+    CustomerSessionsRevocation,
+    CustomerSessionsRevocationResponse,
+    CustomerReceivables,
+    CustomerReceivableBalance,
     CustomerAccessLinkReturned,
-    CustomerAccessLinkEmailed
-} from '../declarations/types-15.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-28.js';
+    CustomerAccessLinkEmailed,
+    CustomerTaxExemptionCoverageRequestInput,
+    CustomerTaxExemptionCoverageAllStatesRequestInput,
+    CustomerTaxExemptionCoverage,
+    CustomerTaxExemptionCoverageAllStates,
+    CustomerTaxExemptionCoverageStates
+} from '../declarations/types-16.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-30.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-39.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export type { NextAction, MoneyValue } from '../declarations/types-42.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
 export type {
     CreateCustomerRequestInput,
     CreateCustomerAddressRequestInput,
-    CreateCustomerAccessLinkRequestInput,
-    CreateCustomerTaxExemptionRequestInput
+    CreateCustomerAccessLinkRequestInput
 } from '../declarations/types-8.js';
 export type { AddressRequestInput, Address, AddressRequest } from '../declarations/types-0.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-38.js';
-export type { TaxIdentityRequestInput, TaxIdentity, TaxIdentityPatchInput } from '../declarations/types-65.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { TaxIdentityRequestInput, TaxIdentity, TaxIdentityPatchInput } from '../declarations/types-72.js';
 export type { CardDetails } from '../declarations/types-5.js';
-export type { CreateEmailChangeRequestInput, CreateEmailChangeRequest } from '../declarations/types-9.js';
-export type { LinkCustomerGuestPurchasesRequestInput, LinkCustomerGuestPurchasesRequest } from '../declarations/types-35.js';
+export type { CreateEmailChangeRequestInput, CreateCustomerTaxExemptionRequestInput, CreateEmailChangeRequest } from '../declarations/types-9.js';
+export type { LinkCustomerGuestPurchasesRequestInput, LinkCustomerGuestPurchasesRequest } from '../declarations/types-38.js';
 export type {
     UpdateCustomerRequestInput,
     UpdateCustomerAddressRequestInput,
     UpdateCustomerTaxExemptionRequestInput
-} from '../declarations/types-66.js';
-export type { DisputesAcceptParams } from '../declarations/types-23.js';
-export { makeAddressRequest } from '../declarations/types-70.js';
+} from '../declarations/types-73.js';
+export type { DisputesAcceptParams } from '../declarations/types-25.js';
+export { makeAddressRequest } from '../declarations/types-77.js';
 export {
     makeCreateCustomerAccessLinkRequest,
     makeCreateCustomerAddressRequest,
     makeCreateCustomerRequest,
     makeCreateCustomerTaxExemptionRequest,
     makeCreateEmailChangeRequest
-} from '../declarations/types-72.js';
+} from '../declarations/types-79.js';
 export {
     makeCustomerTaxExemptionCoverageAllStatesRequest,
     makeCustomerTaxExemptionCoverageRequest,
     makeCustomerTaxExemptionCoverageStatesRequest
-} from '../declarations/types-75.js';
-export { makeDocumentTaxIDRequest } from '../declarations/types-77.js';
-export { makeLinkCustomerGuestPurchasesRequest, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-78.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
+} from '../declarations/types-82.js';
+export { makeDocumentTaxIDRequest } from '../declarations/types-84.js';
+export { makeLinkCustomerGuestPurchasesRequest, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export {
     makeTaxIdentityPatch,
     makeTaxIdentityRequest,
     makeUpdateCustomerAddressRequest,
     makeUpdateCustomerRequest,
     makeUpdateCustomerTaxExemptionRequest
-} from '../declarations/types-83.js';
+} from '../declarations/types-90.js';
 export interface CustomersResource {
     /**
  * Cancels a pending request and invalidates its link or codes. The customer's email stays

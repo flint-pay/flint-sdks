@@ -12,7 +12,7 @@ namespace Flint;
  * @property-read string|null $sent_at
  * @property-read string|null $status
  * @property-read string|null $suppression_reason
- * @property-read mixed $to_email
+ * @property-read string|null $to_email
  * Presence-aware response; omitted optional fields return null. */
 final class InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes extends Model {
     /** @param array{'cc_emails'?: mixed, 'channel'?: mixed, 'created_at'?: mixed, 'delivery_type'?: mixed, 'failure_reason'?: mixed, 'invoice_delivery_attempt_id'?: mixed, 'invoice_id'?: mixed, 'sent_at'?: mixed, 'status'?: mixed, 'suppression_reason'?: mixed, 'to_email'?: mixed, ...}|object $values */
@@ -67,9 +67,9 @@ final class InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes exte
      */
     public function getSuppressionReason(): string|null { return $this->get('suppression_reason'); }
     public function hasSuppressionReason(): bool { return $this->has('suppression_reason'); }
-    /** Address the invoice was sent to. `null` when the customer was deleted. anyOf[1] (Value): string or null. Address the invoice was sent to. `null` when the customer was deleted. anyOf[2] (Value): null.
-     * @return mixed
+    /** Address the invoice was sent to. `null` when the customer was deleted. anyOf[1] (Value): string. Address the invoice was sent to. `null` when the customer was deleted. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getToEmail(): mixed { return $this->get('to_email'); }
+    public function getToEmail(): string|null { return $this->get('to_email'); }
     public function hasToEmail(): bool { return $this->has('to_email'); }
 }

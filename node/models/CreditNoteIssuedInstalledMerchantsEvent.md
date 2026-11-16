@@ -40,28 +40,28 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `allocated_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Credit applied to the invoice, net of reversed allocations. `allocated_money`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesallocated_money). |
-| `available_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Credit available to allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals allocated_money plus pending_refund_money plus refunded_money plus available_money. `available_money`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesavailable_money). |
-| `buyer_tax_identity` | Optional | [TaxIdentity](../models/TaxIdentity.md#taxidentity) or null or null | Identity frozen on the source invoice at issue. Later profile edits do not change this document. `null` when no buyer tax identity was captured on the source invoice. Customer deletion preserves identities captured on issued invoices and credit notes. |
+| `allocated_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Credit applied to the invoice, net of reversed allocations. `allocated_money`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesallocated_money). |
+| `available_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Credit available to allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals allocated_money plus pending_refund_money plus refunded_money plus available_money. `available_money`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesavailable_money). |
+| `buyer_tax_identity` | Optional | [TaxIdentityPreviousAttributes](../models/TaxIdentityPreviousAttributes.md#taxidentitypreviousattributes) or null | Identity frozen on the source invoice at issue. Later profile edits do not change this document. `null` when no buyer tax identity was captured on the source invoice. Customer deletion preserves identities captured on issued invoices and credit notes. |
 | `created_at` | Optional | string or null | When the credit note was created. `created_at`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributescreated_at). |
 | `credit_note_id` | Optional | string or null | Unique identifier of the credit note. `credit_note_id`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributescredit_note_id). |
 | `credit_note_number` | Optional | string or null | Assigned at issue and stable from then on. Absent while the credit note is a draft. `credit_note_number`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributescredit_note_number). |
-| `external_reference_id` | Optional | string or null or null | Caller-owned identifier for this resource in an external system. `null` when unset. `external_reference_id`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesexternal_reference_id). |
-| `invoice` | Optional | [ExpandedInvoiceSummary](../models/ExpandedInvoiceSummary.md#expandedinvoicesummary) or null | Summary of the source invoice. Returned only with expand=invoice. |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `null` when unset. `external_reference_id`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesexternal_reference_id). |
+| `invoice` | Optional | [ExpandedInvoiceSummaryPreviousAttributes](../models/ExpandedInvoiceSummaryPreviousAttributes.md#expandedinvoicesummarypreviousattributes) or null | Summary of the source invoice. Returned only with expand=invoice. |
 | `invoice_id` | Optional | string or null | The invoice this credit note corrects. `invoice_id`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesinvoice_id). |
 | `issued_at` | Optional | string or null | When the credit note was issued. Absent on a draft. `issued_at`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesissued_at). |
 | `latest_refund_status` | Optional | string or null | Status of the most recent refund linked to this credit note. Absent when no refund has been requested. Values: `"pending"`, `"succeeded"`, `"partially_succeeded"`, `"failed"`. `latest_refund_status`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributeslatest_refund_status). |
-| `line_items` | Optional | Array of [CreditNoteLineItem](../models/CreditNoteLineItem.md#creditnotelineitem) or null | Itemized corrections against frozen invoice lines. Amount and quantity corrections share each source line's remaining value, discount, and tax across issued credit notes that have not been voided. Drafts reserve no credit. `line_items`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesline_items). |
-| `memo` | Optional | string or null or null | Free text shown on the credit note, up to 4096 characters. `null` when unset. `memo`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesmemo). |
+| `line_items` | Optional | Array of [CreditNoteLineItemPreviousAttributes](../models/CreditNoteLineItemPreviousAttributes.md#creditnotelineitempreviousattributes) or null | Itemized corrections against frozen invoice lines. Amount and quantity corrections share each source line's remaining value, discount, and tax across issued credit notes that have not been voided. Drafts reserve no credit. `line_items`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesline_items). |
+| `memo` | Optional | string or null | Free text shown on the credit note, up to 4096 characters. `null` when unset. `memo`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesmemo). |
 | `merchant_id` | Optional | string or null | The merchant that owns the credit note. `merchant_id`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesmerchant_id). |
-| `pending_refund_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Credit reserved by linked refunds that have not resolved yet. Released if a refund fails or is canceled. `pending_refund_money`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributespending_refund_money). |
+| `pending_refund_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Credit reserved by linked refunds that have not resolved yet. Released if a refund fails or is canceled. `pending_refund_money`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributespending_refund_money). |
 | `reason` | Optional | string or null | Why the invoice is being corrected. Shown on the credit note document. Values: `"returned_goods"`, `"order_adjustment"`, `"billing_error"`, `"goodwill"`, `"other"`. `reason`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesreason). |
-| `refunded_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Credit consumed by linked refunds that succeeded. `refunded_money`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesrefunded_money). |
-| `seller_tax_identity` | Optional | [TaxIdentity](../models/TaxIdentity.md#taxidentity) or null or null | Identity frozen on the source invoice at issue. Later profile edits do not change this document. `null` when no seller tax identity was captured. |
+| `refunded_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Credit consumed by linked refunds that succeeded. `refunded_money`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesrefunded_money). |
+| `seller_tax_identity` | Optional | [TaxIdentityPreviousAttributes](../models/TaxIdentityPreviousAttributes.md#taxidentitypreviousattributes) or null | Identity frozen on the source invoice at issue. Later profile edits do not change this document. `null` when no seller tax identity was captured. |
 | `status` | Optional | string or null | draft while the credit note is editable, issued once it is numbered and frozen, voided once withdrawn. Values: `"draft"`, `"issued"`, `"voided"`. `status`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesstatus). |
 | `supported_actions` | Optional | Array of string or null | Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of the caller's permissions; each action still requires its route's scope. Always [] when no action is available. Items values: `"issue"`, `"void"`. `supported_actions`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributessupported_actions). |
-| `tax_currency_conversions` | Optional | Array of [TaxCurrencyConversion](../models/TaxCurrencyConversion.md#taxcurrencyconversion) or null | The credit note's VAT stated in the currency of the country that charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount converted the same way. Always [] on drafts and when the invoice froze no conversion. The credit note PDF prints the same figures. `tax_currency_conversions`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributestax_currency_conversions). |
-| `total_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | The face value of the credit note, the sum of its lines. `total_money`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributestotal_money). |
+| `tax_currency_conversions` | Optional | Array of [TaxCurrencyConversionPreviousAttributes](../models/TaxCurrencyConversionPreviousAttributes.md#taxcurrencyconversionpreviousattributes) or null | The credit note's VAT stated in the currency of the country that charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount converted the same way. Always [] on drafts and when the invoice froze no conversion. The credit note PDF prints the same figures. `tax_currency_conversions`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributestax_currency_conversions). |
+| `total_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The face value of the credit note, the sum of its lines. `total_money`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributestotal_money). |
 | `updated_at` | Optional | string or null | When the credit note last changed. `updated_at`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesupdated_at). |
 | `version` | Optional | integer or null | Current credit note version. Send this as expected_version when updating the draft. `version`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesversion). |
 | `voided_at` | Optional | string or null | When the credit note was voided. Absent unless its status is voided. `voided_at`: [declared alternatives](../models/CreditNoteIssuedInstalledMerchantsEvent.md#creditnoteissuedinstalledmerchantseventdataprevious_attributesvoided_at). |
@@ -70,13 +70,13 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 Credit applied to the invoice, net of reversed allocations.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.allocated_money variant 1
 
-anyOf MoneyValue: Credit applied to the invoice, net of reversed allocations..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.allocated_money variant 2
 
@@ -85,17 +85,25 @@ anyOf variant 2.
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Credit applied to the invoice, net of reversed allocations. 
 
+### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.allocated_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.allocated_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+
 ### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.available_money
 
 Credit available to allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals allocated_money plus pending_refund_money plus refunded_money plus available_money.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.available_money variant 1
 
-anyOf MoneyValue: Credit available to allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals allocated_money plus pending_refund_money plus refunded_money plus available_money..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.available_money variant 2
 
@@ -103,6 +111,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Credit available to allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals allocated_money plus pending_refund_money plus refunded_money plus available_money. 
+
+### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.available_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.available_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.created_at
 
@@ -152,7 +168,7 @@ anyOf variant 2.
 
 anyOf variant 1: Caller-owned identifier for this resource in an external system. `null` when unset..
 
-- Value shape: (string or null). Caller-owned identifier for this resource in an external system. `null` when unset. Caller-owned identifier for this resource in an external system. `null` when unset. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. 
+- Value shape: string. Caller-owned identifier for this resource in an external system. `null` when unset. Caller-owned identifier for this resource in an external system. `null` when unset. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. 
 
 ### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.external_reference_id variant 2
 
@@ -208,7 +224,7 @@ anyOf variant 2.
 
 anyOf variant 1: Itemized corrections against frozen invoice lines. Amount and quantity corrections share each source line's remaining value, discount, and tax across issued credit notes that have not been voided. Drafts reserve no credit..
 
-- Value shape: Array of [CreditNoteLineItem](../models/CreditNoteLineItem.md#creditnotelineitem). Itemized corrections against frozen invoice lines. Amount and quantity corrections share each source line's remaining value, discount, and tax across issued credit notes that have not been voided. Drafts reserve no credit. 
+- Value shape: Array of [CreditNoteLineItemPreviousAttributes](../models/CreditNoteLineItemPreviousAttributes.md#creditnotelineitempreviousattributes). Itemized corrections against frozen invoice lines. Amount and quantity corrections share each source line's remaining value, discount, and tax across issued credit notes that have not been voided. Drafts reserve no credit. 
 
 ### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.line_items variant 2
 
@@ -222,7 +238,7 @@ anyOf variant 2.
 
 anyOf variant 1: Free text shown on the credit note, up to 4096 characters. `null` when unset..
 
-- Value shape: (string or null). Free text shown on the credit note, up to 4096 characters. `null` when unset. 
+- Value shape: string. Free text shown on the credit note, up to 4096 characters. `null` when unset. 
 
 ### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.memo variant 2
 
@@ -248,13 +264,13 @@ anyOf variant 2.
 
 Credit reserved by linked refunds that have not resolved yet. Released if a refund fails or is canceled.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.pending_refund_money variant 1
 
-anyOf MoneyValue: Credit reserved by linked refunds that have not resolved yet. Released if a refund fails or is canceled..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.pending_refund_money variant 2
 
@@ -262,6 +278,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Credit reserved by linked refunds that have not resolved yet. Released if a refund fails or is canceled. 
+
+### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.pending_refund_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.pending_refund_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.reason
 
@@ -281,13 +305,13 @@ anyOf variant 2.
 
 Credit consumed by linked refunds that succeeded.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.refunded_money variant 1
 
-anyOf MoneyValue: Credit consumed by linked refunds that succeeded..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.refunded_money variant 2
 
@@ -295,6 +319,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Credit consumed by linked refunds that succeeded. 
+
+### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.refunded_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.refunded_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.status
 
@@ -330,7 +362,7 @@ anyOf variant 2.
 
 anyOf variant 1: The credit note's VAT stated in the currency of the country that charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount converted the same way. Always [] on drafts and when the invoice froze no conversion. The credit note PDF prints the same figures..
 
-- Value shape: Array of [TaxCurrencyConversion](../models/TaxCurrencyConversion.md#taxcurrencyconversion). The credit note's VAT stated in the currency of the country that charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount converted the same way. Always [] on drafts and when the invoice froze no conversion. The credit note PDF prints the same figures. 
+- Value shape: Array of [TaxCurrencyConversionPreviousAttributes](../models/TaxCurrencyConversionPreviousAttributes.md#taxcurrencyconversionpreviousattributes). The credit note's VAT stated in the currency of the country that charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount converted the same way. Always [] on drafts and when the invoice froze no conversion. The credit note PDF prints the same figures. 
 
 ### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.tax_currency_conversions variant 2
 
@@ -342,13 +374,13 @@ anyOf variant 2.
 
 The face value of the credit note, the sum of its lines.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.total_money variant 1
 
-anyOf MoneyValue: The face value of the credit note, the sum of its lines..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.total_money variant 2
 
@@ -356,6 +388,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. The face value of the credit note, the sum of its lines. 
+
+### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.total_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.total_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### CreditNoteIssuedInstalledMerchantsEvent.data.previous_attributes.updated_at
 

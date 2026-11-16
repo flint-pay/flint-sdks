@@ -4,7 +4,7 @@
 
 ### taxConnection.connect
 
-Records the seller's attestation and creates or completes the tax account from verified business details and the default line-item tax category in settings. Syncs registrations and removes tax-account copies of deleted registrations. Reconnect retains the tax account and does not turn the default tax setting back on. A rejected stored registration returns attention_required with registration_rejected. Successful configuration marks open calculated automatic-tax orders without an issued invoice incomplete and advances their versions. A same-key retry resumes setup without creating another account; unconfirmed account creation requires support. Retrieve the connection after a lost response.
+Records the seller's attestation and creates or completes the tax account from verified business details and the default line-item tax category in settings. Syncs registrations and removes tax-account copies of deleted registrations. Reconnect retains the tax account and does not turn the default tax setting back on. A rejected stored registration returns INVALID_REQUEST on registration_number and leaves the connection attention_required with registration_rejected. Successful configuration marks open calculated automatic-tax orders without an issued invoice incomplete and advances their versions. A same-key retry resumes setup without creating another account; unconfirmed account creation requires support. Retrieve the connection after a lost response.
 
 `POST /v1/tax-connection/connect`
 
@@ -92,7 +92,7 @@ Body model: [CreateTaxRegistrationRequestInput](../models/CreateTaxRegistrationR
 | --- | --- | --- | --- |
 | `country` | Optional | string | Country of registration. Omit for US. Use EU for a non-Union OSS registration, which covers all 27 member states. Uses ISO 3166-1 alpha-2 country codes. minLength: `2`. maxLength: `2`. pattern: `^[A-Z]{2}$`. Default: `"US"`. Values: `"US"`, `"CA"`, `"EU"`, `"GB"`, `"AU"`, `"NZ"`. |
 | `end_date` | Optional | string or null | Last day the registration applies, inclusive. Must be on or after start_date and today (UTC). Send null to clear the end date before the registration has ended. Format: `date`. minLength: `1`. |
-| `registration_number` | Required | string | Seller's tax registration number. For EU, the non-Union OSS number: EU followed by nine digits. Write-only; responses return only its last four characters. minLength: `1`. maxLength: `255`. Input only. |
+| `registration_number` | Required | string | Seller's tax registration number as issued: letters and digits with optional spaces, hyphens, periods or slashes. The original format is stored; separators are omitted when confirming with the tax account. For EU, the non-Union OSS number: EU followed by nine digits. Write-only; responses return only its last four characters. minLength: `1`. maxLength: `255`. Input only. |
 | `start_date` | Required | string | First day the registration applies, inclusive. Flint checks it against each sale's local date. Status and validation use the UTC date. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 | `state` | Optional | string | US state code or DC. For CA, omit for federal GST/HST, or use BC, MB, QC or SK for provincial tax. Omit for EU, GB, AU and NZ. Uses the US postal abbreviation from ISO 3166-2:US (without the US- prefix). Values: [51 declared values](../models/CreateTaxRegistrationRequestInput.md#createtaxregistrationrequestinput-state-values). |
 
@@ -436,7 +436,7 @@ Body model: [UpdateTaxRegistrationRequestInput](../models/UpdateTaxRegistrationR
 | --- | --- | --- | --- |
 | `end_date` | Optional | string or null | Last day the registration applies, inclusive. Must be on or after start_date and today (UTC). Send null to clear the end date before the registration has ended. Format: `date`. minLength: `1`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Omit to apply the change to the current resource. Format: `uint64`. minimum: `1`. |
-| `registration_number` | Optional | string | Seller's tax registration number. For EU, the non-Union OSS number: EU followed by nine digits. Write-only; responses return only its last four characters. minLength: `1`. maxLength: `255`. Input only. |
+| `registration_number` | Optional | string | Seller's tax registration number as issued: letters and digits with optional spaces, hyphens, periods or slashes. The original format is stored; separators are omitted when confirming with the tax account. For EU, the non-Union OSS number: EU followed by nine digits. Write-only; responses return only its last four characters. minLength: `1`. maxLength: `255`. Input only. |
 | `start_date` | Optional | string | First day the registration applies, inclusive. Flint checks it against each sale's local date. Status and validation use the UTC date. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 
 #### taxConnection.updateRegistration: variant 1
@@ -447,7 +447,7 @@ Body model: [UpdateTaxRegistrationRequestInput](../models/UpdateTaxRegistrationR
 | --- | --- | --- | --- |
 | `end_date` | Optional | string or null | Last day the registration applies, inclusive. Must be on or after start_date and today (UTC). Send null to clear the end date before the registration has ended. Format: `date`. minLength: `1`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Omit to apply the change to the current resource. Format: `uint64`. minimum: `1`. |
-| `registration_number` | Required | string | Seller's tax registration number. For EU, the non-Union OSS number: EU followed by nine digits. Write-only; responses return only its last four characters. minLength: `1`. maxLength: `255`. Input only. |
+| `registration_number` | Required | string | Seller's tax registration number as issued: letters and digits with optional spaces, hyphens, periods or slashes. The original format is stored; separators are omitted when confirming with the tax account. For EU, the non-Union OSS number: EU followed by nine digits. Write-only; responses return only its last four characters. minLength: `1`. maxLength: `255`. Input only. |
 | `start_date` | Optional | string | First day the registration applies, inclusive. Flint checks it against each sale's local date. Status and validation use the UTC date. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 
 #### taxConnection.updateRegistration: variant 2
@@ -458,7 +458,7 @@ Body model: [UpdateTaxRegistrationRequestInput](../models/UpdateTaxRegistrationR
 | --- | --- | --- | --- |
 | `end_date` | Optional | string or null | Last day the registration applies, inclusive. Must be on or after start_date and today (UTC). Send null to clear the end date before the registration has ended. Format: `date`. minLength: `1`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Omit to apply the change to the current resource. Format: `uint64`. minimum: `1`. |
-| `registration_number` | Optional | string | Seller's tax registration number. For EU, the non-Union OSS number: EU followed by nine digits. Write-only; responses return only its last four characters. minLength: `1`. maxLength: `255`. Input only. |
+| `registration_number` | Optional | string | Seller's tax registration number as issued: letters and digits with optional spaces, hyphens, periods or slashes. The original format is stored; separators are omitted when confirming with the tax account. For EU, the non-Union OSS number: EU followed by nine digits. Write-only; responses return only its last four characters. minLength: `1`. maxLength: `255`. Input only. |
 | `start_date` | Required | string | First day the registration applies, inclusive. Flint checks it against each sale's local date. Status and validation use the UTC date. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 
 #### taxConnection.updateRegistration: variant 3
@@ -469,7 +469,7 @@ Body model: [UpdateTaxRegistrationRequestInput](../models/UpdateTaxRegistrationR
 | --- | --- | --- | --- |
 | `end_date` | Required | string or null | Last day the registration applies, inclusive. Must be on or after start_date and today (UTC). Send null to clear the end date before the registration has ended. Format: `date`. minLength: `1`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Omit to apply the change to the current resource. Format: `uint64`. minimum: `1`. |
-| `registration_number` | Optional | string | Seller's tax registration number. For EU, the non-Union OSS number: EU followed by nine digits. Write-only; responses return only its last four characters. minLength: `1`. maxLength: `255`. Input only. |
+| `registration_number` | Optional | string | Seller's tax registration number as issued: letters and digits with optional spaces, hyphens, periods or slashes. The original format is stored; separators are omitted when confirming with the tax account. For EU, the non-Union OSS number: EU followed by nine digits. Write-only; responses return only its last four characters. minLength: `1`. maxLength: `255`. Input only. |
 | `start_date` | Optional | string | First day the registration applies, inclusive. Flint checks it against each sale's local date. Status and validation use the UTC date. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 
 #### Response

@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | [DeliveryProfileConfiguration](../models/DeliveryProfileConfiguration.md#deliveryprofileconfiguration) or null | Current delivery requirement and grouping policy. |
+| `configuration` | Optional | [DeliveryProfileConfigurationPreviousAttributes](../models/DeliveryProfileConfigurationPreviousAttributes.md#deliveryprofileconfigurationpreviousattributes) or null | Current delivery requirement and grouping policy. |
 | `created_at` | Optional | string or null | Time the profile was created. `created_at`: [declared alternatives](../models/DeliveryProfileArchivedMerchantEventDataPreviousAttributes.md#deliveryprofilearchivedmerchanteventdatapreviousattributescreated_at). |
 | `current_delivery_profile_revision_id` | Optional | string or null | Immutable revision used for new line-item snapshots. `current_delivery_profile_revision_id`: [declared alternatives](../models/DeliveryProfileArchivedMerchantEventDataPreviousAttributes.md#deliveryprofilearchivedmerchanteventdatapreviousattributescurrent_delivery_profile_revision_id). |
 | `delivery_profile_id` | Optional | string or null | Stable delivery profile ID. `delivery_profile_id`: [declared alternatives](../models/DeliveryProfileArchivedMerchantEventDataPreviousAttributes.md#deliveryprofilearchivedmerchanteventdatapreviousattributesdelivery_profile_id). |

@@ -10,22 +10,22 @@ Response model.
 | --- | --- | --- | --- |
 | `barcode` | Optional | string or null | Barcode assigned to this sellable item. `barcode`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesbarcode). |
 | `bundle_id` | Optional | string or null | Stable identifier of the bundle. `bundle_id`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesbundle_id). |
-| `categories` | Optional | Array of [CategoryReference](../models/CategoryReference.md#categoryreference) or null | Always present. Empty collections are returned as []. `categories`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributescategories). |
+| `categories` | Optional | Array of [CategoryReferencePreviousAttributes](../models/CategoryReferencePreviousAttributes.md#categoryreferencepreviousattributes) or null | Always present. Empty collections are returned as []. `categories`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributescategories). |
 | `component_count` | Optional | integer or null | Number of components in the bundle. `component_count`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributescomponent_count). |
-| `components` | Optional | Array of [BundleComponent](../models/BundleComponent.md#bundlecomponent) or null | The bundle's components in position order, on every bundle response including list rows. [] only when the bundle has no components. `components`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributescomponents). |
+| `components` | Optional | Array of [BundleComponentPreviousAttributes](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributes) or null | The bundle's components in position order, on every bundle response including list rows. [] only when the bundle has no components. `components`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributescomponents). |
 | `created_at` | Optional | string or null | When this resource was created, as an RFC3339 timestamp. `created_at`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributescreated_at). |
 | `delivery_configuration_status` | Optional | string or null | Delivery readiness aggregated across the bundle's components. A bundle with no components reports `not_applicable`. Values: `"configured"`, `"action_required"`, `"not_applicable"`. `delivery_configuration_status`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesdelivery_configuration_status). |
 | `description` | Optional | string or null | Description of the bundle shown to buyers. `description`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesdescription). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id). |
-| `images` | Optional | Array of [ImageAttachment](../models/ImageAttachment.md#imageattachment) or null | Images attached to this resource, in display order. The first image is primary. `images`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesimages). |
+| `images` | Optional | Array of [ImageAttachmentPreviousAttributes](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributes) or null | Images attached to this resource, in display order. The first image is primary. `images`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesimages). |
 | `is_available_for_sale` | Optional | boolean or null | Whether the bundle can be sold now: it is `active`, has at least one component, every component's variant and product are `active`, and `delivery_configuration_status` isn't `action_required`. Stock isn't considered. `is_available_for_sale`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesis_available_for_sale). |
 | `merchant_id` | Optional | string or null | Identifier of the merchant that owns this resource. `merchant_id`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesmerchant_id). |
 | `metadata` | Optional | Map of string or null | Caller-owned metadata stored on this resource. `metadata`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesmetadata). |
-| `modifier_set_id` | Optional | string or null or null | ID of the modifier set attached to the bundle. `null` when no modifier set is attached. `modifier_set_id`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesmodifier_set_id). |
+| `modifier_set_id` | Optional | string or null | ID of the modifier set attached to the bundle. `null` when no modifier set is attached. `modifier_set_id`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesmodifier_set_id). |
 | `name` | Optional | string or null | Bundle name shown to buyers. `name`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesname). |
 | `sku` | Optional | string or null | Stock keeping unit assigned to this sellable item. `sku`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributessku). |
 | `status` | Optional | string or null | Bundle lifecycle status. Archived bundles remain readable and cannot be edited. Values: `"active"`, `"inactive"`, `"archived"`. `status`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesstatus). |
-| `unit_price_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Price charged for one unit, in the currency's smallest unit. |
+| `unit_price_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Price charged for one unit, in the currency's smallest unit. |
 | `updated_at` | Optional | string or null | When this resource last changed, as an RFC3339 timestamp. `updated_at`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesupdated_at). |
 | `version` | Optional | integer or null | Current resource version. Send it as expected_version to reject a write if the resource has changed. `version`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesversion). |
 
@@ -63,7 +63,7 @@ anyOf variant 2.
 
 anyOf variant 1: Always present. Empty collections are returned as []..
 
-- Value shape: Array of [CategoryReference](../models/CategoryReference.md#categoryreference). Always present. Empty collections are returned as []. 
+- Value shape: Array of [CategoryReferencePreviousAttributes](../models/CategoryReferencePreviousAttributes.md#categoryreferencepreviousattributes). Always present. Empty collections are returned as []. 
 
 ### BundleArchivedMerchantEventDataPreviousAttributes.categories variant 2
 
@@ -73,7 +73,28 @@ anyOf variant 2.
 
 ### BundleArchivedMerchantEventDataPreviousAttributes.categories variant 1.[] fields 1
 
-Field definitions: [OrderResponse.data.line_items[].categories[]](../models/OrderResponse.md#orderresponsedataline_itemscategories).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `category_id` | Optional | string or null | Stable identifier of the category. `category_id`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributescategories-variant-1-fields-1category_id). |
+| `handle` | Optional | string or null | Immutable handle of the referenced category. Read the category resource for its current name. `handle`: [declared alternatives](../models/CategoryReferencePreviousAttributes.md#categoryreferencepreviousattributeshandle). |
+
+### BundleArchivedMerchantEventDataPreviousAttributes.categories variant 1.[] fields 1.category_id
+
+### BundleArchivedMerchantEventDataPreviousAttributes.categories variant 1.[] fields 1.category_id variant 1
+
+anyOf variant 1: Stable identifier of the category..
+
+- Value shape: string. Stable identifier of the category. Stable identifier of the category. Example: `"ctg_01KEZF7C001T4WWBPVGWRZD88Q"`. 
+
+### BundleArchivedMerchantEventDataPreviousAttributes.categories variant 1.[] fields 1.category_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Stable identifier of the category. 
+
+### BundleArchivedMerchantEventDataPreviousAttributes.categories variant 1.[] fields 1.handle
+
+Declared alternatives: [CategoryReferencePreviousAttributes.handle](../models/CategoryReferencePreviousAttributes.md#categoryreferencepreviousattributeshandle).
 
 ### BundleArchivedMerchantEventDataPreviousAttributes.component_count
 
@@ -95,7 +116,7 @@ anyOf variant 2.
 
 anyOf variant 1: The bundle's components in position order, on every bundle response including list rows. [] only when the bundle has no components..
 
-- Value shape: Array of [BundleComponent](../models/BundleComponent.md#bundlecomponent). The bundle's components in position order, on every bundle response including list rows. [] only when the bundle has no components. 
+- Value shape: Array of [BundleComponentPreviousAttributes](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributes). The bundle's components in position order, on every bundle response including list rows. [] only when the bundle has no components. 
 
 ### BundleArchivedMerchantEventDataPreviousAttributes.components variant 2
 
@@ -105,7 +126,93 @@ anyOf variant 2.
 
 ### BundleArchivedMerchantEventDataPreviousAttributes.components variant 1.[] fields 1
 
-Field definitions: [OrderResponse.data.line_items[].bundle_components[]](../models/OrderResponse.md#orderresponsedataline_itemsbundle_components).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `bundle_component_id` | Optional | string or null | Stable identifier of this component within its bundle. `bundle_component_id`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributescomponents-variant-1-fields-1bundle_component_id). |
+| `delivery_configuration_reason` | Optional | string or null | Reason the component's delivery configuration needs attention. Values: `"delivery_profile_missing"`, `"delivery_profile_inactive"`. `delivery_configuration_reason`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesdelivery_configuration_reason). |
+| `delivery_configuration_status` | Optional | string or null | Whether the component's delivery configuration is ready, needs attention, or does not apply. Values: `"configured"`, `"action_required"`, `"not_applicable"`. `delivery_configuration_status`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesdelivery_configuration_status). |
+| `delivery_profile_id` | Optional | string or null | Delivery profile used for this component, including any component override. `delivery_profile_id`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributescomponents-variant-1-fields-1delivery_profile_id). |
+| `position` | Optional | integer or null | Display order among the bundle's components, starting at zero. `position`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesposition). |
+| `product_id` | Optional | string or null | Identifier of the product the component's variant belongs to. `product_id`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributescomponents-variant-1-fields-1product_id). |
+| `quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `quantity`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesquantity). |
+| `variant` | Optional | [BundleComponentVariantSummaryPreviousAttributes](../models/BundleComponentVariantSummaryPreviousAttributes.md#bundlecomponentvariantsummarypreviousattributes) or null | Summary of the component's variant and its selected options. `variant`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesvariant). |
+| `variant_id` | Optional | string or null | Identifier of the product variant included in the bundle. `variant_id`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributescomponents-variant-1-fields-1variant_id). |
+
+### BundleArchivedMerchantEventDataPreviousAttributes.components variant 1.[] fields 1.bundle_component_id
+
+### BundleArchivedMerchantEventDataPreviousAttributes.components variant 1.[] fields 1.bundle_component_id variant 1
+
+anyOf variant 1: Stable identifier of this component within its bundle..
+
+- Value shape: string. Stable identifier of this component within its bundle. Stable identifier of this component within its bundle. Example: `"bunc_01KEZF7C00CQASEZGAPEANTGD1"`. 
+
+### BundleArchivedMerchantEventDataPreviousAttributes.components variant 1.[] fields 1.bundle_component_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Stable identifier of this component within its bundle. 
+
+### BundleArchivedMerchantEventDataPreviousAttributes.components variant 1.[] fields 1.delivery_configuration_reason
+
+Declared alternatives: [BundleComponentPreviousAttributes.delivery_configuration_reason](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesdelivery_configuration_reason).
+
+### BundleArchivedMerchantEventDataPreviousAttributes.components variant 1.[] fields 1.delivery_configuration_status
+
+Declared alternatives: [BundleComponentPreviousAttributes.delivery_configuration_status](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesdelivery_configuration_status).
+
+### BundleArchivedMerchantEventDataPreviousAttributes.components variant 1.[] fields 1.delivery_profile_id
+
+### BundleArchivedMerchantEventDataPreviousAttributes.components variant 1.[] fields 1.delivery_profile_id variant 1
+
+anyOf variant 1: Delivery profile used for this component, including any component override..
+
+- Value shape: string. Delivery profile used for this component, including any component override. Delivery profile used for this component, including any component override. Example: `"dprof_01KEZF7C0020J13FQYNY9854R0"`. 
+
+### BundleArchivedMerchantEventDataPreviousAttributes.components variant 1.[] fields 1.delivery_profile_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Delivery profile used for this component, including any component override. 
+
+### BundleArchivedMerchantEventDataPreviousAttributes.components variant 1.[] fields 1.position
+
+Declared alternatives: [BundleComponentPreviousAttributes.position](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesposition).
+
+### BundleArchivedMerchantEventDataPreviousAttributes.components variant 1.[] fields 1.product_id
+
+### BundleArchivedMerchantEventDataPreviousAttributes.components variant 1.[] fields 1.product_id variant 1
+
+anyOf variant 1: Identifier of the product the component's variant belongs to..
+
+- Value shape: string. Identifier of the product the component's variant belongs to. Identifier of the product the component's variant belongs to. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. 
+
+### BundleArchivedMerchantEventDataPreviousAttributes.components variant 1.[] fields 1.product_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Identifier of the product the component's variant belongs to. 
+
+### BundleArchivedMerchantEventDataPreviousAttributes.components variant 1.[] fields 1.quantity
+
+Declared alternatives: [BundleComponentPreviousAttributes.quantity](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesquantity).
+
+### BundleArchivedMerchantEventDataPreviousAttributes.components variant 1.[] fields 1.variant
+
+Declared alternatives: [BundleComponentPreviousAttributes.variant](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesvariant).
+
+### BundleArchivedMerchantEventDataPreviousAttributes.components variant 1.[] fields 1.variant_id
+
+### BundleArchivedMerchantEventDataPreviousAttributes.components variant 1.[] fields 1.variant_id variant 1
+
+anyOf variant 1: Identifier of the product variant included in the bundle..
+
+- Value shape: string. Identifier of the product variant included in the bundle. Identifier of the product variant included in the bundle. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. 
+
+### BundleArchivedMerchantEventDataPreviousAttributes.components variant 1.[] fields 1.variant_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Identifier of the product variant included in the bundle. 
 
 ### BundleArchivedMerchantEventDataPreviousAttributes.created_at
 
@@ -159,7 +266,7 @@ Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previ
 
 anyOf variant 1: Images attached to this resource, in display order. The first image is primary..
 
-- Value shape: Array of [ImageAttachment](../models/ImageAttachment.md#imageattachment). Images attached to this resource, in display order. The first image is primary. 
+- Value shape: Array of [ImageAttachmentPreviousAttributes](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributes). Images attached to this resource, in display order. The first image is primary. 
 
 ### BundleArchivedMerchantEventDataPreviousAttributes.images variant 2
 
@@ -169,7 +276,48 @@ anyOf variant 2.
 
 ### BundleArchivedMerchantEventDataPreviousAttributes.images variant 1.[] fields 1
 
-Field definitions: [BundleResponse.data.images[]](../models/BundleResponse.md#bundleresponsedataimages).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `alt` | Optional | string or null | Alternative text describing the image for accessibility. `alt`: [declared alternatives](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributesalt). |
+| `file_id` | Optional | string or null | Identifier of the file attached as this image. `file_id`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesimages-variant-1-fields-1file_id). |
+| `height` | Optional | integer or null | Image height in pixels, when known. `height`: [declared alternatives](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributesheight). |
+| `source_reference` | Optional | string or null | Caller-owned reference identifying this attachment within its gallery. `source_reference`: [declared alternatives](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributessource_reference). |
+| `url` | Optional | string or null | URL of the image. `url`: [declared alternatives](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributesurl). |
+| `width` | Optional | integer or null | Image width in pixels, when known. `width`: [declared alternatives](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributeswidth). |
+
+### BundleArchivedMerchantEventDataPreviousAttributes.images variant 1.[] fields 1.alt
+
+Declared alternatives: [ImageAttachmentPreviousAttributes.alt](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributesalt).
+
+### BundleArchivedMerchantEventDataPreviousAttributes.images variant 1.[] fields 1.file_id
+
+### BundleArchivedMerchantEventDataPreviousAttributes.images variant 1.[] fields 1.file_id variant 1
+
+anyOf variant 1: Identifier of the file attached as this image..
+
+- Value shape: string. Identifier of the file attached as this image. Identifier of the file attached as this image. Example: `"file_01KEZF7C00BZ179303GY9R0P03"`. 
+
+### BundleArchivedMerchantEventDataPreviousAttributes.images variant 1.[] fields 1.file_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Identifier of the file attached as this image. 
+
+### BundleArchivedMerchantEventDataPreviousAttributes.images variant 1.[] fields 1.height
+
+Declared alternatives: [ImageAttachmentPreviousAttributes.height](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributesheight).
+
+### BundleArchivedMerchantEventDataPreviousAttributes.images variant 1.[] fields 1.source_reference
+
+Declared alternatives: [ImageAttachmentPreviousAttributes.source_reference](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributessource_reference).
+
+### BundleArchivedMerchantEventDataPreviousAttributes.images variant 1.[] fields 1.url
+
+Declared alternatives: [ImageAttachmentPreviousAttributes.url](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributesurl).
+
+### BundleArchivedMerchantEventDataPreviousAttributes.images variant 1.[] fields 1.width
+
+Declared alternatives: [ImageAttachmentPreviousAttributes.width](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributeswidth).
 
 ### BundleArchivedMerchantEventDataPreviousAttributes.is_available_for_sale
 
@@ -203,7 +351,7 @@ anyOf variant 2.
 
 ### BundleArchivedMerchantEventDataPreviousAttributes.metadata variant 1
 
-anyOf MetadataMap: Caller-owned metadata stored on this resource..
+anyOf MetadataMapPreviousAttributes.
 
 - Value shape: Map of string. Caller-owned metadata stored on this resource. Map values: maxLength: `4096`. 
 
@@ -219,7 +367,7 @@ anyOf variant 2.
 
 anyOf variant 1: ID of the modifier set attached to the bundle. `null` when no modifier set is attached..
 
-- Value shape: (string or null). ID of the modifier set attached to the bundle. `null` when no modifier set is attached. 
+- Value shape: string. ID of the modifier set attached to the bundle. `null` when no modifier set is attached. 
 
 ### BundleArchivedMerchantEventDataPreviousAttributes.modifier_set_id variant 2
 

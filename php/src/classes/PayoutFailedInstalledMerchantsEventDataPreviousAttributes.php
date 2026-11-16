@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read MoneyValue|null $amount_money
+ * @property-read MoneyValuePreviousAttributes|null $amount_money
  * @property-read string|null $arrival_date
  * @property-read string|null $balance_source_type
  * @property-read string|null $created_at
@@ -12,33 +12,33 @@ namespace Flint;
  * @property-read string|null $failure_code
  * @property-read string|null $failure_message
  * @property-read string|null $fee_amount_status
- * @property-read mixed $fee_money
+ * @property-read MoneyValuePreviousAttributes|null $fee_money
  * @property-read string|null $initiated_by
  * @property-read string|null $merchant_id
  * @property-read array<array-key, string>|null $metadata
  * @property-read string|null $method
- * @property-read mixed $net_money
- * @property-read mixed $original_payout
+ * @property-read SignedMoneyPreviousAttributes|null $net_money
+ * @property-read ExpandedPayoutSummaryPreviousAttributes|null $original_payout
  * @property-read string|null $original_payout_id
- * @property-read mixed $payout_destination
+ * @property-read ExpandedPayoutDestinationSummaryPreviousAttributes|null $payout_destination
  * @property-read string|null $payout_destination_id
  * @property-read string|null $payout_id
  * @property-read string|null $reversal_status
- * @property-read mixed $reversed_by_payout
+ * @property-read ExpandedPayoutSummaryPreviousAttributes|null $reversed_by_payout
  * @property-read string|null $reversed_by_payout_id
  * @property-read string|null $statement_descriptor
  * @property-read string|null $status
  * @property-read list<string>|null $supported_actions
- * @property-read PayoutTraceID|null $trace_id
+ * @property-read PayoutTraceIDPreviousAttributes|null $trace_id
  * @property-read string|null $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class PayoutFailedInstalledMerchantsEventDataPreviousAttributes extends Model {
     /** @param array{'amount_money'?: mixed, 'arrival_date'?: mixed, 'balance_source_type'?: mixed, 'created_at'?: mixed, 'currency'?: mixed, 'description'?: mixed, 'external_reference_id'?: mixed, 'failure_code'?: mixed, 'failure_message'?: mixed, 'fee_amount_status'?: mixed, 'fee_money'?: mixed, 'initiated_by'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'method'?: mixed, 'net_money'?: mixed, 'original_payout'?: mixed, 'original_payout_id'?: mixed, 'payout_destination'?: mixed, 'payout_destination_id'?: mixed, 'payout_id'?: mixed, 'reversal_status'?: mixed, 'reversed_by_payout'?: mixed, 'reversed_by_payout_id'?: mixed, 'statement_descriptor'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'trace_id'?: mixed, 'updated_at'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutFailedInstalledMerchantsEventDataPreviousAttributes')); }
-    /** Amount sent to your bank. Always positive. anyOf[1] (Value): {@see MoneyValue}. Amount sent to your bank. Always positive. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** Amount sent to your bank. Always positive. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getAmountMoney(): MoneyValue|null { return $this->get('amount_money'); }
+    public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using the UTC date of the expected arrival. anyOf[1] (Value): string. Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using the UTC date of the expected arrival. Format: date. anyOf[2] (Value): null.
      * @return string|null
@@ -85,10 +85,10 @@ final class PayoutFailedInstalledMerchantsEventDataPreviousAttributes extends Mo
      */
     public function getFeeAmountStatus(): string|null { return $this->get('fee_amount_status'); }
     public function hasFeeAmountStatus(): bool { return $this->has('fee_amount_status'); }
-    /** Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your processor records the payout. `null` when your processor hasn't recorded the payout yet. anyOf[1] (Value): {@see MoneyValue} or null. Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your processor records the payout. `null` when your processor hasn't recorded the payout yet. anyOf[1].anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your processor records the payout. `null` when your processor hasn't recorded the payout yet. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getFeeMoney(): mixed { return $this->get('fee_money'); }
+    public function getFeeMoney(): MoneyValuePreviousAttributes|null { return $this->get('fee_money'); }
     public function hasFeeMoney(): bool { return $this->has('fee_money'); }
     /** What started the payout. A payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform", "other". anyOf[1] (Value): string. What started the payout. A payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform", "other". anyOf[2] (Value): null.
      * @return string|null
@@ -100,7 +100,7 @@ final class PayoutFailedInstalledMerchantsEventDataPreviousAttributes extends Mo
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. anyOf[1] (Value): {@see MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. anyOf[2] (Value): null.
+    /** Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
      * @return array<array-key, string>|null
      */
     public function getMetadata(): array|null { return $this->get('metadata'); }
@@ -110,25 +110,25 @@ final class PayoutFailedInstalledMerchantsEventDataPreviousAttributes extends Mo
      */
     public function getMethod(): string|null { return $this->get('method'); }
     public function hasMethod(): bool { return $this->has('method'); }
-    /** Signed effect of this payout on your Flint balance. It is negative because the payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when your processor hasn't recorded the payout yet. anyOf[1] (Value): {@see SignedMoney} or null. Signed effect of this payout on your Flint balance. It is negative because the payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when your processor hasn't recorded the payout yet. anyOf[1].anyOf[1] (Value): {@see SignedMoney}. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Signed effect of this payout on your Flint balance. It is negative because the payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when your processor hasn't recorded the payout yet. anyOf[1] (Value): {@see SignedMoneyPreviousAttributes}. anyOf[2] (Value): null.
+     * @return SignedMoneyPreviousAttributes|null
      */
-    public function getNetMoney(): mixed { return $this->get('net_money'); }
+    public function getNetMoney(): SignedMoneyPreviousAttributes|null { return $this->get('net_money'); }
     public function hasNetMoney(): bool { return $this->has('net_money'); }
-    /** The payout this one reverses, inlined when you request expand=original_payout. null when expanded and original_payout_id is absent. Present only when `expand` includes `original_payout`; `null` when expanded and there is no related payout. anyOf[1] (Value): {@see ExpandedPayoutSummary} or null. The payout this one reverses, inlined when you request expand=original_payout. null when expanded and original_payout_id is absent. Present only when `expand` includes `original_payout`; `null` when expanded and there is no related payout. anyOf[1].anyOf[1] (Value): {@see ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status, and arrival date, returned when the payout is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** The payout this one reverses, inlined when you request expand=original_payout. null when expanded and original_payout_id is absent. Present only when `expand` includes `original_payout`; `null` when expanded and there is no related payout. anyOf[1] (Value): {@see ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ExpandedPayoutSummaryPreviousAttributes|null
      */
-    public function getOriginalPayout(): mixed { return $this->get('original_payout'); }
+    public function getOriginalPayout(): ExpandedPayoutSummaryPreviousAttributes|null { return $this->get('original_payout'); }
     public function hasOriginalPayout(): bool { return $this->has('original_payout'); }
     /** On a payout that reverses another payout, the payout it reverses. Present only when Flint has the matching original payout. A payout has at most one of original_payout_id and reversed_by_payout_id. anyOf[1] (Value): string. On a payout that reverses another payout, the payout it reverses. Present only when Flint has the matching original payout. A payout has at most one of original_payout_id and reversed_by_payout_id. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getOriginalPayoutId(): string|null { return $this->get('original_payout_id'); }
     public function hasOriginalPayoutId(): bool { return $this->has('original_payout_id'); }
-    /** The payout destination, inlined when you request expand=payout_destination. null when expanded and payout_destination_id is absent. Present only when `expand` includes `payout_destination`; `null` when expanded and there is no related payout destination. anyOf[1] (Value): {@see ExpandedPayoutDestinationSummary} or null. The payout destination, inlined when you request expand=payout_destination. null when expanded and payout_destination_id is absent. Present only when `expand` includes `payout_destination`; `null` when expanded and there is no related payout destination. anyOf[1].anyOf[1] (Value): {@see ExpandedPayoutDestinationSummary}. A payout destination's summary fields, such as type, bank name, last four digits, and status, returned when the destination is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** The payout destination, inlined when you request expand=payout_destination. null when expanded and payout_destination_id is absent. Present only when `expand` includes `payout_destination`; `null` when expanded and there is no related payout destination. anyOf[1] (Value): {@see ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ExpandedPayoutDestinationSummaryPreviousAttributes|null
      */
-    public function getPayoutDestination(): mixed { return $this->get('payout_destination'); }
+    public function getPayoutDestination(): ExpandedPayoutDestinationSummaryPreviousAttributes|null { return $this->get('payout_destination'); }
     public function hasPayoutDestination(): bool { return $this->has('payout_destination'); }
     /** Bank account or debit card receiving the payout. Absent when Flint can't match your processor's destination to a payout destination. anyOf[1] (Value): string. Bank account or debit card receiving the payout. Absent when Flint can't match your processor's destination to a payout destination. anyOf[2] (Value): null.
      * @return string|null
@@ -145,10 +145,10 @@ final class PayoutFailedInstalledMerchantsEventDataPreviousAttributes extends Mo
      */
     public function getReversalStatus(): string|null { return $this->get('reversal_status'); }
     public function hasReversalStatus(): bool { return $this->has('reversal_status'); }
-    /** The payout reversing this one, inlined when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and there is no related payout. anyOf[1] (Value): {@see ExpandedPayoutSummary} or null. The payout reversing this one, inlined when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and there is no related payout. anyOf[1].anyOf[1] (Value): {@see ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status, and arrival date, returned when the payout is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** The payout reversing this one, inlined when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and there is no related payout. anyOf[1] (Value): {@see ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ExpandedPayoutSummaryPreviousAttributes|null
      */
-    public function getReversedByPayout(): mixed { return $this->get('reversed_by_payout'); }
+    public function getReversedByPayout(): ExpandedPayoutSummaryPreviousAttributes|null { return $this->get('reversed_by_payout'); }
     public function hasReversedByPayout(): bool { return $this->has('reversed_by_payout'); }
     /** The separate payout reversing this one, when Flint has the matching payout. Its presence does not mean the reversal has completed; read reversal_status. A payout has at most one of original_payout_id and reversed_by_payout_id. anyOf[1] (Value): string. The separate payout reversing this one, when Flint has the matching payout. Its presence does not mean the reversal has completed; read reversal_status. A payout has at most one of original_payout_id and reversed_by_payout_id. anyOf[2] (Value): null.
      * @return string|null
@@ -170,10 +170,10 @@ final class PayoutFailedInstalledMerchantsEventDataPreviousAttributes extends Mo
      */
     public function getSupportedActions(): array|null { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** The bank's trace number for the deposit, which your bank can use to locate a late deposit. Its status says whether the number is pending, available, or unsupported, and value holds the number when Flint has it. Absent when Flint has no trace information. anyOf[1] (Value): {@see PayoutTraceID}. The bank's trace number for the deposit, which your bank can use to locate a late deposit. Its status says whether the number is pending, available, or unsupported, and value holds the number when Flint has it. Absent when Flint has no trace information. anyOf[2] (Value): null.
-     * @return PayoutTraceID|null
+    /** The bank's trace number for the deposit, which your bank can use to locate a late deposit. Its status says whether the number is pending, available, or unsupported, and value holds the number when Flint has it. Absent when Flint has no trace information. anyOf[1] (Value): {@see PayoutTraceIDPreviousAttributes}. anyOf[2] (Value): null.
+     * @return PayoutTraceIDPreviousAttributes|null
      */
-    public function getTraceId(): PayoutTraceID|null { return $this->get('trace_id'); }
+    public function getTraceId(): PayoutTraceIDPreviousAttributes|null { return $this->get('trace_id'); }
     public function hasTraceId(): bool { return $this->has('trace_id'); }
     /** When the payout last changed. anyOf[1] (Value): string. When the payout last changed. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

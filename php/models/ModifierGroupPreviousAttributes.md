@@ -1,0 +1,86 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## ModifierGroupPreviousAttributes
+
+
+
+Response model.
+
+Field definitions: [shared fields](ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributes).
+
+### ModifierGroupPreviousAttributes.allow_quantities
+
+Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.allow_quantities](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesallow_quantities).
+
+### ModifierGroupPreviousAttributes.created_at
+
+Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.created_at](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributescreated_at).
+
+### ModifierGroupPreviousAttributes.external_reference_id
+
+Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.external_reference_id](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id).
+
+### ModifierGroupPreviousAttributes.max_quantity
+
+Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.max_quantity](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesmax_quantity).
+
+### ModifierGroupPreviousAttributes.max_selected
+
+Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.max_selected](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesmax_selected).
+
+### ModifierGroupPreviousAttributes.max_total_quantity
+
+Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.max_total_quantity](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesmax_total_quantity).
+
+### ModifierGroupPreviousAttributes.merchant_id
+
+Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.merchant_id](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesmerchant_id).
+
+### ModifierGroupPreviousAttributes.metadata
+
+Declared alternatives: [OrderLineItemModifierPreviousAttributes.metadata](../models/OrderLineItemModifierPreviousAttributes.md#orderlineitemmodifierpreviousattributesmetadata).
+
+### ModifierGroupPreviousAttributes.min_quantity
+
+Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.min_quantity](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesmin_quantity).
+
+### ModifierGroupPreviousAttributes.min_selected
+
+Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.min_selected](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesmin_selected).
+
+### ModifierGroupPreviousAttributes.modifier_group_id
+
+Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.modifier_group_id](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesmodifier_group_id).
+
+### ModifierGroupPreviousAttributes.modifier_group_type
+
+Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.modifier_group_type](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesmodifier_group_type).
+
+### ModifierGroupPreviousAttributes.modifiers
+
+Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.modifiers](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesmodifiers).
+
+### ModifierGroupPreviousAttributes.name
+
+Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.name](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesname).
+
+### ModifierGroupPreviousAttributes.show_on_fulfillment
+
+Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.show_on_fulfillment](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesshow_on_fulfillment).
+
+### ModifierGroupPreviousAttributes.show_on_receipt
+
+Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.show_on_receipt](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesshow_on_receipt).
+
+### ModifierGroupPreviousAttributes.status
+
+Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.status](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesstatus).
+
+### ModifierGroupPreviousAttributes.updated_at
+
+Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.updated_at](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesupdated_at).
+
+### ModifierGroupPreviousAttributes.version
+
+Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.version](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesversion).
+

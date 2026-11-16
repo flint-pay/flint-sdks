@@ -4,11 +4,11 @@ namespace Flint;
 /**
  * @property-read int|null $circuit_failure_count
  * @property-read string|null $circuit_state
- * @property-read DeliveryRateCallbackConfiguration|null $configuration
+ * @property-read DeliveryRateCallbackConfigurationPreviousAttributes|null $configuration
  * @property-read string|null $created_at
  * @property-read string|null $current_delivery_rate_callback_revision_id
  * @property-read string|null $delivery_rate_callback_id
- * @property-read mixed $delivery_revocation_id
+ * @property-read string|null $delivery_revocation_id
  * @property-read string|null $external_reference_id
  * @property-read string|null $name
  * @property-read list<string>|null $signing_methods
@@ -29,10 +29,10 @@ final class DeliveryRateCallbackArchivedInstalledMerchantsEventDataPreviousAttri
      */
     public function getCircuitState(): string|null { return $this->get('circuit_state'); }
     public function hasCircuitState(): bool { return $this->has('circuit_state'); }
-    /** Current settings of the rate callback. anyOf[1] (Value): {@see DeliveryRateCallbackConfiguration}. Current settings of the rate callback. anyOf[2] (Value): null.
-     * @return DeliveryRateCallbackConfiguration|null
+    /** Current settings of the rate callback. anyOf[1] (Value): {@see DeliveryRateCallbackConfigurationPreviousAttributes}. anyOf[2] (Value): null.
+     * @return DeliveryRateCallbackConfigurationPreviousAttributes|null
      */
-    public function getConfiguration(): DeliveryRateCallbackConfiguration|null { return $this->get('configuration'); }
+    public function getConfiguration(): DeliveryRateCallbackConfigurationPreviousAttributes|null { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -49,10 +49,10 @@ final class DeliveryRateCallbackArchivedInstalledMerchantsEventDataPreviousAttri
      */
     public function getDeliveryRateCallbackId(): string|null { return $this->get('delivery_rate_callback_id'); }
     public function hasDeliveryRateCallbackId(): bool { return $this->has('delivery_rate_callback_id'); }
-    /** The revocation fencing this resource's own current revision. `null` when the current revision isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null` because its rate callback revision, signing key, or a Location's address is revoked. A revocation doesn't change `status`; publish a new revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this resource's own current revision. `null` when the current revision isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null` because its rate callback revision, signing key, or a Location's address is revoked. A revocation doesn't change `status`; publish a new revision to clear it. anyOf[2] (Value): null.
-     * @return mixed
+    /** The revocation fencing this resource's own current revision. `null` when the current revision isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null` because its rate callback revision, signing key, or a Location's address is revoked. A revocation doesn't change `status`; publish a new revision to clear it. anyOf[1] (Value): string. The revocation fencing this resource's own current revision. `null` when the current revision isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null` because its rate callback revision, signing key, or a Location's address is revoked. A revocation doesn't change `status`; publish a new revision to clear it. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getDeliveryRevocationId(): mixed { return $this->get('delivery_revocation_id'); }
+    public function getDeliveryRevocationId(): string|null { return $this->get('delivery_revocation_id'); }
     public function hasDeliveryRevocationId(): bool { return $this->has('delivery_revocation_id'); }
     /** Caller-owned identifier for this resource in an external system. anyOf[1] (Value): string. Caller-owned identifier for this resource in an external system. maxLength: 255. anyOf[2] (Value): null.
      * @return string|null

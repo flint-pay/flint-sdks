@@ -2,23 +2,23 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read MoneyValue|null $amount_money
+ * @property-read MoneyValuePreviousAttributes|null $amount_money
  * @property-read string|null $canceled_reason
  * @property-read string|null $collecting_merchant_id
  * @property-read string|null $created_at
  * @property-read string|null $description
  * @property-read string|null $external_reference_id
  * @property-read string|null $failure_reason
- * @property-read mixed $funds_available_at
+ * @property-read string|null $funds_available_at
  * @property-read string|null $partner_app_id
  * @property-read string|null $partner_app_install_id
  * @property-read string|null $payment_intent_id
  * @property-read string|null $payment_split_id
  * @property-read string|null $pending_reason
- * @property-read list<PaymentSplitReversal>|null $reversals
- * @property-read MoneyValue|null $reversed_money
+ * @property-read list<PaymentSplitReversalPreviousAttributes>|null $reversals
+ * @property-read MoneyValuePreviousAttributes|null $reversed_money
  * @property-read string|null $seller_merchant_id
- * @property-read MoneyValue|null $shortfall_money
+ * @property-read MoneyValuePreviousAttributes|null $shortfall_money
  * @property-read string|null $status
  * @property-read string|null $succeeded_at
  * @property-read string|null $updated_at
@@ -27,10 +27,10 @@ namespace Flint;
 final class PaymentSplitCanceledEventDataPreviousAttributes extends Model {
     /** @param array{'amount_money'?: mixed, 'canceled_reason'?: mixed, 'collecting_merchant_id'?: mixed, 'created_at'?: mixed, 'description'?: mixed, 'external_reference_id'?: mixed, 'failure_reason'?: mixed, 'funds_available_at'?: mixed, 'partner_app_id'?: mixed, 'partner_app_install_id'?: mixed, 'payment_intent_id'?: mixed, 'payment_split_id'?: mixed, 'pending_reason'?: mixed, 'reversals'?: mixed, 'reversed_money'?: mixed, 'seller_merchant_id'?: mixed, 'shortfall_money'?: mixed, 'status'?: mixed, 'succeeded_at'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentSplitCanceledEventDataPreviousAttributes')); }
-    /** The admitted amount, or its final amount set at capture. anyOf[1] (Value): {@see MoneyValue}. The admitted amount, or its final amount set at capture. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** The admitted amount, or its final amount set at capture. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getAmountMoney(): MoneyValue|null { return $this->get('amount_money'); }
+    public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** Present when status is canceled. Can gain values. Value enum: "payment_not_completed", "install_revoked", "fully_reversed". anyOf[1] (Value): string. Present when status is canceled. Can gain values. Value enum: "payment_not_completed", "install_revoked", "fully_reversed". anyOf[2] (Value): null.
      * @return string|null
@@ -62,10 +62,10 @@ final class PaymentSplitCanceledEventDataPreviousAttributes extends Model {
      */
     public function getFailureReason(): string|null { return $this->get('failure_reason'); }
     public function hasFailureReason(): bool { return $this->has('failure_reason'); }
-    /** When the funds become available on Flint's balance. Null when Stripe has not reported it or the payment never succeeded. Can move later after a won dispute; frozen at release. anyOf[1] (Value): string or null. When the funds become available on Flint's balance. Null when Stripe has not reported it or the payment never succeeded. Can move later after a won dispute; frozen at release. Format: date-time. anyOf[2] (Value): null.
-     * @return mixed
+    /** When the funds become available on Flint's balance. Null when Stripe has not reported it or the payment never succeeded. Can move later after a won dispute; frozen at release. anyOf[1] (Value): string. When the funds become available on Flint's balance. Null when Stripe has not reported it or the payment never succeeded. Can move later after a won dispute; frozen at release. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getFundsAvailableAt(): mixed { return $this->get('funds_available_at'); }
+    public function getFundsAvailableAt(): string|null { return $this->get('funds_available_at'); }
     public function hasFundsAvailableAt(): bool { return $this->has('funds_available_at'); }
     /** The collecting merchant's partner app. anyOf[1] (Value): string. The collecting merchant's partner app. anyOf[2] (Value): null.
      * @return string|null
@@ -92,25 +92,25 @@ final class PaymentSplitCanceledEventDataPreviousAttributes extends Model {
      */
     public function getPendingReason(): string|null { return $this->get('pending_reason'); }
     public function hasPendingReason(): bool { return $this->has('pending_reason'); }
-    /** Read-only nested children created by Flint, embedded whole. Empty when none. At most one per refund and one per dispute. anyOf[1] (Value): Array of {@see PaymentSplitReversal}. Read-only nested children created by Flint, embedded whole. Empty when none. At most one per refund and one per dispute. anyOf[1][] (Value): {@see PaymentSplitReversal}. A read-only nested child of a payment split, created by Flint for a refund or dispute. Embedded whole in PaymentSplit.reversals; no routes of its own. anyOf[2] (Value): null.
-     * @return list<PaymentSplitReversal>|null
+    /** Read-only nested children created by Flint, embedded whole. Empty when none. At most one per refund and one per dispute. anyOf[1] (Value): Array of {@see PaymentSplitReversalPreviousAttributes}. Read-only nested children created by Flint, embedded whole. Empty when none. At most one per refund and one per dispute. anyOf[1][] (Value): {@see PaymentSplitReversalPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<PaymentSplitReversalPreviousAttributes>|null
      */
     public function getReversals(): array|null { return $this->get('reversals'); }
     public function hasReversals(): bool { return $this->has('reversals'); }
-    /** Reversals' total amount minus their reinstated amounts. anyOf[1] (Value): {@see MoneyValue}. Reversals' total amount minus their reinstated amounts. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** Reversals' total amount minus their reinstated amounts. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getReversedMoney(): MoneyValue|null { return $this->get('reversed_money'); }
+    public function getReversedMoney(): MoneyValuePreviousAttributes|null { return $this->get('reversed_money'); }
     public function hasReversedMoney(): bool { return $this->has('reversed_money'); }
     /** The merchant receiving the split. anyOf[1] (Value): string. The merchant receiving the split. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getSellerMerchantId(): string|null { return $this->get('seller_merchant_id'); }
     public function hasSellerMerchantId(): bool { return $this->has('seller_merchant_id'); }
-    /** Reversed funds the collecting merchant covered for the seller, less reinstatements. The seller's net is amount_money minus reversed_money plus shortfall_money. anyOf[1] (Value): {@see MoneyValue}. Reversed funds the collecting merchant covered for the seller, less reinstatements. The seller's net is amount_money minus reversed_money plus shortfall_money. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** Reversed funds the collecting merchant covered for the seller, less reinstatements. The seller's net is amount_money minus reversed_money plus shortfall_money. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getShortfallMoney(): MoneyValue|null { return $this->get('shortfall_money'); }
+    public function getShortfallMoney(): MoneyValuePreviousAttributes|null { return $this->get('shortfall_money'); }
     public function hasShortfallMoney(): bool { return $this->has('shortfall_money'); }
     /** The split lifecycle status. Value enum: "pending", "processing", "succeeded", "failed", "canceled". anyOf[1] (Value): string. The split lifecycle status. Value enum: "pending", "processing", "succeeded", "failed", "canceled". anyOf[2] (Value): null.
      * @return string|null

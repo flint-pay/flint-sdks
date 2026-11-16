@@ -18,7 +18,7 @@ Resource, collection, or operation result returned by this request. A request to
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_actions` | Required | Array of [BuyerAction](../models/BuyerAction.md#buyeraction) | What the buyer can do with the return, in this order: withdraw, ship_items, then pay_balance. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all three every time. Merchant responses and webhooks omit this field. ship_items is required while handoff_requirements is not empty, due by the earliest expires_at there. pay_balance is required while a resolution waits for the buyer's payment. Example: `[]`. `buyer_actions[]`: [field definitions](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actions). |
+| `buyer_actions` | Required | Array of [BuyerAction](../models/BuyerAction.md#buyeraction) | What the buyer can do with the return, in this order: withdraw, ship_items, then pay_balance. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all three every time. Merchant responses and webhooks omit this field. ship_items is required while handoff_requirements is not empty, due by the earliest expires_at there. pay_balance is required while a resolution waits for the buyer's payment. Example: `[]`. `buyer_actions[]`: [field definitions](../models/OrderResponse.md#orderresponsedatabuyer_actions). |
 | `canceled_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `cancellation_reason` | Optional | string | Why the Return was canceled. Values: `"buyer_request"`, `"merchant_request"`, `"duplicate"`, `"expired"`, `"created_in_error"`, `"other"`. |
 | `completed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -57,43 +57,7 @@ Resource, collection, or operation result returned by this request. A request to
 
 ### BuyerReturnResponse.data.buyer_actions[]
 
-One thing a buyer can do with an order, subscription, invoice or return they read through /v1/me. Show the actions with is_required as what needs the buyer's attention, and the first available action as the primary action on the resource's page in your account.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `cancel` | Optional | [BuyerCancelActionOptions](../models/BuyerCancelActionOptions.md#buyercancelactionoptions) | Present only on an available cancel action. The cancellation choices this subscription accepts from its buyer. |
-| `due_at` | Optional | string | When the buyer needs to act by. Omitted when the action has no deadline, or when the resource's state or the store's policy doesn't allow it. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `is_available` | Required | boolean | Whether this session can take the action now. |
-| `is_required` | Required | boolean | Whether the store needs the buyer to take the action, such as paying a due invoice. It stays true when the only thing in the way is signing in. |
-| `kind` | Required | string | What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added; ignore kinds you don't recognize. Values: [20 declared values](BuyerActionInput.md#buyeractioninput-kind-values). |
-| `pause` | Optional | [BuyerPauseActionOptions](../models/BuyerPauseActionOptions.md#buyerpauseactionoptions) | Present only on an available pause action. The pause lengths this subscription accepts from its buyer. |
-| `pay_balance` | Optional | [BuyerPayBalanceActionOptions](../models/BuyerPayBalanceActionOptions.md#buyerpaybalanceactionoptions) | Present only on an available pay_balance action. The return resolutions the buyer can pay now. `pay_balance`: [field definitions](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actionspay_balance). |
-| `retry_payment` | Optional | [BuyerRetryPaymentActionOptions](../models/BuyerRetryPaymentActionOptions.md#buyerretrypaymentactionoptions) | How many payment retries the buyer has left this billing period, and the retry that is running. Present while the subscription is past due, including when the action is unavailable. How many payment retries the buyer has left this billing period, and the retry that is running. `retry_payment`: [field definitions](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actionsretry_payment). |
-| `unavailable_reason` | Optional | string | Why the action can't be taken now. Present exactly when is_available is false. New reasons may be added; show a general message for a reason you don't recognize. Values: [9 declared values](#buyerreturnresponsedatabuyer_actions-unavailable_reason-values). |
-
-#### BuyerReturnResponse.data.buyer_actions[] unavailable_reason values
-
-- `"sign_in_required"`
-- `"store_policy"`
-- `"not_in_state"`
-- `"window_closed"`
-- `"nothing_to_return"`
-- `"collection_unavailable"`
-- `"limit_reached"`
-- `"delivery_hold"`
-- `"in_progress"`
-
-### BuyerReturnResponse.data.buyer_actions[].pay_balance
-
-Present only on an available pay_balance action. The return resolutions the buyer can pay now.
-
-Field definitions: [shared fields](BuyerPayBalanceActionOptionsInput.md#buyerpaybalanceactionoptionsinput).
-
-### BuyerReturnResponse.data.buyer_actions[].retry_payment
-
-How many payment retries the buyer has left this billing period, and the retry that is running. Present while the subscription is past due, including when the action is unavailable. How many payment retries the buyer has left this billing period, and the retry that is running.
-
-Field definitions: [shared fields](BuyerRetryPaymentActionOptionsInput.md#buyerretrypaymentactionoptionsinput).
+Field definitions: [OrderResponse.data.buyer_actions[]](../models/OrderResponse.md#orderresponsedatabuyer_actions).
 
 ### BuyerReturnResponse.data.completion_blockers[]
 

@@ -50,7 +50,7 @@ Field definitions: [shared fields](CustomDomainArchivedEventDataPreviousAttribut
 
 anyOf variant 1: Payment attempts in progress on this checkout hostname. `null` when `type` is `customer_account`..
 
-- Value shape: (integer or null). Payment attempts in progress on this checkout hostname. `null` when `type` is `customer_account`. Payment attempts in progress on this checkout hostname. `null` when `type` is `customer_account`. Format: `int64`. 
+- Value shape: integer. Payment attempts in progress on this checkout hostname. `null` when `type` is `customer_account`. Payment attempts in progress on this checkout hostname. `null` when `type` is `customer_account`. Format: `int64`. 
 
 ### CustomDomainArchivedEvent.data fields 1.previous_attributes.active_payment_attempt_count variant 2
 
@@ -92,7 +92,7 @@ anyOf variant 2.
 
 anyOf variant 1: DNS records to add for setup or verification. For an archived hostname, records that can be deleted..
 
-- Value shape: Array of [CustomDomainDNSRecord](../models/CustomDomainDNSRecord.md#customdomaindnsrecord). DNS records to add for setup or verification. For an archived hostname, records that can be deleted. 
+- Value shape: Array of [CustomDomainDNSRecordPreviousAttributes](../models/CustomDomainDNSRecordPreviousAttributes.md#customdomaindnsrecordpreviousattributes). DNS records to add for setup or verification. For an archived hostname, records that can be deleted. 
 
 ### CustomDomainArchivedEvent.data fields 1.previous_attributes.dns_records variant 2
 
@@ -120,7 +120,7 @@ anyOf variant 2.
 
 anyOf variant 1: When the domain was last checked, in RFC3339 format; `null` when no check time is available..
 
-- Value shape: (string or null). When the domain was last checked, in RFC3339 format; `null` when no check time is available. When the domain was last checked, in RFC3339 format; `null` when no check time is available. Format: `date-time`. 
+- Value shape: string. When the domain was last checked, in RFC3339 format; `null` when no check time is available. When the domain was last checked, in RFC3339 format; `null` when no check time is available. Format: `date-time`. 
 
 ### CustomDomainArchivedEvent.data fields 1.previous_attributes.last_checked_at variant 2
 
@@ -134,7 +134,7 @@ anyOf variant 2.
 
 anyOf variant 1: Payment method domain associated with this hostname. `null` when none is reported..
 
-- Value shape: (string or null). Payment method domain associated with this hostname. `null` when none is reported. 
+- Value shape: string. Payment method domain associated with this hostname. `null` when none is reported. 
 
 ### CustomDomainArchivedEvent.data fields 1.previous_attributes.payment_method_domain_id variant 2
 
@@ -148,7 +148,7 @@ anyOf variant 2.
 
 anyOf variant 1: End of the redirect window for an archived hostname. After archive, dns_records lists records you can delete. `null` when the hostname isn't archived..
 
-- Value shape: (string or null). End of the redirect window for an archived hostname. After archive, dns_records lists records you can delete. `null` when the hostname isn't archived. End of the redirect window for an archived hostname. After archive, dns_records lists records you can delete. `null` when the hostname isn't archived. Format: `date-time`. 
+- Value shape: string. End of the redirect window for an archived hostname. After archive, dns_records lists records you can delete. `null` when the hostname isn't archived. End of the redirect window for an archived hostname. After archive, dns_records lists records you can delete. `null` when the hostname isn't archived. Format: `date-time`. 
 
 ### CustomDomainArchivedEvent.data fields 1.previous_attributes.redirect_expires_at variant 2
 
@@ -176,7 +176,7 @@ anyOf variant 2.
 
 anyOf variant 1: Machine-readable detail for the current status. `null` when no reason is reported, including for active and archived domains..
 
-- Value shape: (string or null). Machine-readable detail for the current status. `null` when no reason is reported, including for active and archived domains. Values: `"dns_record_missing"`, `"dns_record_mismatch"`, `"ownership_record_missing"`, `"ownership_record_mismatch"`, `"caa_record_blocks_certificate"`, `"proxied_by_another_provider"`, `"certificate_pending"`, `"custom_domains_inactive"`, `"other"`, `null`.
+- Value shape: string. Machine-readable detail for the current status. `null` when no reason is reported, including for active and archived domains. Values: `"dns_record_missing"`, `"dns_record_mismatch"`, `"ownership_record_missing"`, `"ownership_record_mismatch"`, `"caa_record_blocks_certificate"`, `"proxied_by_another_provider"`, `"certificate_pending"`, `"custom_domains_inactive"`, `"other"`, `null`.
 
 ### CustomDomainArchivedEvent.data fields 1.previous_attributes.status_reason variant 2
 

@@ -1,0 +1,117 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read int|null $allocated_quantity
+ * @property-read int|null $at_risk_committed_quantity
+ * @property-read int|null $at_risk_held_quantity
+ * @property-read int|null $backordered_quantity
+ * @property-read string|null $bundle_component_id
+ * @property-read int|null $committed_quantity
+ * @property-read int|null $consumed_quantity
+ * @property-read string|null $demand_key
+ * @property-read int|null $held_quantity
+ * @property-read string|null $inventory_item_id
+ * @property-read string|null $inventory_reservation_line_id
+ * @property-read string|null $location_id
+ * @property-read string|null $order_id
+ * @property-read string|null $order_line_item_id
+ * @property-read int|null $reallocated_quantity
+ * @property-read int|null $released_from_backordered_quantity
+ * @property-read int|null $released_from_committed_quantity
+ * @property-read int|null $released_from_held_quantity
+ * Presence-aware response; omitted optional fields return null. */
+final class InventoryReservationLinePreviousAttributes extends Model {
+    /** @param array{'allocated_quantity'?: mixed, 'at_risk_committed_quantity'?: mixed, 'at_risk_held_quantity'?: mixed, 'backordered_quantity'?: mixed, 'bundle_component_id'?: mixed, 'committed_quantity'?: mixed, 'consumed_quantity'?: mixed, 'demand_key'?: mixed, 'held_quantity'?: mixed, 'inventory_item_id'?: mixed, 'inventory_reservation_line_id'?: mixed, 'location_id'?: mixed, 'order_id'?: mixed, 'order_line_item_id'?: mixed, 'reallocated_quantity'?: mixed, 'released_from_backordered_quantity'?: mixed, 'released_from_committed_quantity'?: mixed, 'released_from_held_quantity'?: mixed, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservationLinePreviousAttributes')); }
+    /** Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getAllocatedQuantity(): int|null { return $this->get('allocated_quantity'); }
+    public function hasAllocatedQuantity(): bool { return $this->has('allocated_quantity'); }
+    /** Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getAtRiskCommittedQuantity(): int|null { return $this->get('at_risk_committed_quantity'); }
+    public function hasAtRiskCommittedQuantity(): bool { return $this->has('at_risk_committed_quantity'); }
+    /** Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getAtRiskHeldQuantity(): int|null { return $this->get('at_risk_held_quantity'); }
+    public function hasAtRiskHeldQuantity(): bool { return $this->has('at_risk_held_quantity'); }
+    /** Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 0. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getBackorderedQuantity(): int|null { return $this->get('backordered_quantity'); }
+    public function hasBackorderedQuantity(): bool { return $this->has('backordered_quantity'); }
+    /** ID of the bundle component this line covers. Absent when the line isn't for a bundle component. anyOf[1] (Value): string. ID of the bundle component this line covers. Absent when the line isn't for a bundle component. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getBundleComponentId(): string|null { return $this->get('bundle_component_id'); }
+    public function hasBundleComponentId(): bool { return $this->has('bundle_component_id'); }
+    /** Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getCommittedQuantity(): int|null { return $this->get('committed_quantity'); }
+    public function hasCommittedQuantity(): bool { return $this->has('committed_quantity'); }
+    /** Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getConsumedQuantity(): int|null { return $this->get('consumed_quantity'); }
+    public function hasConsumedQuantity(): bool { return $this->has('consumed_quantity'); }
+    /** Key of the demand this line serves. Matches the `demand_key` you sent, or the inventory item ID when you sent none. anyOf[1] (Value): string. Key of the demand this line serves. Matches the `demand_key` you sent, or the inventory item ID when you sent none. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getDemandKey(): string|null { return $this->get('demand_key'); }
+    public function hasDemandKey(): bool { return $this->has('demand_key'); }
+    /** Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getHeldQuantity(): int|null { return $this->get('held_quantity'); }
+    public function hasHeldQuantity(): bool { return $this->has('held_quantity'); }
+    /** ID of the inventory item to reserve. anyOf[1] (Value): string. ID of the inventory item to reserve. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getInventoryItemId(): string|null { return $this->get('inventory_item_id'); }
+    public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
+    /** Unique identifier for this inventory reservation line, prefixed `invrln_`. anyOf[1] (Value): string. Unique identifier for this inventory reservation line, prefixed `invrln_`. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getInventoryReservationLineId(): string|null { return $this->get('inventory_reservation_line_id'); }
+    public function hasInventoryReservationLineId(): bool { return $this->has('inventory_reservation_line_id'); }
+    /** ID of the Location the stock is allocated from. anyOf[1] (Value): string. ID of the Location the stock is allocated from. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getLocationId(): string|null { return $this->get('location_id'); }
+    public function hasLocationId(): bool { return $this->has('location_id'); }
+    /** Order that owns this record or its referenced line item and charge. anyOf[1] (Value): string. Order that owns this record or its referenced line item and charge. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getOrderId(): string|null { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
+    /** ID of the order line item this line covers. Absent unless an order holds the reservation. anyOf[1] (Value): string. ID of the order line item this line covers. Absent unless an order holds the reservation. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getOrderLineItemId(): string|null { return $this->get('order_line_item_id'); }
+    public function hasOrderLineItemId(): bool { return $this->has('order_line_item_id'); }
+    /** Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getReallocatedQuantity(): int|null { return $this->get('reallocated_quantity'); }
+    public function hasReallocatedQuantity(): bool { return $this->has('reallocated_quantity'); }
+    /** Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 0. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getReleasedFromBackorderedQuantity(): int|null { return $this->get('released_from_backordered_quantity'); }
+    public function hasReleasedFromBackorderedQuantity(): bool { return $this->has('released_from_backordered_quantity'); }
+    /** Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getReleasedFromCommittedQuantity(): int|null { return $this->get('released_from_committed_quantity'); }
+    public function hasReleasedFromCommittedQuantity(): bool { return $this->has('released_from_committed_quantity'); }
+    /** Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getReleasedFromHeldQuantity(): int|null { return $this->get('released_from_held_quantity'); }
+    public function hasReleasedFromHeldQuantity(): bool { return $this->has('released_from_held_quantity'); }
+}

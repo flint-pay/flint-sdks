@@ -42,25 +42,25 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `application_method` | Optional | [PromotionApplicationMethodInput](../models/PromotionApplicationMethodInput.md#promotionapplicationmethodinput) or null | Discount effect and how it applies to eligible items or charges. |
+| `application_method` | Optional | [PromotionApplicationMethodPreviousAttributesInput](../models/PromotionApplicationMethodPreviousAttributesInput.md#promotionapplicationmethodpreviousattributesinput) or null | Discount effect and how it applies to eligible items or charges. |
 | `available` | Optional | boolean or null | Whether the promotion can apply right now: it is active, inside its schedule, under its max_uses, and, when code-gated, has at least one redeemable code. `available`: [declared alternatives](../models/PromotionArchivedInstalledMerchantsEventInput.md#promotionarchivedinstalledmerchantseventinputdataprevious_attributesavailable). |
-| `codes_summary` | Optional | [PromotionCodesSummaryInput](../models/PromotionCodesSummaryInput.md#promotioncodessummaryinput) or null | Read-only rollup of this promotion's codes. Present only on code-gated promotions; automatic promotions omit it. |
-| `combines_with` | Optional | [PromotionCombinesWithInput](../models/PromotionCombinesWithInput.md#promotioncombineswithinput) or null | Which promotion discount classes this promotion may share an order with. Both promotions must allow each other's class. Manual discounts are ignored. See Promotion for the evaluation order. |
+| `codes_summary` | Optional | [PromotionCodesSummaryPreviousAttributesInput](../models/PromotionCodesSummaryPreviousAttributesInput.md#promotioncodessummarypreviousattributesinput) or null | Read-only rollup of this promotion's codes. Present only on code-gated promotions; automatic promotions omit it. |
+| `combines_with` | Optional | [PromotionCombinesWithPreviousAttributesInput](../models/PromotionCombinesWithPreviousAttributesInput.md#promotioncombineswithpreviousattributesinput) or null | Which promotion discount classes this promotion may share an order with. Both promotions must allow each other's class. Manual discounts are ignored. See Promotion for the evaluation order. |
 | `created_at` | Optional | string or null | When the promotion was created, as an RFC3339 timestamp. `created_at`: [declared alternatives](../models/PromotionArchivedInstalledMerchantsEventInput.md#promotionarchivedinstalledmerchantseventinputdataprevious_attributescreated_at). |
 | `description` | Optional | string or null | Optional description of the promotion for your own records. `description`: [declared alternatives](../models/PromotionArchivedInstalledMerchantsEventInput.md#promotionarchivedinstalledmerchantseventinputdataprevious_attributesdescription). |
 | `discount_class` | Optional | string or null | Whether the promotion discounts the order, individual line items, or service charges. Values: `"order"`, `"line_item"`, `"service_charge"`. `discount_class`: [declared alternatives](../models/PromotionArchivedInstalledMerchantsEventInput.md#promotionarchivedinstalledmerchantseventinputdataprevious_attributesdiscount_class). |
 | `display_name` | Optional | string or null | Buyer-facing promotion name shown in checkout and order discount surfaces. `display_name`: [declared alternatives](../models/PromotionArchivedInstalledMerchantsEventInput.md#promotionarchivedinstalledmerchantseventinputdataprevious_attributesdisplay_name). |
-| `eligibility_rules` | Optional | [PromotionRuleGroupInput](../models/PromotionRuleGroupInput.md#promotionrulegroupinput) or null | Conditions an order must satisfy for the promotion to apply. Omitted when the promotion has no eligibility conditions. `eligibility_rules`: [declared alternatives](../models/PromotionArchivedInstalledMerchantsEventInput.md#promotionarchivedinstalledmerchantseventinputdataprevious_attributeseligibility_rules). |
-| `exclusivity` | Optional | [PromotionExclusivityInput](../models/PromotionExclusivityInput.md#promotionexclusivityinput) or null | Optional group and priority used to choose one promotion from competing promotions in the same group. See Promotion for the evaluation order. |
+| `eligibility_rules` | Optional | [PromotionRuleGroupPreviousAttributesInput](../models/PromotionRuleGroupPreviousAttributesInput.md#promotionrulegrouppreviousattributesinput) or null | Conditions an order must satisfy for the promotion to apply. Omitted when the promotion has no eligibility conditions. |
+| `exclusivity` | Optional | [PromotionExclusivityPreviousAttributesInput](../models/PromotionExclusivityPreviousAttributesInput.md#promotionexclusivitypreviousattributesinput) or null | Optional group and priority used to choose one promotion from competing promotions in the same group. See Promotion for the evaluation order. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEventInput.md#bundlearchivedinstalledmerchantseventinputdataprevious_attributesexternal_reference_id). |
 | `max_uses` | Optional | integer or null | Maximum number of redemptions across all codes and automatic applications. Omitted when there is no redemption limit. `max_uses`: [declared alternatives](../models/PromotionArchivedInstalledMerchantsEventInput.md#promotionarchivedinstalledmerchantseventinputdataprevious_attributesmax_uses). |
-| `max_uses_per_customer` | Optional | integer or null or null | Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit. `max_uses_per_customer`: [declared alternatives](../models/PromotionArchivedInstalledMerchantsEventInput.md#promotionarchivedinstalledmerchantseventinputdataprevious_attributesmax_uses_per_customer). |
+| `max_uses_per_customer` | Optional | integer or null | Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit. `max_uses_per_customer`: [declared alternatives](../models/PromotionArchivedInstalledMerchantsEventInput.md#promotionarchivedinstalledmerchantseventinputdataprevious_attributesmax_uses_per_customer). |
 | `merchant_id` | Optional | string or null | Identifier of the merchant that owns the promotion. `merchant_id`: [declared alternatives](../models/PromotionArchivedInstalledMerchantsEventInput.md#promotionarchivedinstalledmerchantseventinputdataprevious_attributesmerchant_id). |
-| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) or null | Key-value data you attach to the promotion. |
+| `metadata` | Optional | [MetadataMapPreviousAttributesInput](../models/MetadataMapPreviousAttributesInput.md#metadatamappreviousattributesinput) or null | Key-value data you attach to the promotion. |
 | `name` | Optional | string or null | Internal promotion name for dashboards, searching, and reporting. `name`: [declared alternatives](../models/PromotionArchivedInstalledMerchantsEventInput.md#promotionarchivedinstalledmerchantseventinputdataprevious_attributesname). |
 | `promotion_id` | Optional | string or null | Unique identifier for the promotion. `promotion_id`: [declared alternatives](../models/PromotionArchivedInstalledMerchantsEventInput.md#promotionarchivedinstalledmerchantseventinputdataprevious_attributespromotion_id). |
 | `redemption_type` | Optional | string or null | Whether the promotion applies automatically when its rules match or requires a promotion code. Values: `"automatic"`, `"code"`. `redemption_type`: [declared alternatives](../models/PromotionArchivedInstalledMerchantsEventInput.md#promotionarchivedinstalledmerchantseventinputdataprevious_attributesredemption_type). |
-| `schedule` | Optional | [PromotionScheduleInput](../models/PromotionScheduleInput.md#promotionscheduleinput) or null | Optional start and end times that limit when the promotion can apply. |
+| `schedule` | Optional | [PromotionSchedulePreviousAttributesInput](../models/PromotionSchedulePreviousAttributesInput.md#promotionschedulepreviousattributesinput) or null | Optional start and end times that limit when the promotion can apply. |
 | `status` | Optional | string or null | Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active promotion can still be unavailable: read available. Values: `"active"`, `"inactive"`, `"archived"`. `status`: [declared alternatives](../models/PromotionArchivedInstalledMerchantsEventInput.md#promotionarchivedinstalledmerchantseventinputdataprevious_attributesstatus). |
 | `unavailable_reason` | Optional | string or null | Why available is false. Present only when available is false. Values: `"inactive"`, `"archived"`, `"not_yet_started"`, `"expired"`, `"exhausted"`, `"no_active_codes"`. `unavailable_reason`: [declared alternatives](../models/PromotionArchivedInstalledMerchantsEventInput.md#promotionarchivedinstalledmerchantseventinputdataprevious_attributesunavailable_reason). |
 | `updated_at` | Optional | string or null | When the promotion was last updated, as an RFC3339 timestamp. `updated_at`: [declared alternatives](../models/PromotionArchivedInstalledMerchantsEventInput.md#promotionarchivedinstalledmerchantseventinputdataprevious_attributesupdated_at). |
@@ -137,36 +137,6 @@ anyOf variant 2.
 
 - Value shape: null. Buyer-facing promotion name shown in checkout and order discount surfaces. 
 
-### PromotionArchivedInstalledMerchantsEventInput.data.previous_attributes.eligibility_rules
-
-Conditions an order must satisfy for the promotion to apply. Omitted when the promotion has no eligibility conditions.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `all` | Conditional | Array of ([PromotionRuleInput](../models/PromotionRuleInput.md#promotionruleinput) or [PromotionRuleGroupInput](../models/PromotionRuleGroupInput.md#promotionrulegroupinput)) | Rules and nested groups that must all match. minItems: `1`. |
-| `any` | Conditional | Array of ([PromotionRuleInput](../models/PromotionRuleInput.md#promotionruleinput) or [PromotionRuleGroupInput](../models/PromotionRuleGroupInput.md#promotionrulegroupinput)) | Rules and nested groups of which at least one must match. minItems: `1`. |
-
-### PromotionArchivedInstalledMerchantsEventInput.data.previous_attributes.eligibility_rules variant 1
-
-anyOf PromotionRuleGroup: Conditions an order must satisfy for the promotion to apply. Omitted when the promotion has no eligibility conditions.; oneOf All.
-
-- Required: `all`.
-- Undeclared: `any`.
-
-### PromotionArchivedInstalledMerchantsEventInput.data.previous_attributes.eligibility_rules variant 2
-
-anyOf PromotionRuleGroup: Conditions an order must satisfy for the promotion to apply. Omitted when the promotion has no eligibility conditions.; oneOf Any.
-
-- Required: `any`.
-- Undeclared: `all`.
-
-### PromotionArchivedInstalledMerchantsEventInput.data.previous_attributes.eligibility_rules variant 3
-
-anyOf variant 2.
-
-- Undeclared: `all`, `any`.
-- Value shape: null. Conditions an order must satisfy for the promotion to apply. Omitted when the promotion has no eligibility conditions. 
-
 ### PromotionArchivedInstalledMerchantsEventInput.data.previous_attributes.external_reference_id
 
 Declared alternatives: [BundleArchivedInstalledMerchantsEventInput.data.previous_attributes.external_reference_id](../models/BundleArchivedInstalledMerchantsEventInput.md#bundlearchivedinstalledmerchantseventinputdataprevious_attributesexternal_reference_id).
@@ -191,7 +161,7 @@ anyOf variant 2.
 
 anyOf variant 1: Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit..
 
-- Value shape: (integer or null). Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit. Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit. Format: `int64`. minimum: `1`. 
+- Value shape: integer. Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit. Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit. Format: `int64`. minimum: `1`. 
 
 ### PromotionArchivedInstalledMerchantsEventInput.data.previous_attributes.max_uses_per_customer variant 2
 

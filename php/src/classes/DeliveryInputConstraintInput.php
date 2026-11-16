@@ -57,7 +57,7 @@ final class DeliveryInputConstraintInput extends Model {
      */
     public function getOfferedWindows(): array { return $this->get('offered_windows'); }
     public function hasOfferedWindows(): bool { return $this->has('offered_windows'); }
-    /** Sorted ISO 3166-1 alpha-2 countries the delivery methods can serve, derived from eligibility and rate-table conditions. Alternative methods are unioned within each choice group; intersect across groups and, for automatic tax, order.tax.supported_countries. A listed country may still require state, postal code, or other eligibility input. Excludes CU, IR, KP, and SY; sanctioned regions within UA and RU are excluded when address data identifies them. [] (Value): string.
+    /** Sorted ISO 3166-1 alpha-2 countries the delivery methods can serve, derived from eligibility and rate-table conditions. Only methods that need this address contribute countries. Alternative methods are unioned within each choice group; intersect across groups and, for automatic tax, order.tax.supported_countries. A listed country may still require state, postal code, or other eligibility input. Excludes CU, IR, KP, and SY; sanctioned regions within UA and RU are excluded when address data identifies them. [] (Value): string.
      * @return list<string>
      * @throws SdkError When supported_countries is omitted; use hasSupportedCountries() or valueOrDefault().
      */

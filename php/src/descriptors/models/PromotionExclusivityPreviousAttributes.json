@@ -1,0 +1,1 @@
+{"shared":"PromotionExclusivityPreviousAttributes","phpRepresentation":{"kind":"record","fields":{"group":{"kind":"nullable","value":{"kind":"value","type":"string"}},"priority":{"kind":"nullable","value":{"kind":"value","type":"int"}}}},"dependencies":["PromotionExclusivityPreviousAttributes","SharedCodec1882","SharedCodec73"]}

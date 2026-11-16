@@ -90,7 +90,10 @@ Field definitions: [CreateOrderLineItem.metadata](../models/CreateOrderLineItem.
 
 Signed effect of this payout on your Flint balance. It is negative because the payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
 
-Field definitions: [shared fields](BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount` | Conditional | integer string | Signed amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `currency` | Conditional | string | ISO 4217 currency code for this amount. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
 
 ### Payout.net_money variant 1
 

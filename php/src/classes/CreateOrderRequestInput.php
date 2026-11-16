@@ -67,7 +67,7 @@ final class CreateOrderRequestInput extends Model {
      */
     public function getInternalNote(): string { return $this->get('internal_note'); }
     public function hasInternalNote(): bool { return $this->has('internal_note'); }
-    /** How Flint chooses the Locations that fill this order's inventory: one fixed Location, an allocation policy, or a specific policy revision. Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`.
+    /** Where tracked demand is routed. When no source is stored or sent, Flint uses settings.inventory.default_routing_source, then the only active Location with inventory_allocation_enabled if exactly one exists in the current environment. Zero or multiple eligible Locations require an explicit source or merchant default. The order stores the resolved source. Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`.
      * @return InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_routing_source is omitted; use hasInventoryRoutingSource() or valueOrDefault().
      */

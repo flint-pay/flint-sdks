@@ -1,0 +1,23 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read bool|null $automatic_enabled
+ * @property-read bool|null $codes_enabled
+ * Presence-aware input; omitted fields throw when accessed. */
+final class CheckoutPromotionConfigPreviousAttributesInput extends Model {
+    /** @param array{'automatic_enabled'?: bool|null, 'codes_enabled'?: bool|null, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutPromotionConfigPreviousAttributesInput')); }
+    /** Whether automatic promotions apply to this checkout. Send false to stop them here. True can't turn them back on when your promotion settings have them off. anyOf[1] (Value): boolean. Whether automatic promotions apply to this checkout. Send false to stop them here. True can't turn them back on when your promotion settings have them off. anyOf[2] (Value): null.
+     * @return bool|null
+     * @throws SdkError When automatic_enabled is omitted; use hasAutomaticEnabled() or valueOrDefault().
+     */
+    public function getAutomaticEnabled(): mixed { return $this->get('automatic_enabled'); }
+    public function hasAutomaticEnabled(): bool { return $this->has('automatic_enabled'); }
+    /** Object-level override for whether this checkout's buyer can apply promotion codes, hosted or headless. Omit to inherit the payment link and checkout.promotion_codes_enabled. When all are unset, hosted checkout offers code entry only while an active code promotion exists in this environment; read can_apply_promotion_code on the session. True allows codes when the merchant's promotion settings allow them; false blocks them for this checkout. `null` when this checkout inherits checkout.promotion_codes_enabled. anyOf[1] (Value): boolean. Object-level override for whether this checkout's buyer can apply promotion codes, hosted or headless. Omit to inherit the payment link and checkout.promotion_codes_enabled. When all are unset, hosted checkout offers code entry only while an active code promotion exists in this environment; read can_apply_promotion_code on the session. True allows codes when the merchant's promotion settings allow them; false blocks them for this checkout. `null` when this checkout inherits checkout.promotion_codes_enabled. anyOf[2] (Value): null.
+     * @return bool|null
+     * @throws SdkError When codes_enabled is omitted; use hasCodesEnabled() or valueOrDefault().
+     */
+    public function getCodesEnabled(): mixed { return $this->get('codes_enabled'); }
+    public function hasCodesEnabled(): bool { return $this->has('codes_enabled'); }
+}

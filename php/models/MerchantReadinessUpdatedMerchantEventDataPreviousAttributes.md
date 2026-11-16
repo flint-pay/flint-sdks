@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Optional | [Address](../models/Address.md#address) or null | The merchant's business address. |
+| `address` | Optional | [AddressPreviousAttributes](../models/AddressPreviousAttributes.md#addresspreviousattributes) or null | The merchant's business address. `address`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesaddress). |
 | `api_version` | Optional | string or null | Default API version for requests without a Flint-Version header. Shared across live and test environments. `api_version`: [declared alternatives](../models/PartnerAppPlatformApprovedEvent.md#partnerappplatformapprovedeventdata-fields-1previous_attributesapi_version). |
 | `api_version_changed_at` | Optional | string or null | When the merchant's default API version last changed. `api_version_changed_at`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesapi_version_changed_at). |
 | `api_version_pinned_at` | Optional | string or null | When the merchant's default API version was first set. `api_version_pinned_at`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesapi_version_pinned_at). |
@@ -17,21 +17,64 @@ Response model.
 | `business_name` | Optional | string or null | Business name buyers see on checkout, payment links, and receipts. Once the merchant starts verification, it stays in sync with the business name on the live Stripe account: a change on either side applies, and the latest change wins. `business_name`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesbusiness_name). |
 | `business_type` | Optional | string or null | Merchant's business type. - `other`: A business type Flint does not map yet. Values: `"individual"`, `"company"`, `"non_profit"`, `"government_entity"`, `"other"`. `business_type`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesbusiness_type). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
-| `email` | Optional | string or null or null | The account's contact email address. A new account starts with the sign-up email. `null` when none is set. `email`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesemail). |
-| `icon` | Optional | [ImageAttachment](../models/ImageAttachment.md#imageattachment) or null | A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. |
-| `logo` | Optional | [ImageAttachment](../models/ImageAttachment.md#imageattachment) or null | The merchant's public brand mark. |
+| `email` | Optional | string or null | The account's contact email address. A new account starts with the sign-up email. `null` when none is set. `email`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesemail). |
+| `icon` | Optional | [ImageAttachmentPreviousAttributes](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributes) or null | A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. `icon`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesicon). |
+| `logo` | Optional | [ImageAttachmentPreviousAttributes](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributes) or null | The merchant's public brand mark. `logo`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributeslogo). |
 | `merchant_id` | Optional | string or null | Stable identifier of the merchant. `merchant_id`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesmerchant_id). |
 | `metadata` | Optional | Map of string or null | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. `metadata`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesmetadata). |
 | `phone` | Optional | string or null | The account's contact phone number, in international format such as +12125551234. `phone`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesphone). |
-| `readiness` | Optional | [MerchantReadiness](../models/MerchantReadiness.md#merchantreadiness) or null | Whether the merchant can accept payments and receive payouts, and what is still needed. |
+| `readiness` | Optional | [MerchantReadinessPreviousAttributes](../models/MerchantReadinessPreviousAttributes.md#merchantreadinesspreviousattributes) or null | Whether the merchant can accept payments and receive payouts, and what is still needed. `readiness`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesreadiness). |
 | `status` | Optional | string or null | Whether Flint lets the account operate. `readiness` says whether payments and payouts are available. Values: `"active"`, `"suspended"`, `"restricted"`, `"closed"`. `status`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesstatus). |
 | `support_email` | Optional | string or null | Support email address shown to buyers, for example on receipts and checkout. `support_email`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributessupport_email). |
 | `support_phone` | Optional | string or null | Support phone number shown to buyers, in international format such as +12125551234. `support_phone`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributessupport_phone). |
 | `support_url` | Optional | string or null | Support page shown to buyers. `support_url`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributessupport_url). |
-| `timezone` | Optional | string or null | Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies. Existing resources keep their saved time zone. `timezone`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributestimezone). |
+| `timezone` | Optional | string or null | Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone. `timezone`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributestimezone). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 | `version` | Optional | integer or null | Merchant version. Profile, status, and API version changes advance this version, including business name and business type changes synced from the payment provider. Readiness updates alone do not. `version`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesversion). |
 | `website_url` | Optional | string or null | The business's website. `website_url`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributeswebsite_url). |
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.address
+
+The merchant's business address.
+
+Field definitions: [shared fields](TaxConnectionUpdatedEvent.md#taxconnectionupdatedeventdata-fields-1previous_attributeslegal_address).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.address variant 1
+
+anyOf AddressPreviousAttributes.
+
+- Optional: `city`, `country`, `line1`, `line2`, `postal_code`, `state`.
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.address variant 2
+
+anyOf variant 2.
+
+- Undeclared: `city`, `country`, `line1`, `line2`, `postal_code`, `state`.
+- Value shape: null. The merchant's business address. 
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.address variant 1.city
+
+Declared alternatives: [TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_address variant 1.city](../models/TaxConnectionUpdatedEvent.md#taxconnectionupdatedeventdata-fields-1previous_attributeslegal_address-variant-1city).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.address variant 1.country
+
+Declared alternatives: [TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_address variant 1.country](../models/TaxConnectionUpdatedEvent.md#taxconnectionupdatedeventdata-fields-1previous_attributeslegal_address-variant-1country).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.address variant 1.line1
+
+Declared alternatives: [TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_address variant 1.line1](../models/TaxConnectionUpdatedEvent.md#taxconnectionupdatedeventdata-fields-1previous_attributeslegal_address-variant-1line1).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.address variant 1.line2
+
+Declared alternatives: [TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_address variant 1.line2](../models/TaxConnectionUpdatedEvent.md#taxconnectionupdatedeventdata-fields-1previous_attributeslegal_address-variant-1line2).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.address variant 1.postal_code
+
+Declared alternatives: [TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_address variant 1.postal_code](../models/TaxConnectionUpdatedEvent.md#taxconnectionupdatedeventdata-fields-1previous_attributeslegal_address-variant-1postal_code).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.address variant 1.state
+
+Declared alternatives: [TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_address variant 1.state](../models/TaxConnectionUpdatedEvent.md#taxconnectionupdatedeventdata-fields-1previous_attributeslegal_address-variant-1state).
 
 ### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.api_version
 
@@ -112,13 +155,106 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 anyOf variant 1: The account's contact email address. A new account starts with the sign-up email. `null` when none is set..
 
-- Value shape: (string or null). The account's contact email address. A new account starts with the sign-up email. `null` when none is set. 
+- Value shape: string. The account's contact email address. A new account starts with the sign-up email. `null` when none is set. 
 
 ### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.email variant 2
 
 anyOf variant 2.
 
 - Value shape: null. The account's contact email address. A new account starts with the sign-up email. `null` when none is set. 
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.icon
+
+A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `alt` | Conditional | string or null | Alternative text describing the image for accessibility. `alt`: [declared alternatives](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributesalt). |
+| `file_id` | Conditional | string or null | Identifier of the file attached as this image. `file_id`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesimages-variant-1-fields-1file_id). |
+| `height` | Conditional | integer or null | Image height in pixels, when known. `height`: [declared alternatives](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributesheight). |
+| `source_reference` | Conditional | string or null | Caller-owned reference identifying this attachment within its gallery. `source_reference`: [declared alternatives](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributessource_reference). |
+| `url` | Conditional | string or null | URL of the image. `url`: [declared alternatives](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributesurl). |
+| `width` | Conditional | integer or null | Image width in pixels, when known. `width`: [declared alternatives](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributeswidth). |
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.icon variant 1
+
+anyOf ImageAttachmentPreviousAttributes.
+
+- Optional: `alt`, `file_id`, `height`, `source_reference`, `url`, `width`.
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.icon variant 2
+
+anyOf variant 2.
+
+- Undeclared: `alt`, `file_id`, `height`, `source_reference`, `url`, `width`.
+- Value shape: null. A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. 
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.icon variant 1.alt
+
+Declared alternatives: [ImageAttachmentPreviousAttributes.alt](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributesalt).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.icon variant 1.file_id
+
+Declared alternatives: [BundleArchivedMerchantEventDataPreviousAttributes.images variant 1.[] fields 1.file_id](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesimages-variant-1-fields-1file_id).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.icon variant 1.height
+
+Declared alternatives: [ImageAttachmentPreviousAttributes.height](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributesheight).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.icon variant 1.source_reference
+
+Declared alternatives: [ImageAttachmentPreviousAttributes.source_reference](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributessource_reference).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.icon variant 1.url
+
+Declared alternatives: [ImageAttachmentPreviousAttributes.url](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributesurl).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.icon variant 1.width
+
+Declared alternatives: [ImageAttachmentPreviousAttributes.width](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributeswidth).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.logo
+
+The merchant's public brand mark.
+
+Field definitions: [shared fields](#merchantreadinessupdatedmerchanteventdatapreviousattributesicon).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.logo variant 1
+
+anyOf ImageAttachmentPreviousAttributes.
+
+- Optional: `alt`, `file_id`, `height`, `source_reference`, `url`, `width`.
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.logo variant 2
+
+anyOf variant 2.
+
+- Undeclared: `alt`, `file_id`, `height`, `source_reference`, `url`, `width`.
+- Value shape: null. The merchant's public brand mark. 
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.logo variant 1.alt
+
+Declared alternatives: [ImageAttachmentPreviousAttributes.alt](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributesalt).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.logo variant 1.file_id
+
+Declared alternatives: [BundleArchivedMerchantEventDataPreviousAttributes.images variant 1.[] fields 1.file_id](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesimages-variant-1-fields-1file_id).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.logo variant 1.height
+
+Declared alternatives: [ImageAttachmentPreviousAttributes.height](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributesheight).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.logo variant 1.source_reference
+
+Declared alternatives: [ImageAttachmentPreviousAttributes.source_reference](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributessource_reference).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.logo variant 1.url
+
+Declared alternatives: [ImageAttachmentPreviousAttributes.url](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributesurl).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.logo variant 1.width
+
+Declared alternatives: [ImageAttachmentPreviousAttributes.width](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributeswidth).
 
 ### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.merchant_id
 
@@ -151,6 +287,43 @@ anyOf variant 1: The account's contact phone number, in international format suc
 anyOf variant 2.
 
 - Value shape: null. The account's contact phone number, in international format such as +12125551234. 
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.readiness
+
+Whether the merchant can accept payments and receive payouts, and what is still needed.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `capabilities` | Conditional | Array of [CapabilityReadinessPreviousAttributes](../models/CapabilityReadinessPreviousAttributes.md#capabilityreadinesspreviousattributes) or null | Readiness of each payment and money movement capability, with its own status, requirements, and next actions. `capabilities`: [declared alternatives](../models/MerchantReadinessPreviousAttributes.md#merchantreadinesspreviousattributescapabilities). |
+| `observed_at` | Conditional | string or null | RFC3339 timestamp. `observed_at`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributesenvironment_grants-variant-1-fields-1created_at). |
+| `payments` | Conditional | [ReadinessAxisPreviousAttributes](../models/ReadinessAxisPreviousAttributes.md#readinessaxispreviousattributes) or null | Readiness to accept payments. |
+| `payouts` | Conditional | [ReadinessAxisPreviousAttributes](../models/ReadinessAxisPreviousAttributes.md#readinessaxispreviousattributes) or null | Readiness to receive payouts. |
+| `requirements` | Conditional | [ReadinessRequirementsPreviousAttributes](../models/ReadinessRequirementsPreviousAttributes.md#readinessrequirementspreviousattributes) or null | Account information still needed, grouped by when it is due. Each capability also lists the requirements that affect it. `requirements`: [declared alternatives](../models/MerchantReadinessPreviousAttributes.md#merchantreadinesspreviousattributesrequirements). |
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.readiness variant 1
+
+anyOf MerchantReadinessPreviousAttributes.
+
+- Optional: `capabilities`, `observed_at`, `payments`, `payouts`, `requirements`.
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.readiness variant 2
+
+anyOf variant 2.
+
+- Undeclared: `capabilities`, `observed_at`, `payments`, `payouts`, `requirements`.
+- Value shape: null. Whether the merchant can accept payments and receive payouts, and what is still needed. 
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.readiness variant 1.capabilities
+
+Declared alternatives: [MerchantReadinessPreviousAttributes.capabilities](../models/MerchantReadinessPreviousAttributes.md#merchantreadinesspreviousattributescapabilities).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.readiness variant 1.observed_at
+
+Declared alternatives: [PartnerAppInstallPermissionsUpdatedEvent.data fields 1.previous_attributes.environment_grants variant 1.[] fields 1.created_at](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributesenvironment_grants-variant-1-fields-1created_at).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.readiness variant 1.requirements
+
+Declared alternatives: [MerchantReadinessPreviousAttributes.requirements](../models/MerchantReadinessPreviousAttributes.md#merchantreadinesspreviousattributesrequirements).
 
 ### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.status
 
@@ -212,15 +385,15 @@ anyOf variant 2.
 
 ### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.timezone variant 1
 
-anyOf variant 1: Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies. Existing resources keep their saved time zone..
+anyOf variant 1: Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone..
 
-- Value shape: string. Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies. Existing resources keep their saved time zone. 
+- Value shape: string. Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone. 
 
 ### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.timezone variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies. Existing resources keep their saved time zone. 
+- Value shape: null. Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone. 
 
 ### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.updated_at
 

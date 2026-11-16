@@ -66,7 +66,7 @@ Field definitions: [PaymentLink.legal](../models/PaymentLink.md#paymentlinklegal
 
 ### PaymentLinkCreatedInstalledMerchantsEvent.data.object.metadata
 
-Field definitions: [CheckoutSession.metadata](../models/CheckoutSession.md#checkoutsessionmetadata).
+Field definitions: [CancelOrderEditResult.order.metadata](../models/CancelOrderEditResult.md#cancelordereditresultordermetadata).
 
 ### PaymentLinkCreatedInstalledMerchantsEvent.data.object.payments
 

@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | [DeliveryLocationSetConfiguration](../models/DeliveryLocationSetConfiguration.md#deliverylocationsetconfiguration) or null | Current member Locations. |
+| `configuration` | Optional | [DeliveryLocationSetConfigurationPreviousAttributes](../models/DeliveryLocationSetConfigurationPreviousAttributes.md#deliverylocationsetconfigurationpreviousattributes) or null | Current member Locations. `configuration`: [declared alternatives](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributesconfiguration). |
 | `created_at` | Optional | string or null | Time the location set was created. `created_at`: [declared alternatives](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributescreated_at). |
 | `current_delivery_location_set_revision_id` | Optional | string or null | Immutable revision used for new quotes. `current_delivery_location_set_revision_id`: [declared alternatives](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributescurrent_delivery_location_set_revision_id). |
 | `delivery_location_set_id` | Optional | string or null | Stable delivery location set ID. `delivery_location_set_id`: [declared alternatives](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributesdelivery_location_set_id). |
@@ -18,6 +18,41 @@ Response model.
 | `status` | Optional | string or null | Current location set lifecycle status. Values: `"active"`, `"archived"`. `status`: [declared alternatives](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributesstatus). |
 | `updated_at` | Optional | string or null | Time the location set last changed. `updated_at`: [declared alternatives](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributesupdated_at). |
 | `version` | Optional | integer or null | Optimistic-concurrency version for location set writes. `version`: [declared alternatives](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributesversion). |
+
+### DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.configuration
+
+Current member Locations.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `location_ids` | Conditional | Array of string or null | IDs of the Locations in the set, from 1 to 1,000. An allocated origin group accepts at most 25. `location_ids`: [declared alternatives](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributesconfiguration-variant-1location_ids). |
+
+### DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.configuration variant 1
+
+anyOf DeliveryLocationSetConfigurationPreviousAttributes.
+
+- Optional: `location_ids`.
+
+### DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.configuration variant 2
+
+anyOf variant 2.
+
+- Undeclared: `location_ids`.
+- Value shape: null. Current member Locations. 
+
+### DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.configuration variant 1.location_ids
+
+### DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.configuration variant 1.location_ids variant 1
+
+anyOf variant 1: IDs of the Locations in the set, from 1 to 1,000. An allocated origin group accepts at most 25..
+
+- Value shape: Array of string. IDs of the Locations in the set, from 1 to 1,000. An allocated origin group accepts at most 25. Items: minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. 
+
+### DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.configuration variant 1.location_ids variant 2
+
+anyOf variant 2.
+
+- Value shape: null. IDs of the Locations in the set, from 1 to 1,000. An allocated origin group accepts at most 25. 
 
 ### DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.created_at
 
@@ -69,7 +104,7 @@ Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previ
 
 ### DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.metadata variant 1
 
-anyOf MetadataMap: Caller-owned metadata..
+anyOf MetadataMapPreviousAttributes.
 
 - Value shape: Map of string. Caller-owned metadata. Map values: maxLength: `4096`. 
 

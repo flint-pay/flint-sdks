@@ -41,24 +41,24 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `capture_mode` | Optional | string or null | Whether the redemption spends the value now or reserves it to capture later. Values: `"automatic"`, `"manual"`. `capture_mode`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEventInput.md#giftcardredemptionupdatedinstalledmerchantseventinputdataprevious_attributescapture_mode). |
-| `captured_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | The value captured from the card so far. |
+| `captured_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | The value captured from the card so far. |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
-| `expires_at` | Optional | string or null or null | When an uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`, which posts immediately. `expires_at`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEventInput.md#giftcardredemptionupdatedinstalledmerchantseventinputdataprevious_attributesexpires_at). |
+| `expires_at` | Optional | string or null | When an uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`, which posts immediately. `expires_at`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEventInput.md#giftcardredemptionupdatedinstalledmerchantseventinputdataprevious_attributesexpires_at). |
 | `gift_card_id` | Optional | string or null | ID of the gift card the value is spent from. `gift_card_id`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEventInput.md#giftcardredemptionupdatedinstalledmerchantseventinputdataprevious_attributesgift_card_id). |
 | `gift_card_redemption_id` | Optional | string or null | Unique identifier for this gift card redemption, prefixed `gcr_`. `gift_card_redemption_id`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEventInput.md#giftcardredemptionupdatedinstalledmerchantseventinputdataprevious_attributesgift_card_redemption_id). |
-| `idempotency_key` | Optional | string or null or null | Your Idempotency-Key for the command that created this record. `null` when Flint created it or no key was sent. `idempotency_key`: [declared alternatives](../models/GiftCardLoadUpdatedInstalledMerchantsEventInput.md#giftcardloadupdatedinstalledmerchantseventinputdataprevious_attributesidempotency_key). |
-| `order_id` | Optional | string or null or null | ID of the Flint order the redemption pays for. `null` when `source_type` is `external`. `order_id`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEventInput.md#giftcardredemptionupdatedinstalledmerchantseventinputdataprevious_attributesorder_id). |
-| `order_payment_attempt_id` | Optional | string or null or null | The order payment attempt the redemption belongs to. Set for source_type flint_order. `null` when `source_type` is `external`. `order_payment_attempt_id`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEventInput.md#giftcardredemptionupdatedinstalledmerchantseventinputdataprevious_attributesorder_payment_attempt_id). |
-| `refunded_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Total refunded against this redemption across all refunds. Each refund lists its share in `tender_allocations`. |
-| `remaining_refundable_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Captured value not yet refunded. A refund allocation to this redemption can be at most this amount. Zero while the redemption is reserved, canceled, or expired. |
-| `requested_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | The amount requested when the redemption was created. |
-| `reserved_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | The value held on the card for this redemption while it is reserved. |
-| `sale_reference` | Optional | string or null or null | Your reference for the sale the redemption pays for. Set for source_type external. `null` when `source_type` is `flint_order`. `sale_reference`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEventInput.md#giftcardredemptionupdatedinstalledmerchantseventinputdataprevious_attributessale_reference). |
+| `idempotency_key` | Optional | string or null | Your Idempotency-Key for the command that created this record. `null` when Flint created it or no key was sent. `idempotency_key`: [declared alternatives](../models/GiftCardLoadUpdatedInstalledMerchantsEventInput.md#giftcardloadupdatedinstalledmerchantseventinputdataprevious_attributesidempotency_key). |
+| `order_id` | Optional | string or null | ID of the Flint order the redemption pays for. `null` when `source_type` is `external`. `order_id`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEventInput.md#giftcardredemptionupdatedinstalledmerchantseventinputdataprevious_attributesorder_id). |
+| `order_payment_attempt_id` | Optional | string or null | The order payment attempt the redemption belongs to. Set for source_type flint_order. `null` when `source_type` is `external`. `order_payment_attempt_id`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEventInput.md#giftcardredemptionupdatedinstalledmerchantseventinputdataprevious_attributesorder_payment_attempt_id). |
+| `refunded_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | Total refunded against this redemption across all refunds. Each refund lists its share in `tender_allocations`. |
+| `remaining_refundable_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | Captured value not yet refunded. A refund allocation to this redemption can be at most this amount. Zero while the redemption is reserved, canceled, or expired. |
+| `requested_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | The amount requested when the redemption was created. |
+| `reserved_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | The value held on the card for this redemption while it is reserved. |
+| `sale_reference` | Optional | string or null | Your reference for the sale the redemption pays for. Set for source_type external. `null` when `source_type` is `flint_order`. `sale_reference`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEventInput.md#giftcardredemptionupdatedinstalledmerchantseventinputdataprevious_attributessale_reference). |
 | `source_type` | Optional | string or null | What the redemption pays for: a sale you record, or a Flint order's payment. Values: `"external"`, `"flint_order"`. `source_type`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEventInput.md#giftcardredemptionupdatedinstalledmerchantseventinputdataprevious_attributessource_type). |
 | `status` | Optional | string or null | Where the redemption is in its lifecycle. Values: `"reserved"`, `"succeeded"`, `"canceled"`, `"expired"`. `status`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEventInput.md#giftcardredemptionupdatedinstalledmerchantseventinputdataprevious_attributesstatus). |
 | `supported_actions` | Optional | Array of string or null | Lifecycle actions accepted for the stored redemption, independent of the caller's credentials. capture is available only before expires_at; cancel remains available until the reservation is resolved. Reservations for Flint orders are resolved through their payment attempt and list no actions. Items values: `"capture"`, `"cancel"`. `supported_actions`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEventInput.md#giftcardredemptionupdatedinstalledmerchantseventinputdataprevious_attributessupported_actions). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
-| `version` | Optional | integer or null | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. `version`: [declared alternatives](../models/GiftCardLoadUpdatedInstalledMerchantsEventInput.md#giftcardloadupdatedinstalledmerchantseventinputdataprevious_attributesversion). |
+| `version` | Optional | integer or null | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. `version`: [declared alternatives](../models/GiftCardFundingDisputePreviousAttributesInput.md#giftcardfundingdisputepreviousattributesinputversion). |
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEventInput.data.previous_attributes.capture_mode
 
@@ -84,7 +84,7 @@ Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created
 
 anyOf variant 1: When an uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`, which posts immediately..
 
-- Value shape: (string or null). When an uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`, which posts immediately. When an uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`, which posts immediately. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. When an uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`, which posts immediately. When an uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`, which posts immediately. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEventInput.data.previous_attributes.expires_at variant 2
 
@@ -130,7 +130,7 @@ Declared alternatives: [GiftCardLoadUpdatedInstalledMerchantsEventInput.data.pre
 
 anyOf variant 1: ID of the Flint order the redemption pays for. `null` when `source_type` is `external`..
 
-- Value shape: (string or null). ID of the Flint order the redemption pays for. `null` when `source_type` is `external`. ID of the Flint order the redemption pays for. `null` when `source_type` is `external`. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. 
+- Value shape: string. ID of the Flint order the redemption pays for. `null` when `source_type` is `external`. ID of the Flint order the redemption pays for. `null` when `source_type` is `external`. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. 
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEventInput.data.previous_attributes.order_id variant 2
 
@@ -144,7 +144,7 @@ anyOf variant 2.
 
 anyOf variant 1: The order payment attempt the redemption belongs to. Set for source_type flint_order. `null` when `source_type` is `external`..
 
-- Value shape: (string or null). The order payment attempt the redemption belongs to. Set for source_type flint_order. `null` when `source_type` is `external`. The order payment attempt the redemption belongs to. Set for source_type flint_order. `null` when `source_type` is `external`. Example: `"opat_01KEZF7C00B5PW9F2R8A4YSH5D"`. 
+- Value shape: string. The order payment attempt the redemption belongs to. Set for source_type flint_order. `null` when `source_type` is `external`. The order payment attempt the redemption belongs to. Set for source_type flint_order. `null` when `source_type` is `external`. Example: `"opat_01KEZF7C00B5PW9F2R8A4YSH5D"`. 
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEventInput.data.previous_attributes.order_payment_attempt_id variant 2
 
@@ -158,7 +158,7 @@ anyOf variant 2.
 
 anyOf variant 1: Your reference for the sale the redemption pays for. Set for source_type external. `null` when `source_type` is `flint_order`..
 
-- Value shape: (string or null). Your reference for the sale the redemption pays for. Set for source_type external. `null` when `source_type` is `flint_order`. Your reference for the sale the redemption pays for. Set for source_type external. `null` when `source_type` is `flint_order`. maxLength: `255`. 
+- Value shape: string. Your reference for the sale the redemption pays for. Set for source_type external. `null` when `source_type` is `flint_order`. Your reference for the sale the redemption pays for. Set for source_type external. `null` when `source_type` is `flint_order`. maxLength: `255`. 
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEventInput.data.previous_attributes.sale_reference variant 2
 
@@ -214,7 +214,7 @@ Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEventInput.data.previous_attributes.version
 
-Declared alternatives: [GiftCardLoadUpdatedInstalledMerchantsEventInput.data.previous_attributes.version](../models/GiftCardLoadUpdatedInstalledMerchantsEventInput.md#giftcardloadupdatedinstalledmerchantseventinputdataprevious_attributesversion).
+Declared alternatives: [GiftCardFundingDisputePreviousAttributesInput.version](../models/GiftCardFundingDisputePreviousAttributesInput.md#giftcardfundingdisputepreviousattributesinputversion).
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEventInput.source
 

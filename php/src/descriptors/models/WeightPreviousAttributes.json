@@ -1,0 +1,1 @@
+{"shared":"WeightPreviousAttributes","phpRepresentation":{"kind":"record","fields":{"unit":{"kind":"nullable","value":{"kind":"value","type":"string"}},"value":{"kind":"nullable","value":{"kind":"value","type":"float"}}}},"dependencies":["SharedCodec1065","SharedCodec3126","WeightPreviousAttributes"]}

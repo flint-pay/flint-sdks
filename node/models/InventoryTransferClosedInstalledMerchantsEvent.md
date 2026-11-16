@@ -43,14 +43,14 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `closed_at` | Optional | string or null | RFC3339 timestamp. `closed_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
-| `closed_reason` | Optional | string or null or null | How the transfer ended. `null` when the transfer isn't closed. Values: `"received"`, `"canceled"`, `"received_with_cancellation"`, `"returned"`, `"lost"`, `"mixed"`, `null`. `closed_reason`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEvent.md#inventorytransferclosedinstalledmerchantseventdataprevious_attributesclosed_reason). |
+| `closed_reason` | Optional | string or null | How the transfer ended. `null` when the transfer isn't closed. Values: `"received"`, `"canceled"`, `"received_with_cancellation"`, `"returned"`, `"lost"`, `"mixed"`, `null`. `closed_reason`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEvent.md#inventorytransferclosedinstalledmerchantseventdataprevious_attributesclosed_reason). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `departed_at` | Optional | string or null | RFC3339 timestamp. `departed_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `destination_location_id` | Optional | string or null | ID of the Location the stock goes to. `destination_location_id`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEvent.md#inventorytransferclosedinstalledmerchantseventdataprevious_attributesdestination_location_id). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesexternal_reference_id). |
 | `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key. `idempotency_key`: [declared alternatives](../models/InventoryCountAppliedInstalledMerchantsEvent.md#inventorycountappliedinstalledmerchantseventdataprevious_attributesidempotency_key). |
 | `inventory_transfer_id` | Optional | string or null | Unique identifier for this inventory transfer, prefixed `invtr_`. `inventory_transfer_id`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEvent.md#inventorytransferclosedinstalledmerchantseventdataprevious_attributesinventory_transfer_id). |
-| `lines` | Optional | Array of [InventoryTransferLine](../models/InventoryTransferLine.md#inventorytransferline) or null | Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. `lines`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEvent.md#inventorytransferclosedinstalledmerchantseventdataprevious_attributeslines). |
+| `lines` | Optional | Array of [InventoryTransferLinePreviousAttributes](../models/InventoryTransferLinePreviousAttributes.md#inventorytransferlinepreviousattributes) or null | Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. `lines`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEvent.md#inventorytransferclosedinstalledmerchantseventdataprevious_attributeslines). |
 | `note` | Optional | string or null | Free-text note about the transfer. `note`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEvent.md#inventorytransferclosedinstalledmerchantseventdataprevious_attributesnote). |
 | `origin_location_id` | Optional | string or null | ID of the Location the stock leaves. `origin_location_id`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEvent.md#inventorytransferclosedinstalledmerchantseventdataprevious_attributesorigin_location_id). |
 | `received_at` | Optional | string or null | RFC3339 timestamp. `received_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
@@ -69,7 +69,7 @@ Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](
 
 anyOf variant 1: How the transfer ended. `null` when the transfer isn't closed..
 
-- Value shape: (string or null). How the transfer ended. `null` when the transfer isn't closed. Values: `"received"`, `"canceled"`, `"received_with_cancellation"`, `"returned"`, `"lost"`, `"mixed"`, `null`.
+- Value shape: string. How the transfer ended. `null` when the transfer isn't closed. Values: `"received"`, `"canceled"`, `"received_with_cancellation"`, `"returned"`, `"lost"`, `"mixed"`, `null`.
 
 ### InventoryTransferClosedInstalledMerchantsEvent.data.previous_attributes.closed_reason variant 2
 
@@ -127,7 +127,7 @@ anyOf variant 2.
 
 anyOf variant 1: Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection..
 
-- Value shape: Array of [InventoryTransferLine](../models/InventoryTransferLine.md#inventorytransferline). Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. 
+- Value shape: Array of [InventoryTransferLinePreviousAttributes](../models/InventoryTransferLinePreviousAttributes.md#inventorytransferlinepreviousattributes). Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. 
 
 ### InventoryTransferClosedInstalledMerchantsEvent.data.previous_attributes.lines variant 2
 

@@ -1,26 +1,26 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { AccessLink, AccessLinkResponse } from '../declarations/types-0.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { Subscription } from '../declarations/types-60.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { Subscription } from '../declarations/types-66.js';
 import type {
     SubscriptionLineItem,
     SubscriptionLineItemsListResponse,
     SubscriptionListResponse,
-    SubscriptionPaymentRetry,
+    SubscriptionPaymentRetry
+} from '../declarations/types-68.js';
+import type {
     SubscriptionPaymentRetryListResponse,
     SubscriptionPaymentRetryResponse,
     SubscriptionPlanChangeResult,
     SubscriptionPlanChangeResultResponse
-} from '../declarations/types-62.js';
+} from '../declarations/types-69.js';
 import type {
     SubscriptionQuantityChangeResult,
     SubscriptionQuantityChangeResultResponse,
     SubscriptionRenewalResult,
     SubscriptionRenewalResultResponse,
-    SubscriptionResponse
-} from '../declarations/types-63.js';
-import type {
+    SubscriptionResponse,
     SubscriptionsApplyPromotionParams,
     SubscriptionsCancelParams,
     SubscriptionsChangePlanParams,
@@ -32,7 +32,9 @@ import type {
     SubscriptionsDeleteLineItemParams,
     SubscriptionsGetParams,
     SubscriptionsGetPaymentRetryParams,
-    SubscriptionsListLineItemsParams,
+    SubscriptionsListLineItemsParams
+} from '../declarations/types-70.js';
+import type {
     SubscriptionsListParams,
     SubscriptionsListPaymentRetriesParams,
     SubscriptionsPauseParams,
@@ -42,8 +44,8 @@ import type {
     SubscriptionsSkipCycleParams,
     SubscriptionsUpdateLineItemParams,
     SubscriptionsUpdateParams
-} from '../declarations/types-64.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-71.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -60,9 +62,12 @@ export type {
 } from '../runtime.js';
 export type {
     SubscriptionsApplyPromotionParams,
+    SubscriptionResponse,
     SubscriptionsCancelParams,
     SubscriptionsChangePlanParams,
     SubscriptionsChangeQuantityParams,
+    SubscriptionQuantityChangeResult,
+    SubscriptionQuantityChangeResultResponse,
     SubscriptionsCreateParams,
     SubscriptionsCreateAccessLinkParams,
     SubscriptionsCreateLineItemParams,
@@ -71,6 +76,81 @@ export type {
     SubscriptionsGetParams,
     SubscriptionsGetPaymentRetryParams,
     SubscriptionsListLineItemsParams,
+    SubscriptionRenewalResult,
+    SubscriptionRenewalResultResponse,
+    SubscriptionScheduledPlanChange,
+    SubscriptionServiceLocation,
+    SubscriptionTax,
+    SubscriptionUpcomingDeliveryHold,
+    SubscriptionQuantityChangeLineItemRequestInput,
+    SubscriptionServiceLocationRequestInput,
+    SubscriptionServiceLocationInputCustomerAddressInput,
+    SubscriptionServiceLocationInputAddressInput,
+    SubscriptionTaxRequestInput,
+    SubscriptionTaxCalculationRequestInput,
+    SubscriptionTermsRequestInput,
+    SubscriptionQuantityChangeLineItemRequest
+} from '../declarations/types-70.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning, ResourceVersionRequestInput } from '../declarations/types-60.js';
+export type {
+    Subscription,
+    SubscriptionAddressVerification,
+    StripePaymentClientAction,
+    StripeSetupIntentClientAction,
+    StripeTerminalPaymentIntentClientAction,
+    ShipmentFulfillmentDetails,
+    SubscribedLine,
+    SetupCollection,
+    SetupCollectionStripe,
+    SkipSubscriptionCycleRequestInput
+} from '../declarations/types-66.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, Weight } from '../declarations/types-77.js';
+export type {
+    SubscriptionPlanChangeResult,
+    SubscriptionPlanChangeResultResponse,
+    SubscriptionPaymentRetryResponse,
+    SubscriptionPaymentRetryListResponse,
+    SubscriptionPromotion,
+    SubscriptionPlanLineItem,
+    SubscriptionPlanSwapVariant,
+    SubscriptionPlanLineItemVariant,
+    SubscriptionPlanLineItemBundle,
+    SubscriptionPlanLineItemCustom,
+    SubscriptionPlanChangeLineItemRequestInput,
+    SubscriptionPromotionRequestInput,
+    SubscriptionPlanTermsRequestInput,
+    SubscriptionPlanChangeLineItemRequest
+} from '../declarations/types-69.js';
+export type {
+    AccessLink,
+    AccessLinkResponse,
+    ApplySubscriptionPromotionRequestInput,
+    Address,
+    AddressRequestInput,
+    AddressRequest
+} from '../declarations/types-0.js';
+export type {
+    SubscriptionPaymentRetry,
+    SubscriptionLineItemsListResponse,
+    SubscriptionLineItem,
+    SubscriptionListResponse,
+    SubscriptionIntervalOption,
+    SubscriptionEndAfter,
+    SubscriptionEndAfterCycles,
+    SubscriptionEndAfterDate,
+    SubscriptionGiftRecipient,
+    SubscriptionInventoryWait,
+    SubscriptionDeliveryRequestInput,
+    SubscriptionEndAfterRequestInput,
+    SubscriptionEndAfterCyclesRequestInput,
+    SubscriptionEndAfterDateRequestInput,
+    SubscriptionGiftRecipientRequestInput,
+    SubscriptionOfferTermsRequestInput,
+    SubscriptionOfferLineItemRequestInput,
+    SubscriptionGiftRecipientRequest,
+    SubscriptionOfferLineItemRequest
+} from '../declarations/types-68.js';
+export type {
     SubscriptionsListPaymentRetriesParams,
     SubscriptionsListParams,
     SubscriptionsPauseParams,
@@ -80,125 +160,60 @@ export type {
     SubscriptionsSkipCycleParams,
     SubscriptionsUpdateParams,
     SubscriptionsUpdateLineItemParams,
-    SubscriptionUpcomingDeliveryHold,
     TaxCalculationRequest,
+    TaxComponentRequest,
     TaxBreakdown,
     TaxBreakdownPercentage,
-    TaxBreakdownFlatAmount,
-    SubscriptionTaxRequestInput,
-    SubscriptionTermsRequestInput
-} from '../declarations/types-64.js';
+    TaxBreakdownFlatAmount
+} from '../declarations/types-71.js';
 export type {
-    RequestOptions,
-    ResourceReference,
-    ResponseMeta,
-    ResponseWarning,
-    RemoveSubscriptionPromotionsRequestInput,
-    RenewSubscriptionRequestInput,
-    ResourceVersionRequestInput,
-    RemoveSubscriptionPromotionsRequest
-} from '../declarations/types-54.js';
-export type {
-    Subscription,
-    SubscriptionAddressVerification,
-    StripePaymentClientAction,
-    StripeSetupIntentClientAction,
-    StripeTerminalPaymentIntentClientAction,
-    SubscribedLine,
-    SubscriptionBillingScheduleRequestInput,
-    SubscriptionBillingScheduleInputFlintInput,
-    SubscriptionBillingScheduleInputExternalInput,
-    SubscriptionBillingStartInputImmediateInput,
-    SubscriptionBillingStartInputImportedInput,
-    SkipSubscriptionCycleRequestInput,
-    SubscriptionBillingScheduleUpdateRequestInput,
-    SubscriptionBillingScheduleUpdateInputFlintInput,
-    SubscriptionBillingScheduleUpdateInputExternalInput
-} from '../declarations/types-60.js';
-export type {
-    SubscriptionResponse,
-    SubscriptionQuantityChangeResult,
-    SubscriptionQuantityChangeResultResponse,
-    SubscriptionRenewalResult,
-    SubscriptionRenewalResultResponse,
-    SubscriptionPromotion,
-    SubscriptionScheduledPlanChange,
-    SubscriptionServiceLocation,
-    SubscriptionPlanSwapVariant,
-    SubscriptionPlanLineItemVariant,
-    SubscriptionPlanLineItemCustom,
-    SubscriptionTax,
-    SubscriptionQuantityChangeLineItemRequestInput,
-    SubscriptionPromotionRequestInput,
-    SubscriptionServiceLocationRequestInput,
-    SubscriptionServiceLocationInputCustomerAddressInput,
-    SubscriptionServiceLocationInputAddressInput,
-    SubscriptionTaxCalculationRequestInput,
-    SubscriptionPlanTermsRequestInput,
-    SubscriptionQuantityChangeLineItemRequest
-} from '../declarations/types-63.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, Weight } from '../declarations/types-70.js';
-export type {
-    SubscriptionPlanChangeResult,
-    SubscriptionPlanChangeResultResponse,
-    SubscriptionPaymentRetry,
-    SubscriptionPaymentRetryResponse,
-    SubscriptionLineItemsListResponse,
-    SubscriptionLineItem,
-    SubscriptionPaymentRetryListResponse,
-    SubscriptionListResponse,
-    SubscriptionIntervalOption,
-    SubscriptionGiftRecipient,
-    SubscriptionInventoryWait,
-    SubscriptionPlanLineItem,
-    SubscriptionPlanLineItemBundle,
-    SubscriptionPlanChangeLineItemRequestInput,
-    SubscriptionGiftRecipientRequestInput,
-    SubscriptionOfferTermsRequestInput,
-    SubscriptionOfferLineItemRequestInput,
-    SubscriptionPlanChangeLineItemRequest,
-    SubscriptionGiftRecipientRequest,
-    SubscriptionOfferLineItemRequest
-} from '../declarations/types-62.js';
-export type {
-    AccessLink,
-    AccessLinkResponse,
-    ApplySubscriptionPromotionRequestInput,
-    Address,
-    AddressRequestInput,
-    AddressRequest
-} from '../declarations/types-0.js';
-export type { ClientOptions, ConfigurationVersionRequestInput, ConfirmReturnResolutionRequestInput } from '../declarations/types-7.js';
+    ClientOptions,
+    CheckoutTaxCalculation,
+    ConfigurationVersionRequestInput,
+    ConfirmReturnResolutionRequestInput
+} from '../declarations/types-7.js';
 export type {
     PromotionRefRequestInput,
     PromotionRefInputPromotionIDInput,
     PromotionRefInputPromotionCodeInput,
-    PromotionRecurrence,
-    PromotionRecurrenceOnce,
-    PromotionRecurrenceRepeating,
-    PromotionRecurrenceForever
-} from '../declarations/types-51.js';
-export type { AuthMode, BundleComponent, BundleComponentVariantSummary } from '../declarations/types-1.js';
-export type { Credentials, CreateSubscriptionRequestInput } from '../declarations/types-14.js';
+    PurchasedGiftCard
+} from '../declarations/types-57.js';
+export type {
+    AuthMode,
+    BundleComponent,
+    BundleComponentVariantSummary,
+    BuyerAction,
+    BuyerCancelActionOptions,
+    BuyerCancelRetentionOffer
+} from '../declarations/types-1.js';
+export type {
+    Credentials,
+    CreateSubscriptionRequestInput,
+    CreateSubscriptionAccessLinkRequestInput,
+    CreateSubscriptionLineItemRequestInput,
+    CreateSubscriptionLineItemRequestVariantInput,
+    CreateSubscriptionLineItemRequestBundleInput
+} from '../declarations/types-14.js';
 export type {
     SubscriptionCancellationDetails,
     SubscriptionDelivery,
     SubscriptionDeliveryMethodSummary,
     SubscriptionDeliveryDestination,
     SubscriptionDeliveryHold,
-    SubscriptionEndAfter,
-    SubscriptionEndAfterCycles,
-    SubscriptionEndAfterDate,
+    SubscriptionBillingScheduleRequestInput,
+    SubscriptionBillingScheduleInputFlintInput,
+    SubscriptionBillingScheduleInputExternalInput,
     SubscriptionBillingStartRequestInput,
+    SubscriptionBillingStartInputImmediateInput,
     SubscriptionBillingStartInputScheduledInput,
-    SubscriptionDeliveryRequestInput,
+    SubscriptionBillingStartInputImportedInput,
     SubscriptionDeliveryDestinationRequestInput,
     SubscriptionDeliveryDestinationInputCustomerAddressInput,
     SubscriptionDeliveryDestinationInputAddressInput,
-    SubscriptionEndAfterRequestInput,
-    SubscriptionEndAfterCyclesRequestInput,
-    SubscriptionEndAfterDateRequestInput
-} from '../declarations/types-61.js';
+    SubscriptionBillingScheduleUpdateRequestInput,
+    SubscriptionBillingScheduleUpdateInputFlintInput,
+    SubscriptionBillingScheduleUpdateInputExternalInput
+} from '../declarations/types-67.js';
 export type {
     ExpandedCustomerSummary,
     ErrorRemediation,
@@ -208,18 +223,10 @@ export type {
     ExpandedPackageSummary,
     ExpandedShipmentSummary,
     ExpandedPaymentIntentSummary,
-    ExpandedSubscriptionSummary,
-    FilesCompleteParams
-} from '../declarations/types-24.js';
-export type { DeliveryRecipientResource } from '../declarations/types-21.js';
-export type {
-    MoneyValue,
-    NextAction,
-    Order,
-    OrderAuthorizationAmounts,
-    OrderCalculatedChargeTax,
-    OrderCalculatedLineItemTax
-} from '../declarations/types-39.js';
+    ExpandedSubscriptionSummary
+} from '../declarations/types-26.js';
+export type { DeliveryRecipientResource } from '../declarations/types-23.js';
+export type { MoneyValue, NextAction } from '../declarations/types-42.js';
 export type {
     PaymentErrorSummary,
     PaymentAttemptGiftCardRedemption,
@@ -232,9 +239,9 @@ export type {
     PaymentCollectionStripeElements,
     PauseSubscriptionRequestInput,
     PauseSubscriptionRequest
-} from '../declarations/types-44.js';
-export type { ReadinessMerchantAccountSession, PurchasedGiftCard } from '../declarations/types-52.js';
-export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-38.js';
+} from '../declarations/types-49.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
 export type {
     CardDetails,
     CategoryReference,
@@ -245,23 +252,24 @@ export type {
     ChangeSubscriptionQuantityRequestInput
 } from '../declarations/types-5.js';
 export type {
+    PromotionRecurrence,
+    PromotionRecurrenceOnce,
+    PromotionRecurrenceRepeating,
+    PromotionRecurrenceForever
+} from '../declarations/types-56.js';
+export type {
     SelectedProductOption,
     SettlementAmounts,
     ServiceFulfillmentDetails,
-    ShipmentFulfillmentDetails,
-    SelectableOrderPaymentIntent,
-    SetupCollection,
-    SetupCollectionStripe
-} from '../declarations/types-59.js';
-export type { Image } from '../declarations/types-28.js';
+    SelectableOrderPaymentIntent
+} from '../declarations/types-65.js';
+export type { Image, GiftCardPurchaseSnapshot } from '../declarations/types-30.js';
 export type {
     OrderLineItemModifier,
     OrderLineItemTax,
     OrderPaymentAttempt,
     OrderPaymentAttemptPaymentMethodSave,
     OrderSettlementAmounts,
-    OrderGiftCardSettlement,
-    OrderHandover,
     OrderLineItem,
     OrderLineItemFulfillmentQuantities,
     OrderLineItemFulfillmentRequirements,
@@ -270,28 +278,23 @@ export type {
     OrderLineSubscriptionOfferSummary,
     OrderLineSubscriptionOfferDiscount,
     OrderReturnCreditSettlement,
-    OrderTax,
-    OrderTaxCallbackEvaluation
-} from '../declarations/types-41.js';
-export type { TextModifierRequest, TaxComponentRequest, TaxJurisdiction, TaxReverseCharge } from '../declarations/types-65.js';
-export type { CheckoutTaxCalculation } from '../declarations/types-6.js';
+    OrderTax
+} from '../declarations/types-45.js';
+export type { TextModifierRequest, TaxJurisdiction, TaxReverseCharge } from '../declarations/types-72.js';
 export type {
-    PendingPaymentAction,
+    Order,
+    OrderAuthorizationAmounts,
+    OrderCharge,
+    OrderCalculatedChargeTax,
+    OrderCalculatedLineItemTax
+} from '../declarations/types-43.js';
+export type { PendingPaymentAction, PendingPaymentActionPaymentIntentSubject } from '../declarations/types-53.js';
+export type {
     PendingPaymentActionSubject,
-    PendingPaymentActionPaymentIntentSubject,
     PendingPaymentActionSetupPaymentSourceSubject,
     PickupFulfillmentDetails
-} from '../declarations/types-49.js';
-export type {
-    OrderCharge,
-    OrderDeliverySummary,
-    OrderDeliveryDestination,
-    OrderDeliveryDestinationRecipient,
-    OrderDiscount,
-    OrderGiftCardEstimate,
-    OrderGiftCardAllocation,
-    OrderGiftCardSelection
-} from '../declarations/types-40.js';
+} from '../declarations/types-54.js';
+export type { BuyerPauseActionOptions, BuyerPayBalanceActionOptions, BuyerRetryPaymentActionOptions } from '../declarations/types-3.js';
 export type {
     CustomFieldAnswer,
     CustomFieldAnswerText,
@@ -300,74 +303,87 @@ export type {
     CustomFieldAnswerCheckbox,
     CreditNotesListAllocationsParams
 } from '../declarations/types-15.js';
+export type { DeferredPromotion, CustomerTaxID, CustomersListAddressesParams } from '../declarations/types-17.js';
 export type {
-    DeferredPromotion,
-    CustomerTaxExemptionCoverage,
-    CustomerTaxExemptionCoverageAllStates,
-    CustomerTaxExemptionCoverageStates,
-    CustomerTaxID,
-    CustomersListAddressesParams
-} from '../declarations/types-16.js';
+    OrderDeliverySummary,
+    OrderDeliveryDestination,
+    OrderDeliveryDestinationRecipient,
+    OrderDiscount,
+    OrderGiftCardEstimate,
+    OrderGiftCardAllocation,
+    OrderGiftCardSettlement,
+    OrderGiftCardSelection,
+    OrderHandover
+} from '../declarations/types-44.js';
 export type {
     Fulfillment,
     FulfillmentHold,
     FulfillmentChargeLink,
     FulfillmentLineItem,
     FulfillmentOutcome,
-    FulfillmentRecipient
-} from '../declarations/types-25.js';
-export type { DigitalFulfillmentDetails, Dimensions, DisputesAcceptParams } from '../declarations/types-23.js';
-export type { DeliveryFulfillmentDetails, DeliveryChargeTaxCalculationRequest } from '../declarations/types-17.js';
-export type { PricingAmounts } from '../declarations/types-50.js';
-export type { InventoryRoutingSource } from '../declarations/types-30.js';
-export type { GiftCardPurchaseSnapshot, GiftCardProductConfiguration, GiftCardPurchaseRecipient } from '../declarations/types-27.js';
-export type { GiftCardCustomAmountBounds } from '../declarations/types-26.js';
-export type { LineItemInventorySnapshot, LineItemInventoryDemand, InvoicesMarkUncollectibleParams } from '../declarations/types-35.js';
+    FulfillmentRecipient,
+    FilesCompleteParams
+} from '../declarations/types-27.js';
+export type { DigitalFulfillmentDetails, Dimensions, DisputesAcceptParams } from '../declarations/types-25.js';
+export type { DeliveryFulfillmentDetails, DeliveryChargeTaxCalculationRequest } from '../declarations/types-18.js';
+export type { PricingAmounts } from '../declarations/types-55.js';
+export type { InventoryRoutingSource } from '../declarations/types-33.js';
+export type { GiftCardProductConfiguration, GiftCardPurchaseRecipient } from '../declarations/types-29.js';
+export type { GiftCardCustomAmountBounds } from '../declarations/types-28.js';
+export type { LineItemInventorySnapshot, LineItemInventoryDemand, InvoicesMarkUncollectibleParams } from '../declarations/types-38.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
     PaymentSourceCardSummary,
     PaymentSourceCardPresentDetails
-} from '../declarations/types-47.js';
-export type { OrderTaxExemption, OrderTaxLocation } from '../declarations/types-42.js';
-export type { TicketedEvent, Tip, TipPaymentIntentAllocation, TipValueSettlementAllocation } from '../declarations/types-66.js';
-export type { DeliverySelectionRecipientRequestInput, DeliverySelectionRecipientRequest } from '../declarations/types-22.js';
+} from '../declarations/types-52.js';
+export type { OrderTaxCallbackEvaluation, OrderTaxExemption, OrderTaxLocation } from '../declarations/types-46.js';
 export type {
-    CreateSubscriptionAccessLinkRequestInput,
-    CreateSubscriptionLineItemRequestInput,
-    CreateSubscriptionLineItemRequestVariantInput,
-    CreateSubscriptionLineItemRequestBundleInput
-} from '../declarations/types-13.js';
-export type { UpdateSubscriptionRequestInput } from '../declarations/types-69.js';
-export type { UpdateSubscriptionLineItemRequestInput, UpdateSubscriptionLineItemRequest } from '../declarations/types-68.js';
-export { makeAddressRequest, makeApplySubscriptionPromotionRequest } from '../declarations/types-70.js';
+    CustomerTaxExemptionCoverage,
+    CustomerTaxExemptionCoverageAllStates,
+    CustomerTaxExemptionCoverageStates
+} from '../declarations/types-16.js';
+export type { TicketedEvent, Tip, TipPaymentIntentAllocation, TipValueSettlementAllocation } from '../declarations/types-73.js';
+export type { DeliverySelectionRecipientRequestInput, DeliverySelectionRecipientRequest } from '../declarations/types-24.js';
+export type {
+    RemoveSubscriptionPromotionsRequestInput,
+    RenewSubscriptionRequestInput,
+    RemoveSubscriptionPromotionsRequest
+} from '../declarations/types-59.js';
+export type {
+    UpdateSubscriptionRequestInput,
+    UpdateSubscriptionLineItemRequestInput,
+    UpdateSubscriptionLineItemRequest
+} from '../declarations/types-75.js';
+export { makeAddressRequest, makeApplySubscriptionPromotionRequest } from '../declarations/types-77.js';
 export {
     makeCancelSubscriptionRequest,
     makeChangeSubscriptionPlanRequest,
     makeChangeSubscriptionQuantityRequest,
-    makeConfigurationVersionRequest
-} from '../declarations/types-71.js';
-export { makeConfirmReturnResolutionRequest } from '../declarations/types-72.js';
-export { makeCreateSubscriptionAccessLinkRequest, makeCreateSubscriptionLineItemRequest } from '../declarations/types-74.js';
+    makeConfigurationVersionRequest,
+    makeConfirmReturnResolutionRequest
+} from '../declarations/types-78.js';
 export {
+    makeCreateSubscriptionAccessLinkRequest,
+    makeCreateSubscriptionLineItemRequest,
     makeCreateSubscriptionLineItemRequestBundle,
-    makeCreateSubscriptionLineItemRequestVariant,
-    makeCreateSubscriptionRequest
-} from '../declarations/types-75.js';
-export { makeDeliverySelectionRecipientRequest } from '../declarations/types-76.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-78.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
+    makeCreateSubscriptionLineItemRequestVariant
+} from '../declarations/types-81.js';
+export { makeCreateSubscriptionRequest } from '../declarations/types-82.js';
+export { makeDeliverySelectionRecipientRequest } from '../declarations/types-83.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export {
     makePauseSubscriptionRequest,
     makePromotionRefInputPromotionCode,
-    makePromotionRefInputPromotionID
-} from '../declarations/types-80.js';
+    makePromotionRefInputPromotionID,
+    makePromotionRefRequest
+} from '../declarations/types-87.js';
 export {
-    makePromotionRefRequest,
     makeRemoveSubscriptionPromotionsRequest,
     makeRenewSubscriptionRequest,
     makeResourceVersionRequest
-} from '../declarations/types-81.js';
+} from '../declarations/types-88.js';
 export {
     makeSkipSubscriptionCycleRequest,
     makeSubscriptionBillingScheduleInputExternal,
@@ -383,11 +399,11 @@ export {
     makeSubscriptionDeliveryDestinationInputAddress,
     makeSubscriptionDeliveryDestinationInputCustomerAddress,
     makeSubscriptionDeliveryDestinationRequest,
-    makeSubscriptionDeliveryRequest
-} from '../declarations/types-82.js';
-export {
+    makeSubscriptionDeliveryRequest,
     makeSubscriptionEndAfterCyclesRequest,
-    makeSubscriptionEndAfterDateRequest,
+    makeSubscriptionEndAfterDateRequest
+} from '../declarations/types-89.js';
+export {
     makeSubscriptionEndAfterRequest,
     makeSubscriptionGiftRecipientRequest,
     makeSubscriptionOfferLineItemRequest,
@@ -403,8 +419,8 @@ export {
     makeSubscriptionTaxRequest,
     makeSubscriptionTermsRequest,
     makeTextModifierRequest
-} from '../declarations/types-83.js';
-export { makeUpdateSubscriptionLineItemRequest, makeUpdateSubscriptionRequest } from '../declarations/types-84.js';
+} from '../declarations/types-90.js';
+export { makeUpdateSubscriptionLineItemRequest, makeUpdateSubscriptionRequest } from '../declarations/types-91.js';
 export interface SubscriptionsResource {
     /**
  * Attaches a promotion to a subscription for future charged cycles. Send exactly one of

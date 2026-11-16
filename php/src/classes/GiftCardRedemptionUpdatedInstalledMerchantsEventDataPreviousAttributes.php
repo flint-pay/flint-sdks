@@ -3,19 +3,19 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $capture_mode
- * @property-read MoneyValue|null $captured_money
+ * @property-read MoneyValuePreviousAttributes|null $captured_money
  * @property-read string|null $created_at
- * @property-read mixed $expires_at
+ * @property-read string|null $expires_at
  * @property-read string|null $gift_card_id
  * @property-read string|null $gift_card_redemption_id
- * @property-read mixed $idempotency_key
- * @property-read mixed $order_id
- * @property-read mixed $order_payment_attempt_id
- * @property-read MoneyValue|null $refunded_money
- * @property-read MoneyValue|null $remaining_refundable_money
- * @property-read MoneyValue|null $requested_money
- * @property-read MoneyValue|null $reserved_money
- * @property-read mixed $sale_reference
+ * @property-read string|null $idempotency_key
+ * @property-read string|null $order_id
+ * @property-read string|null $order_payment_attempt_id
+ * @property-read MoneyValuePreviousAttributes|null $refunded_money
+ * @property-read MoneyValuePreviousAttributes|null $remaining_refundable_money
+ * @property-read MoneyValuePreviousAttributes|null $requested_money
+ * @property-read MoneyValuePreviousAttributes|null $reserved_money
+ * @property-read string|null $sale_reference
  * @property-read string|null $source_type
  * @property-read string|null $status
  * @property-read list<string>|null $supported_actions
@@ -30,20 +30,20 @@ final class GiftCardRedemptionUpdatedInstalledMerchantsEventDataPreviousAttribut
      */
     public function getCaptureMode(): string|null { return $this->get('capture_mode'); }
     public function hasCaptureMode(): bool { return $this->has('capture_mode'); }
-    /** The value captured from the card so far. anyOf[1] (Value): {@see MoneyValue}. The value captured from the card so far. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** The value captured from the card so far. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getCapturedMoney(): MoneyValue|null { return $this->get('captured_money'); }
+    public function getCapturedMoney(): MoneyValuePreviousAttributes|null { return $this->get('captured_money'); }
     public function hasCapturedMoney(): bool { return $this->has('captured_money'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** When an uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`, which posts immediately. anyOf[1] (Value): string or null. When an uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`, which posts immediately. Format: date-time. anyOf[2] (Value): null.
-     * @return mixed
+    /** When an uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`, which posts immediately. anyOf[1] (Value): string. When an uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`, which posts immediately. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getExpiresAt(): mixed { return $this->get('expires_at'); }
+    public function getExpiresAt(): string|null { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
     /** ID of the gift card the value is spent from. anyOf[1] (Value): string. ID of the gift card the value is spent from. anyOf[2] (Value): null.
      * @return string|null
@@ -55,45 +55,45 @@ final class GiftCardRedemptionUpdatedInstalledMerchantsEventDataPreviousAttribut
      */
     public function getGiftCardRedemptionId(): string|null { return $this->get('gift_card_redemption_id'); }
     public function hasGiftCardRedemptionId(): bool { return $this->has('gift_card_redemption_id'); }
-    /** Your Idempotency-Key for the command that created this record. `null` when Flint created it or no key was sent. anyOf[1] (Value): string or null. Your Idempotency-Key for the command that created this record. `null` when Flint created it or no key was sent. anyOf[2] (Value): null.
-     * @return mixed
+    /** Your Idempotency-Key for the command that created this record. `null` when Flint created it or no key was sent. anyOf[1] (Value): string. Your Idempotency-Key for the command that created this record. `null` when Flint created it or no key was sent. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getIdempotencyKey(): mixed { return $this->get('idempotency_key'); }
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** ID of the Flint order the redemption pays for. `null` when `source_type` is `external`. anyOf[1] (Value): string or null. ID of the Flint order the redemption pays for. `null` when `source_type` is `external`. anyOf[2] (Value): null.
-     * @return mixed
+    /** ID of the Flint order the redemption pays for. `null` when `source_type` is `external`. anyOf[1] (Value): string. ID of the Flint order the redemption pays for. `null` when `source_type` is `external`. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getOrderId(): mixed { return $this->get('order_id'); }
+    public function getOrderId(): string|null { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** The order payment attempt the redemption belongs to. Set for source_type flint_order. `null` when `source_type` is `external`. anyOf[1] (Value): string or null. The order payment attempt the redemption belongs to. Set for source_type flint_order. `null` when `source_type` is `external`. anyOf[2] (Value): null.
-     * @return mixed
+    /** The order payment attempt the redemption belongs to. Set for source_type flint_order. `null` when `source_type` is `external`. anyOf[1] (Value): string. The order payment attempt the redemption belongs to. Set for source_type flint_order. `null` when `source_type` is `external`. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getOrderPaymentAttemptId(): mixed { return $this->get('order_payment_attempt_id'); }
+    public function getOrderPaymentAttemptId(): string|null { return $this->get('order_payment_attempt_id'); }
     public function hasOrderPaymentAttemptId(): bool { return $this->has('order_payment_attempt_id'); }
-    /** Total refunded against this redemption across all refunds. Each refund lists its share in `tender_allocations`. anyOf[1] (Value): {@see MoneyValue}. Total refunded against this redemption across all refunds. Each refund lists its share in `tender_allocations`. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** Total refunded against this redemption across all refunds. Each refund lists its share in `tender_allocations`. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getRefundedMoney(): MoneyValue|null { return $this->get('refunded_money'); }
+    public function getRefundedMoney(): MoneyValuePreviousAttributes|null { return $this->get('refunded_money'); }
     public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
-    /** Captured value not yet refunded. A refund allocation to this redemption can be at most this amount. Zero while the redemption is reserved, canceled, or expired. anyOf[1] (Value): {@see MoneyValue}. Captured value not yet refunded. A refund allocation to this redemption can be at most this amount. Zero while the redemption is reserved, canceled, or expired. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** Captured value not yet refunded. A refund allocation to this redemption can be at most this amount. Zero while the redemption is reserved, canceled, or expired. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getRemainingRefundableMoney(): MoneyValue|null { return $this->get('remaining_refundable_money'); }
+    public function getRemainingRefundableMoney(): MoneyValuePreviousAttributes|null { return $this->get('remaining_refundable_money'); }
     public function hasRemainingRefundableMoney(): bool { return $this->has('remaining_refundable_money'); }
-    /** The amount requested when the redemption was created. anyOf[1] (Value): {@see MoneyValue}. The amount requested when the redemption was created. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** The amount requested when the redemption was created. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getRequestedMoney(): MoneyValue|null { return $this->get('requested_money'); }
+    public function getRequestedMoney(): MoneyValuePreviousAttributes|null { return $this->get('requested_money'); }
     public function hasRequestedMoney(): bool { return $this->has('requested_money'); }
-    /** The value held on the card for this redemption while it is reserved. anyOf[1] (Value): {@see MoneyValue}. The value held on the card for this redemption while it is reserved. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** The value held on the card for this redemption while it is reserved. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getReservedMoney(): MoneyValue|null { return $this->get('reserved_money'); }
+    public function getReservedMoney(): MoneyValuePreviousAttributes|null { return $this->get('reserved_money'); }
     public function hasReservedMoney(): bool { return $this->has('reserved_money'); }
-    /** Your reference for the sale the redemption pays for. Set for source_type external. `null` when `source_type` is `flint_order`. anyOf[1] (Value): string or null. Your reference for the sale the redemption pays for. Set for source_type external. `null` when `source_type` is `flint_order`. maxLength: 255. anyOf[2] (Value): null.
-     * @return mixed
+    /** Your reference for the sale the redemption pays for. Set for source_type external. `null` when `source_type` is `flint_order`. anyOf[1] (Value): string. Your reference for the sale the redemption pays for. Set for source_type external. `null` when `source_type` is `flint_order`. maxLength: 255. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getSaleReference(): mixed { return $this->get('sale_reference'); }
+    public function getSaleReference(): string|null { return $this->get('sale_reference'); }
     public function hasSaleReference(): bool { return $this->has('sale_reference'); }
     /** What the redemption pays for: a sale you record, or a Flint order's payment. Value enum: "external", "flint_order". anyOf[1] (Value): string. What the redemption pays for: a sale you record, or a Flint order's payment. Value enum: "external", "flint_order". anyOf[2] (Value): null.
      * @return string|null

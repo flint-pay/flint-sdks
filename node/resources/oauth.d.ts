@@ -10,10 +10,10 @@ import type {
     OauthReauthorizeCLIDeviceParams,
     OauthRevokeTokenParams,
     OauthRevokeTokenResponse
-} from '../declarations/types-39.js';
-import type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse } from '../declarations/types-44.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-43.js';
+import type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse } from '../declarations/types-48.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,17 +38,11 @@ export type {
     OauthRevokeTokenParams,
     OauthRevokeTokenResponse,
     OAuthTokenRequestInput,
-    OAuthTokenRequestAuthorizationCodeInput,
-    OAuthTokenRequestClientCredentialsInput,
     OAuthTokenRequestRefreshTokenInput,
-    OAuthTokenRequestDeviceCodeInput,
-    OAuthTokenRequestTokenExchangeInput,
-    MoneyValue,
-    NextAction,
-    OAuthRevokeRequestInput
-} from '../declarations/types-39.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+    OAuthTokenRequestTokenExchangeInput
+} from '../declarations/types-43.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
 export type {
     CLIDeviceResponse,
     CLIContextsResponse,
@@ -56,14 +50,26 @@ export type {
     CLIContextsRequestInput,
     CLIReauthorizeRequestInput
 } from '../declarations/types-4.js';
-export type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse } from '../declarations/types-44.js';
+export type {
+    PartnerAuthorizePreview,
+    PartnerAuthorizePreviewResponse,
+    PartnerAppPaymentSplits,
+    PartnerAppPermissionManifestEntry
+} from '../declarations/types-48.js';
 export type { ClientOptions, ContextSummary } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { PartnerAppPaymentSplits, PartnerAppPermissionManifestEntry } from '../declarations/types-43.js';
-export type { PlatformFeeCap } from '../declarations/types-49.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export { makeCLIContextsRequest, makeCLIDeviceRequest, makeCLIReauthorizeRequest } from '../declarations/types-71.js';
+export type {
+    OAuthTokenRequestAuthorizationCodeInput,
+    OAuthTokenRequestClientCredentialsInput,
+    OAuthTokenRequestDeviceCodeInput,
+    MoneyValue,
+    NextAction,
+    OAuthRevokeRequestInput
+} from '../declarations/types-42.js';
+export type { PlatformFeeCap } from '../declarations/types-54.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export { makeCLIContextsRequest, makeCLIDeviceRequest, makeCLIReauthorizeRequest } from '../declarations/types-78.js';
 export {
     makeMoneyValue,
     makeOAuthRevokeRequest,
@@ -73,7 +79,7 @@ export {
     makeOAuthTokenRequestDeviceCode,
     makeOAuthTokenRequestRefreshToken,
     makeOAuthTokenRequestTokenExchange
-} from '../declarations/types-79.js';
+} from '../declarations/types-86.js';
 export interface OauthResource {
     /**
  * First-party public client flint-cli. Uses application/x-www-form-urlencoded and flat OAuth JSON.
@@ -206,14 +212,17 @@ export interface OauthResource {
  * Authorization in the Flint error envelope. No client secret or HTTP Basic authentication.
  * Requests are not replayed through idempotency caching. Flint session control extension. Starts
  * device consent bound to the current session and user without consuming the refresh token.
- * Without scope_mode, approval replaces consent; denial or expiry leaves consent unchanged. Redeem
- * using the device_code grant to rotate the latest family token. Set scope_mode=additive and
- * context_id to request additional space-separated scope names for one existing context. Merchant
- * and environment are derived from that context; conflicting hints return invalid_context.
- * Approval unions only browser-approved additions with that context's existing scopes and
- * preserves all other contexts. No implicit bootstrap scopes are added. Unsupported or
- * environment-disallowed scopes return HTTP 400 invalid_scope; browser denial returns
- * access_denied when polling. Partial approval succeeds and scope in the token response is
+ * Without scope_mode, approval replaces consent using only requested scopes. Set
+ * scope_mode=preserve to start from each context's current permissions and offer requested scopes
+ * alongside them. Prior permissions can be retained only in the same active merchant and
+ * environment context, and only browser-selected permissions remain approved. Denial or expiry
+ * leaves consent unchanged. Redeem using the device_code grant to rotate the latest family token.
+ * Set scope_mode=additive and context_id to request additional space-separated scope names for one
+ * existing context. Merchant and environment are derived from that context; conflicting hints
+ * return invalid_context. Approval unions only browser-approved additions with that context's
+ * existing scopes and preserves all other contexts. No implicit bootstrap scopes are added.
+ * Unsupported or environment-disallowed scopes return HTTP 400 invalid_scope; browser denial
+ * returns access_denied when polling. Partial approval succeeds and scope in the token response is
  * authoritative. A superseded consent review returns expired_token when its device code is
  * redeemed; start a new review. The existing session remains active.
  *

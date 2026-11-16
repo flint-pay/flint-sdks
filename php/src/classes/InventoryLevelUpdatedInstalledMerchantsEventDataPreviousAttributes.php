@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read int|null $damaged_quantity
  * @property-read int|null $held_quantity
  * @property-read int|null $incoming_quantity
- * @property-read InventoryItem|null $inventory_item
+ * @property-read InventoryItemPreviousAttributes|null $inventory_item
  * @property-read string|null $inventory_item_id
  * @property-read string|null $inventory_level_id
  * @property-read string|null $location_id
@@ -67,10 +67,10 @@ final class InventoryLevelUpdatedInstalledMerchantsEventDataPreviousAttributes e
      */
     public function getIncomingQuantity(): int|null { return $this->get('incoming_quantity'); }
     public function hasIncomingQuantity(): bool { return $this->has('incoming_quantity'); }
-    /** The inventory item this level belongs to. Present only when the list request asked for expand=inventory_item. anyOf[1] (Value): {@see InventoryItem}. The inventory item this level belongs to. Present only when the list request asked for expand=inventory_item. anyOf[2] (Value): null.
-     * @return InventoryItem|null
+    /** The inventory item this level belongs to. Present only when the list request asked for expand=inventory_item. anyOf[1] (Value): {@see InventoryItemPreviousAttributes}. anyOf[2] (Value): null.
+     * @return InventoryItemPreviousAttributes|null
      */
-    public function getInventoryItem(): InventoryItem|null { return $this->get('inventory_item'); }
+    public function getInventoryItem(): InventoryItemPreviousAttributes|null { return $this->get('inventory_item'); }
     public function hasInventoryItem(): bool { return $this->has('inventory_item'); }
     /** ID of the inventory item the stock is for. anyOf[1] (Value): string. ID of the inventory item the stock is for. anyOf[2] (Value): null.
      * @return string|null

@@ -9,10 +9,11 @@ import type {
     PromotionCodesGetParams,
     PromotionCodesListParams,
     PromotionCodesSummary,
+    PromotionCodesSummaryPreviousAttributes,
     PromotionCodesUpdateParams
-} from '../declarations/types-51.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-56.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -37,36 +38,35 @@ export type {
     PromotionCodeListResponse,
     PromotionCodesUpdateParams,
     PromotionCodesSummary,
+    PromotionCodesSummaryPreviousAttributes,
+    PromotionApplicationMethod,
     PromotionPercentOffMethod,
-    PromotionRuleGroup,
-    PromotionRule,
-    PromotionRuleValue,
     PromotionRecurrence,
     PromotionRecurrenceOnce,
     PromotionRecurrenceRepeating,
     PromotionRecurrenceForever,
     PromotionBuyXGetYMethod,
     PromotionCombinesWith,
-    PromotionExclusivity,
-    PromotionSchedule
-} from '../declarations/types-51.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+    PromotionExclusivity
+} from '../declarations/types-56.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreatePromotionCodeRequestInput } from '../declarations/types-12.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-38.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { Promotion, PromotionApplicationMethod, PromotionAmountOffMethod } from '../declarations/types-50.js';
-export type { MoneyValue, NextAction } from '../declarations/types-39.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { UpdatePromotionCodeRequestInput } from '../declarations/types-68.js';
+export type { Promotion, PromotionAmountOffMethod } from '../declarations/types-55.js';
+export type { PromotionRuleGroup, PromotionRule, PromotionRuleValue, PromotionSchedule } from '../declarations/types-57.js';
+export type { MoneyValue, NextAction } from '../declarations/types-42.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { UpdatePromotionCodeRequestInput } from '../declarations/types-75.js';
 export type { CategoriesDeleteParams } from '../declarations/types-5.js';
-export type { DisputesAcceptParams } from '../declarations/types-23.js';
-export { makeCreatePromotionCodeRequest } from '../declarations/types-74.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-78.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
-export { makeUpdatePromotionCodeRequest } from '../declarations/types-84.js';
+export type { DisputesAcceptParams } from '../declarations/types-25.js';
+export { makeCreatePromotionCodeRequest } from '../declarations/types-81.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
+export { makeUpdatePromotionCodeRequest } from '../declarations/types-91.js';
 export interface PromotionCodesResource {
     /**
  * Creates a code for a promotion whose `redemption_type` is code; adding a code to an automatic

@@ -1,9 +1,9 @@
-import { d7819 as c0, d7824 as c1, d7825 as c2, d7826 as c3, d7827 as c4, d7828 as c5 } from '../descriptors/data/365.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
-import { d7819 as d7819 } from '../descriptors/data/365.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
+import { d8842 as c0, d8847 as c1, d8848 as c2, d8849 as c3, d8850 as c4, d8851 as c5 } from '../descriptors/data/398.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
+import { d8842 as d8842 } from '../descriptors/data/398.js?sdk=7316ebc4368cae4fb21e9dd0206c4938f4c5a57a259afde4b2f0fbd075469ada';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7819;
+const read = d8842;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["InventoryAdjustmentConditionChangeLineRequest"]:c0(),["SharedCodec1050"]:c1(),["SharedCodec1051"]:c2(),["SharedCodec1052"]:c3(),["SharedCodec1053"]:c4(),["SharedCodec1054"]:c5()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["InventoryAdjustmentConditionChangeLineRequest"]:c0(),["SharedCodec1376"]:c1(),["SharedCodec1377"]:c2(),["SharedCodec1378"]:c3(),["SharedCodec1379"]:c4(),["SharedCodec1380"]:c5()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeInventoryAdjustmentConditionChangeLineRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

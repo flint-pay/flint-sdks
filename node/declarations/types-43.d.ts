@@ -1,4010 +1,909 @@
-import type { CreatePackageItemRequest, CreatePackageItemRequestInput, CreatePackageRequestInput } from './types-11.js';
-import type { Dimensions, DimensionsRequestInput } from './types-23.js';
-import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-38.js';
-import type { ReturnResolutionLineItemRequest, ReturnShipmentLineItemAllocationRequestInput } from './types-57.js';
 import type {
-    Weight,
-    WeightRequestInput,
-    WorkloadIdentityClaimCondition,
-    WorkloadIdentityClaimConditionRequest,
-    WorkloadIdentityClaimConditionRequestInput
-} from './types-70.js';
-import type { PackageCreateInputCreated, PackageCreateInputCreatedInput, Package } from './types-42.js';
-import type { ExpandedOrderSummary } from './types-24.js';
-import type { PartnerWebhookEnvelope, PartnerAppPlatform, PartnerAppPlatformProfile, PartnerEnvironmentGrant } from './types-44.js';
-import type { ReturnHandoffRequirementLineItem } from './types-55.js';
-import type { ResponseMeta } from './types-54.js';
+    OAuthTokenRequestAuthorizationCodeInput,
+    OAuthTokenRequestClientCredentialsInput,
+    OAuthTokenRequestDeviceCodeInput,
+    OAuthRevokeRequestInput,
+    MoneyValue,
+    MoneyValuePreviousAttributes,
+    MoneyValueInput
+} from './types-42.js';
 import type { InputValue } from '../runtime.js';
-import type { FulfillmentEventsGetParams } from './types-25.js';
+import type { CLIDeviceRequestInput, CLIContextsRequestInput, CLIReauthorizeRequestInput } from './types-4.js';
+import type { CreateOnboardingAccessLinkRequestInput } from './types-11.js';
+import type { DisputesAcceptParams } from './types-25.js';
+import type { ResponseMeta } from './types-60.js';
+import type { ReadinessAction } from './types-58.js';
+import type { Merchant } from './types-40.js';
+import type { User } from './types-76.js';
+import type { WebhookPreviousAttributes, WebhookOrder } from './types-77.js';
+import type { BuyerAction } from './types-1.js';
+import type { CheckoutBuyerContact, CheckoutBuyerContactPreviousAttributes } from './types-5.js';
+import type { CustomFieldAnswer, CustomFieldAnswerPreviousAttributes } from './types-15.js';
+import type { DeferredPromotion, DeferredPromotionPreviousAttributes } from './types-17.js';
 import type {
-    MarkPackageDeliveredRequestInput,
-    MarkPackageDeliveryAttemptedRequestInput,
-    MarkPackageExceptionRequestInput
-} from './types-35.js';
+    ExpandedCustomerSummary,
+    ExpandedPaymentIntentSummary,
+    ExpandedSubscriptionPlanSummary,
+    ExpandedSubscriptionSummary,
+    ExpandedCustomerSummaryPreviousAttributes,
+    ExpandedPaymentIntentSummaryPreviousAttributes,
+    ExpandedSubscriptionPlanSummaryPreviousAttributes,
+    ExpandedSubscriptionSummaryPreviousAttributes
+} from './types-26.js';
+import type { Fulfillment, FulfillmentPreviousAttributes } from './types-27.js';
+import type { InventoryRoutingSource, InventoryRoutingSourcePreviousAttributes } from './types-33.js';
+import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-41.js';
 import type {
-    MarkPackageInTransitRequestInput,
-    MarkPackageOutForDeliveryRequestInput,
-    MarkPackagePackedRequestInput,
-    MarkPackageReturnedRequestInput,
-    MarkPackageShippedRequestInput
-} from './types-36.js';
-import type { UpdatePackageItemRequestInput, UpdatePackageRequestInput } from './types-67.js';
-import type { VoidPackageRequestInput } from './types-69.js';
-import type { PlatformFeeCap } from './types-49.js';
-/**
- * Package to create inline with its enclosing shipment or fulfillment. Set status to created
- * before handoff, or shipped to report handoff during creation.
- */
-export type PackageCreateInputShipped = ({
+    OrderDeliveryDestination,
+    OrderDeliverySummary,
+    OrderDiscount,
+    OrderGiftCardEstimate,
+    OrderGiftCardSelection,
+    OrderGiftCardSettlement,
+    OrderHandover,
+    OrderDeliveryDestinationPreviousAttributes,
+    OrderDeliverySummaryPreviousAttributes,
+    OrderDiscountPreviousAttributes,
+    OrderGiftCardEstimatePreviousAttributes,
+    OrderGiftCardSelectionPreviousAttributes,
+    OrderGiftCardSettlementPreviousAttributes,
+    OrderHandoverPreviousAttributes
+} from './types-44.js';
+import type {
+    OrderLineItem,
+    OrderPaymentAttempt,
+    OrderReturnCreditSettlement,
+    OrderSettlementAmounts,
+    OrderTax,
+    OrderLineItemPreviousAttributes,
+    OrderReturnCreditSettlementPreviousAttributes,
+    OrderSettlementAmountsPreviousAttributes
+} from './types-45.js';
+import type { PaymentCollection, PartnerWebhookEnvelope } from './types-49.js';
+import type { PricingAmounts, PricingAmountsPreviousAttributes } from './types-55.js';
+import type { SetupCollection } from './types-66.js';
+import type { TicketedEvent, Tip, TicketedEventPreviousAttributes, TipPreviousAttributes } from './types-73.js';
+import type {
+    TaxCalculationRequestPreviousAttributes,
+    TaxCalculationRequestRequestInput,
+    TaxCalculationRequest,
+    TaxCalculationRequestModelInput
+} from './types-71.js';
+import type { OrderTaxPreviousAttributes } from './types-46.js';
+/** The request body for: Exchange an OAuth token. */
+export type OAuthTokenRequestInput = ({
     /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
      */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
+    "client_assertion"?: string;
     /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
      */
-    "dimensions"?: Dimensions;
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
     /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     * Example: "flint-cli".
      */
-    "expected_delivery_at"?: string | null;
+    "client_id"?: string;
     /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
      */
-    "external_reference_id"?: string;
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code"?: string;
     /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
      */
-    "external_system"?: string;
+    "code_verifier"?: string;
     /**
-     * Independent package-item collection. Inline creation uses the child-create shape and commits
-     * atomically; edit items through the package item routes after creation. Each order line and
-     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
-     * CreatePackageItemRequest}. The request body for: Create package item.
+     * flint-cli only. Example:
+     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
      */
-    "items"?: Array<CreatePackageItemRequest>;
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code"?: string;
     /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
+     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
+     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
+     * enum: "authorization_code", "client_credentials", "refresh_token",
+     * "urn:ietf:params:oauth:grant-type:device_code",
+     * "urn:ietf:params:oauth:grant-type:token-exchange".
      */
-    "label_url"?: string;
+    "grant_type": "authorization_code"
+        | "client_credentials"
+        | "refresh_token"
+        | "urn:ietf:params:oauth:grant-type:device_code"
+        | "urn:ietf:params:oauth:grant-type:token-exchange";
     /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
+     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
+     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      */
-    "metadata"?: MetadataMap;
+    "merchant_id"?: string;
     /**
-     * Required for a package on a return shipment: allocates quantities from the shipment's
-     * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
-     * shipment or package. The enclosing Return or shipment determines its parent.
+     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
+     * token is for one mode. Value enum: "test", "live".
      */
-    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
+    "mode"?: "test" | "live";
     /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     * The redirect URI the authorization request used, character for character. Required for a
+     * code from the consent screen. Omit it for a code from a merchant signup, which had no
+     * authorization request: a signup code sent with one, or a consent-screen code sent without
+     * one, returns invalid_grant.
      */
-    "shipped_at"?: string;
+    "redirect_uri"?: string;
     /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "shipped".
+     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
+     * tokens; a partner client that sends this grant gets unauthorized_client.
      */
-    "status": "shipped" | (string & {});
+    "refresh_token"?: string;
     /**
-     * Explanation of the package's status, kept as the package's `status_reason` and recorded as
-     * the reason on the shipped status change. At most 500 characters. `null` is the same as
-     * omitting the field. minLength: 1.
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
      */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
     /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
+     * client_credentials refuses scope with invalid_scope.
      */
-    "weight"?: Weight;
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token"?: string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
+     */
+    "workload_identity_id"?: string;
+})
+    & ((Exclude<OAuthTokenRequestAuthorizationCodeInput & object, readonly unknown[]>)
+    | (Exclude<OAuthTokenRequestClientCredentialsInput & object, readonly unknown[]>)
+    | (Exclude<OAuthTokenRequestRefreshTokenInput & object, readonly unknown[]>)
+    | (Exclude<OAuthTokenRequestDeviceCodeInput & object, readonly unknown[]>)
+    | (Exclude<OAuthTokenRequestTokenExchangeInput & object, readonly unknown[]>));
+/** The `refresh_token` variant of `OAuthTokenRequest`. */
+export type OAuthTokenRequestRefreshToken = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     * Example: "flint-cli".
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code"?: string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier"?: string;
+    /**
+     * flint-cli only. Example:
+     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code"?: string;
+    /**
+     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
+     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
+     * enum: "refresh_token".
+     */
+    "grant_type": "refresh_token" | (string & {});
+    /**
+     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
+     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
+     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: string;
+    /**
+     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
+     * token is for one mode. Value enum: "test", "live".
+     */
+    "mode"?: "test" | "live" | (string & {});
+    /**
+     * The redirect URI the authorization request used, character for character. Required for a
+     * code from the consent screen. Omit it for a code from a merchant signup, which had no
+     * authorization request: a signup code sent with one, or a consent-screen code sent without
+     * one, returns invalid_grant.
+     */
+    "redirect_uri"?: string;
+    /**
+     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
+     * tokens; a partner client that sends this grant gets unauthorized_client.
+     */
+    "refresh_token": string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
+     * client_credentials refuses scope with invalid_scope.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token"?: string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
+     */
+    "workload_identity_id"?: string;
+})
+    & ({
+    /** Value enum: "refresh_token". */
+    "grant_type"?: unknown;
+    /**
+     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
+     * tokens; a partner client that sends this grant gets unauthorized_client.
+     */
+    "refresh_token": string;
 });
-/**
- * Package to create inline with its enclosing shipment or fulfillment. Set status to created
- * before handoff, or shipped to report handoff during creation.
- */
-export type PackageCreateInputShippedInput = ({
+/** The `refresh_token` variant of `OAuthTokenRequest`. */
+export type OAuthTokenRequestRefreshTokenInput = ({
     /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
      */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
+    "client_assertion"?: string;
     /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
      */
-    "dimensions"?: DimensionsRequestInput;
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
     /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     * Example: "flint-cli".
      */
-    "expected_delivery_at"?: string | globalThis.Date | null;
+    "client_id"?: string;
     /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
      */
-    "external_reference_id"?: string;
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code"?: string;
     /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
      */
-    "external_system"?: string;
+    "code_verifier"?: string;
     /**
-     * Independent package-item collection. Inline creation uses the child-create shape and commits
-     * atomically; edit items through the package item routes after creation. Each order line and
-     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
-     * CreatePackageItemRequestInput}. The request body for: Create package item.
+     * flint-cli only. Example:
+     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
      */
-    "items"?: Array<CreatePackageItemRequestInput>;
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code"?: string;
     /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
+     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
+     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
+     * enum: "refresh_token".
      */
-    "label_url"?: string;
+    "grant_type": "refresh_token";
     /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
+     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
+     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      */
-    "metadata"?: MetadataRequestInput;
+    "merchant_id"?: string;
     /**
-     * Required for a package on a return shipment: allocates quantities from the shipment's
-     * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
-     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
-     * return shipment or package. The enclosing Return or shipment determines its parent.
+     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
+     * token is for one mode. Value enum: "test", "live".
      */
-    "return_line_items"?: Array<ReturnShipmentLineItemAllocationRequestInput>;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
+    "mode"?: "test" | "live";
     /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     * The redirect URI the authorization request used, character for character. Required for a
+     * code from the consent screen. Omit it for a code from a merchant signup, which had no
+     * authorization request: a signup code sent with one, or a consent-screen code sent without
+     * one, returns invalid_grant.
      */
-    "shipped_at"?: string | globalThis.Date;
+    "redirect_uri"?: string;
     /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "shipped".
+     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
+     * tokens; a partner client that sends this grant gets unauthorized_client.
      */
-    "status": "shipped";
+    "refresh_token": string;
     /**
-     * Explanation of the package's status, kept as the package's `status_reason` and recorded as
-     * the reason on the shipped status change. At most 500 characters. `null` is the same as
-     * omitting the field. minLength: 1.
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
      */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
     /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
+     * client_credentials refuses scope with invalid_scope.
      */
-    "weight"?: WeightRequestInput;
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token"?: string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
+     */
+    "workload_identity_id"?: string;
 })
-    & (({
-    "return_line_items"?: never;
-}));
-/**
- * Package to create inline with its enclosing shipment or fulfillment. Set status to created
- * before handoff, or shipped to report handoff during creation.
- */
-export type PackageCreateRequest = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Independent package-item collection. Inline creation uses the child-create shape and commits
-     * atomically; edit items through the package item routes after creation. Each order line and
-     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
-     * CreatePackageItemRequest}. The request body for: Create package item.
-     */
-    "items"?: Array<CreatePackageItemRequest>;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Required for a package on a return shipment: allocates quantities from the shipment's
-     * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
-     * shipment or package. The enclosing Return or shipment determines its parent.
-     */
-    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created", "shipped".
-     */
-    "status": "created" | "shipped" | (string & {});
-    /** Additional explanation of the package's starting status. minLength: 1. */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: Weight;
-})
-    & ((Exclude<PackageCreateInputCreated & object, readonly unknown[]>)
-    | (Exclude<PackageCreateInputShipped & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Package to create inline with its enclosing shipment or fulfillment. Set status to created
- * before handoff, or shipped to report handoff during creation.
- */
-export type PackageCreateRequestInput = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: DimensionsRequestInput;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Independent package-item collection. Inline creation uses the child-create shape and commits
-     * atomically; edit items through the package item routes after creation. Each order line and
-     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
-     * CreatePackageItemRequestInput}. The request body for: Create package item.
-     */
-    "items"?: Array<CreatePackageItemRequestInput>;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Required for a package on a return shipment: allocates quantities from the shipment's
-     * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
-     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
-     * return shipment or package. The enclosing Return or shipment determines its parent.
-     */
-    "return_line_items"?: Array<ReturnShipmentLineItemAllocationRequestInput>;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created", "shipped".
-     */
-    "status": "created" | "shipped";
-    /** Additional explanation of the package's starting status. minLength: 1. */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: WeightRequestInput;
-})
-    & ((Exclude<PackageCreateInputCreatedInput & object, readonly unknown[]>)
-    | (Exclude<PackageCreateInputShippedInput & object, readonly unknown[]>));
-export type PackageCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    "data"?: {
-        "object": {
-            "carrier"?: string;
-            "created_at": string;
-            "delivered_at"?: string;
-            "dimensions"?: Dimensions;
-            "expected_delivery_at"?: string | null;
-            "external_reference_id"?: string;
-            "external_system"?: string;
-            "fulfillment_id": string;
-            "label_url"?: string;
-            "metadata"?: MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string;
-            "package_id": string;
-            "return_id"?: string;
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            "service_code"?: string;
-            "shipment_id": string;
-            "shipped_at"?: string;
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            "status_reason"?: string;
-            "supported_actions": Array<"mark_delivered"
-                | "mark_delivery_attempted"
-                | "mark_exception"
-                | "mark_in_transit"
-                | "mark_out_for_delivery"
-                | "mark_packed"
-                | "mark_returned"
-                | "mark_shipped"
-                | "void"
-                | (string & {})>;
-            "tracking_number"?: string;
-            "tracking_url"?: string;
-            "updated_at": string;
-            "version": number;
-            "weight"?: Weight;
-        };
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "package.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "carrier"?: string;
-            "created_at": string;
-            "delivered_at"?: string;
-            "dimensions"?: Dimensions;
-            "expected_delivery_at"?: string | null;
-            "external_reference_id"?: string;
-            "external_system"?: string;
-            "fulfillment_id": string;
-            "label_url"?: string;
-            "metadata"?: MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string;
-            "package_id": string;
-            "return_id"?: string;
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            "service_code"?: string;
-            "shipment_id": string;
-            "shipped_at"?: string;
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            "status_reason"?: string;
-            "supported_actions": Array<"mark_delivered"
-                | "mark_delivery_attempted"
-                | "mark_exception"
-                | "mark_in_transit"
-                | "mark_out_for_delivery"
-                | "mark_packed"
-                | "mark_returned"
-                | "mark_shipped"
-                | "void"
-                | (string & {})>;
-            "tracking_number"?: string;
-            "tracking_url"?: string;
-            "updated_at": string;
-            "version": number;
-            "weight"?: Weight;
-        };
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "package.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "package.created";
+    /** Value enum: "refresh_token". */
+    "grant_type"?: ("refresh_token") & ("refresh_token");
+    /**
+     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
+     * tokens; a partner client that sends this grant gets unauthorized_client.
+     */
+    "refresh_token": string;
 });
+/** The `urn:ietf:params:oauth:grant-type:token-exchange` variant of `OAuthTokenRequest`. */
+export type OAuthTokenRequestTokenExchange = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     * Example: "flint-cli".
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code"?: string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier"?: string;
+    /**
+     * flint-cli only. Example:
+     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code"?: string;
+    /**
+     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
+     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
+     * enum: "urn:ietf:params:oauth:grant-type:token-exchange".
+     */
+    "grant_type": "urn:ietf:params:oauth:grant-type:token-exchange" | (string & {});
+    /**
+     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
+     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
+     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: string;
+    /**
+     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
+     * token is for one mode. Value enum: "test", "live".
+     */
+    "mode"?: "test" | "live" | (string & {});
+    /**
+     * The redirect URI the authorization request used, character for character. Required for a
+     * code from the consent screen. Omit it for a code from a merchant signup, which had no
+     * authorization request: a signup code sent with one, or a consent-screen code sent without
+     * one, returns invalid_grant.
+     */
+    "redirect_uri"?: string;
+    /**
+     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
+     * tokens; a partner client that sends this grant gets unauthorized_client.
+     */
+    "refresh_token"?: string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
+     * client_credentials refuses scope with invalid_scope.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token": string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type": "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
+     */
+    "workload_identity_id": string;
+})
+    & ({
+    /** Value enum: "urn:ietf:params:oauth:grant-type:token-exchange". */
+    "grant_type"?: unknown;
+    "requested_token_type"?: unknown;
+    "scope"?: unknown;
+    "subject_token": unknown;
+    "subject_token_type": unknown;
+    "workload_identity_id": unknown;
+});
+/** The `urn:ietf:params:oauth:grant-type:token-exchange` variant of `OAuthTokenRequest`. */
+export type OAuthTokenRequestTokenExchangeInput = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     * Example: "flint-cli".
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code"?: string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier"?: string;
+    /**
+     * flint-cli only. Example:
+     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code"?: string;
+    /**
+     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
+     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
+     * enum: "urn:ietf:params:oauth:grant-type:token-exchange".
+     */
+    "grant_type": "urn:ietf:params:oauth:grant-type:token-exchange";
+    /**
+     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
+     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
+     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: string;
+    /**
+     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
+     * token is for one mode. Value enum: "test", "live".
+     */
+    "mode"?: "test" | "live";
+    /**
+     * The redirect URI the authorization request used, character for character. Required for a
+     * code from the consent screen. Omit it for a code from a merchant signup, which had no
+     * authorization request: a signup code sent with one, or a consent-screen code sent without
+     * one, returns invalid_grant.
+     */
+    "redirect_uri"?: string;
+    /**
+     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
+     * tokens; a partner client that sends this grant gets unauthorized_client.
+     */
+    "refresh_token"?: string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
+     * client_credentials refuses scope with invalid_scope.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token": string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type": "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
+     */
+    "workload_identity_id": string;
+})
+    & ({
+    /** Value enum: "urn:ietf:params:oauth:grant-type:token-exchange". */
+    "grant_type"?: ("urn:ietf:params:oauth:grant-type:token-exchange")
+        & ("urn:ietf:params:oauth:grant-type:token-exchange");
+    "requested_token_type"?: unknown;
+    "scope"?: unknown;
+    "subject_token": unknown;
+    "subject_token_type": unknown;
+    "workload_identity_id": unknown;
+});
+/** The response for: Exchange an OAuth token. */
+export type OAuthTokenResponse = ({
+    /**
+     * The access token. Send it as a bearer token. Partner app tokens start with `fpat_` and
+     * workload identity tokens with `fwat_`. minLength: 1.
+     */
+    "access_token": string;
+    /**
+     * ID of the CLI context the access token is for. minLength: 1. Example:
+     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     */
+    "context_id"?: string;
+    /**
+     * ID of the grant that authorizes the partner app in this environment, from a code exchange.
+     * Each mode has its own grant. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+     */
+    "environment_grant_id"?: string;
+    /**
+     * Seconds until the access token expires, from 1 to 86400. Partner app tokens last 900 and
+     * workload identity tokens at most 3600. minimum: 1. maximum: 86400.
+     */
+    "expires_in": number;
+    /**
+     * Present for workload identity token exchange. Identifies the issued credential as an access
+     * token. Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "issued_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
+    /**
+     * Merchant the token acts for: the installing merchant for a code exchange, the bound merchant
+     * for a merchant-bound partner app token, or the workload identity's merchant. Absent from an
+     * app-level partner app token, which names the merchant per request. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: string;
+    /**
+     * The token's mode, live or test. Present for partner app tokens and workload access tokens.
+     * Value enum: "test", "live".
+     */
+    "mode"?: "test" | "live" | (string & {});
+    /**
+     * ID of the CLI OAuth session. It stays the same through every refresh. minLength: 1. Example:
+     * "session_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".
+     */
+    "oauth_session_id"?: string;
+    /**
+     * ID of the partner app the token was issued to. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+     */
+    "partner_app_id"?: string;
+    /**
+     * ID of the partner app's install on this merchant, from a code exchange. Example:
+     * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+     */
+    "partner_app_install_id"?: string;
+    /**
+     * Rotating flint-cli refresh token. Absent for partner app tokens and workload access tokens.
+     * minLength: 1.
+     */
+    "refresh_token"?: string;
+    /**
+     * Present exactly when mode is test, except for partner app tokens from client_credentials,
+     * which use each merchant's test grant. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "sandbox_id"?: string;
+    /**
+     * Space-separated granted scope, in the vocabulary the client requested: permission IDs for a
+     * partner code exchange, API scope names for flint-cli and workload identities. Empty when a
+     * workload identity has no scopes. Absent from client_credentials responses, because a partner
+     * app token's scopes are each install's grant.
+     */
+    "scope"?: string;
+    /** The token type, as RFC 6749 defines it. Value enum: "Bearer". */
+    "token_type": "Bearer" | (string & {});
+    /**
+     * Workload identity that authorized the token exchange. Present only for workload access
+     * tokens. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
+     */
+    "workload_identity_id"?: string;
+});
+export type OauthAuthorizeCLIDeviceParams = (InputValue<CLIDeviceRequestInput>);
+export type OauthExchangeTokenParams = (OAuthTokenRequestInput);
+export type OauthListCLIContextsParams = (InputValue<CLIContextsRequestInput>);
+export type OauthPreviewPartnerInstallAuthorizationParams = {
+    /** OAuth response type. Must be code. Value enum: "code". */
+    "response_type"?: InputValue<"code">;
+    /** Partner app client ID. Example: "fpc_00112233445566778899aabbccddeeff". */
+    "client_id": InputValue<string>;
+    /** Registered redirect URI for the partner app. */
+    "redirect_uri": InputValue<string>;
+    /** Install mode. Value enum: "test", "live". */
+    "mode": InputValue<"test" | "live">;
+    /** Base64url-encoded SHA-256 hash of your code_verifier, without padding (RFC 7636). */
+    "code_challenge"?: InputValue<string>;
+    /** PKCE challenge method. Value enum: "S256". */
+    "code_challenge_method"?: InputValue<"S256">;
+    /**
+     * Space-separated permission IDs from your app's permission manifest. Omit to request
+     * default_requested_permissions. Required permissions are always granted.
+     */
+    "scope"?: InputValue<string>;
+    /**
+     * Optional active merchant sandbox ID, accepted only with mode=test. When omitted in test
+     * mode, Flint uses the merchant's default sandbox. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "sandbox_id"?: InputValue<string>;
+    /** Opaque state value returned to the partner callback. */
+    "state"?: InputValue<string>;
+};
+export type OauthReauthorizeCLIDeviceParams = (InputValue<CLIReauthorizeRequestInput>);
+export type OauthRevokeTokenParams = (InputValue<OAuthRevokeRequestInput>);
+export type OauthRevokeTokenResponse = undefined;
+export type OnboardingAdvanceParams = (InputValue<OnboardingAdvanceRequestInput>
+    | {
+    "country"?: never;
+    "profile"?: never;
+    "requested_capabilities"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** The request body for: Advance onboarding flow. */
+export type OnboardingAdvanceRequest = {
+    /**
+     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
+     * "US". Value enum: "US".
+     */
+    "country"?: "US" | (string & {});
+    /**
+     * Contact and website details to record for onboarding. Send only the fields to change.
+     * Profile changes return `409 ACTION_NOT_ALLOWED` with reason `managed_externally` while the
+     * account is being set up. Once the account is active, support contact and website details can
+     * change; changing the email address still returns this error. Contact and website details you
+     * submit for a merchant during onboarding. Send null to clear a field.
+     */
+    "profile"?: OnboardingProfileRequest;
+    /**
+     * Exact initial Flint capability set. Include accept_card_payments and receive_payouts
+     * together. Optionally include accept_ach_debit_payments, or omit the field to use the card
+     * and payout default set. minItems: 2. maxItems: 3. uniqueItems: true. [] enum:
+     * "accept_card_payments", "receive_payouts", "accept_ach_debit_payments". [] (Value): string.
+     * Value enum: "accept_card_payments", "receive_payouts", "accept_ach_debit_payments".
+     */
+    "requested_capabilities"?: (Array<"accept_card_payments" | "receive_payouts" | "accept_ach_debit_payments" | (string & {})>);
+};
+/** The request body for: Advance onboarding flow. */
+export type OnboardingAdvanceRequestInput = {
+    /**
+     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
+     * "US". Value enum: "US".
+     */
+    "country"?: "US";
+    /**
+     * Contact and website details to record for onboarding. Send only the fields to change.
+     * Profile changes return `409 ACTION_NOT_ALLOWED` with reason `managed_externally` while the
+     * account is being set up. Once the account is active, support contact and website details can
+     * change; changing the email address still returns this error. Contact and website details you
+     * submit for a merchant during onboarding. Send null to clear a field.
+     */
+    "profile"?: OnboardingProfileRequestInput;
+    /**
+     * Exact initial Flint capability set. Include accept_card_payments and receive_payouts
+     * together. Optionally include accept_ach_debit_payments, or omit the field to use the card
+     * and payout default set. minItems: 2. maxItems: 3. uniqueItems: true. [] enum:
+     * "accept_card_payments", "receive_payouts", "accept_ach_debit_payments". [] (Value): string.
+     * Value enum: "accept_card_payments", "receive_payouts", "accept_ach_debit_payments".
+     */
+    "requested_capabilities"?: (Array<"accept_card_payments" | "receive_payouts" | "accept_ach_debit_payments">);
+};
+export type OnboardingCreateAccessLinkParams = (InputValue<CreateOnboardingAccessLinkRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type OnboardingGetStateParams = DisputesAcceptParams;
+/** Contact and website details recorded for a merchant during onboarding. */
+export type OnboardingProfile = {
+    /**
+     * The merchant's contact email address. `null` when no email address is on file for the
+     * merchant.
+     */
+    "email": string | null;
+    /** Support email address recorded for onboarding. Omitted when none is recorded. */
+    "support_email"?: string;
+    /** Support phone number recorded for onboarding. Omitted when none is recorded. */
+    "support_phone"?: string;
+    /** Support page recorded for onboarding. Omitted when none is recorded. */
+    "support_url"?: string;
+    /** The business's website recorded for onboarding. Omitted when none is recorded. */
+    "website_url"?: string;
+};
 /**
- * The `package.created` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
+ * Contact and website details you submit for a merchant during onboarding. Send null to clear a
+ * field.
  */
-export type PackageCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
+export type OnboardingProfileRequest = {
+    /** Send null to clear it. minLength: 1. */
+    "email"?: string | null;
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.carrier (Optional): string. Carrier transporting the package.
-     * object.created_at (Required): string. Creation timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.delivered_at (Optional): string. Package delivery timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.dimensions (Optional): {@link
-     * Dimensions}. Physical length, width, and height of the package. Package or item dimensions
-     * as `length`, `width`, and `height` in the given `unit`. object.expected_delivery_at
-     * (Optional): string or null. When the carrier or merchant expects this package to arrive.
-     * Null when no estimate is set. Retained after delivery as history. This estimate is separate
-     * from the fulfillment's promised shipment window. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. Requires external_system. External
-     * references are not unique. Use Idempotency-Key for retries. maxLength: 255. Example:
-     * "warehouse-1842". object.external_system (Optional): string. Name of the external system
-     * that external_reference_id belongs to. External references are not unique. Use
-     * Idempotency-Key for retries. object.fulfillment_id (Required): string. Fulfillment whose
-     * items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.label_url
-     * (Optional): string. HTTPS shipping-label URL supplied by your integration. Non-Flint URLs
-     * require external_system for provenance. Flint does not host the label file. Omitted for a
-     * checkout session credential that doesn't act for the customer the buyer verified.
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated
-     * with the package. Caller-owned key-value data stored on a resource. Keys starting with
-     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.order (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when
-     * the order relationship is expanded. Present only when `expand` includes `order`; `null` when
-     * expanded and there is no related order. object.order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
-     * are in the package. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.package_id (Required):
-     * string. Stable identifier of the package. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
-     * object.return_id (Optional): string. Return this package belongs to. Present only on
-     * packages of return shipments. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}.
-     * Return line quantities allocated to this parcel. Present only on packages of return
-     * shipments. object.return_line_items[] (Value): {@link ReturnHandoffRequirementLineItem}. A
-     * return line and the quantity placed in a return shipment or package. object.service_code
-     * (Optional): string. Carrier service used for the package. object.shipment_id (Required):
-     * string. Shipment carrying this package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
-     * object.shipped_at (Optional): string. Package handoff timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.status (Required): string. Current package lifecycle state.
-     * Package states are the source used to derive shipment status. - `created`: The package
-     * record exists but has not been packed or handed off. - `packed`: The package is packed and
-     * awaiting carrier handoff. - `shipped`: The package was handed to the carrier. -
-     * `in_transit`: The carrier is moving the package through its network. - `out_for_delivery`:
-     * The package is on its final delivery route. - `delivered`: The carrier reported successful
-     * delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it.
-     * Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception
-     * is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The package
-     * was returned toward or to its origin. - `voided`: The package was voided and will not
-     * continue through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
-     * object.status_reason (Optional): string. Additional explanation of the package's current
-     * status. object.supported_actions (Required): Array of string. Lifecycle actions Flint
-     * accepts now. mark_in_transit can repeat while in transit to refresh expected_delivery_at. []
-     * enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-     * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-     * object.supported_actions[] (Value): string. Value enum: "mark_delivered",
-     * "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery",
-     * "mark_packed", "mark_returned", "mark_shipped", "void". object.tracking_number (Optional):
-     * string. Omitted for a checkout session credential that doesn't act for the customer the
-     * buyer verified. object.tracking_url (Optional): string. Absolute HTTPS carrier tracking URL.
-     * Embedded URL credentials are rejected. Omitted for a checkout session credential that
-     * doesn't act for the customer the buyer verified. object.updated_at (Required): string. Last
-     * update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
-     * (Required): integer. Monotonic package version for expected_version checks. Format: uint64.
-     * minimum: 1. object.weight (Optional): {@link Weight}. Physical weight of the package. A
-     * weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+     * Buyers see this address on receipts and in their account. A support email is required before
+     * initial live activation. Existing live merchants may clear it and receive a nonblocking
+     * prompt to add one. Send null to clear it. minLength: 1.
      */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. carrier
-         * (Optional): string. Carrier transporting the package. created_at (Required): string.
-         * Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". delivered_at
-         * (Optional): string. Package delivery timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". dimensions (Optional): {@link Dimensions}. Physical length,
-         * width, and height of the package. Package or item dimensions as `length`, `width`, and
-         * `height` in the given `unit`. expected_delivery_at (Optional): string or null. When the
-         * carrier or merchant expects this package to arrive. Null when no estimate is set.
-         * Retained after delivery as history. This estimate is separate from the fulfillment's
-         * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. Requires external_system. External references are not unique. Use
-         * Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842". external_system
-         * (Optional): string. Name of the external system that external_reference_id belongs to.
-         * External references are not unique. Use Idempotency-Key for retries. fulfillment_id
-         * (Required): string. Fulfillment whose items are in the package. Example:
-         * "ful_01KEZF7C00F24WVSTTWR1FQX5T". label_url (Optional): string. HTTPS shipping-label URL
-         * supplied by your integration. Non-Flint URLs require external_system for provenance.
-         * Flint does not host the label file. Omitted for a checkout session credential that
-         * doesn't act for the customer the buyer verified. metadata (Optional): {@link
-         * MetadataMap}. Caller-owned key-value metadata associated with the package. Caller-owned
-         * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint
-         * and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput;
-         * maps written before those limits may not satisfy them. order (Optional): {@link
-         * ExpandedOrderSummary} or null. Order summary returned when the order relationship is
-         * expanded. Present only when `expand` includes `order`; `null` when expanded and there is
-         * no related order. order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's
-         * summary fields, including status, payment and refund status, and pricing and settlement
-         * amounts, returned when the order is expanded. order.anyOf[2] (Value): null. order_id
-         * (Required): string. Order whose items are in the package. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". package_id (Required): string. Stable identifier of
-         * the package. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". return_id (Optional): string.
-         * Return this package belongs to. Present only on packages of return shipments. Example:
-         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_line_items (Optional): Array of {@link
-         * ReturnHandoffRequirementLineItem}. Return line quantities allocated to this parcel.
-         * Present only on packages of return shipments. return_line_items[] (Value): {@link
-         * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
-         * shipment or package. service_code (Optional): string. Carrier service used for the
-         * package. shipment_id (Required): string. Shipment carrying this package. Example:
-         * "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipped_at (Optional): string. Package handoff
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
-         * string. Current package lifecycle state. Package states are the source used to derive
-         * shipment status. - `created`: The package record exists but has not been packed or
-         * handed off. - `packed`: The package is packed and awaiting carrier handoff. - `shipped`:
-         * The package was handed to the carrier. - `in_transit`: The carrier is moving the package
-         * through its network. - `out_for_delivery`: The package is on its final delivery route. -
-         * `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The
-         * carrier attempted delivery but did not complete it. Follow the carrier instructions
-         * before retrying delivery. - `exception`: A carrier exception is blocking normal
-         * progress. Resolve the carrier-reported issue. - `returned`: The package was returned
-         * toward or to its origin. - `voided`: The package was voided and will not continue
-         * through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-         * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned",
-         * "voided". status_reason (Optional): string. Additional explanation of the package's
-         * current status. supported_actions (Required): Array of string. Lifecycle actions Flint
-         * accepts now. mark_in_transit can repeat while in transit to refresh
-         * expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
-         * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
-         * "mark_returned", "mark_shipped", "void". supported_actions[] (Value): string. Value
-         * enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-         * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-         * tracking_number (Optional): string. Omitted for a checkout session credential that
-         * doesn't act for the customer the buyer verified. tracking_url (Optional): string.
-         * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for
-         * a checkout session credential that doesn't act for the customer the buyer verified.
-         * updated_at (Required): string. Last update timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Monotonic package version for
-         * expected_version checks. Format: uint64. minimum: 1. weight (Optional): {@link Weight}.
-         * Physical weight of the package. A weight value in grams, kilograms, ounces, or pounds,
-         * used in delivery profile configuration.
-         */
-        "object": {
-            /** Carrier transporting the package. */
-            "carrier"?: string;
-            /** Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** Package delivery timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "delivered_at"?: string;
-            /**
-             * Physical length, width, and height of the package. Package or item dimensions as
-             * `length`, `width`, and `height` in the given `unit`.
-             */
-            "dimensions"?: Dimensions;
-            /**
-             * When the carrier or merchant expects this package to arrive. Null when no estimate
-             * is set. Retained after delivery as history. This estimate is separate from the
-             * fulfillment's promised shipment window. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "expected_delivery_at"?: string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. Requires
-             * external_system. External references are not unique. Use Idempotency-Key for
-             * retries. maxLength: 255. Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Name of the external system that external_reference_id belongs to. External
-             * references are not unique. Use Idempotency-Key for retries.
-             */
-            "external_system"?: string;
-            /**
-             * Fulfillment whose items are in the package. Example:
-             * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-             */
-            "fulfillment_id": string;
-            /**
-             * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-             * external_system for provenance. Flint does not host the label file. Omitted for a
-             * checkout session credential that doesn't act for the customer the buyer verified.
-             */
-            "label_url"?: string;
-            /**
-             * Caller-owned key-value metadata associated with the package. Caller-owned key-value
-             * data stored on a resource. Keys starting with flint_ are reserved for Flint and are
-             * not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-             * written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Order summary returned when the order relationship is expanded. Present only when
-             * `expand` includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
-             * status, payment and refund status, and pricing and settlement amounts, returned when
-             * the order is expanded. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /** Order whose items are in the package. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
-            "order_id": string;
-            /** Stable identifier of the package. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". */
-            "package_id": string;
-            /**
-             * Return this package belongs to. Present only on packages of return shipments.
-             * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-             */
-            "return_id"?: string;
-            /**
-             * Return line quantities allocated to this parcel. Present only on packages of return
-             * shipments. [] (Value): {@link ReturnHandoffRequirementLineItem}. A return line and
-             * the quantity placed in a return shipment or package.
-             */
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            /** Carrier service used for the package. */
-            "service_code"?: string;
-            /** Shipment carrying this package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
-            "shipment_id": string;
-            /** Package handoff timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "shipped_at"?: string;
-            /**
-             * Current package lifecycle state. Package states are the source used to derive
-             * shipment status. - `created`: The package record exists but has not been packed or
-             * handed off. - `packed`: The package is packed and awaiting carrier handoff. -
-             * `shipped`: The package was handed to the carrier. - `in_transit`: The carrier is
-             * moving the package through its network. - `out_for_delivery`: The package is on its
-             * final delivery route. - `delivered`: The carrier reported successful delivery. -
-             * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow
-             * the carrier instructions before retrying delivery. - `exception`: A carrier
-             * exception is blocking normal progress. Resolve the carrier-reported issue. -
-             * `returned`: The package was returned toward or to its origin. - `voided`: The
-             * package was voided and will not continue through delivery. Value enum: "created",
-             * "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-             * "delivery_attempted", "exception", "returned", "voided".
-             */
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            /** Additional explanation of the package's current status. */
-            "status_reason"?: string;
-            /**
-             * Lifecycle actions Flint accepts now. mark_in_transit can repeat while in transit to
-             * refresh expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
-             * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
-             * "mark_returned", "mark_shipped", "void". [] (Value): string. Value enum:
-             * "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-             * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-             */
-            "supported_actions": Array<"mark_delivered"
-                | "mark_delivery_attempted"
-                | "mark_exception"
-                | "mark_in_transit"
-                | "mark_out_for_delivery"
-                | "mark_packed"
-                | "mark_returned"
-                | "mark_shipped"
-                | "void"
-                | (string & {})>;
-            /**
-             * Omitted for a checkout session credential that doesn't act for the customer the
-             * buyer verified.
-             */
-            "tracking_number"?: string;
-            /**
-             * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted
-             * for a checkout session credential that doesn't act for the customer the buyer
-             * verified.
-             */
-            "tracking_url"?: string;
-            /** Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Monotonic package version for expected_version checks. Format: uint64. minimum: 1.
-             */
-            "version": number;
-            /**
-             * Physical weight of the package. A weight value in grams, kilograms, ounces, or
-             * pounds, used in delivery profile configuration.
-             */
-            "weight"?: Weight;
-        };
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "package.created". */
-    "event_type"?: "package.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
+    "support_email"?: string | null;
+    /** Send null to clear it. minLength: 1. */
+    "support_phone"?: string | null;
+    /** Send null to clear it. minLength: 1. */
+    "support_url"?: string | null;
+    /** Send null to clear it. minLength: 1. */
+    "website_url"?: string | null;
+};
 /**
- * The `package.created` webhook payload for the `merchant` event source. Fields shared by merchant
- * webhook payloads.
+ * Contact and website details you submit for a merchant during onboarding. Send null to clear a
+ * field.
  */
-export type PackageCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.carrier (Optional): string. Carrier transporting the package.
-     * object.created_at (Required): string. Creation timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.delivered_at (Optional): string. Package delivery timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.dimensions (Optional): {@link
-     * Dimensions}. Physical length, width, and height of the package. Package or item dimensions
-     * as `length`, `width`, and `height` in the given `unit`. object.expected_delivery_at
-     * (Optional): string or null. When the carrier or merchant expects this package to arrive.
-     * Null when no estimate is set. Retained after delivery as history. This estimate is separate
-     * from the fulfillment's promised shipment window. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. Requires external_system. External
-     * references are not unique. Use Idempotency-Key for retries. maxLength: 255. Example:
-     * "warehouse-1842". object.external_system (Optional): string. Name of the external system
-     * that external_reference_id belongs to. External references are not unique. Use
-     * Idempotency-Key for retries. object.fulfillment_id (Required): string. Fulfillment whose
-     * items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.label_url
-     * (Optional): string. HTTPS shipping-label URL supplied by your integration. Non-Flint URLs
-     * require external_system for provenance. Flint does not host the label file. Omitted for a
-     * checkout session credential that doesn't act for the customer the buyer verified.
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated
-     * with the package. Caller-owned key-value data stored on a resource. Keys starting with
-     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.order (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when
-     * the order relationship is expanded. Present only when `expand` includes `order`; `null` when
-     * expanded and there is no related order. object.order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
-     * are in the package. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.package_id (Required):
-     * string. Stable identifier of the package. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
-     * object.return_id (Optional): string. Return this package belongs to. Present only on
-     * packages of return shipments. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}.
-     * Return line quantities allocated to this parcel. Present only on packages of return
-     * shipments. object.return_line_items[] (Value): {@link ReturnHandoffRequirementLineItem}. A
-     * return line and the quantity placed in a return shipment or package. object.service_code
-     * (Optional): string. Carrier service used for the package. object.shipment_id (Required):
-     * string. Shipment carrying this package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
-     * object.shipped_at (Optional): string. Package handoff timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.status (Required): string. Current package lifecycle state.
-     * Package states are the source used to derive shipment status. - `created`: The package
-     * record exists but has not been packed or handed off. - `packed`: The package is packed and
-     * awaiting carrier handoff. - `shipped`: The package was handed to the carrier. -
-     * `in_transit`: The carrier is moving the package through its network. - `out_for_delivery`:
-     * The package is on its final delivery route. - `delivered`: The carrier reported successful
-     * delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it.
-     * Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception
-     * is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The package
-     * was returned toward or to its origin. - `voided`: The package was voided and will not
-     * continue through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
-     * object.status_reason (Optional): string. Additional explanation of the package's current
-     * status. object.supported_actions (Required): Array of string. Lifecycle actions Flint
-     * accepts now. mark_in_transit can repeat while in transit to refresh expected_delivery_at. []
-     * enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-     * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-     * object.supported_actions[] (Value): string. Value enum: "mark_delivered",
-     * "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery",
-     * "mark_packed", "mark_returned", "mark_shipped", "void". object.tracking_number (Optional):
-     * string. Omitted for a checkout session credential that doesn't act for the customer the
-     * buyer verified. object.tracking_url (Optional): string. Absolute HTTPS carrier tracking URL.
-     * Embedded URL credentials are rejected. Omitted for a checkout session credential that
-     * doesn't act for the customer the buyer verified. object.updated_at (Required): string. Last
-     * update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
-     * (Required): integer. Monotonic package version for expected_version checks. Format: uint64.
-     * minimum: 1. object.weight (Optional): {@link Weight}. Physical weight of the package. A
-     * weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. carrier
-         * (Optional): string. Carrier transporting the package. created_at (Required): string.
-         * Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". delivered_at
-         * (Optional): string. Package delivery timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". dimensions (Optional): {@link Dimensions}. Physical length,
-         * width, and height of the package. Package or item dimensions as `length`, `width`, and
-         * `height` in the given `unit`. expected_delivery_at (Optional): string or null. When the
-         * carrier or merchant expects this package to arrive. Null when no estimate is set.
-         * Retained after delivery as history. This estimate is separate from the fulfillment's
-         * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. Requires external_system. External references are not unique. Use
-         * Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842". external_system
-         * (Optional): string. Name of the external system that external_reference_id belongs to.
-         * External references are not unique. Use Idempotency-Key for retries. fulfillment_id
-         * (Required): string. Fulfillment whose items are in the package. Example:
-         * "ful_01KEZF7C00F24WVSTTWR1FQX5T". label_url (Optional): string. HTTPS shipping-label URL
-         * supplied by your integration. Non-Flint URLs require external_system for provenance.
-         * Flint does not host the label file. Omitted for a checkout session credential that
-         * doesn't act for the customer the buyer verified. metadata (Optional): {@link
-         * MetadataMap}. Caller-owned key-value metadata associated with the package. Caller-owned
-         * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint
-         * and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput;
-         * maps written before those limits may not satisfy them. order (Optional): {@link
-         * ExpandedOrderSummary} or null. Order summary returned when the order relationship is
-         * expanded. Present only when `expand` includes `order`; `null` when expanded and there is
-         * no related order. order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's
-         * summary fields, including status, payment and refund status, and pricing and settlement
-         * amounts, returned when the order is expanded. order.anyOf[2] (Value): null. order_id
-         * (Required): string. Order whose items are in the package. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". package_id (Required): string. Stable identifier of
-         * the package. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". return_id (Optional): string.
-         * Return this package belongs to. Present only on packages of return shipments. Example:
-         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_line_items (Optional): Array of {@link
-         * ReturnHandoffRequirementLineItem}. Return line quantities allocated to this parcel.
-         * Present only on packages of return shipments. return_line_items[] (Value): {@link
-         * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
-         * shipment or package. service_code (Optional): string. Carrier service used for the
-         * package. shipment_id (Required): string. Shipment carrying this package. Example:
-         * "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipped_at (Optional): string. Package handoff
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
-         * string. Current package lifecycle state. Package states are the source used to derive
-         * shipment status. - `created`: The package record exists but has not been packed or
-         * handed off. - `packed`: The package is packed and awaiting carrier handoff. - `shipped`:
-         * The package was handed to the carrier. - `in_transit`: The carrier is moving the package
-         * through its network. - `out_for_delivery`: The package is on its final delivery route. -
-         * `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The
-         * carrier attempted delivery but did not complete it. Follow the carrier instructions
-         * before retrying delivery. - `exception`: A carrier exception is blocking normal
-         * progress. Resolve the carrier-reported issue. - `returned`: The package was returned
-         * toward or to its origin. - `voided`: The package was voided and will not continue
-         * through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-         * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned",
-         * "voided". status_reason (Optional): string. Additional explanation of the package's
-         * current status. supported_actions (Required): Array of string. Lifecycle actions Flint
-         * accepts now. mark_in_transit can repeat while in transit to refresh
-         * expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
-         * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
-         * "mark_returned", "mark_shipped", "void". supported_actions[] (Value): string. Value
-         * enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-         * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-         * tracking_number (Optional): string. Omitted for a checkout session credential that
-         * doesn't act for the customer the buyer verified. tracking_url (Optional): string.
-         * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for
-         * a checkout session credential that doesn't act for the customer the buyer verified.
-         * updated_at (Required): string. Last update timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Monotonic package version for
-         * expected_version checks. Format: uint64. minimum: 1. weight (Optional): {@link Weight}.
-         * Physical weight of the package. A weight value in grams, kilograms, ounces, or pounds,
-         * used in delivery profile configuration.
-         */
-        "object": {
-            /** Carrier transporting the package. */
-            "carrier"?: string;
-            /** Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** Package delivery timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "delivered_at"?: string;
-            /**
-             * Physical length, width, and height of the package. Package or item dimensions as
-             * `length`, `width`, and `height` in the given `unit`.
-             */
-            "dimensions"?: Dimensions;
-            /**
-             * When the carrier or merchant expects this package to arrive. Null when no estimate
-             * is set. Retained after delivery as history. This estimate is separate from the
-             * fulfillment's promised shipment window. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "expected_delivery_at"?: string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. Requires
-             * external_system. External references are not unique. Use Idempotency-Key for
-             * retries. maxLength: 255. Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Name of the external system that external_reference_id belongs to. External
-             * references are not unique. Use Idempotency-Key for retries.
-             */
-            "external_system"?: string;
-            /**
-             * Fulfillment whose items are in the package. Example:
-             * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-             */
-            "fulfillment_id": string;
-            /**
-             * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-             * external_system for provenance. Flint does not host the label file. Omitted for a
-             * checkout session credential that doesn't act for the customer the buyer verified.
-             */
-            "label_url"?: string;
-            /**
-             * Caller-owned key-value metadata associated with the package. Caller-owned key-value
-             * data stored on a resource. Keys starting with flint_ are reserved for Flint and are
-             * not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-             * written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Order summary returned when the order relationship is expanded. Present only when
-             * `expand` includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
-             * status, payment and refund status, and pricing and settlement amounts, returned when
-             * the order is expanded. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /** Order whose items are in the package. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
-            "order_id": string;
-            /** Stable identifier of the package. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". */
-            "package_id": string;
-            /**
-             * Return this package belongs to. Present only on packages of return shipments.
-             * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-             */
-            "return_id"?: string;
-            /**
-             * Return line quantities allocated to this parcel. Present only on packages of return
-             * shipments. [] (Value): {@link ReturnHandoffRequirementLineItem}. A return line and
-             * the quantity placed in a return shipment or package.
-             */
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            /** Carrier service used for the package. */
-            "service_code"?: string;
-            /** Shipment carrying this package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
-            "shipment_id": string;
-            /** Package handoff timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "shipped_at"?: string;
-            /**
-             * Current package lifecycle state. Package states are the source used to derive
-             * shipment status. - `created`: The package record exists but has not been packed or
-             * handed off. - `packed`: The package is packed and awaiting carrier handoff. -
-             * `shipped`: The package was handed to the carrier. - `in_transit`: The carrier is
-             * moving the package through its network. - `out_for_delivery`: The package is on its
-             * final delivery route. - `delivered`: The carrier reported successful delivery. -
-             * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow
-             * the carrier instructions before retrying delivery. - `exception`: A carrier
-             * exception is blocking normal progress. Resolve the carrier-reported issue. -
-             * `returned`: The package was returned toward or to its origin. - `voided`: The
-             * package was voided and will not continue through delivery. Value enum: "created",
-             * "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-             * "delivery_attempted", "exception", "returned", "voided".
-             */
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            /** Additional explanation of the package's current status. */
-            "status_reason"?: string;
-            /**
-             * Lifecycle actions Flint accepts now. mark_in_transit can repeat while in transit to
-             * refresh expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
-             * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
-             * "mark_returned", "mark_shipped", "void". [] (Value): string. Value enum:
-             * "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-             * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-             */
-            "supported_actions": Array<"mark_delivered"
-                | "mark_delivery_attempted"
-                | "mark_exception"
-                | "mark_in_transit"
-                | "mark_out_for_delivery"
-                | "mark_packed"
-                | "mark_returned"
-                | "mark_shipped"
-                | "void"
-                | (string & {})>;
-            /**
-             * Omitted for a checkout session credential that doesn't act for the customer the
-             * buyer verified.
-             */
-            "tracking_number"?: string;
-            /**
-             * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted
-             * for a checkout session credential that doesn't act for the customer the buyer
-             * verified.
-             */
-            "tracking_url"?: string;
-            /** Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Monotonic package version for expected_version checks. Format: uint64. minimum: 1.
-             */
-            "version": number;
-            /**
-             * Physical weight of the package. A weight value in grams, kilograms, ounces, or
-             * pounds, used in delivery profile configuration.
-             */
-            "weight"?: Weight;
-        };
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "package.created". */
-    "event_type"?: "package.created";
-});
-/** An order item assigned to a package. */
-export type PackageItem = {
-    /**
-     * Bundle component this item counts, in component units. `null` when the line isn't a bundle
-     * component or a legacy allocation has no component recorded. Look the component up in the
-     * order line's bundle_components. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
-     */
-    "bundle_component_id": string | null;
-    /** Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /** Fulfillment containing this package item. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
-    "fulfillment_id": string;
-    /**
-     * Caller-owned metadata for this package item. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Present only when `expand` includes `order`; `null` when expanded and there is no related
-     * order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
-     * status, payment and refund status, and pricing and settlement amounts, returned when the
-     * order is expanded. anyOf[2] (Value): null.
-     */
-    "order"?: ((ExpandedOrderSummary) | (null));
-    /** Order containing the allocated line item. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
-    "order_id": string;
-    /**
-     * Order line whose quantity this package item allocates. Example:
-     * "li_01KEZF7C008YPRCK7VDKTGWR31".
-     */
-    "order_line_item_id": string;
-    /** Package containing this item. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". */
-    "package_id": string;
-    /** Unique identifier for this package allocation. Example: "pki_01KEZF7C00CEFTYV5RD7XVYQ7B". */
-    "package_item_id": string;
-    /**
-     * Whole-number quantity in component units for a bundle component, or line units otherwise;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "quantity": number;
-    /** Shipment containing the package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
-    "shipment_id": string;
-    /** Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Persisted item version, independent of package shipment and capacity guards. Format: uint64.
-     * minimum: 1.
-     */
-    "version": number;
-};
-/** A page of `PackageItem` objects. */
-export type PackageItemListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * PackageItem}. An order item assigned to a package.
-     */
-    "data": Array<PackageItem>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `PackageItem` data. */
-export type PackageItemResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. An order item assigned
-     * to a package.
-     */
-    "data": PackageItem;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A page of `Package` objects. */
-export type PackageListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * Package}. A package within a shipment.
-     */
-    "data": Array<Package>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `Package` data. */
-export type PackageResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A package within a
-     * shipment.
-     */
-    "data": Package;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type PackageUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "carrier"?: string;
-            "created_at": string;
-            "delivered_at"?: string;
-            "dimensions"?: Dimensions;
-            "expected_delivery_at"?: string | null;
-            "external_reference_id"?: string;
-            "external_system"?: string;
-            "fulfillment_id": string;
-            "label_url"?: string;
-            "metadata"?: MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string;
-            "package_id": string;
-            "return_id"?: string;
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            "service_code"?: string;
-            "shipment_id": string;
-            "shipped_at"?: string;
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            "status_reason"?: string;
-            "supported_actions": Array<"mark_delivered"
-                | "mark_delivery_attempted"
-                | "mark_exception"
-                | "mark_in_transit"
-                | "mark_out_for_delivery"
-                | "mark_packed"
-                | "mark_returned"
-                | "mark_shipped"
-                | "void"
-                | (string & {})>;
-            "tracking_number"?: string;
-            "tracking_url"?: string;
-            "updated_at": string;
-            "version": number;
-            "weight"?: Weight;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "carrier"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "delivered_at"?: ((string) | (null));
-            "dimensions"?: ((Dimensions) | (null));
-            "expected_delivery_at"?: ((string | null) | (null) | (unknown));
-            "external_reference_id"?: ((string) | (null));
-            "external_system"?: ((string) | (null));
-            "fulfillment_id"?: ((string) | (null));
-            "label_url"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
-            "order_id"?: ((string) | (null));
-            "package_id"?: ((string) | (null));
-            "return_id"?: ((string) | (null));
-            "return_line_items"?: ((Array<ReturnHandoffRequirementLineItem>) | (null));
-            "service_code"?: ((string) | (null));
-            "shipment_id"?: ((string) | (null));
-            "shipped_at"?: ((string) | (null));
-            "status"?: (("created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {}))
-                | (null));
-            "status_reason"?: ((string) | (null));
-            "supported_actions"?: ((Array<"mark_delivered"
-                | "mark_delivery_attempted"
-                | "mark_exception"
-                | "mark_in_transit"
-                | "mark_out_for_delivery"
-                | "mark_packed"
-                | "mark_returned"
-                | "mark_shipped"
-                | "void"
-                | (string & {})>)
-                | (null));
-            "tracking_number"?: ((string) | (null));
-            "tracking_url"?: ((string) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-            "weight"?: ((Weight) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "package.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "carrier"?: string;
-            "created_at": string;
-            "delivered_at"?: string;
-            "dimensions"?: Dimensions;
-            "expected_delivery_at"?: string | null;
-            "external_reference_id"?: string;
-            "external_system"?: string;
-            "fulfillment_id": string;
-            "label_url"?: string;
-            "metadata"?: MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string;
-            "package_id": string;
-            "return_id"?: string;
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            "service_code"?: string;
-            "shipment_id": string;
-            "shipped_at"?: string;
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            "status_reason"?: string;
-            "supported_actions": Array<"mark_delivered"
-                | "mark_delivery_attempted"
-                | "mark_exception"
-                | "mark_in_transit"
-                | "mark_out_for_delivery"
-                | "mark_packed"
-                | "mark_returned"
-                | "mark_shipped"
-                | "void"
-                | (string & {})>;
-            "tracking_number"?: string;
-            "tracking_url"?: string;
-            "updated_at": string;
-            "version": number;
-            "weight"?: Weight;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "carrier"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "delivered_at"?: ((string) | (null));
-            "dimensions"?: ((Dimensions) | (null));
-            "expected_delivery_at"?: ((string | null) | (null) | (unknown));
-            "external_reference_id"?: ((string) | (null));
-            "external_system"?: ((string) | (null));
-            "fulfillment_id"?: ((string) | (null));
-            "label_url"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
-            "order_id"?: ((string) | (null));
-            "package_id"?: ((string) | (null));
-            "return_id"?: ((string) | (null));
-            "return_line_items"?: ((Array<ReturnHandoffRequirementLineItem>) | (null));
-            "service_code"?: ((string) | (null));
-            "shipment_id"?: ((string) | (null));
-            "shipped_at"?: ((string) | (null));
-            "status"?: (("created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {}))
-                | (null));
-            "status_reason"?: ((string) | (null));
-            "supported_actions"?: ((Array<"mark_delivered"
-                | "mark_delivery_attempted"
-                | "mark_exception"
-                | "mark_in_transit"
-                | "mark_out_for_delivery"
-                | "mark_packed"
-                | "mark_returned"
-                | "mark_shipped"
-                | "void"
-                | (string & {})>)
-                | (null));
-            "tracking_number"?: ((string) | (null));
-            "tracking_url"?: ((string) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-            "weight"?: ((Weight) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "package.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "package.updated";
-});
-/**
- * The `package.updated` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type PackageUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.carrier (Optional): string. Carrier transporting the package.
-     * object.created_at (Required): string. Creation timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.delivered_at (Optional): string. Package delivery timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.dimensions (Optional): {@link
-     * Dimensions}. Physical length, width, and height of the package. Package or item dimensions
-     * as `length`, `width`, and `height` in the given `unit`. object.expected_delivery_at
-     * (Optional): string or null. When the carrier or merchant expects this package to arrive.
-     * Null when no estimate is set. Retained after delivery as history. This estimate is separate
-     * from the fulfillment's promised shipment window. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. Requires external_system. External
-     * references are not unique. Use Idempotency-Key for retries. maxLength: 255. Example:
-     * "warehouse-1842". object.external_system (Optional): string. Name of the external system
-     * that external_reference_id belongs to. External references are not unique. Use
-     * Idempotency-Key for retries. object.fulfillment_id (Required): string. Fulfillment whose
-     * items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.label_url
-     * (Optional): string. HTTPS shipping-label URL supplied by your integration. Non-Flint URLs
-     * require external_system for provenance. Flint does not host the label file. Omitted for a
-     * checkout session credential that doesn't act for the customer the buyer verified.
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated
-     * with the package. Caller-owned key-value data stored on a resource. Keys starting with
-     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.order (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when
-     * the order relationship is expanded. Present only when `expand` includes `order`; `null` when
-     * expanded and there is no related order. object.order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
-     * are in the package. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.package_id (Required):
-     * string. Stable identifier of the package. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
-     * object.return_id (Optional): string. Return this package belongs to. Present only on
-     * packages of return shipments. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}.
-     * Return line quantities allocated to this parcel. Present only on packages of return
-     * shipments. object.return_line_items[] (Value): {@link ReturnHandoffRequirementLineItem}. A
-     * return line and the quantity placed in a return shipment or package. object.service_code
-     * (Optional): string. Carrier service used for the package. object.shipment_id (Required):
-     * string. Shipment carrying this package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
-     * object.shipped_at (Optional): string. Package handoff timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.status (Required): string. Current package lifecycle state.
-     * Package states are the source used to derive shipment status. - `created`: The package
-     * record exists but has not been packed or handed off. - `packed`: The package is packed and
-     * awaiting carrier handoff. - `shipped`: The package was handed to the carrier. -
-     * `in_transit`: The carrier is moving the package through its network. - `out_for_delivery`:
-     * The package is on its final delivery route. - `delivered`: The carrier reported successful
-     * delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it.
-     * Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception
-     * is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The package
-     * was returned toward or to its origin. - `voided`: The package was voided and will not
-     * continue through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
-     * object.status_reason (Optional): string. Additional explanation of the package's current
-     * status. object.supported_actions (Required): Array of string. Lifecycle actions Flint
-     * accepts now. mark_in_transit can repeat while in transit to refresh expected_delivery_at. []
-     * enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-     * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-     * object.supported_actions[] (Value): string. Value enum: "mark_delivered",
-     * "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery",
-     * "mark_packed", "mark_returned", "mark_shipped", "void". object.tracking_number (Optional):
-     * string. Omitted for a checkout session credential that doesn't act for the customer the
-     * buyer verified. object.tracking_url (Optional): string. Absolute HTTPS carrier tracking URL.
-     * Embedded URL credentials are rejected. Omitted for a checkout session credential that
-     * doesn't act for the customer the buyer verified. object.updated_at (Required): string. Last
-     * update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
-     * (Required): integer. Monotonic package version for expected_version checks. Format: uint64.
-     * minimum: 1. object.weight (Optional): {@link Weight}. Physical weight of the package. A
-     * weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.carrier (Optional): string or null. Carrier transporting the package.
-     * previous_attributes.carrier.anyOf[1] (Value): string. Carrier transporting the package.
-     * previous_attributes.carrier.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. Creation timestamp. previous_attributes.created_at.anyOf[1]
-     * (Value): string. Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.delivered_at
-     * (Optional): string or null. Package delivery timestamp.
-     * previous_attributes.delivered_at.anyOf[1] (Value): string. Package delivery timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.delivered_at.anyOf[2] (Value): null. previous_attributes.dimensions
-     * (Optional): {@link Dimensions} or null. Physical length, width, and height of the package.
-     * previous_attributes.dimensions.anyOf[1] (Value): {@link Dimensions}. Physical length, width,
-     * and height of the package. previous_attributes.dimensions.anyOf[2] (Value): null.
-     * previous_attributes.expected_delivery_at (Optional): string or null or null. When the
-     * carrier or merchant expects this package to arrive. Null when no estimate is set. Retained
-     * after delivery as history. This estimate is separate from the fulfillment's promised
-     * shipment window. previous_attributes.expected_delivery_at.anyOf[1] (Value): string or null.
-     * When the carrier or merchant expects this package to arrive. Null when no estimate is set.
-     * Retained after delivery as history. This estimate is separate from the fulfillment's
-     * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.expected_delivery_at.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
-     * identifier for this resource in an external system. Requires external_system. External
-     * references are not unique. Use Idempotency-Key for retries.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
-     * for this resource in an external system. Requires external_system. External references are
-     * not unique. Use Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.external_system (Optional): string or null. Name of the external system
-     * that external_reference_id belongs to. External references are not unique. Use
-     * Idempotency-Key for retries. previous_attributes.external_system.anyOf[1] (Value): string.
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. previous_attributes.external_system.anyOf[2]
-     * (Value): null. previous_attributes.fulfillment_id (Optional): string or null. Fulfillment
-     * whose items are in the package. previous_attributes.fulfillment_id.anyOf[1] (Value): string.
-     * Fulfillment whose items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     * previous_attributes.fulfillment_id.anyOf[2] (Value): null. previous_attributes.label_url
-     * (Optional): string or null. HTTPS shipping-label URL supplied by your integration. Non-Flint
-     * URLs require external_system for provenance. Flint does not host the label file. Omitted for
-     * a checkout session credential that doesn't act for the customer the buyer verified.
-     * previous_attributes.label_url.anyOf[1] (Value): string. HTTPS shipping-label URL supplied by
-     * your integration. Non-Flint URLs require external_system for provenance. Flint does not host
-     * the label file. Omitted for a checkout session credential that doesn't act for the customer
-     * the buyer verified. previous_attributes.label_url.anyOf[2] (Value): null.
-     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned key-value
-     * metadata associated with the package. previous_attributes.metadata.anyOf[1] (Value): {@link
-     * MetadataMap}. Caller-owned key-value metadata associated with the package.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
-     * {@link ExpandedOrderSummary} or null or null. Order summary returned when the order
-     * relationship is expanded. Present only when `expand` includes `order`; `null` when expanded
-     * and there is no related order. previous_attributes.order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary} or null. Order summary returned when the order relationship is
-     * expanded. Present only when `expand` includes `order`; `null` when expanded and there is no
-     * related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
-     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
-     * string or null. Order whose items are in the package. previous_attributes.order_id.anyOf[1]
-     * (Value): string. Order whose items are in the package. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.package_id (Optional): string or null. Stable identifier of the package.
-     * previous_attributes.package_id.anyOf[1] (Value): string. Stable identifier of the package.
-     * Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". previous_attributes.package_id.anyOf[2] (Value):
-     * null. previous_attributes.return_id (Optional): string or null. Return this package belongs
-     * to. Present only on packages of return shipments. previous_attributes.return_id.anyOf[1]
-     * (Value): string. Return this package belongs to. Present only on packages of return
-     * shipments. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2]
-     * (Value): null. previous_attributes.return_line_items (Optional): Array of {@link
-     * ReturnHandoffRequirementLineItem} or null. Return line quantities allocated to this parcel.
-     * Present only on packages of return shipments. previous_attributes.return_line_items.anyOf[1]
-     * (Value): Array of {@link ReturnHandoffRequirementLineItem}. Return line quantities allocated
-     * to this parcel. Present only on packages of return shipments.
-     * previous_attributes.return_line_items.anyOf[1][] (Value): {@link
-     * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
-     * shipment or package. previous_attributes.return_line_items.anyOf[2] (Value): null.
-     * previous_attributes.service_code (Optional): string or null. Carrier service used for the
-     * package. previous_attributes.service_code.anyOf[1] (Value): string. Carrier service used for
-     * the package. previous_attributes.service_code.anyOf[2] (Value): null.
-     * previous_attributes.shipment_id (Optional): string or null. Shipment carrying this package.
-     * previous_attributes.shipment_id.anyOf[1] (Value): string. Shipment carrying this package.
-     * Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". previous_attributes.shipment_id.anyOf[2] (Value):
-     * null. previous_attributes.shipped_at (Optional): string or null. Package handoff timestamp.
-     * previous_attributes.shipped_at.anyOf[1] (Value): string. Package handoff timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.shipped_at.anyOf[2] (Value):
-     * null. previous_attributes.status (Optional): string or null. Current package lifecycle
-     * state. Package states are the source used to derive shipment status. - `created`: The
-     * package record exists but has not been packed or handed off. - `packed`: The package is
-     * packed and awaiting carrier handoff. - `shipped`: The package was handed to the carrier. -
-     * `in_transit`: The carrier is moving the package through its network. - `out_for_delivery`:
-     * The package is on its final delivery route. - `delivered`: The carrier reported successful
-     * delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it.
-     * Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception
-     * is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The package
-     * was returned toward or to its origin. - `voided`: The package was voided and will not
-     * continue through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
-     * previous_attributes.status.anyOf[1] (Value): string. Current package lifecycle state.
-     * Package states are the source used to derive shipment status. - `created`: The package
-     * record exists but has not been packed or handed off. - `packed`: The package is packed and
-     * awaiting carrier handoff. - `shipped`: The package was handed to the carrier. -
-     * `in_transit`: The carrier is moving the package through its network. - `out_for_delivery`:
-     * The package is on its final delivery route. - `delivered`: The carrier reported successful
-     * delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it.
-     * Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception
-     * is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The package
-     * was returned toward or to its origin. - `voided`: The package was voided and will not
-     * continue through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.status_reason
-     * (Optional): string or null. Additional explanation of the package's current status.
-     * previous_attributes.status_reason.anyOf[1] (Value): string. Additional explanation of the
-     * package's current status. previous_attributes.status_reason.anyOf[2] (Value): null.
-     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
-     * Flint accepts now. mark_in_transit can repeat while in transit to refresh
-     * expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
-     * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
-     * "mark_returned", "mark_shipped", "void". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Lifecycle actions Flint accepts now. mark_in_transit can repeat
-     * while in transit to refresh expected_delivery_at. [] enum: "mark_delivered",
-     * "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery",
-     * "mark_packed", "mark_returned", "mark_shipped", "void".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
-     * "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-     * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-     * previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tracking_number (Optional): string or null. Omitted for a checkout
-     * session credential that doesn't act for the customer the buyer verified.
-     * previous_attributes.tracking_number.anyOf[1] (Value): string. Omitted for a checkout session
-     * credential that doesn't act for the customer the buyer verified.
-     * previous_attributes.tracking_number.anyOf[2] (Value): null. previous_attributes.tracking_url
-     * (Optional): string or null. Absolute HTTPS carrier tracking URL. Embedded URL credentials
-     * are rejected. Omitted for a checkout session credential that doesn't act for the customer
-     * the buyer verified. previous_attributes.tracking_url.anyOf[1] (Value): string. Absolute
-     * HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a checkout
-     * session credential that doesn't act for the customer the buyer verified.
-     * previous_attributes.tracking_url.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. Last update timestamp. previous_attributes.updated_at.anyOf[1]
-     * (Value): string. Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Monotonic package version for expected_version checks.
-     * previous_attributes.version.anyOf[1] (Value): integer. Monotonic package version for
-     * expected_version checks. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2]
-     * (Value): null. previous_attributes.weight (Optional): {@link Weight} or null. Physical
-     * weight of the package. previous_attributes.weight.anyOf[1] (Value): {@link Weight}. Physical
-     * weight of the package. previous_attributes.weight.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. carrier
-         * (Optional): string. Carrier transporting the package. created_at (Required): string.
-         * Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". delivered_at
-         * (Optional): string. Package delivery timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". dimensions (Optional): {@link Dimensions}. Physical length,
-         * width, and height of the package. Package or item dimensions as `length`, `width`, and
-         * `height` in the given `unit`. expected_delivery_at (Optional): string or null. When the
-         * carrier or merchant expects this package to arrive. Null when no estimate is set.
-         * Retained after delivery as history. This estimate is separate from the fulfillment's
-         * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. Requires external_system. External references are not unique. Use
-         * Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842". external_system
-         * (Optional): string. Name of the external system that external_reference_id belongs to.
-         * External references are not unique. Use Idempotency-Key for retries. fulfillment_id
-         * (Required): string. Fulfillment whose items are in the package. Example:
-         * "ful_01KEZF7C00F24WVSTTWR1FQX5T". label_url (Optional): string. HTTPS shipping-label URL
-         * supplied by your integration. Non-Flint URLs require external_system for provenance.
-         * Flint does not host the label file. Omitted for a checkout session credential that
-         * doesn't act for the customer the buyer verified. metadata (Optional): {@link
-         * MetadataMap}. Caller-owned key-value metadata associated with the package. Caller-owned
-         * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint
-         * and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput;
-         * maps written before those limits may not satisfy them. order (Optional): {@link
-         * ExpandedOrderSummary} or null. Order summary returned when the order relationship is
-         * expanded. Present only when `expand` includes `order`; `null` when expanded and there is
-         * no related order. order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's
-         * summary fields, including status, payment and refund status, and pricing and settlement
-         * amounts, returned when the order is expanded. order.anyOf[2] (Value): null. order_id
-         * (Required): string. Order whose items are in the package. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". package_id (Required): string. Stable identifier of
-         * the package. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". return_id (Optional): string.
-         * Return this package belongs to. Present only on packages of return shipments. Example:
-         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_line_items (Optional): Array of {@link
-         * ReturnHandoffRequirementLineItem}. Return line quantities allocated to this parcel.
-         * Present only on packages of return shipments. return_line_items[] (Value): {@link
-         * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
-         * shipment or package. service_code (Optional): string. Carrier service used for the
-         * package. shipment_id (Required): string. Shipment carrying this package. Example:
-         * "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipped_at (Optional): string. Package handoff
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
-         * string. Current package lifecycle state. Package states are the source used to derive
-         * shipment status. - `created`: The package record exists but has not been packed or
-         * handed off. - `packed`: The package is packed and awaiting carrier handoff. - `shipped`:
-         * The package was handed to the carrier. - `in_transit`: The carrier is moving the package
-         * through its network. - `out_for_delivery`: The package is on its final delivery route. -
-         * `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The
-         * carrier attempted delivery but did not complete it. Follow the carrier instructions
-         * before retrying delivery. - `exception`: A carrier exception is blocking normal
-         * progress. Resolve the carrier-reported issue. - `returned`: The package was returned
-         * toward or to its origin. - `voided`: The package was voided and will not continue
-         * through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-         * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned",
-         * "voided". status_reason (Optional): string. Additional explanation of the package's
-         * current status. supported_actions (Required): Array of string. Lifecycle actions Flint
-         * accepts now. mark_in_transit can repeat while in transit to refresh
-         * expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
-         * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
-         * "mark_returned", "mark_shipped", "void". supported_actions[] (Value): string. Value
-         * enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-         * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-         * tracking_number (Optional): string. Omitted for a checkout session credential that
-         * doesn't act for the customer the buyer verified. tracking_url (Optional): string.
-         * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for
-         * a checkout session credential that doesn't act for the customer the buyer verified.
-         * updated_at (Required): string. Last update timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Monotonic package version for
-         * expected_version checks. Format: uint64. minimum: 1. weight (Optional): {@link Weight}.
-         * Physical weight of the package. A weight value in grams, kilograms, ounces, or pounds,
-         * used in delivery profile configuration.
-         */
-        "object": {
-            /** Carrier transporting the package. */
-            "carrier"?: string;
-            /** Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** Package delivery timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "delivered_at"?: string;
-            /**
-             * Physical length, width, and height of the package. Package or item dimensions as
-             * `length`, `width`, and `height` in the given `unit`.
-             */
-            "dimensions"?: Dimensions;
-            /**
-             * When the carrier or merchant expects this package to arrive. Null when no estimate
-             * is set. Retained after delivery as history. This estimate is separate from the
-             * fulfillment's promised shipment window. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "expected_delivery_at"?: string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. Requires
-             * external_system. External references are not unique. Use Idempotency-Key for
-             * retries. maxLength: 255. Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Name of the external system that external_reference_id belongs to. External
-             * references are not unique. Use Idempotency-Key for retries.
-             */
-            "external_system"?: string;
-            /**
-             * Fulfillment whose items are in the package. Example:
-             * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-             */
-            "fulfillment_id": string;
-            /**
-             * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-             * external_system for provenance. Flint does not host the label file. Omitted for a
-             * checkout session credential that doesn't act for the customer the buyer verified.
-             */
-            "label_url"?: string;
-            /**
-             * Caller-owned key-value metadata associated with the package. Caller-owned key-value
-             * data stored on a resource. Keys starting with flint_ are reserved for Flint and are
-             * not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-             * written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Order summary returned when the order relationship is expanded. Present only when
-             * `expand` includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
-             * status, payment and refund status, and pricing and settlement amounts, returned when
-             * the order is expanded. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /** Order whose items are in the package. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
-            "order_id": string;
-            /** Stable identifier of the package. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". */
-            "package_id": string;
-            /**
-             * Return this package belongs to. Present only on packages of return shipments.
-             * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-             */
-            "return_id"?: string;
-            /**
-             * Return line quantities allocated to this parcel. Present only on packages of return
-             * shipments. [] (Value): {@link ReturnHandoffRequirementLineItem}. A return line and
-             * the quantity placed in a return shipment or package.
-             */
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            /** Carrier service used for the package. */
-            "service_code"?: string;
-            /** Shipment carrying this package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
-            "shipment_id": string;
-            /** Package handoff timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "shipped_at"?: string;
-            /**
-             * Current package lifecycle state. Package states are the source used to derive
-             * shipment status. - `created`: The package record exists but has not been packed or
-             * handed off. - `packed`: The package is packed and awaiting carrier handoff. -
-             * `shipped`: The package was handed to the carrier. - `in_transit`: The carrier is
-             * moving the package through its network. - `out_for_delivery`: The package is on its
-             * final delivery route. - `delivered`: The carrier reported successful delivery. -
-             * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow
-             * the carrier instructions before retrying delivery. - `exception`: A carrier
-             * exception is blocking normal progress. Resolve the carrier-reported issue. -
-             * `returned`: The package was returned toward or to its origin. - `voided`: The
-             * package was voided and will not continue through delivery. Value enum: "created",
-             * "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-             * "delivery_attempted", "exception", "returned", "voided".
-             */
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            /** Additional explanation of the package's current status. */
-            "status_reason"?: string;
-            /**
-             * Lifecycle actions Flint accepts now. mark_in_transit can repeat while in transit to
-             * refresh expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
-             * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
-             * "mark_returned", "mark_shipped", "void". [] (Value): string. Value enum:
-             * "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-             * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-             */
-            "supported_actions": Array<"mark_delivered"
-                | "mark_delivery_attempted"
-                | "mark_exception"
-                | "mark_in_transit"
-                | "mark_out_for_delivery"
-                | "mark_packed"
-                | "mark_returned"
-                | "mark_shipped"
-                | "void"
-                | (string & {})>;
-            /**
-             * Omitted for a checkout session credential that doesn't act for the customer the
-             * buyer verified.
-             */
-            "tracking_number"?: string;
-            /**
-             * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted
-             * for a checkout session credential that doesn't act for the customer the buyer
-             * verified.
-             */
-            "tracking_url"?: string;
-            /** Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Monotonic package version for expected_version checks. Format: uint64. minimum: 1.
-             */
-            "version": number;
-            /**
-             * Physical weight of the package. A weight value in grams, kilograms, ounces, or
-             * pounds, used in delivery profile configuration.
-             */
-            "weight"?: Weight;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. carrier (Optional): string or null. Carrier
-         * transporting the package. carrier.anyOf[1] (Value): string. Carrier transporting the
-         * package. carrier.anyOf[2] (Value): null. created_at (Optional): string or null. Creation
-         * timestamp. created_at.anyOf[1] (Value): string. Creation timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. delivered_at
-         * (Optional): string or null. Package delivery timestamp. delivered_at.anyOf[1] (Value):
-         * string. Package delivery timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * delivered_at.anyOf[2] (Value): null. dimensions (Optional): {@link Dimensions} or null.
-         * Physical length, width, and height of the package. dimensions.anyOf[1] (Value): {@link
-         * Dimensions}. Physical length, width, and height of the package. dimensions.anyOf[2]
-         * (Value): null. expected_delivery_at (Optional): string or null or null. When the carrier
-         * or merchant expects this package to arrive. Null when no estimate is set. Retained after
-         * delivery as history. This estimate is separate from the fulfillment's promised shipment
-         * window. expected_delivery_at.anyOf[1] (Value): string or null. When the carrier or
-         * merchant expects this package to arrive. Null when no estimate is set. Retained after
-         * delivery as history. This estimate is separate from the fulfillment's promised shipment
-         * window. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * expected_delivery_at.anyOf[2] (Value): null. external_reference_id (Optional): string or
-         * null. Caller-owned identifier for this resource in an external system. Requires
-         * external_system. External references are not unique. Use Idempotency-Key for retries.
-         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
-         * resource in an external system. Requires external_system. External references are not
-         * unique. Use Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
-         * external_reference_id.anyOf[2] (Value): null. external_system (Optional): string or
-         * null. Name of the external system that external_reference_id belongs to. External
-         * references are not unique. Use Idempotency-Key for retries. external_system.anyOf[1]
-         * (Value): string. Name of the external system that external_reference_id belongs to.
-         * External references are not unique. Use Idempotency-Key for retries.
-         * external_system.anyOf[2] (Value): null. fulfillment_id (Optional): string or null.
-         * Fulfillment whose items are in the package. fulfillment_id.anyOf[1] (Value): string.
-         * Fulfillment whose items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-         * fulfillment_id.anyOf[2] (Value): null. label_url (Optional): string or null. HTTPS
-         * shipping-label URL supplied by your integration. Non-Flint URLs require external_system
-         * for provenance. Flint does not host the label file. Omitted for a checkout session
-         * credential that doesn't act for the customer the buyer verified. label_url.anyOf[1]
-         * (Value): string. HTTPS shipping-label URL supplied by your integration. Non-Flint URLs
-         * require external_system for provenance. Flint does not host the label file. Omitted for
-         * a checkout session credential that doesn't act for the customer the buyer verified.
-         * label_url.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
-         * Caller-owned key-value metadata associated with the package. metadata.anyOf[1] (Value):
-         * {@link MetadataMap}. Caller-owned key-value metadata associated with the package.
-         * metadata.anyOf[2] (Value): null. order (Optional): {@link ExpandedOrderSummary} or null
-         * or null. Order summary returned when the order relationship is expanded. Present only
-         * when `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Order summary returned
-         * when the order relationship is expanded. Present only when `expand` includes `order`;
-         * `null` when expanded and there is no related order. order.anyOf[1].anyOf[1] (Value):
-         * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-         * refund status, and pricing and settlement amounts, returned when the order is expanded.
-         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
-         * (Optional): string or null. Order whose items are in the package. order_id.anyOf[1]
-         * (Value): string. Order whose items are in the package. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. package_id
-         * (Optional): string or null. Stable identifier of the package. package_id.anyOf[1]
-         * (Value): string. Stable identifier of the package. Example:
-         * "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". package_id.anyOf[2] (Value): null. return_id
-         * (Optional): string or null. Return this package belongs to. Present only on packages of
-         * return shipments. return_id.anyOf[1] (Value): string. Return this package belongs to.
-         * Present only on packages of return shipments. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-         * return_id.anyOf[2] (Value): null. return_line_items (Optional): Array of {@link
-         * ReturnHandoffRequirementLineItem} or null. Return line quantities allocated to this
-         * parcel. Present only on packages of return shipments. return_line_items.anyOf[1]
-         * (Value): Array of {@link ReturnHandoffRequirementLineItem}. Return line quantities
-         * allocated to this parcel. Present only on packages of return shipments.
-         * return_line_items.anyOf[1][] (Value): {@link ReturnHandoffRequirementLineItem}. A return
-         * line and the quantity placed in a return shipment or package. return_line_items.anyOf[2]
-         * (Value): null. service_code (Optional): string or null. Carrier service used for the
-         * package. service_code.anyOf[1] (Value): string. Carrier service used for the package.
-         * service_code.anyOf[2] (Value): null. shipment_id (Optional): string or null. Shipment
-         * carrying this package. shipment_id.anyOf[1] (Value): string. Shipment carrying this
-         * package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipment_id.anyOf[2] (Value): null.
-         * shipped_at (Optional): string or null. Package handoff timestamp. shipped_at.anyOf[1]
-         * (Value): string. Package handoff timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". shipped_at.anyOf[2] (Value): null. status (Optional): string or
-         * null. Current package lifecycle state. Package states are the source used to derive
-         * shipment status. - `created`: The package record exists but has not been packed or
-         * handed off. - `packed`: The package is packed and awaiting carrier handoff. - `shipped`:
-         * The package was handed to the carrier. - `in_transit`: The carrier is moving the package
-         * through its network. - `out_for_delivery`: The package is on its final delivery route. -
-         * `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The
-         * carrier attempted delivery but did not complete it. Follow the carrier instructions
-         * before retrying delivery. - `exception`: A carrier exception is blocking normal
-         * progress. Resolve the carrier-reported issue. - `returned`: The package was returned
-         * toward or to its origin. - `voided`: The package was voided and will not continue
-         * through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-         * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned",
-         * "voided". status.anyOf[1] (Value): string. Current package lifecycle state. Package
-         * states are the source used to derive shipment status. - `created`: The package record
-         * exists but has not been packed or handed off. - `packed`: The package is packed and
-         * awaiting carrier handoff. - `shipped`: The package was handed to the carrier. -
-         * `in_transit`: The carrier is moving the package through its network. -
-         * `out_for_delivery`: The package is on its final delivery route. - `delivered`: The
-         * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-         * delivery but did not complete it. Follow the carrier instructions before retrying
-         * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the
-         * carrier-reported issue. - `returned`: The package was returned toward or to its origin.
-         * - `voided`: The package was voided and will not continue through delivery. Value enum:
-         * "created", "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-         * "delivery_attempted", "exception", "returned", "voided". status.anyOf[2] (Value): null.
-         * status_reason (Optional): string or null. Additional explanation of the package's
-         * current status. status_reason.anyOf[1] (Value): string. Additional explanation of the
-         * package's current status. status_reason.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Lifecycle actions Flint accepts now.
-         * mark_in_transit can repeat while in transit to refresh expected_delivery_at. [] enum:
-         * "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-         * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts
-         * now. mark_in_transit can repeat while in transit to refresh expected_delivery_at. []
-         * enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-         * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-         * supported_actions.anyOf[1][] (Value): string. Value enum: "mark_delivered",
-         * "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery",
-         * "mark_packed", "mark_returned", "mark_shipped", "void". supported_actions.anyOf[2]
-         * (Value): null. tracking_number (Optional): string or null. Omitted for a checkout
-         * session credential that doesn't act for the customer the buyer verified.
-         * tracking_number.anyOf[1] (Value): string. Omitted for a checkout session credential that
-         * doesn't act for the customer the buyer verified. tracking_number.anyOf[2] (Value): null.
-         * tracking_url (Optional): string or null. Absolute HTTPS carrier tracking URL. Embedded
-         * URL credentials are rejected. Omitted for a checkout session credential that doesn't act
-         * for the customer the buyer verified. tracking_url.anyOf[1] (Value): string. Absolute
-         * HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a
-         * checkout session credential that doesn't act for the customer the buyer verified.
-         * tracking_url.anyOf[2] (Value): null. updated_at (Optional): string or null. Last update
-         * timestamp. updated_at.anyOf[1] (Value): string. Last update timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
-         * (Optional): integer or null. Monotonic package version for expected_version checks.
-         * version.anyOf[1] (Value): integer. Monotonic package version for expected_version
-         * checks. Format: uint64. minimum: 1. version.anyOf[2] (Value): null. weight (Optional):
-         * {@link Weight} or null. Physical weight of the package. weight.anyOf[1] (Value): {@link
-         * Weight}. Physical weight of the package. weight.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Carrier transporting the package. anyOf[1] (Value): string. Carrier transporting the
-             * package. anyOf[2] (Value): null.
-             */
-            "carrier"?: ((string) | (null));
-            /**
-             * Creation timestamp. anyOf[1] (Value): string. Creation timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Package delivery timestamp. anyOf[1] (Value): string. Package delivery timestamp.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "delivered_at"?: ((string) | (null));
-            /**
-             * Physical length, width, and height of the package. anyOf[1] (Value): {@link
-             * Dimensions}. Physical length, width, and height of the package. anyOf[2] (Value):
-             * null.
-             */
-            "dimensions"?: ((Dimensions) | (null));
-            /**
-             * When the carrier or merchant expects this package to arrive. Null when no estimate
-             * is set. Retained after delivery as history. This estimate is separate from the
-             * fulfillment's promised shipment window. anyOf[1] (Value): string or null. When the
-             * carrier or merchant expects this package to arrive. Null when no estimate is set.
-             * Retained after delivery as history. This estimate is separate from the fulfillment's
-             * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             * anyOf[2] (Value): null.
-             */
-            "expected_delivery_at"?: ((string | null) | (null) | (unknown));
-            /**
-             * Caller-owned identifier for this resource in an external system. Requires
-             * external_system. External references are not unique. Use Idempotency-Key for
-             * retries. anyOf[1] (Value): string. Caller-owned identifier for this resource in an
-             * external system. Requires external_system. External references are not unique. Use
-             * Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842". anyOf[2]
-             * (Value): null.
-             */
-            "external_reference_id"?: ((string) | (null));
-            /**
-             * Name of the external system that external_reference_id belongs to. External
-             * references are not unique. Use Idempotency-Key for retries. anyOf[1] (Value):
-             * string. Name of the external system that external_reference_id belongs to. External
-             * references are not unique. Use Idempotency-Key for retries. anyOf[2] (Value): null.
-             */
-            "external_system"?: ((string) | (null));
-            /**
-             * Fulfillment whose items are in the package. anyOf[1] (Value): string. Fulfillment
-             * whose items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". anyOf[2]
-             * (Value): null.
-             */
-            "fulfillment_id"?: ((string) | (null));
-            /**
-             * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-             * external_system for provenance. Flint does not host the label file. Omitted for a
-             * checkout session credential that doesn't act for the customer the buyer verified.
-             * anyOf[1] (Value): string. HTTPS shipping-label URL supplied by your integration.
-             * Non-Flint URLs require external_system for provenance. Flint does not host the label
-             * file. Omitted for a checkout session credential that doesn't act for the customer
-             * the buyer verified. anyOf[2] (Value): null.
-             */
-            "label_url"?: ((string) | (null));
-            /**
-             * Caller-owned key-value metadata associated with the package. anyOf[1] (Value):
-             * {@link MetadataMap}. Caller-owned key-value metadata associated with the package.
-             * anyOf[2] (Value): null.
-             */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * Order summary returned when the order relationship is expanded. Present only when
-             * `expand` includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Order summary returned when
-             * the order relationship is expanded. Present only when `expand` includes `order`;
-             * `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value):
-             * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
-             * and refund status, and pricing and settlement amounts, returned when the order is
-             * expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
-            /**
-             * Order whose items are in the package. anyOf[1] (Value): string. Order whose items
-             * are in the package. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
-             * null.
-             */
-            "order_id"?: ((string) | (null));
-            /**
-             * Stable identifier of the package. anyOf[1] (Value): string. Stable identifier of the
-             * package. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". anyOf[2] (Value): null.
-             */
-            "package_id"?: ((string) | (null));
-            /**
-             * Return this package belongs to. Present only on packages of return shipments.
-             * anyOf[1] (Value): string. Return this package belongs to. Present only on packages
-             * of return shipments. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value):
-             * null.
-             */
-            "return_id"?: ((string) | (null));
-            /**
-             * Return line quantities allocated to this parcel. Present only on packages of return
-             * shipments. anyOf[1] (Value): Array of {@link ReturnHandoffRequirementLineItem}.
-             * Return line quantities allocated to this parcel. Present only on packages of return
-             * shipments. anyOf[1][] (Value): {@link ReturnHandoffRequirementLineItem}. A return
-             * line and the quantity placed in a return shipment or package. anyOf[2] (Value):
-             * null.
-             */
-            "return_line_items"?: ((Array<ReturnHandoffRequirementLineItem>) | (null));
-            /**
-             * Carrier service used for the package. anyOf[1] (Value): string. Carrier service used
-             * for the package. anyOf[2] (Value): null.
-             */
-            "service_code"?: ((string) | (null));
-            /**
-             * Shipment carrying this package. anyOf[1] (Value): string. Shipment carrying this
-             * package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". anyOf[2] (Value): null.
-             */
-            "shipment_id"?: ((string) | (null));
-            /**
-             * Package handoff timestamp. anyOf[1] (Value): string. Package handoff timestamp.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "shipped_at"?: ((string) | (null));
-            /**
-             * Current package lifecycle state. Package states are the source used to derive
-             * shipment status. - `created`: The package record exists but has not been packed or
-             * handed off. - `packed`: The package is packed and awaiting carrier handoff. -
-             * `shipped`: The package was handed to the carrier. - `in_transit`: The carrier is
-             * moving the package through its network. - `out_for_delivery`: The package is on its
-             * final delivery route. - `delivered`: The carrier reported successful delivery. -
-             * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow
-             * the carrier instructions before retrying delivery. - `exception`: A carrier
-             * exception is blocking normal progress. Resolve the carrier-reported issue. -
-             * `returned`: The package was returned toward or to its origin. - `voided`: The
-             * package was voided and will not continue through delivery. Value enum: "created",
-             * "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-             * "delivery_attempted", "exception", "returned", "voided". anyOf[1] (Value): string.
-             * Current package lifecycle state. Package states are the source used to derive
-             * shipment status. - `created`: The package record exists but has not been packed or
-             * handed off. - `packed`: The package is packed and awaiting carrier handoff. -
-             * `shipped`: The package was handed to the carrier. - `in_transit`: The carrier is
-             * moving the package through its network. - `out_for_delivery`: The package is on its
-             * final delivery route. - `delivered`: The carrier reported successful delivery. -
-             * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow
-             * the carrier instructions before retrying delivery. - `exception`: A carrier
-             * exception is blocking normal progress. Resolve the carrier-reported issue. -
-             * `returned`: The package was returned toward or to its origin. - `voided`: The
-             * package was voided and will not continue through delivery. Value enum: "created",
-             * "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-             * "delivery_attempted", "exception", "returned", "voided". anyOf[2] (Value): null.
-             */
-            "status"?: (("created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {}))
-                | (null));
-            /**
-             * Additional explanation of the package's current status. anyOf[1] (Value): string.
-             * Additional explanation of the package's current status. anyOf[2] (Value): null.
-             */
-            "status_reason"?: ((string) | (null));
-            /**
-             * Lifecycle actions Flint accepts now. mark_in_transit can repeat while in transit to
-             * refresh expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
-             * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
-             * "mark_returned", "mark_shipped", "void". anyOf[1] (Value): Array of string.
-             * Lifecycle actions Flint accepts now. mark_in_transit can repeat while in transit to
-             * refresh expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
-             * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
-             * "mark_returned", "mark_shipped", "void". anyOf[1][] (Value): string. Value enum:
-             * "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-             * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-             * anyOf[2] (Value): null.
-             */
-            "supported_actions"?: ((Array<"mark_delivered"
-                | "mark_delivery_attempted"
-                | "mark_exception"
-                | "mark_in_transit"
-                | "mark_out_for_delivery"
-                | "mark_packed"
-                | "mark_returned"
-                | "mark_shipped"
-                | "void"
-                | (string & {})>)
-                | (null));
-            /**
-             * Omitted for a checkout session credential that doesn't act for the customer the
-             * buyer verified. anyOf[1] (Value): string. Omitted for a checkout session credential
-             * that doesn't act for the customer the buyer verified. anyOf[2] (Value): null.
-             */
-            "tracking_number"?: ((string) | (null));
-            /**
-             * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted
-             * for a checkout session credential that doesn't act for the customer the buyer
-             * verified. anyOf[1] (Value): string. Absolute HTTPS carrier tracking URL. Embedded
-             * URL credentials are rejected. Omitted for a checkout session credential that doesn't
-             * act for the customer the buyer verified. anyOf[2] (Value): null.
-             */
-            "tracking_url"?: ((string) | (null));
-            /**
-             * Last update timestamp. anyOf[1] (Value): string. Last update timestamp. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Monotonic package version for expected_version checks. anyOf[1] (Value): integer.
-             * Monotonic package version for expected_version checks. Format: uint64. minimum: 1.
-             * anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-            /**
-             * Physical weight of the package. anyOf[1] (Value): {@link Weight}. Physical weight of
-             * the package. anyOf[2] (Value): null.
-             */
-            "weight"?: ((Weight) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "package.updated". */
-    "event_type"?: "package.updated";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `package.updated` webhook payload for the `merchant` event source. Fields shared by merchant
- * webhook payloads.
- */
-export type PackageUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.carrier (Optional): string. Carrier transporting the package.
-     * object.created_at (Required): string. Creation timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.delivered_at (Optional): string. Package delivery timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.dimensions (Optional): {@link
-     * Dimensions}. Physical length, width, and height of the package. Package or item dimensions
-     * as `length`, `width`, and `height` in the given `unit`. object.expected_delivery_at
-     * (Optional): string or null. When the carrier or merchant expects this package to arrive.
-     * Null when no estimate is set. Retained after delivery as history. This estimate is separate
-     * from the fulfillment's promised shipment window. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. Requires external_system. External
-     * references are not unique. Use Idempotency-Key for retries. maxLength: 255. Example:
-     * "warehouse-1842". object.external_system (Optional): string. Name of the external system
-     * that external_reference_id belongs to. External references are not unique. Use
-     * Idempotency-Key for retries. object.fulfillment_id (Required): string. Fulfillment whose
-     * items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.label_url
-     * (Optional): string. HTTPS shipping-label URL supplied by your integration. Non-Flint URLs
-     * require external_system for provenance. Flint does not host the label file. Omitted for a
-     * checkout session credential that doesn't act for the customer the buyer verified.
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated
-     * with the package. Caller-owned key-value data stored on a resource. Keys starting with
-     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.order (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when
-     * the order relationship is expanded. Present only when `expand` includes `order`; `null` when
-     * expanded and there is no related order. object.order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
-     * are in the package. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.package_id (Required):
-     * string. Stable identifier of the package. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
-     * object.return_id (Optional): string. Return this package belongs to. Present only on
-     * packages of return shipments. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}.
-     * Return line quantities allocated to this parcel. Present only on packages of return
-     * shipments. object.return_line_items[] (Value): {@link ReturnHandoffRequirementLineItem}. A
-     * return line and the quantity placed in a return shipment or package. object.service_code
-     * (Optional): string. Carrier service used for the package. object.shipment_id (Required):
-     * string. Shipment carrying this package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
-     * object.shipped_at (Optional): string. Package handoff timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.status (Required): string. Current package lifecycle state.
-     * Package states are the source used to derive shipment status. - `created`: The package
-     * record exists but has not been packed or handed off. - `packed`: The package is packed and
-     * awaiting carrier handoff. - `shipped`: The package was handed to the carrier. -
-     * `in_transit`: The carrier is moving the package through its network. - `out_for_delivery`:
-     * The package is on its final delivery route. - `delivered`: The carrier reported successful
-     * delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it.
-     * Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception
-     * is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The package
-     * was returned toward or to its origin. - `voided`: The package was voided and will not
-     * continue through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
-     * object.status_reason (Optional): string. Additional explanation of the package's current
-     * status. object.supported_actions (Required): Array of string. Lifecycle actions Flint
-     * accepts now. mark_in_transit can repeat while in transit to refresh expected_delivery_at. []
-     * enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-     * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-     * object.supported_actions[] (Value): string. Value enum: "mark_delivered",
-     * "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery",
-     * "mark_packed", "mark_returned", "mark_shipped", "void". object.tracking_number (Optional):
-     * string. Omitted for a checkout session credential that doesn't act for the customer the
-     * buyer verified. object.tracking_url (Optional): string. Absolute HTTPS carrier tracking URL.
-     * Embedded URL credentials are rejected. Omitted for a checkout session credential that
-     * doesn't act for the customer the buyer verified. object.updated_at (Required): string. Last
-     * update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
-     * (Required): integer. Monotonic package version for expected_version checks. Format: uint64.
-     * minimum: 1. object.weight (Optional): {@link Weight}. Physical weight of the package. A
-     * weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.carrier (Optional): string or null. Carrier transporting the package.
-     * previous_attributes.carrier.anyOf[1] (Value): string. Carrier transporting the package.
-     * previous_attributes.carrier.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. Creation timestamp. previous_attributes.created_at.anyOf[1]
-     * (Value): string. Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.delivered_at
-     * (Optional): string or null. Package delivery timestamp.
-     * previous_attributes.delivered_at.anyOf[1] (Value): string. Package delivery timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.delivered_at.anyOf[2] (Value): null. previous_attributes.dimensions
-     * (Optional): {@link Dimensions} or null. Physical length, width, and height of the package.
-     * previous_attributes.dimensions.anyOf[1] (Value): {@link Dimensions}. Physical length, width,
-     * and height of the package. previous_attributes.dimensions.anyOf[2] (Value): null.
-     * previous_attributes.expected_delivery_at (Optional): string or null or null. When the
-     * carrier or merchant expects this package to arrive. Null when no estimate is set. Retained
-     * after delivery as history. This estimate is separate from the fulfillment's promised
-     * shipment window. previous_attributes.expected_delivery_at.anyOf[1] (Value): string or null.
-     * When the carrier or merchant expects this package to arrive. Null when no estimate is set.
-     * Retained after delivery as history. This estimate is separate from the fulfillment's
-     * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.expected_delivery_at.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
-     * identifier for this resource in an external system. Requires external_system. External
-     * references are not unique. Use Idempotency-Key for retries.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
-     * for this resource in an external system. Requires external_system. External references are
-     * not unique. Use Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.external_system (Optional): string or null. Name of the external system
-     * that external_reference_id belongs to. External references are not unique. Use
-     * Idempotency-Key for retries. previous_attributes.external_system.anyOf[1] (Value): string.
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. previous_attributes.external_system.anyOf[2]
-     * (Value): null. previous_attributes.fulfillment_id (Optional): string or null. Fulfillment
-     * whose items are in the package. previous_attributes.fulfillment_id.anyOf[1] (Value): string.
-     * Fulfillment whose items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     * previous_attributes.fulfillment_id.anyOf[2] (Value): null. previous_attributes.label_url
-     * (Optional): string or null. HTTPS shipping-label URL supplied by your integration. Non-Flint
-     * URLs require external_system for provenance. Flint does not host the label file. Omitted for
-     * a checkout session credential that doesn't act for the customer the buyer verified.
-     * previous_attributes.label_url.anyOf[1] (Value): string. HTTPS shipping-label URL supplied by
-     * your integration. Non-Flint URLs require external_system for provenance. Flint does not host
-     * the label file. Omitted for a checkout session credential that doesn't act for the customer
-     * the buyer verified. previous_attributes.label_url.anyOf[2] (Value): null.
-     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned key-value
-     * metadata associated with the package. previous_attributes.metadata.anyOf[1] (Value): {@link
-     * MetadataMap}. Caller-owned key-value metadata associated with the package.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
-     * {@link ExpandedOrderSummary} or null or null. Order summary returned when the order
-     * relationship is expanded. Present only when `expand` includes `order`; `null` when expanded
-     * and there is no related order. previous_attributes.order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary} or null. Order summary returned when the order relationship is
-     * expanded. Present only when `expand` includes `order`; `null` when expanded and there is no
-     * related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
-     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
-     * string or null. Order whose items are in the package. previous_attributes.order_id.anyOf[1]
-     * (Value): string. Order whose items are in the package. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.package_id (Optional): string or null. Stable identifier of the package.
-     * previous_attributes.package_id.anyOf[1] (Value): string. Stable identifier of the package.
-     * Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". previous_attributes.package_id.anyOf[2] (Value):
-     * null. previous_attributes.return_id (Optional): string or null. Return this package belongs
-     * to. Present only on packages of return shipments. previous_attributes.return_id.anyOf[1]
-     * (Value): string. Return this package belongs to. Present only on packages of return
-     * shipments. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2]
-     * (Value): null. previous_attributes.return_line_items (Optional): Array of {@link
-     * ReturnHandoffRequirementLineItem} or null. Return line quantities allocated to this parcel.
-     * Present only on packages of return shipments. previous_attributes.return_line_items.anyOf[1]
-     * (Value): Array of {@link ReturnHandoffRequirementLineItem}. Return line quantities allocated
-     * to this parcel. Present only on packages of return shipments.
-     * previous_attributes.return_line_items.anyOf[1][] (Value): {@link
-     * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
-     * shipment or package. previous_attributes.return_line_items.anyOf[2] (Value): null.
-     * previous_attributes.service_code (Optional): string or null. Carrier service used for the
-     * package. previous_attributes.service_code.anyOf[1] (Value): string. Carrier service used for
-     * the package. previous_attributes.service_code.anyOf[2] (Value): null.
-     * previous_attributes.shipment_id (Optional): string or null. Shipment carrying this package.
-     * previous_attributes.shipment_id.anyOf[1] (Value): string. Shipment carrying this package.
-     * Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". previous_attributes.shipment_id.anyOf[2] (Value):
-     * null. previous_attributes.shipped_at (Optional): string or null. Package handoff timestamp.
-     * previous_attributes.shipped_at.anyOf[1] (Value): string. Package handoff timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.shipped_at.anyOf[2] (Value):
-     * null. previous_attributes.status (Optional): string or null. Current package lifecycle
-     * state. Package states are the source used to derive shipment status. - `created`: The
-     * package record exists but has not been packed or handed off. - `packed`: The package is
-     * packed and awaiting carrier handoff. - `shipped`: The package was handed to the carrier. -
-     * `in_transit`: The carrier is moving the package through its network. - `out_for_delivery`:
-     * The package is on its final delivery route. - `delivered`: The carrier reported successful
-     * delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it.
-     * Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception
-     * is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The package
-     * was returned toward or to its origin. - `voided`: The package was voided and will not
-     * continue through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
-     * previous_attributes.status.anyOf[1] (Value): string. Current package lifecycle state.
-     * Package states are the source used to derive shipment status. - `created`: The package
-     * record exists but has not been packed or handed off. - `packed`: The package is packed and
-     * awaiting carrier handoff. - `shipped`: The package was handed to the carrier. -
-     * `in_transit`: The carrier is moving the package through its network. - `out_for_delivery`:
-     * The package is on its final delivery route. - `delivered`: The carrier reported successful
-     * delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it.
-     * Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception
-     * is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The package
-     * was returned toward or to its origin. - `voided`: The package was voided and will not
-     * continue through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.status_reason
-     * (Optional): string or null. Additional explanation of the package's current status.
-     * previous_attributes.status_reason.anyOf[1] (Value): string. Additional explanation of the
-     * package's current status. previous_attributes.status_reason.anyOf[2] (Value): null.
-     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
-     * Flint accepts now. mark_in_transit can repeat while in transit to refresh
-     * expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
-     * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
-     * "mark_returned", "mark_shipped", "void". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Lifecycle actions Flint accepts now. mark_in_transit can repeat
-     * while in transit to refresh expected_delivery_at. [] enum: "mark_delivered",
-     * "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery",
-     * "mark_packed", "mark_returned", "mark_shipped", "void".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
-     * "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-     * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-     * previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tracking_number (Optional): string or null. Omitted for a checkout
-     * session credential that doesn't act for the customer the buyer verified.
-     * previous_attributes.tracking_number.anyOf[1] (Value): string. Omitted for a checkout session
-     * credential that doesn't act for the customer the buyer verified.
-     * previous_attributes.tracking_number.anyOf[2] (Value): null. previous_attributes.tracking_url
-     * (Optional): string or null. Absolute HTTPS carrier tracking URL. Embedded URL credentials
-     * are rejected. Omitted for a checkout session credential that doesn't act for the customer
-     * the buyer verified. previous_attributes.tracking_url.anyOf[1] (Value): string. Absolute
-     * HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a checkout
-     * session credential that doesn't act for the customer the buyer verified.
-     * previous_attributes.tracking_url.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. Last update timestamp. previous_attributes.updated_at.anyOf[1]
-     * (Value): string. Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Monotonic package version for expected_version checks.
-     * previous_attributes.version.anyOf[1] (Value): integer. Monotonic package version for
-     * expected_version checks. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2]
-     * (Value): null. previous_attributes.weight (Optional): {@link Weight} or null. Physical
-     * weight of the package. previous_attributes.weight.anyOf[1] (Value): {@link Weight}. Physical
-     * weight of the package. previous_attributes.weight.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. carrier
-         * (Optional): string. Carrier transporting the package. created_at (Required): string.
-         * Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". delivered_at
-         * (Optional): string. Package delivery timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". dimensions (Optional): {@link Dimensions}. Physical length,
-         * width, and height of the package. Package or item dimensions as `length`, `width`, and
-         * `height` in the given `unit`. expected_delivery_at (Optional): string or null. When the
-         * carrier or merchant expects this package to arrive. Null when no estimate is set.
-         * Retained after delivery as history. This estimate is separate from the fulfillment's
-         * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. Requires external_system. External references are not unique. Use
-         * Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842". external_system
-         * (Optional): string. Name of the external system that external_reference_id belongs to.
-         * External references are not unique. Use Idempotency-Key for retries. fulfillment_id
-         * (Required): string. Fulfillment whose items are in the package. Example:
-         * "ful_01KEZF7C00F24WVSTTWR1FQX5T". label_url (Optional): string. HTTPS shipping-label URL
-         * supplied by your integration. Non-Flint URLs require external_system for provenance.
-         * Flint does not host the label file. Omitted for a checkout session credential that
-         * doesn't act for the customer the buyer verified. metadata (Optional): {@link
-         * MetadataMap}. Caller-owned key-value metadata associated with the package. Caller-owned
-         * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint
-         * and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput;
-         * maps written before those limits may not satisfy them. order (Optional): {@link
-         * ExpandedOrderSummary} or null. Order summary returned when the order relationship is
-         * expanded. Present only when `expand` includes `order`; `null` when expanded and there is
-         * no related order. order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's
-         * summary fields, including status, payment and refund status, and pricing and settlement
-         * amounts, returned when the order is expanded. order.anyOf[2] (Value): null. order_id
-         * (Required): string. Order whose items are in the package. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". package_id (Required): string. Stable identifier of
-         * the package. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". return_id (Optional): string.
-         * Return this package belongs to. Present only on packages of return shipments. Example:
-         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_line_items (Optional): Array of {@link
-         * ReturnHandoffRequirementLineItem}. Return line quantities allocated to this parcel.
-         * Present only on packages of return shipments. return_line_items[] (Value): {@link
-         * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
-         * shipment or package. service_code (Optional): string. Carrier service used for the
-         * package. shipment_id (Required): string. Shipment carrying this package. Example:
-         * "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipped_at (Optional): string. Package handoff
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
-         * string. Current package lifecycle state. Package states are the source used to derive
-         * shipment status. - `created`: The package record exists but has not been packed or
-         * handed off. - `packed`: The package is packed and awaiting carrier handoff. - `shipped`:
-         * The package was handed to the carrier. - `in_transit`: The carrier is moving the package
-         * through its network. - `out_for_delivery`: The package is on its final delivery route. -
-         * `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The
-         * carrier attempted delivery but did not complete it. Follow the carrier instructions
-         * before retrying delivery. - `exception`: A carrier exception is blocking normal
-         * progress. Resolve the carrier-reported issue. - `returned`: The package was returned
-         * toward or to its origin. - `voided`: The package was voided and will not continue
-         * through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-         * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned",
-         * "voided". status_reason (Optional): string. Additional explanation of the package's
-         * current status. supported_actions (Required): Array of string. Lifecycle actions Flint
-         * accepts now. mark_in_transit can repeat while in transit to refresh
-         * expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
-         * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
-         * "mark_returned", "mark_shipped", "void". supported_actions[] (Value): string. Value
-         * enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-         * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-         * tracking_number (Optional): string. Omitted for a checkout session credential that
-         * doesn't act for the customer the buyer verified. tracking_url (Optional): string.
-         * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for
-         * a checkout session credential that doesn't act for the customer the buyer verified.
-         * updated_at (Required): string. Last update timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Monotonic package version for
-         * expected_version checks. Format: uint64. minimum: 1. weight (Optional): {@link Weight}.
-         * Physical weight of the package. A weight value in grams, kilograms, ounces, or pounds,
-         * used in delivery profile configuration.
-         */
-        "object": {
-            /** Carrier transporting the package. */
-            "carrier"?: string;
-            /** Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** Package delivery timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "delivered_at"?: string;
-            /**
-             * Physical length, width, and height of the package. Package or item dimensions as
-             * `length`, `width`, and `height` in the given `unit`.
-             */
-            "dimensions"?: Dimensions;
-            /**
-             * When the carrier or merchant expects this package to arrive. Null when no estimate
-             * is set. Retained after delivery as history. This estimate is separate from the
-             * fulfillment's promised shipment window. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "expected_delivery_at"?: string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. Requires
-             * external_system. External references are not unique. Use Idempotency-Key for
-             * retries. maxLength: 255. Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Name of the external system that external_reference_id belongs to. External
-             * references are not unique. Use Idempotency-Key for retries.
-             */
-            "external_system"?: string;
-            /**
-             * Fulfillment whose items are in the package. Example:
-             * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-             */
-            "fulfillment_id": string;
-            /**
-             * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-             * external_system for provenance. Flint does not host the label file. Omitted for a
-             * checkout session credential that doesn't act for the customer the buyer verified.
-             */
-            "label_url"?: string;
-            /**
-             * Caller-owned key-value metadata associated with the package. Caller-owned key-value
-             * data stored on a resource. Keys starting with flint_ are reserved for Flint and are
-             * not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-             * written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Order summary returned when the order relationship is expanded. Present only when
-             * `expand` includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
-             * status, payment and refund status, and pricing and settlement amounts, returned when
-             * the order is expanded. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /** Order whose items are in the package. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
-            "order_id": string;
-            /** Stable identifier of the package. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". */
-            "package_id": string;
-            /**
-             * Return this package belongs to. Present only on packages of return shipments.
-             * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-             */
-            "return_id"?: string;
-            /**
-             * Return line quantities allocated to this parcel. Present only on packages of return
-             * shipments. [] (Value): {@link ReturnHandoffRequirementLineItem}. A return line and
-             * the quantity placed in a return shipment or package.
-             */
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            /** Carrier service used for the package. */
-            "service_code"?: string;
-            /** Shipment carrying this package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
-            "shipment_id": string;
-            /** Package handoff timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "shipped_at"?: string;
-            /**
-             * Current package lifecycle state. Package states are the source used to derive
-             * shipment status. - `created`: The package record exists but has not been packed or
-             * handed off. - `packed`: The package is packed and awaiting carrier handoff. -
-             * `shipped`: The package was handed to the carrier. - `in_transit`: The carrier is
-             * moving the package through its network. - `out_for_delivery`: The package is on its
-             * final delivery route. - `delivered`: The carrier reported successful delivery. -
-             * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow
-             * the carrier instructions before retrying delivery. - `exception`: A carrier
-             * exception is blocking normal progress. Resolve the carrier-reported issue. -
-             * `returned`: The package was returned toward or to its origin. - `voided`: The
-             * package was voided and will not continue through delivery. Value enum: "created",
-             * "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-             * "delivery_attempted", "exception", "returned", "voided".
-             */
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            /** Additional explanation of the package's current status. */
-            "status_reason"?: string;
-            /**
-             * Lifecycle actions Flint accepts now. mark_in_transit can repeat while in transit to
-             * refresh expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
-             * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
-             * "mark_returned", "mark_shipped", "void". [] (Value): string. Value enum:
-             * "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-             * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-             */
-            "supported_actions": Array<"mark_delivered"
-                | "mark_delivery_attempted"
-                | "mark_exception"
-                | "mark_in_transit"
-                | "mark_out_for_delivery"
-                | "mark_packed"
-                | "mark_returned"
-                | "mark_shipped"
-                | "void"
-                | (string & {})>;
-            /**
-             * Omitted for a checkout session credential that doesn't act for the customer the
-             * buyer verified.
-             */
-            "tracking_number"?: string;
-            /**
-             * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted
-             * for a checkout session credential that doesn't act for the customer the buyer
-             * verified.
-             */
-            "tracking_url"?: string;
-            /** Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Monotonic package version for expected_version checks. Format: uint64. minimum: 1.
-             */
-            "version": number;
-            /**
-             * Physical weight of the package. A weight value in grams, kilograms, ounces, or
-             * pounds, used in delivery profile configuration.
-             */
-            "weight"?: Weight;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. carrier (Optional): string or null. Carrier
-         * transporting the package. carrier.anyOf[1] (Value): string. Carrier transporting the
-         * package. carrier.anyOf[2] (Value): null. created_at (Optional): string or null. Creation
-         * timestamp. created_at.anyOf[1] (Value): string. Creation timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. delivered_at
-         * (Optional): string or null. Package delivery timestamp. delivered_at.anyOf[1] (Value):
-         * string. Package delivery timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * delivered_at.anyOf[2] (Value): null. dimensions (Optional): {@link Dimensions} or null.
-         * Physical length, width, and height of the package. dimensions.anyOf[1] (Value): {@link
-         * Dimensions}. Physical length, width, and height of the package. dimensions.anyOf[2]
-         * (Value): null. expected_delivery_at (Optional): string or null or null. When the carrier
-         * or merchant expects this package to arrive. Null when no estimate is set. Retained after
-         * delivery as history. This estimate is separate from the fulfillment's promised shipment
-         * window. expected_delivery_at.anyOf[1] (Value): string or null. When the carrier or
-         * merchant expects this package to arrive. Null when no estimate is set. Retained after
-         * delivery as history. This estimate is separate from the fulfillment's promised shipment
-         * window. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * expected_delivery_at.anyOf[2] (Value): null. external_reference_id (Optional): string or
-         * null. Caller-owned identifier for this resource in an external system. Requires
-         * external_system. External references are not unique. Use Idempotency-Key for retries.
-         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
-         * resource in an external system. Requires external_system. External references are not
-         * unique. Use Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
-         * external_reference_id.anyOf[2] (Value): null. external_system (Optional): string or
-         * null. Name of the external system that external_reference_id belongs to. External
-         * references are not unique. Use Idempotency-Key for retries. external_system.anyOf[1]
-         * (Value): string. Name of the external system that external_reference_id belongs to.
-         * External references are not unique. Use Idempotency-Key for retries.
-         * external_system.anyOf[2] (Value): null. fulfillment_id (Optional): string or null.
-         * Fulfillment whose items are in the package. fulfillment_id.anyOf[1] (Value): string.
-         * Fulfillment whose items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-         * fulfillment_id.anyOf[2] (Value): null. label_url (Optional): string or null. HTTPS
-         * shipping-label URL supplied by your integration. Non-Flint URLs require external_system
-         * for provenance. Flint does not host the label file. Omitted for a checkout session
-         * credential that doesn't act for the customer the buyer verified. label_url.anyOf[1]
-         * (Value): string. HTTPS shipping-label URL supplied by your integration. Non-Flint URLs
-         * require external_system for provenance. Flint does not host the label file. Omitted for
-         * a checkout session credential that doesn't act for the customer the buyer verified.
-         * label_url.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
-         * Caller-owned key-value metadata associated with the package. metadata.anyOf[1] (Value):
-         * {@link MetadataMap}. Caller-owned key-value metadata associated with the package.
-         * metadata.anyOf[2] (Value): null. order (Optional): {@link ExpandedOrderSummary} or null
-         * or null. Order summary returned when the order relationship is expanded. Present only
-         * when `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Order summary returned
-         * when the order relationship is expanded. Present only when `expand` includes `order`;
-         * `null` when expanded and there is no related order. order.anyOf[1].anyOf[1] (Value):
-         * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-         * refund status, and pricing and settlement amounts, returned when the order is expanded.
-         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
-         * (Optional): string or null. Order whose items are in the package. order_id.anyOf[1]
-         * (Value): string. Order whose items are in the package. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. package_id
-         * (Optional): string or null. Stable identifier of the package. package_id.anyOf[1]
-         * (Value): string. Stable identifier of the package. Example:
-         * "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". package_id.anyOf[2] (Value): null. return_id
-         * (Optional): string or null. Return this package belongs to. Present only on packages of
-         * return shipments. return_id.anyOf[1] (Value): string. Return this package belongs to.
-         * Present only on packages of return shipments. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-         * return_id.anyOf[2] (Value): null. return_line_items (Optional): Array of {@link
-         * ReturnHandoffRequirementLineItem} or null. Return line quantities allocated to this
-         * parcel. Present only on packages of return shipments. return_line_items.anyOf[1]
-         * (Value): Array of {@link ReturnHandoffRequirementLineItem}. Return line quantities
-         * allocated to this parcel. Present only on packages of return shipments.
-         * return_line_items.anyOf[1][] (Value): {@link ReturnHandoffRequirementLineItem}. A return
-         * line and the quantity placed in a return shipment or package. return_line_items.anyOf[2]
-         * (Value): null. service_code (Optional): string or null. Carrier service used for the
-         * package. service_code.anyOf[1] (Value): string. Carrier service used for the package.
-         * service_code.anyOf[2] (Value): null. shipment_id (Optional): string or null. Shipment
-         * carrying this package. shipment_id.anyOf[1] (Value): string. Shipment carrying this
-         * package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipment_id.anyOf[2] (Value): null.
-         * shipped_at (Optional): string or null. Package handoff timestamp. shipped_at.anyOf[1]
-         * (Value): string. Package handoff timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". shipped_at.anyOf[2] (Value): null. status (Optional): string or
-         * null. Current package lifecycle state. Package states are the source used to derive
-         * shipment status. - `created`: The package record exists but has not been packed or
-         * handed off. - `packed`: The package is packed and awaiting carrier handoff. - `shipped`:
-         * The package was handed to the carrier. - `in_transit`: The carrier is moving the package
-         * through its network. - `out_for_delivery`: The package is on its final delivery route. -
-         * `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The
-         * carrier attempted delivery but did not complete it. Follow the carrier instructions
-         * before retrying delivery. - `exception`: A carrier exception is blocking normal
-         * progress. Resolve the carrier-reported issue. - `returned`: The package was returned
-         * toward or to its origin. - `voided`: The package was voided and will not continue
-         * through delivery. Value enum: "created", "packed", "shipped", "in_transit",
-         * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned",
-         * "voided". status.anyOf[1] (Value): string. Current package lifecycle state. Package
-         * states are the source used to derive shipment status. - `created`: The package record
-         * exists but has not been packed or handed off. - `packed`: The package is packed and
-         * awaiting carrier handoff. - `shipped`: The package was handed to the carrier. -
-         * `in_transit`: The carrier is moving the package through its network. -
-         * `out_for_delivery`: The package is on its final delivery route. - `delivered`: The
-         * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-         * delivery but did not complete it. Follow the carrier instructions before retrying
-         * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the
-         * carrier-reported issue. - `returned`: The package was returned toward or to its origin.
-         * - `voided`: The package was voided and will not continue through delivery. Value enum:
-         * "created", "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-         * "delivery_attempted", "exception", "returned", "voided". status.anyOf[2] (Value): null.
-         * status_reason (Optional): string or null. Additional explanation of the package's
-         * current status. status_reason.anyOf[1] (Value): string. Additional explanation of the
-         * package's current status. status_reason.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Lifecycle actions Flint accepts now.
-         * mark_in_transit can repeat while in transit to refresh expected_delivery_at. [] enum:
-         * "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-         * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts
-         * now. mark_in_transit can repeat while in transit to refresh expected_delivery_at. []
-         * enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-         * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-         * supported_actions.anyOf[1][] (Value): string. Value enum: "mark_delivered",
-         * "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery",
-         * "mark_packed", "mark_returned", "mark_shipped", "void". supported_actions.anyOf[2]
-         * (Value): null. tracking_number (Optional): string or null. Omitted for a checkout
-         * session credential that doesn't act for the customer the buyer verified.
-         * tracking_number.anyOf[1] (Value): string. Omitted for a checkout session credential that
-         * doesn't act for the customer the buyer verified. tracking_number.anyOf[2] (Value): null.
-         * tracking_url (Optional): string or null. Absolute HTTPS carrier tracking URL. Embedded
-         * URL credentials are rejected. Omitted for a checkout session credential that doesn't act
-         * for the customer the buyer verified. tracking_url.anyOf[1] (Value): string. Absolute
-         * HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a
-         * checkout session credential that doesn't act for the customer the buyer verified.
-         * tracking_url.anyOf[2] (Value): null. updated_at (Optional): string or null. Last update
-         * timestamp. updated_at.anyOf[1] (Value): string. Last update timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
-         * (Optional): integer or null. Monotonic package version for expected_version checks.
-         * version.anyOf[1] (Value): integer. Monotonic package version for expected_version
-         * checks. Format: uint64. minimum: 1. version.anyOf[2] (Value): null. weight (Optional):
-         * {@link Weight} or null. Physical weight of the package. weight.anyOf[1] (Value): {@link
-         * Weight}. Physical weight of the package. weight.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Carrier transporting the package. anyOf[1] (Value): string. Carrier transporting the
-             * package. anyOf[2] (Value): null.
-             */
-            "carrier"?: ((string) | (null));
-            /**
-             * Creation timestamp. anyOf[1] (Value): string. Creation timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Package delivery timestamp. anyOf[1] (Value): string. Package delivery timestamp.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "delivered_at"?: ((string) | (null));
-            /**
-             * Physical length, width, and height of the package. anyOf[1] (Value): {@link
-             * Dimensions}. Physical length, width, and height of the package. anyOf[2] (Value):
-             * null.
-             */
-            "dimensions"?: ((Dimensions) | (null));
-            /**
-             * When the carrier or merchant expects this package to arrive. Null when no estimate
-             * is set. Retained after delivery as history. This estimate is separate from the
-             * fulfillment's promised shipment window. anyOf[1] (Value): string or null. When the
-             * carrier or merchant expects this package to arrive. Null when no estimate is set.
-             * Retained after delivery as history. This estimate is separate from the fulfillment's
-             * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             * anyOf[2] (Value): null.
-             */
-            "expected_delivery_at"?: ((string | null) | (null) | (unknown));
-            /**
-             * Caller-owned identifier for this resource in an external system. Requires
-             * external_system. External references are not unique. Use Idempotency-Key for
-             * retries. anyOf[1] (Value): string. Caller-owned identifier for this resource in an
-             * external system. Requires external_system. External references are not unique. Use
-             * Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842". anyOf[2]
-             * (Value): null.
-             */
-            "external_reference_id"?: ((string) | (null));
-            /**
-             * Name of the external system that external_reference_id belongs to. External
-             * references are not unique. Use Idempotency-Key for retries. anyOf[1] (Value):
-             * string. Name of the external system that external_reference_id belongs to. External
-             * references are not unique. Use Idempotency-Key for retries. anyOf[2] (Value): null.
-             */
-            "external_system"?: ((string) | (null));
-            /**
-             * Fulfillment whose items are in the package. anyOf[1] (Value): string. Fulfillment
-             * whose items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". anyOf[2]
-             * (Value): null.
-             */
-            "fulfillment_id"?: ((string) | (null));
-            /**
-             * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-             * external_system for provenance. Flint does not host the label file. Omitted for a
-             * checkout session credential that doesn't act for the customer the buyer verified.
-             * anyOf[1] (Value): string. HTTPS shipping-label URL supplied by your integration.
-             * Non-Flint URLs require external_system for provenance. Flint does not host the label
-             * file. Omitted for a checkout session credential that doesn't act for the customer
-             * the buyer verified. anyOf[2] (Value): null.
-             */
-            "label_url"?: ((string) | (null));
-            /**
-             * Caller-owned key-value metadata associated with the package. anyOf[1] (Value):
-             * {@link MetadataMap}. Caller-owned key-value metadata associated with the package.
-             * anyOf[2] (Value): null.
-             */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * Order summary returned when the order relationship is expanded. Present only when
-             * `expand` includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Order summary returned when
-             * the order relationship is expanded. Present only when `expand` includes `order`;
-             * `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value):
-             * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
-             * and refund status, and pricing and settlement amounts, returned when the order is
-             * expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
-            /**
-             * Order whose items are in the package. anyOf[1] (Value): string. Order whose items
-             * are in the package. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
-             * null.
-             */
-            "order_id"?: ((string) | (null));
-            /**
-             * Stable identifier of the package. anyOf[1] (Value): string. Stable identifier of the
-             * package. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". anyOf[2] (Value): null.
-             */
-            "package_id"?: ((string) | (null));
-            /**
-             * Return this package belongs to. Present only on packages of return shipments.
-             * anyOf[1] (Value): string. Return this package belongs to. Present only on packages
-             * of return shipments. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value):
-             * null.
-             */
-            "return_id"?: ((string) | (null));
-            /**
-             * Return line quantities allocated to this parcel. Present only on packages of return
-             * shipments. anyOf[1] (Value): Array of {@link ReturnHandoffRequirementLineItem}.
-             * Return line quantities allocated to this parcel. Present only on packages of return
-             * shipments. anyOf[1][] (Value): {@link ReturnHandoffRequirementLineItem}. A return
-             * line and the quantity placed in a return shipment or package. anyOf[2] (Value):
-             * null.
-             */
-            "return_line_items"?: ((Array<ReturnHandoffRequirementLineItem>) | (null));
-            /**
-             * Carrier service used for the package. anyOf[1] (Value): string. Carrier service used
-             * for the package. anyOf[2] (Value): null.
-             */
-            "service_code"?: ((string) | (null));
-            /**
-             * Shipment carrying this package. anyOf[1] (Value): string. Shipment carrying this
-             * package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". anyOf[2] (Value): null.
-             */
-            "shipment_id"?: ((string) | (null));
-            /**
-             * Package handoff timestamp. anyOf[1] (Value): string. Package handoff timestamp.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "shipped_at"?: ((string) | (null));
-            /**
-             * Current package lifecycle state. Package states are the source used to derive
-             * shipment status. - `created`: The package record exists but has not been packed or
-             * handed off. - `packed`: The package is packed and awaiting carrier handoff. -
-             * `shipped`: The package was handed to the carrier. - `in_transit`: The carrier is
-             * moving the package through its network. - `out_for_delivery`: The package is on its
-             * final delivery route. - `delivered`: The carrier reported successful delivery. -
-             * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow
-             * the carrier instructions before retrying delivery. - `exception`: A carrier
-             * exception is blocking normal progress. Resolve the carrier-reported issue. -
-             * `returned`: The package was returned toward or to its origin. - `voided`: The
-             * package was voided and will not continue through delivery. Value enum: "created",
-             * "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-             * "delivery_attempted", "exception", "returned", "voided". anyOf[1] (Value): string.
-             * Current package lifecycle state. Package states are the source used to derive
-             * shipment status. - `created`: The package record exists but has not been packed or
-             * handed off. - `packed`: The package is packed and awaiting carrier handoff. -
-             * `shipped`: The package was handed to the carrier. - `in_transit`: The carrier is
-             * moving the package through its network. - `out_for_delivery`: The package is on its
-             * final delivery route. - `delivered`: The carrier reported successful delivery. -
-             * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow
-             * the carrier instructions before retrying delivery. - `exception`: A carrier
-             * exception is blocking normal progress. Resolve the carrier-reported issue. -
-             * `returned`: The package was returned toward or to its origin. - `voided`: The
-             * package was voided and will not continue through delivery. Value enum: "created",
-             * "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-             * "delivery_attempted", "exception", "returned", "voided". anyOf[2] (Value): null.
-             */
-            "status"?: (("created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {}))
-                | (null));
-            /**
-             * Additional explanation of the package's current status. anyOf[1] (Value): string.
-             * Additional explanation of the package's current status. anyOf[2] (Value): null.
-             */
-            "status_reason"?: ((string) | (null));
-            /**
-             * Lifecycle actions Flint accepts now. mark_in_transit can repeat while in transit to
-             * refresh expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
-             * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
-             * "mark_returned", "mark_shipped", "void". anyOf[1] (Value): Array of string.
-             * Lifecycle actions Flint accepts now. mark_in_transit can repeat while in transit to
-             * refresh expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
-             * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
-             * "mark_returned", "mark_shipped", "void". anyOf[1][] (Value): string. Value enum:
-             * "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-             * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
-             * anyOf[2] (Value): null.
-             */
-            "supported_actions"?: ((Array<"mark_delivered"
-                | "mark_delivery_attempted"
-                | "mark_exception"
-                | "mark_in_transit"
-                | "mark_out_for_delivery"
-                | "mark_packed"
-                | "mark_returned"
-                | "mark_shipped"
-                | "void"
-                | (string & {})>)
-                | (null));
-            /**
-             * Omitted for a checkout session credential that doesn't act for the customer the
-             * buyer verified. anyOf[1] (Value): string. Omitted for a checkout session credential
-             * that doesn't act for the customer the buyer verified. anyOf[2] (Value): null.
-             */
-            "tracking_number"?: ((string) | (null));
-            /**
-             * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted
-             * for a checkout session credential that doesn't act for the customer the buyer
-             * verified. anyOf[1] (Value): string. Absolute HTTPS carrier tracking URL. Embedded
-             * URL credentials are rejected. Omitted for a checkout session credential that doesn't
-             * act for the customer the buyer verified. anyOf[2] (Value): null.
-             */
-            "tracking_url"?: ((string) | (null));
-            /**
-             * Last update timestamp. anyOf[1] (Value): string. Last update timestamp. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Monotonic package version for expected_version checks. anyOf[1] (Value): integer.
-             * Monotonic package version for expected_version checks. Format: uint64. minimum: 1.
-             * anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-            /**
-             * Physical weight of the package. anyOf[1] (Value): {@link Weight}. Physical weight of
-             * the package. anyOf[2] (Value): null.
-             */
-            "weight"?: ((Weight) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "package.updated". */
-    "event_type"?: "package.updated";
-});
-export type PackagesCreateItemParams = (InputValue<CreatePackageItemRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PackagesCreateParams = (CreatePackageRequestInput)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PackagesDeleteItemParams = {
-    /**
-     * Optional item version last read by the caller. Format: uint64. minimum: 1. maximum:
-     * 9007199254740991.
-     */
-    "expected_version"?: InputValue<number>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PackagesGetItemParams = FulfillmentEventsGetParams;
-export type PackagesGetParams = FulfillmentEventsGetParams;
-export type PackagesListPackageItemsParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Include related objects in the response. Supported expansions: order. Include the requested
-     * related resources using scoped batch reads for this page. Each relationship requires its
-     * existing target read scopes. Expansion changes the representation without changing
-     * pagination tokens. Limits: at most 10 unique expand paths per request. [] enum: "order".
-     * Value enum: "order". anyOf[1] (Value): Array of string. [] enum: "order". anyOf[1][]
-     * (Value): string. Value enum: "order". anyOf[2] (Value): string. Value enum: "order".
-     */
-    "expand"?: InputValue<("order") | readonly ("order")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PackagesListParams = {
-    /**
-     * Optional shipment ID filter. pattern: ^shp_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
-     */
-    "shipment_id"?: InputValue<string>;
-    /**
-     * Optional fulfillment ID filter. pattern: ^ful_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: InputValue<string>;
-    /**
-     * Optional order ID filter. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: InputValue<string>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /** Filter by external system identifier. */
-    "external_system"?: InputValue<string>;
-    /**
-     * Exact match on the package's `external_reference_id`. minLength: 1. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: InputValue<string>;
-    /**
-     * Search across package ID, external reference ID, and tracking number. Text fields match any
-     * part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the
-     * start and need the type prefix, such as pkg_01.
-     */
-    "query"?: InputValue<string>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Filter by package status. Values within this filter are combined with OR. Values are trimmed
-     * and deduplicated in first-seen order; empty or unknown entries are rejected. Values within
-     * this filter are ORed; separate filters are ANDed. [] enum: "created", "packed", "shipped",
-     * "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided". Value enum: "created", "packed", "shipped", "in_transit",
-     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
-     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "created", "packed", "shipped",
-     * "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided". anyOf[1][] (Value): string. Value enum: "created", "packed",
-     * "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided". anyOf[2] (Value): string. Value enum: "created", "packed", "shipped",
-     * "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided".
-     */
-    "status"?: InputValue<("created"
-        | "packed"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "exception"
-        | "returned"
-        | "voided")
-        | readonly ("created"
-        | "packed"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "exception"
-        | "returned"
-        | "voided")[]>;
-    /**
-     * Byte-sensitive full tracking-number match. Whitespace and commas are literal; combine with
-     * carrier to identify a carrier-specific tracking number. minLength: 1. maxLength: 255.
-     */
-    "tracking_number"?: InputValue<string>;
-    /**
-     * Byte-sensitive full carrier match. Whitespace and commas are literal. minLength: 1.
-     * maxLength: 255.
-     */
-    "carrier"?: InputValue<string>;
-    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Include related objects in the response. Supported expansions: order. Include the requested
-     * related resources using scoped batch reads for this page. Each relationship requires its
-     * existing target read scopes. Expansion changes the representation without changing
-     * pagination tokens. Limits: at most 10 unique expand paths per request. [] enum: "order".
-     * Value enum: "order". anyOf[1] (Value): Array of string. [] enum: "order". anyOf[1][]
-     * (Value): string. Value enum: "order". anyOf[2] (Value): string. Value enum: "order".
-     */
-    "expand"?: InputValue<("order") | readonly ("order")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PackagesMarkDeliveredParams = (InputValue<MarkPackageDeliveredRequestInput>
-    | {
-    "buyer_notification_behavior"?: never;
-    "expected_version"?: never;
-    "occurred_at"?: never;
-    "reason_message"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PackagesMarkDeliveryAttemptedParams = (InputValue<MarkPackageDeliveryAttemptedRequestInput>
-    | {
-    "buyer_notification_behavior"?: never;
-    "expected_version"?: never;
-    "occurred_at"?: never;
-    "reason_message"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PackagesMarkExceptionParams = (InputValue<MarkPackageExceptionRequestInput>
-    | {
-    "buyer_notification_behavior"?: never;
-    "expected_version"?: never;
-    "occurred_at"?: never;
-    "reason_message"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PackagesMarkInTransitParams = (InputValue<MarkPackageInTransitRequestInput>
-    | {
-    "buyer_notification_behavior"?: never;
-    "expected_delivery_at"?: never;
-    "expected_version"?: never;
-    "occurred_at"?: never;
-    "reason_message"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PackagesMarkOutForDeliveryParams = (InputValue<MarkPackageOutForDeliveryRequestInput>
-    | {
-    "buyer_notification_behavior"?: never;
-    "expected_delivery_at"?: never;
-    "expected_version"?: never;
-    "occurred_at"?: never;
-    "reason_message"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PackagesMarkPackedParams = (InputValue<MarkPackagePackedRequestInput>
-    | {
-    "buyer_notification_behavior"?: never;
-    "expected_version"?: never;
-    "occurred_at"?: never;
-    "reason_message"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PackagesMarkReturnedParams = (InputValue<MarkPackageReturnedRequestInput>
-    | {
-    "buyer_notification_behavior"?: never;
-    "expected_version"?: never;
-    "occurred_at"?: never;
-    "reason_message"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PackagesMarkShippedParams = (InputValue<MarkPackageShippedRequestInput>
-    | {
-    "buyer_notification_behavior"?: never;
-    "carrier"?: never;
-    "expected_delivery_at"?: never;
-    "expected_version"?: never;
-    "occurred_at"?: never;
-    "reason_message"?: never;
-    "service_code"?: never;
-    "tracking_number"?: never;
-    "tracking_url"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PackagesUpdateItemParams = (InputValue<UpdatePackageItemRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PackagesUpdateParams = (InputValue<UpdatePackageRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PackagesVoidParams = (InputValue<VoidPackageRequestInput>
-    | {
-    "buyer_notification_behavior"?: never;
-    "expected_version"?: never;
-    "occurred_at"?: never;
-    "reason_message"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/** An application that merchants can authorize to access their accounts. */
-export type PartnerApp = {
-    /**
-     * Every Flint scope the app can hold: the union of required_scopes across the manifest. An
-     * install grants only the scopes of the permissions the merchant approves. [] (Value): string.
-     */
-    "allowed_scopes": Array<string>;
-    /**
-     * Default API version for requests without a Flint-Version header. Shared across live and test
-     * environments.
-     */
-    "api_version": string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "api_version_changed_at"?: string;
-    /** Previous API version, present while a supported rollback is available. */
-    "api_version_previous"?: string;
-    /**
-     * When the 72-hour rollback offer expires. Explicit changes to any supported version remain
-     * available afterward. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "api_version_rollback_expires_at"?: string;
-    /**
-     * Public identifier the app sends as client_id in OAuth authorization and token requests.
-     * Doesn't change. Example: "fpc_00112233445566778899aabbccddeeff".
-     */
-    "client_id": string;
-    /**
-     * Whether the app can authenticate with a client secret. When false, it authenticates with a
-     * registered credential.
-     */
-    "client_secret_enabled": boolean;
-    /**
-     * When a client secret last authenticated the app, updated at most once an hour, so it can lag
-     * the latest use by up to an hour. `null` when no client secret use has been recorded,
-     * including for an app that authenticates only with credentials. It isn't cleared when you
-     * disable the secret. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "client_secret_last_used_at": string | null;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * IDs of the permissions requested when an authorization request sends no scope. Defaults to
-     * every permission in the manifest that isn't optional. [] (Value): string.
-     */
-    "default_requested_permissions": Array<string>;
-    /**
-     * Present only while a change to merchant_action_url or platform_profile.website_url is
-     * waiting to move routing to another registrable domain; omitted otherwise. url is the
-     * previous destination emails still use, and expires_at is when routing switches to the
-     * current merchant_action_url. While the app had no merchant action URL before the change,
-     * this is Flint's own page. The destination merchant emails keep using while a move to another
-     * registrable domain is pending.
-     */
-    "merchant_action_routing"?: PartnerAppMerchantActionRouting;
-    /**
-     * Where Flint sends an owner of a merchant this app created through a merchant signup when an
-     * email asks them to act, such as to finish verification. Flint adds `flint_*` query
-     * parameters. Setting it requests the `create_merchants` platform capability, which merchant
-     * signups need. Absent until set. Format: uri. minLength: 1. maxLength: 2048. pattern:
-     * ^https://. Example: "https://example.com/receipt".
-     */
-    "merchant_action_url"?: string;
-    /** The app's name, shown to merchants on the consent screen. */
-    "name": string;
-    /**
-     * Unique identifier for this partner app, prefixed `papp_`. Example:
-     * "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
-     */
-    "partner_app_id": string;
-    /**
-     * The app's declaration that its owner sends splits of the payments it collects to sellers
-     * that install the app. Every authorization of the app asks the merchant to approve receiving
-     * split funds under these seller terms, and the environment grant records the approval.
-     * Declaring it requests the payment_splits platform capability, which live splits need. Absent
-     * when the app sends no splits. The app's declaration that its owner sends splits of the
-     * payments it collects to sellers: merchants that installed the app and approved receiving
-     * split funds from it. Merchants see it on the consent screen.
-     */
-    "payment_splits"?: PartnerAppPaymentSplits;
-    /**
-     * Permissions the app can request from merchants. Each lists the Flint scopes it grants. []
-     * (Value): {@link PartnerAppPermissionManifestEntry}. One permission a partner app can
-     * request, with a title, a description, and the Flint scopes it grants.
-     */
-    "permission_manifest": Array<PartnerAppPermissionManifestEntry>;
-    /**
-     * The app's platform onboarding: status, outstanding requirements, platform capabilities,
-     * terms acceptance, and once Flint approves or limits it, the platform's limits and reserve.
-     * The app's platform onboarding. Platform capabilities apply in live mode only; test mode
-     * never checks them. requirements and capability readiness that depend on the owning
-     * merchant's live onboarding are read when Flint serves the app, so a change there alone
-     * doesn't advance the app's version or send a partner_app event.
-     */
-    "platform": PartnerAppPlatform;
-    /**
-     * The most a platform fee can take from one payment the app creates with a partner app token.
-     * Merchants see it on the consent screen and approve it for each mode they install. Absent
-     * when the app charges no platform fees. The most a platform fee can take from one payment.
-     * The largest platform fee on a payment is percent of the amount it collects, rounded half up
-     * to the minor unit, plus the currency's fixed part if it has one, and never more than the
-     * currency's maximum: a cap of 1% + 0.30 USD with a 5.00 USD maximum allows up to 1.30 USD on
-     * a 100.00 USD payment. A currency without a maximum can't carry a platform fee.
-     */
-    "platform_fee_cap"?: PlatformFeeCap;
-    /**
-     * What the app told Flint for its platform review. Absent until set. What the platform tells
-     * Flint for its review. It is one value: a write replaces it whole.
-     */
-    "platform_profile"?: PartnerAppPlatformProfile;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "previous_secret_expires_at"?: string;
-    /**
-     * Redirect URIs the app can use after authorization. Each is an absolute HTTPS URL, or HTTP on
-     * localhost or a loopback address, with no fragment. [] (Value): string.
-     */
-    "redirect_uris": Array<string>;
-    /**
-     * Where the app is in its lifecycle. Only an active app can be installed or used. Value enum:
-     * "active", "archived".
-     */
-    "status": "active" | "archived" | (string & {});
-    /**
-     * Lifecycle actions Flint accepts now: accept_platform_terms while the current platform terms
-     * version isn't accepted, `[]` otherwise and for a deleted app. rotate-secret is an operation,
-     * not a lifecycle action, so it is never listed. [] enum: "accept_platform_terms". [] (Value):
-     * string. Value enum: "accept_platform_terms".
-     */
-    "supported_actions": Array<"accept_platform_terms" | (string & {})>;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Starts at 1 and increases by 1 each time the app is updated, its client secret is rotated,
-     * its platform terms are accepted, Flint decides on its platform review or changes its
-     * platform terms, or it is deleted. Usage in platform.limits.usage and the owning merchant's
-     * own onboarding don't change it. Send it as expected_version to apply an update only to the
-     * version you read. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
+export type OnboardingProfileRequestInput = OnboardingProfileRequest;
 /** Non-secret metadata for the calling credential, selected by auth_type. */
-export type PartnerAppAuthContext = ({
-    /**
-     * Access level; scoped tokens always have restricted access. Value enum: "full", "read_only",
-     * "restricted".
-     */
-    "access": "full" | "read_only" | "restricted" | (string & {});
-    /** Credential type that selects this object's fields. Value enum: "partner_app". */
-    "auth_type": "partner_app" | (string & {});
+export type OnboardingSessionAuthContext = ({
+    /** Credential type that selects this object's fields. Value enum: "onboarding_session". */
+    "auth_type": "onboarding_session" | (string & {});
+    /** Whether the onboarding user's role permits managing API keys. */
+    "can_manage_api_keys": boolean;
     /**
      * Time the credential expires; absent for keys without an expiry. Format: date-time. Example:
      * "2026-08-02T16:00:00Z".
      */
     "expires_at": string;
+    /**
+     * Time fresh identity verification expires; it may be in the past. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "fresh_verification_expires_at": string;
     /** Merchant the credential acts for. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
     "merchant_id": string;
     /** Whether the credential acts in test or live mode. Value enum: "test", "live". */
     "mode": "test" | "live" | (string & {});
-    /** ID of the partner app. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV". */
-    "partner_app_id": string;
-    /**
-     * ID of the partner app install. Null when the API key is not linked to an install. Example:
-     * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-     */
-    "partner_app_install_id": string | null;
     /**
      * Sandbox the credential is bound to, present only in test mode. Example:
      * "test_01KEZF7C00JC77HTMTB2XHNPE0".
      */
-    "sandbox_id"?: string;
-    /**
-     * Current granted API scopes, resolved at request time for full and read_only keys. []
-     * (Value): string.
-     */
-    "scopes": Array<string>;
+    "sandbox_id": string;
+    /** User the session acts for. Example: "usr_01KEZF7C00YC8757ZYP9727JM0". */
+    "user_id": string;
 })
     & ({
-    /** Value enum: "restricted". */
-    "access"?: unknown;
-    /** Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". */
-    "partner_app_install_id"?: string;
+    /** Value enum: "test". */
+    "mode"?: unknown;
 });
-/**
- * An immutable partner app credential, including its authentication status and usage timestamps.
- */
-export type PartnerAppCredential = ({
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
+export type OnboardingStartParams = (InputValue<OnboardingStartRequestInput>);
+/** The request body for: Start onboarding flow. */
+export type OnboardingStartRequest = {
     /**
-     * The registered JWKS URL. Present only when type is jwks_url. A registered JWKS URL and its
-     * most recent successful fetch.
+     * Business name buyers see. Applied only when verification creates a merchant; existing
+     * merchants keep their profile. Surrounding whitespace is trimmed. minLength: 1. maxLength:
+     * 120.
      */
-    "jwks_url"?: PartnerAppCredentialJWKSURL;
+    "business_name"?: string;
+    /** Email address to verify. Flint emails a verification code to it. minLength: 1. */
+    "email": string;
+    /** First name of the person signing up. minLength: 1. */
+    "first_name": string;
+    /** Last name of the person signing up. minLength: 1. */
+    "last_name": string;
+    /** Support email shown to buyers. Applied only to a newly created merchant. minLength: 1. */
+    "support_email"?: string;
     /**
-     * When the credential last authenticated the app. Updated at most once an hour, so it can lag
-     * the latest use by up to an hour. `null` when the credential has never been used. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
+     * Support phone shown to buyers, in E.164 format. Applied only to a newly created merchant.
+     * minLength: 1. maxLength: 16. pattern: ^\+[1-9][0-9]{6,14}$.
      */
-    "last_used_at": string | null;
-    /**
-     * Modes this credential can mint partner app tokens for, in the order live, test. A mint for
-     * another mode returns 400 unauthorized_client. Set at creation and never changed. minItems:
-     * 1. maxItems: 2. uniqueItems: true. [] enum: "live", "test". [] (Value): string. Value enum:
-     * "live", "test".
-     */
-    "modes": Array<"live" | "test" | (string & {})>;
-    /** Name given to the credential when it was created. `null` when it has no name. */
-    "name": string | null;
-    /**
-     * Unique identifier for this partner app credential, prefixed `pacr_`. Example:
-     * "pacr_01KEZF7C005RDK44XFG5WF94BB".
-     */
-    "partner_app_credential_id": string;
-    /**
-     * ID of the partner app this credential authenticates. Example:
-     * "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
-     */
-    "partner_app_id": string;
-    /**
-     * The registered public key. Present only when type is public_key. A registered public JSON
-     * Web Key and its RFC 7638 SHA-256 thumbprint.
-     */
-    "public_key"?: PartnerAppCredentialPublicKey;
-    /** Whether the credential can authenticate the app now. Value enum: "active", "removed". */
-    "status": "active" | "removed" | (string & {});
-    /**
-     * Credential type. Currently public_key, jwks_url, or workload_identity. Value enum:
-     * "public_key", "jwks_url", "workload_identity".
-     */
-    "type": "public_key" | "jwks_url" | "workload_identity" | (string & {});
-    /**
-     * The registered external OIDC identity. Present only when type is workload_identity. The
-     * registered external OIDC issuer, exact subject, audience, and claim conditions.
-     */
-    "workload_identity"?: PartnerAppCredentialWorkloadIdentity;
-});
-/** A registered JWKS URL and its most recent successful fetch. */
-export type PartnerAppCredentialJWKSURL = {
-    /**
-     * Most recent successful fetch of this URL by Flint. Updated at most once per minute. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "last_fetched_at": string;
-    /**
-     * The registered HTTPS URL of the JSON Web Key Set Flint fetches to verify the app's client
-     * assertions.
-     */
-    "url": string;
+    "support_phone"?: string;
+    /** Support URL shown to buyers. Applied only to a newly created merchant. minLength: 1. */
+    "support_url"?: string;
+    /** Public business website URL. Applied only to a newly created merchant. minLength: 1. */
+    "website_url"?: string;
 };
-/**
- * A public HTTPS JSON Web Key Set URL. Flint validates and fetches it before registering the
- * credential.
- */
-export type PartnerAppCredentialJWKSURLRequestInput = {
+/** The request body for: Start onboarding flow. */
+export type OnboardingStartRequestInput = OnboardingStartRequest;
+/** A response containing `OnboardingStartResult` data. */
+export type OnboardingStartResponse = {
     /**
-     * HTTPS URL with a DNS host, optional port 443, no userinfo or fragment, and an optional
-     * query. Flint API hosts and nonpublic destinations are rejected. The URL must serve a JSON
-     * Web Key Set with 1 to 10 supported public signing keys; unusable keys are ignored and don't
-     * count. minLength: 1. maxLength: 2048.
+     * Resource, collection, or operation result returned by this request. The verification token
+     * and expiry returned after the verification email is accepted for asynchronous delivery.
+     * Success does not confirm email delivery.
      */
-    "url": string;
-};
-/** A page of `PartnerAppCredential` objects. */
-export type PartnerAppCredentialListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * PartnerAppCredential}. An immutable partner app credential, including its authentication
-     * status and usage timestamps.
-     */
-    "data": Array<PartnerAppCredential>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A registered public JSON Web Key and its RFC 7638 SHA-256 thumbprint. */
-export type PartnerAppCredentialPublicKey = {
-    /** The public JSON Web Key Flint verifies the app's client assertions against. */
-    "jwk": {
-        [key: string]: unknown;
-    };
-    /** RFC 7638 SHA-256 JWK thumbprint. */
-    "jwk_thumbprint": string;
-};
-/** The public JSON Web Key to register for client authentication. */
-export type PartnerAppCredentialPublicKeyRequest = {
-    /** A public JSON Web Key. Private key and symmetric key members are rejected. */
-    "jwk": {
-        [key: string]: unknown;
-    };
-};
-/** The public JSON Web Key to register for client authentication. */
-export type PartnerAppCredentialPublicKeyRequestInput = PartnerAppCredentialPublicKeyRequest;
-/** A response containing `PartnerAppCredential` data. */
-export type PartnerAppCredentialResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. An immutable partner app
-     * credential, including its authentication status and usage timestamps.
-     */
-    "data": PartnerAppCredential;
+    "data": OnboardingStartResult;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -4016,611 +915,5164 @@ export type PartnerAppCredentialResponse = {
      */
     "request_id": string;
 };
-/** The registered external OIDC issuer, exact subject, audience, and claim conditions. */
-export type PartnerAppCredentialWorkloadIdentity = {
-    /**
-     * The audience (`aud`) a token must carry. Flint's configured issuer URL when no audience was
-     * given at creation.
-     */
-    "audience": string;
-    /**
-     * Bounded value array of top-level scalar conditions checked for every assertion. [] (Value):
-     * {@link WorkloadIdentityClaimCondition}. A condition matching one top-level scalar claim in
-     * the workload's identity token.
-     */
-    "claim_conditions": Array<WorkloadIdentityClaimCondition>;
-    /** Issuer (`iss`) of the external OIDC identity. Compared exactly. */
-    "issuer": string;
-    /**
-     * The platform Flint recognizes from the issuer. New platform values may be added. Value enum:
-     * "generic", "github_actions", "gitlab_ci", "google_cloud", "aws", "azure", "kubernetes",
-     * "circleci", "buildkite", "vercel", "fly_io".
-     */
-    "platform": "generic"
-        | "github_actions"
-        | "gitlab_ci"
-        | "google_cloud"
-        | "aws"
-        | "azure"
-        | "kubernetes"
-        | "circleci"
-        | "buildkite"
-        | "vercel"
-        | "fly_io"
-        | (string & {});
-    /** The exact subject (`sub`) a token must carry. */
-    "subject": string;
-};
 /**
- * An external OIDC identity whose subject and claim conditions must match exactly the registered
- * policy.
+ * The verification token and expiry returned after the verification email is accepted for
+ * asynchronous delivery. Success does not confirm email delivery.
  */
-export type PartnerAppCredentialWorkloadIdentityRequest = {
+export type OnboardingStartResult = {
     /**
-     * Token audience. Defaults to Flint's configured issuer URL when omitted. minLength: 1.
-     * maxLength: 255.
-     */
-    "audience"?: string;
-    /**
-     * Bounded value array of at most 10 top-level scalar claim conditions. Defaults to []. A glob
-     * requires an exact condition; shared issuers require tenant pinning. maxItems: 10.
-     * uniqueItems: true. [] (Value): {@link WorkloadIdentityClaimConditionRequest}. A condition to
-     * match one top-level scalar claim in the workload's identity token. Omitted match defaults to
-     * exact.
-     */
-    "claim_conditions"?: Array<WorkloadIdentityClaimConditionRequest>;
-    /**
-     * Immutable public HTTPS issuer with a DNS host, optional port 443, and no userinfo, query, or
-     * fragment. Compared exactly. Must publish valid OIDC discovery metadata. minLength: 1.
-     * maxLength: 255.
-     */
-    "issuer": string;
-    /**
-     * Exact token subject. Google Cloud subjects must be numeric. minLength: 1. maxLength: 1024.
-     */
-    "subject": string;
-};
-/**
- * An external OIDC identity whose subject and claim conditions must match exactly the registered
- * policy.
- */
-export type PartnerAppCredentialWorkloadIdentityRequestInput = {
-    /**
-     * Token audience. Defaults to Flint's configured issuer URL when omitted. minLength: 1.
-     * maxLength: 255.
-     */
-    "audience"?: string;
-    /**
-     * Bounded value array of at most 10 top-level scalar claim conditions. Defaults to []. A glob
-     * requires an exact condition; shared issuers require tenant pinning. maxItems: 10.
-     * uniqueItems: true. [] (Value): {@link WorkloadIdentityClaimConditionRequestInput}. A
-     * condition to match one top-level scalar claim in the workload's identity token. Omitted
-     * match defaults to exact.
-     */
-    "claim_conditions"?: Array<WorkloadIdentityClaimConditionRequestInput>;
-    /**
-     * Immutable public HTTPS issuer with a DNS host, optional port 443, and no userinfo, query, or
-     * fragment. Compared exactly. Must publish valid OIDC discovery metadata. minLength: 1.
-     * maxLength: 255.
-     */
-    "issuer": string;
-    /**
-     * Exact token subject. Google Cloud subjects must be numeric. minLength: 1. maxLength: 1024.
-     */
-    "subject": string;
-};
-/** A merchant's authorization of a partner application. */
-export type PartnerAppInstall = {
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * The install's environment grants, at most one for each mode, live and test, that the
-     * merchant approved. Omitted when the install has none. [] (Value): {@link
-     * PartnerEnvironmentGrant}. A partner application's authorization to access an environment.
-     */
-    "environment_grants"?: Array<PartnerEnvironmentGrant>;
-    /**
-     * ID of the user who approved the install, or the signup's owner for an install a merchant
-     * signup created. Omitted when no user is recorded. Example: "usr_01KEZF7C00YC8757ZYP9727JM0".
-     */
-    "installed_by_user_id"?: string;
-    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-    "merchant_id": string;
-    /**
-     * The merchant signup that created the merchant and this install, when one did. The installing
-     * merchant reads it too. A merchant has at most one such install. It stays after a revoke, as
-     * history, but Flint's emails lead to the app only until the install's first revoke. Example:
-     * "msu_01KEZF7C00SRGYRMBPKRKW8V9J".
-     */
-    "merchant_signup_id"?: string;
-    /** ID of the partner app the merchant installed. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV". */
-    "partner_app_id": string;
-    /**
-     * Unique identifier for this partner app install, prefixed `pinst_`. Example:
-     * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-     */
-    "partner_app_install_id": string;
-    /** The app’s current name. */
-    "partner_app_name": string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "revoked_at"?: string;
-    /**
-     * Who ended the install. Omitted while the install isn't revoked, and cleared when the
-     * merchant authorizes the app again. Value enum: "merchant", "partner_app".
-     */
-    "revoked_by"?: "merchant" | "partner_app" | (string & {});
-    /**
-     * ID of the user who revoked the install. Omitted when the install isn't revoked or no user
-     * performed the revoke, as when the app's deletion ended it. Example:
-     * "usr_01KEZF7C00YC8757ZYP9727JM0".
-     */
-    "revoked_by_user_id"?: string;
-    /**
-     * Where the install is in its lifecycle. Value enum: "pending_exchange", "active", "revoked".
-     */
-    "status": "pending_exchange" | "active" | "revoked" | (string & {});
-    /**
-     * Lifecycle actions Flint accepts now. Revoke is accepted for pending and active installations
-     * and returns the current installation when it is already revoked. [] enum: "revoke". []
-     * (Value): string. Value enum: "revoke".
-     */
-    "supported_actions": Array<"revoke" | (string & {})>;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-};
-export type PartnerAppInstallCreatedEvent = ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at": string;
-            "environment_grants"?: Array<PartnerEnvironmentGrant>;
-            "installed_by_user_id"?: string;
-            "merchant_id": string;
-            "merchant_signup_id"?: string;
-            "partner_app_id": string;
-            "partner_app_install_id": string;
-            "partner_app_name": string;
-            "revoked_at"?: string;
-            "revoked_by"?: "merchant" | "partner_app" | (string & {});
-            "revoked_by_user_id"?: string;
-            "status": "pending_exchange" | "active" | "revoked" | (string & {});
-            "supported_actions": Array<"revoke" | (string & {})>;
-            "updated_at": string;
-        };
-    };
-    "event_source"?: "partner_app" | (string & {});
-    "event_type"?: "partner_app_install.created";
-    "source"?: {
-        "merchant_id": string;
-        "partner_app_install_id": string;
-    };
-})
-    & {
-    "event_type": "partner_app_install.created";
-});
-/** A page of `PartnerAppInstall` objects. */
-export type PartnerAppInstallListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * PartnerAppInstall}. A merchant's authorization of a partner application.
-     */
-    "data": Array<PartnerAppInstall>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type PartnerAppInstallPermissionsUpdatedEvent = ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at": string;
-            "environment_grants"?: Array<PartnerEnvironmentGrant>;
-            "installed_by_user_id"?: string;
-            "merchant_id": string;
-            "merchant_signup_id"?: string;
-            "partner_app_id": string;
-            "partner_app_install_id": string;
-            "partner_app_name": string;
-            "revoked_at"?: string;
-            "revoked_by"?: "merchant" | "partner_app" | (string & {});
-            "revoked_by_user_id"?: string;
-            "status": "pending_exchange" | "active" | "revoked" | (string & {});
-            "supported_actions": Array<"revoke" | (string & {})>;
-            "updated_at": string;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "created_at"?: ((string) | (null));
-            "environment_grants"?: ((Array<PartnerEnvironmentGrant>) | (null));
-            "installed_by_user_id"?: ((string) | (null));
-            "merchant_id"?: ((string) | (null));
-            "merchant_signup_id"?: ((string) | (null));
-            "partner_app_id"?: ((string) | (null));
-            "partner_app_install_id"?: ((string) | (null));
-            "partner_app_name"?: ((string) | (null));
-            "revoked_at"?: ((string) | (null));
-            "revoked_by"?: (("merchant" | "partner_app" | (string & {})) | (null));
-            "revoked_by_user_id"?: ((string) | (null));
-            "status"?: (("pending_exchange" | "active" | "revoked" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"revoke" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: "partner_app" | (string & {});
-    "event_type"?: "partner_app_install.permissions_updated";
-    "source"?: {
-        "merchant_id": string;
-        "partner_app_install_id": string;
-    };
-})
-    & {
-    "event_type": "partner_app_install.permissions_updated";
-});
-/** A response containing `PartnerAppInstall` data. */
-export type PartnerAppInstallResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A merchant's
-     * authorization of a partner application.
-     */
-    "data": PartnerAppInstall;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type PartnerAppInstallRevokedEvent = ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at": string;
-            "environment_grants"?: Array<PartnerEnvironmentGrant>;
-            "installed_by_user_id"?: string;
-            "merchant_id": string;
-            "merchant_signup_id"?: string;
-            "partner_app_id": string;
-            "partner_app_install_id": string;
-            "partner_app_name": string;
-            "revoked_at"?: string;
-            "revoked_by"?: "merchant" | "partner_app" | (string & {});
-            "revoked_by_user_id"?: string;
-            "status": "pending_exchange" | "active" | "revoked" | (string & {});
-            "supported_actions": Array<"revoke" | (string & {})>;
-            "updated_at": string;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "created_at"?: ((string) | (null));
-            "environment_grants"?: ((Array<PartnerEnvironmentGrant>) | (null));
-            "installed_by_user_id"?: ((string) | (null));
-            "merchant_id"?: ((string) | (null));
-            "merchant_signup_id"?: ((string) | (null));
-            "partner_app_id"?: ((string) | (null));
-            "partner_app_install_id"?: ((string) | (null));
-            "partner_app_name"?: ((string) | (null));
-            "revoked_at"?: ((string) | (null));
-            "revoked_by"?: (("merchant" | "partner_app" | (string & {})) | (null));
-            "revoked_by_user_id"?: ((string) | (null));
-            "status"?: (("pending_exchange" | "active" | "revoked" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"revoke" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: "partner_app" | (string & {});
-    "event_type"?: "partner_app_install.revoked";
-    "source"?: {
-        "merchant_id": string;
-        "partner_app_install_id": string;
-    };
-})
-    & {
-    "event_type": "partner_app_install.revoked";
-});
-export type PartnerAppInstallUpdatedEvent = ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at": string;
-            "environment_grants"?: Array<PartnerEnvironmentGrant>;
-            "installed_by_user_id"?: string;
-            "merchant_id": string;
-            "merchant_signup_id"?: string;
-            "partner_app_id": string;
-            "partner_app_install_id": string;
-            "partner_app_name": string;
-            "revoked_at"?: string;
-            "revoked_by"?: "merchant" | "partner_app" | (string & {});
-            "revoked_by_user_id"?: string;
-            "status": "pending_exchange" | "active" | "revoked" | (string & {});
-            "supported_actions": Array<"revoke" | (string & {})>;
-            "updated_at": string;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "created_at"?: ((string) | (null));
-            "environment_grants"?: ((Array<PartnerEnvironmentGrant>) | (null));
-            "installed_by_user_id"?: ((string) | (null));
-            "merchant_id"?: ((string) | (null));
-            "merchant_signup_id"?: ((string) | (null));
-            "partner_app_id"?: ((string) | (null));
-            "partner_app_install_id"?: ((string) | (null));
-            "partner_app_name"?: ((string) | (null));
-            "revoked_at"?: ((string) | (null));
-            "revoked_by"?: (("merchant" | "partner_app" | (string & {})) | (null));
-            "revoked_by_user_id"?: ((string) | (null));
-            "status"?: (("pending_exchange" | "active" | "revoked" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"revoke" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: "partner_app" | (string & {});
-    "event_type"?: "partner_app_install.updated";
-    "source"?: {
-        "merchant_id": string;
-        "partner_app_install_id": string;
-    };
-})
-    & {
-    "event_type": "partner_app_install.updated";
-});
-/**
- * The connected app install and the API keys and webhook endpoints ended by this request. A
- * merchant's authorization of a partner application.
- */
-export type PartnerAppInstallWithEndedAccess = ({})
-    & (Exclude<PartnerAppInstall & object, readonly unknown[]>)
-    & ({
-    /**
-     * Webhook endpoints this request deleted because they were linked to this install. Sandbox
-     * endpoints stop receiving events immediately and are removed within seconds. Empty when no
-     * endpoints ended. maxItems: 50. [] (Value): string. pattern: ^whep_[0-9A-HJKMNP-TV-Z]{26}$.
-     * Example: "whep_01KEZF7C006FXYTAJRZCGCBJTN".
-     */
-    "deleted_webhook_endpoint_ids": Array<string>;
-    /**
-     * API keys this request revoked because they were linked to this install, live keys first.
-     * Empty when no keys ended or a previous request already revoked them. maxItems: 50. []
-     * (Value): string. pattern: ^key_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "key_01KEZF7C008CTC2G5V6J08M6S7".
-     */
-    "revoked_api_key_ids": Array<string>;
-});
-/** A partner app install revoke result and request metadata. */
-export type PartnerAppInstallWithEndedAccessResponse = {
-    /**
-     * The connected app install and the linked API key and webhook endpoint IDs ended by this
-     * revoke request. The connected app install and the API keys and webhook endpoints ended by
-     * this request. A merchant's authorization of a partner application.
-     */
-    "data": PartnerAppInstallWithEndedAccess;
-    /**
-     * Response metadata, including the API version, trace ID, warnings, and whether this result
-     * was replayed, when present. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, useful when contacting Flint support. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type PartnerAppInstallsListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by app ID. pattern: ^papp_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
-     */
-    "partner_app_id"?: InputValue<string>;
-    /**
-     * Filter by install status. Values are trimmed and deduplicated in first-seen order; empty or
-     * unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "pending_exchange", "active", "revoked". Value enum: "pending_exchange",
-     * "active", "revoked". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "pending_exchange", "active", "revoked". anyOf[1][] (Value): string. Value enum:
-     * "pending_exchange", "active", "revoked". anyOf[2] (Value): string. Value enum:
-     * "pending_exchange", "active", "revoked".
-     */
-    "status"?: InputValue<("pending_exchange" | "active" | "revoked") | readonly ("pending_exchange" | "active" | "revoked")[]>;
-};
-export type PartnerAppInstallsRevokeParams = {};
-/** A page of `PartnerApp` objects. */
-export type PartnerAppListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * PartnerApp}. An application that merchants can authorize to access their accounts.
-     */
-    "data": Array<PartnerApp>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * The destination merchant emails keep using while a move to another registrable domain is
- * pending.
- */
-export type PartnerAppMerchantActionRouting = {
-    /**
-     * When routing switches to the current merchant_action_url. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
+     * Time the email verification expires. Start onboarding again to request a new code after this
+     * time. Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
     "expires_at": string;
     /**
-     * The previous merchant action URL that Flint's merchant emails still use, and whose host code
-     * emails still show. While the app had no merchant action URL before the change, this is
-     * Flint's own page.
+     * Token identifying the email verification. Send it with the emailed code to POST
+     * /v1/onboarding/verify-email.
      */
-    "url": string;
+    "verification_token": string;
 };
 /**
- * An installed merchant's payments and payouts readiness in one environment, summarized for the
- * partner app's owner.
+ * A merchant's onboarding status, profile, next step, requested capabilities, and whether an API
+ * key can be issued.
  */
-export type PartnerAppMerchantReadiness = {
+export type OnboardingState = {
     /**
-     * How many distinct requirements in the merchant's `readiness.requirements.currently_due` and
-     * `past_due` are open. 0 when nothing is due now. Read the merchant with a partner app token
-     * in this grant's mode for the requirement names. Format: int64. minimum: 0.
+     * Immutable business country for the selected stable provider-account target. Omitted until
+     * the target has selected an effective country. Uses ISO 3166-1 alpha-2 country codes.
+     * minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". Value enum: "US".
      */
-    "blocking_requirement_count": number;
+    "country"?: "US" | (string & {});
     /**
-     * When Flint last observed the merchant's account, which the statuses come from. The
-     * merchant's own `readiness.observed_at` can be later, because it also covers capability
-     * observations. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * ID of the merchant's default sandbox. Omitted when the merchant has no default sandbox.
+     * Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
      */
-    "observed_at": string;
+    "default_sandbox_id"?: string;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
     /**
-     * Whether the merchant can take payments in this environment, with the `status` and
-     * `status_reason` of `readiness.payments` on the merchant. The status of one readiness area
-     * and the reason for it, as on the merchant's `readiness`.
+     * The step to take next. Omitted when no step is pending, such as while Flint prepares the
+     * sandbox. A step that moves a merchant capability or readiness axis forward, with the party
+     * that must do it (`owner`) and any required fields.
      */
-    "payments": PartnerAppMerchantReadinessAxis;
+    "next_step"?: ReadinessAction;
     /**
-     * Whether the merchant can receive payouts in this environment, with the `status` and
-     * `status_reason` of `readiness.payouts` on the merchant. The status of one readiness area and
-     * the reason for it, as on the merchant's `readiness`.
+     * Contact and website details recorded for onboarding. Contact and website details recorded
+     * for a merchant during onboarding.
      */
-    "payouts": PartnerAppMerchantReadinessAxis;
+    "profile": OnboardingProfile;
+    /**
+     * Canonical Flint capability intent persisted on the selected stable provider-account target.
+     * The initial merchant-account configuration always includes accept_card_payments and
+     * receive_payouts and may also include accept_ach_debit_payments. minItems: 2. maxItems: 3.
+     * uniqueItems: true. [] enum: "accept_card_payments", "receive_payouts",
+     * "accept_ach_debit_payments". [] (Value): string. Value enum: "accept_card_payments",
+     * "receive_payouts", "accept_ach_debit_payments".
+     */
+    "requested_capabilities"?: (Array<"accept_card_payments" | "receive_payouts" | "accept_ach_debit_payments" | (string & {})>);
+    /**
+     * Onboarding workflow status for activation and remediation, not a durable account-readiness
+     * boolean. Value enum: "complete", "waiting_for_review", "needs_external_action",
+     * "needs_input".
+     */
+    "status": "complete" | "waiting_for_review" | "needs_external_action" | "needs_input" | (string & {});
 };
-/** The status of one readiness area and the reason for it, as on the merchant's `readiness`. */
-export type PartnerAppMerchantReadinessAxis = {
+/** A response containing `OnboardingState` data. */
+export type OnboardingStateResponse = {
     /**
-     * Whether this area works now, with the same value as on the merchant's `readiness`. Value
-     * enum: "ready", "pending", "blocked", "not_requested", "not_available".
+     * Resource, collection, or operation result returned by this request. A merchant's onboarding
+     * status, profile, next step, requested capabilities, and whether an API key can be issued.
      */
-    "status": "ready" | "pending" | "blocked" | "not_requested" | "not_available" | (string & {});
+    "data": OnboardingState;
     /**
-     * Why the status isn't `ready`. Absent when the status is `ready` or `not_requested`. Value
-     * enum: "provisioning", "onboarding_not_started", "requirements_due", "requirements_past_due",
-     * "pending_verification", "account_rejected", "disabled_by_platform_policy",
-     * "billing_suspended", "platform_review", "processing_not_enabled",
-     * "platform_funding_unavailable", "tax_category_required", "service_unavailable",
-     * "payment_option_access_not_provisioned", "payment_option_activation_pending",
-     * "payment_option_not_in_plan", "payment_option_not_available", "capability_not_active",
-     * "other".
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
-    "status_reason"?: "provisioning"
-        | "onboarding_not_started"
-        | "requirements_due"
-        | "requirements_past_due"
-        | "pending_verification"
-        | "account_rejected"
-        | "disabled_by_platform_policy"
-        | "billing_suspended"
-        | "platform_review"
-        | "processing_not_enabled"
-        | "platform_funding_unavailable"
-        | "tax_category_required"
-        | "service_unavailable"
-        | "payment_option_access_not_provisioned"
-        | "payment_option_activation_pending"
-        | "payment_option_not_in_plan"
-        | "payment_option_not_available"
-        | "capability_not_active"
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type OnboardingVerifyEmailParams = (InputValue<OnboardingVerifyEmailRequestInput>);
+/** The request body for: Verify onboarding email. */
+export type OnboardingVerifyEmailRequest = {
+    /**
+     * ID of the merchant this resource belongs to. minLength: 1. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: string;
+    /**
+     * The code Flint emailed to the address you sent to `POST /v1/onboarding/start`. minLength: 1.
+     */
+    "verification_code": string;
+    /** The `verification_token` that `POST /v1/onboarding/start` returned. minLength: 1. */
+    "verification_token": string;
+};
+/** The request body for: Verify onboarding email. */
+export type OnboardingVerifyEmailRequestInput = OnboardingVerifyEmailRequest;
+/** A response containing `OnboardingVerifyEmailResult` data. */
+export type OnboardingVerifyEmailResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The merchant and user
+     * signed in by email verification, with an onboarding session token. Call GET
+     * /v1/onboarding/state for the current onboarding state and next step.
+     */
+    "data": OnboardingVerifyEmailResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * The merchant and user signed in by email verification, with an onboarding session token. Call
+ * GET /v1/onboarding/state for the current onboarding state and next step.
+ */
+export type OnboardingVerifyEmailResult = {
+    /**
+     * ID of the merchant's default sandbox for testing API calls. Omitted when the merchant has no
+     * default sandbox. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "default_sandbox_id"?: string;
+    /**
+     * The last instant this session counts as freshly verified, 5 minutes after verification.
+     * Until then it can create keys with full or read_only access or with accounts.api_keys.write,
+     * accounts.workload_identities.write or commerce.gift_cards.secrets.write. Create the first
+     * sandbox key with POST /v1/api-keys before this time; afterward verify the email again for a
+     * fresh session. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "fresh_verification_expires_at": string;
+    /**
+     * The merchant the onboarding session acts for, whether newly provisioned or already
+     * associated with the user. Its readiness describes the default sandbox identified by
+     * default_sandbox_id, matching GET /v1/merchant with this onboarding session. The business
+     * accepting payments.
+     */
+    "merchant": Merchant;
+    /**
+     * Expiry of onboarding_session_token. The token cannot be refreshed; verify the email again to
+     * get a new one. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "onboarding_session_expires_at": string;
+    /**
+     * Bearer token for the verified user's onboarding session. Keep it secret and send it in the
+     * Authorization header for subsequent onboarding calls.
+     */
+    "onboarding_session_token": string;
+    /**
+     * The user signed in by the verified email address. A user with access to merchant accounts.
+     */
+    "user": User;
+};
+export type OpenapiGetSpecParams = {
+    /**
+     * Supported API version in YYYY-MM-DD format, for tools and direct links that can't send
+     * Flint-Version. When both are valid, this selects the returned specification. An invalid
+     * Flint-Version header still returns an error.
+     */
+    "version"?: InputValue<string>;
+};
+export type OpenapiGetSpecResponse = WebhookPreviousAttributes;
+/** A customer's purchase and its payment and fulfillment progress. */
+export type Order = {
+    /**
+     * The payment attempt currently collecting this order. Omitted when no attempt is active or
+     * its collection surface belongs to another caller. An attempt to pay an order.
+     */
+    "active_payment_attempt"?: OrderPaymentAttempt;
+    /**
+     * The earliest open or resolving payment review on this order's counted payments. `null` when
+     * no review is open or resolving. List reviews with GET
+     * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present
+     * with merchant credentials. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+     */
+    "active_payment_review_id"?: string | null;
+    /**
+     * The amounts authorized and still capturable on the order's payments. The amounts authorized
+     * and still capturable on an order's payments, with the authorization expiry.
+     */
+    "authorization_amounts"?: OrderAuthorizationAmounts;
+    /**
+     * What the buyer can do with the order, in this order: start_return, then resend_receipt. A
+     * buyer's read through a customer session on /v1/me, a checkout credential on GET
+     * /v1/orders/{order_id}, or Flint's buyer account lists both every time. Merchant order
+     * responses omit this field. A list of orders leaves start_return out, since only a read of
+     * one order checks return eligibility. start_return is due when the last open return window
+     * ends. Example: []. [] (Value): {@link BuyerAction}. One thing a buyer can do with an order,
+     * subscription, invoice or return they read through /v1/me. Show the actions with is_required
+     * as what needs the buyer's attention, and the first available action as the primary action on
+     * the resource's page in your account.
+     */
+    "buyer_actions"?: Array<BuyerAction>;
+    /**
+     * Email and phone saved when payment started, from the pay request's buyer_contact or the
+     * paying checkout session's saved contact. It does not change the linked customer. Buyer
+     * contact supplied with payment or saved during checkout.
+     */
+    "buyer_contact"?: CheckoutBuyerContact;
+    /** A note to the buyer. */
+    "buyer_note"?: string;
+    /**
+     * Charges added to the order, such as delivery or service fees, each with its applied amount,
+     * tax, and refunded amount. [] (Value): {@link OrderCharge}. An additional charge applied to
+     * an order.
+     */
+    "charges": Array<OrderCharge>;
+    /**
+     * IDs of the checkout sessions opened for this order. [] (Value): string. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN".
+     */
+    "checkout_session_ids": Array<string>;
+    /**
+     * The reference the payment link URL or resolve request carried, such as your user ID. `null`
+     * when none was sent or checkout did not start from a payment link. Returned only to merchant
+     * credentials; omitted for buyer credentials. Set by the buyer's browser, so treat it as a
+     * claim, not proof of identity. Always present with merchant credentials. minLength: 1.
+     * maxLength: 255.
+     */
+    "client_reference"?: string | null;
+    /**
+     * When the order closed. Present exactly when status is closed. Set once at the transition and
+     * never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "closed_at"?: string;
+    /**
+     * Why the order closed. Present exactly when status is closed. Set once at closure.
+     * Unrecognized reasons are returned as other; new values may be added. Value enum:
+     * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
+     * "superseded", "return_resolution_canceled", "other".
+     */
+    "closed_reason"?: "invoice_voided"
+        | "paid"
+        | "closed_by_merchant"
+        | "checkout_expired"
+        | "written_off"
+        | "superseded"
+        | "return_resolution_canceled"
         | "other"
         | (string & {});
-};
-/**
- * The app's declaration that its owner sends splits of the payments it collects to sellers:
- * merchants that installed the app and approved receiving split funds from it. Merchants see it on
- * the consent screen.
- */
-export type PartnerAppPaymentSplits = {
     /**
-     * The marketplace's terms for its sellers, as an HTTPS URL of at most 2,048 characters. The
-     * consent screen links it. Format: uri. maxLength: 2048. pattern: ^https://. Example:
-     * "https://example.com/receipt".
+     * The caller note supplied when closing the order. System closures leave it absent. It is not
+     * shown to the buyer.
      */
-    "seller_terms_url": string;
-};
-/**
- * The whole payment_splits declaration. Every field is required, and a write replaces the
- * declaration whole.
- */
-export type PartnerAppPaymentSplitsRequestInput = {
+    "closed_reason_message"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
     /**
-     * The marketplace's terms for its sellers, as an HTTPS URL of at most 2,048 characters. The
-     * consent screen links it. Format: uri. minLength: 1. maxLength: 2048. pattern: ^https://.
-     * Example: "https://example.com/receipt".
+     * The buyer's answers to the payment link's custom fields, recorded when checkout started, in
+     * the order the link showed the fields. Each answer keeps the field's key, label, and type
+     * from that moment, so later changes to the link don't change it. Optional fields the buyer
+     * left blank are left out. Read-only. Empty when the order didn't come from a payment link,
+     * the link had no custom fields, or the buyer answered none. Orders created before Flint
+     * recorded answers here also return an empty list and keep their answers in `metadata` as
+     * `custom_field_<key>`. Deleting the customer removes the answers. Returned only to merchant
+     * credentials; omitted for buyer credentials. Always present with merchant credentials.
+     * maxItems: 20. [] (Value): {@link CustomFieldAnswer}. One answer to a payment link custom
+     * field, with the field as it was when checkout started. `custom_field_type` determines the
+     * type of `value`.
      */
-    "seller_terms_url": string;
+    "custom_field_answers"?: Array<CustomFieldAnswer>;
+    /**
+     * Customer summary included when `expand` names `customer`; `null` when expanded and no
+     * customer is linked. Present only when `expand` includes `customer`; `null` when expanded and
+     * there is no related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
+     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
+     * anyOf[2] (Value): null.
+     */
+    "customer"?: ((ExpandedCustomerSummary) | (null));
+    /** ID of the customer this order belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+    "customer_id"?: string;
+    /**
+     * Promotions accepted at subscription signup. They attach when the subscription is provisioned
+     * and first discount its first charged cycle. They do not discount this order and are separate
+     * from discounts and order totals. Always present; empty when no promotions are deferred. []
+     * (Value): {@link DeferredPromotion}. A promotion accepted at subscription signup for the
+     * subscription's first charged cycle. It does not discount the signup order.
+     */
+    "deferred_promotions": Array<DeferredPromotion>;
+    /**
+     * Method, type and recipient of governing_delivery_selection_id. The address remains in
+     * delivery_destination. Omitted when no shipment or local-delivery selection governs the
+     * order. Method, type and recipient of governing_delivery_selection_id. delivery_destination
+     * contains the resolved address. These values describe the same selection.
+     */
+    "delivery"?: OrderDeliverySummary;
+    /**
+     * The shipment or local-delivery destination committed for this order. Payment freezes this
+     * value; fulfillment recipient changes do not replace it. Omitted for a checkout session
+     * credential that doesn't act for the customer the buyer verified. Where an order is
+     * delivered: the address, the recipient, and where the destination came from.
+     */
+    "delivery_destination"?: OrderDeliveryDestination;
+    /**
+     * Discounts applied to the order, each with its amount, status, and the line items and charges
+     * it covers. [] (Value): {@link OrderDiscount}. A discount applied to an order, with its
+     * amount, status, and the line items and charges it covers. It comes from a manual discount or
+     * a promotion.
+     */
+    "discounts": Array<OrderDiscount>;
+    /**
+     * Aggregate dispute state across the order's counted payment intents, excluding
+     * payment_returned. Always returned to merchant credentials and omitted from buyer reads. Open
+     * states take precedence in this order: needs_response, under_review, inquiry_needs_response,
+     * inquiry_under_review, other. Otherwise the most severe closed state wins: lost, won,
+     * prevented, inquiry_closed; none when no disputes count. List individual cases with GET
+     * /v1/disputes?order_id={order_id}. Always present with merchant credentials. Value enum:
+     * "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+     * "needs_response", "under_review", "won", "lost", "prevented", "other".
+     */
+    "dispute_status"?: "none"
+        | "inquiry_needs_response"
+        | "inquiry_under_review"
+        | "inquiry_closed"
+        | "needs_response"
+        | "under_review"
+        | "won"
+        | "lost"
+        | "prevented"
+        | "other"
+        | (string & {});
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Aggregate progress across the order's fulfillment quantities. Value enum: "not_fulfilled",
+     * "partially_fulfilled", "fulfilled", "canceled", "not_applicable", "closed".
+     */
+    "fulfillment_status"?: "not_fulfilled"
+        | "partially_fulfilled"
+        | "fulfilled"
+        | "canceled"
+        | "not_applicable"
+        | "closed"
+        | (string & {});
+    /**
+     * Fulfillments created for the order, each covering a set of its line items. [] (Value):
+     * {@link Fulfillment}. Work required to deliver an order's items.
+     */
+    "fulfillments": Array<Fulfillment>;
+    /**
+     * An estimate of how the order balance splits between gift cards and the payment processor. An
+     * estimate of how an order total splits between gift cards and the payment processor, and
+     * whether gift cards can pay it.
+     */
+    "gift_card_estimate"?: OrderGiftCardEstimate;
+    /**
+     * The gift card redemptions applied to the order's payments. [] (Value): {@link
+     * OrderGiftCardSettlement}. A gift card redemption applied to an order payment, with the
+     * amount, tip, and gift card.
+     */
+    "gift_card_settlements": Array<OrderGiftCardSettlement>;
+    /**
+     * Whether gift cards can pay for this order now. Gift cards pay only USD orders that still
+     * accept changes, are not subscription purchases, and whose merchant has at least one gift
+     * card that is not closed in this environment. Gift cards cannot fund gift card purchases;
+     * this is false when those purchases leave no amount eligible for gift card tender. Recomputed
+     * on each read; a spent but open card still counts.
+     */
+    "gift_card_tender_enabled": boolean;
+    /**
+     * Gift cards available to pay the order, with each card's available balance. [] (Value):
+     * {@link OrderGiftCardSelection}. A gift card available to pay an order, with its available
+     * balance and the last four characters of its code.
+     */
+    "gift_cards": Array<OrderGiftCardSelection>;
+    /**
+     * ID of the delivery selection that governs this order, including pickup choices without a
+     * delivery destination: the checkout's provisional selection before payment, and the selection
+     * a payment committed after. Read it with GET /v1/delivery-selections/{delivery_selection_id}.
+     * Null when no selection governs the order. While set, change the destination through the
+     * delivery selection. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     */
+    "governing_delivery_selection_id": string | null;
+    /**
+     * Carry-out handover: every physical item is handed to the buyer at this location when the
+     * order is paid, in place of a delivery selection. Payment then creates one completed
+     * `handover` fulfillment. Absent without a handover. Every physical item is handed to the
+     * buyer at this location when the order is paid. Replaces a delivery selection.
+     */
+    "handover"?: OrderHandover;
+    /** A note for your team. Buyer reads leave it out. */
+    "internal_note"?: string;
+    /**
+     * Why inventory could not be committed after payment. The cause remains after resolution.
+     * Omitted when no reason was recorded. Unrecognized reasons are returned as other; new values
+     * may be added. Value enum: "inventory_deduction_failed", "inventory_handoff_failed",
+     * "auto_refund_required", "auto_refund_failed", "policy_resolution_failed", "other".
+     */
+    "inventory_exception_reason"?: "inventory_deduction_failed"
+        | "inventory_handoff_failed"
+        | "auto_refund_required"
+        | "auto_refund_failed"
+        | "policy_resolution_failed"
+        | "other"
+        | (string & {});
+    /**
+     * The merchant note supplied when resolving the inventory exception. It is not shown to the
+     * buyer.
+     */
+    "inventory_exception_resolution_message"?: string;
+    /**
+     * Whether an inventory problem after payment needs attention. Value enum:
+     * "paid_inventory_failed", "resolved".
+     */
+    "inventory_exception_status"?: "paid_inventory_failed" | "resolved" | (string & {});
+    /**
+     * The reservation holding stock for this order, when one exists. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     */
+    "inventory_reservation_id"?: string;
+    /**
+     * Where this order's tracked demand is routed. Required before an order containing tracked
+     * variants can hold stock. Where an order, payment link, or reservation routes inventory from:
+     * a fixed Location, an inventory allocation policy, or one policy revision.
+     */
+    "inventory_routing_source"?: InventoryRoutingSource;
+    /**
+     * The invoice associated with this order. Null when the order has no invoice. A replacement
+     * invoice replaces this ID; voiding an invoice preserves it. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     */
+    "invoice_id": string | null;
+    /**
+     * Items the order sells, each with its pricing, tax, and fulfillment quantities. [] (Value):
+     * {@link OrderLineItem}. An item purchased in an order.
+     */
+    "line_items": Array<OrderLineItem>;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Unique identifier for this order, prefixed `ord_`. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /** Human-readable order number for receipts and merchant reference. */
+    "order_number"?: string;
+    /**
+     * How the order was created. invoice means a Quick Pay invoice created the order; attaching an
+     * invoice to an existing order preserves its origin. Value enum: "virtual_terminal",
+     * "payment_link", "checkout", "api", "subscription", "invoice".
+     */
+    "origin"?: "virtual_terminal"
+        | "payment_link"
+        | "checkout"
+        | "api"
+        | "subscription"
+        | "invoice"
+        | (string & {});
+    /**
+     * When `payment_status` became `paid`, including a final capture that releases the remaining
+     * balance. Set once and never changed, including after refunds. `null` when `payment_status`
+     * isn't `paid`, including an order whose balance was written off without being paid. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "paid_at": string | null;
+    /**
+     * Payment options and collection instructions for the order's outstanding balance. Omitted
+     * when collection is unavailable to this caller. Client-side details for collecting payment
+     * from the buyer, such as the Stripe settings to initialize Stripe.js.
+     */
+    "payment_collection"?: PaymentCollection;
+    /**
+     * IDs of the payment intents created to collect this order. [] (Value): string. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_ids": Array<string>;
+    /**
+     * Payment intents included when `expand` names `payment_intents`. [] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded.
+     */
+    "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
+    /**
+     * Payment link whose checkout created this order. Absent for orders that did not come from a
+     * payment link. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
+     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     */
+    "payment_link_id"?: string;
+    /**
+     * Collection progress. An invoice write-off also completes collection without receiving the
+     * written-off amount. Value enum: "unpaid", "partially_paid", "paid".
+     */
+    "payment_status": "unpaid" | "partially_paid" | "paid" | (string & {});
+    /**
+     * The order edit waiting for its balance payment. While it is set, the units that edit removes
+     * can't join a fulfillment and the order refuses another edit. `null` when there is none.
+     * Omitted for buyer credentials. Always present with merchant credentials. Example:
+     * "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     */
+    "pending_order_edit_id"?: string | null;
+    /**
+     * Order that paid for this prepaid delivery. Null when this is not a prepaid delivery order.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "prepayment_order_id": string | null;
+    /**
+     * The order's money totals: subtotal, discounts, charges, tax, requested tip, and total. The
+     * money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and
+     * total.
+     */
+    "pricing_amounts": PricingAmounts;
+    /**
+     * IDs of the refunds that name this order. This includes refunds Flint makes to return a
+     * payment it couldn't accept (`reason` `payment_returned`), which never count toward
+     * `refund_status` or the order's refunded amounts. [] (Value): string. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_ids": Array<string>;
+    /**
+     * Refund progress for collected money. Refunds with `reason` `payment_returned` return money
+     * the order never received and don't count. Value enum: "none", "partially_refunded",
+     * "refunded".
+     */
+    "refund_status": "none" | "partially_refunded" | "refunded" | (string & {});
+    /**
+     * Value applied to this order from items the buyer returned, such as an exchange's replacement
+     * order. Included in settlement_amounts.paid_money. [] (Value): {@link
+     * OrderReturnCreditSettlement}. A return credit applied to an order payment, with the amount
+     * and the return and resolution it came from.
+     */
+    "return_credit_settlements": Array<OrderReturnCreditSettlement>;
+    /**
+     * ID of the return resolution that created this order as a replacement. Omitted for orders a
+     * return did not create. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "return_resolution_id"?: string;
+    /**
+     * How much of the order has been paid, refunded, credited, written off, and settled as tips,
+     * and what is still outstanding. The bill settlement amounts plus order overpayments, settled
+     * tips, debt discharged by final capture, and value order edits removed. Money collected,
+     * returned, waived, and still owed on a bill.
+     */
+    "settlement_amounts": OrderSettlementAmounts;
+    /**
+     * Instructions for saving a payment method for a subscription order. Omitted when setup is
+     * unavailable. Client guidance for saving a payment method on the merchant's connected
+     * account.
+     */
+    "setup_collection"?: SetupCollection;
+    /**
+     * Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes,
+     * returns, and metadata or note edits continue on a closed order. Value enum: "open",
+     * "closed".
+     */
+    "status": "open" | "closed" | (string & {});
+    /**
+     * Subscription summary included when `expand` names `subscription`; `null` when expanded and
+     * this order does not bill a subscription. Present only when `expand` includes `subscription`;
+     * `null` when expanded and there is no related subscription. anyOf[1] (Value): {@link
+     * ExpandedSubscriptionSummary}. A subscription's summary fields, including status, billing
+     * period, and next billing time, returned when the subscription is expanded. anyOf[2] (Value):
+     * null.
+     */
+    "subscription"?: ((ExpandedSubscriptionSummary) | (null));
+    /**
+     * Charged subscription cycle associated with this order. Signup is cycle 1; unpaid retries and
+     * skipped renewals do not advance the cycle. Format: uint64. minimum: 0.
+     */
+    "subscription_cycle"?: number;
+    /**
+     * Time the subscriber changed delivery after this paid renewal was prepared. The order keeps
+     * its committed destination until you correct it or refund and replace it. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "subscription_delivery_changed_at"?: string;
+    /**
+     * Position of this delivery among the deliveries one charge paid for, starting at 2. Null when
+     * this is not a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
+     */
+    "subscription_delivery_number": number | null;
+    /**
+     * ID of the subscription this order bills. Absent on an order that isn't from a subscription.
+     * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "subscription_id"?: string;
+    /**
+     * Plan summary included when `expand` names `subscription_plan`; `null` when expanded and this
+     * order does not bill a subscription plan. Present only when `expand` includes
+     * `subscription_plan`; `null` when expanded and there is no related subscription plan.
+     * anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A subscription plan's summary
+     * fields, including name, billing interval, currency, and status, returned when the plan is
+     * expanded. anyOf[2] (Value): null.
+     */
+    "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+    /**
+     * ID of the subscription plan this order bills. Absent on an order that isn't from a
+     * subscription. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+     */
+    "subscription_plan_id"?: string;
+    /**
+     * Lifecycle actions Flint accepts now, independent of permissions. Includes close when closure
+     * is allowed, and pay while open without an active attempt and with an outstanding balance or
+     * payment-method setup available. Always present with merchant credentials. [] enum: "close",
+     * "pay", "resolve_inventory_exception". [] (Value): string. Value enum: "close", "pay",
+     * "resolve_inventory_exception".
+     */
+    "supported_actions"?: Array<"close" | "pay" | "resolve_inventory_exception" | (string & {})>;
+    /**
+     * The order's tax state: whether tax is enabled, its status, location, exemption, and
+     * per-jurisdiction rows. An order's tax state, including its mode, price mode, status,
+     * location, exemption, and tax breakdowns.
+     */
+    "tax": OrderTax;
+    /**
+     * Event and tickets this order sold through an event payment link. Absent on other orders.
+     * Event details for a ticketed order: name, location, start time, time zone, and the tickets
+     * issued.
+     */
+    "ticketed_event"?: TicketedEvent;
+    /**
+     * Tips on the order, each with its requested, settled, and refunded amounts. A tip cleared
+     * before payment stays listed as canceled. [] (Value): {@link Tip}. A tip on an order, with
+     * its requested, settled, and refunded amounts, status, and how it was paid.
+     */
+    "tips": Array<Tip>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Order version for optimistic concurrency. Send this value as the expected version when
+     * changing the order. Increases with every change to the order. Ignore an order webhook
+     * snapshot whose version is lower than one you have already applied. Format: int64.
+     */
+    "version": number;
 };
 /**
- * One permission a partner app can request, with a title, a description, and the Flint scopes it
- * grants.
+ * Read-only order history row for merchant timeline rendering and debugging. The owning resource
+ * remains authoritative for state and money movement.
  */
-export type PartnerAppPermissionManifestEntry = {
+export type OrderActivity = {
     /**
-     * What the permission lets the app do, shown to merchants when they approve the install.
-     * minLength: 1.
+     * The action recorded on the order. Omitted when the activity type cannot be identified.
+     * Clients must accept values added in future releases. Value enum: "created",
+     * "dispute_opened", "dispute_closed", "line_item_added", "line_item_updated",
+     * "line_item_removed", "discount_applied", "discount_removed", "tax_updated",
+     * "requested_tip_added", "requested_tip_updated", "requested_tip_removed", "charge_added",
+     * "charge_updated", "charge_removed", "charge_fulfillment_updated", "order_edited",
+     * "payment_review_opened", "payment_review_closed", "order_updated", "adjustment", "closed",
+     * "payment", "payment_failed", "refund", "refund_failed", "checkout_session_created",
+     * "checkout_session_expired", "checkout_session_invalidated", "fulfillment_created",
+     * "fulfillment_updated", "fulfillment_state_changed".
+     */
+    "activity_type"?: "created"
+        | "dispute_opened"
+        | "dispute_closed"
+        | "line_item_added"
+        | "line_item_updated"
+        | "line_item_removed"
+        | "discount_applied"
+        | "discount_removed"
+        | "tax_updated"
+        | "requested_tip_added"
+        | "requested_tip_updated"
+        | "requested_tip_removed"
+        | "charge_added"
+        | "charge_updated"
+        | "charge_removed"
+        | "charge_fulfillment_updated"
+        | "order_edited"
+        | "payment_review_opened"
+        | "payment_review_closed"
+        | "order_updated"
+        | "adjustment"
+        | "closed"
+        | "payment"
+        | "payment_failed"
+        | "refund"
+        | "refund_failed"
+        | "checkout_session_created"
+        | "checkout_session_expired"
+        | "checkout_session_invalidated"
+        | "fulfillment_created"
+        | "fulfillment_updated"
+        | "fulfillment_state_changed"
+        | (string & {});
+    /**
+     * Signed change this row made to the order balance: running_balance_money minus the balance
+     * before the row. Rows that do not change the balance, such as payment_failed, refund_failed,
+     * and most refund rows, have amount 0. A payment or refund amount is on the referenced
+     * resource. Do not sum activity deltas to compute the order balance. Signed monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "balance_delta_money": MoneyValue;
+    /**
+     * Related checkout session when activity_type points at checkout session lifecycle. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN".
+     */
+    "checkout_session_id"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Human-readable Flint description. Provider-specific raw statuses and failure values are not
+     * exposed here.
      */
     "description": string;
     /**
-     * Whether the merchant can decline this permission when they approve the install. Defaults to
-     * false: the permission is required and is always granted.
+     * Related Flint dispute, prefixed du_, for dispute_opened and dispute_closed activities.
+     * Omitted for other activities. Dispute activities do not change the order balance. Merchant
+     * reads only. Buyer activity lists omit it. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
      */
-    "optional"?: boolean;
+    "dispute_id"?: string;
     /**
-     * The permission's ID, which you choose and which must be unique within the manifest.
-     * Authorization requests name permissions by this ID in scope, and the code exchange returns
-     * the granted IDs as its scope. minLength: 1. Example: "manage_orders".
+     * Related fulfillment for a fulfillment_created, fulfillment_updated, or
+     * fulfillment_state_changed activity. Omitted when the row does not identify one fulfillment.
+     * Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
      */
-    "permission_id": string;
+    "fulfillment_id"?: string;
     /**
-     * The Flint API scopes the permission grants, at least one. Each must be a scope partner
-     * installs allow; the scope catalog lists them. Duplicates are dropped. [] (Value): string.
-     * minLength: 1.
+     * Unique identifier for this activity, prefixed oact_. Example:
+     * "oact_01KEZF7C006V2DKWC7N41DXD7T".
      */
-    "required_scopes": Array<string>;
+    "order_activity_id": string;
     /**
-     * A short name for the permission, shown to merchants when they approve the install. It can't
-     * contain a link or an email address. minLength: 1.
+     * Related charge for a charge_added, charge_updated, charge_removed, or
+     * charge_fulfillment_updated activity. Omitted when the row does not identify one charge.
+     * Example: "och_01KEZF7C00XX8AKACP0GHKFWWT".
      */
-    "title": string;
+    "order_charge_id"?: string;
+    /**
+     * Related discount for a discount_applied or discount_removed activity. Omitted when the row
+     * does not identify one discount. Example: "ad_01KEZF7C00T30DH97GR0A9BF31".
+     */
+    "order_discount_id"?: string;
+    /**
+     * Order that owns this record or its referenced line item and charge. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * Related line item for a line_item_added, line_item_updated, or line_item_removed activity.
+     * Omitted when the row does not identify one line item. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31".
+     */
+    "order_line_item_id"?: string;
+    /**
+     * Related requested tip for a requested_tip_added, requested_tip_updated, or
+     * requested_tip_removed activity. Omitted when the row does not identify one tip. Example:
+     * "tip_01KEZF7C00JRPYP11RTMB97MYH".
+     */
+    "order_tip_id"?: string;
+    /**
+     * Related payment intent when activity_type points at a payment attempt or payment outcome.
+     * Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Payment review recorded by this row. Omitted for activities unrelated to payment reviews.
+     * Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+     */
+    "payment_review_id"?: string;
+    /**
+     * Related refund when activity_type points at a refund outcome. Read the refund for the
+     * authoritative outcome. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: string;
+    /**
+     * Signed order balance just after this row: settlement_amounts.outstanding_money minus
+     * settlement_amounts.overpaid_money at that moment, negative when the order is overpaid. This
+     * is context for reading the log, not a reconciliation ledger. Signed monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "running_balance_money": MoneyValue;
 };
+/** A page of `OrderActivity` objects. */
+export type OrderActivityListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * OrderActivity}. Read-only order history row for merchant timeline rendering and debugging.
+     * The owning resource remains authoritative for state and money movement.
+     */
+    "data": Array<OrderActivity>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * The amounts authorized and still capturable on an order's payments, with the authorization
+ * expiry.
+ */
+export type OrderAuthorizationAmounts = {
+    /**
+     * The amount authorized on the order's payments. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "authorized_money": MoneyValue;
+    /**
+     * The part of the authorized amount that can still be captured. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "capturable_money": MoneyValue;
+    /**
+     * Earliest effective Flint capture deadline among the order's active authorizations. Each
+     * authorization is bounded by its provider capture deadline and any resource guarantee.
+     * Omitted when no active authorization has a deadline. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "expires_at"?: string;
+};
+export type OrderAuthorizationAmountsPreviousAttributes = {
+    /**
+     * The amount authorized on the order's payments. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "authorized_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * The part of the authorized amount that can still be captured. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "capturable_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Earliest effective Flint capture deadline among the order's active authorizations. Each
+     * authorization is bounded by its provider capture deadline and any resource guarantee.
+     * Omitted when no active authorization has a deadline. anyOf[1] (Value): string. Earliest
+     * effective Flint capture deadline among the order's active authorizations. Each authorization
+     * is bounded by its provider capture deadline and any resource guarantee. Omitted when no
+     * active authorization has a deadline. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * anyOf[2] (Value): null.
+     */
+    "expires_at"?: ((string) | (null));
+};
+/**
+ * Tax settings for an order charge calculated by Flint or supplied by you, including the charge's
+ * tax category and whether it is taxable.
+ */
+export type OrderCalculatedChargeTax = {
+    /**
+     * Tax category of the charge, which decides its automatic tax: service_fee, shipping,
+     * delivery, handling, and surcharge are taxed at the general rate at the charge location,
+     * including the store for pickup. A taxable charge without a category fails with
+     * `INVALID_REQUEST` and a `NOT_ALLOWED` detail on the charge. Omitted, the charge takes
+     * delivery from delivery_fee, shipping from shipping_fee, service_fee from service_fee, and
+     * handling from handling_fee; other types take none. The default follows type and is not
+     * returned. Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge".
+     */
+    "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | (string & {});
+    /** Whether the charge is subject to tax. */
+    "taxable"?: boolean;
+};
+export type OrderCalculatedChargeTaxPreviousAttributes = {
+    /**
+     * The tax you supply for this charge. Used when the order's tax `mode` is `external`. anyOf[1]
+     * (Value): {@link TaxCalculationRequestPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "calculation"?: ((TaxCalculationRequestPreviousAttributes) | (null));
+    /**
+     * Tax category of the charge, which decides its automatic tax: service_fee, shipping,
+     * delivery, handling, and surcharge are taxed at the general rate at the charge location,
+     * including the store for pickup. A taxable charge without a category fails with
+     * `INVALID_REQUEST` and a `NOT_ALLOWED` detail on the charge. Omitted, the charge takes
+     * delivery from delivery_fee, shipping from shipping_fee, service_fee from service_fee, and
+     * handling from handling_fee; other types take none. The default follows type and is not
+     * returned. Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge".
+     * anyOf[1] (Value): string. Tax category of the charge, which decides its automatic tax:
+     * service_fee, shipping, delivery, handling, and surcharge are taxed at the general rate at
+     * the charge location, including the store for pickup. A taxable charge without a category
+     * fails with `INVALID_REQUEST` and a `NOT_ALLOWED` detail on the charge. Omitted, the charge
+     * takes delivery from delivery_fee, shipping from shipping_fee, service_fee from service_fee,
+     * and handling from handling_fee; other types take none. The default follows type and is not
+     * returned. Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge".
+     * anyOf[2] (Value): null.
+     */
+    "charge_tax_category"?: (("service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | (string & {})) | (null));
+    /**
+     * Whether the charge is subject to tax. anyOf[1] (Value): boolean. Whether the charge is
+     * subject to tax. anyOf[2] (Value): null.
+     */
+    "taxable"?: ((boolean) | (null));
+};
+/**
+ * Tax settings for an order charge calculated by Flint or supplied by you, including the charge's
+ * tax category and whether it is taxable.
+ */
+export type OrderCalculatedChargeTaxRequestInput = {
+    /**
+     * The tax you supply for this charge. Used when the order's tax `mode` is `external`. Tax you
+     * calculated yourself for a line or charge: whether prices include tax, and the tax
+     * components.
+     */
+    "calculation"?: TaxCalculationRequestRequestInput;
+    /**
+     * Tax category of the charge, which decides its automatic tax: service_fee, shipping,
+     * delivery, handling, and surcharge are taxed at the general rate at the charge location,
+     * including the store for pickup. A taxable charge without a category fails with
+     * `INVALID_REQUEST` and a `NOT_ALLOWED` detail on the charge. Omitted, the charge takes
+     * delivery from delivery_fee, shipping from shipping_fee, service_fee from service_fee, and
+     * handling from handling_fee; other types take none. The default follows type and is not
+     * returned. Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge".
+     */
+    "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge";
+    /** Whether the charge is subject to tax. */
+    "taxable"?: boolean;
+};
+/**
+ * Tax settings for an order line item calculated by Flint or supplied by you, including the line
+ * item tax category and whether it is taxable.
+ */
+export type OrderCalculatedLineItemTax = {
+    /**
+     * The tax you supply for this line item. Used when the order's tax `mode` is `external`. Tax
+     * you calculated yourself for a line or charge: whether prices include tax, and the tax
+     * components.
+     */
+    "calculation"?: TaxCalculationRequest;
+    /**
+     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
+     * "software", "saas", "services", "professional_services", "food", "prepared_food",
+     * "clothing", "medical_goods", "admission".
+     */
+    "line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | (string & {});
+    /** Whether the line item is subject to tax. */
+    "taxable"?: boolean;
+};
+export type OrderCalculatedLineItemTaxPreviousAttributes = {
+    /**
+     * The tax you supply for this line item. Used when the order's tax `mode` is `external`.
+     * anyOf[1] (Value): {@link TaxCalculationRequestPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "calculation"?: ((TaxCalculationRequestPreviousAttributes) | (null));
+    /**
+     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
+     * "software", "saas", "services", "professional_services", "food", "prepared_food",
+     * "clothing", "medical_goods", "admission". anyOf[1] (Value): string. Flint line-item tax
+     * category. Value enum: "general", "physical_goods", "digital_goods", "software", "saas",
+     * "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods",
+     * "admission". anyOf[2] (Value): null.
+     */
+    "line_item_tax_category"?: (("general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | (string & {}))
+        | (null));
+    /**
+     * Whether the line item is subject to tax. anyOf[1] (Value): boolean. Whether the line item is
+     * subject to tax. anyOf[2] (Value): null.
+     */
+    "taxable"?: ((boolean) | (null));
+};
+/**
+ * Tax settings for an order line item calculated by Flint or supplied by you, including the line
+ * item tax category and whether it is taxable.
+ */
+export type OrderCalculatedLineItemTaxRequestInput = {
+    /**
+     * The tax you supply for this line item. Used when the order's tax `mode` is `external`. Tax
+     * you calculated yourself for a line or charge: whether prices include tax, and the tax
+     * components.
+     */
+    "calculation"?: TaxCalculationRequestRequestInput;
+    /**
+     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
+     * "software", "saas", "services", "professional_services", "food", "prepared_food",
+     * "clothing", "medical_goods", "admission".
+     */
+    "line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission";
+    /** Whether the line item is subject to tax. */
+    "taxable"?: boolean;
+};
+/** An additional charge applied to an order. */
+export type OrderCharge = {
+    /**
+     * Fixed charge amount before charge discounts and tax. Percentage charges use percent instead.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /**
+     * Resolved charge amount after charge discounts and before additive tax. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "applied_money": MoneyValue;
+    /**
+     * The amount a percent charge is calculated from. Value enum: "subtotal_pre_discount",
+     * "subtotal_post_discount".
+     */
+    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /** Optional description of the charge. */
+    "description"?: string;
+    /**
+     * ID of the fulfillment this charge belongs to, such as a shipping fee on its shipment.
+     * Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: string;
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /** What the buyer sees for this charge at checkout and on receipts. */
+    "name": string;
+    /**
+     * Unique identifier for this order charge, prefixed `och_`. Example:
+     * "och_01KEZF7C00XX8AKACP0GHKFWWT".
+     */
+    "order_charge_id": string;
+    /**
+     * Order that owns this charge, including the source order of an invoice snapshot. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges
+     * use `amount_money` instead. multipleOf: 0.0001.
+     */
+    "percent"?: number;
+    /**
+     * Charge amount already refunded. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "refunded_money": MoneyValue;
+    /**
+     * How tax applies to this charge. Tax settings for an order charge calculated by Flint or
+     * supplied by you, including the charge's tax category and whether it is taxable.
+     */
+    "tax"?: OrderCalculatedChargeTax;
+    /**
+     * Tax calculated for the charge, including any tax already included in its price. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "tax_money": MoneyValue;
+    /**
+     * Applied charge amount plus tax that is not already included in the price. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "total_money": MoneyValue;
+    /**
+     * What the charge is for. It classifies the charge in reporting and sets its default tax
+     * category. Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee",
+     * "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee", "installation_fee",
+     * "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee",
+     * "restocking_fee", "rush_fee", "other".
+     */
+    "type": "service_fee"
+        | "delivery_fee"
+        | "shipping_fee"
+        | "handling_fee"
+        | "packaging_fee"
+        | "small_order_fee"
+        | "service_area_fee"
+        | "setup_fee"
+        | "installation_fee"
+        | "cleaning_fee"
+        | "booking_fee"
+        | "reservation_fee"
+        | "ticket_fee"
+        | "fulfillment_fee"
+        | "restocking_fee"
+        | "rush_fee"
+        | "other"
+        | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+};
+/** The `amount` variant of `OrderChargeInput`. */
+export type OrderChargeInputAmount = ({
+    /**
+     * Fixed charge amount in the order currency. The amount and every computed order amount must
+     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
+     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
+     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * The amount a percent charge is calculated from. Value enum: "subtotal_pre_discount",
+     * "subtotal_post_discount".
+     */
+    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount" | (string & {});
+    /** Selects a fixed amount or percentage calculation. Value enum: "amount". */
+    "calculation_type": "amount" | (string & {});
+    /** Optional description of the charge. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * ID of the fulfillment this charge belongs to, such as a shipping fee on its shipment.
+     * minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: string;
+    /**
+     * Caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
+     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * What the buyer sees for this charge at checkout and on receipts. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges
+     * use `amount_money` instead. multipleOf: 0.0001.
+     */
+    "percent"?: number;
+    /**
+     * How tax applies to this charge. Tax settings for an order charge calculated by Flint or
+     * supplied by you, including the charge's tax category and whether it is taxable.
+     */
+    "tax"?: OrderCalculatedChargeTax;
+    /**
+     * What the charge is for. It classifies the charge in reporting and sets its default tax
+     * category. Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee",
+     * "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee", "installation_fee",
+     * "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee",
+     * "restocking_fee", "rush_fee", "other".
+     */
+    "type": "service_fee"
+        | "delivery_fee"
+        | "shipping_fee"
+        | "handling_fee"
+        | "packaging_fee"
+        | "small_order_fee"
+        | "service_area_fee"
+        | "setup_fee"
+        | "installation_fee"
+        | "cleaning_fee"
+        | "booking_fee"
+        | "reservation_fee"
+        | "ticket_fee"
+        | "fulfillment_fee"
+        | "restocking_fee"
+        | "rush_fee"
+        | "other"
+        | (string & {});
+})
+    & (({
+    /** Selects a fixed amount or percentage calculation. Value enum: "amount". */
+    "calculation_type": "amount" | (string & {});
+    /**
+     * Fixed charge amount in the order currency. The amount and every computed order amount must
+     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
+     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
+     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+}));
+/** The `amount` variant of `OrderChargeInput`. */
+export type OrderChargeInputAmountInput = ({
+    /**
+     * Fixed charge amount in the order currency. The amount and every computed order amount must
+     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
+     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
+     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValueInput;
+    /**
+     * The amount a percent charge is calculated from. Value enum: "subtotal_pre_discount",
+     * "subtotal_post_discount".
+     */
+    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount";
+    /** Selects a fixed amount or percentage calculation. Value enum: "amount". */
+    "calculation_type": "amount";
+    /** Optional description of the charge. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * ID of the fulfillment this charge belongs to, such as a shipping fee on its shipment.
+     * minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: string;
+    /**
+     * Caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
+     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * What the buyer sees for this charge at checkout and on receipts. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges
+     * use `amount_money` instead. multipleOf: 0.0001.
+     */
+    "percent"?: number;
+    /**
+     * How tax applies to this charge. Tax settings for an order charge calculated by Flint or
+     * supplied by you, including the charge's tax category and whether it is taxable.
+     */
+    "tax"?: OrderCalculatedChargeTaxRequestInput;
+    /**
+     * What the charge is for. It classifies the charge in reporting and sets its default tax
+     * category. Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee",
+     * "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee", "installation_fee",
+     * "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee",
+     * "restocking_fee", "rush_fee", "other".
+     */
+    "type": "service_fee"
+        | "delivery_fee"
+        | "shipping_fee"
+        | "handling_fee"
+        | "packaging_fee"
+        | "small_order_fee"
+        | "service_area_fee"
+        | "setup_fee"
+        | "installation_fee"
+        | "cleaning_fee"
+        | "booking_fee"
+        | "reservation_fee"
+        | "ticket_fee"
+        | "fulfillment_fee"
+        | "restocking_fee"
+        | "rush_fee"
+        | "other";
+})
+    & (({
+    /** Selects a fixed amount or percentage calculation. Value enum: "amount". */
+    "calculation_type": ("amount") & ("amount");
+    /**
+     * Fixed charge amount in the order currency. The amount and every computed order amount must
+     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
+     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
+     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValueInput;
+})
+    & (({
+    "percent"?: never;
+})));
+/** The `percent` variant of `OrderChargeInput`. */
+export type OrderChargeInputPercent = ({
+    /**
+     * Fixed charge amount in the order currency. The amount and every computed order amount must
+     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
+     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
+     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /**
+     * The amount a percent charge is calculated from. Value enum: "subtotal_pre_discount",
+     * "subtotal_post_discount".
+     */
+    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount" | (string & {});
+    /** Selects a fixed amount or percentage calculation. Value enum: "percent". */
+    "calculation_type": "percent" | (string & {});
+    /** Optional description of the charge. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * ID of the fulfillment this charge belongs to, such as a shipping fee on its shipment.
+     * minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: string;
+    /**
+     * Caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
+     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * What the buyer sees for this charge at checkout and on receipts. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges
+     * use `amount_money` instead. multipleOf: 0.0001.
+     */
+    "percent": number;
+    /**
+     * How tax applies to this charge. Tax settings for an order charge calculated by Flint or
+     * supplied by you, including the charge's tax category and whether it is taxable.
+     */
+    "tax"?: OrderCalculatedChargeTax;
+    /**
+     * What the charge is for. It classifies the charge in reporting and sets its default tax
+     * category. Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee",
+     * "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee", "installation_fee",
+     * "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee",
+     * "restocking_fee", "rush_fee", "other".
+     */
+    "type": "service_fee"
+        | "delivery_fee"
+        | "shipping_fee"
+        | "handling_fee"
+        | "packaging_fee"
+        | "small_order_fee"
+        | "service_area_fee"
+        | "setup_fee"
+        | "installation_fee"
+        | "cleaning_fee"
+        | "booking_fee"
+        | "reservation_fee"
+        | "ticket_fee"
+        | "fulfillment_fee"
+        | "restocking_fee"
+        | "rush_fee"
+        | "other"
+        | (string & {});
+})
+    & (({
+    /** Selects a fixed amount or percentage calculation. Value enum: "percent". */
+    "calculation_type": "percent" | (string & {});
+    /**
+     * Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges
+     * use `amount_money` instead. multipleOf: 0.0001.
+     */
+    "percent": number;
+}));
+/** The `percent` variant of `OrderChargeInput`. */
+export type OrderChargeInputPercentInput = ({
+    /**
+     * Fixed charge amount in the order currency. The amount and every computed order amount must
+     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
+     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
+     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValueInput;
+    /**
+     * The amount a percent charge is calculated from. Value enum: "subtotal_pre_discount",
+     * "subtotal_post_discount".
+     */
+    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount";
+    /** Selects a fixed amount or percentage calculation. Value enum: "percent". */
+    "calculation_type": "percent";
+    /** Optional description of the charge. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * ID of the fulfillment this charge belongs to, such as a shipping fee on its shipment.
+     * minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: string;
+    /**
+     * Caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
+     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * What the buyer sees for this charge at checkout and on receipts. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges
+     * use `amount_money` instead. multipleOf: 0.0001.
+     */
+    "percent": number;
+    /**
+     * How tax applies to this charge. Tax settings for an order charge calculated by Flint or
+     * supplied by you, including the charge's tax category and whether it is taxable.
+     */
+    "tax"?: OrderCalculatedChargeTaxRequestInput;
+    /**
+     * What the charge is for. It classifies the charge in reporting and sets its default tax
+     * category. Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee",
+     * "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee", "installation_fee",
+     * "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee",
+     * "restocking_fee", "rush_fee", "other".
+     */
+    "type": "service_fee"
+        | "delivery_fee"
+        | "shipping_fee"
+        | "handling_fee"
+        | "packaging_fee"
+        | "small_order_fee"
+        | "service_area_fee"
+        | "setup_fee"
+        | "installation_fee"
+        | "cleaning_fee"
+        | "booking_fee"
+        | "reservation_fee"
+        | "ticket_fee"
+        | "fulfillment_fee"
+        | "restocking_fee"
+        | "rush_fee"
+        | "other";
+})
+    & (({
+    /** Selects a fixed amount or percentage calculation. Value enum: "percent". */
+    "calculation_type": ("percent") & ("percent");
+    /**
+     * Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges
+     * use `amount_money` instead. multipleOf: 0.0001.
+     */
+    "percent": number;
+})
+    & (({
+    "amount_money"?: never;
+})));
+export type OrderChargePreviousAttributes = {
+    /**
+     * Fixed charge amount before charge discounts and tax. Percentage charges use percent instead.
+     * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Resolved charge amount after charge discounts and before additive tax. anyOf[1] (Value):
+     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "applied_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * The amount a percent charge is calculated from. Value enum: "subtotal_pre_discount",
+     * "subtotal_post_discount". anyOf[1] (Value): string. The amount a percent charge is
+     * calculated from. Value enum: "subtotal_pre_discount", "subtotal_post_discount". anyOf[2]
+     * (Value): null.
+     */
+    "calculation_basis"?: (("subtotal_pre_discount" | "subtotal_post_discount" | (string & {})) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * Optional description of the charge. anyOf[1] (Value): string. Optional description of the
+     * charge. anyOf[2] (Value): null.
+     */
+    "description"?: ((string) | (null));
+    /**
+     * ID of the fulfillment this charge belongs to, such as a shipping fee on its shipment.
+     * anyOf[1] (Value): string. ID of the fulfillment this charge belongs to, such as a shipping
+     * fee on its shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". anyOf[2] (Value): null.
+     */
+    "fulfillment_id"?: ((string) | (null));
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
+     */
+    "metadata"?: ((MetadataMap) | (null));
+    /**
+     * What the buyer sees for this charge at checkout and on receipts. anyOf[1] (Value): string.
+     * What the buyer sees for this charge at checkout and on receipts. anyOf[2] (Value): null.
+     */
+    "name"?: ((string) | (null));
+    /**
+     * Unique identifier for this order charge, prefixed `och_`. anyOf[1] (Value): string. Unique
+     * identifier for this order charge, prefixed `och_`. Example:
+     * "och_01KEZF7C00XX8AKACP0GHKFWWT". anyOf[2] (Value): null.
+     */
+    "order_charge_id"?: ((string) | (null));
+    /**
+     * Order that owns this charge, including the source order of an invoice snapshot. anyOf[1]
+     * (Value): string. Order that owns this charge, including the source order of an invoice
+     * snapshot. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges
+     * use `amount_money` instead. anyOf[1] (Value): number. Percentage points of the base
+     * `calculation_basis` names, such as `3` for 3%. Fixed charges use `amount_money` instead.
+     * multipleOf: 0.0001. anyOf[2] (Value): null.
+     */
+    "percent"?: ((number) | (null));
+    /**
+     * Charge amount already refunded. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * anyOf[2] (Value): null.
+     */
+    "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * How tax applies to this charge. anyOf[1] (Value): {@link
+     * OrderCalculatedChargeTaxPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "tax"?: ((OrderCalculatedChargeTaxPreviousAttributes) | (null));
+    /**
+     * Tax calculated for the charge, including any tax already included in its price. anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "tax_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Applied charge amount plus tax that is not already included in the price. anyOf[1] (Value):
+     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "total_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * What the charge is for. It classifies the charge in reporting and sets its default tax
+     * category. Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee",
+     * "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee", "installation_fee",
+     * "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee",
+     * "restocking_fee", "rush_fee", "other". anyOf[1] (Value): string. What the charge is for. It
+     * classifies the charge in reporting and sets its default tax category. Value enum:
+     * "service_fee", "delivery_fee", "shipping_fee", "handling_fee", "packaging_fee",
+     * "small_order_fee", "service_area_fee", "setup_fee", "installation_fee", "cleaning_fee",
+     * "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee", "restocking_fee",
+     * "rush_fee", "other". anyOf[2] (Value): null.
+     */
+    "type"?: (("service_fee"
+        | "delivery_fee"
+        | "shipping_fee"
+        | "handling_fee"
+        | "packaging_fee"
+        | "small_order_fee"
+        | "service_area_fee"
+        | "setup_fee"
+        | "installation_fee"
+        | "cleaning_fee"
+        | "booking_fee"
+        | "reservation_fee"
+        | "ticket_fee"
+        | "fulfillment_fee"
+        | "restocking_fee"
+        | "rush_fee"
+        | "other"
+        | (string & {}))
+        | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "updated_at"?: ((string) | (null));
+};
+/**
+ * A charge you add to an order, such as a delivery or service fee, set as a fixed amount or a
+ * percentage with its tax settings.
+ */
+export type OrderChargeRequest = ({
+    /**
+     * Fixed charge amount in the order currency. The amount and every computed order amount must
+     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
+     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
+     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /**
+     * The amount a percent charge is calculated from. Value enum: "subtotal_pre_discount",
+     * "subtotal_post_discount".
+     */
+    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount" | (string & {});
+    /** Selects a fixed amount or percentage calculation. Value enum: "amount", "percent". */
+    "calculation_type": "amount" | "percent" | (string & {});
+    /** Optional description of the charge. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * ID of the fulfillment this charge belongs to, such as a shipping fee on its shipment.
+     * minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: string;
+    /**
+     * Caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
+     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * What the buyer sees for this charge at checkout and on receipts. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges
+     * use `amount_money` instead. multipleOf: 0.0001.
+     */
+    "percent"?: number;
+    /**
+     * How tax applies to this charge. Tax settings for an order charge calculated by Flint or
+     * supplied by you, including the charge's tax category and whether it is taxable.
+     */
+    "tax"?: OrderCalculatedChargeTax;
+    /**
+     * What the charge is for. It classifies the charge in reporting and sets its default tax
+     * category. Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee",
+     * "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee", "installation_fee",
+     * "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee",
+     * "restocking_fee", "rush_fee", "other".
+     */
+    "type": "service_fee"
+        | "delivery_fee"
+        | "shipping_fee"
+        | "handling_fee"
+        | "packaging_fee"
+        | "small_order_fee"
+        | "service_area_fee"
+        | "setup_fee"
+        | "installation_fee"
+        | "cleaning_fee"
+        | "booking_fee"
+        | "reservation_fee"
+        | "ticket_fee"
+        | "fulfillment_fee"
+        | "restocking_fee"
+        | "rush_fee"
+        | "other"
+        | (string & {});
+})
+    & ((Exclude<OrderChargeInputAmount & object, readonly unknown[]>)
+    | (Exclude<OrderChargeInputPercent & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * A charge you add to an order, such as a delivery or service fee, set as a fixed amount or a
+ * percentage with its tax settings.
+ */
+export type OrderChargeRequestInput = ({
+    /**
+     * Fixed charge amount in the order currency. The amount and every computed order amount must
+     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
+     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
+     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValueInput;
+    /**
+     * The amount a percent charge is calculated from. Value enum: "subtotal_pre_discount",
+     * "subtotal_post_discount".
+     */
+    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount";
+    /** Selects a fixed amount or percentage calculation. Value enum: "amount", "percent". */
+    "calculation_type": "amount" | "percent";
+    /** Optional description of the charge. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * ID of the fulfillment this charge belongs to, such as a shipping fee on its shipment.
+     * minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: string;
+    /**
+     * Caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
+     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * What the buyer sees for this charge at checkout and on receipts. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges
+     * use `amount_money` instead. multipleOf: 0.0001.
+     */
+    "percent"?: number;
+    /**
+     * How tax applies to this charge. Tax settings for an order charge calculated by Flint or
+     * supplied by you, including the charge's tax category and whether it is taxable.
+     */
+    "tax"?: OrderCalculatedChargeTaxRequestInput;
+    /**
+     * What the charge is for. It classifies the charge in reporting and sets its default tax
+     * category. Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee",
+     * "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee", "installation_fee",
+     * "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee",
+     * "restocking_fee", "rush_fee", "other".
+     */
+    "type": "service_fee"
+        | "delivery_fee"
+        | "shipping_fee"
+        | "handling_fee"
+        | "packaging_fee"
+        | "small_order_fee"
+        | "service_area_fee"
+        | "setup_fee"
+        | "installation_fee"
+        | "cleaning_fee"
+        | "booking_fee"
+        | "reservation_fee"
+        | "ticket_fee"
+        | "fulfillment_fee"
+        | "restocking_fee"
+        | "rush_fee"
+        | "other";
+})
+    & ((Exclude<OrderChargeInputAmountInput & object, readonly unknown[]>)
+    | (Exclude<OrderChargeInputPercentInput & object, readonly unknown[]>));
+/** An externally calculated tax you assign to one order charge. */
+export type OrderChargeTaxAssignment = {
+    /**
+     * The tax you supply for this charge. Tax you calculated yourself for a line or charge:
+     * whether prices include tax, and the tax components.
+     */
+    "calculation": TaxCalculationRequest;
+    /**
+     * ID of the order charge this tax applies to. minLength: 1. Example:
+     * "och_01KEZF7C00XX8AKACP0GHKFWWT".
+     */
+    "order_charge_id": string;
+};
+/** An externally calculated tax you assign to one order charge. */
+export type OrderChargeTaxAssignmentInput = {
+    /**
+     * The tax you supply for this charge. Tax you calculated yourself for a line or charge:
+     * whether prices include tax, and the tax components.
+     */
+    "calculation": TaxCalculationRequestModelInput;
+    /**
+     * ID of the order charge this tax applies to. minLength: 1. Example:
+     * "och_01KEZF7C00XX8AKACP0GHKFWWT".
+     */
+    "order_charge_id": string;
+};
+/** A page of `OrderCharge` objects. */
+export type OrderChargesListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * OrderCharge}. An additional charge applied to an order.
+     */
+    "data": Array<OrderCharge>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type OrderClosedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookOrder;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "active_payment_review_id"?: ((string) | (null));
+            "authorization_amounts"?: ((OrderAuthorizationAmountsPreviousAttributes) | (null));
+            "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
+            "buyer_note"?: ((string) | (null));
+            "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            "checkout_session_ids"?: ((Array<string>) | (null));
+            "client_reference"?: ((string) | (null));
+            "closed_at"?: ((string) | (null));
+            "closed_reason"?: (("invoice_voided"
+                | "paid"
+                | "closed_by_merchant"
+                | "checkout_expired"
+                | "written_off"
+                | "superseded"
+                | "return_resolution_canceled"
+                | "other"
+                | (string & {}))
+                | (null));
+            "closed_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "custom_field_answers"?: ((Array<CustomFieldAnswerPreviousAttributes>) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "deferred_promotions"?: ((Array<DeferredPromotionPreviousAttributes>) | (null));
+            "delivery"?: ((OrderDeliverySummaryPreviousAttributes) | (null));
+            "delivery_destination"?: ((OrderDeliveryDestinationPreviousAttributes) | (null));
+            "discounts"?: ((Array<OrderDiscountPreviousAttributes>) | (null));
+            "dispute_status"?: (("none"
+                | "inquiry_needs_response"
+                | "inquiry_under_review"
+                | "inquiry_closed"
+                | "needs_response"
+                | "under_review"
+                | "won"
+                | "lost"
+                | "prevented"
+                | "other"
+                | (string & {}))
+                | (null));
+            "external_reference_id"?: ((string) | (null));
+            "fulfillment_status"?: (("not_fulfilled"
+                | "partially_fulfilled"
+                | "fulfilled"
+                | "canceled"
+                | "not_applicable"
+                | "closed"
+                | (string & {}))
+                | (null));
+            "fulfillments"?: ((Array<FulfillmentPreviousAttributes>) | (null));
+            "gift_card_estimate"?: ((OrderGiftCardEstimatePreviousAttributes) | (null));
+            "gift_card_settlements"?: ((Array<OrderGiftCardSettlementPreviousAttributes>) | (null));
+            "gift_card_tender_enabled"?: ((boolean) | (null));
+            "gift_cards"?: ((Array<OrderGiftCardSelectionPreviousAttributes>) | (null));
+            "governing_delivery_selection_id"?: ((string) | (null));
+            "handover"?: ((OrderHandoverPreviousAttributes) | (null));
+            "internal_note"?: ((string) | (null));
+            "inventory_exception_reason"?: (("inventory_deduction_failed"
+                | "inventory_handoff_failed"
+                | "auto_refund_required"
+                | "auto_refund_failed"
+                | "policy_resolution_failed"
+                | "other"
+                | (string & {}))
+                | (null));
+            "inventory_exception_resolution_message"?: ((string) | (null));
+            "inventory_exception_status"?: (("paid_inventory_failed" | "resolved" | (string & {})) | (null));
+            "inventory_reservation_id"?: ((string) | (null));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
+            "invoice_id"?: ((string) | (null));
+            "line_items"?: ((Array<OrderLineItemPreviousAttributes>) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order_id"?: ((string) | (null));
+            "order_number"?: ((string) | (null));
+            "origin"?: (("virtual_terminal"
+                | "payment_link"
+                | "checkout"
+                | "api"
+                | "subscription"
+                | "invoice"
+                | (string & {}))
+                | (null));
+            "paid_at"?: ((string) | (null));
+            "payment_intent_ids"?: ((Array<string>) | (null));
+            "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
+            "payment_link_id"?: ((string) | (null));
+            "payment_status"?: (("unpaid" | "partially_paid" | "paid" | (string & {})) | (null));
+            "pending_order_edit_id"?: ((string) | (null));
+            "prepayment_order_id"?: ((string) | (null));
+            "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
+            "refund_ids"?: ((Array<string>) | (null));
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            "return_credit_settlements"?: ((Array<OrderReturnCreditSettlementPreviousAttributes>) | (null));
+            "return_resolution_id"?: ((string) | (null));
+            "settlement_amounts"?: ((OrderSettlementAmountsPreviousAttributes) | (null));
+            "status"?: (("open" | "closed" | (string & {})) | (null));
+            "subscription"?: ((ExpandedSubscriptionSummaryPreviousAttributes) | (null));
+            "subscription_cycle"?: ((number) | (null));
+            "subscription_delivery_changed_at"?: ((string) | (null));
+            "subscription_delivery_number"?: ((number) | (null));
+            "subscription_id"?: ((string) | (null));
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null));
+            "subscription_plan_id"?: ((string) | (null));
+            "supported_actions"?: ((Array<"close" | "pay" | "resolve_inventory_exception" | (string & {})>) | (null));
+            "tax"?: ((OrderTaxPreviousAttributes) | (null));
+            "ticketed_event"?: ((TicketedEventPreviousAttributes) | (null));
+            "tips"?: ((Array<TipPreviousAttributes>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "order.closed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookOrder;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "active_payment_review_id"?: ((string) | (null));
+            "authorization_amounts"?: ((OrderAuthorizationAmountsPreviousAttributes) | (null));
+            "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
+            "buyer_note"?: ((string) | (null));
+            "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            "checkout_session_ids"?: ((Array<string>) | (null));
+            "client_reference"?: ((string) | (null));
+            "closed_at"?: ((string) | (null));
+            "closed_reason"?: (("invoice_voided"
+                | "paid"
+                | "closed_by_merchant"
+                | "checkout_expired"
+                | "written_off"
+                | "superseded"
+                | "return_resolution_canceled"
+                | "other"
+                | (string & {}))
+                | (null));
+            "closed_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "custom_field_answers"?: ((Array<CustomFieldAnswerPreviousAttributes>) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "deferred_promotions"?: ((Array<DeferredPromotionPreviousAttributes>) | (null));
+            "delivery"?: ((OrderDeliverySummaryPreviousAttributes) | (null));
+            "delivery_destination"?: ((OrderDeliveryDestinationPreviousAttributes) | (null));
+            "discounts"?: ((Array<OrderDiscountPreviousAttributes>) | (null));
+            "dispute_status"?: (("none"
+                | "inquiry_needs_response"
+                | "inquiry_under_review"
+                | "inquiry_closed"
+                | "needs_response"
+                | "under_review"
+                | "won"
+                | "lost"
+                | "prevented"
+                | "other"
+                | (string & {}))
+                | (null));
+            "external_reference_id"?: ((string) | (null));
+            "fulfillment_status"?: (("not_fulfilled"
+                | "partially_fulfilled"
+                | "fulfilled"
+                | "canceled"
+                | "not_applicable"
+                | "closed"
+                | (string & {}))
+                | (null));
+            "fulfillments"?: ((Array<FulfillmentPreviousAttributes>) | (null));
+            "gift_card_estimate"?: ((OrderGiftCardEstimatePreviousAttributes) | (null));
+            "gift_card_settlements"?: ((Array<OrderGiftCardSettlementPreviousAttributes>) | (null));
+            "gift_card_tender_enabled"?: ((boolean) | (null));
+            "gift_cards"?: ((Array<OrderGiftCardSelectionPreviousAttributes>) | (null));
+            "governing_delivery_selection_id"?: ((string) | (null));
+            "handover"?: ((OrderHandoverPreviousAttributes) | (null));
+            "internal_note"?: ((string) | (null));
+            "inventory_exception_reason"?: (("inventory_deduction_failed"
+                | "inventory_handoff_failed"
+                | "auto_refund_required"
+                | "auto_refund_failed"
+                | "policy_resolution_failed"
+                | "other"
+                | (string & {}))
+                | (null));
+            "inventory_exception_resolution_message"?: ((string) | (null));
+            "inventory_exception_status"?: (("paid_inventory_failed" | "resolved" | (string & {})) | (null));
+            "inventory_reservation_id"?: ((string) | (null));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
+            "invoice_id"?: ((string) | (null));
+            "line_items"?: ((Array<OrderLineItemPreviousAttributes>) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order_id"?: ((string) | (null));
+            "order_number"?: ((string) | (null));
+            "origin"?: (("virtual_terminal"
+                | "payment_link"
+                | "checkout"
+                | "api"
+                | "subscription"
+                | "invoice"
+                | (string & {}))
+                | (null));
+            "paid_at"?: ((string) | (null));
+            "payment_intent_ids"?: ((Array<string>) | (null));
+            "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
+            "payment_link_id"?: ((string) | (null));
+            "payment_status"?: (("unpaid" | "partially_paid" | "paid" | (string & {})) | (null));
+            "pending_order_edit_id"?: ((string) | (null));
+            "prepayment_order_id"?: ((string) | (null));
+            "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
+            "refund_ids"?: ((Array<string>) | (null));
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            "return_credit_settlements"?: ((Array<OrderReturnCreditSettlementPreviousAttributes>) | (null));
+            "return_resolution_id"?: ((string) | (null));
+            "settlement_amounts"?: ((OrderSettlementAmountsPreviousAttributes) | (null));
+            "status"?: (("open" | "closed" | (string & {})) | (null));
+            "subscription"?: ((ExpandedSubscriptionSummaryPreviousAttributes) | (null));
+            "subscription_cycle"?: ((number) | (null));
+            "subscription_delivery_changed_at"?: ((string) | (null));
+            "subscription_delivery_number"?: ((number) | (null));
+            "subscription_id"?: ((string) | (null));
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null));
+            "subscription_plan_id"?: ((string) | (null));
+            "supported_actions"?: ((Array<"close" | "pay" | "resolve_inventory_exception" | (string & {})>) | (null));
+            "tax"?: ((OrderTaxPreviousAttributes) | (null));
+            "ticketed_event"?: ((TicketedEventPreviousAttributes) | (null));
+            "tips"?: ((Array<TipPreviousAttributes>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "order.closed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "order.closed";
+});
+/**
+ * The `order.closed` webhook payload for the `installed_merchants` event source. Fields shared by
+ * partner webhook payloads.
+ */
+export type OrderClosedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookOrder}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `buyer_actions`, `active_payment_attempt`, `payment_collection`,
+     * `setup_collection`. previous_attributes (Optional): object. Previous values of changed
+     * top-level fields in data.object, at this delivery's API version. Nested changes include the
+     * whole previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.active_payment_review_id (Optional): string or null. The earliest open
+     * or resolving payment review on this order's counted payments. `null` when no review is open
+     * or resolving. List reviews with GET /v1/payment-reviews?order_id=&status=open. Omitted for
+     * buyer credentials. Always present with merchant credentials.
+     * previous_attributes.active_payment_review_id.anyOf[1] (Value): string. The earliest open or
+     * resolving payment review on this order's counted payments. `null` when no review is open or
+     * resolving. List reviews with GET /v1/payment-reviews?order_id=&status=open. Omitted for
+     * buyer credentials. Always present with merchant credentials. Example:
+     * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". previous_attributes.active_payment_review_id.anyOf[2]
+     * (Value): null. previous_attributes.authorization_amounts (Optional): {@link
+     * OrderAuthorizationAmountsPreviousAttributes} or null. The amounts authorized and still
+     * capturable on the order's payments. previous_attributes.authorization_amounts.anyOf[1]
+     * (Value): {@link OrderAuthorizationAmountsPreviousAttributes}.
+     * previous_attributes.authorization_amounts.anyOf[2] (Value): null.
+     * previous_attributes.buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes}
+     * or null. Email and phone saved when payment started, from the pay request's buyer_contact or
+     * the paying checkout session's saved contact. It does not change the linked customer.
+     * previous_attributes.buyer_contact.anyOf[1] (Value): {@link
+     * CheckoutBuyerContactPreviousAttributes}. previous_attributes.buyer_contact.anyOf[2] (Value):
+     * null. previous_attributes.buyer_note (Optional): string or null. A note to the buyer.
+     * previous_attributes.buyer_note.anyOf[1] (Value): string. A note to the buyer.
+     * previous_attributes.buyer_note.anyOf[2] (Value): null. previous_attributes.charges
+     * (Optional): Array of {@link OrderChargePreviousAttributes} or null. Charges added to the
+     * order, such as delivery or service fees, each with its applied amount, tax, and refunded
+     * amount. previous_attributes.charges.anyOf[1] (Value): Array of {@link
+     * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
+     * fees, each with its applied amount, tax, and refunded amount.
+     * previous_attributes.charges.anyOf[1][] (Value): {@link OrderChargePreviousAttributes}.
+     * previous_attributes.charges.anyOf[2] (Value): null. previous_attributes.checkout_session_ids
+     * (Optional): Array of string or null. IDs of the checkout sessions opened for this order.
+     * previous_attributes.checkout_session_ids.anyOf[1] (Value): Array of string. IDs of the
+     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1][]
+     * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+     * previous_attributes.checkout_session_ids.anyOf[2] (Value): null.
+     * previous_attributes.client_reference (Optional): string or null. The reference the payment
+     * link URL or resolve request carried, such as your user ID. `null` when none was sent or
+     * checkout did not start from a payment link. Returned only to merchant credentials; omitted
+     * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
+     * identity. Always present with merchant credentials.
+     * previous_attributes.client_reference.anyOf[1] (Value): string. The reference the payment
+     * link URL or resolve request carried, such as your user ID. `null` when none was sent or
+     * checkout did not start from a payment link. Returned only to merchant credentials; omitted
+     * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
+     * identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
+     * previous_attributes.client_reference.anyOf[2] (Value): null. previous_attributes.closed_at
+     * (Optional): string or null. When the order closed. Present exactly when status is closed.
+     * Set once at the transition and never changed. previous_attributes.closed_at.anyOf[1]
+     * (Value): string. When the order closed. Present exactly when status is closed. Set once at
+     * the transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.closed_at.anyOf[2] (Value): null. previous_attributes.closed_reason
+     * (Optional): string or null. Why the order closed. Present exactly when status is closed. Set
+     * once at closure. Unrecognized reasons are returned as other; new values may be added. Value
+     * enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
+     * "superseded", "return_resolution_canceled", "other".
+     * previous_attributes.closed_reason.anyOf[1] (Value): string. Why the order closed. Present
+     * exactly when status is closed. Set once at closure. Unrecognized reasons are returned as
+     * other; new values may be added. Value enum: "invoice_voided", "paid", "closed_by_merchant",
+     * "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
+     * previous_attributes.closed_reason.anyOf[2] (Value): null.
+     * previous_attributes.closed_reason_message (Optional): string or null. The caller note
+     * supplied when closing the order. System closures leave it absent. It is not shown to the
+     * buyer. previous_attributes.closed_reason_message.anyOf[1] (Value): string. The caller note
+     * supplied when closing the order. System closures leave it absent. It is not shown to the
+     * buyer. previous_attributes.closed_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.custom_field_answers (Optional): Array of {@link
+     * CustomFieldAnswerPreviousAttributes} or null. The buyer's answers to the payment link's
+     * custom fields, recorded when checkout started, in the order the link showed the fields. Each
+     * answer keeps the field's key, label, and type from that moment, so later changes to the link
+     * don't change it. Optional fields the buyer left blank are left out. Read-only. Empty when
+     * the order didn't come from a payment link, the link had no custom fields, or the buyer
+     * answered none. Orders created before Flint recorded answers here also return an empty list
+     * and keep their answers in `metadata` as `custom_field_<key>`. Deleting the customer removes
+     * the answers. Returned only to merchant credentials; omitted for buyer credentials. Always
+     * present with merchant credentials. previous_attributes.custom_field_answers.anyOf[1]
+     * (Value): Array of {@link CustomFieldAnswerPreviousAttributes}. The buyer's answers to the
+     * payment link's custom fields, recorded when checkout started, in the order the link showed
+     * the fields. Each answer keeps the field's key, label, and type from that moment, so later
+     * changes to the link don't change it. Optional fields the buyer left blank are left out.
+     * Read-only. Empty when the order didn't come from a payment link, the link had no custom
+     * fields, or the buyer answered none. Orders created before Flint recorded answers here also
+     * return an empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting
+     * the customer removes the answers. Returned only to merchant credentials; omitted for buyer
+     * credentials. Always present with merchant credentials. maxItems: 20.
+     * previous_attributes.custom_field_answers.anyOf[1][] (Value): {@link
+     * CustomFieldAnswerPreviousAttributes}. previous_attributes.custom_field_answers.anyOf[2]
+     * (Value): null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Customer summary included when `expand`
+     * names `customer`; `null` when expanded and no customer is linked. Present only when `expand`
+     * includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. ID of the customer this
+     * order belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. ID of the
+     * customer this order belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null.
+     * previous_attributes.deferred_promotions (Optional): Array of {@link
+     * DeferredPromotionPreviousAttributes} or null. Promotions accepted at subscription signup.
+     * They attach when the subscription is provisioned and first discount its first charged cycle.
+     * They do not discount this order and are separate from discounts and order totals. Always
+     * present; empty when no promotions are deferred.
+     * previous_attributes.deferred_promotions.anyOf[1] (Value): Array of {@link
+     * DeferredPromotionPreviousAttributes}. Promotions accepted at subscription signup. They
+     * attach when the subscription is provisioned and first discount its first charged cycle. They
+     * do not discount this order and are separate from discounts and order totals. Always present;
+     * empty when no promotions are deferred. previous_attributes.deferred_promotions.anyOf[1][]
+     * (Value): {@link DeferredPromotionPreviousAttributes}.
+     * previous_attributes.deferred_promotions.anyOf[2] (Value): null. previous_attributes.delivery
+     * (Optional): {@link OrderDeliverySummaryPreviousAttributes} or null. Method, type and
+     * recipient of governing_delivery_selection_id. The address remains in delivery_destination.
+     * Omitted when no shipment or local-delivery selection governs the order.
+     * previous_attributes.delivery.anyOf[1] (Value): {@link
+     * OrderDeliverySummaryPreviousAttributes}. previous_attributes.delivery.anyOf[2] (Value):
+     * null. previous_attributes.delivery_destination (Optional): {@link
+     * OrderDeliveryDestinationPreviousAttributes} or null. The shipment or local-delivery
+     * destination committed for this order. Payment freezes this value; fulfillment recipient
+     * changes do not replace it. Omitted for a checkout session credential that doesn't act for
+     * the customer the buyer verified. previous_attributes.delivery_destination.anyOf[1] (Value):
+     * {@link OrderDeliveryDestinationPreviousAttributes}.
+     * previous_attributes.delivery_destination.anyOf[2] (Value): null.
+     * previous_attributes.discounts (Optional): Array of {@link OrderDiscountPreviousAttributes}
+     * or null. Discounts applied to the order, each with its amount, status, and the line items
+     * and charges it covers. previous_attributes.discounts.anyOf[1] (Value): Array of {@link
+     * OrderDiscountPreviousAttributes}. Discounts applied to the order, each with its amount,
+     * status, and the line items and charges it covers. previous_attributes.discounts.anyOf[1][]
+     * (Value): {@link OrderDiscountPreviousAttributes}. previous_attributes.discounts.anyOf[2]
+     * (Value): null. previous_attributes.dispute_status (Optional): string or null. Aggregate
+     * dispute state across the order's counted payment intents, excluding payment_returned. Always
+     * returned to merchant credentials and omitted from buyer reads. Open states take precedence
+     * in this order: needs_response, under_review, inquiry_needs_response, inquiry_under_review,
+     * other. Otherwise the most severe closed state wins: lost, won, prevented, inquiry_closed;
+     * none when no disputes count. List individual cases with GET
+     * /v1/disputes?order_id={order_id}. Always present with merchant credentials. Value enum:
+     * "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+     * "needs_response", "under_review", "won", "lost", "prevented", "other".
+     * previous_attributes.dispute_status.anyOf[1] (Value): string. Aggregate dispute state across
+     * the order's counted payment intents, excluding payment_returned. Always returned to merchant
+     * credentials and omitted from buyer reads. Open states take precedence in this order:
+     * needs_response, under_review, inquiry_needs_response, inquiry_under_review, other. Otherwise
+     * the most severe closed state wins: lost, won, prevented, inquiry_closed; none when no
+     * disputes count. List individual cases with GET /v1/disputes?order_id={order_id}. Always
+     * present with merchant credentials. Value enum: "none", "inquiry_needs_response",
+     * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost",
+     * "prevented", "other". previous_attributes.dispute_status.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.fulfillment_status (Optional): string or null. Aggregate progress across
+     * the order's fulfillment quantities. Value enum: "not_fulfilled", "partially_fulfilled",
+     * "fulfilled", "canceled", "not_applicable", "closed".
+     * previous_attributes.fulfillment_status.anyOf[1] (Value): string. Aggregate progress across
+     * the order's fulfillment quantities. Value enum: "not_fulfilled", "partially_fulfilled",
+     * "fulfilled", "canceled", "not_applicable", "closed".
+     * previous_attributes.fulfillment_status.anyOf[2] (Value): null.
+     * previous_attributes.fulfillments (Optional): Array of {@link FulfillmentPreviousAttributes}
+     * or null. Fulfillments created for the order, each covering a set of its line items.
+     * previous_attributes.fulfillments.anyOf[1] (Value): Array of {@link
+     * FulfillmentPreviousAttributes}. Fulfillments created for the order, each covering a set of
+     * its line items. previous_attributes.fulfillments.anyOf[1][] (Value): {@link
+     * FulfillmentPreviousAttributes}. previous_attributes.fulfillments.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_estimate (Optional): {@link
+     * OrderGiftCardEstimatePreviousAttributes} or null. An estimate of how the order balance
+     * splits between gift cards and the payment processor.
+     * previous_attributes.gift_card_estimate.anyOf[1] (Value): {@link
+     * OrderGiftCardEstimatePreviousAttributes}. previous_attributes.gift_card_estimate.anyOf[2]
+     * (Value): null. previous_attributes.gift_card_settlements (Optional): Array of {@link
+     * OrderGiftCardSettlementPreviousAttributes} or null. The gift card redemptions applied to the
+     * order's payments. previous_attributes.gift_card_settlements.anyOf[1] (Value): Array of
+     * {@link OrderGiftCardSettlementPreviousAttributes}. The gift card redemptions applied to the
+     * order's payments. previous_attributes.gift_card_settlements.anyOf[1][] (Value): {@link
+     * OrderGiftCardSettlementPreviousAttributes}.
+     * previous_attributes.gift_card_settlements.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_tender_enabled (Optional): boolean or null. Whether gift cards
+     * can pay for this order now. Gift cards pay only USD orders that still accept changes, are
+     * not subscription purchases, and whose merchant has at least one gift card that is not closed
+     * in this environment. Gift cards cannot fund gift card purchases; this is false when those
+     * purchases leave no amount eligible for gift card tender. Recomputed on each read; a spent
+     * but open card still counts. previous_attributes.gift_card_tender_enabled.anyOf[1] (Value):
+     * boolean. Whether gift cards can pay for this order now. Gift cards pay only USD orders that
+     * still accept changes, are not subscription purchases, and whose merchant has at least one
+     * gift card that is not closed in this environment. Gift cards cannot fund gift card
+     * purchases; this is false when those purchases leave no amount eligible for gift card tender.
+     * Recomputed on each read; a spent but open card still counts.
+     * previous_attributes.gift_card_tender_enabled.anyOf[2] (Value): null.
+     * previous_attributes.gift_cards (Optional): Array of {@link
+     * OrderGiftCardSelectionPreviousAttributes} or null. Gift cards available to pay the order,
+     * with each card's available balance. previous_attributes.gift_cards.anyOf[1] (Value): Array
+     * of {@link OrderGiftCardSelectionPreviousAttributes}. Gift cards available to pay the order,
+     * with each card's available balance. previous_attributes.gift_cards.anyOf[1][] (Value):
+     * {@link OrderGiftCardSelectionPreviousAttributes}. previous_attributes.gift_cards.anyOf[2]
+     * (Value): null. previous_attributes.governing_delivery_selection_id (Optional): string or
+     * null. ID of the delivery selection that governs this order, including pickup choices without
+     * a delivery destination: the checkout's provisional selection before payment, and the
+     * selection a payment committed after. Read it with GET
+     * /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs the order.
+     * While set, change the destination through the delivery selection.
+     * previous_attributes.governing_delivery_selection_id.anyOf[1] (Value): string. ID of the
+     * delivery selection that governs this order, including pickup choices without a delivery
+     * destination: the checkout's provisional selection before payment, and the selection a
+     * payment committed after. Read it with GET /v1/delivery-selections/{delivery_selection_id}.
+     * Null when no selection governs the order. While set, change the destination through the
+     * delivery selection. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     * previous_attributes.governing_delivery_selection_id.anyOf[2] (Value): null.
+     * previous_attributes.handover (Optional): {@link OrderHandoverPreviousAttributes} or null.
+     * Carry-out handover: every physical item is handed to the buyer at this location when the
+     * order is paid, in place of a delivery selection. Payment then creates one completed
+     * `handover` fulfillment. Absent without a handover. previous_attributes.handover.anyOf[1]
+     * (Value): {@link OrderHandoverPreviousAttributes}. previous_attributes.handover.anyOf[2]
+     * (Value): null. previous_attributes.internal_note (Optional): string or null. A note for your
+     * team. Buyer reads leave it out. previous_attributes.internal_note.anyOf[1] (Value): string.
+     * A note for your team. Buyer reads leave it out. previous_attributes.internal_note.anyOf[2]
+     * (Value): null. previous_attributes.inventory_exception_reason (Optional): string or null.
+     * Why inventory could not be committed after payment. The cause remains after resolution.
+     * Omitted when no reason was recorded. Unrecognized reasons are returned as other; new values
+     * may be added. Value enum: "inventory_deduction_failed", "inventory_handoff_failed",
+     * "auto_refund_required", "auto_refund_failed", "policy_resolution_failed", "other".
+     * previous_attributes.inventory_exception_reason.anyOf[1] (Value): string. Why inventory could
+     * not be committed after payment. The cause remains after resolution. Omitted when no reason
+     * was recorded. Unrecognized reasons are returned as other; new values may be added. Value
+     * enum: "inventory_deduction_failed", "inventory_handoff_failed", "auto_refund_required",
+     * "auto_refund_failed", "policy_resolution_failed", "other".
+     * previous_attributes.inventory_exception_reason.anyOf[2] (Value): null.
+     * previous_attributes.inventory_exception_resolution_message (Optional): string or null. The
+     * merchant note supplied when resolving the inventory exception. It is not shown to the buyer.
+     * previous_attributes.inventory_exception_resolution_message.anyOf[1] (Value): string. The
+     * merchant note supplied when resolving the inventory exception. It is not shown to the buyer.
+     * previous_attributes.inventory_exception_resolution_message.anyOf[2] (Value): null.
+     * previous_attributes.inventory_exception_status (Optional): string or null. Whether an
+     * inventory problem after payment needs attention. Value enum: "paid_inventory_failed",
+     * "resolved". previous_attributes.inventory_exception_status.anyOf[1] (Value): string. Whether
+     * an inventory problem after payment needs attention. Value enum: "paid_inventory_failed",
+     * "resolved". previous_attributes.inventory_exception_status.anyOf[2] (Value): null.
+     * previous_attributes.inventory_reservation_id (Optional): string or null. The reservation
+     * holding stock for this order, when one exists.
+     * previous_attributes.inventory_reservation_id.anyOf[1] (Value): string. The reservation
+     * holding stock for this order, when one exists. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     * previous_attributes.inventory_reservation_id.anyOf[2] (Value): null.
+     * previous_attributes.inventory_routing_source (Optional): {@link
+     * InventoryRoutingSourcePreviousAttributes} or null. Where this order's tracked demand is
+     * routed. Required before an order containing tracked variants can hold stock.
+     * previous_attributes.inventory_routing_source.anyOf[1] (Value): {@link
+     * InventoryRoutingSourcePreviousAttributes}.
+     * previous_attributes.inventory_routing_source.anyOf[2] (Value): null.
+     * previous_attributes.invoice_id (Optional): string or null. The invoice associated with this
+     * order. Null when the order has no invoice. A replacement invoice replaces this ID; voiding
+     * an invoice preserves it. previous_attributes.invoice_id.anyOf[1] (Value): string. The
+     * invoice associated with this order. Null when the order has no invoice. A replacement
+     * invoice replaces this ID; voiding an invoice preserves it. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
+     * previous_attributes.line_items (Optional): Array of {@link OrderLineItemPreviousAttributes}
+     * or null. Items the order sells, each with its pricing, tax, and fulfillment quantities.
+     * previous_attributes.line_items.anyOf[1] (Value): Array of {@link
+     * OrderLineItemPreviousAttributes}. Items the order sells, each with its pricing, tax, and
+     * fulfillment quantities. previous_attributes.line_items.anyOf[1][] (Value): {@link
+     * OrderLineItemPreviousAttributes}. previous_attributes.line_items.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order_id (Optional): string or null. Unique identifier for this order,
+     * prefixed `ord_`. previous_attributes.order_id.anyOf[1] (Value): string. Unique identifier
+     * for this order, prefixed `ord_`. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * previous_attributes.order_id.anyOf[2] (Value): null. previous_attributes.order_number
+     * (Optional): string or null. Human-readable order number for receipts and merchant reference.
+     * previous_attributes.order_number.anyOf[1] (Value): string. Human-readable order number for
+     * receipts and merchant reference. previous_attributes.order_number.anyOf[2] (Value): null.
+     * previous_attributes.origin (Optional): string or null. How the order was created. invoice
+     * means a Quick Pay invoice created the order; attaching an invoice to an existing order
+     * preserves its origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
+     * "subscription", "invoice". previous_attributes.origin.anyOf[1] (Value): string. How the
+     * order was created. invoice means a Quick Pay invoice created the order; attaching an invoice
+     * to an existing order preserves its origin. Value enum: "virtual_terminal", "payment_link",
+     * "checkout", "api", "subscription", "invoice". previous_attributes.origin.anyOf[2] (Value):
+     * null. previous_attributes.paid_at (Optional): string or null. When `payment_status` became
+     * `paid`, including a final capture that releases the remaining balance. Set once and never
+     * changed, including after refunds. `null` when `payment_status` isn't `paid`, including an
+     * order whose balance was written off without being paid. previous_attributes.paid_at.anyOf[1]
+     * (Value): string. When `payment_status` became `paid`, including a final capture that
+     * releases the remaining balance. Set once and never changed, including after refunds. `null`
+     * when `payment_status` isn't `paid`, including an order whose balance was written off without
+     * being paid. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.paid_at.anyOf[2] (Value): null. previous_attributes.payment_intent_ids
+     * (Optional): Array of string or null. IDs of the payment intents created to collect this
+     * order. previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the
+     * payment intents created to collect this order.
+     * previous_attributes.payment_intent_ids.anyOf[1][] (Value): string. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_ids.anyOf[2] (Value):
+     * null. previous_attributes.payment_intents (Optional): Array of {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Payment intents included when
+     * `expand` names `payment_intents`. previous_attributes.payment_intents.anyOf[1] (Value):
+     * Array of {@link ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents included
+     * when `expand` names `payment_intents`. previous_attributes.payment_intents.anyOf[1][]
+     * (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}.
+     * previous_attributes.payment_intents.anyOf[2] (Value): null.
+     * previous_attributes.payment_link_id (Optional): string or null. Payment link whose checkout
+     * created this order. Absent for orders that did not come from a payment link. Filter GET
+     * /v1/orders by payment_link_id to list a link's orders.
+     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link whose checkout
+     * created this order. Absent for orders that did not come from a payment link. Filter GET
+     * /v1/orders by payment_link_id to list a link's orders. Example:
+     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_status (Optional): string or null. Collection progress. An
+     * invoice write-off also completes collection without receiving the written-off amount. Value
+     * enum: "unpaid", "partially_paid", "paid". previous_attributes.payment_status.anyOf[1]
+     * (Value): string. Collection progress. An invoice write-off also completes collection without
+     * receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
+     * previous_attributes.payment_status.anyOf[2] (Value): null.
+     * previous_attributes.pending_order_edit_id (Optional): string or null. The order edit waiting
+     * for its balance payment. While it is set, the units that edit removes can't join a
+     * fulfillment and the order refuses another edit. `null` when there is none. Omitted for buyer
+     * credentials. Always present with merchant credentials.
+     * previous_attributes.pending_order_edit_id.anyOf[1] (Value): string. The order edit waiting
+     * for its balance payment. While it is set, the units that edit removes can't join a
+     * fulfillment and the order refuses another edit. `null` when there is none. Omitted for buyer
+     * credentials. Always present with merchant credentials. Example:
+     * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". previous_attributes.pending_order_edit_id.anyOf[2]
+     * (Value): null. previous_attributes.prepayment_order_id (Optional): string or null. Order
+     * that paid for this prepaid delivery. Null when this is not a prepaid delivery order.
+     * previous_attributes.prepayment_order_id.anyOf[1] (Value): string. Order that paid for this
+     * prepaid delivery. Null when this is not a prepaid delivery order. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.prepayment_order_id.anyOf[2] (Value):
+     * null. previous_attributes.pricing_amounts (Optional): {@link
+     * PricingAmountsPreviousAttributes} or null. The order's money totals: subtotal, discounts,
+     * charges, tax, requested tip, and total. previous_attributes.pricing_amounts.anyOf[1]
+     * (Value): {@link PricingAmountsPreviousAttributes}.
+     * previous_attributes.pricing_amounts.anyOf[2] (Value): null. previous_attributes.refund_ids
+     * (Optional): Array of string or null. IDs of the refunds that name this order. This includes
+     * refunds Flint makes to return a payment it couldn't accept (`reason` `payment_returned`),
+     * which never count toward `refund_status` or the order's refunded amounts.
+     * previous_attributes.refund_ids.anyOf[1] (Value): Array of string. IDs of the refunds that
+     * name this order. This includes refunds Flint makes to return a payment it couldn't accept
+     * (`reason` `payment_returned`), which never count toward `refund_status` or the order's
+     * refunded amounts. previous_attributes.refund_ids.anyOf[1][] (Value): string. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_ids.anyOf[2] (Value): null.
+     * previous_attributes.refund_status (Optional): string or null. Refund progress for collected
+     * money. Refunds with `reason` `payment_returned` return money the order never received and
+     * don't count. Value enum: "none", "partially_refunded", "refunded".
+     * previous_attributes.refund_status.anyOf[1] (Value): string. Refund progress for collected
+     * money. Refunds with `reason` `payment_returned` return money the order never received and
+     * don't count. Value enum: "none", "partially_refunded", "refunded".
+     * previous_attributes.refund_status.anyOf[2] (Value): null.
+     * previous_attributes.return_credit_settlements (Optional): Array of {@link
+     * OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to this order from
+     * items the buyer returned, such as an exchange's replacement order. Included in
+     * settlement_amounts.paid_money. previous_attributes.return_credit_settlements.anyOf[1]
+     * (Value): Array of {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to
+     * this order from items the buyer returned, such as an exchange's replacement order. Included
+     * in settlement_amounts.paid_money. previous_attributes.return_credit_settlements.anyOf[1][]
+     * (Value): {@link OrderReturnCreditSettlementPreviousAttributes}.
+     * previous_attributes.return_credit_settlements.anyOf[2] (Value): null.
+     * previous_attributes.return_resolution_id (Optional): string or null. ID of the return
+     * resolution that created this order as a replacement. Omitted for orders a return did not
+     * create. previous_attributes.return_resolution_id.anyOf[1] (Value): string. ID of the return
+     * resolution that created this order as a replacement. Omitted for orders a return did not
+     * create. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     * previous_attributes.return_resolution_id.anyOf[2] (Value): null.
+     * previous_attributes.settlement_amounts (Optional): {@link
+     * OrderSettlementAmountsPreviousAttributes} or null. How much of the order has been paid,
+     * refunded, credited, written off, and settled as tips, and what is still outstanding.
+     * previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
+     * OrderSettlementAmountsPreviousAttributes}. previous_attributes.settlement_amounts.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Whether the order
+     * still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and
+     * metadata or note edits continue on a closed order. Value enum: "open", "closed".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether the order still accepts changes
+     * and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits
+     * continue on a closed order. Value enum: "open", "closed".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription
+     * (Optional): {@link ExpandedSubscriptionSummaryPreviousAttributes} or null. Subscription
+     * summary included when `expand` names `subscription`; `null` when expanded and this order
+     * does not bill a subscription. Present only when `expand` includes `subscription`; `null`
+     * when expanded and there is no related subscription.
+     * previous_attributes.subscription.anyOf[1] (Value): {@link
+     * ExpandedSubscriptionSummaryPreviousAttributes}. previous_attributes.subscription.anyOf[2]
+     * (Value): null. previous_attributes.subscription_cycle (Optional): integer or null. Charged
+     * subscription cycle associated with this order. Signup is cycle 1; unpaid retries and skipped
+     * renewals do not advance the cycle. previous_attributes.subscription_cycle.anyOf[1] (Value):
+     * integer. Charged subscription cycle associated with this order. Signup is cycle 1; unpaid
+     * retries and skipped renewals do not advance the cycle. Format: uint64. minimum: 0.
+     * previous_attributes.subscription_cycle.anyOf[2] (Value): null.
+     * previous_attributes.subscription_delivery_changed_at (Optional): string or null. Time the
+     * subscriber changed delivery after this paid renewal was prepared. The order keeps its
+     * committed destination until you correct it or refund and replace it.
+     * previous_attributes.subscription_delivery_changed_at.anyOf[1] (Value): string. Time the
+     * subscriber changed delivery after this paid renewal was prepared. The order keeps its
+     * committed destination until you correct it or refund and replace it. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.subscription_delivery_changed_at.anyOf[2] (Value): null.
+     * previous_attributes.subscription_delivery_number (Optional): integer or null. Position of
+     * this delivery among the deliveries one charge paid for, starting at 2. Null when this is not
+     * a prepaid delivery order. previous_attributes.subscription_delivery_number.anyOf[1] (Value):
+     * integer. Position of this delivery among the deliveries one charge paid for, starting at 2.
+     * Null when this is not a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
+     * previous_attributes.subscription_delivery_number.anyOf[2] (Value): null.
+     * previous_attributes.subscription_id (Optional): string or null. ID of the subscription this
+     * order bills. Absent on an order that isn't from a subscription.
+     * previous_attributes.subscription_id.anyOf[1] (Value): string. ID of the subscription this
+     * order bills. Absent on an order that isn't from a subscription. Example:
+     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". previous_attributes.subscription_id.anyOf[2] (Value):
+     * null. previous_attributes.subscription_plan (Optional): {@link
+     * ExpandedSubscriptionPlanSummaryPreviousAttributes} or null. Plan summary included when
+     * `expand` names `subscription_plan`; `null` when expanded and this order does not bill a
+     * subscription plan. Present only when `expand` includes `subscription_plan`; `null` when
+     * expanded and there is no related subscription plan.
+     * previous_attributes.subscription_plan.anyOf[1] (Value): {@link
+     * ExpandedSubscriptionPlanSummaryPreviousAttributes}.
+     * previous_attributes.subscription_plan.anyOf[2] (Value): null.
+     * previous_attributes.subscription_plan_id (Optional): string or null. ID of the subscription
+     * plan this order bills. Absent on an order that isn't from a subscription.
+     * previous_attributes.subscription_plan_id.anyOf[1] (Value): string. ID of the subscription
+     * plan this order bills. Absent on an order that isn't from a subscription. Example:
+     * "plan_01KEZF7C004CY5ZR33XST2AASV". previous_attributes.subscription_plan_id.anyOf[2]
+     * (Value): null. previous_attributes.supported_actions (Optional): Array of string or null.
+     * Lifecycle actions Flint accepts now, independent of permissions. Includes close when closure
+     * is allowed, and pay while open without an active attempt and with an outstanding balance or
+     * payment-method setup available. Always present with merchant credentials. [] enum: "close",
+     * "pay", "resolve_inventory_exception". previous_attributes.supported_actions.anyOf[1]
+     * (Value): Array of string. Lifecycle actions Flint accepts now, independent of permissions.
+     * Includes close when closure is allowed, and pay while open without an active attempt and
+     * with an outstanding balance or payment-method setup available. Always present with merchant
+     * credentials. [] enum: "close", "pay", "resolve_inventory_exception".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "close",
+     * "pay", "resolve_inventory_exception". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.tax (Optional): {@link OrderTaxPreviousAttributes} or
+     * null. The order's tax state: whether tax is enabled, its status, location, exemption, and
+     * per-jurisdiction rows. previous_attributes.tax.anyOf[1] (Value): {@link
+     * OrderTaxPreviousAttributes}. previous_attributes.tax.anyOf[2] (Value): null.
+     * previous_attributes.ticketed_event (Optional): {@link TicketedEventPreviousAttributes} or
+     * null. Event and tickets this order sold through an event payment link. Absent on other
+     * orders. previous_attributes.ticketed_event.anyOf[1] (Value): {@link
+     * TicketedEventPreviousAttributes}. previous_attributes.ticketed_event.anyOf[2] (Value): null.
+     * previous_attributes.tips (Optional): Array of {@link TipPreviousAttributes} or null. Tips on
+     * the order, each with its requested, settled, and refunded amounts. A tip cleared before
+     * payment stays listed as canceled. previous_attributes.tips.anyOf[1] (Value): Array of {@link
+     * TipPreviousAttributes}. Tips on the order, each with its requested, settled, and refunded
+     * amounts. A tip cleared before payment stays listed as canceled.
+     * previous_attributes.tips.anyOf[1][] (Value): {@link TipPreviousAttributes}.
+     * previous_attributes.tips.anyOf[2] (Value): null. previous_attributes.updated_at (Optional):
+     * string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Order version for optimistic concurrency. Send this value as
+     * the expected version when changing the order. Increases with every change to the order.
+     * Ignore an order webhook snapshot whose version is lower than one you have already applied.
+     * previous_attributes.version.anyOf[1] (Value): integer. Order version for optimistic
+     * concurrency. Send this value as the expected version when changing the order. Increases with
+     * every change to the order. Ignore an order webhook snapshot whose version is lower than one
+     * you have already applied. Format: int64. previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `buyer_actions`,
+         * `active_payment_attempt`, `payment_collection`, `setup_collection`.
+         */
+        "object": WebhookOrder;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. active_payment_review_id (Optional): string or
+         * null. The earliest open or resolving payment review on this order's counted payments.
+         * `null` when no review is open or resolving. List reviews with GET
+         * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present
+         * with merchant credentials. active_payment_review_id.anyOf[1] (Value): string. The
+         * earliest open or resolving payment review on this order's counted payments. `null` when
+         * no review is open or resolving. List reviews with GET
+         * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present
+         * with merchant credentials. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+         * active_payment_review_id.anyOf[2] (Value): null. authorization_amounts (Optional):
+         * {@link OrderAuthorizationAmountsPreviousAttributes} or null. The amounts authorized and
+         * still capturable on the order's payments. authorization_amounts.anyOf[1] (Value): {@link
+         * OrderAuthorizationAmountsPreviousAttributes}. authorization_amounts.anyOf[2] (Value):
+         * null. buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes} or null.
+         * Email and phone saved when payment started, from the pay request's buyer_contact or the
+         * paying checkout session's saved contact. It does not change the linked customer.
+         * buyer_contact.anyOf[1] (Value): {@link CheckoutBuyerContactPreviousAttributes}.
+         * buyer_contact.anyOf[2] (Value): null. buyer_note (Optional): string or null. A note to
+         * the buyer. buyer_note.anyOf[1] (Value): string. A note to the buyer. buyer_note.anyOf[2]
+         * (Value): null. charges (Optional): Array of {@link OrderChargePreviousAttributes} or
+         * null. Charges added to the order, such as delivery or service fees, each with its
+         * applied amount, tax, and refunded amount. charges.anyOf[1] (Value): Array of {@link
+         * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
+         * fees, each with its applied amount, tax, and refunded amount. charges.anyOf[1][]
+         * (Value): {@link OrderChargePreviousAttributes}. charges.anyOf[2] (Value): null.
+         * checkout_session_ids (Optional): Array of string or null. IDs of the checkout sessions
+         * opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string. IDs of
+         * the checkout sessions opened for this order. checkout_session_ids.anyOf[1][] (Value):
+         * string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2] (Value):
+         * null. client_reference (Optional): string or null. The reference the payment link URL or
+         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
+         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
+         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
+         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
+         * reference the payment link URL or resolve request carried, such as your user ID. `null`
+         * when none was sent or checkout did not start from a payment link. Returned only to
+         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
+         * treat it as a claim, not proof of identity. Always present with merchant credentials.
+         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null. closed_at
+         * (Optional): string or null. When the order closed. Present exactly when status is
+         * closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
+         * string. When the order closed. Present exactly when status is closed. Set once at the
+         * transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * closed_at.anyOf[2] (Value): null. closed_reason (Optional): string or null. Why the
+         * order closed. Present exactly when status is closed. Set once at closure. Unrecognized
+         * reasons are returned as other; new values may be added. Value enum: "invoice_voided",
+         * "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+         * "return_resolution_canceled", "other". closed_reason.anyOf[1] (Value): string. Why the
+         * order closed. Present exactly when status is closed. Set once at closure. Unrecognized
+         * reasons are returned as other; new values may be added. Value enum: "invoice_voided",
+         * "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+         * "return_resolution_canceled", "other". closed_reason.anyOf[2] (Value): null.
+         * closed_reason_message (Optional): string or null. The caller note supplied when closing
+         * the order. System closures leave it absent. It is not shown to the buyer.
+         * closed_reason_message.anyOf[1] (Value): string. The caller note supplied when closing
+         * the order. System closures leave it absent. It is not shown to the buyer.
+         * closed_reason_message.anyOf[2] (Value): null. created_at (Optional): string or null.
+         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * custom_field_answers (Optional): Array of {@link CustomFieldAnswerPreviousAttributes} or
+         * null. The buyer's answers to the payment link's custom fields, recorded when checkout
+         * started, in the order the link showed the fields. Each answer keeps the field's key,
+         * label, and type from that moment, so later changes to the link don't change it. Optional
+         * fields the buyer left blank are left out. Read-only. Empty when the order didn't come
+         * from a payment link, the link had no custom fields, or the buyer answered none. Orders
+         * created before Flint recorded answers here also return an empty list and keep their
+         * answers in `metadata` as `custom_field_<key>`. Deleting the customer removes the
+         * answers. Returned only to merchant credentials; omitted for buyer credentials. Always
+         * present with merchant credentials. custom_field_answers.anyOf[1] (Value): Array of
+         * {@link CustomFieldAnswerPreviousAttributes}. The buyer's answers to the payment link's
+         * custom fields, recorded when checkout started, in the order the link showed the fields.
+         * Each answer keeps the field's key, label, and type from that moment, so later changes to
+         * the link don't change it. Optional fields the buyer left blank are left out. Read-only.
+         * Empty when the order didn't come from a payment link, the link had no custom fields, or
+         * the buyer answered none. Orders created before Flint recorded answers here also return
+         * an empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting the
+         * customer removes the answers. Returned only to merchant credentials; omitted for buyer
+         * credentials. Always present with merchant credentials. maxItems: 20.
+         * custom_field_answers.anyOf[1][] (Value): {@link CustomFieldAnswerPreviousAttributes}.
+         * custom_field_answers.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Customer summary included when
+         * `expand` names `customer`; `null` when expanded and no customer is linked. Present only
+         * when `expand` includes `customer`; `null` when expanded and there is no related
+         * customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. ID of the
+         * customer this order belongs to. customer_id.anyOf[1] (Value): string. ID of the customer
+         * this order belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2]
+         * (Value): null. deferred_promotions (Optional): Array of {@link
+         * DeferredPromotionPreviousAttributes} or null. Promotions accepted at subscription
+         * signup. They attach when the subscription is provisioned and first discount its first
+         * charged cycle. They do not discount this order and are separate from discounts and order
+         * totals. Always present; empty when no promotions are deferred.
+         * deferred_promotions.anyOf[1] (Value): Array of {@link
+         * DeferredPromotionPreviousAttributes}. Promotions accepted at subscription signup. They
+         * attach when the subscription is provisioned and first discount its first charged cycle.
+         * They do not discount this order and are separate from discounts and order totals. Always
+         * present; empty when no promotions are deferred. deferred_promotions.anyOf[1][] (Value):
+         * {@link DeferredPromotionPreviousAttributes}. deferred_promotions.anyOf[2] (Value): null.
+         * delivery (Optional): {@link OrderDeliverySummaryPreviousAttributes} or null. Method,
+         * type and recipient of governing_delivery_selection_id. The address remains in
+         * delivery_destination. Omitted when no shipment or local-delivery selection governs the
+         * order. delivery.anyOf[1] (Value): {@link OrderDeliverySummaryPreviousAttributes}.
+         * delivery.anyOf[2] (Value): null. delivery_destination (Optional): {@link
+         * OrderDeliveryDestinationPreviousAttributes} or null. The shipment or local-delivery
+         * destination committed for this order. Payment freezes this value; fulfillment recipient
+         * changes do not replace it. Omitted for a checkout session credential that doesn't act
+         * for the customer the buyer verified. delivery_destination.anyOf[1] (Value): {@link
+         * OrderDeliveryDestinationPreviousAttributes}. delivery_destination.anyOf[2] (Value):
+         * null. discounts (Optional): Array of {@link OrderDiscountPreviousAttributes} or null.
+         * Discounts applied to the order, each with its amount, status, and the line items and
+         * charges it covers. discounts.anyOf[1] (Value): Array of {@link
+         * OrderDiscountPreviousAttributes}. Discounts applied to the order, each with its amount,
+         * status, and the line items and charges it covers. discounts.anyOf[1][] (Value): {@link
+         * OrderDiscountPreviousAttributes}. discounts.anyOf[2] (Value): null. dispute_status
+         * (Optional): string or null. Aggregate dispute state across the order's counted payment
+         * intents, excluding payment_returned. Always returned to merchant credentials and omitted
+         * from buyer reads. Open states take precedence in this order: needs_response,
+         * under_review, inquiry_needs_response, inquiry_under_review, other. Otherwise the most
+         * severe closed state wins: lost, won, prevented, inquiry_closed; none when no disputes
+         * count. List individual cases with GET /v1/disputes?order_id={order_id}. Always present
+         * with merchant credentials. Value enum: "none", "inquiry_needs_response",
+         * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won",
+         * "lost", "prevented", "other". dispute_status.anyOf[1] (Value): string. Aggregate dispute
+         * state across the order's counted payment intents, excluding payment_returned. Always
+         * returned to merchant credentials and omitted from buyer reads. Open states take
+         * precedence in this order: needs_response, under_review, inquiry_needs_response,
+         * inquiry_under_review, other. Otherwise the most severe closed state wins: lost, won,
+         * prevented, inquiry_closed; none when no disputes count. List individual cases with GET
+         * /v1/disputes?order_id={order_id}. Always present with merchant credentials. Value enum:
+         * "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+         * "needs_response", "under_review", "won", "lost", "prevented", "other".
+         * dispute_status.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
+         * Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. fulfillment_status (Optional): string or
+         * null. Aggregate progress across the order's fulfillment quantities. Value enum:
+         * "not_fulfilled", "partially_fulfilled", "fulfilled", "canceled", "not_applicable",
+         * "closed". fulfillment_status.anyOf[1] (Value): string. Aggregate progress across the
+         * order's fulfillment quantities. Value enum: "not_fulfilled", "partially_fulfilled",
+         * "fulfilled", "canceled", "not_applicable", "closed". fulfillment_status.anyOf[2]
+         * (Value): null. fulfillments (Optional): Array of {@link FulfillmentPreviousAttributes}
+         * or null. Fulfillments created for the order, each covering a set of its line items.
+         * fulfillments.anyOf[1] (Value): Array of {@link FulfillmentPreviousAttributes}.
+         * Fulfillments created for the order, each covering a set of its line items.
+         * fulfillments.anyOf[1][] (Value): {@link FulfillmentPreviousAttributes}.
+         * fulfillments.anyOf[2] (Value): null. gift_card_estimate (Optional): {@link
+         * OrderGiftCardEstimatePreviousAttributes} or null. An estimate of how the order balance
+         * splits between gift cards and the payment processor. gift_card_estimate.anyOf[1]
+         * (Value): {@link OrderGiftCardEstimatePreviousAttributes}. gift_card_estimate.anyOf[2]
+         * (Value): null. gift_card_settlements (Optional): Array of {@link
+         * OrderGiftCardSettlementPreviousAttributes} or null. The gift card redemptions applied to
+         * the order's payments. gift_card_settlements.anyOf[1] (Value): Array of {@link
+         * OrderGiftCardSettlementPreviousAttributes}. The gift card redemptions applied to the
+         * order's payments. gift_card_settlements.anyOf[1][] (Value): {@link
+         * OrderGiftCardSettlementPreviousAttributes}. gift_card_settlements.anyOf[2] (Value):
+         * null. gift_card_tender_enabled (Optional): boolean or null. Whether gift cards can pay
+         * for this order now. Gift cards pay only USD orders that still accept changes, are not
+         * subscription purchases, and whose merchant has at least one gift card that is not closed
+         * in this environment. Gift cards cannot fund gift card purchases; this is false when
+         * those purchases leave no amount eligible for gift card tender. Recomputed on each read;
+         * a spent but open card still counts. gift_card_tender_enabled.anyOf[1] (Value): boolean.
+         * Whether gift cards can pay for this order now. Gift cards pay only USD orders that still
+         * accept changes, are not subscription purchases, and whose merchant has at least one gift
+         * card that is not closed in this environment. Gift cards cannot fund gift card purchases;
+         * this is false when those purchases leave no amount eligible for gift card tender.
+         * Recomputed on each read; a spent but open card still counts.
+         * gift_card_tender_enabled.anyOf[2] (Value): null. gift_cards (Optional): Array of {@link
+         * OrderGiftCardSelectionPreviousAttributes} or null. Gift cards available to pay the
+         * order, with each card's available balance. gift_cards.anyOf[1] (Value): Array of {@link
+         * OrderGiftCardSelectionPreviousAttributes}. Gift cards available to pay the order, with
+         * each card's available balance. gift_cards.anyOf[1][] (Value): {@link
+         * OrderGiftCardSelectionPreviousAttributes}. gift_cards.anyOf[2] (Value): null.
+         * governing_delivery_selection_id (Optional): string or null. ID of the delivery selection
+         * that governs this order, including pickup choices without a delivery destination: the
+         * checkout's provisional selection before payment, and the selection a payment committed
+         * after. Read it with GET /v1/delivery-selections/{delivery_selection_id}. Null when no
+         * selection governs the order. While set, change the destination through the delivery
+         * selection. governing_delivery_selection_id.anyOf[1] (Value): string. ID of the delivery
+         * selection that governs this order, including pickup choices without a delivery
+         * destination: the checkout's provisional selection before payment, and the selection a
+         * payment committed after. Read it with GET
+         * /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs the
+         * order. While set, change the destination through the delivery selection. Example:
+         * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". governing_delivery_selection_id.anyOf[2] (Value):
+         * null. handover (Optional): {@link OrderHandoverPreviousAttributes} or null. Carry-out
+         * handover: every physical item is handed to the buyer at this location when the order is
+         * paid, in place of a delivery selection. Payment then creates one completed `handover`
+         * fulfillment. Absent without a handover. handover.anyOf[1] (Value): {@link
+         * OrderHandoverPreviousAttributes}. handover.anyOf[2] (Value): null. internal_note
+         * (Optional): string or null. A note for your team. Buyer reads leave it out.
+         * internal_note.anyOf[1] (Value): string. A note for your team. Buyer reads leave it out.
+         * internal_note.anyOf[2] (Value): null. inventory_exception_reason (Optional): string or
+         * null. Why inventory could not be committed after payment. The cause remains after
+         * resolution. Omitted when no reason was recorded. Unrecognized reasons are returned as
+         * other; new values may be added. Value enum: "inventory_deduction_failed",
+         * "inventory_handoff_failed", "auto_refund_required", "auto_refund_failed",
+         * "policy_resolution_failed", "other". inventory_exception_reason.anyOf[1] (Value):
+         * string. Why inventory could not be committed after payment. The cause remains after
+         * resolution. Omitted when no reason was recorded. Unrecognized reasons are returned as
+         * other; new values may be added. Value enum: "inventory_deduction_failed",
+         * "inventory_handoff_failed", "auto_refund_required", "auto_refund_failed",
+         * "policy_resolution_failed", "other". inventory_exception_reason.anyOf[2] (Value): null.
+         * inventory_exception_resolution_message (Optional): string or null. The merchant note
+         * supplied when resolving the inventory exception. It is not shown to the buyer.
+         * inventory_exception_resolution_message.anyOf[1] (Value): string. The merchant note
+         * supplied when resolving the inventory exception. It is not shown to the buyer.
+         * inventory_exception_resolution_message.anyOf[2] (Value): null.
+         * inventory_exception_status (Optional): string or null. Whether an inventory problem
+         * after payment needs attention. Value enum: "paid_inventory_failed", "resolved".
+         * inventory_exception_status.anyOf[1] (Value): string. Whether an inventory problem after
+         * payment needs attention. Value enum: "paid_inventory_failed", "resolved".
+         * inventory_exception_status.anyOf[2] (Value): null. inventory_reservation_id (Optional):
+         * string or null. The reservation holding stock for this order, when one exists.
+         * inventory_reservation_id.anyOf[1] (Value): string. The reservation holding stock for
+         * this order, when one exists. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+         * inventory_reservation_id.anyOf[2] (Value): null. inventory_routing_source (Optional):
+         * {@link InventoryRoutingSourcePreviousAttributes} or null. Where this order's tracked
+         * demand is routed. Required before an order containing tracked variants can hold stock.
+         * inventory_routing_source.anyOf[1] (Value): {@link
+         * InventoryRoutingSourcePreviousAttributes}. inventory_routing_source.anyOf[2] (Value):
+         * null. invoice_id (Optional): string or null. The invoice associated with this order.
+         * Null when the order has no invoice. A replacement invoice replaces this ID; voiding an
+         * invoice preserves it. invoice_id.anyOf[1] (Value): string. The invoice associated with
+         * this order. Null when the order has no invoice. A replacement invoice replaces this ID;
+         * voiding an invoice preserves it. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+         * invoice_id.anyOf[2] (Value): null. line_items (Optional): Array of {@link
+         * OrderLineItemPreviousAttributes} or null. Items the order sells, each with its pricing,
+         * tax, and fulfillment quantities. line_items.anyOf[1] (Value): Array of {@link
+         * OrderLineItemPreviousAttributes}. Items the order sells, each with its pricing, tax, and
+         * fulfillment quantities. line_items.anyOf[1][] (Value): {@link
+         * OrderLineItemPreviousAttributes}. line_items.anyOf[2] (Value): null. merchant_id
+         * (Optional): string or null. ID of the merchant this resource belongs to.
+         * merchant_id.anyOf[1] (Value): string. ID of the merchant this resource belongs to.
+         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
+         * MetadataMap}. metadata.anyOf[2] (Value): null. order_id (Optional): string or null.
+         * Unique identifier for this order, prefixed `ord_`. order_id.anyOf[1] (Value): string.
+         * Unique identifier for this order, prefixed `ord_`. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. order_number
+         * (Optional): string or null. Human-readable order number for receipts and merchant
+         * reference. order_number.anyOf[1] (Value): string. Human-readable order number for
+         * receipts and merchant reference. order_number.anyOf[2] (Value): null. origin (Optional):
+         * string or null. How the order was created. invoice means a Quick Pay invoice created the
+         * order; attaching an invoice to an existing order preserves its origin. Value enum:
+         * "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
+         * origin.anyOf[1] (Value): string. How the order was created. invoice means a Quick Pay
+         * invoice created the order; attaching an invoice to an existing order preserves its
+         * origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
+         * "subscription", "invoice". origin.anyOf[2] (Value): null. paid_at (Optional): string or
+         * null. When `payment_status` became `paid`, including a final capture that releases the
+         * remaining balance. Set once and never changed, including after refunds. `null` when
+         * `payment_status` isn't `paid`, including an order whose balance was written off without
+         * being paid. paid_at.anyOf[1] (Value): string. When `payment_status` became `paid`,
+         * including a final capture that releases the remaining balance. Set once and never
+         * changed, including after refunds. `null` when `payment_status` isn't `paid`, including
+         * an order whose balance was written off without being paid. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". paid_at.anyOf[2] (Value): null. payment_intent_ids (Optional):
+         * Array of string or null. IDs of the payment intents created to collect this order.
+         * payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment intents created
+         * to collect this order. payment_intent_ids.anyOf[1][] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_ids.anyOf[2] (Value): null.
+         * payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Payment intents included when
+         * `expand` names `payment_intents`. payment_intents.anyOf[1] (Value): Array of {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents included when `expand`
+         * names `payment_intents`. payment_intents.anyOf[1][] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intents.anyOf[2] (Value): null.
+         * payment_link_id (Optional): string or null. Payment link whose checkout created this
+         * order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+         * payment_link_id to list a link's orders. payment_link_id.anyOf[1] (Value): string.
+         * Payment link whose checkout created this order. Absent for orders that did not come from
+         * a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders.
+         * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
+         * payment_status (Optional): string or null. Collection progress. An invoice write-off
+         * also completes collection without receiving the written-off amount. Value enum:
+         * "unpaid", "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection
+         * progress. An invoice write-off also completes collection without receiving the
+         * written-off amount. Value enum: "unpaid", "partially_paid", "paid".
+         * payment_status.anyOf[2] (Value): null. pending_order_edit_id (Optional): string or null.
+         * The order edit waiting for its balance payment. While it is set, the units that edit
+         * removes can't join a fulfillment and the order refuses another edit. `null` when there
+         * is none. Omitted for buyer credentials. Always present with merchant credentials.
+         * pending_order_edit_id.anyOf[1] (Value): string. The order edit waiting for its balance
+         * payment. While it is set, the units that edit removes can't join a fulfillment and the
+         * order refuses another edit. `null` when there is none. Omitted for buyer credentials.
+         * Always present with merchant credentials. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+         * pending_order_edit_id.anyOf[2] (Value): null. prepayment_order_id (Optional): string or
+         * null. Order that paid for this prepaid delivery. Null when this is not a prepaid
+         * delivery order. prepayment_order_id.anyOf[1] (Value): string. Order that paid for this
+         * prepaid delivery. Null when this is not a prepaid delivery order. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". prepayment_order_id.anyOf[2] (Value): null.
+         * pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or null. The
+         * order's money totals: subtotal, discounts, charges, tax, requested tip, and total.
+         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
+         * pricing_amounts.anyOf[2] (Value): null. refund_ids (Optional): Array of string or null.
+         * IDs of the refunds that name this order. This includes refunds Flint makes to return a
+         * payment it couldn't accept (`reason` `payment_returned`), which never count toward
+         * `refund_status` or the order's refunded amounts. refund_ids.anyOf[1] (Value): Array of
+         * string. IDs of the refunds that name this order. This includes refunds Flint makes to
+         * return a payment it couldn't accept (`reason` `payment_returned`), which never count
+         * toward `refund_status` or the order's refunded amounts. refund_ids.anyOf[1][] (Value):
+         * string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null.
+         * refund_status (Optional): string or null. Refund progress for collected money. Refunds
+         * with `reason` `payment_returned` return money the order never received and don't count.
+         * Value enum: "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value):
+         * string. Refund progress for collected money. Refunds with `reason` `payment_returned`
+         * return money the order never received and don't count. Value enum: "none",
+         * "partially_refunded", "refunded". refund_status.anyOf[2] (Value): null.
+         * return_credit_settlements (Optional): Array of {@link
+         * OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to this order from
+         * items the buyer returned, such as an exchange's replacement order. Included in
+         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value): Array of
+         * {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this order from
+         * items the buyer returned, such as an exchange's replacement order. Included in
+         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
+         * OrderReturnCreditSettlementPreviousAttributes}. return_credit_settlements.anyOf[2]
+         * (Value): null. return_resolution_id (Optional): string or null. ID of the return
+         * resolution that created this order as a replacement. Omitted for orders a return did not
+         * create. return_resolution_id.anyOf[1] (Value): string. ID of the return resolution that
+         * created this order as a replacement. Omitted for orders a return did not create.
+         * Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_id.anyOf[2] (Value):
+         * null. settlement_amounts (Optional): {@link OrderSettlementAmountsPreviousAttributes} or
+         * null. How much of the order has been paid, refunded, credited, written off, and settled
+         * as tips, and what is still outstanding. settlement_amounts.anyOf[1] (Value): {@link
+         * OrderSettlementAmountsPreviousAttributes}. settlement_amounts.anyOf[2] (Value): null.
+         * status (Optional): string or null. Whether the order still accepts changes and new
+         * payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue
+         * on a closed order. Value enum: "open", "closed". status.anyOf[1] (Value): string.
+         * Whether the order still accepts changes and new payments. Refunds, fulfillment,
+         * disputes, returns, and metadata or note edits continue on a closed order. Value enum:
+         * "open", "closed". status.anyOf[2] (Value): null. subscription (Optional): {@link
+         * ExpandedSubscriptionSummaryPreviousAttributes} or null. Subscription summary included
+         * when `expand` names `subscription`; `null` when expanded and this order does not bill a
+         * subscription. Present only when `expand` includes `subscription`; `null` when expanded
+         * and there is no related subscription. subscription.anyOf[1] (Value): {@link
+         * ExpandedSubscriptionSummaryPreviousAttributes}. subscription.anyOf[2] (Value): null.
+         * subscription_cycle (Optional): integer or null. Charged subscription cycle associated
+         * with this order. Signup is cycle 1; unpaid retries and skipped renewals do not advance
+         * the cycle. subscription_cycle.anyOf[1] (Value): integer. Charged subscription cycle
+         * associated with this order. Signup is cycle 1; unpaid retries and skipped renewals do
+         * not advance the cycle. Format: uint64. minimum: 0. subscription_cycle.anyOf[2] (Value):
+         * null. subscription_delivery_changed_at (Optional): string or null. Time the subscriber
+         * changed delivery after this paid renewal was prepared. The order keeps its committed
+         * destination until you correct it or refund and replace it.
+         * subscription_delivery_changed_at.anyOf[1] (Value): string. Time the subscriber changed
+         * delivery after this paid renewal was prepared. The order keeps its committed destination
+         * until you correct it or refund and replace it. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". subscription_delivery_changed_at.anyOf[2] (Value): null.
+         * subscription_delivery_number (Optional): integer or null. Position of this delivery
+         * among the deliveries one charge paid for, starting at 2. Null when this is not a prepaid
+         * delivery order. subscription_delivery_number.anyOf[1] (Value): integer. Position of this
+         * delivery among the deliveries one charge paid for, starting at 2. Null when this is not
+         * a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
+         * subscription_delivery_number.anyOf[2] (Value): null. subscription_id (Optional): string
+         * or null. ID of the subscription this order bills. Absent on an order that isn't from a
+         * subscription. subscription_id.anyOf[1] (Value): string. ID of the subscription this
+         * order bills. Absent on an order that isn't from a subscription. Example:
+         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
+         * subscription_plan (Optional): {@link ExpandedSubscriptionPlanSummaryPreviousAttributes}
+         * or null. Plan summary included when `expand` names `subscription_plan`; `null` when
+         * expanded and this order does not bill a subscription plan. Present only when `expand`
+         * includes `subscription_plan`; `null` when expanded and there is no related subscription
+         * plan. subscription_plan.anyOf[1] (Value): {@link
+         * ExpandedSubscriptionPlanSummaryPreviousAttributes}. subscription_plan.anyOf[2] (Value):
+         * null. subscription_plan_id (Optional): string or null. ID of the subscription plan this
+         * order bills. Absent on an order that isn't from a subscription.
+         * subscription_plan_id.anyOf[1] (Value): string. ID of the subscription plan this order
+         * bills. Absent on an order that isn't from a subscription. Example:
+         * "plan_01KEZF7C004CY5ZR33XST2AASV". subscription_plan_id.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
+         * now, independent of permissions. Includes close when closure is allowed, and pay while
+         * open without an active attempt and with an outstanding balance or payment-method setup
+         * available. Always present with merchant credentials. [] enum: "close", "pay",
+         * "resolve_inventory_exception". supported_actions.anyOf[1] (Value): Array of string.
+         * Lifecycle actions Flint accepts now, independent of permissions. Includes close when
+         * closure is allowed, and pay while open without an active attempt and with an outstanding
+         * balance or payment-method setup available. Always present with merchant credentials. []
+         * enum: "close", "pay", "resolve_inventory_exception". supported_actions.anyOf[1][]
+         * (Value): string. Value enum: "close", "pay", "resolve_inventory_exception".
+         * supported_actions.anyOf[2] (Value): null. tax (Optional): {@link
+         * OrderTaxPreviousAttributes} or null. The order's tax state: whether tax is enabled, its
+         * status, location, exemption, and per-jurisdiction rows. tax.anyOf[1] (Value): {@link
+         * OrderTaxPreviousAttributes}. tax.anyOf[2] (Value): null. ticketed_event (Optional):
+         * {@link TicketedEventPreviousAttributes} or null. Event and tickets this order sold
+         * through an event payment link. Absent on other orders. ticketed_event.anyOf[1] (Value):
+         * {@link TicketedEventPreviousAttributes}. ticketed_event.anyOf[2] (Value): null. tips
+         * (Optional): Array of {@link TipPreviousAttributes} or null. Tips on the order, each with
+         * its requested, settled, and refunded amounts. A tip cleared before payment stays listed
+         * as canceled. tips.anyOf[1] (Value): Array of {@link TipPreviousAttributes}. Tips on the
+         * order, each with its requested, settled, and refunded amounts. A tip cleared before
+         * payment stays listed as canceled. tips.anyOf[1][] (Value): {@link
+         * TipPreviousAttributes}. tips.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Order version for optimistic concurrency. Send this value
+         * as the expected version when changing the order. Increases with every change to the
+         * order. Ignore an order webhook snapshot whose version is lower than one you have already
+         * applied. version.anyOf[1] (Value): integer. Order version for optimistic concurrency.
+         * Send this value as the expected version when changing the order. Increases with every
+         * change to the order. Ignore an order webhook snapshot whose version is lower than one
+         * you have already applied. Format: int64. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * The earliest open or resolving payment review on this order's counted payments.
+             * `null` when no review is open or resolving. List reviews with GET
+             * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always
+             * present with merchant credentials. anyOf[1] (Value): string. The earliest open or
+             * resolving payment review on this order's counted payments. `null` when no review is
+             * open or resolving. List reviews with GET /v1/payment-reviews?order_id=&status=open.
+             * Omitted for buyer credentials. Always present with merchant credentials. Example:
+             * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". anyOf[2] (Value): null.
+             */
+            "active_payment_review_id"?: ((string) | (null));
+            /**
+             * The amounts authorized and still capturable on the order's payments. anyOf[1]
+             * (Value): {@link OrderAuthorizationAmountsPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "authorization_amounts"?: ((OrderAuthorizationAmountsPreviousAttributes) | (null));
+            /**
+             * Email and phone saved when payment started, from the pay request's buyer_contact or
+             * the paying checkout session's saved contact. It does not change the linked customer.
+             * anyOf[1] (Value): {@link CheckoutBuyerContactPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
+            /**
+             * A note to the buyer. anyOf[1] (Value): string. A note to the buyer. anyOf[2]
+             * (Value): null.
+             */
+            "buyer_note"?: ((string) | (null));
+            /**
+             * Charges added to the order, such as delivery or service fees, each with its applied
+             * amount, tax, and refunded amount. anyOf[1] (Value): Array of {@link
+             * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or
+             * service fees, each with its applied amount, tax, and refunded amount. anyOf[1][]
+             * (Value): {@link OrderChargePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            /**
+             * IDs of the checkout sessions opened for this order. anyOf[1] (Value): Array of
+             * string. IDs of the checkout sessions opened for this order. anyOf[1][] (Value):
+             * string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". anyOf[2] (Value): null.
+             */
+            "checkout_session_ids"?: ((Array<string>) | (null));
+            /**
+             * The reference the payment link URL or resolve request carried, such as your user ID.
+             * `null` when none was sent or checkout did not start from a payment link. Returned
+             * only to merchant credentials; omitted for buyer credentials. Set by the buyer's
+             * browser, so treat it as a claim, not proof of identity. Always present with merchant
+             * credentials. anyOf[1] (Value): string. The reference the payment link URL or resolve
+             * request carried, such as your user ID. `null` when none was sent or checkout did not
+             * start from a payment link. Returned only to merchant credentials; omitted for buyer
+             * credentials. Set by the buyer's browser, so treat it as a claim, not proof of
+             * identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
+             * anyOf[2] (Value): null.
+             */
+            "client_reference"?: ((string) | (null));
+            /**
+             * When the order closed. Present exactly when status is closed. Set once at the
+             * transition and never changed. anyOf[1] (Value): string. When the order closed.
+             * Present exactly when status is closed. Set once at the transition and never changed.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * Why the order closed. Present exactly when status is closed. Set once at closure.
+             * Unrecognized reasons are returned as other; new values may be added. Value enum:
+             * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
+             * "superseded", "return_resolution_canceled", "other". anyOf[1] (Value): string. Why
+             * the order closed. Present exactly when status is closed. Set once at closure.
+             * Unrecognized reasons are returned as other; new values may be added. Value enum:
+             * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
+             * "superseded", "return_resolution_canceled", "other". anyOf[2] (Value): null.
+             */
+            "closed_reason"?: (("invoice_voided"
+                | "paid"
+                | "closed_by_merchant"
+                | "checkout_expired"
+                | "written_off"
+                | "superseded"
+                | "return_resolution_canceled"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * The caller note supplied when closing the order. System closures leave it absent. It
+             * is not shown to the buyer. anyOf[1] (Value): string. The caller note supplied when
+             * closing the order. System closures leave it absent. It is not shown to the buyer.
+             * anyOf[2] (Value): null.
+             */
+            "closed_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The buyer's answers to the payment link's custom fields, recorded when checkout
+             * started, in the order the link showed the fields. Each answer keeps the field's key,
+             * label, and type from that moment, so later changes to the link don't change it.
+             * Optional fields the buyer left blank are left out. Read-only. Empty when the order
+             * didn't come from a payment link, the link had no custom fields, or the buyer
+             * answered none. Orders created before Flint recorded answers here also return an
+             * empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting
+             * the customer removes the answers. Returned only to merchant credentials; omitted for
+             * buyer credentials. Always present with merchant credentials. anyOf[1] (Value): Array
+             * of {@link CustomFieldAnswerPreviousAttributes}. The buyer's answers to the payment
+             * link's custom fields, recorded when checkout started, in the order the link showed
+             * the fields. Each answer keeps the field's key, label, and type from that moment, so
+             * later changes to the link don't change it. Optional fields the buyer left blank are
+             * left out. Read-only. Empty when the order didn't come from a payment link, the link
+             * had no custom fields, or the buyer answered none. Orders created before Flint
+             * recorded answers here also return an empty list and keep their answers in `metadata`
+             * as `custom_field_<key>`. Deleting the customer removes the answers. Returned only to
+             * merchant credentials; omitted for buyer credentials. Always present with merchant
+             * credentials. maxItems: 20. anyOf[1][] (Value): {@link
+             * CustomFieldAnswerPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "custom_field_answers"?: ((Array<CustomFieldAnswerPreviousAttributes>) | (null));
+            /**
+             * Customer summary included when `expand` names `customer`; `null` when expanded and
+             * no customer is linked. Present only when `expand` includes `customer`; `null` when
+             * expanded and there is no related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the customer this order belongs to. anyOf[1] (Value): string. ID of the
+             * customer this order belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * Promotions accepted at subscription signup. They attach when the subscription is
+             * provisioned and first discount its first charged cycle. They do not discount this
+             * order and are separate from discounts and order totals. Always present; empty when
+             * no promotions are deferred. anyOf[1] (Value): Array of {@link
+             * DeferredPromotionPreviousAttributes}. Promotions accepted at subscription signup.
+             * They attach when the subscription is provisioned and first discount its first
+             * charged cycle. They do not discount this order and are separate from discounts and
+             * order totals. Always present; empty when no promotions are deferred. anyOf[1][]
+             * (Value): {@link DeferredPromotionPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "deferred_promotions"?: ((Array<DeferredPromotionPreviousAttributes>) | (null));
+            /**
+             * Method, type and recipient of governing_delivery_selection_id. The address remains
+             * in delivery_destination. Omitted when no shipment or local-delivery selection
+             * governs the order. anyOf[1] (Value): {@link OrderDeliverySummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "delivery"?: ((OrderDeliverySummaryPreviousAttributes) | (null));
+            /**
+             * The shipment or local-delivery destination committed for this order. Payment freezes
+             * this value; fulfillment recipient changes do not replace it. Omitted for a checkout
+             * session credential that doesn't act for the customer the buyer verified. anyOf[1]
+             * (Value): {@link OrderDeliveryDestinationPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "delivery_destination"?: ((OrderDeliveryDestinationPreviousAttributes) | (null));
+            /**
+             * Discounts applied to the order, each with its amount, status, and the line items and
+             * charges it covers. anyOf[1] (Value): Array of {@link
+             * OrderDiscountPreviousAttributes}. Discounts applied to the order, each with its
+             * amount, status, and the line items and charges it covers. anyOf[1][] (Value): {@link
+             * OrderDiscountPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "discounts"?: ((Array<OrderDiscountPreviousAttributes>) | (null));
+            /**
+             * Aggregate dispute state across the order's counted payment intents, excluding
+             * payment_returned. Always returned to merchant credentials and omitted from buyer
+             * reads. Open states take precedence in this order: needs_response, under_review,
+             * inquiry_needs_response, inquiry_under_review, other. Otherwise the most severe
+             * closed state wins: lost, won, prevented, inquiry_closed; none when no disputes
+             * count. List individual cases with GET /v1/disputes?order_id={order_id}. Always
+             * present with merchant credentials. Value enum: "none", "inquiry_needs_response",
+             * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won",
+             * "lost", "prevented", "other". anyOf[1] (Value): string. Aggregate dispute state
+             * across the order's counted payment intents, excluding payment_returned. Always
+             * returned to merchant credentials and omitted from buyer reads. Open states take
+             * precedence in this order: needs_response, under_review, inquiry_needs_response,
+             * inquiry_under_review, other. Otherwise the most severe closed state wins: lost, won,
+             * prevented, inquiry_closed; none when no disputes count. List individual cases with
+             * GET /v1/disputes?order_id={order_id}. Always present with merchant credentials.
+             * Value enum: "none", "inquiry_needs_response", "inquiry_under_review",
+             * "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented",
+             * "other". anyOf[2] (Value): null.
+             */
+            "dispute_status"?: (("none"
+                | "inquiry_needs_response"
+                | "inquiry_under_review"
+                | "inquiry_closed"
+                | "needs_response"
+                | "under_review"
+                | "won"
+                | "lost"
+                | "prevented"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Aggregate progress across the order's fulfillment quantities. Value enum:
+             * "not_fulfilled", "partially_fulfilled", "fulfilled", "canceled", "not_applicable",
+             * "closed". anyOf[1] (Value): string. Aggregate progress across the order's
+             * fulfillment quantities. Value enum: "not_fulfilled", "partially_fulfilled",
+             * "fulfilled", "canceled", "not_applicable", "closed". anyOf[2] (Value): null.
+             */
+            "fulfillment_status"?: (("not_fulfilled"
+                | "partially_fulfilled"
+                | "fulfilled"
+                | "canceled"
+                | "not_applicable"
+                | "closed"
+                | (string & {}))
+                | (null));
+            /**
+             * Fulfillments created for the order, each covering a set of its line items. anyOf[1]
+             * (Value): Array of {@link FulfillmentPreviousAttributes}. Fulfillments created for
+             * the order, each covering a set of its line items. anyOf[1][] (Value): {@link
+             * FulfillmentPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "fulfillments"?: ((Array<FulfillmentPreviousAttributes>) | (null));
+            /**
+             * An estimate of how the order balance splits between gift cards and the payment
+             * processor. anyOf[1] (Value): {@link OrderGiftCardEstimatePreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "gift_card_estimate"?: ((OrderGiftCardEstimatePreviousAttributes) | (null));
+            /**
+             * The gift card redemptions applied to the order's payments. anyOf[1] (Value): Array
+             * of {@link OrderGiftCardSettlementPreviousAttributes}. The gift card redemptions
+             * applied to the order's payments. anyOf[1][] (Value): {@link
+             * OrderGiftCardSettlementPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "gift_card_settlements"?: ((Array<OrderGiftCardSettlementPreviousAttributes>) | (null));
+            /**
+             * Whether gift cards can pay for this order now. Gift cards pay only USD orders that
+             * still accept changes, are not subscription purchases, and whose merchant has at
+             * least one gift card that is not closed in this environment. Gift cards cannot fund
+             * gift card purchases; this is false when those purchases leave no amount eligible for
+             * gift card tender. Recomputed on each read; a spent but open card still counts.
+             * anyOf[1] (Value): boolean. Whether gift cards can pay for this order now. Gift cards
+             * pay only USD orders that still accept changes, are not subscription purchases, and
+             * whose merchant has at least one gift card that is not closed in this environment.
+             * Gift cards cannot fund gift card purchases; this is false when those purchases leave
+             * no amount eligible for gift card tender. Recomputed on each read; a spent but open
+             * card still counts. anyOf[2] (Value): null.
+             */
+            "gift_card_tender_enabled"?: ((boolean) | (null));
+            /**
+             * Gift cards available to pay the order, with each card's available balance. anyOf[1]
+             * (Value): Array of {@link OrderGiftCardSelectionPreviousAttributes}. Gift cards
+             * available to pay the order, with each card's available balance. anyOf[1][] (Value):
+             * {@link OrderGiftCardSelectionPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "gift_cards"?: ((Array<OrderGiftCardSelectionPreviousAttributes>) | (null));
+            /**
+             * ID of the delivery selection that governs this order, including pickup choices
+             * without a delivery destination: the checkout's provisional selection before payment,
+             * and the selection a payment committed after. Read it with GET
+             * /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs the
+             * order. While set, change the destination through the delivery selection. anyOf[1]
+             * (Value): string. ID of the delivery selection that governs this order, including
+             * pickup choices without a delivery destination: the checkout's provisional selection
+             * before payment, and the selection a payment committed after. Read it with GET
+             * /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs the
+             * order. While set, change the destination through the delivery selection. Example:
+             * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2] (Value): null.
+             */
+            "governing_delivery_selection_id"?: ((string) | (null));
+            /**
+             * Carry-out handover: every physical item is handed to the buyer at this location when
+             * the order is paid, in place of a delivery selection. Payment then creates one
+             * completed `handover` fulfillment. Absent without a handover. anyOf[1] (Value):
+             * {@link OrderHandoverPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "handover"?: ((OrderHandoverPreviousAttributes) | (null));
+            /**
+             * A note for your team. Buyer reads leave it out. anyOf[1] (Value): string. A note for
+             * your team. Buyer reads leave it out. anyOf[2] (Value): null.
+             */
+            "internal_note"?: ((string) | (null));
+            /**
+             * Why inventory could not be committed after payment. The cause remains after
+             * resolution. Omitted when no reason was recorded. Unrecognized reasons are returned
+             * as other; new values may be added. Value enum: "inventory_deduction_failed",
+             * "inventory_handoff_failed", "auto_refund_required", "auto_refund_failed",
+             * "policy_resolution_failed", "other". anyOf[1] (Value): string. Why inventory could
+             * not be committed after payment. The cause remains after resolution. Omitted when no
+             * reason was recorded. Unrecognized reasons are returned as other; new values may be
+             * added. Value enum: "inventory_deduction_failed", "inventory_handoff_failed",
+             * "auto_refund_required", "auto_refund_failed", "policy_resolution_failed", "other".
+             * anyOf[2] (Value): null.
+             */
+            "inventory_exception_reason"?: (("inventory_deduction_failed"
+                | "inventory_handoff_failed"
+                | "auto_refund_required"
+                | "auto_refund_failed"
+                | "policy_resolution_failed"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * The merchant note supplied when resolving the inventory exception. It is not shown
+             * to the buyer. anyOf[1] (Value): string. The merchant note supplied when resolving
+             * the inventory exception. It is not shown to the buyer. anyOf[2] (Value): null.
+             */
+            "inventory_exception_resolution_message"?: ((string) | (null));
+            /**
+             * Whether an inventory problem after payment needs attention. Value enum:
+             * "paid_inventory_failed", "resolved". anyOf[1] (Value): string. Whether an inventory
+             * problem after payment needs attention. Value enum: "paid_inventory_failed",
+             * "resolved". anyOf[2] (Value): null.
+             */
+            "inventory_exception_status"?: (("paid_inventory_failed" | "resolved" | (string & {})) | (null));
+            /**
+             * The reservation holding stock for this order, when one exists. anyOf[1] (Value):
+             * string. The reservation holding stock for this order, when one exists. Example:
+             * "invr_01KEZF7C0041ENRR0C2NF3AP12". anyOf[2] (Value): null.
+             */
+            "inventory_reservation_id"?: ((string) | (null));
+            /**
+             * Where this order's tracked demand is routed. Required before an order containing
+             * tracked variants can hold stock. anyOf[1] (Value): {@link
+             * InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
+            /**
+             * The invoice associated with this order. Null when the order has no invoice. A
+             * replacement invoice replaces this ID; voiding an invoice preserves it. anyOf[1]
+             * (Value): string. The invoice associated with this order. Null when the order has no
+             * invoice. A replacement invoice replaces this ID; voiding an invoice preserves it.
+             * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * Items the order sells, each with its pricing, tax, and fulfillment quantities.
+             * anyOf[1] (Value): Array of {@link OrderLineItemPreviousAttributes}. Items the order
+             * sells, each with its pricing, tax, and fulfillment quantities. anyOf[1][] (Value):
+             * {@link OrderLineItemPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<OrderLineItemPreviousAttributes>) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Unique identifier for this order, prefixed `ord_`. anyOf[1] (Value): string. Unique
+             * identifier for this order, prefixed `ord_`. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Human-readable order number for receipts and merchant reference. anyOf[1] (Value):
+             * string. Human-readable order number for receipts and merchant reference. anyOf[2]
+             * (Value): null.
+             */
+            "order_number"?: ((string) | (null));
+            /**
+             * How the order was created. invoice means a Quick Pay invoice created the order;
+             * attaching an invoice to an existing order preserves its origin. Value enum:
+             * "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
+             * anyOf[1] (Value): string. How the order was created. invoice means a Quick Pay
+             * invoice created the order; attaching an invoice to an existing order preserves its
+             * origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
+             * "subscription", "invoice". anyOf[2] (Value): null.
+             */
+            "origin"?: (("virtual_terminal"
+                | "payment_link"
+                | "checkout"
+                | "api"
+                | "subscription"
+                | "invoice"
+                | (string & {}))
+                | (null));
+            /**
+             * When `payment_status` became `paid`, including a final capture that releases the
+             * remaining balance. Set once and never changed, including after refunds. `null` when
+             * `payment_status` isn't `paid`, including an order whose balance was written off
+             * without being paid. anyOf[1] (Value): string. When `payment_status` became `paid`,
+             * including a final capture that releases the remaining balance. Set once and never
+             * changed, including after refunds. `null` when `payment_status` isn't `paid`,
+             * including an order whose balance was written off without being paid. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "paid_at"?: ((string) | (null));
+            /**
+             * IDs of the payment intents created to collect this order. anyOf[1] (Value): Array of
+             * string. IDs of the payment intents created to collect this order. anyOf[1][]
+             * (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+             */
+            "payment_intent_ids"?: ((Array<string>) | (null));
+            /**
+             * Payment intents included when `expand` names `payment_intents`. anyOf[1] (Value):
+             * Array of {@link ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents
+             * included when `expand` names `payment_intents`. anyOf[1][] (Value): {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
+            /**
+             * Payment link whose checkout created this order. Absent for orders that did not come
+             * from a payment link. Filter GET /v1/orders by payment_link_id to list a link's
+             * orders. anyOf[1] (Value): string. Payment link whose checkout created this order.
+             * Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+             * payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+             * anyOf[2] (Value): null.
+             */
+            "payment_link_id"?: ((string) | (null));
+            /**
+             * Collection progress. An invoice write-off also completes collection without
+             * receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
+             * anyOf[1] (Value): string. Collection progress. An invoice write-off also completes
+             * collection without receiving the written-off amount. Value enum: "unpaid",
+             * "partially_paid", "paid". anyOf[2] (Value): null.
+             */
+            "payment_status"?: (("unpaid" | "partially_paid" | "paid" | (string & {})) | (null));
+            /**
+             * The order edit waiting for its balance payment. While it is set, the units that edit
+             * removes can't join a fulfillment and the order refuses another edit. `null` when
+             * there is none. Omitted for buyer credentials. Always present with merchant
+             * credentials. anyOf[1] (Value): string. The order edit waiting for its balance
+             * payment. While it is set, the units that edit removes can't join a fulfillment and
+             * the order refuses another edit. `null` when there is none. Omitted for buyer
+             * credentials. Always present with merchant credentials. Example:
+             * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". anyOf[2] (Value): null.
+             */
+            "pending_order_edit_id"?: ((string) | (null));
+            /**
+             * Order that paid for this prepaid delivery. Null when this is not a prepaid delivery
+             * order. anyOf[1] (Value): string. Order that paid for this prepaid delivery. Null
+             * when this is not a prepaid delivery order. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "prepayment_order_id"?: ((string) | (null));
+            /**
+             * The order's money totals: subtotal, discounts, charges, tax, requested tip, and
+             * total. anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
+            /**
+             * IDs of the refunds that name this order. This includes refunds Flint makes to return
+             * a payment it couldn't accept (`reason` `payment_returned`), which never count toward
+             * `refund_status` or the order's refunded amounts. anyOf[1] (Value): Array of string.
+             * IDs of the refunds that name this order. This includes refunds Flint makes to return
+             * a payment it couldn't accept (`reason` `payment_returned`), which never count toward
+             * `refund_status` or the order's refunded amounts. anyOf[1][] (Value): string.
+             * Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+             */
+            "refund_ids"?: ((Array<string>) | (null));
+            /**
+             * Refund progress for collected money. Refunds with `reason` `payment_returned` return
+             * money the order never received and don't count. Value enum: "none",
+             * "partially_refunded", "refunded". anyOf[1] (Value): string. Refund progress for
+             * collected money. Refunds with `reason` `payment_returned` return money the order
+             * never received and don't count. Value enum: "none", "partially_refunded",
+             * "refunded". anyOf[2] (Value): null.
+             */
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            /**
+             * Value applied to this order from items the buyer returned, such as an exchange's
+             * replacement order. Included in settlement_amounts.paid_money. anyOf[1] (Value):
+             * Array of {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to
+             * this order from items the buyer returned, such as an exchange's replacement order.
+             * Included in settlement_amounts.paid_money. anyOf[1][] (Value): {@link
+             * OrderReturnCreditSettlementPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "return_credit_settlements"?: ((Array<OrderReturnCreditSettlementPreviousAttributes>) | (null));
+            /**
+             * ID of the return resolution that created this order as a replacement. Omitted for
+             * orders a return did not create. anyOf[1] (Value): string. ID of the return
+             * resolution that created this order as a replacement. Omitted for orders a return did
+             * not create. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2] (Value): null.
+             */
+            "return_resolution_id"?: ((string) | (null));
+            /**
+             * How much of the order has been paid, refunded, credited, written off, and settled as
+             * tips, and what is still outstanding. anyOf[1] (Value): {@link
+             * OrderSettlementAmountsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "settlement_amounts"?: ((OrderSettlementAmountsPreviousAttributes) | (null));
+            /**
+             * Whether the order still accepts changes and new payments. Refunds, fulfillment,
+             * disputes, returns, and metadata or note edits continue on a closed order. Value
+             * enum: "open", "closed". anyOf[1] (Value): string. Whether the order still accepts
+             * changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or
+             * note edits continue on a closed order. Value enum: "open", "closed". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("open" | "closed" | (string & {})) | (null));
+            /**
+             * Subscription summary included when `expand` names `subscription`; `null` when
+             * expanded and this order does not bill a subscription. Present only when `expand`
+             * includes `subscription`; `null` when expanded and there is no related subscription.
+             * anyOf[1] (Value): {@link ExpandedSubscriptionSummaryPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "subscription"?: ((ExpandedSubscriptionSummaryPreviousAttributes) | (null));
+            /**
+             * Charged subscription cycle associated with this order. Signup is cycle 1; unpaid
+             * retries and skipped renewals do not advance the cycle. anyOf[1] (Value): integer.
+             * Charged subscription cycle associated with this order. Signup is cycle 1; unpaid
+             * retries and skipped renewals do not advance the cycle. Format: uint64. minimum: 0.
+             * anyOf[2] (Value): null.
+             */
+            "subscription_cycle"?: ((number) | (null));
+            /**
+             * Time the subscriber changed delivery after this paid renewal was prepared. The order
+             * keeps its committed destination until you correct it or refund and replace it.
+             * anyOf[1] (Value): string. Time the subscriber changed delivery after this paid
+             * renewal was prepared. The order keeps its committed destination until you correct it
+             * or refund and replace it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "subscription_delivery_changed_at"?: ((string) | (null));
+            /**
+             * Position of this delivery among the deliveries one charge paid for, starting at 2.
+             * Null when this is not a prepaid delivery order. anyOf[1] (Value): integer. Position
+             * of this delivery among the deliveries one charge paid for, starting at 2. Null when
+             * this is not a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
+             * anyOf[2] (Value): null.
+             */
+            "subscription_delivery_number"?: ((number) | (null));
+            /**
+             * ID of the subscription this order bills. Absent on an order that isn't from a
+             * subscription. anyOf[1] (Value): string. ID of the subscription this order bills.
+             * Absent on an order that isn't from a subscription. Example:
+             * "sub_01KEZF7C00BVRE8YDBXQB74BBM". anyOf[2] (Value): null.
+             */
+            "subscription_id"?: ((string) | (null));
+            /**
+             * Plan summary included when `expand` names `subscription_plan`; `null` when expanded
+             * and this order does not bill a subscription plan. Present only when `expand`
+             * includes `subscription_plan`; `null` when expanded and there is no related
+             * subscription plan. anyOf[1] (Value): {@link
+             * ExpandedSubscriptionPlanSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the subscription plan this order bills. Absent on an order that isn't from a
+             * subscription. anyOf[1] (Value): string. ID of the subscription plan this order
+             * bills. Absent on an order that isn't from a subscription. Example:
+             * "plan_01KEZF7C004CY5ZR33XST2AASV". anyOf[2] (Value): null.
+             */
+            "subscription_plan_id"?: ((string) | (null));
+            /**
+             * Lifecycle actions Flint accepts now, independent of permissions. Includes close when
+             * closure is allowed, and pay while open without an active attempt and with an
+             * outstanding balance or payment-method setup available. Always present with merchant
+             * credentials. [] enum: "close", "pay", "resolve_inventory_exception". anyOf[1]
+             * (Value): Array of string. Lifecycle actions Flint accepts now, independent of
+             * permissions. Includes close when closure is allowed, and pay while open without an
+             * active attempt and with an outstanding balance or payment-method setup available.
+             * Always present with merchant credentials. [] enum: "close", "pay",
+             * "resolve_inventory_exception". anyOf[1][] (Value): string. Value enum: "close",
+             * "pay", "resolve_inventory_exception". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"close" | "pay" | "resolve_inventory_exception" | (string & {})>) | (null));
+            /**
+             * The order's tax state: whether tax is enabled, its status, location, exemption, and
+             * per-jurisdiction rows. anyOf[1] (Value): {@link OrderTaxPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "tax"?: ((OrderTaxPreviousAttributes) | (null));
+            /**
+             * Event and tickets this order sold through an event payment link. Absent on other
+             * orders. anyOf[1] (Value): {@link TicketedEventPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "ticketed_event"?: ((TicketedEventPreviousAttributes) | (null));
+            /**
+             * Tips on the order, each with its requested, settled, and refunded amounts. A tip
+             * cleared before payment stays listed as canceled. anyOf[1] (Value): Array of {@link
+             * TipPreviousAttributes}. Tips on the order, each with its requested, settled, and
+             * refunded amounts. A tip cleared before payment stays listed as canceled. anyOf[1][]
+             * (Value): {@link TipPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "tips"?: ((Array<TipPreviousAttributes>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Order version for optimistic concurrency. Send this value as the expected version
+             * when changing the order. Increases with every change to the order. Ignore an order
+             * webhook snapshot whose version is lower than one you have already applied. anyOf[1]
+             * (Value): integer. Order version for optimistic concurrency. Send this value as the
+             * expected version when changing the order. Increases with every change to the order.
+             * Ignore an order webhook snapshot whose version is lower than one you have already
+             * applied. Format: int64. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "order.closed". */
+    "event_type"?: "order.closed";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `order.closed` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type OrderClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookOrder}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `buyer_actions`, `active_payment_attempt`, `payment_collection`,
+     * `setup_collection`. previous_attributes (Optional): object. Previous values of changed
+     * top-level fields in data.object, at this delivery's API version. Nested changes include the
+     * whole previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.active_payment_review_id (Optional): string or null. The earliest open
+     * or resolving payment review on this order's counted payments. `null` when no review is open
+     * or resolving. List reviews with GET /v1/payment-reviews?order_id=&status=open. Omitted for
+     * buyer credentials. Always present with merchant credentials.
+     * previous_attributes.active_payment_review_id.anyOf[1] (Value): string. The earliest open or
+     * resolving payment review on this order's counted payments. `null` when no review is open or
+     * resolving. List reviews with GET /v1/payment-reviews?order_id=&status=open. Omitted for
+     * buyer credentials. Always present with merchant credentials. Example:
+     * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". previous_attributes.active_payment_review_id.anyOf[2]
+     * (Value): null. previous_attributes.authorization_amounts (Optional): {@link
+     * OrderAuthorizationAmountsPreviousAttributes} or null. The amounts authorized and still
+     * capturable on the order's payments. previous_attributes.authorization_amounts.anyOf[1]
+     * (Value): {@link OrderAuthorizationAmountsPreviousAttributes}.
+     * previous_attributes.authorization_amounts.anyOf[2] (Value): null.
+     * previous_attributes.buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes}
+     * or null. Email and phone saved when payment started, from the pay request's buyer_contact or
+     * the paying checkout session's saved contact. It does not change the linked customer.
+     * previous_attributes.buyer_contact.anyOf[1] (Value): {@link
+     * CheckoutBuyerContactPreviousAttributes}. previous_attributes.buyer_contact.anyOf[2] (Value):
+     * null. previous_attributes.buyer_note (Optional): string or null. A note to the buyer.
+     * previous_attributes.buyer_note.anyOf[1] (Value): string. A note to the buyer.
+     * previous_attributes.buyer_note.anyOf[2] (Value): null. previous_attributes.charges
+     * (Optional): Array of {@link OrderChargePreviousAttributes} or null. Charges added to the
+     * order, such as delivery or service fees, each with its applied amount, tax, and refunded
+     * amount. previous_attributes.charges.anyOf[1] (Value): Array of {@link
+     * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
+     * fees, each with its applied amount, tax, and refunded amount.
+     * previous_attributes.charges.anyOf[1][] (Value): {@link OrderChargePreviousAttributes}.
+     * previous_attributes.charges.anyOf[2] (Value): null. previous_attributes.checkout_session_ids
+     * (Optional): Array of string or null. IDs of the checkout sessions opened for this order.
+     * previous_attributes.checkout_session_ids.anyOf[1] (Value): Array of string. IDs of the
+     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1][]
+     * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+     * previous_attributes.checkout_session_ids.anyOf[2] (Value): null.
+     * previous_attributes.client_reference (Optional): string or null. The reference the payment
+     * link URL or resolve request carried, such as your user ID. `null` when none was sent or
+     * checkout did not start from a payment link. Returned only to merchant credentials; omitted
+     * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
+     * identity. Always present with merchant credentials.
+     * previous_attributes.client_reference.anyOf[1] (Value): string. The reference the payment
+     * link URL or resolve request carried, such as your user ID. `null` when none was sent or
+     * checkout did not start from a payment link. Returned only to merchant credentials; omitted
+     * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
+     * identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
+     * previous_attributes.client_reference.anyOf[2] (Value): null. previous_attributes.closed_at
+     * (Optional): string or null. When the order closed. Present exactly when status is closed.
+     * Set once at the transition and never changed. previous_attributes.closed_at.anyOf[1]
+     * (Value): string. When the order closed. Present exactly when status is closed. Set once at
+     * the transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.closed_at.anyOf[2] (Value): null. previous_attributes.closed_reason
+     * (Optional): string or null. Why the order closed. Present exactly when status is closed. Set
+     * once at closure. Unrecognized reasons are returned as other; new values may be added. Value
+     * enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
+     * "superseded", "return_resolution_canceled", "other".
+     * previous_attributes.closed_reason.anyOf[1] (Value): string. Why the order closed. Present
+     * exactly when status is closed. Set once at closure. Unrecognized reasons are returned as
+     * other; new values may be added. Value enum: "invoice_voided", "paid", "closed_by_merchant",
+     * "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
+     * previous_attributes.closed_reason.anyOf[2] (Value): null.
+     * previous_attributes.closed_reason_message (Optional): string or null. The caller note
+     * supplied when closing the order. System closures leave it absent. It is not shown to the
+     * buyer. previous_attributes.closed_reason_message.anyOf[1] (Value): string. The caller note
+     * supplied when closing the order. System closures leave it absent. It is not shown to the
+     * buyer. previous_attributes.closed_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.custom_field_answers (Optional): Array of {@link
+     * CustomFieldAnswerPreviousAttributes} or null. The buyer's answers to the payment link's
+     * custom fields, recorded when checkout started, in the order the link showed the fields. Each
+     * answer keeps the field's key, label, and type from that moment, so later changes to the link
+     * don't change it. Optional fields the buyer left blank are left out. Read-only. Empty when
+     * the order didn't come from a payment link, the link had no custom fields, or the buyer
+     * answered none. Orders created before Flint recorded answers here also return an empty list
+     * and keep their answers in `metadata` as `custom_field_<key>`. Deleting the customer removes
+     * the answers. Returned only to merchant credentials; omitted for buyer credentials. Always
+     * present with merchant credentials. previous_attributes.custom_field_answers.anyOf[1]
+     * (Value): Array of {@link CustomFieldAnswerPreviousAttributes}. The buyer's answers to the
+     * payment link's custom fields, recorded when checkout started, in the order the link showed
+     * the fields. Each answer keeps the field's key, label, and type from that moment, so later
+     * changes to the link don't change it. Optional fields the buyer left blank are left out.
+     * Read-only. Empty when the order didn't come from a payment link, the link had no custom
+     * fields, or the buyer answered none. Orders created before Flint recorded answers here also
+     * return an empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting
+     * the customer removes the answers. Returned only to merchant credentials; omitted for buyer
+     * credentials. Always present with merchant credentials. maxItems: 20.
+     * previous_attributes.custom_field_answers.anyOf[1][] (Value): {@link
+     * CustomFieldAnswerPreviousAttributes}. previous_attributes.custom_field_answers.anyOf[2]
+     * (Value): null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Customer summary included when `expand`
+     * names `customer`; `null` when expanded and no customer is linked. Present only when `expand`
+     * includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. ID of the customer this
+     * order belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. ID of the
+     * customer this order belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null.
+     * previous_attributes.deferred_promotions (Optional): Array of {@link
+     * DeferredPromotionPreviousAttributes} or null. Promotions accepted at subscription signup.
+     * They attach when the subscription is provisioned and first discount its first charged cycle.
+     * They do not discount this order and are separate from discounts and order totals. Always
+     * present; empty when no promotions are deferred.
+     * previous_attributes.deferred_promotions.anyOf[1] (Value): Array of {@link
+     * DeferredPromotionPreviousAttributes}. Promotions accepted at subscription signup. They
+     * attach when the subscription is provisioned and first discount its first charged cycle. They
+     * do not discount this order and are separate from discounts and order totals. Always present;
+     * empty when no promotions are deferred. previous_attributes.deferred_promotions.anyOf[1][]
+     * (Value): {@link DeferredPromotionPreviousAttributes}.
+     * previous_attributes.deferred_promotions.anyOf[2] (Value): null. previous_attributes.delivery
+     * (Optional): {@link OrderDeliverySummaryPreviousAttributes} or null. Method, type and
+     * recipient of governing_delivery_selection_id. The address remains in delivery_destination.
+     * Omitted when no shipment or local-delivery selection governs the order.
+     * previous_attributes.delivery.anyOf[1] (Value): {@link
+     * OrderDeliverySummaryPreviousAttributes}. previous_attributes.delivery.anyOf[2] (Value):
+     * null. previous_attributes.delivery_destination (Optional): {@link
+     * OrderDeliveryDestinationPreviousAttributes} or null. The shipment or local-delivery
+     * destination committed for this order. Payment freezes this value; fulfillment recipient
+     * changes do not replace it. Omitted for a checkout session credential that doesn't act for
+     * the customer the buyer verified. previous_attributes.delivery_destination.anyOf[1] (Value):
+     * {@link OrderDeliveryDestinationPreviousAttributes}.
+     * previous_attributes.delivery_destination.anyOf[2] (Value): null.
+     * previous_attributes.discounts (Optional): Array of {@link OrderDiscountPreviousAttributes}
+     * or null. Discounts applied to the order, each with its amount, status, and the line items
+     * and charges it covers. previous_attributes.discounts.anyOf[1] (Value): Array of {@link
+     * OrderDiscountPreviousAttributes}. Discounts applied to the order, each with its amount,
+     * status, and the line items and charges it covers. previous_attributes.discounts.anyOf[1][]
+     * (Value): {@link OrderDiscountPreviousAttributes}. previous_attributes.discounts.anyOf[2]
+     * (Value): null. previous_attributes.dispute_status (Optional): string or null. Aggregate
+     * dispute state across the order's counted payment intents, excluding payment_returned. Always
+     * returned to merchant credentials and omitted from buyer reads. Open states take precedence
+     * in this order: needs_response, under_review, inquiry_needs_response, inquiry_under_review,
+     * other. Otherwise the most severe closed state wins: lost, won, prevented, inquiry_closed;
+     * none when no disputes count. List individual cases with GET
+     * /v1/disputes?order_id={order_id}. Always present with merchant credentials. Value enum:
+     * "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+     * "needs_response", "under_review", "won", "lost", "prevented", "other".
+     * previous_attributes.dispute_status.anyOf[1] (Value): string. Aggregate dispute state across
+     * the order's counted payment intents, excluding payment_returned. Always returned to merchant
+     * credentials and omitted from buyer reads. Open states take precedence in this order:
+     * needs_response, under_review, inquiry_needs_response, inquiry_under_review, other. Otherwise
+     * the most severe closed state wins: lost, won, prevented, inquiry_closed; none when no
+     * disputes count. List individual cases with GET /v1/disputes?order_id={order_id}. Always
+     * present with merchant credentials. Value enum: "none", "inquiry_needs_response",
+     * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost",
+     * "prevented", "other". previous_attributes.dispute_status.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.fulfillment_status (Optional): string or null. Aggregate progress across
+     * the order's fulfillment quantities. Value enum: "not_fulfilled", "partially_fulfilled",
+     * "fulfilled", "canceled", "not_applicable", "closed".
+     * previous_attributes.fulfillment_status.anyOf[1] (Value): string. Aggregate progress across
+     * the order's fulfillment quantities. Value enum: "not_fulfilled", "partially_fulfilled",
+     * "fulfilled", "canceled", "not_applicable", "closed".
+     * previous_attributes.fulfillment_status.anyOf[2] (Value): null.
+     * previous_attributes.fulfillments (Optional): Array of {@link FulfillmentPreviousAttributes}
+     * or null. Fulfillments created for the order, each covering a set of its line items.
+     * previous_attributes.fulfillments.anyOf[1] (Value): Array of {@link
+     * FulfillmentPreviousAttributes}. Fulfillments created for the order, each covering a set of
+     * its line items. previous_attributes.fulfillments.anyOf[1][] (Value): {@link
+     * FulfillmentPreviousAttributes}. previous_attributes.fulfillments.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_estimate (Optional): {@link
+     * OrderGiftCardEstimatePreviousAttributes} or null. An estimate of how the order balance
+     * splits between gift cards and the payment processor.
+     * previous_attributes.gift_card_estimate.anyOf[1] (Value): {@link
+     * OrderGiftCardEstimatePreviousAttributes}. previous_attributes.gift_card_estimate.anyOf[2]
+     * (Value): null. previous_attributes.gift_card_settlements (Optional): Array of {@link
+     * OrderGiftCardSettlementPreviousAttributes} or null. The gift card redemptions applied to the
+     * order's payments. previous_attributes.gift_card_settlements.anyOf[1] (Value): Array of
+     * {@link OrderGiftCardSettlementPreviousAttributes}. The gift card redemptions applied to the
+     * order's payments. previous_attributes.gift_card_settlements.anyOf[1][] (Value): {@link
+     * OrderGiftCardSettlementPreviousAttributes}.
+     * previous_attributes.gift_card_settlements.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_tender_enabled (Optional): boolean or null. Whether gift cards
+     * can pay for this order now. Gift cards pay only USD orders that still accept changes, are
+     * not subscription purchases, and whose merchant has at least one gift card that is not closed
+     * in this environment. Gift cards cannot fund gift card purchases; this is false when those
+     * purchases leave no amount eligible for gift card tender. Recomputed on each read; a spent
+     * but open card still counts. previous_attributes.gift_card_tender_enabled.anyOf[1] (Value):
+     * boolean. Whether gift cards can pay for this order now. Gift cards pay only USD orders that
+     * still accept changes, are not subscription purchases, and whose merchant has at least one
+     * gift card that is not closed in this environment. Gift cards cannot fund gift card
+     * purchases; this is false when those purchases leave no amount eligible for gift card tender.
+     * Recomputed on each read; a spent but open card still counts.
+     * previous_attributes.gift_card_tender_enabled.anyOf[2] (Value): null.
+     * previous_attributes.gift_cards (Optional): Array of {@link
+     * OrderGiftCardSelectionPreviousAttributes} or null. Gift cards available to pay the order,
+     * with each card's available balance. previous_attributes.gift_cards.anyOf[1] (Value): Array
+     * of {@link OrderGiftCardSelectionPreviousAttributes}. Gift cards available to pay the order,
+     * with each card's available balance. previous_attributes.gift_cards.anyOf[1][] (Value):
+     * {@link OrderGiftCardSelectionPreviousAttributes}. previous_attributes.gift_cards.anyOf[2]
+     * (Value): null. previous_attributes.governing_delivery_selection_id (Optional): string or
+     * null. ID of the delivery selection that governs this order, including pickup choices without
+     * a delivery destination: the checkout's provisional selection before payment, and the
+     * selection a payment committed after. Read it with GET
+     * /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs the order.
+     * While set, change the destination through the delivery selection.
+     * previous_attributes.governing_delivery_selection_id.anyOf[1] (Value): string. ID of the
+     * delivery selection that governs this order, including pickup choices without a delivery
+     * destination: the checkout's provisional selection before payment, and the selection a
+     * payment committed after. Read it with GET /v1/delivery-selections/{delivery_selection_id}.
+     * Null when no selection governs the order. While set, change the destination through the
+     * delivery selection. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     * previous_attributes.governing_delivery_selection_id.anyOf[2] (Value): null.
+     * previous_attributes.handover (Optional): {@link OrderHandoverPreviousAttributes} or null.
+     * Carry-out handover: every physical item is handed to the buyer at this location when the
+     * order is paid, in place of a delivery selection. Payment then creates one completed
+     * `handover` fulfillment. Absent without a handover. previous_attributes.handover.anyOf[1]
+     * (Value): {@link OrderHandoverPreviousAttributes}. previous_attributes.handover.anyOf[2]
+     * (Value): null. previous_attributes.internal_note (Optional): string or null. A note for your
+     * team. Buyer reads leave it out. previous_attributes.internal_note.anyOf[1] (Value): string.
+     * A note for your team. Buyer reads leave it out. previous_attributes.internal_note.anyOf[2]
+     * (Value): null. previous_attributes.inventory_exception_reason (Optional): string or null.
+     * Why inventory could not be committed after payment. The cause remains after resolution.
+     * Omitted when no reason was recorded. Unrecognized reasons are returned as other; new values
+     * may be added. Value enum: "inventory_deduction_failed", "inventory_handoff_failed",
+     * "auto_refund_required", "auto_refund_failed", "policy_resolution_failed", "other".
+     * previous_attributes.inventory_exception_reason.anyOf[1] (Value): string. Why inventory could
+     * not be committed after payment. The cause remains after resolution. Omitted when no reason
+     * was recorded. Unrecognized reasons are returned as other; new values may be added. Value
+     * enum: "inventory_deduction_failed", "inventory_handoff_failed", "auto_refund_required",
+     * "auto_refund_failed", "policy_resolution_failed", "other".
+     * previous_attributes.inventory_exception_reason.anyOf[2] (Value): null.
+     * previous_attributes.inventory_exception_resolution_message (Optional): string or null. The
+     * merchant note supplied when resolving the inventory exception. It is not shown to the buyer.
+     * previous_attributes.inventory_exception_resolution_message.anyOf[1] (Value): string. The
+     * merchant note supplied when resolving the inventory exception. It is not shown to the buyer.
+     * previous_attributes.inventory_exception_resolution_message.anyOf[2] (Value): null.
+     * previous_attributes.inventory_exception_status (Optional): string or null. Whether an
+     * inventory problem after payment needs attention. Value enum: "paid_inventory_failed",
+     * "resolved". previous_attributes.inventory_exception_status.anyOf[1] (Value): string. Whether
+     * an inventory problem after payment needs attention. Value enum: "paid_inventory_failed",
+     * "resolved". previous_attributes.inventory_exception_status.anyOf[2] (Value): null.
+     * previous_attributes.inventory_reservation_id (Optional): string or null. The reservation
+     * holding stock for this order, when one exists.
+     * previous_attributes.inventory_reservation_id.anyOf[1] (Value): string. The reservation
+     * holding stock for this order, when one exists. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     * previous_attributes.inventory_reservation_id.anyOf[2] (Value): null.
+     * previous_attributes.inventory_routing_source (Optional): {@link
+     * InventoryRoutingSourcePreviousAttributes} or null. Where this order's tracked demand is
+     * routed. Required before an order containing tracked variants can hold stock.
+     * previous_attributes.inventory_routing_source.anyOf[1] (Value): {@link
+     * InventoryRoutingSourcePreviousAttributes}.
+     * previous_attributes.inventory_routing_source.anyOf[2] (Value): null.
+     * previous_attributes.invoice_id (Optional): string or null. The invoice associated with this
+     * order. Null when the order has no invoice. A replacement invoice replaces this ID; voiding
+     * an invoice preserves it. previous_attributes.invoice_id.anyOf[1] (Value): string. The
+     * invoice associated with this order. Null when the order has no invoice. A replacement
+     * invoice replaces this ID; voiding an invoice preserves it. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
+     * previous_attributes.line_items (Optional): Array of {@link OrderLineItemPreviousAttributes}
+     * or null. Items the order sells, each with its pricing, tax, and fulfillment quantities.
+     * previous_attributes.line_items.anyOf[1] (Value): Array of {@link
+     * OrderLineItemPreviousAttributes}. Items the order sells, each with its pricing, tax, and
+     * fulfillment quantities. previous_attributes.line_items.anyOf[1][] (Value): {@link
+     * OrderLineItemPreviousAttributes}. previous_attributes.line_items.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order_id (Optional): string or null. Unique identifier for this order,
+     * prefixed `ord_`. previous_attributes.order_id.anyOf[1] (Value): string. Unique identifier
+     * for this order, prefixed `ord_`. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * previous_attributes.order_id.anyOf[2] (Value): null. previous_attributes.order_number
+     * (Optional): string or null. Human-readable order number for receipts and merchant reference.
+     * previous_attributes.order_number.anyOf[1] (Value): string. Human-readable order number for
+     * receipts and merchant reference. previous_attributes.order_number.anyOf[2] (Value): null.
+     * previous_attributes.origin (Optional): string or null. How the order was created. invoice
+     * means a Quick Pay invoice created the order; attaching an invoice to an existing order
+     * preserves its origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
+     * "subscription", "invoice". previous_attributes.origin.anyOf[1] (Value): string. How the
+     * order was created. invoice means a Quick Pay invoice created the order; attaching an invoice
+     * to an existing order preserves its origin. Value enum: "virtual_terminal", "payment_link",
+     * "checkout", "api", "subscription", "invoice". previous_attributes.origin.anyOf[2] (Value):
+     * null. previous_attributes.paid_at (Optional): string or null. When `payment_status` became
+     * `paid`, including a final capture that releases the remaining balance. Set once and never
+     * changed, including after refunds. `null` when `payment_status` isn't `paid`, including an
+     * order whose balance was written off without being paid. previous_attributes.paid_at.anyOf[1]
+     * (Value): string. When `payment_status` became `paid`, including a final capture that
+     * releases the remaining balance. Set once and never changed, including after refunds. `null`
+     * when `payment_status` isn't `paid`, including an order whose balance was written off without
+     * being paid. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.paid_at.anyOf[2] (Value): null. previous_attributes.payment_intent_ids
+     * (Optional): Array of string or null. IDs of the payment intents created to collect this
+     * order. previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the
+     * payment intents created to collect this order.
+     * previous_attributes.payment_intent_ids.anyOf[1][] (Value): string. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_ids.anyOf[2] (Value):
+     * null. previous_attributes.payment_intents (Optional): Array of {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Payment intents included when
+     * `expand` names `payment_intents`. previous_attributes.payment_intents.anyOf[1] (Value):
+     * Array of {@link ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents included
+     * when `expand` names `payment_intents`. previous_attributes.payment_intents.anyOf[1][]
+     * (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}.
+     * previous_attributes.payment_intents.anyOf[2] (Value): null.
+     * previous_attributes.payment_link_id (Optional): string or null. Payment link whose checkout
+     * created this order. Absent for orders that did not come from a payment link. Filter GET
+     * /v1/orders by payment_link_id to list a link's orders.
+     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link whose checkout
+     * created this order. Absent for orders that did not come from a payment link. Filter GET
+     * /v1/orders by payment_link_id to list a link's orders. Example:
+     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_status (Optional): string or null. Collection progress. An
+     * invoice write-off also completes collection without receiving the written-off amount. Value
+     * enum: "unpaid", "partially_paid", "paid". previous_attributes.payment_status.anyOf[1]
+     * (Value): string. Collection progress. An invoice write-off also completes collection without
+     * receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
+     * previous_attributes.payment_status.anyOf[2] (Value): null.
+     * previous_attributes.pending_order_edit_id (Optional): string or null. The order edit waiting
+     * for its balance payment. While it is set, the units that edit removes can't join a
+     * fulfillment and the order refuses another edit. `null` when there is none. Omitted for buyer
+     * credentials. Always present with merchant credentials.
+     * previous_attributes.pending_order_edit_id.anyOf[1] (Value): string. The order edit waiting
+     * for its balance payment. While it is set, the units that edit removes can't join a
+     * fulfillment and the order refuses another edit. `null` when there is none. Omitted for buyer
+     * credentials. Always present with merchant credentials. Example:
+     * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". previous_attributes.pending_order_edit_id.anyOf[2]
+     * (Value): null. previous_attributes.prepayment_order_id (Optional): string or null. Order
+     * that paid for this prepaid delivery. Null when this is not a prepaid delivery order.
+     * previous_attributes.prepayment_order_id.anyOf[1] (Value): string. Order that paid for this
+     * prepaid delivery. Null when this is not a prepaid delivery order. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.prepayment_order_id.anyOf[2] (Value):
+     * null. previous_attributes.pricing_amounts (Optional): {@link
+     * PricingAmountsPreviousAttributes} or null. The order's money totals: subtotal, discounts,
+     * charges, tax, requested tip, and total. previous_attributes.pricing_amounts.anyOf[1]
+     * (Value): {@link PricingAmountsPreviousAttributes}.
+     * previous_attributes.pricing_amounts.anyOf[2] (Value): null. previous_attributes.refund_ids
+     * (Optional): Array of string or null. IDs of the refunds that name this order. This includes
+     * refunds Flint makes to return a payment it couldn't accept (`reason` `payment_returned`),
+     * which never count toward `refund_status` or the order's refunded amounts.
+     * previous_attributes.refund_ids.anyOf[1] (Value): Array of string. IDs of the refunds that
+     * name this order. This includes refunds Flint makes to return a payment it couldn't accept
+     * (`reason` `payment_returned`), which never count toward `refund_status` or the order's
+     * refunded amounts. previous_attributes.refund_ids.anyOf[1][] (Value): string. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_ids.anyOf[2] (Value): null.
+     * previous_attributes.refund_status (Optional): string or null. Refund progress for collected
+     * money. Refunds with `reason` `payment_returned` return money the order never received and
+     * don't count. Value enum: "none", "partially_refunded", "refunded".
+     * previous_attributes.refund_status.anyOf[1] (Value): string. Refund progress for collected
+     * money. Refunds with `reason` `payment_returned` return money the order never received and
+     * don't count. Value enum: "none", "partially_refunded", "refunded".
+     * previous_attributes.refund_status.anyOf[2] (Value): null.
+     * previous_attributes.return_credit_settlements (Optional): Array of {@link
+     * OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to this order from
+     * items the buyer returned, such as an exchange's replacement order. Included in
+     * settlement_amounts.paid_money. previous_attributes.return_credit_settlements.anyOf[1]
+     * (Value): Array of {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to
+     * this order from items the buyer returned, such as an exchange's replacement order. Included
+     * in settlement_amounts.paid_money. previous_attributes.return_credit_settlements.anyOf[1][]
+     * (Value): {@link OrderReturnCreditSettlementPreviousAttributes}.
+     * previous_attributes.return_credit_settlements.anyOf[2] (Value): null.
+     * previous_attributes.return_resolution_id (Optional): string or null. ID of the return
+     * resolution that created this order as a replacement. Omitted for orders a return did not
+     * create. previous_attributes.return_resolution_id.anyOf[1] (Value): string. ID of the return
+     * resolution that created this order as a replacement. Omitted for orders a return did not
+     * create. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     * previous_attributes.return_resolution_id.anyOf[2] (Value): null.
+     * previous_attributes.settlement_amounts (Optional): {@link
+     * OrderSettlementAmountsPreviousAttributes} or null. How much of the order has been paid,
+     * refunded, credited, written off, and settled as tips, and what is still outstanding.
+     * previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
+     * OrderSettlementAmountsPreviousAttributes}. previous_attributes.settlement_amounts.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Whether the order
+     * still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and
+     * metadata or note edits continue on a closed order. Value enum: "open", "closed".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether the order still accepts changes
+     * and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits
+     * continue on a closed order. Value enum: "open", "closed".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription
+     * (Optional): {@link ExpandedSubscriptionSummaryPreviousAttributes} or null. Subscription
+     * summary included when `expand` names `subscription`; `null` when expanded and this order
+     * does not bill a subscription. Present only when `expand` includes `subscription`; `null`
+     * when expanded and there is no related subscription.
+     * previous_attributes.subscription.anyOf[1] (Value): {@link
+     * ExpandedSubscriptionSummaryPreviousAttributes}. previous_attributes.subscription.anyOf[2]
+     * (Value): null. previous_attributes.subscription_cycle (Optional): integer or null. Charged
+     * subscription cycle associated with this order. Signup is cycle 1; unpaid retries and skipped
+     * renewals do not advance the cycle. previous_attributes.subscription_cycle.anyOf[1] (Value):
+     * integer. Charged subscription cycle associated with this order. Signup is cycle 1; unpaid
+     * retries and skipped renewals do not advance the cycle. Format: uint64. minimum: 0.
+     * previous_attributes.subscription_cycle.anyOf[2] (Value): null.
+     * previous_attributes.subscription_delivery_changed_at (Optional): string or null. Time the
+     * subscriber changed delivery after this paid renewal was prepared. The order keeps its
+     * committed destination until you correct it or refund and replace it.
+     * previous_attributes.subscription_delivery_changed_at.anyOf[1] (Value): string. Time the
+     * subscriber changed delivery after this paid renewal was prepared. The order keeps its
+     * committed destination until you correct it or refund and replace it. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.subscription_delivery_changed_at.anyOf[2] (Value): null.
+     * previous_attributes.subscription_delivery_number (Optional): integer or null. Position of
+     * this delivery among the deliveries one charge paid for, starting at 2. Null when this is not
+     * a prepaid delivery order. previous_attributes.subscription_delivery_number.anyOf[1] (Value):
+     * integer. Position of this delivery among the deliveries one charge paid for, starting at 2.
+     * Null when this is not a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
+     * previous_attributes.subscription_delivery_number.anyOf[2] (Value): null.
+     * previous_attributes.subscription_id (Optional): string or null. ID of the subscription this
+     * order bills. Absent on an order that isn't from a subscription.
+     * previous_attributes.subscription_id.anyOf[1] (Value): string. ID of the subscription this
+     * order bills. Absent on an order that isn't from a subscription. Example:
+     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". previous_attributes.subscription_id.anyOf[2] (Value):
+     * null. previous_attributes.subscription_plan (Optional): {@link
+     * ExpandedSubscriptionPlanSummaryPreviousAttributes} or null. Plan summary included when
+     * `expand` names `subscription_plan`; `null` when expanded and this order does not bill a
+     * subscription plan. Present only when `expand` includes `subscription_plan`; `null` when
+     * expanded and there is no related subscription plan.
+     * previous_attributes.subscription_plan.anyOf[1] (Value): {@link
+     * ExpandedSubscriptionPlanSummaryPreviousAttributes}.
+     * previous_attributes.subscription_plan.anyOf[2] (Value): null.
+     * previous_attributes.subscription_plan_id (Optional): string or null. ID of the subscription
+     * plan this order bills. Absent on an order that isn't from a subscription.
+     * previous_attributes.subscription_plan_id.anyOf[1] (Value): string. ID of the subscription
+     * plan this order bills. Absent on an order that isn't from a subscription. Example:
+     * "plan_01KEZF7C004CY5ZR33XST2AASV". previous_attributes.subscription_plan_id.anyOf[2]
+     * (Value): null. previous_attributes.supported_actions (Optional): Array of string or null.
+     * Lifecycle actions Flint accepts now, independent of permissions. Includes close when closure
+     * is allowed, and pay while open without an active attempt and with an outstanding balance or
+     * payment-method setup available. Always present with merchant credentials. [] enum: "close",
+     * "pay", "resolve_inventory_exception". previous_attributes.supported_actions.anyOf[1]
+     * (Value): Array of string. Lifecycle actions Flint accepts now, independent of permissions.
+     * Includes close when closure is allowed, and pay while open without an active attempt and
+     * with an outstanding balance or payment-method setup available. Always present with merchant
+     * credentials. [] enum: "close", "pay", "resolve_inventory_exception".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "close",
+     * "pay", "resolve_inventory_exception". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.tax (Optional): {@link OrderTaxPreviousAttributes} or
+     * null. The order's tax state: whether tax is enabled, its status, location, exemption, and
+     * per-jurisdiction rows. previous_attributes.tax.anyOf[1] (Value): {@link
+     * OrderTaxPreviousAttributes}. previous_attributes.tax.anyOf[2] (Value): null.
+     * previous_attributes.ticketed_event (Optional): {@link TicketedEventPreviousAttributes} or
+     * null. Event and tickets this order sold through an event payment link. Absent on other
+     * orders. previous_attributes.ticketed_event.anyOf[1] (Value): {@link
+     * TicketedEventPreviousAttributes}. previous_attributes.ticketed_event.anyOf[2] (Value): null.
+     * previous_attributes.tips (Optional): Array of {@link TipPreviousAttributes} or null. Tips on
+     * the order, each with its requested, settled, and refunded amounts. A tip cleared before
+     * payment stays listed as canceled. previous_attributes.tips.anyOf[1] (Value): Array of {@link
+     * TipPreviousAttributes}. Tips on the order, each with its requested, settled, and refunded
+     * amounts. A tip cleared before payment stays listed as canceled.
+     * previous_attributes.tips.anyOf[1][] (Value): {@link TipPreviousAttributes}.
+     * previous_attributes.tips.anyOf[2] (Value): null. previous_attributes.updated_at (Optional):
+     * string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Order version for optimistic concurrency. Send this value as
+     * the expected version when changing the order. Increases with every change to the order.
+     * Ignore an order webhook snapshot whose version is lower than one you have already applied.
+     * previous_attributes.version.anyOf[1] (Value): integer. Order version for optimistic
+     * concurrency. Send this value as the expected version when changing the order. Increases with
+     * every change to the order. Ignore an order webhook snapshot whose version is lower than one
+     * you have already applied. Format: int64. previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `buyer_actions`,
+         * `active_payment_attempt`, `payment_collection`, `setup_collection`.
+         */
+        "object": WebhookOrder;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. active_payment_review_id (Optional): string or
+         * null. The earliest open or resolving payment review on this order's counted payments.
+         * `null` when no review is open or resolving. List reviews with GET
+         * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present
+         * with merchant credentials. active_payment_review_id.anyOf[1] (Value): string. The
+         * earliest open or resolving payment review on this order's counted payments. `null` when
+         * no review is open or resolving. List reviews with GET
+         * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present
+         * with merchant credentials. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+         * active_payment_review_id.anyOf[2] (Value): null. authorization_amounts (Optional):
+         * {@link OrderAuthorizationAmountsPreviousAttributes} or null. The amounts authorized and
+         * still capturable on the order's payments. authorization_amounts.anyOf[1] (Value): {@link
+         * OrderAuthorizationAmountsPreviousAttributes}. authorization_amounts.anyOf[2] (Value):
+         * null. buyer_contact (Optional): {@link CheckoutBuyerContactPreviousAttributes} or null.
+         * Email and phone saved when payment started, from the pay request's buyer_contact or the
+         * paying checkout session's saved contact. It does not change the linked customer.
+         * buyer_contact.anyOf[1] (Value): {@link CheckoutBuyerContactPreviousAttributes}.
+         * buyer_contact.anyOf[2] (Value): null. buyer_note (Optional): string or null. A note to
+         * the buyer. buyer_note.anyOf[1] (Value): string. A note to the buyer. buyer_note.anyOf[2]
+         * (Value): null. charges (Optional): Array of {@link OrderChargePreviousAttributes} or
+         * null. Charges added to the order, such as delivery or service fees, each with its
+         * applied amount, tax, and refunded amount. charges.anyOf[1] (Value): Array of {@link
+         * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
+         * fees, each with its applied amount, tax, and refunded amount. charges.anyOf[1][]
+         * (Value): {@link OrderChargePreviousAttributes}. charges.anyOf[2] (Value): null.
+         * checkout_session_ids (Optional): Array of string or null. IDs of the checkout sessions
+         * opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string. IDs of
+         * the checkout sessions opened for this order. checkout_session_ids.anyOf[1][] (Value):
+         * string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2] (Value):
+         * null. client_reference (Optional): string or null. The reference the payment link URL or
+         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
+         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
+         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
+         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
+         * reference the payment link URL or resolve request carried, such as your user ID. `null`
+         * when none was sent or checkout did not start from a payment link. Returned only to
+         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
+         * treat it as a claim, not proof of identity. Always present with merchant credentials.
+         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null. closed_at
+         * (Optional): string or null. When the order closed. Present exactly when status is
+         * closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
+         * string. When the order closed. Present exactly when status is closed. Set once at the
+         * transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * closed_at.anyOf[2] (Value): null. closed_reason (Optional): string or null. Why the
+         * order closed. Present exactly when status is closed. Set once at closure. Unrecognized
+         * reasons are returned as other; new values may be added. Value enum: "invoice_voided",
+         * "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+         * "return_resolution_canceled", "other". closed_reason.anyOf[1] (Value): string. Why the
+         * order closed. Present exactly when status is closed. Set once at closure. Unrecognized
+         * reasons are returned as other; new values may be added. Value enum: "invoice_voided",
+         * "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+         * "return_resolution_canceled", "other". closed_reason.anyOf[2] (Value): null.
+         * closed_reason_message (Optional): string or null. The caller note supplied when closing
+         * the order. System closures leave it absent. It is not shown to the buyer.
+         * closed_reason_message.anyOf[1] (Value): string. The caller note supplied when closing
+         * the order. System closures leave it absent. It is not shown to the buyer.
+         * closed_reason_message.anyOf[2] (Value): null. created_at (Optional): string or null.
+         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * custom_field_answers (Optional): Array of {@link CustomFieldAnswerPreviousAttributes} or
+         * null. The buyer's answers to the payment link's custom fields, recorded when checkout
+         * started, in the order the link showed the fields. Each answer keeps the field's key,
+         * label, and type from that moment, so later changes to the link don't change it. Optional
+         * fields the buyer left blank are left out. Read-only. Empty when the order didn't come
+         * from a payment link, the link had no custom fields, or the buyer answered none. Orders
+         * created before Flint recorded answers here also return an empty list and keep their
+         * answers in `metadata` as `custom_field_<key>`. Deleting the customer removes the
+         * answers. Returned only to merchant credentials; omitted for buyer credentials. Always
+         * present with merchant credentials. custom_field_answers.anyOf[1] (Value): Array of
+         * {@link CustomFieldAnswerPreviousAttributes}. The buyer's answers to the payment link's
+         * custom fields, recorded when checkout started, in the order the link showed the fields.
+         * Each answer keeps the field's key, label, and type from that moment, so later changes to
+         * the link don't change it. Optional fields the buyer left blank are left out. Read-only.
+         * Empty when the order didn't come from a payment link, the link had no custom fields, or
+         * the buyer answered none. Orders created before Flint recorded answers here also return
+         * an empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting the
+         * customer removes the answers. Returned only to merchant credentials; omitted for buyer
+         * credentials. Always present with merchant credentials. maxItems: 20.
+         * custom_field_answers.anyOf[1][] (Value): {@link CustomFieldAnswerPreviousAttributes}.
+         * custom_field_answers.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Customer summary included when
+         * `expand` names `customer`; `null` when expanded and no customer is linked. Present only
+         * when `expand` includes `customer`; `null` when expanded and there is no related
+         * customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. ID of the
+         * customer this order belongs to. customer_id.anyOf[1] (Value): string. ID of the customer
+         * this order belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2]
+         * (Value): null. deferred_promotions (Optional): Array of {@link
+         * DeferredPromotionPreviousAttributes} or null. Promotions accepted at subscription
+         * signup. They attach when the subscription is provisioned and first discount its first
+         * charged cycle. They do not discount this order and are separate from discounts and order
+         * totals. Always present; empty when no promotions are deferred.
+         * deferred_promotions.anyOf[1] (Value): Array of {@link
+         * DeferredPromotionPreviousAttributes}. Promotions accepted at subscription signup. They
+         * attach when the subscription is provisioned and first discount its first charged cycle.
+         * They do not discount this order and are separate from discounts and order totals. Always
+         * present; empty when no promotions are deferred. deferred_promotions.anyOf[1][] (Value):
+         * {@link DeferredPromotionPreviousAttributes}. deferred_promotions.anyOf[2] (Value): null.
+         * delivery (Optional): {@link OrderDeliverySummaryPreviousAttributes} or null. Method,
+         * type and recipient of governing_delivery_selection_id. The address remains in
+         * delivery_destination. Omitted when no shipment or local-delivery selection governs the
+         * order. delivery.anyOf[1] (Value): {@link OrderDeliverySummaryPreviousAttributes}.
+         * delivery.anyOf[2] (Value): null. delivery_destination (Optional): {@link
+         * OrderDeliveryDestinationPreviousAttributes} or null. The shipment or local-delivery
+         * destination committed for this order. Payment freezes this value; fulfillment recipient
+         * changes do not replace it. Omitted for a checkout session credential that doesn't act
+         * for the customer the buyer verified. delivery_destination.anyOf[1] (Value): {@link
+         * OrderDeliveryDestinationPreviousAttributes}. delivery_destination.anyOf[2] (Value):
+         * null. discounts (Optional): Array of {@link OrderDiscountPreviousAttributes} or null.
+         * Discounts applied to the order, each with its amount, status, and the line items and
+         * charges it covers. discounts.anyOf[1] (Value): Array of {@link
+         * OrderDiscountPreviousAttributes}. Discounts applied to the order, each with its amount,
+         * status, and the line items and charges it covers. discounts.anyOf[1][] (Value): {@link
+         * OrderDiscountPreviousAttributes}. discounts.anyOf[2] (Value): null. dispute_status
+         * (Optional): string or null. Aggregate dispute state across the order's counted payment
+         * intents, excluding payment_returned. Always returned to merchant credentials and omitted
+         * from buyer reads. Open states take precedence in this order: needs_response,
+         * under_review, inquiry_needs_response, inquiry_under_review, other. Otherwise the most
+         * severe closed state wins: lost, won, prevented, inquiry_closed; none when no disputes
+         * count. List individual cases with GET /v1/disputes?order_id={order_id}. Always present
+         * with merchant credentials. Value enum: "none", "inquiry_needs_response",
+         * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won",
+         * "lost", "prevented", "other". dispute_status.anyOf[1] (Value): string. Aggregate dispute
+         * state across the order's counted payment intents, excluding payment_returned. Always
+         * returned to merchant credentials and omitted from buyer reads. Open states take
+         * precedence in this order: needs_response, under_review, inquiry_needs_response,
+         * inquiry_under_review, other. Otherwise the most severe closed state wins: lost, won,
+         * prevented, inquiry_closed; none when no disputes count. List individual cases with GET
+         * /v1/disputes?order_id={order_id}. Always present with merchant credentials. Value enum:
+         * "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+         * "needs_response", "under_review", "won", "lost", "prevented", "other".
+         * dispute_status.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
+         * Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. fulfillment_status (Optional): string or
+         * null. Aggregate progress across the order's fulfillment quantities. Value enum:
+         * "not_fulfilled", "partially_fulfilled", "fulfilled", "canceled", "not_applicable",
+         * "closed". fulfillment_status.anyOf[1] (Value): string. Aggregate progress across the
+         * order's fulfillment quantities. Value enum: "not_fulfilled", "partially_fulfilled",
+         * "fulfilled", "canceled", "not_applicable", "closed". fulfillment_status.anyOf[2]
+         * (Value): null. fulfillments (Optional): Array of {@link FulfillmentPreviousAttributes}
+         * or null. Fulfillments created for the order, each covering a set of its line items.
+         * fulfillments.anyOf[1] (Value): Array of {@link FulfillmentPreviousAttributes}.
+         * Fulfillments created for the order, each covering a set of its line items.
+         * fulfillments.anyOf[1][] (Value): {@link FulfillmentPreviousAttributes}.
+         * fulfillments.anyOf[2] (Value): null. gift_card_estimate (Optional): {@link
+         * OrderGiftCardEstimatePreviousAttributes} or null. An estimate of how the order balance
+         * splits between gift cards and the payment processor. gift_card_estimate.anyOf[1]
+         * (Value): {@link OrderGiftCardEstimatePreviousAttributes}. gift_card_estimate.anyOf[2]
+         * (Value): null. gift_card_settlements (Optional): Array of {@link
+         * OrderGiftCardSettlementPreviousAttributes} or null. The gift card redemptions applied to
+         * the order's payments. gift_card_settlements.anyOf[1] (Value): Array of {@link
+         * OrderGiftCardSettlementPreviousAttributes}. The gift card redemptions applied to the
+         * order's payments. gift_card_settlements.anyOf[1][] (Value): {@link
+         * OrderGiftCardSettlementPreviousAttributes}. gift_card_settlements.anyOf[2] (Value):
+         * null. gift_card_tender_enabled (Optional): boolean or null. Whether gift cards can pay
+         * for this order now. Gift cards pay only USD orders that still accept changes, are not
+         * subscription purchases, and whose merchant has at least one gift card that is not closed
+         * in this environment. Gift cards cannot fund gift card purchases; this is false when
+         * those purchases leave no amount eligible for gift card tender. Recomputed on each read;
+         * a spent but open card still counts. gift_card_tender_enabled.anyOf[1] (Value): boolean.
+         * Whether gift cards can pay for this order now. Gift cards pay only USD orders that still
+         * accept changes, are not subscription purchases, and whose merchant has at least one gift
+         * card that is not closed in this environment. Gift cards cannot fund gift card purchases;
+         * this is false when those purchases leave no amount eligible for gift card tender.
+         * Recomputed on each read; a spent but open card still counts.
+         * gift_card_tender_enabled.anyOf[2] (Value): null. gift_cards (Optional): Array of {@link
+         * OrderGiftCardSelectionPreviousAttributes} or null. Gift cards available to pay the
+         * order, with each card's available balance. gift_cards.anyOf[1] (Value): Array of {@link
+         * OrderGiftCardSelectionPreviousAttributes}. Gift cards available to pay the order, with
+         * each card's available balance. gift_cards.anyOf[1][] (Value): {@link
+         * OrderGiftCardSelectionPreviousAttributes}. gift_cards.anyOf[2] (Value): null.
+         * governing_delivery_selection_id (Optional): string or null. ID of the delivery selection
+         * that governs this order, including pickup choices without a delivery destination: the
+         * checkout's provisional selection before payment, and the selection a payment committed
+         * after. Read it with GET /v1/delivery-selections/{delivery_selection_id}. Null when no
+         * selection governs the order. While set, change the destination through the delivery
+         * selection. governing_delivery_selection_id.anyOf[1] (Value): string. ID of the delivery
+         * selection that governs this order, including pickup choices without a delivery
+         * destination: the checkout's provisional selection before payment, and the selection a
+         * payment committed after. Read it with GET
+         * /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs the
+         * order. While set, change the destination through the delivery selection. Example:
+         * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". governing_delivery_selection_id.anyOf[2] (Value):
+         * null. handover (Optional): {@link OrderHandoverPreviousAttributes} or null. Carry-out
+         * handover: every physical item is handed to the buyer at this location when the order is
+         * paid, in place of a delivery selection. Payment then creates one completed `handover`
+         * fulfillment. Absent without a handover. handover.anyOf[1] (Value): {@link
+         * OrderHandoverPreviousAttributes}. handover.anyOf[2] (Value): null. internal_note
+         * (Optional): string or null. A note for your team. Buyer reads leave it out.
+         * internal_note.anyOf[1] (Value): string. A note for your team. Buyer reads leave it out.
+         * internal_note.anyOf[2] (Value): null. inventory_exception_reason (Optional): string or
+         * null. Why inventory could not be committed after payment. The cause remains after
+         * resolution. Omitted when no reason was recorded. Unrecognized reasons are returned as
+         * other; new values may be added. Value enum: "inventory_deduction_failed",
+         * "inventory_handoff_failed", "auto_refund_required", "auto_refund_failed",
+         * "policy_resolution_failed", "other". inventory_exception_reason.anyOf[1] (Value):
+         * string. Why inventory could not be committed after payment. The cause remains after
+         * resolution. Omitted when no reason was recorded. Unrecognized reasons are returned as
+         * other; new values may be added. Value enum: "inventory_deduction_failed",
+         * "inventory_handoff_failed", "auto_refund_required", "auto_refund_failed",
+         * "policy_resolution_failed", "other". inventory_exception_reason.anyOf[2] (Value): null.
+         * inventory_exception_resolution_message (Optional): string or null. The merchant note
+         * supplied when resolving the inventory exception. It is not shown to the buyer.
+         * inventory_exception_resolution_message.anyOf[1] (Value): string. The merchant note
+         * supplied when resolving the inventory exception. It is not shown to the buyer.
+         * inventory_exception_resolution_message.anyOf[2] (Value): null.
+         * inventory_exception_status (Optional): string or null. Whether an inventory problem
+         * after payment needs attention. Value enum: "paid_inventory_failed", "resolved".
+         * inventory_exception_status.anyOf[1] (Value): string. Whether an inventory problem after
+         * payment needs attention. Value enum: "paid_inventory_failed", "resolved".
+         * inventory_exception_status.anyOf[2] (Value): null. inventory_reservation_id (Optional):
+         * string or null. The reservation holding stock for this order, when one exists.
+         * inventory_reservation_id.anyOf[1] (Value): string. The reservation holding stock for
+         * this order, when one exists. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+         * inventory_reservation_id.anyOf[2] (Value): null. inventory_routing_source (Optional):
+         * {@link InventoryRoutingSourcePreviousAttributes} or null. Where this order's tracked
+         * demand is routed. Required before an order containing tracked variants can hold stock.
+         * inventory_routing_source.anyOf[1] (Value): {@link
+         * InventoryRoutingSourcePreviousAttributes}. inventory_routing_source.anyOf[2] (Value):
+         * null. invoice_id (Optional): string or null. The invoice associated with this order.
+         * Null when the order has no invoice. A replacement invoice replaces this ID; voiding an
+         * invoice preserves it. invoice_id.anyOf[1] (Value): string. The invoice associated with
+         * this order. Null when the order has no invoice. A replacement invoice replaces this ID;
+         * voiding an invoice preserves it. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+         * invoice_id.anyOf[2] (Value): null. line_items (Optional): Array of {@link
+         * OrderLineItemPreviousAttributes} or null. Items the order sells, each with its pricing,
+         * tax, and fulfillment quantities. line_items.anyOf[1] (Value): Array of {@link
+         * OrderLineItemPreviousAttributes}. Items the order sells, each with its pricing, tax, and
+         * fulfillment quantities. line_items.anyOf[1][] (Value): {@link
+         * OrderLineItemPreviousAttributes}. line_items.anyOf[2] (Value): null. merchant_id
+         * (Optional): string or null. ID of the merchant this resource belongs to.
+         * merchant_id.anyOf[1] (Value): string. ID of the merchant this resource belongs to.
+         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
+         * MetadataMap}. metadata.anyOf[2] (Value): null. order_id (Optional): string or null.
+         * Unique identifier for this order, prefixed `ord_`. order_id.anyOf[1] (Value): string.
+         * Unique identifier for this order, prefixed `ord_`. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. order_number
+         * (Optional): string or null. Human-readable order number for receipts and merchant
+         * reference. order_number.anyOf[1] (Value): string. Human-readable order number for
+         * receipts and merchant reference. order_number.anyOf[2] (Value): null. origin (Optional):
+         * string or null. How the order was created. invoice means a Quick Pay invoice created the
+         * order; attaching an invoice to an existing order preserves its origin. Value enum:
+         * "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
+         * origin.anyOf[1] (Value): string. How the order was created. invoice means a Quick Pay
+         * invoice created the order; attaching an invoice to an existing order preserves its
+         * origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
+         * "subscription", "invoice". origin.anyOf[2] (Value): null. paid_at (Optional): string or
+         * null. When `payment_status` became `paid`, including a final capture that releases the
+         * remaining balance. Set once and never changed, including after refunds. `null` when
+         * `payment_status` isn't `paid`, including an order whose balance was written off without
+         * being paid. paid_at.anyOf[1] (Value): string. When `payment_status` became `paid`,
+         * including a final capture that releases the remaining balance. Set once and never
+         * changed, including after refunds. `null` when `payment_status` isn't `paid`, including
+         * an order whose balance was written off without being paid. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". paid_at.anyOf[2] (Value): null. payment_intent_ids (Optional):
+         * Array of string or null. IDs of the payment intents created to collect this order.
+         * payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment intents created
+         * to collect this order. payment_intent_ids.anyOf[1][] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_ids.anyOf[2] (Value): null.
+         * payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Payment intents included when
+         * `expand` names `payment_intents`. payment_intents.anyOf[1] (Value): Array of {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents included when `expand`
+         * names `payment_intents`. payment_intents.anyOf[1][] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intents.anyOf[2] (Value): null.
+         * payment_link_id (Optional): string or null. Payment link whose checkout created this
+         * order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+         * payment_link_id to list a link's orders. payment_link_id.anyOf[1] (Value): string.
+         * Payment link whose checkout created this order. Absent for orders that did not come from
+         * a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders.
+         * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
+         * payment_status (Optional): string or null. Collection progress. An invoice write-off
+         * also completes collection without receiving the written-off amount. Value enum:
+         * "unpaid", "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection
+         * progress. An invoice write-off also completes collection without receiving the
+         * written-off amount. Value enum: "unpaid", "partially_paid", "paid".
+         * payment_status.anyOf[2] (Value): null. pending_order_edit_id (Optional): string or null.
+         * The order edit waiting for its balance payment. While it is set, the units that edit
+         * removes can't join a fulfillment and the order refuses another edit. `null` when there
+         * is none. Omitted for buyer credentials. Always present with merchant credentials.
+         * pending_order_edit_id.anyOf[1] (Value): string. The order edit waiting for its balance
+         * payment. While it is set, the units that edit removes can't join a fulfillment and the
+         * order refuses another edit. `null` when there is none. Omitted for buyer credentials.
+         * Always present with merchant credentials. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+         * pending_order_edit_id.anyOf[2] (Value): null. prepayment_order_id (Optional): string or
+         * null. Order that paid for this prepaid delivery. Null when this is not a prepaid
+         * delivery order. prepayment_order_id.anyOf[1] (Value): string. Order that paid for this
+         * prepaid delivery. Null when this is not a prepaid delivery order. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". prepayment_order_id.anyOf[2] (Value): null.
+         * pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or null. The
+         * order's money totals: subtotal, discounts, charges, tax, requested tip, and total.
+         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
+         * pricing_amounts.anyOf[2] (Value): null. refund_ids (Optional): Array of string or null.
+         * IDs of the refunds that name this order. This includes refunds Flint makes to return a
+         * payment it couldn't accept (`reason` `payment_returned`), which never count toward
+         * `refund_status` or the order's refunded amounts. refund_ids.anyOf[1] (Value): Array of
+         * string. IDs of the refunds that name this order. This includes refunds Flint makes to
+         * return a payment it couldn't accept (`reason` `payment_returned`), which never count
+         * toward `refund_status` or the order's refunded amounts. refund_ids.anyOf[1][] (Value):
+         * string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null.
+         * refund_status (Optional): string or null. Refund progress for collected money. Refunds
+         * with `reason` `payment_returned` return money the order never received and don't count.
+         * Value enum: "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value):
+         * string. Refund progress for collected money. Refunds with `reason` `payment_returned`
+         * return money the order never received and don't count. Value enum: "none",
+         * "partially_refunded", "refunded". refund_status.anyOf[2] (Value): null.
+         * return_credit_settlements (Optional): Array of {@link
+         * OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to this order from
+         * items the buyer returned, such as an exchange's replacement order. Included in
+         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value): Array of
+         * {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this order from
+         * items the buyer returned, such as an exchange's replacement order. Included in
+         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
+         * OrderReturnCreditSettlementPreviousAttributes}. return_credit_settlements.anyOf[2]
+         * (Value): null. return_resolution_id (Optional): string or null. ID of the return
+         * resolution that created this order as a replacement. Omitted for orders a return did not
+         * create. return_resolution_id.anyOf[1] (Value): string. ID of the return resolution that
+         * created this order as a replacement. Omitted for orders a return did not create.
+         * Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_id.anyOf[2] (Value):
+         * null. settlement_amounts (Optional): {@link OrderSettlementAmountsPreviousAttributes} or
+         * null. How much of the order has been paid, refunded, credited, written off, and settled
+         * as tips, and what is still outstanding. settlement_amounts.anyOf[1] (Value): {@link
+         * OrderSettlementAmountsPreviousAttributes}. settlement_amounts.anyOf[2] (Value): null.
+         * status (Optional): string or null. Whether the order still accepts changes and new
+         * payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue
+         * on a closed order. Value enum: "open", "closed". status.anyOf[1] (Value): string.
+         * Whether the order still accepts changes and new payments. Refunds, fulfillment,
+         * disputes, returns, and metadata or note edits continue on a closed order. Value enum:
+         * "open", "closed". status.anyOf[2] (Value): null. subscription (Optional): {@link
+         * ExpandedSubscriptionSummaryPreviousAttributes} or null. Subscription summary included
+         * when `expand` names `subscription`; `null` when expanded and this order does not bill a
+         * subscription. Present only when `expand` includes `subscription`; `null` when expanded
+         * and there is no related subscription. subscription.anyOf[1] (Value): {@link
+         * ExpandedSubscriptionSummaryPreviousAttributes}. subscription.anyOf[2] (Value): null.
+         * subscription_cycle (Optional): integer or null. Charged subscription cycle associated
+         * with this order. Signup is cycle 1; unpaid retries and skipped renewals do not advance
+         * the cycle. subscription_cycle.anyOf[1] (Value): integer. Charged subscription cycle
+         * associated with this order. Signup is cycle 1; unpaid retries and skipped renewals do
+         * not advance the cycle. Format: uint64. minimum: 0. subscription_cycle.anyOf[2] (Value):
+         * null. subscription_delivery_changed_at (Optional): string or null. Time the subscriber
+         * changed delivery after this paid renewal was prepared. The order keeps its committed
+         * destination until you correct it or refund and replace it.
+         * subscription_delivery_changed_at.anyOf[1] (Value): string. Time the subscriber changed
+         * delivery after this paid renewal was prepared. The order keeps its committed destination
+         * until you correct it or refund and replace it. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". subscription_delivery_changed_at.anyOf[2] (Value): null.
+         * subscription_delivery_number (Optional): integer or null. Position of this delivery
+         * among the deliveries one charge paid for, starting at 2. Null when this is not a prepaid
+         * delivery order. subscription_delivery_number.anyOf[1] (Value): integer. Position of this
+         * delivery among the deliveries one charge paid for, starting at 2. Null when this is not
+         * a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
+         * subscription_delivery_number.anyOf[2] (Value): null. subscription_id (Optional): string
+         * or null. ID of the subscription this order bills. Absent on an order that isn't from a
+         * subscription. subscription_id.anyOf[1] (Value): string. ID of the subscription this
+         * order bills. Absent on an order that isn't from a subscription. Example:
+         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
+         * subscription_plan (Optional): {@link ExpandedSubscriptionPlanSummaryPreviousAttributes}
+         * or null. Plan summary included when `expand` names `subscription_plan`; `null` when
+         * expanded and this order does not bill a subscription plan. Present only when `expand`
+         * includes `subscription_plan`; `null` when expanded and there is no related subscription
+         * plan. subscription_plan.anyOf[1] (Value): {@link
+         * ExpandedSubscriptionPlanSummaryPreviousAttributes}. subscription_plan.anyOf[2] (Value):
+         * null. subscription_plan_id (Optional): string or null. ID of the subscription plan this
+         * order bills. Absent on an order that isn't from a subscription.
+         * subscription_plan_id.anyOf[1] (Value): string. ID of the subscription plan this order
+         * bills. Absent on an order that isn't from a subscription. Example:
+         * "plan_01KEZF7C004CY5ZR33XST2AASV". subscription_plan_id.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
+         * now, independent of permissions. Includes close when closure is allowed, and pay while
+         * open without an active attempt and with an outstanding balance or payment-method setup
+         * available. Always present with merchant credentials. [] enum: "close", "pay",
+         * "resolve_inventory_exception". supported_actions.anyOf[1] (Value): Array of string.
+         * Lifecycle actions Flint accepts now, independent of permissions. Includes close when
+         * closure is allowed, and pay while open without an active attempt and with an outstanding
+         * balance or payment-method setup available. Always present with merchant credentials. []
+         * enum: "close", "pay", "resolve_inventory_exception". supported_actions.anyOf[1][]
+         * (Value): string. Value enum: "close", "pay", "resolve_inventory_exception".
+         * supported_actions.anyOf[2] (Value): null. tax (Optional): {@link
+         * OrderTaxPreviousAttributes} or null. The order's tax state: whether tax is enabled, its
+         * status, location, exemption, and per-jurisdiction rows. tax.anyOf[1] (Value): {@link
+         * OrderTaxPreviousAttributes}. tax.anyOf[2] (Value): null. ticketed_event (Optional):
+         * {@link TicketedEventPreviousAttributes} or null. Event and tickets this order sold
+         * through an event payment link. Absent on other orders. ticketed_event.anyOf[1] (Value):
+         * {@link TicketedEventPreviousAttributes}. ticketed_event.anyOf[2] (Value): null. tips
+         * (Optional): Array of {@link TipPreviousAttributes} or null. Tips on the order, each with
+         * its requested, settled, and refunded amounts. A tip cleared before payment stays listed
+         * as canceled. tips.anyOf[1] (Value): Array of {@link TipPreviousAttributes}. Tips on the
+         * order, each with its requested, settled, and refunded amounts. A tip cleared before
+         * payment stays listed as canceled. tips.anyOf[1][] (Value): {@link
+         * TipPreviousAttributes}. tips.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Order version for optimistic concurrency. Send this value
+         * as the expected version when changing the order. Increases with every change to the
+         * order. Ignore an order webhook snapshot whose version is lower than one you have already
+         * applied. version.anyOf[1] (Value): integer. Order version for optimistic concurrency.
+         * Send this value as the expected version when changing the order. Increases with every
+         * change to the order. Ignore an order webhook snapshot whose version is lower than one
+         * you have already applied. Format: int64. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * The earliest open or resolving payment review on this order's counted payments.
+             * `null` when no review is open or resolving. List reviews with GET
+             * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always
+             * present with merchant credentials. anyOf[1] (Value): string. The earliest open or
+             * resolving payment review on this order's counted payments. `null` when no review is
+             * open or resolving. List reviews with GET /v1/payment-reviews?order_id=&status=open.
+             * Omitted for buyer credentials. Always present with merchant credentials. Example:
+             * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". anyOf[2] (Value): null.
+             */
+            "active_payment_review_id"?: ((string) | (null));
+            /**
+             * The amounts authorized and still capturable on the order's payments. anyOf[1]
+             * (Value): {@link OrderAuthorizationAmountsPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "authorization_amounts"?: ((OrderAuthorizationAmountsPreviousAttributes) | (null));
+            /**
+             * Email and phone saved when payment started, from the pay request's buyer_contact or
+             * the paying checkout session's saved contact. It does not change the linked customer.
+             * anyOf[1] (Value): {@link CheckoutBuyerContactPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
+            /**
+             * A note to the buyer. anyOf[1] (Value): string. A note to the buyer. anyOf[2]
+             * (Value): null.
+             */
+            "buyer_note"?: ((string) | (null));
+            /**
+             * Charges added to the order, such as delivery or service fees, each with its applied
+             * amount, tax, and refunded amount. anyOf[1] (Value): Array of {@link
+             * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or
+             * service fees, each with its applied amount, tax, and refunded amount. anyOf[1][]
+             * (Value): {@link OrderChargePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            /**
+             * IDs of the checkout sessions opened for this order. anyOf[1] (Value): Array of
+             * string. IDs of the checkout sessions opened for this order. anyOf[1][] (Value):
+             * string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". anyOf[2] (Value): null.
+             */
+            "checkout_session_ids"?: ((Array<string>) | (null));
+            /**
+             * The reference the payment link URL or resolve request carried, such as your user ID.
+             * `null` when none was sent or checkout did not start from a payment link. Returned
+             * only to merchant credentials; omitted for buyer credentials. Set by the buyer's
+             * browser, so treat it as a claim, not proof of identity. Always present with merchant
+             * credentials. anyOf[1] (Value): string. The reference the payment link URL or resolve
+             * request carried, such as your user ID. `null` when none was sent or checkout did not
+             * start from a payment link. Returned only to merchant credentials; omitted for buyer
+             * credentials. Set by the buyer's browser, so treat it as a claim, not proof of
+             * identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
+             * anyOf[2] (Value): null.
+             */
+            "client_reference"?: ((string) | (null));
+            /**
+             * When the order closed. Present exactly when status is closed. Set once at the
+             * transition and never changed. anyOf[1] (Value): string. When the order closed.
+             * Present exactly when status is closed. Set once at the transition and never changed.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * Why the order closed. Present exactly when status is closed. Set once at closure.
+             * Unrecognized reasons are returned as other; new values may be added. Value enum:
+             * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
+             * "superseded", "return_resolution_canceled", "other". anyOf[1] (Value): string. Why
+             * the order closed. Present exactly when status is closed. Set once at closure.
+             * Unrecognized reasons are returned as other; new values may be added. Value enum:
+             * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
+             * "superseded", "return_resolution_canceled", "other". anyOf[2] (Value): null.
+             */
+            "closed_reason"?: (("invoice_voided"
+                | "paid"
+                | "closed_by_merchant"
+                | "checkout_expired"
+                | "written_off"
+                | "superseded"
+                | "return_resolution_canceled"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * The caller note supplied when closing the order. System closures leave it absent. It
+             * is not shown to the buyer. anyOf[1] (Value): string. The caller note supplied when
+             * closing the order. System closures leave it absent. It is not shown to the buyer.
+             * anyOf[2] (Value): null.
+             */
+            "closed_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The buyer's answers to the payment link's custom fields, recorded when checkout
+             * started, in the order the link showed the fields. Each answer keeps the field's key,
+             * label, and type from that moment, so later changes to the link don't change it.
+             * Optional fields the buyer left blank are left out. Read-only. Empty when the order
+             * didn't come from a payment link, the link had no custom fields, or the buyer
+             * answered none. Orders created before Flint recorded answers here also return an
+             * empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting
+             * the customer removes the answers. Returned only to merchant credentials; omitted for
+             * buyer credentials. Always present with merchant credentials. anyOf[1] (Value): Array
+             * of {@link CustomFieldAnswerPreviousAttributes}. The buyer's answers to the payment
+             * link's custom fields, recorded when checkout started, in the order the link showed
+             * the fields. Each answer keeps the field's key, label, and type from that moment, so
+             * later changes to the link don't change it. Optional fields the buyer left blank are
+             * left out. Read-only. Empty when the order didn't come from a payment link, the link
+             * had no custom fields, or the buyer answered none. Orders created before Flint
+             * recorded answers here also return an empty list and keep their answers in `metadata`
+             * as `custom_field_<key>`. Deleting the customer removes the answers. Returned only to
+             * merchant credentials; omitted for buyer credentials. Always present with merchant
+             * credentials. maxItems: 20. anyOf[1][] (Value): {@link
+             * CustomFieldAnswerPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "custom_field_answers"?: ((Array<CustomFieldAnswerPreviousAttributes>) | (null));
+            /**
+             * Customer summary included when `expand` names `customer`; `null` when expanded and
+             * no customer is linked. Present only when `expand` includes `customer`; `null` when
+             * expanded and there is no related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the customer this order belongs to. anyOf[1] (Value): string. ID of the
+             * customer this order belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * Promotions accepted at subscription signup. They attach when the subscription is
+             * provisioned and first discount its first charged cycle. They do not discount this
+             * order and are separate from discounts and order totals. Always present; empty when
+             * no promotions are deferred. anyOf[1] (Value): Array of {@link
+             * DeferredPromotionPreviousAttributes}. Promotions accepted at subscription signup.
+             * They attach when the subscription is provisioned and first discount its first
+             * charged cycle. They do not discount this order and are separate from discounts and
+             * order totals. Always present; empty when no promotions are deferred. anyOf[1][]
+             * (Value): {@link DeferredPromotionPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "deferred_promotions"?: ((Array<DeferredPromotionPreviousAttributes>) | (null));
+            /**
+             * Method, type and recipient of governing_delivery_selection_id. The address remains
+             * in delivery_destination. Omitted when no shipment or local-delivery selection
+             * governs the order. anyOf[1] (Value): {@link OrderDeliverySummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "delivery"?: ((OrderDeliverySummaryPreviousAttributes) | (null));
+            /**
+             * The shipment or local-delivery destination committed for this order. Payment freezes
+             * this value; fulfillment recipient changes do not replace it. Omitted for a checkout
+             * session credential that doesn't act for the customer the buyer verified. anyOf[1]
+             * (Value): {@link OrderDeliveryDestinationPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "delivery_destination"?: ((OrderDeliveryDestinationPreviousAttributes) | (null));
+            /**
+             * Discounts applied to the order, each with its amount, status, and the line items and
+             * charges it covers. anyOf[1] (Value): Array of {@link
+             * OrderDiscountPreviousAttributes}. Discounts applied to the order, each with its
+             * amount, status, and the line items and charges it covers. anyOf[1][] (Value): {@link
+             * OrderDiscountPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "discounts"?: ((Array<OrderDiscountPreviousAttributes>) | (null));
+            /**
+             * Aggregate dispute state across the order's counted payment intents, excluding
+             * payment_returned. Always returned to merchant credentials and omitted from buyer
+             * reads. Open states take precedence in this order: needs_response, under_review,
+             * inquiry_needs_response, inquiry_under_review, other. Otherwise the most severe
+             * closed state wins: lost, won, prevented, inquiry_closed; none when no disputes
+             * count. List individual cases with GET /v1/disputes?order_id={order_id}. Always
+             * present with merchant credentials. Value enum: "none", "inquiry_needs_response",
+             * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won",
+             * "lost", "prevented", "other". anyOf[1] (Value): string. Aggregate dispute state
+             * across the order's counted payment intents, excluding payment_returned. Always
+             * returned to merchant credentials and omitted from buyer reads. Open states take
+             * precedence in this order: needs_response, under_review, inquiry_needs_response,
+             * inquiry_under_review, other. Otherwise the most severe closed state wins: lost, won,
+             * prevented, inquiry_closed; none when no disputes count. List individual cases with
+             * GET /v1/disputes?order_id={order_id}. Always present with merchant credentials.
+             * Value enum: "none", "inquiry_needs_response", "inquiry_under_review",
+             * "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented",
+             * "other". anyOf[2] (Value): null.
+             */
+            "dispute_status"?: (("none"
+                | "inquiry_needs_response"
+                | "inquiry_under_review"
+                | "inquiry_closed"
+                | "needs_response"
+                | "under_review"
+                | "won"
+                | "lost"
+                | "prevented"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Aggregate progress across the order's fulfillment quantities. Value enum:
+             * "not_fulfilled", "partially_fulfilled", "fulfilled", "canceled", "not_applicable",
+             * "closed". anyOf[1] (Value): string. Aggregate progress across the order's
+             * fulfillment quantities. Value enum: "not_fulfilled", "partially_fulfilled",
+             * "fulfilled", "canceled", "not_applicable", "closed". anyOf[2] (Value): null.
+             */
+            "fulfillment_status"?: (("not_fulfilled"
+                | "partially_fulfilled"
+                | "fulfilled"
+                | "canceled"
+                | "not_applicable"
+                | "closed"
+                | (string & {}))
+                | (null));
+            /**
+             * Fulfillments created for the order, each covering a set of its line items. anyOf[1]
+             * (Value): Array of {@link FulfillmentPreviousAttributes}. Fulfillments created for
+             * the order, each covering a set of its line items. anyOf[1][] (Value): {@link
+             * FulfillmentPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "fulfillments"?: ((Array<FulfillmentPreviousAttributes>) | (null));
+            /**
+             * An estimate of how the order balance splits between gift cards and the payment
+             * processor. anyOf[1] (Value): {@link OrderGiftCardEstimatePreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "gift_card_estimate"?: ((OrderGiftCardEstimatePreviousAttributes) | (null));
+            /**
+             * The gift card redemptions applied to the order's payments. anyOf[1] (Value): Array
+             * of {@link OrderGiftCardSettlementPreviousAttributes}. The gift card redemptions
+             * applied to the order's payments. anyOf[1][] (Value): {@link
+             * OrderGiftCardSettlementPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "gift_card_settlements"?: ((Array<OrderGiftCardSettlementPreviousAttributes>) | (null));
+            /**
+             * Whether gift cards can pay for this order now. Gift cards pay only USD orders that
+             * still accept changes, are not subscription purchases, and whose merchant has at
+             * least one gift card that is not closed in this environment. Gift cards cannot fund
+             * gift card purchases; this is false when those purchases leave no amount eligible for
+             * gift card tender. Recomputed on each read; a spent but open card still counts.
+             * anyOf[1] (Value): boolean. Whether gift cards can pay for this order now. Gift cards
+             * pay only USD orders that still accept changes, are not subscription purchases, and
+             * whose merchant has at least one gift card that is not closed in this environment.
+             * Gift cards cannot fund gift card purchases; this is false when those purchases leave
+             * no amount eligible for gift card tender. Recomputed on each read; a spent but open
+             * card still counts. anyOf[2] (Value): null.
+             */
+            "gift_card_tender_enabled"?: ((boolean) | (null));
+            /**
+             * Gift cards available to pay the order, with each card's available balance. anyOf[1]
+             * (Value): Array of {@link OrderGiftCardSelectionPreviousAttributes}. Gift cards
+             * available to pay the order, with each card's available balance. anyOf[1][] (Value):
+             * {@link OrderGiftCardSelectionPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "gift_cards"?: ((Array<OrderGiftCardSelectionPreviousAttributes>) | (null));
+            /**
+             * ID of the delivery selection that governs this order, including pickup choices
+             * without a delivery destination: the checkout's provisional selection before payment,
+             * and the selection a payment committed after. Read it with GET
+             * /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs the
+             * order. While set, change the destination through the delivery selection. anyOf[1]
+             * (Value): string. ID of the delivery selection that governs this order, including
+             * pickup choices without a delivery destination: the checkout's provisional selection
+             * before payment, and the selection a payment committed after. Read it with GET
+             * /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs the
+             * order. While set, change the destination through the delivery selection. Example:
+             * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2] (Value): null.
+             */
+            "governing_delivery_selection_id"?: ((string) | (null));
+            /**
+             * Carry-out handover: every physical item is handed to the buyer at this location when
+             * the order is paid, in place of a delivery selection. Payment then creates one
+             * completed `handover` fulfillment. Absent without a handover. anyOf[1] (Value):
+             * {@link OrderHandoverPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "handover"?: ((OrderHandoverPreviousAttributes) | (null));
+            /**
+             * A note for your team. Buyer reads leave it out. anyOf[1] (Value): string. A note for
+             * your team. Buyer reads leave it out. anyOf[2] (Value): null.
+             */
+            "internal_note"?: ((string) | (null));
+            /**
+             * Why inventory could not be committed after payment. The cause remains after
+             * resolution. Omitted when no reason was recorded. Unrecognized reasons are returned
+             * as other; new values may be added. Value enum: "inventory_deduction_failed",
+             * "inventory_handoff_failed", "auto_refund_required", "auto_refund_failed",
+             * "policy_resolution_failed", "other". anyOf[1] (Value): string. Why inventory could
+             * not be committed after payment. The cause remains after resolution. Omitted when no
+             * reason was recorded. Unrecognized reasons are returned as other; new values may be
+             * added. Value enum: "inventory_deduction_failed", "inventory_handoff_failed",
+             * "auto_refund_required", "auto_refund_failed", "policy_resolution_failed", "other".
+             * anyOf[2] (Value): null.
+             */
+            "inventory_exception_reason"?: (("inventory_deduction_failed"
+                | "inventory_handoff_failed"
+                | "auto_refund_required"
+                | "auto_refund_failed"
+                | "policy_resolution_failed"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * The merchant note supplied when resolving the inventory exception. It is not shown
+             * to the buyer. anyOf[1] (Value): string. The merchant note supplied when resolving
+             * the inventory exception. It is not shown to the buyer. anyOf[2] (Value): null.
+             */
+            "inventory_exception_resolution_message"?: ((string) | (null));
+            /**
+             * Whether an inventory problem after payment needs attention. Value enum:
+             * "paid_inventory_failed", "resolved". anyOf[1] (Value): string. Whether an inventory
+             * problem after payment needs attention. Value enum: "paid_inventory_failed",
+             * "resolved". anyOf[2] (Value): null.
+             */
+            "inventory_exception_status"?: (("paid_inventory_failed" | "resolved" | (string & {})) | (null));
+            /**
+             * The reservation holding stock for this order, when one exists. anyOf[1] (Value):
+             * string. The reservation holding stock for this order, when one exists. Example:
+             * "invr_01KEZF7C0041ENRR0C2NF3AP12". anyOf[2] (Value): null.
+             */
+            "inventory_reservation_id"?: ((string) | (null));
+            /**
+             * Where this order's tracked demand is routed. Required before an order containing
+             * tracked variants can hold stock. anyOf[1] (Value): {@link
+             * InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
+            /**
+             * The invoice associated with this order. Null when the order has no invoice. A
+             * replacement invoice replaces this ID; voiding an invoice preserves it. anyOf[1]
+             * (Value): string. The invoice associated with this order. Null when the order has no
+             * invoice. A replacement invoice replaces this ID; voiding an invoice preserves it.
+             * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * Items the order sells, each with its pricing, tax, and fulfillment quantities.
+             * anyOf[1] (Value): Array of {@link OrderLineItemPreviousAttributes}. Items the order
+             * sells, each with its pricing, tax, and fulfillment quantities. anyOf[1][] (Value):
+             * {@link OrderLineItemPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<OrderLineItemPreviousAttributes>) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Unique identifier for this order, prefixed `ord_`. anyOf[1] (Value): string. Unique
+             * identifier for this order, prefixed `ord_`. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Human-readable order number for receipts and merchant reference. anyOf[1] (Value):
+             * string. Human-readable order number for receipts and merchant reference. anyOf[2]
+             * (Value): null.
+             */
+            "order_number"?: ((string) | (null));
+            /**
+             * How the order was created. invoice means a Quick Pay invoice created the order;
+             * attaching an invoice to an existing order preserves its origin. Value enum:
+             * "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
+             * anyOf[1] (Value): string. How the order was created. invoice means a Quick Pay
+             * invoice created the order; attaching an invoice to an existing order preserves its
+             * origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
+             * "subscription", "invoice". anyOf[2] (Value): null.
+             */
+            "origin"?: (("virtual_terminal"
+                | "payment_link"
+                | "checkout"
+                | "api"
+                | "subscription"
+                | "invoice"
+                | (string & {}))
+                | (null));
+            /**
+             * When `payment_status` became `paid`, including a final capture that releases the
+             * remaining balance. Set once and never changed, including after refunds. `null` when
+             * `payment_status` isn't `paid`, including an order whose balance was written off
+             * without being paid. anyOf[1] (Value): string. When `payment_status` became `paid`,
+             * including a final capture that releases the remaining balance. Set once and never
+             * changed, including after refunds. `null` when `payment_status` isn't `paid`,
+             * including an order whose balance was written off without being paid. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "paid_at"?: ((string) | (null));
+            /**
+             * IDs of the payment intents created to collect this order. anyOf[1] (Value): Array of
+             * string. IDs of the payment intents created to collect this order. anyOf[1][]
+             * (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+             */
+            "payment_intent_ids"?: ((Array<string>) | (null));
+            /**
+             * Payment intents included when `expand` names `payment_intents`. anyOf[1] (Value):
+             * Array of {@link ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents
+             * included when `expand` names `payment_intents`. anyOf[1][] (Value): {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
+            /**
+             * Payment link whose checkout created this order. Absent for orders that did not come
+             * from a payment link. Filter GET /v1/orders by payment_link_id to list a link's
+             * orders. anyOf[1] (Value): string. Payment link whose checkout created this order.
+             * Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+             * payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+             * anyOf[2] (Value): null.
+             */
+            "payment_link_id"?: ((string) | (null));
+            /**
+             * Collection progress. An invoice write-off also completes collection without
+             * receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
+             * anyOf[1] (Value): string. Collection progress. An invoice write-off also completes
+             * collection without receiving the written-off amount. Value enum: "unpaid",
+             * "partially_paid", "paid". anyOf[2] (Value): null.
+             */
+            "payment_status"?: (("unpaid" | "partially_paid" | "paid" | (string & {})) | (null));
+            /**
+             * The order edit waiting for its balance payment. While it is set, the units that edit
+             * removes can't join a fulfillment and the order refuses another edit. `null` when
+             * there is none. Omitted for buyer credentials. Always present with merchant
+             * credentials. anyOf[1] (Value): string. The order edit waiting for its balance
+             * payment. While it is set, the units that edit removes can't join a fulfillment and
+             * the order refuses another edit. `null` when there is none. Omitted for buyer
+             * credentials. Always present with merchant credentials. Example:
+             * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". anyOf[2] (Value): null.
+             */
+            "pending_order_edit_id"?: ((string) | (null));
+            /**
+             * Order that paid for this prepaid delivery. Null when this is not a prepaid delivery
+             * order. anyOf[1] (Value): string. Order that paid for this prepaid delivery. Null
+             * when this is not a prepaid delivery order. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "prepayment_order_id"?: ((string) | (null));
+            /**
+             * The order's money totals: subtotal, discounts, charges, tax, requested tip, and
+             * total. anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
+            /**
+             * IDs of the refunds that name this order. This includes refunds Flint makes to return
+             * a payment it couldn't accept (`reason` `payment_returned`), which never count toward
+             * `refund_status` or the order's refunded amounts. anyOf[1] (Value): Array of string.
+             * IDs of the refunds that name this order. This includes refunds Flint makes to return
+             * a payment it couldn't accept (`reason` `payment_returned`), which never count toward
+             * `refund_status` or the order's refunded amounts. anyOf[1][] (Value): string.
+             * Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+             */
+            "refund_ids"?: ((Array<string>) | (null));
+            /**
+             * Refund progress for collected money. Refunds with `reason` `payment_returned` return
+             * money the order never received and don't count. Value enum: "none",
+             * "partially_refunded", "refunded". anyOf[1] (Value): string. Refund progress for
+             * collected money. Refunds with `reason` `payment_returned` return money the order
+             * never received and don't count. Value enum: "none", "partially_refunded",
+             * "refunded". anyOf[2] (Value): null.
+             */
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            /**
+             * Value applied to this order from items the buyer returned, such as an exchange's
+             * replacement order. Included in settlement_amounts.paid_money. anyOf[1] (Value):
+             * Array of {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to
+             * this order from items the buyer returned, such as an exchange's replacement order.
+             * Included in settlement_amounts.paid_money. anyOf[1][] (Value): {@link
+             * OrderReturnCreditSettlementPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "return_credit_settlements"?: ((Array<OrderReturnCreditSettlementPreviousAttributes>) | (null));
+            /**
+             * ID of the return resolution that created this order as a replacement. Omitted for
+             * orders a return did not create. anyOf[1] (Value): string. ID of the return
+             * resolution that created this order as a replacement. Omitted for orders a return did
+             * not create. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2] (Value): null.
+             */
+            "return_resolution_id"?: ((string) | (null));
+            /**
+             * How much of the order has been paid, refunded, credited, written off, and settled as
+             * tips, and what is still outstanding. anyOf[1] (Value): {@link
+             * OrderSettlementAmountsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "settlement_amounts"?: ((OrderSettlementAmountsPreviousAttributes) | (null));
+            /**
+             * Whether the order still accepts changes and new payments. Refunds, fulfillment,
+             * disputes, returns, and metadata or note edits continue on a closed order. Value
+             * enum: "open", "closed". anyOf[1] (Value): string. Whether the order still accepts
+             * changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or
+             * note edits continue on a closed order. Value enum: "open", "closed". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("open" | "closed" | (string & {})) | (null));
+            /**
+             * Subscription summary included when `expand` names `subscription`; `null` when
+             * expanded and this order does not bill a subscription. Present only when `expand`
+             * includes `subscription`; `null` when expanded and there is no related subscription.
+             * anyOf[1] (Value): {@link ExpandedSubscriptionSummaryPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "subscription"?: ((ExpandedSubscriptionSummaryPreviousAttributes) | (null));
+            /**
+             * Charged subscription cycle associated with this order. Signup is cycle 1; unpaid
+             * retries and skipped renewals do not advance the cycle. anyOf[1] (Value): integer.
+             * Charged subscription cycle associated with this order. Signup is cycle 1; unpaid
+             * retries and skipped renewals do not advance the cycle. Format: uint64. minimum: 0.
+             * anyOf[2] (Value): null.
+             */
+            "subscription_cycle"?: ((number) | (null));
+            /**
+             * Time the subscriber changed delivery after this paid renewal was prepared. The order
+             * keeps its committed destination until you correct it or refund and replace it.
+             * anyOf[1] (Value): string. Time the subscriber changed delivery after this paid
+             * renewal was prepared. The order keeps its committed destination until you correct it
+             * or refund and replace it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "subscription_delivery_changed_at"?: ((string) | (null));
+            /**
+             * Position of this delivery among the deliveries one charge paid for, starting at 2.
+             * Null when this is not a prepaid delivery order. anyOf[1] (Value): integer. Position
+             * of this delivery among the deliveries one charge paid for, starting at 2. Null when
+             * this is not a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
+             * anyOf[2] (Value): null.
+             */
+            "subscription_delivery_number"?: ((number) | (null));
+            /**
+             * ID of the subscription this order bills. Absent on an order that isn't from a
+             * subscription. anyOf[1] (Value): string. ID of the subscription this order bills.
+             * Absent on an order that isn't from a subscription. Example:
+             * "sub_01KEZF7C00BVRE8YDBXQB74BBM". anyOf[2] (Value): null.
+             */
+            "subscription_id"?: ((string) | (null));
+            /**
+             * Plan summary included when `expand` names `subscription_plan`; `null` when expanded
+             * and this order does not bill a subscription plan. Present only when `expand`
+             * includes `subscription_plan`; `null` when expanded and there is no related
+             * subscription plan. anyOf[1] (Value): {@link
+             * ExpandedSubscriptionPlanSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the subscription plan this order bills. Absent on an order that isn't from a
+             * subscription. anyOf[1] (Value): string. ID of the subscription plan this order
+             * bills. Absent on an order that isn't from a subscription. Example:
+             * "plan_01KEZF7C004CY5ZR33XST2AASV". anyOf[2] (Value): null.
+             */
+            "subscription_plan_id"?: ((string) | (null));
+            /**
+             * Lifecycle actions Flint accepts now, independent of permissions. Includes close when
+             * closure is allowed, and pay while open without an active attempt and with an
+             * outstanding balance or payment-method setup available. Always present with merchant
+             * credentials. [] enum: "close", "pay", "resolve_inventory_exception". anyOf[1]
+             * (Value): Array of string. Lifecycle actions Flint accepts now, independent of
+             * permissions. Includes close when closure is allowed, and pay while open without an
+             * active attempt and with an outstanding balance or payment-method setup available.
+             * Always present with merchant credentials. [] enum: "close", "pay",
+             * "resolve_inventory_exception". anyOf[1][] (Value): string. Value enum: "close",
+             * "pay", "resolve_inventory_exception". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"close" | "pay" | "resolve_inventory_exception" | (string & {})>) | (null));
+            /**
+             * The order's tax state: whether tax is enabled, its status, location, exemption, and
+             * per-jurisdiction rows. anyOf[1] (Value): {@link OrderTaxPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "tax"?: ((OrderTaxPreviousAttributes) | (null));
+            /**
+             * Event and tickets this order sold through an event payment link. Absent on other
+             * orders. anyOf[1] (Value): {@link TicketedEventPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "ticketed_event"?: ((TicketedEventPreviousAttributes) | (null));
+            /**
+             * Tips on the order, each with its requested, settled, and refunded amounts. A tip
+             * cleared before payment stays listed as canceled. anyOf[1] (Value): Array of {@link
+             * TipPreviousAttributes}. Tips on the order, each with its requested, settled, and
+             * refunded amounts. A tip cleared before payment stays listed as canceled. anyOf[1][]
+             * (Value): {@link TipPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "tips"?: ((Array<TipPreviousAttributes>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Order version for optimistic concurrency. Send this value as the expected version
+             * when changing the order. Increases with every change to the order. Ignore an order
+             * webhook snapshot whose version is lower than one you have already applied. anyOf[1]
+             * (Value): integer. Order version for optimistic concurrency. Send this value as the
+             * expected version when changing the order. Increases with every change to the order.
+             * Ignore an order webhook snapshot whose version is lower than one you have already
+             * applied. Format: int64. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "order.closed". */
+    "event_type"?: "order.closed";
+});
+export type OrderCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookOrder;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "order.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookOrder;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "order.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "order.created";
+});
+/**
+ * The `order.created` webhook payload for the `installed_merchants` event source. Fields shared by
+ * partner webhook payloads.
+ */
+export type OrderCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookOrder}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `buyer_actions`, `active_payment_attempt`, `payment_collection`,
+     * `setup_collection`.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `buyer_actions`,
+         * `active_payment_attempt`, `payment_collection`, `setup_collection`.
+         */
+        "object": WebhookOrder;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "order.created". */
+    "event_type"?: "order.created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `order.created` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type OrderCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookOrder}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `buyer_actions`, `active_payment_attempt`, `payment_collection`,
+     * `setup_collection`.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `buyer_actions`,
+         * `active_payment_attempt`, `payment_collection`, `setup_collection`.
+         */
+        "object": WebhookOrder;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "order.created". */
+    "event_type"?: "order.created";
+});
