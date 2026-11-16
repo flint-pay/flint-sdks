@@ -9,7 +9,9 @@ import type {
     MerchantAccountSessionEffectivePolicy,
     MerchantAccountSessionRefreshRequest,
     MerchantAccountSessionRefreshRequestInput,
-    MerchantAccountSessionResponse,
+    MerchantAccountSessionResponse
+} from '../declarations/types-40.js';
+import type {
     MerchantAccountSessionStripe,
     MerchantAccountSessionStripeCollectionOptions,
     MerchantAccountSessionStripeComponent,
@@ -26,12 +28,14 @@ import type {
     MerchantBillingEntryListResponse,
     MerchantBillingInvoice,
     MerchantBillingInvoiceLineItem,
+    MerchantBillingInvoiceLineItemPreviousAttributes,
     MerchantBillingInvoiceListResponse,
     MerchantBillingInvoiceResponse,
     MerchantBillingInvoicesGetParams,
     MerchantBillingInvoicesListParams,
     MerchantGetParams,
     MerchantReadiness,
+    MerchantReadinessPreviousAttributes,
     MerchantReadinessUpdatedInstalledMerchantsEvent,
     MerchantReadinessUpdatedMerchantEvent,
     MerchantResponse,
@@ -39,9 +43,7 @@ import type {
     MerchantSignupListResponse,
     MerchantSignupOwner,
     MerchantSignupOwnerRequestInput,
-    MerchantSignupPermission
-} from '../declarations/types-37.js';
-import type {
+    MerchantSignupPermission,
     MerchantSignupResponse,
     MerchantSignupTerms,
     MerchantSignupTermsAcceptance,
@@ -61,9 +63,9 @@ import type {
     MerchantUpdatedInstalledMerchantsEvent,
     MerchantUpdatedMerchantEvent,
     MerchantWebhookEnvelope
-} from '../declarations/types-38.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-41.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -80,16 +82,8 @@ export type {
 } from '../runtime.js';
 export type {
     MerchantGetParams,
-    Merchant,
     MerchantResponse,
-    MerchantAccountSession,
-    MerchantAccountSessionClientSession,
-    MerchantAccountSessionCreateRequest,
-    MerchantAccountSessionCreateRequestInput,
-    MerchantAccountSessionEffectivePolicy,
-    MerchantAccountSessionRefreshRequest,
-    MerchantAccountSessionRefreshRequestInput,
-    MerchantAccountSessionResponse,
+    MerchantUpdateParams,
     MerchantAccountSessionStripe,
     MerchantAccountSessionStripeCollectionOptions,
     MerchantAccountSessionStripeComponent,
@@ -101,9 +95,11 @@ export type {
     MerchantBillingEntryListResponse,
     MerchantBillingInvoice,
     MerchantBillingInvoiceLineItem,
+    MerchantBillingInvoiceLineItemPreviousAttributes,
     MerchantBillingInvoiceListResponse,
     MerchantBillingInvoiceResponse,
     MerchantReadiness,
+    MerchantReadinessPreviousAttributes,
     MerchantReadinessUpdatedInstalledMerchantsEvent,
     MerchantReadinessUpdatedMerchantEvent,
     MerchantSignup,
@@ -111,18 +107,6 @@ export type {
     MerchantSignupOwner,
     MerchantSignupOwnerRequestInput,
     MerchantSignupPermission,
-    MerchantAccountSessionsCreateParams,
-    MerchantBillingBalancesGetParams,
-    MerchantBillingInvoicesGetParams,
-    MerchantBillingBalancesListParams,
-    MerchantBillingEntriesListParams,
-    MerchantBillingInvoicesListParams,
-    MerchantAccountSessionsRefreshParams
-} from '../declarations/types-37.js';
-export type { _SdkWithoutIdempotency, WebhookMerchant } from '../declarations/types-70.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type {
-    MerchantUpdateParams,
     MerchantSignupResponse,
     MerchantSignupTerms,
     MerchantSignupTermsAcceptance,
@@ -135,33 +119,63 @@ export type {
     MerchantUpdatedMerchantEvent,
     MerchantWebhookEnvelope,
     MerchantSignupsCancelParams,
+    MerchantAccountSessionsCreateParams,
     MerchantSignupsCreateParams,
+    MerchantBillingBalancesGetParams,
+    MerchantBillingInvoicesGetParams,
     MerchantSignupsGetParams,
+    MerchantBillingBalancesListParams,
+    MerchantBillingEntriesListParams,
+    MerchantBillingInvoicesListParams,
     MerchantSignupsListParams,
+    MerchantAccountSessionsRefreshParams,
     MerchantSignupsResendCodeParams,
     MerchantSignupsRotateAuthorizationCodesParams,
     MerchantSignupsVerifyParams,
     MetadataMap,
     MetadataPatchRequestInput,
     MetadataPatchRequest
-} from '../declarations/types-38.js';
+} from '../declarations/types-41.js';
+export type { _SdkWithoutIdempotency, WebhookMerchant } from '../declarations/types-77.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type {
+    Merchant,
+    MerchantAccountSession,
+    MerchantAccountSessionClientSession,
+    MerchantAccountSessionCreateRequest,
+    MerchantAccountSessionCreateRequestInput,
+    MerchantAccountSessionEffectivePolicy,
+    MerchantAccountSessionRefreshRequest,
+    MerchantAccountSessionRefreshRequestInput,
+    MerchantAccountSessionResponse
+} from '../declarations/types-40.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { Address, AddressRequestInput, AddressRequest } from '../declarations/types-0.js';
-export type { ImageAttachment, ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput } from '../declarations/types-28.js';
-export type { NextAction, MoneyValue } from '../declarations/types-39.js';
-export type { ReadinessMerchantAccountSession, ReadinessAction, ReadinessRequirements, ReadinessAxis } from '../declarations/types-52.js';
-export type { UpdateMerchantRequestInput } from '../declarations/types-67.js';
-export type { DisputeResponseSessionStripeAccountSession, DisputesAcceptParams } from '../declarations/types-23.js';
-export type { CapabilityReadiness } from '../declarations/types-5.js';
-export type { PartnerWebhookEnvelope } from '../declarations/types-44.js';
-export type { WebhookEventSource, VerifyMerchantSignupRequestInput } from '../declarations/types-69.js';
-export type { PlatformFeeCap } from '../declarations/types-49.js';
-export type { CreateMerchantSignupRequestInput } from '../declarations/types-10.js';
-export { makeAddressRequest } from '../declarations/types-70.js';
-export { makeCreateMerchantSignupRequest } from '../declarations/types-73.js';
-export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-77.js';
+export type { Address, AddressRequestInput, AddressPreviousAttributes, AddressRequest } from '../declarations/types-0.js';
+export type { ImageAttachment, ImageInputFileInput, ImageAttachmentPreviousAttributes } from '../declarations/types-30.js';
+export type { NextAction, MoneyValue, MoneyValuePreviousAttributes } from '../declarations/types-42.js';
+export type {
+    ReadinessMerchantAccountSession,
+    ReadinessAction,
+    ReadinessRequirements,
+    ReadinessAxis,
+    ReadinessActionPreviousAttributes,
+    ReadinessMerchantAccountSessionPreviousAttributes,
+    ReadinessRequirementsPreviousAttributes,
+    ReadinessAxisPreviousAttributes
+} from '../declarations/types-58.js';
+export type { UpdateMerchantRequestInput } from '../declarations/types-74.js';
+export type { ImageRequestInput, ImageInputSourceURLInput } from '../declarations/types-31.js';
+export type { DisputeResponseSessionStripeAccountSession, DisputesAcceptParams } from '../declarations/types-25.js';
+export type { CapabilityReadiness, CapabilityReadinessPreviousAttributes } from '../declarations/types-5.js';
+export type { PartnerWebhookEnvelope } from '../declarations/types-49.js';
+export type { WebhookEventSource, VerifyMerchantSignupRequestInput } from '../declarations/types-76.js';
+export type { PlatformFeeCap } from '../declarations/types-54.js';
+export type { CreateMerchantSignupRequestInput } from '../declarations/types-11.js';
+export { makeAddressRequest } from '../declarations/types-77.js';
+export { makeCreateMerchantSignupRequest } from '../declarations/types-80.js';
+export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-84.js';
 export {
     makeMerchantAccountSessionCreateRequest,
     makeMerchantAccountSessionRefreshRequest,
@@ -169,10 +183,10 @@ export {
     makeMerchantSignupTermsAcceptanceRequest,
     makeMerchantSignupVersionRequest,
     makeMetadataPatchRequest
-} from '../declarations/types-78.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
-export { makeUpdateMerchantRequest } from '../declarations/types-84.js';
-export { makeVerifyMerchantSignupRequest } from '../declarations/types-85.js';
+} from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
+export { makeUpdateMerchantRequest } from '../declarations/types-91.js';
+export { makeVerifyMerchantSignupRequest } from '../declarations/types-92.js';
 export interface MerchantResource {
     /**
  * Returns the authenticated merchant.

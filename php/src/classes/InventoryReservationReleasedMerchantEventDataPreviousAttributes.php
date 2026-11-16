@@ -6,10 +6,10 @@ namespace Flint;
  * @property-read string|null $created_at
  * @property-read mixed $expires_at
  * @property-read string|null $idempotency_key
- * @property-read InventoryActionRequired|null $inventory_action_required
+ * @property-read mixed $inventory_action_required
  * @property-read string|null $inventory_reservation_id
- * @property-read InventoryRoutingSource|null $inventory_routing_source
- * @property-read list<InventoryReservationLine>|null $lines
+ * @property-read mixed $inventory_routing_source
+ * @property-read list<InventoryReservationLinePreviousAttributes>|null $lines
  * @property-read mixed $owner
  * @property-read string|null $replacement_inventory_reservation_id
  * @property-read string|null $source_inventory_reservation_id
@@ -41,27 +41,27 @@ final class InventoryReservationReleasedMerchantEventDataPreviousAttributes exte
      */
     public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** Present when the claim needs a merchant action before commerce can continue. anyOf[1] (Value): {@see InventoryActionRequired}. Present when the claim needs a merchant action before commerce can continue. anyOf[2] (Value): null.
-     * @return InventoryActionRequired|null
+    /** Present when the claim needs a merchant action before commerce can continue. anyOf[1] (Value): {@see InventoryActionRequiredPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getInventoryActionRequired(): InventoryActionRequired|null { return $this->get('inventory_action_required'); }
+    public function getInventoryActionRequired(): mixed { return $this->get('inventory_action_required'); }
     public function hasInventoryActionRequired(): bool { return $this->has('inventory_action_required'); }
     /** Unique identifier for this inventory reservation, prefixed `invr_`. anyOf[1] (Value): string. Unique identifier for this inventory reservation, prefixed `invr_`. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getInventoryReservationId(): string|null { return $this->get('inventory_reservation_id'); }
     public function hasInventoryReservationId(): bool { return $this->has('inventory_reservation_id'); }
-    /** How Flint chooses the Locations that serve the reservation: one fixed Location, an allocation policy, or a specific policy revision. anyOf[1] (Value): {@see InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one fixed Location, an allocation policy, or a specific policy revision. anyOf[2] (Value): null.
-     * @return InventoryRoutingSource|null
+    /** How Flint chooses the Locations that serve the reservation: one fixed Location, an allocation policy, or a specific policy revision. anyOf[1] (Value): {@see InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getInventoryRoutingSource(): InventoryRoutingSource|null { return $this->get('inventory_routing_source'); }
+    public function getInventoryRoutingSource(): mixed { return $this->get('inventory_routing_source'); }
     public function hasInventoryRoutingSource(): bool { return $this->has('inventory_routing_source'); }
-    /** Allocations of the reserved stock, one for each item and Location. anyOf[1] (Value): Array of {@see InventoryReservationLine}. Allocations of the reserved stock, one for each item and Location. anyOf[1][] (Value): {@see InventoryReservationLine}. One item's location allocation within a reservation. anyOf[2] (Value): null.
-     * @return list<InventoryReservationLine>|null
+    /** Allocations of the reserved stock, one for each item and Location. anyOf[1] (Value): Array of {@see InventoryReservationLinePreviousAttributes}. Allocations of the reserved stock, one for each item and Location. anyOf[1][] (Value): {@see InventoryReservationLinePreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<InventoryReservationLinePreviousAttributes>|null
      */
     public function getLines(): array|null { return $this->get('lines'); }
     public function hasLines(): bool { return $this->has('lines'); }
-    /** Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. anyOf[1] (Value): {@see InventoryReservationOwner}. Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. anyOf[2] (Value): null.
+    /** Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. anyOf[1] (Value): {@see InventoryReservationOwnerPreviousAttributes}. Who holds an inventory reservation: either a merchant claim identified by your `key`, or an order. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getOwner(): mixed { return $this->get('owner'); }

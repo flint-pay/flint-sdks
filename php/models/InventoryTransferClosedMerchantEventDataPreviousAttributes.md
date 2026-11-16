@@ -16,7 +16,7 @@ Response model.
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id). |
 | `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key. `idempotency_key`: [declared alternatives](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributesidempotency_key). |
 | `inventory_transfer_id` | Optional | string or null | Unique identifier for this inventory transfer, prefixed `invtr_`. `inventory_transfer_id`: [declared alternatives](../models/InventoryTransferClosedMerchantEventDataPreviousAttributes.md#inventorytransferclosedmerchanteventdatapreviousattributesinventory_transfer_id). |
-| `lines` | Optional | Array of [InventoryTransferLine](../models/InventoryTransferLine.md#inventorytransferline) or null | Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. `lines`: [declared alternatives](../models/InventoryTransferClosedMerchantEventDataPreviousAttributes.md#inventorytransferclosedmerchanteventdatapreviousattributeslines). |
+| `lines` | Optional | Array of [InventoryTransferLinePreviousAttributes](../models/InventoryTransferLinePreviousAttributes.md#inventorytransferlinepreviousattributes) or null | Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. `lines`: [declared alternatives](../models/InventoryTransferClosedMerchantEventDataPreviousAttributes.md#inventorytransferclosedmerchanteventdatapreviousattributeslines). |
 | `note` | Optional | string or null | Free-text note about the transfer. `note`: [declared alternatives](../models/InventoryTransferClosedMerchantEventDataPreviousAttributes.md#inventorytransferclosedmerchanteventdatapreviousattributesnote). |
 | `origin_location_id` | Optional | string or null | ID of the Location the stock leaves. `origin_location_id`: [declared alternatives](../models/InventoryTransferClosedMerchantEventDataPreviousAttributes.md#inventorytransferclosedmerchanteventdatapreviousattributesorigin_location_id). |
 | `received_at` | Optional | string or null | RFC3339 timestamp. `received_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
@@ -93,7 +93,7 @@ anyOf variant 2.
 
 anyOf variant 1: Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection..
 
-- Value shape: Array of [InventoryTransferLine](../models/InventoryTransferLine.md#inventorytransferline). Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. 
+- Value shape: Array of [InventoryTransferLinePreviousAttributes](../models/InventoryTransferLinePreviousAttributes.md#inventorytransferlinepreviousattributes). Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. 
 
 ### InventoryTransferClosedMerchantEventDataPreviousAttributes.lines variant 2
 
@@ -103,7 +103,93 @@ anyOf variant 2.
 
 ### InventoryTransferClosedMerchantEventDataPreviousAttributes.lines variant 1.[] fields 1
 
-Field definitions: [InventoryTransferResponse.data.lines[]](../models/InventoryTransferResponse.md#inventorytransferresponsedatalines).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `canceled_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `canceled_quantity`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity). |
+| `condition` | Optional | string or null | Condition of the units being moved. Values: `"sellable"`, `"quality_control"`, `"damaged"`, `"quarantined"`. `condition`: [declared alternatives](../models/InventoryTransferLinePreviousAttributes.md#inventorytransferlinepreviousattributescondition). |
+| `departed_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `departed_quantity`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity). |
+| `inventory_item_id` | Optional | string or null | ID of the inventory item to move. `inventory_item_id`: [declared alternatives](../models/InventoryTransferClosedMerchantEventDataPreviousAttributes.md#inventorytransferclosedmerchanteventdatapreviousattributeslines-variant-1-fields-1inventory_item_id). |
+| `inventory_transfer_line_id` | Optional | string or null | Unique identifier for this inventory transfer line, prefixed `invtrln_`. `inventory_transfer_line_id`: [declared alternatives](../models/InventoryTransferClosedMerchantEventDataPreviousAttributes.md#inventorytransferclosedmerchanteventdatapreviousattributeslines-variant-1-fields-1inventory_transfer_line_id). |
+| `lost_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `lost_quantity`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity). |
+| `received_damaged_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `received_damaged_quantity`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity). |
+| `received_quality_control_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `received_quality_control_quantity`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity). |
+| `received_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `received_quantity`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity). |
+| `received_quarantined_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `received_quarantined_quantity`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity). |
+| `received_sellable_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `received_sellable_quantity`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity). |
+| `requested_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `requested_quantity`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity). |
+| `returned_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `returned_quantity`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity). |
+
+### InventoryTransferClosedMerchantEventDataPreviousAttributes.lines variant 1.[] fields 1.canceled_quantity
+
+Declared alternatives: [MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.line_items variant 1.[] fields 1.quantity](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity).
+
+### InventoryTransferClosedMerchantEventDataPreviousAttributes.lines variant 1.[] fields 1.condition
+
+Declared alternatives: [InventoryTransferLinePreviousAttributes.condition](../models/InventoryTransferLinePreviousAttributes.md#inventorytransferlinepreviousattributescondition).
+
+### InventoryTransferClosedMerchantEventDataPreviousAttributes.lines variant 1.[] fields 1.departed_quantity
+
+Declared alternatives: [MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.line_items variant 1.[] fields 1.quantity](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity).
+
+### InventoryTransferClosedMerchantEventDataPreviousAttributes.lines variant 1.[] fields 1.inventory_item_id
+
+### InventoryTransferClosedMerchantEventDataPreviousAttributes.lines variant 1.[] fields 1.inventory_item_id variant 1
+
+anyOf variant 1: ID of the inventory item to move..
+
+- Value shape: string. ID of the inventory item to move. ID of the inventory item to move. Example: `"invi_01KEZF7C00A6YEM25MTHW2MPZY"`. 
+
+### InventoryTransferClosedMerchantEventDataPreviousAttributes.lines variant 1.[] fields 1.inventory_item_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the inventory item to move. 
+
+### InventoryTransferClosedMerchantEventDataPreviousAttributes.lines variant 1.[] fields 1.inventory_transfer_line_id
+
+### InventoryTransferClosedMerchantEventDataPreviousAttributes.lines variant 1.[] fields 1.inventory_transfer_line_id variant 1
+
+anyOf variant 1: Unique identifier for this inventory transfer line, prefixed `invtrln_`..
+
+- Value shape: string. Unique identifier for this inventory transfer line, prefixed `invtrln_`. Unique identifier for this inventory transfer line, prefixed `invtrln_`. Example: `"invtrln_01KEZF7C00CK297J6QVV5J0PFV"`. 
+
+### InventoryTransferClosedMerchantEventDataPreviousAttributes.lines variant 1.[] fields 1.inventory_transfer_line_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Unique identifier for this inventory transfer line, prefixed `invtrln_`. 
+
+### InventoryTransferClosedMerchantEventDataPreviousAttributes.lines variant 1.[] fields 1.lost_quantity
+
+Declared alternatives: [MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.line_items variant 1.[] fields 1.quantity](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity).
+
+### InventoryTransferClosedMerchantEventDataPreviousAttributes.lines variant 1.[] fields 1.received_damaged_quantity
+
+Declared alternatives: [MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.line_items variant 1.[] fields 1.quantity](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity).
+
+### InventoryTransferClosedMerchantEventDataPreviousAttributes.lines variant 1.[] fields 1.received_quality_control_quantity
+
+Declared alternatives: [MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.line_items variant 1.[] fields 1.quantity](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity).
+
+### InventoryTransferClosedMerchantEventDataPreviousAttributes.lines variant 1.[] fields 1.received_quantity
+
+Declared alternatives: [MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.line_items variant 1.[] fields 1.quantity](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity).
+
+### InventoryTransferClosedMerchantEventDataPreviousAttributes.lines variant 1.[] fields 1.received_quarantined_quantity
+
+Declared alternatives: [MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.line_items variant 1.[] fields 1.quantity](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity).
+
+### InventoryTransferClosedMerchantEventDataPreviousAttributes.lines variant 1.[] fields 1.received_sellable_quantity
+
+Declared alternatives: [MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.line_items variant 1.[] fields 1.quantity](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity).
+
+### InventoryTransferClosedMerchantEventDataPreviousAttributes.lines variant 1.[] fields 1.requested_quantity
+
+Declared alternatives: [MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.line_items variant 1.[] fields 1.quantity](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity).
+
+### InventoryTransferClosedMerchantEventDataPreviousAttributes.lines variant 1.[] fields 1.returned_quantity
+
+Declared alternatives: [MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.line_items variant 1.[] fields 1.quantity](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity).
 
 ### InventoryTransferClosedMerchantEventDataPreviousAttributes.note
 

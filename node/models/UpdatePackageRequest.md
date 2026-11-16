@@ -28,7 +28,12 @@ The request body for: Update package. minProperties: `1`.
 
 Dimensions of the package.
 
-Field definitions: [shared fields](PackageUpdatedInstalledMerchantsEvent.md#packageupdatedinstalledmerchantseventdataprevious_attributesdimensions).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `height` | Conditional | number | Distance along this dimension, in the specified unit. maximum: `100000`. exclusiveMinimum: `0`. multipleOf: `0.001`. |
+| `length` | Conditional | number | Distance along this dimension, in the specified unit. maximum: `100000`. exclusiveMinimum: `0`. multipleOf: `0.001`. |
+| `unit` | Conditional | string | Length unit for length, width, and height. Use millimeter, centimeter, or inch. Values: `"millimeter"`, `"centimeter"`, `"inch"`. |
+| `width` | Conditional | number | Distance along this dimension, in the specified unit. maximum: `100000`. exclusiveMinimum: `0`. multipleOf: `0.001`. |
 
 ### UpdatePackageRequest.dimensions variant 1
 
@@ -47,7 +52,10 @@ anyOf variant 2.
 
 Weight of the package.
 
-Field definitions: [shared fields](PackageUpdatedInstalledMerchantsEvent.md#packageupdatedinstalledmerchantseventdataprevious_attributesweight).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `unit` | Conditional | string | Weight unit. Use gram, kilogram, ounce, or pound. Values: `"gram"`, `"kilogram"`, `"ounce"`, `"pound"`. |
+| `value` | Conditional | number | Weight measured in the specified unit. maximum: `1000000`. exclusiveMinimum: `0`. multipleOf: `0.001`. |
 
 ### UpdatePackageRequest.weight variant 1
 

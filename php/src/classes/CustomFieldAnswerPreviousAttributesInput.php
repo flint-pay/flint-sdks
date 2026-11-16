@@ -1,0 +1,44 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string|null $custom_field_type
+ * @property-read string|null $key
+ * @property-read string|null $label
+ * @property-read string|null $payment_link_custom_field_id
+ * @property-read string|bool|null $value
+ * Presence-aware input; omitted fields throw when accessed. */
+final class CustomFieldAnswerPreviousAttributesInput extends Model {
+    /** @param CustomFieldAnswerTextPreviousAttributesInput|array<array-key, mixed>|\stdClass|CustomFieldAnswerTextareaPreviousAttributesInput|array<array-key, mixed>|\stdClass|CustomFieldAnswerDropdownPreviousAttributesInput|array<array-key, mixed>|\stdClass|CustomFieldAnswerCheckboxPreviousAttributesInput|array<array-key, mixed>|\stdClass $values */
+    public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomFieldAnswerPreviousAttributesInput')); }
+    /** The kind of field answered, which determines the type of `value`. Value enum: "text", "textarea", "dropdown", "checkbox". anyOf[1] (Value): string. The kind of field answered, which determines the type of `value`. Value enum: "text", "textarea", "dropdown", "checkbox". anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When custom_field_type is omitted; use hasCustomFieldType() or valueOrDefault().
+     */
+    public function getCustomFieldType(): mixed { return $this->get('custom_field_type'); }
+    public function hasCustomFieldType(): bool { return $this->has('custom_field_type'); }
+    /** The field's `key` when checkout started. anyOf[1] (Value): string. The field's `key` when checkout started. minLength: 1. maxLength: 243. anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When key is omitted; use hasKey() or valueOrDefault().
+     */
+    public function getKey(): mixed { return $this->get('key'); }
+    public function hasKey(): bool { return $this->has('key'); }
+    /** The question the buyer saw: the field's `label` when checkout started. anyOf[1] (Value): string. The question the buyer saw: the field's `label` when checkout started. minLength: 1. maxLength: 255. anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When label is omitted; use hasLabel() or valueOrDefault().
+     */
+    public function getLabel(): mixed { return $this->get('label'); }
+    public function hasLabel(): bool { return $this->has('label'); }
+    /** ID of the payment link custom field the buyer answered. The link may have changed or removed the field since. anyOf[1] (Value): string. ID of the payment link custom field the buyer answered. The link may have changed or removed the field since. pattern: ^plcf_[0-9A-HJKMNP-TV-Z]{26}$. Example: "plcf_01KEZF7C00JBQMP98WBXZA3RHS". anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When payment_link_custom_field_id is omitted; use hasPaymentLinkCustomFieldId() or valueOrDefault().
+     */
+    public function getPaymentLinkCustomFieldId(): mixed { return $this->get('payment_link_custom_field_id'); }
+    public function hasPaymentLinkCustomFieldId(): bool { return $this->has('payment_link_custom_field_id'); }
+    /** The buyer's answer: a string for `text`, `textarea`, and `dropdown`; a boolean for `checkbox`. anyOf[1] (Value): (string or boolean). The buyer's answer: a string for `text`, `textarea`, and `dropdown`; a boolean for `checkbox`. anyOf[1].anyOf[1] (Value): string. minLength: 1. maxLength: 4096. anyOf[1].anyOf[2] (Value): boolean. anyOf[2] (Value): null.
+     * @return string|bool|null
+     * @throws SdkError When value is omitted; use hasValue() or valueOrDefault().
+     */
+    public function getValue(): mixed { return $this->get('value'); }
+    public function hasValue(): bool { return $this->has('value'); }
+}

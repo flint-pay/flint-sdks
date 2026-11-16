@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read string|null $external_reference_id
  * @property-read string|null $handle
  * @property-read string|null $merchant_id
- * @property-read array<array-key, string>|null $metadata
+ * @property-read mixed $metadata
  * @property-read string|null $name
  * @property-read string|null $status
  * @property-read int|null $targeting_reference_count
@@ -60,10 +60,10 @@ final class CategoryUpdatedInstalledMerchantsEventDataPreviousAttributes extends
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Caller-owned metadata stored on this resource. anyOf[1] (Value): {@see MetadataMap}. Caller-owned metadata stored on this resource. anyOf[2] (Value): null.
-     * @return array<array-key, string>|null
+    /** Caller-owned metadata stored on this resource. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getMetadata(): array|null { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Category name shown to buyers. anyOf[1] (Value): string. Category name shown to buyers. anyOf[2] (Value): null.
      * @return string|null

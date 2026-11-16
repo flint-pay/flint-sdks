@@ -9,9 +9,9 @@ import type {
     InventoryAdjustmentsCreateParams,
     InventoryAdjustmentsGetParams,
     InventoryAdjustmentsListParams
-} from '../declarations/types-28.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-31.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -39,41 +39,39 @@ export type {
     InventoryAdjustmentConditionChangeLineRequestInput,
     InventoryAdjustmentSetLineRequestInput,
     InventoryAdjustmentLine
-} from '../declarations/types-28.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+} from '../declarations/types-31.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateInventoryAdjustmentRequestInput,
     CreateInventoryAdjustmentQuantityRequestInput,
-    CreateInventoryAdjustmentCountedRequestInput
-} from '../declarations/types-10.js';
-export type { InventorySourceSystemRequestInput, InventorySourceSystem } from '../declarations/types-30.js';
-export type {
     CreateInventoryAdjustmentConditionChangeRequestInput,
+    CreateInventoryAdjustmentCountedRequestInput,
     CreateInventoryAdjustmentCorrectionRequestInput
-} from '../declarations/types-9.js';
+} from '../declarations/types-10.js';
+export type { InventorySourceSystemRequestInput, InventorySourceSystem } from '../declarations/types-33.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { InventoryLevel, InventoryItem } from '../declarations/types-29.js';
-export type { MetadataMap } from '../declarations/types-38.js';
-export type { NextAction, MoneyValue } from '../declarations/types-39.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { DisputesAcceptParams } from '../declarations/types-23.js';
+export type { InventoryLevel, InventoryItem } from '../declarations/types-32.js';
+export type { MetadataMap } from '../declarations/types-41.js';
+export type { NextAction, MoneyValue } from '../declarations/types-42.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { DisputesAcceptParams } from '../declarations/types-25.js';
 export {
     makeCreateInventoryAdjustmentConditionChangeRequest,
     makeCreateInventoryAdjustmentCorrectionRequest,
     makeCreateInventoryAdjustmentCountedRequest,
     makeCreateInventoryAdjustmentQuantityRequest,
     makeCreateInventoryAdjustmentRequest
-} from '../declarations/types-73.js';
+} from '../declarations/types-80.js';
 export {
     makeInventoryAdjustmentConditionChangeLineRequest,
     makeInventoryAdjustmentQuantityLineRequest,
     makeInventoryAdjustmentSetLineRequest,
     makeInventorySourceSystemRequest
-} from '../declarations/types-77.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
+} from '../declarations/types-84.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export interface InventoryAdjustmentsResource {
     /**
  * Record a stock change by what happened: stock received, returned, sold, stolen, lost, or moved

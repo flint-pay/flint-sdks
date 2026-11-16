@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read string|null $expires_at
  * @property-read int|null $max_uses
  * @property-read string|null $merchant_id
- * @property-read array<array-key, string>|null $metadata
+ * @property-read mixed $metadata
  * @property-read string|null $promotion_code_id
  * @property-read string|null $promotion_id
  * @property-read string|null $status
@@ -57,10 +57,10 @@ final class PromotionCodeArchivedInstalledMerchantsEventDataPreviousAttributes e
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Key-value data you attach to the promotion code. anyOf[1] (Value): {@see MetadataMap}. Key-value data you attach to the promotion code. anyOf[2] (Value): null.
-     * @return array<array-key, string>|null
+    /** Key-value data you attach to the promotion code. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getMetadata(): array|null { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Unique identifier for the promotion code. anyOf[1] (Value): string. Unique identifier for the promotion code. anyOf[2] (Value): null.
      * @return string|null

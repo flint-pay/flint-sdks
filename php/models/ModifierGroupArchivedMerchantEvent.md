@@ -82,7 +82,7 @@ Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes
 
 ### ModifierGroupArchivedMerchantEvent.data fields 1.previous_attributes.metadata
 
-Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.metadata](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesmetadata).
+Declared alternatives: [OrderLineItemModifierPreviousAttributes.metadata](../models/OrderLineItemModifierPreviousAttributes.md#orderlineitemmodifierpreviousattributesmetadata).
 
 ### ModifierGroupArchivedMerchantEvent.data fields 1.previous_attributes.min_quantity
 
@@ -119,6 +119,10 @@ Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes
 ### ModifierGroupArchivedMerchantEvent.data fields 1.previous_attributes.status
 
 Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.status](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesstatus).
+
+### ModifierGroupArchivedMerchantEvent.data fields 1.previous_attributes.text
+
+Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.text](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributestext).
 
 ### ModifierGroupArchivedMerchantEvent.data fields 1.previous_attributes.updated_at
 

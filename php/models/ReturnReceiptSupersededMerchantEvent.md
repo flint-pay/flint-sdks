@@ -40,15 +40,15 @@ Field definitions: [ReturnReceiptCreatedMerchantEvent.data fields 1.object](../m
 
 Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
 
-Field definitions: [shared fields](ReturnReceiptSupersededMerchantEventDataPreviousAttributes.md#returnreceiptsupersededmerchanteventdatapreviousattributes).
+Field definitions: [shared fields](ReturnReceiptPreviousAttributes.md#returnreceiptpreviousattributes).
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.correction_reason
 
-Declared alternatives: [ReturnInspectionAcceptanceDecidedMerchantEventDataPreviousAttributes.correction_reason](../models/ReturnInspectionAcceptanceDecidedMerchantEventDataPreviousAttributes.md#returninspectionacceptancedecidedmerchanteventdatapreviousattributescorrection_reason).
+Declared alternatives: [ReturnInspectionPreviousAttributes.correction_reason](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributescorrection_reason).
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.correction_reason_message
 
-Declared alternatives: [ReturnInspectionAcceptanceDecidedMerchantEventDataPreviousAttributes.correction_reason_message](../models/ReturnInspectionAcceptanceDecidedMerchantEventDataPreviousAttributes.md#returninspectionacceptancedecidedmerchanteventdatapreviousattributescorrection_reason_message).
+Declared alternatives: [ReturnInspectionPreviousAttributes.correction_reason_message](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributescorrection_reason_message).
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.created_at
 
@@ -56,7 +56,7 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.external_actor_id
 
-Declared alternatives: [ReturnInspectionAcceptanceDecidedMerchantEventDataPreviousAttributes.external_actor_id](../models/ReturnInspectionAcceptanceDecidedMerchantEventDataPreviousAttributes.md#returninspectionacceptancedecidedmerchanteventdatapreviousattributesexternal_actor_id).
+Declared alternatives: [ReturnInspectionPreviousAttributes.external_actor_id](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesexternal_actor_id).
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.external_reference_id
 
@@ -64,11 +64,11 @@ Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previ
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.generated_dispositions
 
-Declared alternatives: [ReturnInspectionAcceptanceDecidedMerchantEventDataPreviousAttributes.generated_dispositions](../models/ReturnInspectionAcceptanceDecidedMerchantEventDataPreviousAttributes.md#returninspectionacceptancedecidedmerchanteventdatapreviousattributesgenerated_dispositions).
+Declared alternatives: [ReturnInspectionPreviousAttributes.generated_dispositions](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesgenerated_dispositions).
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.line_items
 
-Declared alternatives: [ReturnReceiptSupersededMerchantEventDataPreviousAttributes.line_items](../models/ReturnReceiptSupersededMerchantEventDataPreviousAttributes.md#returnreceiptsupersededmerchanteventdatapreviousattributesline_items).
+Declared alternatives: [ReturnReceiptPreviousAttributes.line_items](../models/ReturnReceiptPreviousAttributes.md#returnreceiptpreviousattributesline_items).
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.received_at
 
@@ -76,23 +76,27 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.receiving_location_id
 
-Declared alternatives: [ReturnReceiptSupersededMerchantEventDataPreviousAttributes.receiving_location_id](../models/ReturnReceiptSupersededMerchantEventDataPreviousAttributes.md#returnreceiptsupersededmerchanteventdatapreviousattributesreceiving_location_id).
+Declared alternatives: [ReturnReceiptPreviousAttributes.receiving_location_id](../models/ReturnReceiptPreviousAttributes.md#returnreceiptpreviousattributesreceiving_location_id).
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.return_id
 
-Declared alternatives: [ReturnInspectionAcceptanceDecidedMerchantEventDataPreviousAttributes.return_id](../models/ReturnInspectionAcceptanceDecidedMerchantEventDataPreviousAttributes.md#returninspectionacceptancedecidedmerchanteventdatapreviousattributesreturn_id).
+Declared alternatives: [ReturnInspectionPreviousAttributes.return_id](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesreturn_id).
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.return_receipt_id
 
-Declared alternatives: [ReturnReceiptSupersededMerchantEventDataPreviousAttributes.return_receipt_id](../models/ReturnReceiptSupersededMerchantEventDataPreviousAttributes.md#returnreceiptsupersededmerchanteventdatapreviousattributesreturn_receipt_id).
+Declared alternatives: [ReturnReceiptPreviousAttributes.return_receipt_id](../models/ReturnReceiptPreviousAttributes.md#returnreceiptpreviousattributesreturn_receipt_id).
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.shipment_id
 
-Declared alternatives: [ReturnReceiptSupersededMerchantEventDataPreviousAttributes.shipment_id](../models/ReturnReceiptSupersededMerchantEventDataPreviousAttributes.md#returnreceiptsupersededmerchanteventdatapreviousattributesshipment_id).
+Declared alternatives: [ReturnReceiptPreviousAttributes.shipment_id](../models/ReturnReceiptPreviousAttributes.md#returnreceiptpreviousattributesshipment_id).
+
+### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.source_system
+
+Declared alternatives: [ReturnInspectionPreviousAttributes.source_system](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributessource_system).
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.status
 
-Declared alternatives: [ReturnInspectionAcceptanceDecidedMerchantEventDataPreviousAttributes.status](../models/ReturnInspectionAcceptanceDecidedMerchantEventDataPreviousAttributes.md#returninspectionacceptancedecidedmerchanteventdatapreviousattributesstatus).
+Declared alternatives: [ReturnInspectionPreviousAttributes.status](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesstatus).
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.superseded_at
 
@@ -100,11 +104,11 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.superseded_by_return_receipt_id
 
-Declared alternatives: [ReturnReceiptSupersededMerchantEventDataPreviousAttributes.superseded_by_return_receipt_id](../models/ReturnReceiptSupersededMerchantEventDataPreviousAttributes.md#returnreceiptsupersededmerchanteventdatapreviousattributessuperseded_by_return_receipt_id).
+Declared alternatives: [ReturnReceiptPreviousAttributes.superseded_by_return_receipt_id](../models/ReturnReceiptPreviousAttributes.md#returnreceiptpreviousattributessuperseded_by_return_receipt_id).
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.supersedes_return_receipt_id
 
-Declared alternatives: [ReturnReceiptSupersededMerchantEventDataPreviousAttributes.supersedes_return_receipt_id](../models/ReturnReceiptSupersededMerchantEventDataPreviousAttributes.md#returnreceiptsupersededmerchanteventdatapreviousattributessupersedes_return_receipt_id).
+Declared alternatives: [ReturnReceiptPreviousAttributes.supersedes_return_receipt_id](../models/ReturnReceiptPreviousAttributes.md#returnreceiptpreviousattributessupersedes_return_receipt_id).
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.updated_at
 
@@ -112,5 +116,5 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.version
 
-Declared alternatives: [ReturnInspectionAcceptanceDecidedMerchantEventDataPreviousAttributes.version](../models/ReturnInspectionAcceptanceDecidedMerchantEventDataPreviousAttributes.md#returninspectionacceptancedecidedmerchanteventdatapreviousattributesversion).
+Declared alternatives: [ReturnInspectionPreviousAttributes.version](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesversion).
 

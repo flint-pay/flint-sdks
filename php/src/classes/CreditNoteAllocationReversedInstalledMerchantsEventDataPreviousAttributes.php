@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $allocated_at
- * @property-read MoneyValue|null $amount_money
+ * @property-read mixed $amount_money
  * @property-read string|null $credit_note_allocation_id
  * @property-read string|null $credit_note_id
  * @property-read string|null $idempotency_key
@@ -19,10 +19,10 @@ final class CreditNoteAllocationReversedInstalledMerchantsEventDataPreviousAttri
      */
     public function getAllocatedAt(): string|null { return $this->get('allocated_at'); }
     public function hasAllocatedAt(): bool { return $this->has('allocated_at'); }
-    /** Credit applied to the invoice balance. anyOf[1] (Value): {@see MoneyValue}. Credit applied to the invoice balance. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** Credit applied to the invoice balance. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getAmountMoney(): MoneyValue|null { return $this->get('amount_money'); }
+    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** Unique identifier of the allocation. anyOf[1] (Value): string. Unique identifier of the allocation. anyOf[2] (Value): null.
      * @return string|null

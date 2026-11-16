@@ -30,7 +30,7 @@ A rule for assessing and handling payment risk.
 
 The credential that created this rule. Null when Flint created it, as for Flint's default rules. The reference may name an API key in the other mode.
 
-Field definitions: [shared fields](ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_by).
+Field definitions: [shared fields](GiftCardTransaction.md#giftcardtransactionsource).
 
 ### RiskRule.created_by variant 1
 

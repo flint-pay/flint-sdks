@@ -3,22 +3,22 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read int|null $active_variant_count
- * @property-read list<CategoryReference>|null $categories
+ * @property-read list<CategoryReferencePreviousAttributes>|null $categories
  * @property-read string|null $created_at
- * @property-read ProductVariant|null $default_variant
+ * @property-read mixed $default_variant
  * @property-read string|null $default_variant_id
  * @property-read string|null $delivery_configuration_status
  * @property-read string|null $description
  * @property-read string|null $external_reference_id
- * @property-read list<ImageAttachment>|null $images
+ * @property-read list<ImageAttachmentPreviousAttributes>|null $images
  * @property-read bool|null $is_available_for_sale
  * @property-read string|null $merchant_id
- * @property-read array<array-key, string>|null $metadata
+ * @property-read mixed $metadata
  * @property-read mixed $modifier_set_id
  * @property-read string|null $name
  * @property-read int|null $option_count
- * @property-read list<ProductOption>|null $options
- * @property-read ProductPriceRange|null $price_range
+ * @property-read list<ProductOptionPreviousAttributes>|null $options
+ * @property-read mixed $price_range
  * @property-read string|null $product_id
  * @property-read string|null $product_type
  * @property-read string|null $status
@@ -34,8 +34,8 @@ final class ProductArchivedInstalledMerchantsEventDataPreviousAttributes extends
      */
     public function getActiveVariantCount(): int|null { return $this->get('active_variant_count'); }
     public function hasActiveVariantCount(): bool { return $this->has('active_variant_count'); }
-    /** Always present. Empty collections are returned as []. anyOf[1] (Value): Array of {@see CategoryReference}. Always present. Empty collections are returned as []. anyOf[1][] (Value): {@see CategoryReference}. A reference to a product category by ID, handle, and name. anyOf[2] (Value): null.
-     * @return list<CategoryReference>|null
+    /** Always present. Empty collections are returned as []. anyOf[1] (Value): Array of {@see CategoryReferencePreviousAttributes}. Always present. Empty collections are returned as []. anyOf[1][] (Value): {@see CategoryReferencePreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<CategoryReferencePreviousAttributes>|null
      */
     public function getCategories(): array|null { return $this->get('categories'); }
     public function hasCategories(): bool { return $this->has('categories'); }
@@ -44,10 +44,10 @@ final class ProductArchivedInstalledMerchantsEventDataPreviousAttributes extends
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** The product's default variant, when one is set. anyOf[1] (Value): {@see ProductVariant}. The product's default variant, when one is set. anyOf[2] (Value): null.
-     * @return ProductVariant|null
+    /** The product's default variant, when one is set. anyOf[1] (Value): {@see ProductVariantPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getDefaultVariant(): ProductVariant|null { return $this->get('default_variant'); }
+    public function getDefaultVariant(): mixed { return $this->get('default_variant'); }
     public function hasDefaultVariant(): bool { return $this->has('default_variant'); }
     /** Identifier of the variant chosen as this product's default, when one is set. anyOf[1] (Value): string. Identifier of the variant chosen as this product's default, when one is set. anyOf[2] (Value): null.
      * @return string|null
@@ -69,8 +69,8 @@ final class ProductArchivedInstalledMerchantsEventDataPreviousAttributes extends
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Images attached to this resource, in display order. The first image is primary. anyOf[1] (Value): Array of {@see ImageAttachment}. Images attached to this resource, in display order. The first image is primary. anyOf[1][] (Value): {@see ImageAttachment}. An image attached to a resource, with its display properties and attachment metadata. anyOf[2] (Value): null.
-     * @return list<ImageAttachment>|null
+    /** Images attached to this resource, in display order. The first image is primary. anyOf[1] (Value): Array of {@see ImageAttachmentPreviousAttributes}. Images attached to this resource, in display order. The first image is primary. anyOf[1][] (Value): {@see ImageAttachmentPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ImageAttachmentPreviousAttributes>|null
      */
     public function getImages(): array|null { return $this->get('images'); }
     public function hasImages(): bool { return $this->has('images'); }
@@ -84,10 +84,10 @@ final class ProductArchivedInstalledMerchantsEventDataPreviousAttributes extends
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Caller-owned metadata stored on this resource. anyOf[1] (Value): {@see MetadataMap}. Caller-owned metadata stored on this resource. anyOf[2] (Value): null.
-     * @return array<array-key, string>|null
+    /** Caller-owned metadata stored on this resource. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getMetadata(): array|null { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** ID of the modifier set attached to the product. `null` when no modifier set is attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the product. `null` when no modifier set is attached. anyOf[2] (Value): null.
      * @return mixed
@@ -104,15 +104,15 @@ final class ProductArchivedInstalledMerchantsEventDataPreviousAttributes extends
      */
     public function getOptionCount(): int|null { return $this->get('option_count'); }
     public function hasOptionCount(): bool { return $this->has('option_count'); }
-    /** Product options and their non-archived values. Empty when the product has no options. anyOf[1] (Value): Array of {@see ProductOption}. Product options and their non-archived values. Empty when the product has no options. anyOf[1][] (Value): {@see ProductOption}. A choice that defines a product's variants. anyOf[2] (Value): null.
-     * @return list<ProductOption>|null
+    /** Product options and their non-archived values. Empty when the product has no options. anyOf[1] (Value): Array of {@see ProductOptionPreviousAttributes}. Product options and their non-archived values. Empty when the product has no options. anyOf[1][] (Value): {@see ProductOptionPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ProductOptionPreviousAttributes>|null
      */
     public function getOptions(): array|null { return $this->get('options'); }
     public function hasOptions(): bool { return $this->has('options'); }
-    /** Lowest and highest base unit prices among active variants, before any quantity price breaks. Omitted when there are no active variants or their currencies differ. anyOf[1] (Value): {@see ProductPriceRange}. Lowest and highest base unit prices among active variants, before any quantity price breaks. Omitted when there are no active variants or their currencies differ. anyOf[2] (Value): null.
-     * @return ProductPriceRange|null
+    /** Lowest and highest base unit prices among active variants, before any quantity price breaks. Omitted when there are no active variants or their currencies differ. anyOf[1] (Value): {@see ProductPriceRangePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getPriceRange(): ProductPriceRange|null { return $this->get('price_range'); }
+    public function getPriceRange(): mixed { return $this->get('price_range'); }
     public function hasPriceRange(): bool { return $this->has('price_range'); }
     /** Stable identifier of the product. anyOf[1] (Value): string. Stable identifier of the product. anyOf[2] (Value): null.
      * @return string|null

@@ -52,6 +52,10 @@ Declared alternatives: [DeliveryRateCallbackActivatedMerchantEventDataPreviousAt
 
 Declared alternatives: [DeliveryRateCallbackActivatedMerchantEventDataPreviousAttributes.circuit_state](../models/DeliveryRateCallbackActivatedMerchantEventDataPreviousAttributes.md#deliveryratecallbackactivatedmerchanteventdatapreviousattributescircuit_state).
 
+### DeliveryRateCallbackActivatedMerchantEvent.data fields 1.previous_attributes.configuration
+
+Declared alternatives: [DeliveryRateCallbackActivatedMerchantEventDataPreviousAttributes.configuration](../models/DeliveryRateCallbackActivatedMerchantEventDataPreviousAttributes.md#deliveryratecallbackactivatedmerchanteventdatapreviousattributesconfiguration).
+
 ### DeliveryRateCallbackActivatedMerchantEvent.data fields 1.previous_attributes.created_at
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).

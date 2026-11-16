@@ -3,10 +3,10 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $created_at
- * @property-read GiftCardNotificationDelivery|null $delivery
+ * @property-read mixed $delivery
  * @property-read string|null $gift_card_id
  * @property-read string|null $gift_card_notification_id
- * @property-read GiftCardNotificationRecipient|null $recipient
+ * @property-read mixed $recipient
  * @property-read string|null $resend_of_notification_id
  * @property-read string|null $sent_at
  * @property-read string|null $status
@@ -23,10 +23,10 @@ final class GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes exten
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Included on notification retrieval. Contains the most recent sending attempts and delivery events, newest first. A failed attempt describes the send call; use notification.status to determine whether acceptance remains unconfirmed. anyOf[1] (Value): {@see GiftCardNotificationDelivery}. Included on notification retrieval. Contains the most recent sending attempts and delivery events, newest first. A failed attempt describes the send call; use notification.status to determine whether acceptance remains unconfirmed. anyOf[2] (Value): null.
-     * @return GiftCardNotificationDelivery|null
+    /** Included on notification retrieval. Contains the most recent sending attempts and delivery events, newest first. A failed attempt describes the send call; use notification.status to determine whether acceptance remains unconfirmed. anyOf[1] (Value): {@see GiftCardNotificationDeliveryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getDelivery(): GiftCardNotificationDelivery|null { return $this->get('delivery'); }
+    public function getDelivery(): mixed { return $this->get('delivery'); }
     public function hasDelivery(): bool { return $this->has('delivery'); }
     /** ID of the gift card the notification is about. anyOf[1] (Value): string. ID of the gift card the notification is about. anyOf[2] (Value): null.
      * @return string|null
@@ -38,10 +38,10 @@ final class GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes exten
      */
     public function getGiftCardNotificationId(): string|null { return $this->get('gift_card_notification_id'); }
     public function hasGiftCardNotificationId(): bool { return $this->has('gift_card_notification_id'); }
-    /** Who the notification is sent to. anyOf[1] (Value): {@see GiftCardNotificationRecipient}. Who the notification is sent to. anyOf[2] (Value): null.
-     * @return GiftCardNotificationRecipient|null
+    /** Who the notification is sent to. anyOf[1] (Value): {@see GiftCardNotificationRecipientPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getRecipient(): GiftCardNotificationRecipient|null { return $this->get('recipient'); }
+    public function getRecipient(): mixed { return $this->get('recipient'); }
     public function hasRecipient(): bool { return $this->has('recipient'); }
     /** ID of the earlier notification this one sends again. anyOf[1] (Value): string. ID of the earlier notification this one sends again. anyOf[2] (Value): null.
      * @return string|null

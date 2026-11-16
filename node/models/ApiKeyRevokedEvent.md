@@ -45,7 +45,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `access` | Optional | string or null | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"full"`, `"read_only"`, `"restricted"`. `access`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributesaccess). |
 | `api_key_id` | Optional | string or null | Unique identifier for this api key, prefixed `key_`. `api_key_id`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributesapi_key_id). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
-| `created_by` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) or null | Who created this key: the API key or workload identity whose credential made the request, or else the user, including through the Dashboard, a CLI login, or an onboarding session. An API key creator can belong to another mode, such as a live key that creates a sandbox key. Keys a workload token created before Flint recorded workload identity creators name the user who set up that workload identity. Filter the list with `created_by_type` and `created_by_id`. Absent when the creator is unavailable. `created_by`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_by). |
+| `created_by` | Optional | [ResourceReferencePreviousAttributes](../models/ResourceReferencePreviousAttributes.md#resourcereferencepreviousattributes) or null | Who created this key: the API key or workload identity whose credential made the request, or else the user, including through the Dashboard, a CLI login, or an onboarding session. An API key creator can belong to another mode, such as a live key that creates a sandbox key. Keys a workload token created before Flint recorded workload identity creators name the user who set up that workload identity. Filter the list with `created_by_type` and `created_by_id`. Absent when the creator is unavailable. |
 | `expires_at` | Optional | string or null | RFC3339 timestamp. `expires_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `key_prefix` | Optional | string or null | The start of the secret key: its `flint_` mode prefix and the first 8 characters of the random part. It identifies the key in a list without revealing the secret, which only the create response returns. `key_prefix`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributeskey_prefix). |
 | `last_used_at` | Optional | string or null | RFC3339 timestamp. `last_used_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
@@ -101,28 +101,6 @@ anyOf variant 1: RFC3339 timestamp..
 anyOf variant 2.
 
 - Value shape: null. RFC3339 timestamp. 
-
-### ApiKeyRevokedEvent.data.previous_attributes.created_by
-
-Who created this key: the API key or workload identity whose credential made the request, or else the user, including through the Dashboard, a CLI login, or an onboarding session. An API key creator can belong to another mode, such as a live key that creates a sandbox key. Keys a workload token created before Flint recorded workload identity creators name the user who set up that workload identity. Filter the list with `created_by_type` and `created_by_id`. Absent when the creator is unavailable.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `resource_id` | Conditional | string | Public Flint ID of the referenced resource. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `resource_type` | Conditional | string | Public resource kind identified by resource_id, such as payment_intent for a payment. Example: `"order"`. Values: [154 declared values](APIKey.md#apikeycreated_by-resource_type-values). |
-
-### ApiKeyRevokedEvent.data.previous_attributes.created_by variant 1
-
-anyOf ResourceReference: Who created this key: the API key or workload identity whose credential made the request, or else the user, including through the Dashboard, a CLI login, or an onboarding session. An API key creator can belong to another mode, such as a live key that creates a sandbox key. Keys a workload token created before Flint recorded workload identity creators name the user who set up that workload identity. Filter the list with `created_by_type` and `created_by_id`. Absent when the creator is unavailable..
-
-- Required: `resource_id`, `resource_type`.
-
-### ApiKeyRevokedEvent.data.previous_attributes.created_by variant 2
-
-anyOf variant 2.
-
-- Undeclared: `resource_id`, `resource_type`.
-- Value shape: null. Who created this key: the API key or workload identity whose credential made the request, or else the user, including through the Dashboard, a CLI login, or an onboarding session. An API key creator can belong to another mode, such as a live key that creates a sandbox key. Keys a workload token created before Flint recorded workload identity creators name the user who set up that workload identity. Filter the list with `created_by_type` and `created_by_id`. Absent when the creator is unavailable. 
 
 ### ApiKeyRevokedEvent.data.previous_attributes.expires_at
 

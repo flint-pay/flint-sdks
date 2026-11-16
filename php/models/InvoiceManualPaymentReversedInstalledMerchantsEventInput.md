@@ -40,7 +40,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Full amount received, including any principal and late fees covered. |
+| `amount_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | Full amount received, including any principal and late fees covered. |
 | `invoice_id` | Optional | string or null | The invoice this payment was recorded against. `invoice_id`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEventInput.md#invoicemanualpaymentreversedinstalledmerchantseventinputdataprevious_attributesinvoice_id). |
 | `invoice_manual_payment_id` | Optional | string or null | Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this value as source.order_manual_payment_id. `invoice_manual_payment_id`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEventInput.md#invoicemanualpaymentreversedinstalledmerchantseventinputdataprevious_attributesinvoice_manual_payment_id). |
 | `note` | Optional | string or null | Note about the offline payment, up to 4096 characters. `note`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEventInput.md#invoicemanualpaymentreversedinstalledmerchantseventinputdataprevious_attributesnote). |

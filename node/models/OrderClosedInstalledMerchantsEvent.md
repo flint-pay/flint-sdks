@@ -27,12 +27,12 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `object` | Required | object and [WebhookOrder](../models/WebhookOrder.md#webhookorder) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `active_payment_attempt`, `payment_collection`, `setup_collection`. `object`: [field definitions](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataobject). |
+| `object` | Required | object and [WebhookOrder](../models/WebhookOrder.md#webhookorder) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `buyer_actions`, `active_payment_attempt`, `payment_collection`, `setup_collection`. `object`: [field definitions](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataobject). |
 | `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributes). |
 
 ### OrderClosedInstalledMerchantsEvent.data.object
 
-The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `active_payment_attempt`, `payment_collection`, `setup_collection`.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `buyer_actions`, `active_payment_attempt`, `payment_collection`, `setup_collection`.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -60,10 +60,10 @@ The affected public resource without expansions, client authority fields, or fie
 | `fulfillments` | Required | Array of [Fulfillment](../models/Fulfillment.md#fulfillment) | Fulfillments created for the order, each covering a set of its line items. |
 | `gift_card_estimate` | Optional | [OrderGiftCardEstimate](../models/OrderGiftCardEstimate.md#ordergiftcardestimate) | An estimate of how the order balance splits between gift cards and the payment processor. An estimate of how an order total splits between gift cards and the payment processor, and whether gift cards can pay it. |
 | `gift_card_settlements` | Required | Array of [OrderGiftCardSettlement](../models/OrderGiftCardSettlement.md#ordergiftcardsettlement) | The gift card redemptions applied to the order's payments. |
-| `gift_card_tender_enabled` | Required | boolean | Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes, are not subscription purchases, and whose merchant has at least one gift card that is not closed in this environment. Recomputed on each read; a spent but open card still counts. |
+| `gift_card_tender_enabled` | Required | boolean | Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes, are not subscription purchases, and whose merchant has at least one gift card that is not closed in this environment. Gift cards cannot fund gift card purchases; this is false when those purchases leave no amount eligible for gift card tender. Recomputed on each read; a spent but open card still counts. |
 | `gift_cards` | Required | Array of [OrderGiftCardSelection](../models/OrderGiftCardSelection.md#ordergiftcardselection) | Gift cards available to pay the order, with each card's available balance. |
 | `governing_delivery_selection_id` | Required | string or null | ID of the delivery selection that governs this order, including pickup choices without a delivery destination: the checkout's provisional selection before payment, and the selection a payment committed after. Read it with GET /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs the order. While set, change the destination through the delivery selection. Example: `"dsel_01KEZF7C00QC35XBXVXQSCEB2D"`. |
-| `handover` | Optional | [OrderHandover](../models/OrderHandover.md#orderhandover) | Carry-out handover: every physical item is handed to the buyer at this location when the order is paid, in place of a delivery selection. Payment then creates one completed `handover` fulfillment. Absent without a handover. Every physical item is handed to the buyer at this location when the order is paid. Replaces a delivery selection. `handover`: [field definitions](../models/DeliverySelectionOrder.md#deliveryselectionorderhandover). |
+| `handover` | Optional | [OrderHandover](../models/OrderHandover.md#orderhandover) | Carry-out handover: every physical item is handed to the buyer at this location when the order is paid, in place of a delivery selection. Payment then creates one completed `handover` fulfillment. Absent without a handover. Every physical item is handed to the buyer at this location when the order is paid. Replaces a delivery selection. `handover`: [field definitions](../models/CancelOrderEditResult.md#cancelordereditresultorderhandover). |
 | `internal_note` | Optional | string | A note for your team. Buyer reads leave it out. |
 | `inventory_exception_reason` | Optional | string | Why inventory could not be committed after payment. The cause remains after resolution. Omitted when no reason was recorded. Unrecognized reasons are returned as other; new values may be added. Values: `"inventory_deduction_failed"`, `"inventory_handoff_failed"`, `"auto_refund_required"`, `"auto_refund_failed"`, `"policy_resolution_failed"`, `"other"`. |
 | `inventory_exception_resolution_message` | Optional | string | The merchant note supplied when resolving the inventory exception. It is not shown to the buyer. |
@@ -73,7 +73,7 @@ The affected public resource without expansions, client authority fields, or fie
 | `invoice_id` | Required | string or null | The invoice associated with this order. Null when the order has no invoice. A replacement invoice replaces this ID; voiding an invoice preserves it. Example: `"inv_01KEZF7C00A5GEBMWHEAJFSAR4"`. |
 | `line_items` | Required | Array of [OrderLineItem](../models/OrderLineItem.md#orderlineitem) | Items the order sells, each with its pricing, tax, and fulfillment quantities. |
 | `merchant_id` | Required | string | ID of the merchant this resource belongs to. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
-| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/CheckoutSession.md#checkoutsessionmetadata). |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/CancelOrderEditResult.md#cancelordereditresultordermetadata). |
 | `order_id` | Required | string | Unique identifier for this order, prefixed `ord_`. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
 | `order_number` | Optional | string | Human-readable order number for receipts and merchant reference. |
 | `origin` | Optional | string | How the order was created. invoice means a Quick Pay invoice created the order; attaching an invoice to an existing order preserves its origin. Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`, `"invoice"`. |
@@ -120,11 +120,11 @@ The affected public resource without expansions, client authority fields, or fie
 
 ### OrderClosedInstalledMerchantsEvent.data.object.handover
 
-Field definitions: [DeliverySelectionOrder.handover](../models/DeliverySelectionOrder.md#deliveryselectionorderhandover).
+Field definitions: [CancelOrderEditResult.order.handover](../models/CancelOrderEditResult.md#cancelordereditresultorderhandover).
 
 ### OrderClosedInstalledMerchantsEvent.data.object.metadata
 
-Field definitions: [CheckoutSession.metadata](../models/CheckoutSession.md#checkoutsessionmetadata).
+Field definitions: [CancelOrderEditResult.order.metadata](../models/CancelOrderEditResult.md#cancelordereditresultordermetadata).
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes
 
@@ -133,71 +133,71 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `active_payment_review_id` | Optional | string or null or null | The earliest open or resolving payment review on this order's counted payments. `null` when no review is open or resolving. List reviews with GET /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present with merchant credentials. `active_payment_review_id`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesactive_payment_review_id). |
-| `authorization_amounts` | Optional | [OrderAuthorizationAmounts](../models/OrderAuthorizationAmounts.md#orderauthorizationamounts) or null | The amounts authorized and still capturable on the order's payments. |
-| `buyer_contact` | Optional | [CheckoutBuyerContact](../models/CheckoutBuyerContact.md#checkoutbuyercontact) or null | Email and phone saved when payment started, from the pay request's buyer_contact or the paying checkout session's saved contact. It does not change the linked customer. |
+| `authorization_amounts` | Optional | [OrderAuthorizationAmountsPreviousAttributes](../models/OrderAuthorizationAmountsPreviousAttributes.md#orderauthorizationamountspreviousattributes) or null | The amounts authorized and still capturable on the order's payments. |
+| `buyer_contact` | Optional | [CheckoutBuyerContactPreviousAttributes](../models/CheckoutBuyerContactPreviousAttributes.md#checkoutbuyercontactpreviousattributes) or null | Email and phone saved when payment started, from the pay request's buyer_contact or the paying checkout session's saved contact. It does not change the linked customer. |
 | `buyer_note` | Optional | string or null | A note to the buyer. `buyer_note`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesbuyer_note). |
-| `charges` | Optional | Array of [OrderCharge](../models/OrderCharge.md#ordercharge) or null | Charges added to the order, such as delivery or service fees, each with its applied amount, tax, and refunded amount. `charges`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributescharges). |
+| `charges` | Optional | Array of [OrderChargePreviousAttributes](../models/OrderChargePreviousAttributes.md#orderchargepreviousattributes) or null | Charges added to the order, such as delivery or service fees, each with its applied amount, tax, and refunded amount. `charges`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributescharges). |
 | `checkout_session_ids` | Optional | Array of string or null | IDs of the checkout sessions opened for this order. `checkout_session_ids`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributescheckout_session_ids). |
 | `client_reference` | Optional | string or null or null | The reference the payment link URL or resolve request carried, such as your user ID. `null` when none was sent or checkout did not start from a payment link. Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity. Always present with merchant credentials. `client_reference`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesclient_reference). |
-| `closed_at` | Optional | string or null | When the order closed. Present exactly when status is closed. Set once at the transition and never changed. `closed_at`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesclosed_at). |
-| `closed_reason` | Optional | string or null | Why the order closed. Present exactly when status is closed. Set once at closure. Unrecognized reasons are returned as other; new values may be added. Values: `"invoice_voided"`, `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. `closed_reason`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesclosed_reason). |
+| `closed_at` | Optional | string or null | When the order closed. Present exactly when status is closed. Set once at the transition and never changed. `closed_at`: [declared alternatives](../models/BuyerExpandedOrderSummaryPreviousAttributes.md#buyerexpandedordersummarypreviousattributesclosed_at). |
+| `closed_reason` | Optional | string or null | Why the order closed. Present exactly when status is closed. Set once at closure. Unrecognized reasons are returned as other; new values may be added. Values: `"invoice_voided"`, `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. `closed_reason`: [declared alternatives](../models/BuyerExpandedOrderSummaryPreviousAttributes.md#buyerexpandedordersummarypreviousattributesclosed_reason). |
 | `closed_reason_message` | Optional | string or null | The caller note supplied when closing the order. System closures leave it absent. It is not shown to the buyer. `closed_reason_message`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesclosed_reason_message). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
-| `custom_field_answers` | Optional | Array of [CustomFieldAnswer](../models/CustomFieldAnswer.md#customfieldanswer) or null | The buyer's answers to the payment link's custom fields, recorded when checkout started, in the order the link showed the fields. Each answer keeps the field's key, label, and type from that moment, so later changes to the link don't change it. Optional fields the buyer left blank are left out. Read-only. Empty when the order didn't come from a payment link, the link had no custom fields, or the buyer answered none. Orders created before Flint recorded answers here also return an empty list and keep their answers in `metadata` as `custom_field_&lt;key>`. Deleting the customer removes the answers. Returned only to merchant credentials; omitted for buyer credentials. Always present with merchant credentials. `custom_field_answers`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributescustom_field_answers). |
-| `customer` | Optional | [ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) or null or null | Customer summary included when `expand` names `customer`; `null` when expanded and no customer is linked. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. |
+| `custom_field_answers` | Optional | Array of [CustomFieldAnswerPreviousAttributes](../models/CustomFieldAnswerPreviousAttributes.md#customfieldanswerpreviousattributes) or null | The buyer's answers to the payment link's custom fields, recorded when checkout started, in the order the link showed the fields. Each answer keeps the field's key, label, and type from that moment, so later changes to the link don't change it. Optional fields the buyer left blank are left out. Read-only. Empty when the order didn't come from a payment link, the link had no custom fields, or the buyer answered none. Orders created before Flint recorded answers here also return an empty list and keep their answers in `metadata` as `custom_field_&lt;key>`. Deleting the customer removes the answers. Returned only to merchant credentials; omitted for buyer credentials. Always present with merchant credentials. `custom_field_answers`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributescustom_field_answers). |
+| `customer` | Optional | ([ExpandedCustomerSummaryPreviousAttributes](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributes) or null) or null | Customer summary included when `expand` names `customer`; `null` when expanded and no customer is linked. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. |
 | `customer_id` | Optional | string or null | ID of the customer this order belongs to. `customer_id`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributescustomer_id). |
-| `deferred_promotions` | Optional | Array of [DeferredPromotion](../models/DeferredPromotion.md#deferredpromotion) or null | Promotions accepted at subscription signup. They attach when the subscription is provisioned and first discount its first charged cycle. They do not discount this order and are separate from discounts and order totals. Always present; empty when no promotions are deferred. `deferred_promotions`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesdeferred_promotions). |
-| `delivery` | Optional | [OrderDeliverySummary](../models/OrderDeliverySummary.md#orderdeliverysummary) or null | Method, type and recipient of governing_delivery_selection_id. The address remains in delivery_destination. Omitted when no shipment or local-delivery selection governs the order. |
-| `delivery_destination` | Optional | [OrderDeliveryDestination](../models/OrderDeliveryDestination.md#orderdeliverydestination) or null | The shipment or local-delivery destination committed for this order. Payment freezes this value; fulfillment recipient changes do not replace it. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
-| `discounts` | Optional | Array of [OrderDiscount](../models/OrderDiscount.md#orderdiscount) or null | Discounts applied to the order, each with its amount, status, and the line items and charges it covers. `discounts`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesdiscounts). |
+| `deferred_promotions` | Optional | Array of [DeferredPromotionPreviousAttributes](../models/DeferredPromotionPreviousAttributes.md#deferredpromotionpreviousattributes) or null | Promotions accepted at subscription signup. They attach when the subscription is provisioned and first discount its first charged cycle. They do not discount this order and are separate from discounts and order totals. Always present; empty when no promotions are deferred. `deferred_promotions`: [declared alternatives](../models/BuyerExpandedOrderSummaryPreviousAttributes.md#buyerexpandedordersummarypreviousattributesdeferred_promotions). |
+| `delivery` | Optional | [OrderDeliverySummaryPreviousAttributes](../models/OrderDeliverySummaryPreviousAttributes.md#orderdeliverysummarypreviousattributes) or null | Method, type and recipient of governing_delivery_selection_id. The address remains in delivery_destination. Omitted when no shipment or local-delivery selection governs the order. |
+| `delivery_destination` | Optional | [OrderDeliveryDestinationPreviousAttributes](../models/OrderDeliveryDestinationPreviousAttributes.md#orderdeliverydestinationpreviousattributes) or null | The shipment or local-delivery destination committed for this order. Payment freezes this value; fulfillment recipient changes do not replace it. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
+| `discounts` | Optional | Array of [OrderDiscountPreviousAttributes](../models/OrderDiscountPreviousAttributes.md#orderdiscountpreviousattributes) or null | Discounts applied to the order, each with its amount, status, and the line items and charges it covers. `discounts`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesdiscounts). |
 | `dispute_status` | Optional | string or null | Aggregate dispute state across the order's counted payment intents, excluding payment_returned. Always returned to merchant credentials and omitted from buyer reads. Open states take precedence in this order: needs_response, under_review, inquiry_needs_response, inquiry_under_review, other. Otherwise the most severe closed state wins: lost, won, prevented, inquiry_closed; none when no disputes count. List individual cases with GET /v1/disputes?order_id={order_id}. Always present with merchant credentials. Values: [10 declared values](#orderclosedinstalledmerchantseventdataprevious_attributes-dispute_status-values). `dispute_status`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesdispute_status). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesexternal_reference_id). |
-| `fulfillment_status` | Optional | string or null | Aggregate progress across the order's fulfillment quantities. Values: `"not_fulfilled"`, `"partially_fulfilled"`, `"fulfilled"`, `"canceled"`, `"not_applicable"`, `"closed"`. `fulfillment_status`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesfulfillment_status). |
-| `fulfillments` | Optional | Array of [Fulfillment](../models/Fulfillment.md#fulfillment) or null | Fulfillments created for the order, each covering a set of its line items. `fulfillments`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesfulfillments). |
-| `gift_card_estimate` | Optional | [OrderGiftCardEstimate](../models/OrderGiftCardEstimate.md#ordergiftcardestimate) or null | An estimate of how the order balance splits between gift cards and the payment processor. |
-| `gift_card_settlements` | Optional | Array of [OrderGiftCardSettlement](../models/OrderGiftCardSettlement.md#ordergiftcardsettlement) or null | The gift card redemptions applied to the order's payments. `gift_card_settlements`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesgift_card_settlements). |
-| `gift_card_tender_enabled` | Optional | boolean or null | Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes, are not subscription purchases, and whose merchant has at least one gift card that is not closed in this environment. Recomputed on each read; a spent but open card still counts. `gift_card_tender_enabled`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesgift_card_tender_enabled). |
-| `gift_cards` | Optional | Array of [OrderGiftCardSelection](../models/OrderGiftCardSelection.md#ordergiftcardselection) or null | Gift cards available to pay the order, with each card's available balance. `gift_cards`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesgift_cards). |
+| `fulfillment_status` | Optional | string or null | Aggregate progress across the order's fulfillment quantities. Values: `"not_fulfilled"`, `"partially_fulfilled"`, `"fulfilled"`, `"canceled"`, `"not_applicable"`, `"closed"`. `fulfillment_status`: [declared alternatives](../models/BuyerExpandedOrderSummaryPreviousAttributes.md#buyerexpandedordersummarypreviousattributesfulfillment_status). |
+| `fulfillments` | Optional | Array of [FulfillmentPreviousAttributes](../models/FulfillmentPreviousAttributes.md#fulfillmentpreviousattributes) or null | Fulfillments created for the order, each covering a set of its line items. `fulfillments`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesfulfillments). |
+| `gift_card_estimate` | Optional | [OrderGiftCardEstimatePreviousAttributes](../models/OrderGiftCardEstimatePreviousAttributes.md#ordergiftcardestimatepreviousattributes) or null | An estimate of how the order balance splits between gift cards and the payment processor. |
+| `gift_card_settlements` | Optional | Array of [OrderGiftCardSettlementPreviousAttributes](../models/OrderGiftCardSettlementPreviousAttributes.md#ordergiftcardsettlementpreviousattributes) or null | The gift card redemptions applied to the order's payments. `gift_card_settlements`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesgift_card_settlements). |
+| `gift_card_tender_enabled` | Optional | boolean or null | Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes, are not subscription purchases, and whose merchant has at least one gift card that is not closed in this environment. Gift cards cannot fund gift card purchases; this is false when those purchases leave no amount eligible for gift card tender. Recomputed on each read; a spent but open card still counts. `gift_card_tender_enabled`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesgift_card_tender_enabled). |
+| `gift_cards` | Optional | Array of [OrderGiftCardSelectionPreviousAttributes](../models/OrderGiftCardSelectionPreviousAttributes.md#ordergiftcardselectionpreviousattributes) or null | Gift cards available to pay the order, with each card's available balance. `gift_cards`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesgift_cards). |
 | `governing_delivery_selection_id` | Optional | string or null or null | ID of the delivery selection that governs this order, including pickup choices without a delivery destination: the checkout's provisional selection before payment, and the selection a payment committed after. Read it with GET /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs the order. While set, change the destination through the delivery selection. `governing_delivery_selection_id`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesgoverning_delivery_selection_id). |
-| `handover` | Optional | [OrderHandover](../models/OrderHandover.md#orderhandover) or null | Carry-out handover: every physical item is handed to the buyer at this location when the order is paid, in place of a delivery selection. Payment then creates one completed `handover` fulfillment. Absent without a handover. `handover`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributeshandover). |
+| `handover` | Optional | [OrderHandoverPreviousAttributes](../models/OrderHandoverPreviousAttributes.md#orderhandoverpreviousattributes) or null | Carry-out handover: every physical item is handed to the buyer at this location when the order is paid, in place of a delivery selection. Payment then creates one completed `handover` fulfillment. Absent without a handover. |
 | `internal_note` | Optional | string or null | A note for your team. Buyer reads leave it out. `internal_note`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesinternal_note). |
 | `inventory_exception_reason` | Optional | string or null | Why inventory could not be committed after payment. The cause remains after resolution. Omitted when no reason was recorded. Unrecognized reasons are returned as other; new values may be added. Values: `"inventory_deduction_failed"`, `"inventory_handoff_failed"`, `"auto_refund_required"`, `"auto_refund_failed"`, `"policy_resolution_failed"`, `"other"`. `inventory_exception_reason`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesinventory_exception_reason). |
 | `inventory_exception_resolution_message` | Optional | string or null | The merchant note supplied when resolving the inventory exception. It is not shown to the buyer. `inventory_exception_resolution_message`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesinventory_exception_resolution_message). |
 | `inventory_exception_status` | Optional | string or null | Whether an inventory problem after payment needs attention. Values: `"paid_inventory_failed"`, `"resolved"`. `inventory_exception_status`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesinventory_exception_status). |
 | `inventory_reservation_id` | Optional | string or null | The reservation holding stock for this order, when one exists. `inventory_reservation_id`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesinventory_reservation_id). |
-| `inventory_routing_source` | Optional | [InventoryRoutingSource](../models/InventoryRoutingSource.md#inventoryroutingsource) or null | Where this order's tracked demand is routed. Required before an order containing tracked variants can hold stock. |
+| `inventory_routing_source` | Optional | [InventoryRoutingSourcePreviousAttributes](../models/InventoryRoutingSourcePreviousAttributes.md#inventoryroutingsourcepreviousattributes) or null | Where this order's tracked demand is routed. Required before an order containing tracked variants can hold stock. |
 | `invoice_id` | Optional | string or null or null | The invoice associated with this order. Null when the order has no invoice. A replacement invoice replaces this ID; voiding an invoice preserves it. `invoice_id`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesinvoice_id). |
-| `line_items` | Optional | Array of [OrderLineItem](../models/OrderLineItem.md#orderlineitem) or null | Items the order sells, each with its pricing, tax, and fulfillment quantities. `line_items`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesline_items). |
+| `line_items` | Optional | Array of [OrderLineItemPreviousAttributes](../models/OrderLineItemPreviousAttributes.md#orderlineitempreviousattributes) or null | Items the order sells, each with its pricing, tax, and fulfillment quantities. `line_items`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesline_items). |
 | `merchant_id` | Optional | string or null | ID of the merchant this resource belongs to. `merchant_id`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributesmerchant_id). |
 | `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) or null | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. `metadata`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesmetadata). |
 | `order_id` | Optional | string or null | Unique identifier for this order, prefixed `ord_`. `order_id`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesorder_id). |
-| `order_number` | Optional | string or null | Human-readable order number for receipts and merchant reference. `order_number`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesorder_number). |
+| `order_number` | Optional | string or null | Human-readable order number for receipts and merchant reference. `order_number`: [declared alternatives](../models/BuyerExpandedOrderSummaryPreviousAttributes.md#buyerexpandedordersummarypreviousattributesorder_number). |
 | `origin` | Optional | string or null | How the order was created. invoice means a Quick Pay invoice created the order; attaching an invoice to an existing order preserves its origin. Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`, `"invoice"`. `origin`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesorigin). |
-| `paid_at` | Optional | string or null or null | When `payment_status` became `paid`, including a final capture that releases the remaining balance. Set once and never changed, including after refunds. `null` when `payment_status` isn't `paid`, including an order whose balance was written off without being paid. `paid_at`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributespaid_at). |
+| `paid_at` | Optional | string or null or null | When `payment_status` became `paid`, including a final capture that releases the remaining balance. Set once and never changed, including after refunds. `null` when `payment_status` isn't `paid`, including an order whose balance was written off without being paid. `paid_at`: [declared alternatives](../models/BuyerExpandedOrderSummaryPreviousAttributes.md#buyerexpandedordersummarypreviousattributespaid_at). |
 | `payment_intent_ids` | Optional | Array of string or null | IDs of the payment intents created to collect this order. `payment_intent_ids`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributespayment_intent_ids). |
-| `payment_intents` | Optional | Array of [ExpandedPaymentIntentSummary](../models/ExpandedPaymentIntentSummary.md#expandedpaymentintentsummary) or null | Payment intents included when `expand` names `payment_intents`. `payment_intents`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributespayment_intents). |
+| `payment_intents` | Optional | Array of [ExpandedPaymentIntentSummaryPreviousAttributes](../models/ExpandedPaymentIntentSummaryPreviousAttributes.md#expandedpaymentintentsummarypreviousattributes) or null | Payment intents included when `expand` names `payment_intents`. `payment_intents`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributespayment_intents). |
 | `payment_link_id` | Optional | string or null | Payment link whose checkout created this order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders. `payment_link_id`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributespayment_link_id). |
-| `payment_status` | Optional | string or null | Collection progress. An invoice write-off also completes collection without receiving the written-off amount. Values: `"unpaid"`, `"partially_paid"`, `"paid"`. `payment_status`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributespayment_status). |
+| `payment_status` | Optional | string or null | Collection progress. An invoice write-off also completes collection without receiving the written-off amount. Values: `"unpaid"`, `"partially_paid"`, `"paid"`. `payment_status`: [declared alternatives](../models/BuyerExpandedOrderSummaryPreviousAttributes.md#buyerexpandedordersummarypreviousattributespayment_status). |
 | `pending_order_edit_id` | Optional | string or null or null | The order edit waiting for its balance payment. While it is set, the units that edit removes can't join a fulfillment and the order refuses another edit. `null` when there is none. Omitted for buyer credentials. Always present with merchant credentials. `pending_order_edit_id`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributespending_order_edit_id). |
 | `prepayment_order_id` | Optional | string or null or null | Order that paid for this prepaid delivery. Null when this is not a prepaid delivery order. `prepayment_order_id`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesprepayment_order_id). |
-| `pricing_amounts` | Optional | [PricingAmounts](../models/PricingAmounts.md#pricingamounts) or null | The order's money totals: subtotal, discounts, charges, tax, requested tip, and total. |
+| `pricing_amounts` | Optional | [PricingAmountsPreviousAttributes](../models/PricingAmountsPreviousAttributes.md#pricingamountspreviousattributes) or null | The order's money totals: subtotal, discounts, charges, tax, requested tip, and total. |
 | `refund_ids` | Optional | Array of string or null | IDs of the refunds that name this order. This includes refunds Flint makes to return a payment it couldn't accept (`reason` `payment_returned`), which never count toward `refund_status` or the order's refunded amounts. `refund_ids`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesrefund_ids). |
-| `refund_status` | Optional | string or null | Refund progress for collected money. Refunds with `reason` `payment_returned` return money the order never received and don't count. Values: `"none"`, `"partially_refunded"`, `"refunded"`. `refund_status`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesrefund_status). |
-| `return_credit_settlements` | Optional | Array of [OrderReturnCreditSettlement](../models/OrderReturnCreditSettlement.md#orderreturncreditsettlement) or null | Value applied to this order from items the buyer returned, such as an exchange's replacement order. Included in settlement_amounts.paid_money. `return_credit_settlements`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesreturn_credit_settlements). |
+| `refund_status` | Optional | string or null | Refund progress for collected money. Refunds with `reason` `payment_returned` return money the order never received and don't count. Values: `"none"`, `"partially_refunded"`, `"refunded"`. `refund_status`: [declared alternatives](../models/BuyerExpandedOrderSummaryPreviousAttributes.md#buyerexpandedordersummarypreviousattributesrefund_status). |
+| `return_credit_settlements` | Optional | Array of [OrderReturnCreditSettlementPreviousAttributes](../models/OrderReturnCreditSettlementPreviousAttributes.md#orderreturncreditsettlementpreviousattributes) or null | Value applied to this order from items the buyer returned, such as an exchange's replacement order. Included in settlement_amounts.paid_money. `return_credit_settlements`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesreturn_credit_settlements). |
 | `return_resolution_id` | Optional | string or null | ID of the return resolution that created this order as a replacement. Omitted for orders a return did not create. `return_resolution_id`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesreturn_resolution_id). |
-| `settlement_amounts` | Optional | [OrderSettlementAmounts](../models/OrderSettlementAmounts.md#ordersettlementamounts) or null | How much of the order has been paid, refunded, credited, written off, and settled as tips, and what is still outstanding. |
-| `status` | Optional | string or null | Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Values: `"open"`, `"closed"`. `status`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesstatus). |
-| `subscription` | Optional | [ExpandedSubscriptionSummary](../models/ExpandedSubscriptionSummary.md#expandedsubscriptionsummary) or null or null | Subscription summary included when `expand` names `subscription`; `null` when expanded and this order does not bill a subscription. Present only when `expand` includes `subscription`; `null` when expanded and there is no related subscription. |
+| `settlement_amounts` | Optional | [OrderSettlementAmountsPreviousAttributes](../models/OrderSettlementAmountsPreviousAttributes.md#ordersettlementamountspreviousattributes) or null | How much of the order has been paid, refunded, credited, written off, and settled as tips, and what is still outstanding. |
+| `status` | Optional | string or null | Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Values: `"open"`, `"closed"`. `status`: [declared alternatives](../models/BuyerExpandedOrderSummaryPreviousAttributes.md#buyerexpandedordersummarypreviousattributesstatus). |
+| `subscription` | Optional | ([ExpandedSubscriptionSummaryPreviousAttributes](../models/ExpandedSubscriptionSummaryPreviousAttributes.md#expandedsubscriptionsummarypreviousattributes) or null) or null | Subscription summary included when `expand` names `subscription`; `null` when expanded and this order does not bill a subscription. Present only when `expand` includes `subscription`; `null` when expanded and there is no related subscription. |
 | `subscription_cycle` | Optional | integer or null | Charged subscription cycle associated with this order. Signup is cycle 1; unpaid retries and skipped renewals do not advance the cycle. `subscription_cycle`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributessubscription_cycle). |
 | `subscription_delivery_changed_at` | Optional | string or null | Time the subscriber changed delivery after this paid renewal was prepared. The order keeps its committed destination until you correct it or refund and replace it. `subscription_delivery_changed_at`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributessubscription_delivery_changed_at). |
 | `subscription_delivery_number` | Optional | integer or null or null | Position of this delivery among the deliveries one charge paid for, starting at 2. Null when this is not a prepaid delivery order. `subscription_delivery_number`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributessubscription_delivery_number). |
 | `subscription_id` | Optional | string or null | ID of the subscription this order bills. Absent on an order that isn't from a subscription. `subscription_id`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributessubscription_id). |
-| `subscription_plan` | Optional | [ExpandedSubscriptionPlanSummary](../models/ExpandedSubscriptionPlanSummary.md#expandedsubscriptionplansummary) or null or null | Plan summary included when `expand` names `subscription_plan`; `null` when expanded and this order does not bill a subscription plan. Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. |
+| `subscription_plan` | Optional | ([ExpandedSubscriptionPlanSummaryPreviousAttributes](../models/ExpandedSubscriptionPlanSummaryPreviousAttributes.md#expandedsubscriptionplansummarypreviousattributes) or null) or null | Plan summary included when `expand` names `subscription_plan`; `null` when expanded and this order does not bill a subscription plan. Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. |
 | `subscription_plan_id` | Optional | string or null | ID of the subscription plan this order bills. Absent on an order that isn't from a subscription. `subscription_plan_id`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributessubscription_plan_id). |
 | `supported_actions` | Optional | Array of string or null | Lifecycle actions Flint accepts now, independent of permissions. Includes close when closure is allowed, and pay while open without an active attempt and with an outstanding balance or payment-method setup available. Always present with merchant credentials. Items values: `"close"`, `"pay"`, `"resolve_inventory_exception"`. `supported_actions`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributessupported_actions). |
-| `tax` | Optional | [OrderTax](../models/OrderTax.md#ordertax) or null | The order's tax state: whether tax is enabled, its status, location, exemption, and per-jurisdiction rows. |
-| `ticketed_event` | Optional | [TicketedEvent](../models/TicketedEvent.md#ticketedevent) or null | Event and tickets this order sold through an event payment link. Absent on other orders. |
-| `tips` | Optional | Array of [Tip](../models/Tip.md#tip) or null | Tips on the order, each with its requested, settled, and refunded amounts. A tip cleared before payment stays listed as canceled. `tips`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributestips). |
+| `tax` | Optional | [OrderTaxPreviousAttributes](../models/OrderTaxPreviousAttributes.md#ordertaxpreviousattributes) or null | The order's tax state: whether tax is enabled, its status, location, exemption, and per-jurisdiction rows. |
+| `ticketed_event` | Optional | [TicketedEventPreviousAttributes](../models/TicketedEventPreviousAttributes.md#ticketedeventpreviousattributes) or null | Event and tickets this order sold through an event payment link. Absent on other orders. |
+| `tips` | Optional | Array of [TipPreviousAttributes](../models/TipPreviousAttributes.md#tippreviousattributes) or null | Tips on the order, each with its requested, settled, and refunded amounts. A tip cleared before payment stays listed as canceled. `tips`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributestips). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `version` | Optional | integer or null | Order version for optimistic concurrency. Send this value as the expected version when changing the order. Increases with every change to the order. Ignore an order webhook snapshot whose version is lower than one you have already applied. `version`: [declared alternatives](../models/OrderClosedInstalledMerchantsEvent.md#orderclosedinstalledmerchantseventdataprevious_attributesversion). |
 
@@ -248,7 +248,7 @@ anyOf variant 2.
 
 anyOf variant 1: Charges added to the order, such as delivery or service fees, each with its applied amount, tax, and refunded amount..
 
-- Value shape: Array of [OrderCharge](../models/OrderCharge.md#ordercharge). Charges added to the order, such as delivery or service fees, each with its applied amount, tax, and refunded amount. 
+- Value shape: Array of [OrderChargePreviousAttributes](../models/OrderChargePreviousAttributes.md#orderchargepreviousattributes). Charges added to the order, such as delivery or service fees, each with its applied amount, tax, and refunded amount. 
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.charges variant 2
 
@@ -276,31 +276,11 @@ Declared alternatives: [CheckoutSessionClosedInstalledMerchantsEvent.data.previo
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.closed_at
 
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.closed_at variant 1
-
-anyOf variant 1: When the order closed. Present exactly when status is closed. Set once at the transition and never changed..
-
-- Value shape: string. When the order closed. Present exactly when status is closed. Set once at the transition and never changed. When the order closed. Present exactly when status is closed. Set once at the transition and never changed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
-
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.closed_at variant 2
-
-anyOf variant 2.
-
-- Value shape: null. When the order closed. Present exactly when status is closed. Set once at the transition and never changed. 
+Declared alternatives: [BuyerExpandedOrderSummaryPreviousAttributes.closed_at](../models/BuyerExpandedOrderSummaryPreviousAttributes.md#buyerexpandedordersummarypreviousattributesclosed_at).
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.closed_reason
 
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.closed_reason variant 1
-
-anyOf variant 1: Why the order closed. Present exactly when status is closed. Set once at closure. Unrecognized reasons are returned as other; new values may be added..
-
-- Value shape: string. Why the order closed. Present exactly when status is closed. Set once at closure. Unrecognized reasons are returned as other; new values may be added. Values: `"invoice_voided"`, `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`.
-
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.closed_reason variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Why the order closed. Present exactly when status is closed. Set once at closure. Unrecognized reasons are returned as other; new values may be added. 
+Declared alternatives: [BuyerExpandedOrderSummaryPreviousAttributes.closed_reason](../models/BuyerExpandedOrderSummaryPreviousAttributes.md#buyerexpandedordersummarypreviousattributesclosed_reason).
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.closed_reason_message
 
@@ -326,7 +306,7 @@ Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](
 
 anyOf variant 1: The buyer's answers to the payment link's custom fields, recorded when checkout started, in the order the link showed the fields. Each answer keeps the field's key, label, and type from that moment, so later changes to the link don't change it. Optional fields the buyer left blank are left out. Read-only. Empty when the order didn't come from a payment link, the link had no custom fields, or the buyer answered none. Orders created before Flint recorded answers here also return an empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting the customer removes the answers. Returned only to merchant credentials; omitted for buyer credentials. Always present with merchant credentials..
 
-- Value shape: Array of [CustomFieldAnswer](../models/CustomFieldAnswer.md#customfieldanswer). The buyer's answers to the payment link's custom fields, recorded when checkout started, in the order the link showed the fields. Each answer keeps the field's key, label, and type from that moment, so later changes to the link don't change it. Optional fields the buyer left blank are left out. Read-only. Empty when the order didn't come from a payment link, the link had no custom fields, or the buyer answered none. Orders created before Flint recorded answers here also return an empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting the customer removes the answers. Returned only to merchant credentials; omitted for buyer credentials. Always present with merchant credentials. The buyer's answers to the payment link's custom fields, recorded when checkout started, in the order the link showed the fields. Each answer keeps the field's key, label, and type from that moment, so later changes to the link don't change it. Optional fields the buyer left blank are left out. Read-only. Empty when the order didn't come from a payment link, the link had no custom fields, or the buyer answered none. Orders created before Flint recorded answers here also return an empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting the customer removes the answers. Returned only to merchant credentials; omitted for buyer credentials. Always present with merchant credentials. maxItems: `20`. 
+- Value shape: (Array of ([CustomFieldAnswerPreviousAttributes](../models/CustomFieldAnswerPreviousAttributes.md#customfieldanswerpreviousattributes) and ([CustomFieldAnswerTextPreviousAttributes](../models/CustomFieldAnswerTextPreviousAttributes.md#customfieldanswertextpreviousattributes) or [CustomFieldAnswerTextareaPreviousAttributes](../models/CustomFieldAnswerTextareaPreviousAttributes.md#customfieldanswertextareapreviousattributes) or [CustomFieldAnswerDropdownPreviousAttributes](../models/CustomFieldAnswerDropdownPreviousAttributes.md#customfieldanswerdropdownpreviousattributes) or [CustomFieldAnswerCheckboxPreviousAttributes](../models/CustomFieldAnswerCheckboxPreviousAttributes.md#customfieldanswercheckboxpreviousattributes)))). The buyer's answers to the payment link's custom fields, recorded when checkout started, in the order the link showed the fields. Each answer keeps the field's key, label, and type from that moment, so later changes to the link don't change it. Optional fields the buyer left blank are left out. Read-only. Empty when the order didn't come from a payment link, the link had no custom fields, or the buyer answered none. Orders created before Flint recorded answers here also return an empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting the customer removes the answers. Returned only to merchant credentials; omitted for buyer credentials. Always present with merchant credentials. The buyer's answers to the payment link's custom fields, recorded when checkout started, in the order the link showed the fields. Each answer keeps the field's key, label, and type from that moment, so later changes to the link don't change it. Optional fields the buyer left blank are left out. Read-only. Empty when the order didn't come from a payment link, the link had no custom fields, or the buyer answered none. Orders created before Flint recorded answers here also return an empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting the customer removes the answers. Returned only to merchant credentials; omitted for buyer credentials. Always present with merchant credentials. maxItems: `20`. 
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.custom_field_answers variant 2
 
@@ -350,17 +330,7 @@ anyOf variant 2.
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.deferred_promotions
 
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.deferred_promotions variant 1
-
-anyOf variant 1: Promotions accepted at subscription signup. They attach when the subscription is provisioned and first discount its first charged cycle. They do not discount this order and are separate from discounts and order totals. Always present; empty when no promotions are deferred..
-
-- Value shape: Array of [DeferredPromotion](../models/DeferredPromotion.md#deferredpromotion). Promotions accepted at subscription signup. They attach when the subscription is provisioned and first discount its first charged cycle. They do not discount this order and are separate from discounts and order totals. Always present; empty when no promotions are deferred. 
-
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.deferred_promotions variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Promotions accepted at subscription signup. They attach when the subscription is provisioned and first discount its first charged cycle. They do not discount this order and are separate from discounts and order totals. Always present; empty when no promotions are deferred. 
+Declared alternatives: [BuyerExpandedOrderSummaryPreviousAttributes.deferred_promotions](../models/BuyerExpandedOrderSummaryPreviousAttributes.md#buyerexpandedordersummarypreviousattributesdeferred_promotions).
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.discounts
 
@@ -368,7 +338,7 @@ anyOf variant 2.
 
 anyOf variant 1: Discounts applied to the order, each with its amount, status, and the line items and charges it covers..
 
-- Value shape: Array of [OrderDiscount](../models/OrderDiscount.md#orderdiscount). Discounts applied to the order, each with its amount, status, and the line items and charges it covers. 
+- Value shape: Array of [OrderDiscountPreviousAttributes](../models/OrderDiscountPreviousAttributes.md#orderdiscountpreviousattributes). Discounts applied to the order, each with its amount, status, and the line items and charges it covers. 
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.discounts variant 2
 
@@ -396,17 +366,7 @@ Declared alternatives: [BundleArchivedInstalledMerchantsEvent.data.previous_attr
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.fulfillment_status
 
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.fulfillment_status variant 1
-
-anyOf variant 1: Aggregate progress across the order's fulfillment quantities..
-
-- Value shape: string. Aggregate progress across the order's fulfillment quantities. Values: `"not_fulfilled"`, `"partially_fulfilled"`, `"fulfilled"`, `"canceled"`, `"not_applicable"`, `"closed"`.
-
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.fulfillment_status variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Aggregate progress across the order's fulfillment quantities. 
+Declared alternatives: [BuyerExpandedOrderSummaryPreviousAttributes.fulfillment_status](../models/BuyerExpandedOrderSummaryPreviousAttributes.md#buyerexpandedordersummarypreviousattributesfulfillment_status).
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.fulfillments
 
@@ -414,7 +374,7 @@ anyOf variant 2.
 
 anyOf variant 1: Fulfillments created for the order, each covering a set of its line items..
 
-- Value shape: Array of [Fulfillment](../models/Fulfillment.md#fulfillment). Fulfillments created for the order, each covering a set of its line items. 
+- Value shape: Array of [FulfillmentPreviousAttributes](../models/FulfillmentPreviousAttributes.md#fulfillmentpreviousattributes). Fulfillments created for the order, each covering a set of its line items. 
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.fulfillments variant 2
 
@@ -428,7 +388,7 @@ anyOf variant 2.
 
 anyOf variant 1: The gift card redemptions applied to the order's payments..
 
-- Value shape: Array of [OrderGiftCardSettlement](../models/OrderGiftCardSettlement.md#ordergiftcardsettlement). The gift card redemptions applied to the order's payments. 
+- Value shape: Array of [OrderGiftCardSettlementPreviousAttributes](../models/OrderGiftCardSettlementPreviousAttributes.md#ordergiftcardsettlementpreviousattributes). The gift card redemptions applied to the order's payments. 
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.gift_card_settlements variant 2
 
@@ -440,15 +400,15 @@ anyOf variant 2.
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.gift_card_tender_enabled variant 1
 
-anyOf variant 1: Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes, are not subscription purchases, and whose merchant has at least one gift card that is not closed in this environment. Recomputed on each read; a spent but open card still counts..
+anyOf variant 1: Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes, are not subscription purchases, and whose merchant has at least one gift card that is not closed in this environment. Gift cards cannot fund gift card purchases; this is false when those purchases leave no amount eligible for gift card tender. Recomputed on each read; a spent but open card still counts..
 
-- Value shape: boolean. Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes, are not subscription purchases, and whose merchant has at least one gift card that is not closed in this environment. Recomputed on each read; a spent but open card still counts. 
+- Value shape: boolean. Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes, are not subscription purchases, and whose merchant has at least one gift card that is not closed in this environment. Gift cards cannot fund gift card purchases; this is false when those purchases leave no amount eligible for gift card tender. Recomputed on each read; a spent but open card still counts. 
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.gift_card_tender_enabled variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes, are not subscription purchases, and whose merchant has at least one gift card that is not closed in this environment. Recomputed on each read; a spent but open card still counts. 
+- Value shape: null. Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes, are not subscription purchases, and whose merchant has at least one gift card that is not closed in this environment. Gift cards cannot fund gift card purchases; this is false when those purchases leave no amount eligible for gift card tender. Recomputed on each read; a spent but open card still counts. 
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.gift_cards
 
@@ -456,7 +416,7 @@ anyOf variant 2.
 
 anyOf variant 1: Gift cards available to pay the order, with each card's available balance..
 
-- Value shape: Array of [OrderGiftCardSelection](../models/OrderGiftCardSelection.md#ordergiftcardselection). Gift cards available to pay the order, with each card's available balance. 
+- Value shape: Array of [OrderGiftCardSelectionPreviousAttributes](../models/OrderGiftCardSelectionPreviousAttributes.md#ordergiftcardselectionpreviousattributes). Gift cards available to pay the order, with each card's available balance. 
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.gift_cards variant 2
 
@@ -477,27 +437,6 @@ anyOf variant 1: ID of the delivery selection that governs this order, including
 anyOf variant 2.
 
 - Value shape: null. ID of the delivery selection that governs this order, including pickup choices without a delivery destination: the checkout's provisional selection before payment, and the selection a payment committed after. Read it with GET /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs the order. While set, change the destination through the delivery selection. 
-
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.handover
-
-Carry-out handover: every physical item is handed to the buyer at this location when the order is paid, in place of a delivery selection. Payment then creates one completed `handover` fulfillment. Absent without a handover.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `location_id` | Conditional | string | Active location with a complete address where the buyer receives the goods. Tracked items take stock from it, and automatic tax treats the sale as made there. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
-
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.handover variant 1
-
-anyOf OrderHandover: Carry-out handover: every physical item is handed to the buyer at this location when the order is paid, in place of a delivery selection. Payment then creates one completed `handover` fulfillment. Absent without a handover..
-
-- Required: `location_id`.
-
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.handover variant 2
-
-anyOf variant 2.
-
-- Undeclared: `location_id`.
-- Value shape: null. Carry-out handover: every physical item is handed to the buyer at this location when the order is paid, in place of a delivery selection. Payment then creates one completed `handover` fulfillment. Absent without a handover. 
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.internal_note
 
@@ -589,7 +528,7 @@ anyOf variant 2.
 
 anyOf variant 1: Items the order sells, each with its pricing, tax, and fulfillment quantities..
 
-- Value shape: Array of [OrderLineItem](../models/OrderLineItem.md#orderlineitem). Items the order sells, each with its pricing, tax, and fulfillment quantities. 
+- Value shape: Array of [OrderLineItemPreviousAttributes](../models/OrderLineItemPreviousAttributes.md#orderlineitempreviousattributes). Items the order sells, each with its pricing, tax, and fulfillment quantities. 
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.line_items variant 2
 
@@ -621,17 +560,7 @@ anyOf variant 2.
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.order_number
 
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.order_number variant 1
-
-anyOf variant 1: Human-readable order number for receipts and merchant reference..
-
-- Value shape: string. Human-readable order number for receipts and merchant reference. 
-
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.order_number variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Human-readable order number for receipts and merchant reference. 
+Declared alternatives: [BuyerExpandedOrderSummaryPreviousAttributes.order_number](../models/BuyerExpandedOrderSummaryPreviousAttributes.md#buyerexpandedordersummarypreviousattributesorder_number).
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.origin
 
@@ -649,17 +578,7 @@ anyOf variant 2.
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.paid_at
 
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.paid_at variant 1
-
-anyOf variant 1: When `payment_status` became `paid`, including a final capture that releases the remaining balance. Set once and never changed, including after refunds. `null` when `payment_status` isn't `paid`, including an order whose balance was written off without being paid..
-
-- Value shape: (string or null). When `payment_status` became `paid`, including a final capture that releases the remaining balance. Set once and never changed, including after refunds. `null` when `payment_status` isn't `paid`, including an order whose balance was written off without being paid. When `payment_status` became `paid`, including a final capture that releases the remaining balance. Set once and never changed, including after refunds. `null` when `payment_status` isn't `paid`, including an order whose balance was written off without being paid. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
-
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.paid_at variant 2
-
-anyOf variant 2.
-
-- Value shape: null. When `payment_status` became `paid`, including a final capture that releases the remaining balance. Set once and never changed, including after refunds. `null` when `payment_status` isn't `paid`, including an order whose balance was written off without being paid. 
+Declared alternatives: [BuyerExpandedOrderSummaryPreviousAttributes.paid_at](../models/BuyerExpandedOrderSummaryPreviousAttributes.md#buyerexpandedordersummarypreviousattributespaid_at).
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.payment_intent_ids
 
@@ -681,7 +600,7 @@ anyOf variant 2.
 
 anyOf variant 1: Payment intents included when `expand` names `payment_intents`..
 
-- Value shape: Array of [ExpandedPaymentIntentSummary](../models/ExpandedPaymentIntentSummary.md#expandedpaymentintentsummary). Payment intents included when `expand` names `payment_intents`. 
+- Value shape: Array of [ExpandedPaymentIntentSummaryPreviousAttributes](../models/ExpandedPaymentIntentSummaryPreviousAttributes.md#expandedpaymentintentsummarypreviousattributes). Payment intents included when `expand` names `payment_intents`. 
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.payment_intents variant 2
 
@@ -705,17 +624,7 @@ anyOf variant 2.
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.payment_status
 
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.payment_status variant 1
-
-anyOf variant 1: Collection progress. An invoice write-off also completes collection without receiving the written-off amount..
-
-- Value shape: string. Collection progress. An invoice write-off also completes collection without receiving the written-off amount. Values: `"unpaid"`, `"partially_paid"`, `"paid"`.
-
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.payment_status variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Collection progress. An invoice write-off also completes collection without receiving the written-off amount. 
+Declared alternatives: [BuyerExpandedOrderSummaryPreviousAttributes.payment_status](../models/BuyerExpandedOrderSummaryPreviousAttributes.md#buyerexpandedordersummarypreviousattributespayment_status).
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.pending_order_edit_id
 
@@ -761,17 +670,7 @@ anyOf variant 2.
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.refund_status
 
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.refund_status variant 1
-
-anyOf variant 1: Refund progress for collected money. Refunds with `reason` `payment_returned` return money the order never received and don't count..
-
-- Value shape: string. Refund progress for collected money. Refunds with `reason` `payment_returned` return money the order never received and don't count. Values: `"none"`, `"partially_refunded"`, `"refunded"`.
-
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.refund_status variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Refund progress for collected money. Refunds with `reason` `payment_returned` return money the order never received and don't count. 
+Declared alternatives: [BuyerExpandedOrderSummaryPreviousAttributes.refund_status](../models/BuyerExpandedOrderSummaryPreviousAttributes.md#buyerexpandedordersummarypreviousattributesrefund_status).
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.return_credit_settlements
 
@@ -779,7 +678,7 @@ anyOf variant 2.
 
 anyOf variant 1: Value applied to this order from items the buyer returned, such as an exchange's replacement order. Included in settlement_amounts.paid_money..
 
-- Value shape: Array of [OrderReturnCreditSettlement](../models/OrderReturnCreditSettlement.md#orderreturncreditsettlement). Value applied to this order from items the buyer returned, such as an exchange's replacement order. Included in settlement_amounts.paid_money. 
+- Value shape: Array of [OrderReturnCreditSettlementPreviousAttributes](../models/OrderReturnCreditSettlementPreviousAttributes.md#orderreturncreditsettlementpreviousattributes). Value applied to this order from items the buyer returned, such as an exchange's replacement order. Included in settlement_amounts.paid_money. 
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.return_credit_settlements variant 2
 
@@ -803,17 +702,7 @@ anyOf variant 2.
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.status
 
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.status variant 1
-
-anyOf variant 1: Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a closed order..
-
-- Value shape: string. Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Values: `"open"`, `"closed"`.
-
-### OrderClosedInstalledMerchantsEvent.data.previous_attributes.status variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a closed order. 
+Declared alternatives: [BuyerExpandedOrderSummaryPreviousAttributes.status](../models/BuyerExpandedOrderSummaryPreviousAttributes.md#buyerexpandedordersummarypreviousattributesstatus).
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.subscription_cycle
 
@@ -905,7 +794,7 @@ anyOf variant 2.
 
 anyOf variant 1: Tips on the order, each with its requested, settled, and refunded amounts. A tip cleared before payment stays listed as canceled..
 
-- Value shape: Array of [Tip](../models/Tip.md#tip). Tips on the order, each with its requested, settled, and refunded amounts. A tip cleared before payment stays listed as canceled. 
+- Value shape: Array of [TipPreviousAttributes](../models/TipPreviousAttributes.md#tippreviousattributes). Tips on the order, each with its requested, settled, and refunded amounts. A tip cleared before payment stays listed as canceled. 
 
 ### OrderClosedInstalledMerchantsEvent.data.previous_attributes.tips variant 2
 

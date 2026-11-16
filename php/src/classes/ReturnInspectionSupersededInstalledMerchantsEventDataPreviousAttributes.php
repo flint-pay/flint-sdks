@@ -7,10 +7,10 @@ namespace Flint;
  * @property-read string|null $created_at
  * @property-read string|null $external_actor_id
  * @property-read string|null $external_reference_id
- * @property-read list<ReturnDisposition>|null $generated_dispositions
+ * @property-read list<ReturnDispositionPreviousAttributes>|null $generated_dispositions
  * @property-read string|null $inspected_at
  * @property-read string|null $inspection_location_id
- * @property-read list<ReturnInspectionLineItem>|null $line_items
+ * @property-read list<ReturnInspectionLineItemPreviousAttributes>|null $line_items
  * @property-read string|null $return_id
  * @property-read string|null $return_inspection_id
  * @property-read string|null $return_receipt_id
@@ -50,8 +50,8 @@ final class ReturnInspectionSupersededInstalledMerchantsEventDataPreviousAttribu
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. anyOf[1] (Value): Array of {@see ReturnDisposition}. Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. anyOf[1][] (Value): {@see ReturnDisposition}. A decision about how returned merchandise will be handled. anyOf[2] (Value): null.
-     * @return list<ReturnDisposition>|null
+    /** Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. anyOf[1] (Value): Array of {@see ReturnDispositionPreviousAttributes}. Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. anyOf[1][] (Value): {@see ReturnDispositionPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ReturnDispositionPreviousAttributes>|null
      */
     public function getGeneratedDispositions(): array|null { return $this->get('generated_dispositions'); }
     public function hasGeneratedDispositions(): bool { return $this->has('generated_dispositions'); }
@@ -65,8 +65,8 @@ final class ReturnInspectionSupersededInstalledMerchantsEventDataPreviousAttribu
      */
     public function getInspectionLocationId(): string|null { return $this->get('inspection_location_id'); }
     public function hasInspectionLocationId(): bool { return $this->has('inspection_location_id'); }
-    /** The lines recorded. anyOf[1] (Value): Array of {@see ReturnInspectionLineItem}. The lines recorded. anyOf[1][] (Value): {@see ReturnInspectionLineItem}. The inspection result for a returned item. anyOf[2] (Value): null.
-     * @return list<ReturnInspectionLineItem>|null
+    /** The lines recorded. anyOf[1] (Value): Array of {@see ReturnInspectionLineItemPreviousAttributes}. The lines recorded. anyOf[1][] (Value): {@see ReturnInspectionLineItemPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ReturnInspectionLineItemPreviousAttributes>|null
      */
     public function getLineItems(): array|null { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
@@ -85,7 +85,7 @@ final class ReturnInspectionSupersededInstalledMerchantsEventDataPreviousAttribu
      */
     public function getReturnReceiptId(): string|null { return $this->get('return_receipt_id'); }
     public function hasReturnReceiptId(): bool { return $this->has('return_receipt_id'); }
-    /** System that recorded the observation. `null` when no source system was recorded. anyOf[1] (Value): {@see ReturnSourceSystem} or null. System that recorded the observation. `null` when no source system was recorded. anyOf[1].anyOf[1] (Value): {@see ReturnSourceSystem}. The system a return event came from, such as a point of sale or warehouse system, with its own identifier. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** System that recorded the observation. `null` when no source system was recorded. anyOf[1] (Value): ({@see ReturnSourceSystemPreviousAttributes} or null). System that recorded the observation. `null` when no source system was recorded. anyOf[1].anyOf[1] (Value): {@see ReturnSourceSystemPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getSourceSystem(): mixed { return $this->get('source_system'); }

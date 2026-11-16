@@ -48,11 +48,15 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.credit_note_id
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.credit_note_id](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributescredit_note_id).
+Declared alternatives: [BuyerRefundPreviousAttributes.credit_note_id](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributescredit_note_id).
+
+### RefundFailedMerchantEvent.data fields 1.previous_attributes.customer
+
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.customer](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributescustomer).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.customer_id
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.customer_id](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributescustomer_id).
+Declared alternatives: [BuyerRefundPreviousAttributes.customer_id](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributescustomer_id).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.external_reference_id
 
@@ -60,11 +64,11 @@ Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previ
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.failure_reason
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.failure_reason](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributesfailure_reason).
+Declared alternatives: [BuyerPaymentRefundPreviousAttributes.failure_reason](../models/BuyerPaymentRefundPreviousAttributes.md#buyerpaymentrefundpreviousattributesfailure_reason).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.idempotency_key
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.idempotency_key](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributesidempotency_key).
+Declared alternatives: [BuyerRefundPreviousAttributes.idempotency_key](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributesidempotency_key).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.initiated_by
 
@@ -72,11 +76,11 @@ Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.initiate
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.invoice_id
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.invoice_id](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributesinvoice_id).
+Declared alternatives: [BuyerRefundPreviousAttributes.invoice_id](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributesinvoice_id).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.line_item_allocations
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.line_item_allocations](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributesline_item_allocations).
+Declared alternatives: [BuyerRefundPreviousAttributes.line_item_allocations](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributesline_item_allocations).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.merchant_id
 
@@ -86,17 +90,25 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.mer
 
 Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.metadata](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesmetadata).
 
+### RefundFailedMerchantEvent.data fields 1.previous_attributes.order
+
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.order](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesorder).
+
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.order_edit_id
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.order_edit_id](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributesorder_edit_id).
+Declared alternatives: [BuyerRefundPreviousAttributes.order_edit_id](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributesorder_edit_id).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.order_id
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.order_id](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributesorder_id).
+Declared alternatives: [BuyerRefundPreviousAttributes.order_id](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributesorder_id).
+
+### RefundFailedMerchantEvent.data fields 1.previous_attributes.payment_intent
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.payment_intent](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributespayment_intent).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.payment_intent_id
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.payment_intent_id](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributespayment_intent_id).
+Declared alternatives: [BuyerRefundPreviousAttributes.payment_intent_id](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributespayment_intent_id).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.payment_refunds
 
@@ -108,11 +120,11 @@ Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.payment_
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.pending_reason
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.pending_reason](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributespending_reason).
+Declared alternatives: [BuyerRefundPreviousAttributes.pending_reason](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributespending_reason).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.processed_by
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.processed_by](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributesprocessed_by).
+Declared alternatives: [BuyerRefundPreviousAttributes.processed_by](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributesprocessed_by).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.reason
 
@@ -120,11 +132,11 @@ Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.reason](
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.reason_message
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.reason_message](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributesreason_message).
+Declared alternatives: [BuyerRefundPreviousAttributes.reason_message](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributesreason_message).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.refund_id
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.refund_id](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributesrefund_id).
+Declared alternatives: [BuyerRefundPreviousAttributes.refund_id](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributesrefund_id).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.refund_platform_fee
 
@@ -132,35 +144,35 @@ Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.refund_p
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.refund_reference
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.refund_reference](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributesrefund_reference).
+Declared alternatives: [BuyerRefundPreviousAttributes.refund_reference](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributesrefund_reference).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.refunded_at
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.refunded_at](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributesrefunded_at).
+Declared alternatives: [BuyerRefundPreviousAttributes.refunded_at](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributesrefunded_at).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.return_id
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.return_id](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributesreturn_id).
+Declared alternatives: [BuyerRefundPreviousAttributes.return_id](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributesreturn_id).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.return_resolution_id
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.return_resolution_id](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributesreturn_resolution_id).
+Declared alternatives: [BuyerRefundPreviousAttributes.return_resolution_id](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributesreturn_resolution_id).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.status
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.status](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributesstatus).
+Declared alternatives: [BuyerRefundPreviousAttributes.status](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributesstatus).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.succeeded_at
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.succeeded_at](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributessucceeded_at).
+Declared alternatives: [BuyerRefundPreviousAttributes.succeeded_at](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributessucceeded_at).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.tax_breakdown_refunds
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.tax_breakdown_refunds](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributestax_breakdown_refunds).
+Declared alternatives: [BuyerRefundPreviousAttributes.tax_breakdown_refunds](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributestax_breakdown_refunds).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.tender_allocations
 
-Declared alternatives: [RefundFailedMerchantEventDataPreviousAttributes.tender_allocations](../models/RefundFailedMerchantEventDataPreviousAttributes.md#refundfailedmerchanteventdatapreviousattributestender_allocations).
+Declared alternatives: [BuyerRefundPreviousAttributes.tender_allocations](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributestender_allocations).
 
 ### RefundFailedMerchantEvent.data fields 1.previous_attributes.unissued_gift_card_recoveries
 

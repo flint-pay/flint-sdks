@@ -2,9 +2,9 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read list<TaxCountryCoverage>|null $coverage
+ * @property-read list<TaxCountryCoveragePreviousAttributes>|null $coverage
  * @property-read string|null $created_at
- * @property-read TaxConnectionDisclosure|null $disclosure
+ * @property-read mixed $disclosure
  * @property-read mixed $legal_address
  * @property-read string|null $legal_business_name
  * @property-read mixed $seller_attestation
@@ -18,8 +18,8 @@ namespace Flint;
 final class TaxConnectionUpdatedEventDataPreviousAttributes extends Model {
     /** @param array{'coverage'?: mixed, 'created_at'?: mixed, 'disclosure'?: mixed, 'legal_address'?: mixed, 'legal_business_name'?: mixed, 'seller_attestation'?: mixed, 'status'?: mixed, 'status_reason'?: mixed, 'supported_actions'?: mixed, 'tax_connection_id'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxConnectionUpdatedEventDataPreviousAttributes')); }
-    /** Current automatic-tax coverage, independent of the seller's registrations. Sorted by country. Unsupported countries or categories require external tax. anyOf[1] (Value): Array of {@see TaxCountryCoverage}. Current automatic-tax coverage, independent of the seller's registrations. Sorted by country. Unsupported countries or categories require external tax. anyOf[1][] (Value): {@see TaxCountryCoverage}. A country and the categories automatic tax can calculate there. anyOf[2] (Value): null.
-     * @return list<TaxCountryCoverage>|null
+    /** Current automatic-tax coverage, independent of the seller's registrations. Sorted by country. Unsupported countries or categories require external tax. anyOf[1] (Value): Array of {@see TaxCountryCoveragePreviousAttributes}. Current automatic-tax coverage, independent of the seller's registrations. Sorted by country. Unsupported countries or categories require external tax. anyOf[1][] (Value): {@see TaxCountryCoveragePreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<TaxCountryCoveragePreviousAttributes>|null
      */
     public function getCoverage(): array|null { return $this->get('coverage'); }
     public function hasCoverage(): bool { return $this->has('coverage'); }
@@ -28,12 +28,12 @@ final class TaxConnectionUpdatedEventDataPreviousAttributes extends Model {
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Current statements the seller must agree to before connecting. anyOf[1] (Value): {@see TaxConnectionDisclosure}. Current statements the seller must agree to before connecting. anyOf[2] (Value): null.
-     * @return TaxConnectionDisclosure|null
+    /** Current statements the seller must agree to before connecting. anyOf[1] (Value): {@see TaxConnectionDisclosurePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getDisclosure(): TaxConnectionDisclosure|null { return $this->get('disclosure'); }
+    public function getDisclosure(): mixed { return $this->get('disclosure'); }
     public function hasDisclosure(): bool { return $this->has('disclosure'); }
-    /** Legal business address used as the tax origin. In live mode, comes from processor-verified onboarding details before connect and the tax account snapshot once connected. In sandboxes, comes from the merchant profile. `null` when no legal address is available or the sandbox profile address is incomplete. anyOf[1] (Value): {@see Address} or null. Legal business address used as the tax origin. In live mode, comes from processor-verified onboarding details before connect and the tax account snapshot once connected. In sandboxes, comes from the merchant profile. `null` when no legal address is available or the sandbox profile address is incomplete. anyOf[1].anyOf[1] (Value): {@see Address}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Legal business address used as the tax origin. In live mode, comes from processor-verified onboarding details before connect and the tax account snapshot once connected. In sandboxes, comes from the merchant profile. `null` when no legal address is available or the sandbox profile address is incomplete. anyOf[1] (Value): ({@see AddressPreviousAttributes} or null). Legal business address used as the tax origin. In live mode, comes from processor-verified onboarding details before connect and the tax account snapshot once connected. In sandboxes, comes from the merchant profile. `null` when no legal address is available or the sandbox profile address is incomplete. anyOf[1].anyOf[1] (Value): {@see AddressPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getLegalAddress(): mixed { return $this->get('legal_address'); }
@@ -43,7 +43,7 @@ final class TaxConnectionUpdatedEventDataPreviousAttributes extends Model {
      */
     public function getLegalBusinessName(): string|null { return $this->get('legal_business_name'); }
     public function hasLegalBusinessName(): bool { return $this->has('legal_business_name'); }
-    /** The seller's recorded agreement to the disclosure. `null` when no connect has recorded one. anyOf[1] (Value): {@see TaxConnectionSellerAttestation} or null. The seller's recorded agreement to the disclosure. `null` when no connect has recorded one. anyOf[1].anyOf[1] (Value): {@see TaxConnectionSellerAttestation}. The disclosure the seller agreed to and when Flint recorded that agreement. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** The seller's recorded agreement to the disclosure. `null` when no connect has recorded one. anyOf[1] (Value): ({@see TaxConnectionSellerAttestationPreviousAttributes} or null). The seller's recorded agreement to the disclosure. `null` when no connect has recorded one. anyOf[1].anyOf[1] (Value): {@see TaxConnectionSellerAttestationPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getSellerAttestation(): mixed { return $this->get('seller_attestation'); }

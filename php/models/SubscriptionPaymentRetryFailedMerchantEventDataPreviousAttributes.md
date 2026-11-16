@@ -11,7 +11,7 @@ Response model.
 | `completed_at` | Optional | string or null | RFC3339 timestamp. `completed_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 | `idempotency_key` | Optional | string or null | The idempotency key sent with the request that created the retry. Repeating the request with the same key returns this retry. `idempotency_key`: [declared alternatives](../models/SubscriptionPaymentRetryFailedMerchantEventDataPreviousAttributes.md#subscriptionpaymentretryfailedmerchanteventdatapreviousattributesidempotency_key). |
-| `last_payment_error` | Optional | [PaymentErrorSummary](../models/PaymentErrorSummary.md#paymenterrorsummary) or null | Why the payment failed. Present only when the retry's status is `failed` and a payment attempt was made. |
+| `last_payment_error` | Optional | Alternative shapes (see declared variants) | Why the payment failed. Present only when the retry's status is `failed` and a payment attempt was made. `last_payment_error`: [declared alternatives](../models/SubscriptionPaymentRetryFailedMerchantEventDataPreviousAttributes.md#subscriptionpaymentretryfailedmerchanteventdatapreviousattributeslast_payment_error). |
 | `order_id` | Optional | string or null | ID of the renewal order the retry collects. Omitted until Flint records it, which can be after processing starts. `order_id`: [declared alternatives](../models/SubscriptionPaymentRetryFailedMerchantEventDataPreviousAttributes.md#subscriptionpaymentretryfailedmerchanteventdatapreviousattributesorder_id). |
 | `payment_intent_id` | Optional | string or null | The payment intent this retry started. Omitted before charging begins or when no payment intent was created. `payment_intent_id`: [declared alternatives](../models/SubscriptionPaymentRetryFailedMerchantEventDataPreviousAttributes.md#subscriptionpaymentretryfailedmerchanteventdatapreviousattributespayment_intent_id). |
 | `started_at` | Optional | string or null | RFC3339 timestamp. `started_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
@@ -41,6 +41,41 @@ anyOf variant 1: The idempotency key sent with the request that created the retr
 anyOf variant 2.
 
 - Value shape: null. The idempotency key sent with the request that created the retry. Repeating the request with the same key returns this retry. 
+
+### SubscriptionPaymentRetryFailedMerchantEventDataPreviousAttributes.last_payment_error
+
+Why the payment failed. Present only when the retry's status is `failed` and a payment attempt was made.
+
+Field definitions: [shared fields](CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesactive_payment_attempt-variant-1last_payment_error).
+
+### SubscriptionPaymentRetryFailedMerchantEventDataPreviousAttributes.last_payment_error variant 1
+
+anyOf PaymentErrorSummaryPreviousAttributes.
+
+- Optional: `code`, `failed_at`, `message`, `remediation`.
+
+### SubscriptionPaymentRetryFailedMerchantEventDataPreviousAttributes.last_payment_error variant 2
+
+anyOf variant 2.
+
+- Undeclared: `code`, `failed_at`, `message`, `remediation`.
+- Value shape: null. Why the payment failed. Present only when the retry's status is `failed` and a payment attempt was made. 
+
+### SubscriptionPaymentRetryFailedMerchantEventDataPreviousAttributes.last_payment_error variant 1.code
+
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.active_payment_attempt variant 1.last_payment_error variant 1.code](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesactive_payment_attempt-variant-1last_payment_error-variant-1code).
+
+### SubscriptionPaymentRetryFailedMerchantEventDataPreviousAttributes.last_payment_error variant 1.failed_at
+
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.active_payment_attempt variant 1.last_payment_error variant 1.failed_at](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesactive_payment_attempt-variant-1last_payment_error-variant-1failed_at).
+
+### SubscriptionPaymentRetryFailedMerchantEventDataPreviousAttributes.last_payment_error variant 1.message
+
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.active_payment_attempt variant 1.last_payment_error variant 1.message](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesactive_payment_attempt-variant-1last_payment_error-variant-1message).
+
+### SubscriptionPaymentRetryFailedMerchantEventDataPreviousAttributes.last_payment_error variant 1.remediation
+
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.active_payment_attempt variant 1.last_payment_error variant 1.remediation](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesactive_payment_attempt-variant-1last_payment_error-variant-1remediation).
 
 ### SubscriptionPaymentRetryFailedMerchantEventDataPreviousAttributes.order_id
 

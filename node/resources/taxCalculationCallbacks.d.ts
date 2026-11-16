@@ -1,6 +1,6 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-54.js';
+import type { RequestOptions } from '../declarations/types-60.js';
 import type {
     TaxCalculationCallback,
     TaxCalculationCallbackConnectionCheck,
@@ -19,8 +19,8 @@ import type {
     TaxCalculationCallbacksListParams,
     TaxCalculationCallbacksRotateSecretParams,
     TaxCalculationCallbacksUpdateParams
-} from '../declarations/types-64.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-71.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -56,23 +56,23 @@ export type {
     TaxCalculationCallbackConfigurationRequestInput,
     TaxCalculationCallbackConfiguration,
     TaxCalculationCallbackConfigurationPatchRequestInput
-} from '../declarations/types-64.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { _SdkWithoutIdempotency, WebhookSigningMethodInput } from '../declarations/types-70.js';
+} from '../declarations/types-71.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { _SdkWithoutIdempotency, WebhookSigningMethodInput } from '../declarations/types-77.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials, CreateTaxCalculationCallbackRequestInput } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-39.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { UpdateTaxCalculationCallbackRequestInput } from '../declarations/types-69.js';
-export { makeCreateTaxCalculationCallbackRequest } from '../declarations/types-75.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
+export type { NextAction, MoneyValue } from '../declarations/types-42.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { UpdateTaxCalculationCallbackRequestInput } from '../declarations/types-76.js';
+export { makeCreateTaxCalculationCallbackRequest } from '../declarations/types-82.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export {
     makeTaxCalculationCallbackConfigurationPatchRequest,
     makeTaxCalculationCallbackConfigurationRequest
-} from '../declarations/types-83.js';
-export { makeUpdateTaxCalculationCallbackRequest } from '../declarations/types-84.js';
-export { makeWebhookSigningMethod } from '../declarations/types-85.js';
+} from '../declarations/types-90.js';
+export { makeUpdateTaxCalculationCallbackRequest } from '../declarations/types-91.js';
+export { makeWebhookSigningMethod } from '../declarations/types-92.js';
 export interface TaxCalculationCallbacksResource {
     /**
  * Tax calculation callback configuration is scoped to the selected environment. Partner

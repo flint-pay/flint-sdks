@@ -4,7 +4,7 @@
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
 
-The resource snapshot, without expansions. Webhooks omit these fields: `active_payment_attempt`, `payment_collection`, `setup_collection`.
+The resource snapshot, without expansions. Webhooks omit these fields: `buyer_actions`, `active_payment_attempt`, `payment_collection`, `setup_collection`.
 
 Response model.
 

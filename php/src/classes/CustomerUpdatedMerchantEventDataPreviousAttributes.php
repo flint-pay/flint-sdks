@@ -13,11 +13,11 @@ namespace Flint;
  * @property-read mixed $internal_note
  * @property-read bool|null $is_merchant_verified
  * @property-read string|null $merchant_id
- * @property-read array<array-key, string>|null $metadata
+ * @property-read mixed $metadata
  * @property-read mixed $name
  * @property-read mixed $phone
  * @property-read mixed $price_list_id
- * @property-read CustomerUpdatedMerchantEventDataPreviousAttributesReceivables|null $receivables
+ * @property-read mixed $receivables
  * @property-read mixed $segment
  * @property-read mixed $shipping_address
  * @property-read string|null $status
@@ -30,7 +30,7 @@ namespace Flint;
 final class CustomerUpdatedMerchantEventDataPreviousAttributes extends Model {
     /** @param array{'billing_address'?: mixed, 'created_at'?: mixed, 'customer_id'?: mixed, 'default_invoice_payment_term_id'?: mixed, 'default_payment_method'?: mixed, 'default_payment_method_id'?: mixed, 'email'?: mixed, 'external_reference_id'?: mixed, 'internal_note'?: mixed, 'is_merchant_verified'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'name'?: mixed, 'phone'?: mixed, 'price_list_id'?: mixed, 'receivables'?: mixed, 'segment'?: mixed, 'shipping_address'?: mixed, 'status'?: mixed, 'tax_exempt'?: mixed, 'tax_identity'?: mixed, 'test_clock_id'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerUpdatedMerchantEventDataPreviousAttributes')); }
-    /** The customer's default billing address: a copy of the address of the saved address marked is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location at this address. `null` when no saved address is the billing default. anyOf[1] (Value): {@see Address} or null. The customer's default billing address: a copy of the address of the saved address marked is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location at this address. `null` when no saved address is the billing default. anyOf[1].anyOf[1] (Value): {@see Address}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** The customer's default billing address: a copy of the address of the saved address marked is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location at this address. `null` when no saved address is the billing default. anyOf[1] (Value): ({@see AddressPreviousAttributes} or null). The customer's default billing address: a copy of the address of the saved address marked is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location at this address. `null` when no saved address is the billing default. anyOf[1].anyOf[1] (Value): {@see AddressPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getBillingAddress(): mixed { return $this->get('billing_address'); }
@@ -50,7 +50,7 @@ final class CustomerUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getDefaultInvoicePaymentTermId(): string|null { return $this->get('default_invoice_payment_term_id'); }
     public function hasDefaultInvoicePaymentTermId(): bool { return $this->has('default_invoice_payment_term_id'); }
-    /** Present only when `expand` includes `default_payment_method`; `null` when expanded and there is no related payment method. anyOf[1] (Value): {@see ExpandedPaymentMethodSummary} or null. Present only when `expand` includes `default_payment_method`; `null` when expanded and there is no related payment method. anyOf[1].anyOf[1] (Value): {@see ExpandedPaymentMethodSummary}. A payment method's summary fields, including type, status, and card details, returned when the payment method is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Present only when `expand` includes `default_payment_method`; `null` when expanded and there is no related payment method. anyOf[1] (Value): ({@see ExpandedPaymentMethodSummaryPreviousAttributes} or null). Present only when `expand` includes `default_payment_method`; `null` when expanded and there is no related payment method. anyOf[1].anyOf[1] (Value): {@see ExpandedPaymentMethodSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getDefaultPaymentMethod(): mixed { return $this->get('default_payment_method'); }
@@ -85,10 +85,10 @@ final class CustomerUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
-     * @return array<array-key, string>|null
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getMetadata(): array|null { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Customer name. `null` when none is set. anyOf[1] (Value): string or null. Customer name. `null` when none is set. anyOf[2] (Value): null.
      * @return mixed
@@ -105,17 +105,17 @@ final class CustomerUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getPriceListId(): mixed { return $this->get('price_list_id'); }
     public function hasPriceListId(): bool { return $this->has('price_list_id'); }
-    /** What this customer owes you on invoices: the outstanding and overdue amounts, one balance per currency. Present only when `expand` includes `receivables`. anyOf[1] (Value): {@see CustomerUpdatedMerchantEventDataPreviousAttributesReceivables}. What this customer owes you on invoices: the outstanding and overdue amounts, one balance per currency. Present only when `expand` includes `receivables`. anyOf[2] (Value): null.
-     * @return CustomerUpdatedMerchantEventDataPreviousAttributesReceivables|null
+    /** What this customer owes you on invoices: the outstanding and overdue amounts, one balance per currency. Present only when `expand` includes `receivables`. anyOf[1] (Value): {@see CustomerReceivablesPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getReceivables(): CustomerUpdatedMerchantEventDataPreviousAttributesReceivables|null { return $this->get('receivables'); }
+    public function getReceivables(): mixed { return $this->get('receivables'); }
     public function hasReceivables(): bool { return $this->has('receivables'); }
     /** Free-form label you assign, such as wholesale, so promotion and delivery rules can match groups of customers. It is not an ID; Flint does not check it against any resource. `null` when none is set. Not returned to customer sessions. anyOf[1] (Value): string or null. Free-form label you assign, such as wholesale, so promotion and delivery rules can match groups of customers. It is not an ID; Flint does not check it against any resource. `null` when none is set. Not returned to customer sessions. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getSegment(): mixed { return $this->get('segment'); }
     public function hasSegment(): bool { return $this->has('segment'); }
-    /** The customer's default shipping address: a copy of the address of the saved address marked is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved address is the shipping default. anyOf[1] (Value): {@see Address} or null. The customer's default shipping address: a copy of the address of the saved address marked is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved address is the shipping default. anyOf[1].anyOf[1] (Value): {@see Address}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** The customer's default shipping address: a copy of the address of the saved address marked is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved address is the shipping default. anyOf[1] (Value): ({@see AddressPreviousAttributes} or null). The customer's default shipping address: a copy of the address of the saved address marked is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved address is the shipping default. anyOf[1].anyOf[1] (Value): {@see AddressPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getShippingAddress(): mixed { return $this->get('shipping_address'); }
@@ -130,7 +130,7 @@ final class CustomerUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getTaxExempt(): bool|null { return $this->get('tax_exempt'); }
     public function hasTaxExempt(): bool { return $this->has('tax_exempt'); }
-    /** Legal name, registered address and tax IDs printed on this customer's invoices and credit notes. `null` when none is set. Always `null` for customer sessions. anyOf[1] (Value): {@see TaxIdentity} or null. Legal name, registered address and tax IDs printed on this customer's invoices and credit notes. `null` when none is set. Always `null` for customer sessions. anyOf[1].anyOf[1] (Value): {@see TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Legal name, registered address and tax IDs printed on this customer's invoices and credit notes. `null` when none is set. Always `null` for customer sessions. anyOf[1] (Value): ({@see TaxIdentityPreviousAttributes} or null). Legal name, registered address and tax IDs printed on this customer's invoices and credit notes. `null` when none is set. Always `null` for customer sessions. anyOf[1].anyOf[1] (Value): {@see TaxIdentityPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getTaxIdentity(): mixed { return $this->get('tax_identity'); }

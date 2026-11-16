@@ -1,7 +1,8 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { MerchantSignup, MerchantSignupListResponse } from '../declarations/types-37.js';
 import type {
+    MerchantSignup,
+    MerchantSignupListResponse,
     MerchantSignupResponse,
     MerchantSignupWithAuthorizationCodes,
     MerchantSignupWithAuthorizationCodesResponse,
@@ -12,9 +13,9 @@ import type {
     MerchantSignupsResendCodeParams,
     MerchantSignupsRotateAuthorizationCodesParams,
     MerchantSignupsVerifyParams
-} from '../declarations/types-38.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-41.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -31,10 +32,12 @@ export type {
 } from '../runtime.js';
 export type {
     MerchantSignupsCancelParams,
+    MerchantSignup,
     MerchantSignupResponse,
     MerchantSignupsCreateParams,
     MerchantSignupsGetParams,
     MerchantSignupsListParams,
+    MerchantSignupListResponse,
     MerchantSignupsResendCodeParams,
     MerchantSignupsRotateAuthorizationCodesParams,
     MerchantSignupWithAuthorizationCodes,
@@ -42,35 +45,31 @@ export type {
     MerchantSignupsVerifyParams,
     MerchantSignupVersionRequestInput,
     MerchantSignupTerms,
-    MerchantSignupTermsAcceptance,
-    MerchantSignupTermsAcceptanceRequestInput,
-    MerchantSignupTermsAcceptanceRequest
-} from '../declarations/types-38.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type {
-    MerchantSignup,
-    MerchantSignupListResponse,
     MerchantSignupOwner,
     MerchantSignupPermission,
-    MerchantSignupOwnerRequestInput
-} from '../declarations/types-37.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+    MerchantSignupTermsAcceptance,
+    MerchantSignupOwnerRequestInput,
+    MerchantSignupTermsAcceptanceRequestInput,
+    MerchantSignupTermsAcceptanceRequest
+} from '../declarations/types-41.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { PlatformFeeCap } from '../declarations/types-49.js';
-export type { MoneyValue, NextAction } from '../declarations/types-39.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { CreateMerchantSignupRequestInput } from '../declarations/types-10.js';
-export type { VerifyMerchantSignupRequestInput } from '../declarations/types-69.js';
-export { makeCreateMerchantSignupRequest } from '../declarations/types-73.js';
+export type { PlatformFeeCap } from '../declarations/types-54.js';
+export type { MoneyValue, NextAction } from '../declarations/types-42.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { CreateMerchantSignupRequestInput } from '../declarations/types-11.js';
+export type { VerifyMerchantSignupRequestInput } from '../declarations/types-76.js';
+export { makeCreateMerchantSignupRequest } from '../declarations/types-80.js';
 export {
     makeMerchantSignupOwnerRequest,
     makeMerchantSignupTermsAcceptanceRequest,
     makeMerchantSignupVersionRequest
-} from '../declarations/types-78.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
-export { makeVerifyMerchantSignupRequest } from '../declarations/types-85.js';
+} from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
+export { makeVerifyMerchantSignupRequest } from '../declarations/types-92.js';
 export interface MerchantSignupsResource {
     /**
  * Cancels a `pending` signup and voids its code, so a code email still queued is never sent. A
@@ -92,24 +91,28 @@ export interface MerchantSignupsResource {
  */
     cancel(merchant_signup_id: InputValue<string>, params?: MerchantSignupsCancelParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<MerchantSignup, MerchantSignupResponse>>;
     /**
- * Starts creating a merchant for an owner: Flint emails the owner a code that names your app, the
- * business, the permissions and fee cap you request, and Flint's merchant terms. Show the owner
- * Flint's terms checkbox in your form, collect the code, and send both to verify. Flint checks, in
- * order and before any email: the partner app is yours and active (404 RESOURCE_NOT_FOUND at
- * partner_app_id, or 409 ACTION_NOT_ALLOWED with reason unsupported_state for a deleted app);
- * every requested_permission_ids value is in the manifest (400 INVALID_VALUE at that item); the
- * app has a merchant_action_url, and its name and permission titles hold no link (409
- * ACTION_NOT_ALLOWED with reason configuration_required); the app's live create_merchants
- * capability; then the quotas. Until create_merchants is active, modes including live are refused
- * with 409 ACTION_NOT_ALLOWED, capability create_merchants, param modes and the capability's
- * inactive reason, and an owner outside your merchant's team is refused the same way with param
- * owner.email. Quotas: 20 signups per app per UTC day before create_merchants is active and 1,000
- * after (409 LIMIT_REACHED with reason merchant_signups, limit and resets_at); 3 codes per owner
- * mailbox per 15 minutes across every app (429 RATE_LIMIT_EXCEEDED with Retry-After) and 10 per 24
- * hours (409 LIMIT_REACHED with reason verification_codes). Plus-addresses count as their mailbox.
- * The response never says whether the email already has a Flint login. Live only: test credentials
- * get 403 FORBIDDEN with reason live_mode_required, and a key linked to a partner app install gets
- * 403 FORBIDDEN with reason linked_key_not_allowed. Partner app tokens can't call it.
+ * Merchant signups are not available yet. While disabled, this endpoint returns 409
+ * ACTION_NOT_ALLOWED with reason not_offered and retry none. Have the owner create a Flint account
+ * through onboarding or flint signup, then install your app through the consent screen. The
+ * following describes the flow when enabled. Starts creating a merchant for an owner: Flint emails
+ * the owner a code that names your app, the business, the permissions and fee cap you request, and
+ * Flint's merchant terms. Show the owner Flint's terms checkbox in your form, collect the code,
+ * and send both to verify. Flint checks, in order and before any email: the partner app is yours
+ * and active (404 RESOURCE_NOT_FOUND at partner_app_id, or 409 ACTION_NOT_ALLOWED with reason
+ * unsupported_state for a deleted app); every requested_permission_ids value is in the manifest
+ * (400 INVALID_VALUE at that item); the app has a merchant_action_url, and its name and permission
+ * titles hold no link (409 ACTION_NOT_ALLOWED with reason configuration_required); the app's live
+ * create_merchants capability; then the quotas. Until create_merchants is active, modes including
+ * live are refused with 409 ACTION_NOT_ALLOWED, capability create_merchants, param modes and the
+ * capability's inactive reason, and an owner outside your merchant's team is refused the same way
+ * with param owner.email. Quotas: 20 signups per app per UTC day before create_merchants is active
+ * and 1,000 after (409 LIMIT_REACHED with reason merchant_signups, limit and resets_at); 3 codes
+ * per owner mailbox per 15 minutes across every app (429 RATE_LIMIT_EXCEEDED with Retry-After) and
+ * 10 per 24 hours (409 LIMIT_REACHED with reason verification_codes). Plus-addresses count as
+ * their mailbox. The response never says whether the email already has a Flint login. Live only:
+ * test credentials get 403 FORBIDDEN with reason live_mode_required, and a key linked to a partner
+ * app install gets 403 FORBIDDEN with reason linked_key_not_allowed. Partner app tokens can't call
+ * it.
  *
  * `POST /v1/merchant-signups`
  * @see https://developers.withflintpay.com/docs/api/merchant-signups#createMerchantSignup

@@ -1,42 +1,1115 @@
 import type {
-    InventoryCount,
-    InventoryCountLine,
-    InventoryAllocationPoliciesDeleteParams,
-    InventoryActionRequired
+    GiftCardFundingSourceAdjustmentPreviousAttributes,
+    GiftCardFundingSourceExternalPaymentPreviousAttributes,
+    GiftCardFundingSourceAdjustmentRequestInput,
+    GiftCardFundingSourceExternalPaymentRequestInput,
+    GiftCard,
+    GiftCardFundingDispute,
+    GiftCardFundingSource,
+    GiftCardFundingDisputePreviousAttributes,
+    GiftCardCustomAmountBounds,
+    GiftCardCustomAmountBoundsPreviousAttributes,
+    GiftCardCustomAmountBoundsRequestInput
 } from './types-28.js';
-import type { ResponseMeta, ResourceReference } from './types-54.js';
+import type { ResponseMeta } from './types-60.js';
 import type {
-    InventorySourceSystem,
-    InventorySourceSystemRequest,
-    InventorySourceSystemRequestInput,
-    InventoryReservationLine,
-    InventoryReservationOwner,
-    InventoryRoutingSource
+    GiftCardPurchaseRefundValueHold,
+    GiftCardPurchaseRestoration,
+    GiftCardRefundProvenance,
+    GiftCardPurchaseRefundValueHoldPreviousAttributes,
+    GiftCardPurchaseRestorationPreviousAttributes,
+    GiftCardRefundProvenancePreviousAttributes,
+    GiftCardPurchaseRefundValueAllocation,
+    GiftCardPurchaseRefundRecoveryPreviousAttributes,
+    GiftCardPurchaseRefundValueAllocationPreviousAttributes,
+    GiftCardPurchaseRefundRecoveryDestination
 } from './types-30.js';
-import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-38.js';
-import type { PartnerWebhookEnvelope } from './types-44.js';
+import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-42.js';
+import type { MerchantWebhookEnvelope } from './types-41.js';
+import type { PartnerWebhookEnvelope } from './types-49.js';
 import type { InputValue } from '../runtime.js';
-import type { ApplyInventoryCountRequestInput } from './types-0.js';
-import type { CancelInventoryCountRequestInput } from './types-4.js';
-import type {
-    CreateInventoryCountRequestInput,
-    CreateInventoryItemRequestInput,
-    CreateInventoryReceiptRequestInput
-} from './types-10.js';
-import type { DisputesAcceptParams } from './types-23.js';
-import type {
-    UpdateInventoryCountRequestInput,
-    UpdateInventoryItemRequestInput,
-    UpdateInventoryLevelRequestInput
-} from './types-67.js';
-import type { BackorderPolicy } from './types-1.js';
-/** A page of `InventoryCount` objects. */
-export type InventoryCountListResponse = {
+import type { CreateGiftCardLoadRequestInput, CreateGiftCardNotificationRequestInput } from './types-10.js';
+import type { DisputesAcceptParams } from './types-25.js';
+import type { CancelGiftCardNotificationRequestInput } from './types-4.js';
+export type GiftCardFundingSourceFlintManualPaymentPreviousAttributes = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. anyOf[1] (Value): string. ID of the customer
+     * the funding is attributed to. Required for `external_payment` and `flint_manual_payment`;
+     * optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+     */
+    "customer_id"?: ((string) | (null));
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. anyOf[1] (Value): string. Your reference for the payment
+     * or import record that funded this value, such as a POS sale ID. Required; 1 to 255
+     * characters. minLength: 1. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_reference_id"?: ((string) | (null));
+    /**
+     * Where the value came from. Value enum: "flint_manual_payment". anyOf[1] (Value): string.
+     * Where the value came from. Value enum: "flint_manual_payment". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: (("flint_manual_payment" | (string & {})) | (null));
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. anyOf[1] (Value): string.
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. anyOf[1] (Value): string. ID of the manual payment on the order that
+     * funded the value. Required for `flint_manual_payment`. minLength: 1. maxLength: 255.
+     * Example: "omp_01KEZF7C007J18203RBJKB9TYE". anyOf[2] (Value): null.
+     */
+    "order_manual_payment_id"?: ((string) | (null));
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. anyOf[1] (Value): string. The original payment
+     * for flint_payment or store_credit value. For standalone paid funding, use a captured payment
+     * intent without an order_id. Order-linked payments fund purchased cards or store credit
+     * through their order. minLength: 1. maxLength: 255. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * anyOf[2] (Value): null.
+     */
+    "payment_intent_id"?: ((string) | (null));
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * anyOf[1] (Value): string. Refund that issued this value. Present only when
+     * funding_source_type is store_credit. minLength: 1. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+     */
+    "refund_id"?: ((string) | (null));
+})
+    & ({
+    /**
+     * Where the value came from. Value enum: "flint_manual_payment". anyOf[1] (Value): any. Where
+     * the value came from. Value enum: "flint_manual_payment". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: ((unknown) | (null) | (unknown));
+});
+/** The `flint_manual_payment` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceFlintManualPaymentRequestInput = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "flint_manual_payment". */
+    "funding_source_type": "flint_manual_payment";
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: never;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: never;
+})
+    & (({
+    /** Where the value came from. Value enum: "flint_manual_payment". */
+    "funding_source_type"?: ("flint_manual_payment") & ("flint_manual_payment");
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+})
+    & ({
+    "payment_intent_id"?: never;
+}));
+/** The `flint_payment` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceFlintPayment = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "flint_payment". */
+    "funding_source_type": "flint_payment" | (string & {});
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: string;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: string;
+})
+    & (({
+    /** Where the value came from. Value enum: "flint_payment". */
+    "funding_source_type"?: unknown;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string;
+}));
+export type GiftCardFundingSourceFlintPaymentPreviousAttributes = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. anyOf[1] (Value): string. ID of the customer
+     * the funding is attributed to. Required for `external_payment` and `flint_manual_payment`;
+     * optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+     */
+    "customer_id"?: ((string) | (null));
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. anyOf[1] (Value): string. Your reference for the payment
+     * or import record that funded this value, such as a POS sale ID. Required; 1 to 255
+     * characters. minLength: 1. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_reference_id"?: ((string) | (null));
+    /**
+     * Where the value came from. Value enum: "flint_payment". anyOf[1] (Value): string. Where the
+     * value came from. Value enum: "flint_payment". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: (("flint_payment" | (string & {})) | (null));
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. anyOf[1] (Value): string.
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. anyOf[1] (Value): string. ID of the manual payment on the order that
+     * funded the value. Required for `flint_manual_payment`. minLength: 1. maxLength: 255.
+     * Example: "omp_01KEZF7C007J18203RBJKB9TYE". anyOf[2] (Value): null.
+     */
+    "order_manual_payment_id"?: ((string) | (null));
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. anyOf[1] (Value): string. The original payment
+     * for flint_payment or store_credit value. For standalone paid funding, use a captured payment
+     * intent without an order_id. Order-linked payments fund purchased cards or store credit
+     * through their order. minLength: 1. maxLength: 255. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * anyOf[2] (Value): null.
+     */
+    "payment_intent_id"?: ((string) | (null));
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * anyOf[1] (Value): string. Refund that issued this value. Present only when
+     * funding_source_type is store_credit. minLength: 1. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+     */
+    "refund_id"?: ((string) | (null));
+})
+    & ({
+    /**
+     * Where the value came from. Value enum: "flint_payment". anyOf[1] (Value): any. Where the
+     * value came from. Value enum: "flint_payment". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: ((unknown) | (null) | (unknown));
+});
+/** The `flint_payment` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceFlintPaymentRequestInput = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "flint_payment". */
+    "funding_source_type": "flint_payment";
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: never;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: never;
+})
+    & (({
+    /** Where the value came from. Value enum: "flint_payment". */
+    "funding_source_type"?: ("flint_payment") & ("flint_payment");
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string;
+})
+    & ({
+    "order_manual_payment_id"?: never;
+}));
+/** The `gift_card_purchase_refund_recovery` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceGiftCardPurchaseRefundRecovery = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "gift_card_purchase_refund_recovery". */
+    "funding_source_type": "gift_card_purchase_refund_recovery" | (string & {});
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: string;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: string;
+})
+    & (({
+    /** Where the value came from. Value enum: "gift_card_purchase_refund_recovery". */
+    "funding_source_type"?: unknown;
+}));
+export type GiftCardFundingSourceGiftCardPurchaseRefundRecoveryPreviousAttributes = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. anyOf[1] (Value): string. ID of the customer
+     * the funding is attributed to. Required for `external_payment` and `flint_manual_payment`;
+     * optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+     */
+    "customer_id"?: ((string) | (null));
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. anyOf[1] (Value): string. Your reference for the payment
+     * or import record that funded this value, such as a POS sale ID. Required; 1 to 255
+     * characters. minLength: 1. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_reference_id"?: ((string) | (null));
+    /**
+     * Where the value came from. Value enum: "gift_card_purchase_refund_recovery". anyOf[1]
+     * (Value): string. Where the value came from. Value enum:
+     * "gift_card_purchase_refund_recovery". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: (("gift_card_purchase_refund_recovery" | (string & {})) | (null));
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. anyOf[1] (Value): string.
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. anyOf[1] (Value): string. ID of the manual payment on the order that
+     * funded the value. Required for `flint_manual_payment`. minLength: 1. maxLength: 255.
+     * Example: "omp_01KEZF7C007J18203RBJKB9TYE". anyOf[2] (Value): null.
+     */
+    "order_manual_payment_id"?: ((string) | (null));
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. anyOf[1] (Value): string. The original payment
+     * for flint_payment or store_credit value. For standalone paid funding, use a captured payment
+     * intent without an order_id. Order-linked payments fund purchased cards or store credit
+     * through their order. minLength: 1. maxLength: 255. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * anyOf[2] (Value): null.
+     */
+    "payment_intent_id"?: ((string) | (null));
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * anyOf[1] (Value): string. Refund that issued this value. Present only when
+     * funding_source_type is store_credit. minLength: 1. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+     */
+    "refund_id"?: ((string) | (null));
+})
+    & ({
+    /**
+     * Where the value came from. Value enum: "gift_card_purchase_refund_recovery". anyOf[1]
+     * (Value): any. Where the value came from. Value enum: "gift_card_purchase_refund_recovery".
+     * anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: ((unknown) | (null) | (unknown));
+});
+/** The `gift_card_purchase_refund_recovery` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequestInput = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "gift_card_purchase_refund_recovery". */
+    "funding_source_type": "gift_card_purchase_refund_recovery";
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: never;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: never;
+})
+    & (({
+    /** Where the value came from. Value enum: "gift_card_purchase_refund_recovery". */
+    "funding_source_type"?: ("gift_card_purchase_refund_recovery") & ("gift_card_purchase_refund_recovery");
+})
+    & (({
+    "payment_intent_id"?: never;
+}) & ({
+    "order_manual_payment_id"?: never;
+})));
+/** The `gift_card_refund` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceGiftCardRefund = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "gift_card_refund". */
+    "funding_source_type": "gift_card_refund" | (string & {});
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: string;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: string;
+})
+    & (({
+    /** Where the value came from. Value enum: "gift_card_refund". */
+    "funding_source_type"?: unknown;
+}));
+export type GiftCardFundingSourceGiftCardRefundPreviousAttributes = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. anyOf[1] (Value): string. ID of the customer
+     * the funding is attributed to. Required for `external_payment` and `flint_manual_payment`;
+     * optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+     */
+    "customer_id"?: ((string) | (null));
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. anyOf[1] (Value): string. Your reference for the payment
+     * or import record that funded this value, such as a POS sale ID. Required; 1 to 255
+     * characters. minLength: 1. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_reference_id"?: ((string) | (null));
+    /**
+     * Where the value came from. Value enum: "gift_card_refund". anyOf[1] (Value): string. Where
+     * the value came from. Value enum: "gift_card_refund". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: (("gift_card_refund" | (string & {})) | (null));
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. anyOf[1] (Value): string.
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. anyOf[1] (Value): string. ID of the manual payment on the order that
+     * funded the value. Required for `flint_manual_payment`. minLength: 1. maxLength: 255.
+     * Example: "omp_01KEZF7C007J18203RBJKB9TYE". anyOf[2] (Value): null.
+     */
+    "order_manual_payment_id"?: ((string) | (null));
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. anyOf[1] (Value): string. The original payment
+     * for flint_payment or store_credit value. For standalone paid funding, use a captured payment
+     * intent without an order_id. Order-linked payments fund purchased cards or store credit
+     * through their order. minLength: 1. maxLength: 255. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * anyOf[2] (Value): null.
+     */
+    "payment_intent_id"?: ((string) | (null));
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * anyOf[1] (Value): string. Refund that issued this value. Present only when
+     * funding_source_type is store_credit. minLength: 1. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+     */
+    "refund_id"?: ((string) | (null));
+})
+    & ({
+    /**
+     * Where the value came from. Value enum: "gift_card_refund". anyOf[1] (Value): any. Where the
+     * value came from. Value enum: "gift_card_refund". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: ((unknown) | (null) | (unknown));
+});
+/** The `gift_card_refund` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceGiftCardRefundRequestInput = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "gift_card_refund". */
+    "funding_source_type": "gift_card_refund";
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: never;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: never;
+})
+    & (({
+    /** Where the value came from. Value enum: "gift_card_refund". */
+    "funding_source_type"?: ("gift_card_refund") & ("gift_card_refund");
+})
+    & ({
+    "payment_intent_id"?: never;
+}));
+/** The `import` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceImport = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "import". */
+    "funding_source_type": "import" | (string & {});
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: string;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: string;
+})
+    & (({
+    /** Where the value came from. Value enum: "import". */
+    "funding_source_type"?: unknown;
+}));
+export type GiftCardFundingSourceImportPreviousAttributes = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. anyOf[1] (Value): string. ID of the customer
+     * the funding is attributed to. Required for `external_payment` and `flint_manual_payment`;
+     * optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+     */
+    "customer_id"?: ((string) | (null));
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. anyOf[1] (Value): string. Your reference for the payment
+     * or import record that funded this value, such as a POS sale ID. Required; 1 to 255
+     * characters. minLength: 1. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_reference_id"?: ((string) | (null));
+    /**
+     * Where the value came from. Value enum: "import". anyOf[1] (Value): string. Where the value
+     * came from. Value enum: "import". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: (("import" | (string & {})) | (null));
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. anyOf[1] (Value): string.
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. anyOf[1] (Value): string. ID of the manual payment on the order that
+     * funded the value. Required for `flint_manual_payment`. minLength: 1. maxLength: 255.
+     * Example: "omp_01KEZF7C007J18203RBJKB9TYE". anyOf[2] (Value): null.
+     */
+    "order_manual_payment_id"?: ((string) | (null));
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. anyOf[1] (Value): string. The original payment
+     * for flint_payment or store_credit value. For standalone paid funding, use a captured payment
+     * intent without an order_id. Order-linked payments fund purchased cards or store credit
+     * through their order. minLength: 1. maxLength: 255. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * anyOf[2] (Value): null.
+     */
+    "payment_intent_id"?: ((string) | (null));
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * anyOf[1] (Value): string. Refund that issued this value. Present only when
+     * funding_source_type is store_credit. minLength: 1. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+     */
+    "refund_id"?: ((string) | (null));
+})
+    & ({
+    /**
+     * Where the value came from. Value enum: "import". anyOf[1] (Value): any. Where the value came
+     * from. Value enum: "import". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: ((unknown) | (null) | (unknown));
+});
+/** The `import` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceImportRequestInput = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "import". */
+    "funding_source_type": "import";
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: never;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: never;
+})
+    & (({
+    /** Where the value came from. Value enum: "import". */
+    "funding_source_type"?: ("import") & ("import");
+})
+    & (({
+    "payment_intent_id"?: never;
+}) & ({
+    "order_id"?: never;
+})));
+export type GiftCardFundingSourcePreviousAttributes = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. anyOf[1] (Value): string. ID of the customer
+     * the funding is attributed to. Required for `external_payment` and `flint_manual_payment`;
+     * optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+     */
+    "customer_id"?: ((string) | (null));
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. anyOf[1] (Value): string. Your reference for the payment
+     * or import record that funded this value, such as a POS sale ID. Required; 1 to 255
+     * characters. minLength: 1. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_reference_id"?: ((string) | (null));
+    /**
+     * Where the value came from. Value enum: "external_payment", "flint_payment",
+     * "flint_manual_payment", "import", "adjustment", "gift_card_refund",
+     * "gift_card_purchase_refund_recovery", "store_credit". anyOf[1] (Value): string. Where the
+     * value came from. Value enum: "external_payment", "flint_payment", "flint_manual_payment",
+     * "import", "adjustment", "gift_card_refund", "gift_card_purchase_refund_recovery",
+     * "store_credit". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: (("external_payment"
+        | "flint_payment"
+        | "flint_manual_payment"
+        | "import"
+        | "adjustment"
+        | "gift_card_refund"
+        | "gift_card_purchase_refund_recovery"
+        | "store_credit"
+        | (string & {}))
+        | (null));
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. anyOf[1] (Value): string.
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. anyOf[1] (Value): string. ID of the manual payment on the order that
+     * funded the value. Required for `flint_manual_payment`. minLength: 1. maxLength: 255.
+     * Example: "omp_01KEZF7C007J18203RBJKB9TYE". anyOf[2] (Value): null.
+     */
+    "order_manual_payment_id"?: ((string) | (null));
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. anyOf[1] (Value): string. The original payment
+     * for flint_payment or store_credit value. For standalone paid funding, use a captured payment
+     * intent without an order_id. Order-linked payments fund purchased cards or store credit
+     * through their order. minLength: 1. maxLength: 255. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * anyOf[2] (Value): null.
+     */
+    "payment_intent_id"?: ((string) | (null));
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * anyOf[1] (Value): string. Refund that issued this value. Present only when
+     * funding_source_type is store_credit. minLength: 1. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+     */
+    "refund_id"?: ((string) | (null));
+})
+    & (((Exclude<GiftCardFundingSourceExternalPaymentPreviousAttributes & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceFlintPaymentPreviousAttributes & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceFlintManualPaymentPreviousAttributes & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceImportPreviousAttributes & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceAdjustmentPreviousAttributes & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceGiftCardRefundPreviousAttributes & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceGiftCardPurchaseRefundRecoveryPreviousAttributes & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceStoreCreditPreviousAttributes & object, readonly unknown[]>)
+    | (Record<string, unknown>)));
+/**
+ * Where the value of a gift card load came from, such as an external payment, a Flint payment, an
+ * import, or an adjustment, with your reference for it.
+ */
+export type GiftCardFundingSourceRequestInput = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /**
+     * Where the value came from. Value enum: "external_payment", "flint_payment",
+     * "flint_manual_payment", "import", "adjustment", "gift_card_refund",
+     * "gift_card_purchase_refund_recovery", "store_credit".
+     */
+    "funding_source_type": "external_payment"
+        | "flint_payment"
+        | "flint_manual_payment"
+        | "import"
+        | "adjustment"
+        | "gift_card_refund"
+        | "gift_card_purchase_refund_recovery"
+        | "store_credit";
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: never;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: never;
+})
+    & ((Exclude<GiftCardFundingSourceExternalPaymentRequestInput & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceFlintPaymentRequestInput & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceFlintManualPaymentRequestInput & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceImportRequestInput & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceAdjustmentRequestInput & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceGiftCardRefundRequestInput & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequestInput & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceStoreCreditRequestInput & object, readonly unknown[]>));
+/** The `store_credit` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceStoreCredit = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "store_credit". */
+    "funding_source_type": "store_credit" | (string & {});
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: string;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id": string;
+})
+    & (({
+    /** Where the value came from. Value enum: "store_credit". */
+    "funding_source_type"?: unknown;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string;
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id": string;
+}));
+export type GiftCardFundingSourceStoreCreditPreviousAttributes = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. anyOf[1] (Value): string. ID of the customer
+     * the funding is attributed to. Required for `external_payment` and `flint_manual_payment`;
+     * optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+     */
+    "customer_id"?: ((string) | (null));
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. anyOf[1] (Value): string. Your reference for the payment
+     * or import record that funded this value, such as a POS sale ID. Required; 1 to 255
+     * characters. minLength: 1. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_reference_id"?: ((string) | (null));
+    /**
+     * Where the value came from. Value enum: "store_credit". anyOf[1] (Value): string. Where the
+     * value came from. Value enum: "store_credit". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: (("store_credit" | (string & {})) | (null));
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. anyOf[1] (Value): string.
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. anyOf[1] (Value): string. ID of the manual payment on the order that
+     * funded the value. Required for `flint_manual_payment`. minLength: 1. maxLength: 255.
+     * Example: "omp_01KEZF7C007J18203RBJKB9TYE". anyOf[2] (Value): null.
+     */
+    "order_manual_payment_id"?: ((string) | (null));
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. anyOf[1] (Value): string. The original payment
+     * for flint_payment or store_credit value. For standalone paid funding, use a captured payment
+     * intent without an order_id. Order-linked payments fund purchased cards or store credit
+     * through their order. minLength: 1. maxLength: 255. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * anyOf[2] (Value): null.
+     */
+    "payment_intent_id"?: ((string) | (null));
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * anyOf[1] (Value): string. Refund that issued this value. Present only when
+     * funding_source_type is store_credit. minLength: 1. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+     */
+    "refund_id"?: ((string) | (null));
+})
+    & ({
+    /**
+     * Where the value came from. Value enum: "store_credit". anyOf[1] (Value): any. Where the
+     * value came from. Value enum: "store_credit". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: ((unknown) | (null) | (unknown));
+});
+/** The `store_credit` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceStoreCreditRequestInput = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "store_credit". */
+    "funding_source_type": "store_credit";
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: never;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: never;
+})
+    & (({
+    /** Where the value came from. Value enum: "store_credit". */
+    "funding_source_type"?: ("store_credit") & ("store_credit");
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string;
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+})
+    & ({
+    "order_manual_payment_id"?: never;
+}));
+/** A page of `GiftCard` objects. */
+export type GiftCardListResponse = {
     /**
      * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * InventoryCount}. A physical count used to reconcile stock.
+     * GiftCard}. Merchant-issued purchased gift card. Posted balance includes reserved value;
+     * available value is balance minus reservations. Frozen value remains part of outstanding
+     * liability. Gift cards are independent resources and cannot be transferred across merchants
+     * or currencies.
      */
-    "data": Array<InventoryCount>;
+    "data": Array<GiftCard>;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -54,194 +1127,157 @@ export type InventoryCountListResponse = {
     "request_id": string;
 };
 /**
- * Where an inventory count came from: the source system, an external actor ID, and when the event
- * occurred.
+ * Top-level child of a gift card. Value and consideration are separate. External funding and
+ * import provenance are merchant-attested; no payment is collected by recording them. Replacement
+ * refund lots retain original funding provenance and do not represent new paid funding.
  */
-export type InventoryCountObservationProvenance = ({
+export type GiftCardLoad = {
     /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * maxLength: 255. Example: "warehouse-1842".
+     * What the buyer paid for the value, separate from `value_money`. `null` when no payment
+     * amount is recorded. anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      */
-    "external_actor_id"?: string;
+    "consideration_money": ((MoneyValue) | (null));
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
     /**
-     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
-     * is pos, wms, erp, or other. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * Restrictions tied to original funding, including value restored to replacement cards. A win
+     * clears only its own restriction. A loss keeps spending restricted until you create a gift
+     * card funding disposition. [] (Value): {@link GiftCardFundingDispute}. A dispute on the
+     * payment that funded a gift card load, with its status and any loss resolution.
      */
-    "occurred_at"?: string;
+    "funding_disputes": Array<GiftCardFundingDispute>;
+    /** ID of the gift card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". */
+    "gift_card_id": string;
     /**
-     * System the change came from, such as a point-of-sale or warehouse system. `null` when the
-     * request named no source system. anyOf[1] (Value): {@link InventorySourceSystem}. The system
-     * an inventory event came from, such as manual entry, a point of sale, a warehouse system, or
-     * Flint, with your source identifier when it applies. anyOf[2] (Value): null.
+     * Unique identifier for this gift card load, prefixed `gcl_`. Example:
+     * "gcl_01KEZF7C00YJED2857SE0J6KWC".
      */
-    "source_system": ((InventorySourceSystem) | (null));
-});
-/**
- * A counted quantity for one item in an inventory count, with the physical version it was read at.
- */
-export type InventoryCountObservationRequest = {
+    "gift_card_load_id": string;
     /**
-     * Whole-number quantity; fractional quantities are not supported. When omitted, keeps the
-     * line's expected_damaged_quantity from the same locked physical snapshot whose version was
-     * checked; the saved line reports that value as counted. Format: int64. minimum: 0.
+     * Your Idempotency-Key for the command that created this record. `null` when Flint created it
+     * or no key was sent.
      */
-    "counted_damaged_quantity"?: number;
+    "idempotency_key": string | null;
     /**
-     * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 0.
+     * Pending original cash refunds holding unspent value on this descendant funding lot. Unknown
+     * provider outcomes retain these holds. [] (Value): {@link GiftCardPurchaseRefundValueHold}.
+     * Gift card value held back by a purchase refund, with the refund, the root gift card and
+     * load, and the amount held.
      */
-    "counted_on_hand_quantity": number;
+    "purchase_refund_value_holds"?: Array<GiftCardPurchaseRefundValueHold>;
     /**
-     * Whole-number quantity; fractional quantities are not supported. When omitted, keeps the
-     * line's expected_quality_control_quantity from the same locked physical snapshot whose
-     * version was checked; the saved line reports that value as counted. Format: int64. minimum:
-     * 0.
+     * Cash refunds and manual payment reversals against this original funding load. Pending
+     * refunds reserve their value; confirmed success removes it, and confirmed failure releases
+     * the hold. [] (Value): {@link GiftCardPurchaseRefundAllocation}. An entry in a gift card
+     * load's purchase refunds.
      */
-    "counted_quality_control_quantity"?: number;
+    "purchase_refunds": Array<GiftCardPurchaseRefundAllocation>;
     /**
-     * Whole-number quantity; fractional quantities are not supported. When omitted, keeps the
-     * line's expected_quarantined_quantity from the same locked physical snapshot whose version
-     * was checked; the saved line reports that value as counted. Format: int64. minimum: 0.
+     * Set when the buyer paid again for value that reversing a gift card purchase had removed, and
+     * this load restored it. Names the original card and load, the purchase refund entry that
+     * removed the value, and the purchased unit. Omitted for other loads. Links a gift card load
+     * to the original card and load it restores value to after a purchase refund, for one unit of
+     * an order line item.
      */
-    "counted_quarantined_quantity"?: number;
+    "purchase_restoration"?: GiftCardPurchaseRestoration;
     /**
-     * Physical version read before counting this item. Zero is valid for a missing level. Recount
-     * after physical stock changes, even when the count is unchanged; never refresh only the
-     * token. Format: int64. minimum: 0.
+     * Traces a load made by a refund back to its original funding. `null` when the load wasn't
+     * made by a refund. Traces a gift card load made by a refund back to its original funding
+     * source, root gift card and load, and source refund.
      */
-    "expected_physical_version": number;
+    "refund_provenance"?: GiftCardRefundProvenance;
     /**
-     * ID of the inventory item counted. minLength: 1. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+     * The part of this load's value that refunds of redemptions moved onto replacement gift cards.
+     * Omitted until a refund moves value. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
      */
-    "inventory_item_id": string;
-    /** Format: int64. minimum: 0. */
-    "source_observation_sequence"?: number;
+    "refund_transferred_money"?: MoneyValue;
+    /**
+     * The value from this load still on the card: not yet spent, reversed, or moved to a
+     * replacement card. It includes value held by a reserved redemption. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "remaining_money": MoneyValue;
+    /**
+     * The value removed from this load by refunding or reversing the purchase that funded it. It
+     * goes down again when a purchase refund fails and the value is restored. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "reversed_money": MoneyValue;
+    /**
+     * Where the value came from, with your reference for it. Where the value of a gift card load
+     * came from, such as an external payment, a Flint payment, an import, or an adjustment, with
+     * your reference for it.
+     */
+    "source": GiftCardFundingSource;
+    /**
+     * RFC3339 timestamp. `null` when no source time was recorded. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "source_created_at": string | null;
+    /**
+     * The face value the load adds to the card. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "value_money": MoneyValue;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64.
+     */
+    "version": number;
 };
-/**
- * A counted quantity for one item in an inventory count, with the physical version it was read at.
- */
-export type InventoryCountObservationRequestInput = InventoryCountObservationRequest;
-/** A response containing `InventoryCount` data. */
-export type InventoryCountResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A physical count used to
-     * reconcile stock.
-     */
-    "data": InventoryCount;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * inventory_count is the primary resource and expected_version target. Stock-moving actions return
- * this result instead of a resource alone.
- */
-export type InventoryCountResult = {
-    /** The inventory count. A physical count used to reconcile stock. */
-    "inventory_count": InventoryCount;
-    /**
-     * Post-commit state of every level this command touched, one entry per level. A replay returns
-     * the levels the original command produced. Empty when no levels changed. [] (Value): {@link
-     * InventoryLevel}. The quantity state of one inventory item at one Location.
-     */
-    "inventory_levels": Array<InventoryLevel>;
-};
-/** A response containing `InventoryCountResult` data. */
-export type InventoryCountResultResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. inventory_count is the
-     * primary resource and expected_version target. Stock-moving actions return this result
-     * instead of a resource alone.
-     */
-    "data": InventoryCountResult;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type InventoryCountUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type GiftCardLoadCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
         "object": {
-            "applied_at"?: string;
+            "consideration_money": ((MoneyValue) | (null));
             "created_at": string;
-            "idempotency_key"?: string;
-            "inventory_count_id": string;
-            "lines": Array<InventoryCountLine>;
-            "location_id": string;
-            "observation_provenance"?: InventoryCountObservationProvenance;
-            "status": "draft" | "applied" | "canceled" | (string & {});
-            "supported_actions": Array<"apply" | "cancel" | (string & {})>;
-            "updated_at": string;
+            "funding_disputes": Array<GiftCardFundingDispute>;
+            "gift_card_id": string;
+            "gift_card_load_id": string;
+            "idempotency_key": string | null;
+            "purchase_refund_value_holds"?: Array<GiftCardPurchaseRefundValueHold>;
+            "purchase_refunds": Array<GiftCardPurchaseRefundAllocation>;
+            "purchase_restoration"?: GiftCardPurchaseRestoration;
+            "refund_provenance"?: GiftCardRefundProvenance;
+            "refund_transferred_money"?: MoneyValue;
+            "remaining_money": MoneyValue;
+            "reversed_money": MoneyValue;
+            "source": GiftCardFundingSource;
+            "source_created_at": string | null;
+            "value_money": MoneyValue;
             "version": number;
         };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "applied_at"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "idempotency_key"?: ((string) | (null));
-            "inventory_count_id"?: ((string) | (null));
-            "lines"?: ((Array<InventoryCountLine>) | (null));
-            "location_id"?: ((string) | (null));
-            "observation_provenance"?: ((InventoryCountObservationProvenance) | (null));
-            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
     };
     "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "inventory_count.updated";
+    "event_type"?: "gift_card_load.created";
 }))
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
         "object": {
-            "applied_at"?: string;
+            "consideration_money": ((MoneyValue) | (null));
             "created_at": string;
-            "idempotency_key"?: string;
-            "inventory_count_id": string;
-            "lines": Array<InventoryCountLine>;
-            "location_id": string;
-            "observation_provenance"?: InventoryCountObservationProvenance;
-            "status": "draft" | "applied" | "canceled" | (string & {});
-            "supported_actions": Array<"apply" | "cancel" | (string & {})>;
-            "updated_at": string;
+            "funding_disputes": Array<GiftCardFundingDispute>;
+            "gift_card_id": string;
+            "gift_card_load_id": string;
+            "idempotency_key": string | null;
+            "purchase_refund_value_holds"?: Array<GiftCardPurchaseRefundValueHold>;
+            "purchase_refunds": Array<GiftCardPurchaseRefundAllocation>;
+            "purchase_restoration"?: GiftCardPurchaseRestoration;
+            "refund_provenance"?: GiftCardRefundProvenance;
+            "refund_transferred_money"?: MoneyValue;
+            "remaining_money": MoneyValue;
+            "reversed_money": MoneyValue;
+            "source": GiftCardFundingSource;
+            "source_created_at": string | null;
+            "value_money": MoneyValue;
             "version": number;
         };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "applied_at"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "idempotency_key"?: ((string) | (null));
-            "inventory_count_id"?: ((string) | (null));
-            "lines"?: ((Array<InventoryCountLine>) | (null));
-            "location_id"?: ((string) | (null));
-            "observation_provenance"?: ((InventoryCountObservationProvenance) | (null));
-            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "inventory_count.updated";
+    "event_type"?: "gift_card_load.created";
     "source"?: ({
         "environment_grant_id": string;
         "merchant_id": string;
@@ -251,310 +1287,234 @@ export type InventoryCountUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
     });
 })))
     & {
-    "event_type": "inventory_count.updated";
+    "event_type": "gift_card_load.created";
 });
 /**
- * The `inventory_count.updated` webhook payload for the `installed_merchants` event source. Fields
+ * The `gift_card_load.created` webhook payload for the `installed_merchants` event source. Fields
  * shared by partner webhook payloads.
  */
-export type InventoryCountUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type GiftCardLoadCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.applied_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
-     * object.inventory_count_id (Required): string. Unique identifier for this inventory count,
-     * prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59". object.lines (Required): Array
-     * of {@link InventoryCountLine}. Count lines, one for each inventory item being counted.
-     * object.lines[] (Value): {@link InventoryCountLine}. One item's line in an inventory count,
-     * with the quantities Flint expected, the quantities counted, and the variance applied.
-     * object.location_id (Required): string. ID of the Location whose stock is counted. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.observation_provenance (Optional): {@link
-     * InventoryCountObservationProvenance}. Source system, actor, and time reported with the
-     * count's observations. Where an inventory count came from: the source system, an external
-     * actor ID, and when the event occurred. object.status (Required): string. Whether the count
-     * is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
-     * "applied", "canceled". object.supported_actions (Required): Array of string. Actions that
-     * can change this count now. A draft can be canceled, and applied once every line has an
-     * observation. Empty after the count is applied or canceled. [] enum: "apply", "cancel".
-     * object.supported_actions[] (Value): string. Value enum: "apply", "cancel". object.updated_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.applied_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.applied_at.anyOf[2] (Value):
-     * null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
-     * the request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
-     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
-     * previous_attributes.inventory_count_id (Optional): string or null. Unique identifier for
-     * this inventory count, prefixed `invc_`. previous_attributes.inventory_count_id.anyOf[1]
-     * (Value): string. Unique identifier for this inventory count, prefixed `invc_`. Example:
-     * "invc_01KEZF7C00B47NXRE3ET37QQ59". previous_attributes.inventory_count_id.anyOf[2] (Value):
-     * null. previous_attributes.lines (Optional): Array of {@link InventoryCountLine} or null.
-     * Count lines, one for each inventory item being counted. previous_attributes.lines.anyOf[1]
-     * (Value): Array of {@link InventoryCountLine}. Count lines, one for each inventory item being
-     * counted. previous_attributes.lines.anyOf[1][] (Value): {@link InventoryCountLine}. One
-     * item's line in an inventory count, with the quantities Flint expected, the quantities
-     * counted, and the variance applied. previous_attributes.lines.anyOf[2] (Value): null.
-     * previous_attributes.location_id (Optional): string or null. ID of the Location whose stock
-     * is counted. previous_attributes.location_id.anyOf[1] (Value): string. ID of the Location
-     * whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * previous_attributes.location_id.anyOf[2] (Value): null.
-     * previous_attributes.observation_provenance (Optional): {@link
-     * InventoryCountObservationProvenance} or null. Source system, actor, and time reported with
-     * the count's observations. previous_attributes.observation_provenance.anyOf[1] (Value):
-     * {@link InventoryCountObservationProvenance}. Source system, actor, and time reported with
-     * the count's observations. previous_attributes.observation_provenance.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Whether the count is still open.
-     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
-     * previous_attributes.status.anyOf[1] (Value): string. Whether the count is still open.
-     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
-     * (Optional): Array of string or null. Actions that can change this count now. A draft can be
-     * canceled, and applied once every line has an observation. Empty after the count is applied
-     * or canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Actions that can change this count now. A draft can be canceled,
-     * and applied once every line has an observation. Empty after the count is applied or
-     * canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1][]
-     * (Value): string. Value enum: "apply", "cancel".
-     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Current version of this resource's owned state. Send it as
-     * `expected_version` when changing the resource to reject a stale write.
-     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * additional fields. object.consideration_money (Required): {@link MoneyValue} or null. What
+     * the buyer paid for the value, separate from `value_money`. `null` when no payment amount is
+     * recorded. object.consideration_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     * object.consideration_money.anyOf[2] (Value): null. object.created_at (Required): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.funding_disputes (Required): Array of {@link GiftCardFundingDispute}. Restrictions
+     * tied to original funding, including value restored to replacement cards. A win clears only
+     * its own restriction. A loss keeps spending restricted until you create a gift card funding
+     * disposition. object.funding_disputes[] (Value): {@link GiftCardFundingDispute}. A dispute on
+     * the payment that funded a gift card load, with its status and any loss resolution.
+     * object.gift_card_id (Required): string. ID of the gift card the load added value to.
+     * Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.gift_card_load_id (Required): string.
+     * Unique identifier for this gift card load, prefixed `gcl_`. Example:
+     * "gcl_01KEZF7C00YJED2857SE0J6KWC". object.idempotency_key (Required): string or null. Your
+     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
+     * key was sent. object.purchase_refund_value_holds (Optional): Array of {@link
+     * GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding unspent value on
+     * this descendant funding lot. Unknown provider outcomes retain these holds.
+     * object.purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}. Gift
+     * card value held back by a purchase refund, with the refund, the root gift card and load, and
+     * the amount held. object.purchase_refunds (Required): Array of {@link
+     * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against this
+     * original funding load. Pending refunds reserve their value; confirmed success removes it,
+     * and confirmed failure releases the hold. object.purchase_refunds[] (Value): {@link
+     * GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
+     * object.purchase_restoration (Optional): {@link GiftCardPurchaseRestoration}. Set when the
+     * buyer paid again for value that reversing a gift card purchase had removed, and this load
+     * restored it. Names the original card and load, the purchase refund entry that removed the
+     * value, and the purchased unit. Omitted for other loads. Links a gift card load to the
+     * original card and load it restores value to after a purchase refund, for one unit of an
+     * order line item. object.refund_provenance (Optional): {@link GiftCardRefundProvenance}.
+     * Traces a load made by a refund back to its original funding. `null` when the load wasn't
+     * made by a refund. Traces a gift card load made by a refund back to its original funding
+     * source, root gift card and load, and source refund. object.refund_transferred_money
+     * (Optional): {@link MoneyValue}. The part of this load's value that refunds of redemptions
+     * moved onto replacement gift cards. Omitted until a refund moves value. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code. object.remaining_money
+     * (Required): {@link MoneyValue}. The value from this load still on the card: not yet spent,
+     * reversed, or moved to a replacement card. It includes value held by a reserved redemption.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.reversed_money (Required): {@link MoneyValue}. The value removed from this load by
+     * refunding or reversing the purchase that funded it. It goes down again when a purchase
+     * refund fails and the value is restored. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code. object.source (Required): {@link GiftCardFundingSource}.
+     * Where the value came from, with your reference for it. Where the value of a gift card load
+     * came from, such as an external payment, a Flint payment, an import, or an adjustment, with
+     * your reference for it. object.source_created_at (Required): string or null. RFC3339
+     * timestamp. `null` when no source time was recorded. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.value_money (Required): {@link MoneyValue}. The face value
+     * the load adds to the card. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.version (Required): integer. Current version of this resource's
      * owned state. Send it as `expected_version` when changing the resource to reject a stale
-     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
+     * write. Format: int64.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * applied_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_count_id (Required):
-         * string. Unique identifier for this inventory count, prefixed `invc_`. Example:
-         * "invc_01KEZF7C00B47NXRE3ET37QQ59". lines (Required): Array of {@link
-         * InventoryCountLine}. Count lines, one for each inventory item being counted. lines[]
-         * (Value): {@link InventoryCountLine}. One item's line in an inventory count, with the
-         * quantities Flint expected, the quantities counted, and the variance applied. location_id
-         * (Required): string. ID of the Location whose stock is counted. Example:
-         * "loc_01KEZF7C00CMHRRYA3MV996JB2". observation_provenance (Optional): {@link
-         * InventoryCountObservationProvenance}. Source system, actor, and time reported with the
-         * count's observations. Where an inventory count came from: the source system, an external
-         * actor ID, and when the event occurred. status (Required): string. Whether the count is
-         * still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
-         * "applied", "canceled". supported_actions (Required): Array of string. Actions that can
-         * change this count now. A draft can be canceled, and applied once every line has an
-         * observation. Empty after the count is applied or canceled. [] enum: "apply", "cancel".
-         * supported_actions[] (Value): string. Value enum: "apply", "cancel". updated_at
-         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * consideration_money (Required): {@link MoneyValue} or null. What the buyer paid for the
+         * value, separate from `value_money`. `null` when no payment amount is recorded.
+         * consideration_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as
+         * integer minor units plus an ISO 4217 currency code. consideration_money.anyOf[2]
+         * (Value): null. created_at (Required): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". funding_disputes (Required): Array of {@link
+         * GiftCardFundingDispute}. Restrictions tied to original funding, including value restored
+         * to replacement cards. A win clears only its own restriction. A loss keeps spending
+         * restricted until you create a gift card funding disposition. funding_disputes[] (Value):
+         * {@link GiftCardFundingDispute}. A dispute on the payment that funded a gift card load,
+         * with its status and any loss resolution. gift_card_id (Required): string. ID of the gift
+         * card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+         * gift_card_load_id (Required): string. Unique identifier for this gift card load,
+         * prefixed `gcl_`. Example: "gcl_01KEZF7C00YJED2857SE0J6KWC". idempotency_key (Required):
+         * string or null. Your Idempotency-Key for the command that created this record. `null`
+         * when Flint created it or no key was sent. purchase_refund_value_holds (Optional): Array
+         * of {@link GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding
+         * unspent value on this descendant funding lot. Unknown provider outcomes retain these
+         * holds. purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}.
+         * Gift card value held back by a purchase refund, with the refund, the root gift card and
+         * load, and the amount held. purchase_refunds (Required): Array of {@link
+         * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against
+         * this original funding load. Pending refunds reserve their value; confirmed success
+         * removes it, and confirmed failure releases the hold. purchase_refunds[] (Value): {@link
+         * GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
+         * purchase_restoration (Optional): {@link GiftCardPurchaseRestoration}. Set when the buyer
+         * paid again for value that reversing a gift card purchase had removed, and this load
+         * restored it. Names the original card and load, the purchase refund entry that removed
+         * the value, and the purchased unit. Omitted for other loads. Links a gift card load to
+         * the original card and load it restores value to after a purchase refund, for one unit of
+         * an order line item. refund_provenance (Optional): {@link GiftCardRefundProvenance}.
+         * Traces a load made by a refund back to its original funding. `null` when the load wasn't
+         * made by a refund. Traces a gift card load made by a refund back to its original funding
+         * source, root gift card and load, and source refund. refund_transferred_money (Optional):
+         * {@link MoneyValue}. The part of this load's value that refunds of redemptions moved onto
+         * replacement gift cards. Omitted until a refund moves value. Monetary amount represented
+         * as integer minor units plus an ISO 4217 currency code. remaining_money (Required):
+         * {@link MoneyValue}. The value from this load still on the card: not yet spent, reversed,
+         * or moved to a replacement card. It includes value held by a reserved redemption.
+         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+         * reversed_money (Required): {@link MoneyValue}. The value removed from this load by
+         * refunding or reversing the purchase that funded it. It goes down again when a purchase
+         * refund fails and the value is restored. Monetary amount represented as integer minor
+         * units plus an ISO 4217 currency code. source (Required): {@link GiftCardFundingSource}.
+         * Where the value came from, with your reference for it. Where the value of a gift card
+         * load came from, such as an external payment, a Flint payment, an import, or an
+         * adjustment, with your reference for it. source_created_at (Required): string or null.
+         * RFC3339 timestamp. `null` when no source time was recorded. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". value_money (Required): {@link MoneyValue}. The face value the
+         * load adds to the card. Monetary amount represented as integer minor units plus an ISO
+         * 4217 currency code. version (Required): integer. Current version of this resource's
          * owned state. Send it as `expected_version` when changing the resource to reject a stale
-         * write. Format: uint64. minimum: 1.
+         * write. Format: int64.
          */
         "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "applied_at"?: string;
+            /**
+             * What the buyer paid for the value, separate from `value_money`. `null` when no
+             * payment amount is recorded. anyOf[1] (Value): {@link MoneyValue}. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value):
+             * null.
+             */
+            "consideration_money": ((MoneyValue) | (null));
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
             "created_at": string;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * Restrictions tied to original funding, including value restored to replacement
+             * cards. A win clears only its own restriction. A loss keeps spending restricted until
+             * you create a gift card funding disposition. [] (Value): {@link
+             * GiftCardFundingDispute}. A dispute on the payment that funded a gift card load, with
+             * its status and any loss resolution.
              */
-            "idempotency_key"?: string;
+            "funding_disputes": Array<GiftCardFundingDispute>;
             /**
-             * Unique identifier for this inventory count, prefixed `invc_`. Example:
-             * "invc_01KEZF7C00B47NXRE3ET37QQ59".
+             * ID of the gift card the load added value to. Example:
+             * "gc_01KEZF7C00RT1618WYBM1Y94CG".
              */
-            "inventory_count_id": string;
+            "gift_card_id": string;
             /**
-             * Count lines, one for each inventory item being counted. [] (Value): {@link
-             * InventoryCountLine}. One item's line in an inventory count, with the quantities
-             * Flint expected, the quantities counted, and the variance applied.
+             * Unique identifier for this gift card load, prefixed `gcl_`. Example:
+             * "gcl_01KEZF7C00YJED2857SE0J6KWC".
              */
-            "lines": Array<InventoryCountLine>;
+            "gift_card_load_id": string;
             /**
-             * ID of the Location whose stock is counted. Example:
-             * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+             * Your Idempotency-Key for the command that created this record. `null` when Flint
+             * created it or no key was sent.
              */
-            "location_id": string;
+            "idempotency_key": string | null;
             /**
-             * Source system, actor, and time reported with the count's observations. Where an
-             * inventory count came from: the source system, an external actor ID, and when the
-             * event occurred.
+             * Pending original cash refunds holding unspent value on this descendant funding lot.
+             * Unknown provider outcomes retain these holds. [] (Value): {@link
+             * GiftCardPurchaseRefundValueHold}. Gift card value held back by a purchase refund,
+             * with the refund, the root gift card and load, and the amount held.
              */
-            "observation_provenance"?: InventoryCountObservationProvenance;
+            "purchase_refund_value_holds"?: Array<GiftCardPurchaseRefundValueHold>;
             /**
-             * Whether the count is still open. Applying or canceling a `draft` count ends it.
-             * Value enum: "draft", "applied", "canceled".
+             * Cash refunds and manual payment reversals against this original funding load.
+             * Pending refunds reserve their value; confirmed success removes it, and confirmed
+             * failure releases the hold. [] (Value): {@link GiftCardPurchaseRefundAllocation}. An
+             * entry in a gift card load's purchase refunds.
              */
-            "status": "draft" | "applied" | "canceled" | (string & {});
+            "purchase_refunds": Array<GiftCardPurchaseRefundAllocation>;
             /**
-             * Actions that can change this count now. A draft can be canceled, and applied once
-             * every line has an observation. Empty after the count is applied or canceled. []
-             * enum: "apply", "cancel". [] (Value): string. Value enum: "apply", "cancel".
+             * Set when the buyer paid again for value that reversing a gift card purchase had
+             * removed, and this load restored it. Names the original card and load, the purchase
+             * refund entry that removed the value, and the purchased unit. Omitted for other
+             * loads. Links a gift card load to the original card and load it restores value to
+             * after a purchase refund, for one unit of an order line item.
              */
-            "supported_actions": Array<"apply" | "cancel" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
+            "purchase_restoration"?: GiftCardPurchaseRestoration;
+            /**
+             * Traces a load made by a refund back to its original funding. `null` when the load
+             * wasn't made by a refund. Traces a gift card load made by a refund back to its
+             * original funding source, root gift card and load, and source refund.
+             */
+            "refund_provenance"?: GiftCardRefundProvenance;
+            /**
+             * The part of this load's value that refunds of redemptions moved onto replacement
+             * gift cards. Omitted until a refund moves value. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "refund_transferred_money"?: MoneyValue;
+            /**
+             * The value from this load still on the card: not yet spent, reversed, or moved to a
+             * replacement card. It includes value held by a reserved redemption. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "remaining_money": MoneyValue;
+            /**
+             * The value removed from this load by refunding or reversing the purchase that funded
+             * it. It goes down again when a purchase refund fails and the value is restored.
+             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "reversed_money": MoneyValue;
+            /**
+             * Where the value came from, with your reference for it. Where the value of a gift
+             * card load came from, such as an external payment, a Flint payment, an import, or an
+             * adjustment, with your reference for it.
+             */
+            "source": GiftCardFundingSource;
+            /**
+             * RFC3339 timestamp. `null` when no source time was recorded. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "source_created_at": string | null;
+            /**
+             * The face value the load adds to the card. Monetary amount represented as integer
+             * minor units plus an ISO 4217 currency code.
+             */
+            "value_money": MoneyValue;
             /**
              * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
+             * changing the resource to reject a stale write. Format: int64.
              */
             "version": number;
         };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. applied_at (Optional): string or null. RFC3339
-         * timestamp. applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". applied_at.anyOf[2] (Value): null. created_at
-         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
-         * string. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[2] (Value): null. inventory_count_id (Optional): string or null.
-         * Unique identifier for this inventory count, prefixed `invc_`.
-         * inventory_count_id.anyOf[1] (Value): string. Unique identifier for this inventory count,
-         * prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59".
-         * inventory_count_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
-         * InventoryCountLine} or null. Count lines, one for each inventory item being counted.
-         * lines.anyOf[1] (Value): Array of {@link InventoryCountLine}. Count lines, one for each
-         * inventory item being counted. lines.anyOf[1][] (Value): {@link InventoryCountLine}. One
-         * item's line in an inventory count, with the quantities Flint expected, the quantities
-         * counted, and the variance applied. lines.anyOf[2] (Value): null. location_id (Optional):
-         * string or null. ID of the Location whose stock is counted. location_id.anyOf[1] (Value):
-         * string. ID of the Location whose stock is counted. Example:
-         * "loc_01KEZF7C00CMHRRYA3MV996JB2". location_id.anyOf[2] (Value): null.
-         * observation_provenance (Optional): {@link InventoryCountObservationProvenance} or null.
-         * Source system, actor, and time reported with the count's observations.
-         * observation_provenance.anyOf[1] (Value): {@link InventoryCountObservationProvenance}.
-         * Source system, actor, and time reported with the count's observations.
-         * observation_provenance.anyOf[2] (Value): null. status (Optional): string or null.
-         * Whether the count is still open. Applying or canceling a `draft` count ends it. Value
-         * enum: "draft", "applied", "canceled". status.anyOf[1] (Value): string. Whether the count
-         * is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
-         * "applied", "canceled". status.anyOf[2] (Value): null. supported_actions (Optional):
-         * Array of string or null. Actions that can change this count now. A draft can be
-         * canceled, and applied once every line has an observation. Empty after the count is
-         * applied or canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1] (Value):
-         * Array of string. Actions that can change this count now. A draft can be canceled, and
-         * applied once every line has an observation. Empty after the count is applied or
-         * canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1][] (Value): string.
-         * Value enum: "apply", "cancel". supported_actions.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
-         * of this resource's owned state. Send it as `expected_version` when changing the resource
-         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
-         * resource's owned state. Send it as `expected_version` when changing the resource to
-         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "applied_at"?: ((string) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
-             * string. The Idempotency-Key of the request that created this resource; on a
-             * movement, of the command that wrote it. Omitted when that request had no key.
-             * anyOf[2] (Value): null.
-             */
-            "idempotency_key"?: ((string) | (null));
-            /**
-             * Unique identifier for this inventory count, prefixed `invc_`. anyOf[1] (Value):
-             * string. Unique identifier for this inventory count, prefixed `invc_`. Example:
-             * "invc_01KEZF7C00B47NXRE3ET37QQ59". anyOf[2] (Value): null.
-             */
-            "inventory_count_id"?: ((string) | (null));
-            /**
-             * Count lines, one for each inventory item being counted. anyOf[1] (Value): Array of
-             * {@link InventoryCountLine}. Count lines, one for each inventory item being counted.
-             * anyOf[1][] (Value): {@link InventoryCountLine}. One item's line in an inventory
-             * count, with the quantities Flint expected, the quantities counted, and the variance
-             * applied. anyOf[2] (Value): null.
-             */
-            "lines"?: ((Array<InventoryCountLine>) | (null));
-            /**
-             * ID of the Location whose stock is counted. anyOf[1] (Value): string. ID of the
-             * Location whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2]
-             * (Value): null.
-             */
-            "location_id"?: ((string) | (null));
-            /**
-             * Source system, actor, and time reported with the count's observations. anyOf[1]
-             * (Value): {@link InventoryCountObservationProvenance}. Source system, actor, and time
-             * reported with the count's observations. anyOf[2] (Value): null.
-             */
-            "observation_provenance"?: ((InventoryCountObservationProvenance) | (null));
-            /**
-             * Whether the count is still open. Applying or canceling a `draft` count ends it.
-             * Value enum: "draft", "applied", "canceled". anyOf[1] (Value): string. Whether the
-             * count is still open. Applying or canceling a `draft` count ends it. Value enum:
-             * "draft", "applied", "canceled". anyOf[2] (Value): null.
-             */
-            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
-            /**
-             * Actions that can change this count now. A draft can be canceled, and applied once
-             * every line has an observation. Empty after the count is applied or canceled. []
-             * enum: "apply", "cancel". anyOf[1] (Value): Array of string. Actions that can change
-             * this count now. A draft can be canceled, and applied once every line has an
-             * observation. Empty after the count is applied or canceled. [] enum: "apply",
-             * "cancel". anyOf[1][] (Value): string. Value enum: "apply", "cancel". anyOf[2]
-             * (Value): null.
-             */
-            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
-             * version of this resource's owned state. Send it as `expected_version` when changing
-             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
-             * null.
-             */
-            "version"?: ((number) | (null));
-        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "inventory_count.updated". */
-    "event_type"?: "inventory_count.updated";
+    /** Value enum: "gift_card_load.created". */
+    "event_type"?: "gift_card_load.created";
     /**
      *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
      * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
@@ -591,169 +1551,702 @@ export type InventoryCountUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
     });
 });
 /**
- * The `inventory_count.updated` webhook payload for the `merchant` event source. Fields shared by
+ * The `gift_card_load.created` webhook payload for the `merchant` event source. Fields shared by
  * merchant webhook payloads.
  */
-export type InventoryCountUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type GiftCardLoadCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.applied_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
-     * object.inventory_count_id (Required): string. Unique identifier for this inventory count,
-     * prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59". object.lines (Required): Array
-     * of {@link InventoryCountLine}. Count lines, one for each inventory item being counted.
-     * object.lines[] (Value): {@link InventoryCountLine}. One item's line in an inventory count,
-     * with the quantities Flint expected, the quantities counted, and the variance applied.
-     * object.location_id (Required): string. ID of the Location whose stock is counted. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.observation_provenance (Optional): {@link
-     * InventoryCountObservationProvenance}. Source system, actor, and time reported with the
-     * count's observations. Where an inventory count came from: the source system, an external
-     * actor ID, and when the event occurred. object.status (Required): string. Whether the count
-     * is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
-     * "applied", "canceled". object.supported_actions (Required): Array of string. Actions that
-     * can change this count now. A draft can be canceled, and applied once every line has an
-     * observation. Empty after the count is applied or canceled. [] enum: "apply", "cancel".
-     * object.supported_actions[] (Value): string. Value enum: "apply", "cancel". object.updated_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.applied_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.applied_at.anyOf[2] (Value):
-     * null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
-     * the request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
-     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
-     * previous_attributes.inventory_count_id (Optional): string or null. Unique identifier for
-     * this inventory count, prefixed `invc_`. previous_attributes.inventory_count_id.anyOf[1]
-     * (Value): string. Unique identifier for this inventory count, prefixed `invc_`. Example:
-     * "invc_01KEZF7C00B47NXRE3ET37QQ59". previous_attributes.inventory_count_id.anyOf[2] (Value):
-     * null. previous_attributes.lines (Optional): Array of {@link InventoryCountLine} or null.
-     * Count lines, one for each inventory item being counted. previous_attributes.lines.anyOf[1]
-     * (Value): Array of {@link InventoryCountLine}. Count lines, one for each inventory item being
-     * counted. previous_attributes.lines.anyOf[1][] (Value): {@link InventoryCountLine}. One
-     * item's line in an inventory count, with the quantities Flint expected, the quantities
-     * counted, and the variance applied. previous_attributes.lines.anyOf[2] (Value): null.
-     * previous_attributes.location_id (Optional): string or null. ID of the Location whose stock
-     * is counted. previous_attributes.location_id.anyOf[1] (Value): string. ID of the Location
-     * whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * previous_attributes.location_id.anyOf[2] (Value): null.
-     * previous_attributes.observation_provenance (Optional): {@link
-     * InventoryCountObservationProvenance} or null. Source system, actor, and time reported with
-     * the count's observations. previous_attributes.observation_provenance.anyOf[1] (Value):
-     * {@link InventoryCountObservationProvenance}. Source system, actor, and time reported with
-     * the count's observations. previous_attributes.observation_provenance.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Whether the count is still open.
-     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
-     * previous_attributes.status.anyOf[1] (Value): string. Whether the count is still open.
-     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
-     * (Optional): Array of string or null. Actions that can change this count now. A draft can be
-     * canceled, and applied once every line has an observation. Empty after the count is applied
-     * or canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Actions that can change this count now. A draft can be canceled,
-     * and applied once every line has an observation. Empty after the count is applied or
-     * canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1][]
-     * (Value): string. Value enum: "apply", "cancel".
-     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Current version of this resource's owned state. Send it as
-     * `expected_version` when changing the resource to reject a stale write.
-     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * additional fields. object.consideration_money (Required): {@link MoneyValue} or null. What
+     * the buyer paid for the value, separate from `value_money`. `null` when no payment amount is
+     * recorded. object.consideration_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     * object.consideration_money.anyOf[2] (Value): null. object.created_at (Required): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.funding_disputes (Required): Array of {@link GiftCardFundingDispute}. Restrictions
+     * tied to original funding, including value restored to replacement cards. A win clears only
+     * its own restriction. A loss keeps spending restricted until you create a gift card funding
+     * disposition. object.funding_disputes[] (Value): {@link GiftCardFundingDispute}. A dispute on
+     * the payment that funded a gift card load, with its status and any loss resolution.
+     * object.gift_card_id (Required): string. ID of the gift card the load added value to.
+     * Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.gift_card_load_id (Required): string.
+     * Unique identifier for this gift card load, prefixed `gcl_`. Example:
+     * "gcl_01KEZF7C00YJED2857SE0J6KWC". object.idempotency_key (Required): string or null. Your
+     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
+     * key was sent. object.purchase_refund_value_holds (Optional): Array of {@link
+     * GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding unspent value on
+     * this descendant funding lot. Unknown provider outcomes retain these holds.
+     * object.purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}. Gift
+     * card value held back by a purchase refund, with the refund, the root gift card and load, and
+     * the amount held. object.purchase_refunds (Required): Array of {@link
+     * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against this
+     * original funding load. Pending refunds reserve their value; confirmed success removes it,
+     * and confirmed failure releases the hold. object.purchase_refunds[] (Value): {@link
+     * GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
+     * object.purchase_restoration (Optional): {@link GiftCardPurchaseRestoration}. Set when the
+     * buyer paid again for value that reversing a gift card purchase had removed, and this load
+     * restored it. Names the original card and load, the purchase refund entry that removed the
+     * value, and the purchased unit. Omitted for other loads. Links a gift card load to the
+     * original card and load it restores value to after a purchase refund, for one unit of an
+     * order line item. object.refund_provenance (Optional): {@link GiftCardRefundProvenance}.
+     * Traces a load made by a refund back to its original funding. `null` when the load wasn't
+     * made by a refund. Traces a gift card load made by a refund back to its original funding
+     * source, root gift card and load, and source refund. object.refund_transferred_money
+     * (Optional): {@link MoneyValue}. The part of this load's value that refunds of redemptions
+     * moved onto replacement gift cards. Omitted until a refund moves value. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code. object.remaining_money
+     * (Required): {@link MoneyValue}. The value from this load still on the card: not yet spent,
+     * reversed, or moved to a replacement card. It includes value held by a reserved redemption.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.reversed_money (Required): {@link MoneyValue}. The value removed from this load by
+     * refunding or reversing the purchase that funded it. It goes down again when a purchase
+     * refund fails and the value is restored. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code. object.source (Required): {@link GiftCardFundingSource}.
+     * Where the value came from, with your reference for it. Where the value of a gift card load
+     * came from, such as an external payment, a Flint payment, an import, or an adjustment, with
+     * your reference for it. object.source_created_at (Required): string or null. RFC3339
+     * timestamp. `null` when no source time was recorded. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.value_money (Required): {@link MoneyValue}. The face value
+     * the load adds to the card. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.version (Required): integer. Current version of this resource's
      * owned state. Send it as `expected_version` when changing the resource to reject a stale
-     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
+     * write. Format: int64.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * applied_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_count_id (Required):
-         * string. Unique identifier for this inventory count, prefixed `invc_`. Example:
-         * "invc_01KEZF7C00B47NXRE3ET37QQ59". lines (Required): Array of {@link
-         * InventoryCountLine}. Count lines, one for each inventory item being counted. lines[]
-         * (Value): {@link InventoryCountLine}. One item's line in an inventory count, with the
-         * quantities Flint expected, the quantities counted, and the variance applied. location_id
-         * (Required): string. ID of the Location whose stock is counted. Example:
-         * "loc_01KEZF7C00CMHRRYA3MV996JB2". observation_provenance (Optional): {@link
-         * InventoryCountObservationProvenance}. Source system, actor, and time reported with the
-         * count's observations. Where an inventory count came from: the source system, an external
-         * actor ID, and when the event occurred. status (Required): string. Whether the count is
-         * still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
-         * "applied", "canceled". supported_actions (Required): Array of string. Actions that can
-         * change this count now. A draft can be canceled, and applied once every line has an
-         * observation. Empty after the count is applied or canceled. [] enum: "apply", "cancel".
-         * supported_actions[] (Value): string. Value enum: "apply", "cancel". updated_at
-         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * consideration_money (Required): {@link MoneyValue} or null. What the buyer paid for the
+         * value, separate from `value_money`. `null` when no payment amount is recorded.
+         * consideration_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as
+         * integer minor units plus an ISO 4217 currency code. consideration_money.anyOf[2]
+         * (Value): null. created_at (Required): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". funding_disputes (Required): Array of {@link
+         * GiftCardFundingDispute}. Restrictions tied to original funding, including value restored
+         * to replacement cards. A win clears only its own restriction. A loss keeps spending
+         * restricted until you create a gift card funding disposition. funding_disputes[] (Value):
+         * {@link GiftCardFundingDispute}. A dispute on the payment that funded a gift card load,
+         * with its status and any loss resolution. gift_card_id (Required): string. ID of the gift
+         * card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+         * gift_card_load_id (Required): string. Unique identifier for this gift card load,
+         * prefixed `gcl_`. Example: "gcl_01KEZF7C00YJED2857SE0J6KWC". idempotency_key (Required):
+         * string or null. Your Idempotency-Key for the command that created this record. `null`
+         * when Flint created it or no key was sent. purchase_refund_value_holds (Optional): Array
+         * of {@link GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding
+         * unspent value on this descendant funding lot. Unknown provider outcomes retain these
+         * holds. purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}.
+         * Gift card value held back by a purchase refund, with the refund, the root gift card and
+         * load, and the amount held. purchase_refunds (Required): Array of {@link
+         * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against
+         * this original funding load. Pending refunds reserve their value; confirmed success
+         * removes it, and confirmed failure releases the hold. purchase_refunds[] (Value): {@link
+         * GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
+         * purchase_restoration (Optional): {@link GiftCardPurchaseRestoration}. Set when the buyer
+         * paid again for value that reversing a gift card purchase had removed, and this load
+         * restored it. Names the original card and load, the purchase refund entry that removed
+         * the value, and the purchased unit. Omitted for other loads. Links a gift card load to
+         * the original card and load it restores value to after a purchase refund, for one unit of
+         * an order line item. refund_provenance (Optional): {@link GiftCardRefundProvenance}.
+         * Traces a load made by a refund back to its original funding. `null` when the load wasn't
+         * made by a refund. Traces a gift card load made by a refund back to its original funding
+         * source, root gift card and load, and source refund. refund_transferred_money (Optional):
+         * {@link MoneyValue}. The part of this load's value that refunds of redemptions moved onto
+         * replacement gift cards. Omitted until a refund moves value. Monetary amount represented
+         * as integer minor units plus an ISO 4217 currency code. remaining_money (Required):
+         * {@link MoneyValue}. The value from this load still on the card: not yet spent, reversed,
+         * or moved to a replacement card. It includes value held by a reserved redemption.
+         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+         * reversed_money (Required): {@link MoneyValue}. The value removed from this load by
+         * refunding or reversing the purchase that funded it. It goes down again when a purchase
+         * refund fails and the value is restored. Monetary amount represented as integer minor
+         * units plus an ISO 4217 currency code. source (Required): {@link GiftCardFundingSource}.
+         * Where the value came from, with your reference for it. Where the value of a gift card
+         * load came from, such as an external payment, a Flint payment, an import, or an
+         * adjustment, with your reference for it. source_created_at (Required): string or null.
+         * RFC3339 timestamp. `null` when no source time was recorded. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". value_money (Required): {@link MoneyValue}. The face value the
+         * load adds to the card. Monetary amount represented as integer minor units plus an ISO
+         * 4217 currency code. version (Required): integer. Current version of this resource's
          * owned state. Send it as `expected_version` when changing the resource to reject a stale
-         * write. Format: uint64. minimum: 1.
+         * write. Format: int64.
          */
         "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "applied_at"?: string;
+            /**
+             * What the buyer paid for the value, separate from `value_money`. `null` when no
+             * payment amount is recorded. anyOf[1] (Value): {@link MoneyValue}. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value):
+             * null.
+             */
+            "consideration_money": ((MoneyValue) | (null));
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
             "created_at": string;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * Restrictions tied to original funding, including value restored to replacement
+             * cards. A win clears only its own restriction. A loss keeps spending restricted until
+             * you create a gift card funding disposition. [] (Value): {@link
+             * GiftCardFundingDispute}. A dispute on the payment that funded a gift card load, with
+             * its status and any loss resolution.
              */
-            "idempotency_key"?: string;
+            "funding_disputes": Array<GiftCardFundingDispute>;
             /**
-             * Unique identifier for this inventory count, prefixed `invc_`. Example:
-             * "invc_01KEZF7C00B47NXRE3ET37QQ59".
+             * ID of the gift card the load added value to. Example:
+             * "gc_01KEZF7C00RT1618WYBM1Y94CG".
              */
-            "inventory_count_id": string;
+            "gift_card_id": string;
             /**
-             * Count lines, one for each inventory item being counted. [] (Value): {@link
-             * InventoryCountLine}. One item's line in an inventory count, with the quantities
-             * Flint expected, the quantities counted, and the variance applied.
+             * Unique identifier for this gift card load, prefixed `gcl_`. Example:
+             * "gcl_01KEZF7C00YJED2857SE0J6KWC".
              */
-            "lines": Array<InventoryCountLine>;
+            "gift_card_load_id": string;
             /**
-             * ID of the Location whose stock is counted. Example:
-             * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+             * Your Idempotency-Key for the command that created this record. `null` when Flint
+             * created it or no key was sent.
              */
-            "location_id": string;
+            "idempotency_key": string | null;
             /**
-             * Source system, actor, and time reported with the count's observations. Where an
-             * inventory count came from: the source system, an external actor ID, and when the
-             * event occurred.
+             * Pending original cash refunds holding unspent value on this descendant funding lot.
+             * Unknown provider outcomes retain these holds. [] (Value): {@link
+             * GiftCardPurchaseRefundValueHold}. Gift card value held back by a purchase refund,
+             * with the refund, the root gift card and load, and the amount held.
              */
-            "observation_provenance"?: InventoryCountObservationProvenance;
+            "purchase_refund_value_holds"?: Array<GiftCardPurchaseRefundValueHold>;
             /**
-             * Whether the count is still open. Applying or canceling a `draft` count ends it.
-             * Value enum: "draft", "applied", "canceled".
+             * Cash refunds and manual payment reversals against this original funding load.
+             * Pending refunds reserve their value; confirmed success removes it, and confirmed
+             * failure releases the hold. [] (Value): {@link GiftCardPurchaseRefundAllocation}. An
+             * entry in a gift card load's purchase refunds.
              */
-            "status": "draft" | "applied" | "canceled" | (string & {});
+            "purchase_refunds": Array<GiftCardPurchaseRefundAllocation>;
             /**
-             * Actions that can change this count now. A draft can be canceled, and applied once
-             * every line has an observation. Empty after the count is applied or canceled. []
-             * enum: "apply", "cancel". [] (Value): string. Value enum: "apply", "cancel".
+             * Set when the buyer paid again for value that reversing a gift card purchase had
+             * removed, and this load restored it. Names the original card and load, the purchase
+             * refund entry that removed the value, and the purchased unit. Omitted for other
+             * loads. Links a gift card load to the original card and load it restores value to
+             * after a purchase refund, for one unit of an order line item.
              */
-            "supported_actions": Array<"apply" | "cancel" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
+            "purchase_restoration"?: GiftCardPurchaseRestoration;
+            /**
+             * Traces a load made by a refund back to its original funding. `null` when the load
+             * wasn't made by a refund. Traces a gift card load made by a refund back to its
+             * original funding source, root gift card and load, and source refund.
+             */
+            "refund_provenance"?: GiftCardRefundProvenance;
+            /**
+             * The part of this load's value that refunds of redemptions moved onto replacement
+             * gift cards. Omitted until a refund moves value. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "refund_transferred_money"?: MoneyValue;
+            /**
+             * The value from this load still on the card: not yet spent, reversed, or moved to a
+             * replacement card. It includes value held by a reserved redemption. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "remaining_money": MoneyValue;
+            /**
+             * The value removed from this load by refunding or reversing the purchase that funded
+             * it. It goes down again when a purchase refund fails and the value is restored.
+             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "reversed_money": MoneyValue;
+            /**
+             * Where the value came from, with your reference for it. Where the value of a gift
+             * card load came from, such as an external payment, a Flint payment, an import, or an
+             * adjustment, with your reference for it.
+             */
+            "source": GiftCardFundingSource;
+            /**
+             * RFC3339 timestamp. `null` when no source time was recorded. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "source_created_at": string | null;
+            /**
+             * The face value the load adds to the card. Monetary amount represented as integer
+             * minor units plus an ISO 4217 currency code.
+             */
+            "value_money": MoneyValue;
             /**
              * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
+             * changing the resource to reject a stale write. Format: int64.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "gift_card_load.created". */
+    "event_type"?: "gift_card_load.created";
+});
+/** A page of `GiftCardLoad` objects. */
+export type GiftCardLoadListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * GiftCardLoad}. Top-level child of a gift card. Value and consideration are separate.
+     * External funding and import provenance are merchant-attested; no payment is collected by
+     * recording them. Replacement refund lots retain original funding provenance and do not
+     * represent new paid funding.
+     */
+    "data": Array<GiftCardLoad>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `GiftCardLoad` data. */
+export type GiftCardLoadResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. Top-level child of a
+     * gift card. Value and consideration are separate. External funding and import provenance are
+     * merchant-attested; no payment is collected by recording them. Replacement refund lots retain
+     * original funding provenance and do not represent new paid funding.
+     */
+    "data": GiftCardLoad;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type GiftCardLoadUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "consideration_money": ((MoneyValue) | (null));
+            "created_at": string;
+            "funding_disputes": Array<GiftCardFundingDispute>;
+            "gift_card_id": string;
+            "gift_card_load_id": string;
+            "idempotency_key": string | null;
+            "purchase_refund_value_holds"?: Array<GiftCardPurchaseRefundValueHold>;
+            "purchase_refunds": Array<GiftCardPurchaseRefundAllocation>;
+            "purchase_restoration"?: GiftCardPurchaseRestoration;
+            "refund_provenance"?: GiftCardRefundProvenance;
+            "refund_transferred_money"?: MoneyValue;
+            "remaining_money": MoneyValue;
+            "reversed_money": MoneyValue;
+            "source": GiftCardFundingSource;
+            "source_created_at": string | null;
+            "value_money": MoneyValue;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "consideration_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "created_at"?: ((string) | (null));
+            "funding_disputes"?: ((Array<GiftCardFundingDisputePreviousAttributes>) | (null));
+            "gift_card_id"?: ((string) | (null));
+            "gift_card_load_id"?: ((string) | (null));
+            "idempotency_key"?: ((string | null) | (null) | (unknown));
+            "purchase_refund_value_holds"?: ((Array<GiftCardPurchaseRefundValueHoldPreviousAttributes>) | (null));
+            "purchase_refunds"?: ((Array<GiftCardPurchaseRefundAllocationPreviousAttributes>) | (null));
+            "purchase_restoration"?: ((GiftCardPurchaseRestorationPreviousAttributes) | (null) | (unknown));
+            "refund_provenance"?: ((GiftCardRefundProvenancePreviousAttributes) | (null) | (unknown));
+            "refund_transferred_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "remaining_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "reversed_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "source"?: ((GiftCardFundingSourcePreviousAttributes) | (null) | (unknown));
+            "source_created_at"?: ((string | null) | (null) | (unknown));
+            "value_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "gift_card_load.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "consideration_money": ((MoneyValue) | (null));
+            "created_at": string;
+            "funding_disputes": Array<GiftCardFundingDispute>;
+            "gift_card_id": string;
+            "gift_card_load_id": string;
+            "idempotency_key": string | null;
+            "purchase_refund_value_holds"?: Array<GiftCardPurchaseRefundValueHold>;
+            "purchase_refunds": Array<GiftCardPurchaseRefundAllocation>;
+            "purchase_restoration"?: GiftCardPurchaseRestoration;
+            "refund_provenance"?: GiftCardRefundProvenance;
+            "refund_transferred_money"?: MoneyValue;
+            "remaining_money": MoneyValue;
+            "reversed_money": MoneyValue;
+            "source": GiftCardFundingSource;
+            "source_created_at": string | null;
+            "value_money": MoneyValue;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "consideration_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "created_at"?: ((string) | (null));
+            "funding_disputes"?: ((Array<GiftCardFundingDisputePreviousAttributes>) | (null));
+            "gift_card_id"?: ((string) | (null));
+            "gift_card_load_id"?: ((string) | (null));
+            "idempotency_key"?: ((string | null) | (null) | (unknown));
+            "purchase_refund_value_holds"?: ((Array<GiftCardPurchaseRefundValueHoldPreviousAttributes>) | (null));
+            "purchase_refunds"?: ((Array<GiftCardPurchaseRefundAllocationPreviousAttributes>) | (null));
+            "purchase_restoration"?: ((GiftCardPurchaseRestorationPreviousAttributes) | (null) | (unknown));
+            "refund_provenance"?: ((GiftCardRefundProvenancePreviousAttributes) | (null) | (unknown));
+            "refund_transferred_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "remaining_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "reversed_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "source"?: ((GiftCardFundingSourcePreviousAttributes) | (null) | (unknown));
+            "source_created_at"?: ((string | null) | (null) | (unknown));
+            "value_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "gift_card_load.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "gift_card_load.updated";
+});
+/**
+ * The `gift_card_load.updated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type GiftCardLoadUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.consideration_money (Required): {@link MoneyValue} or null. What
+     * the buyer paid for the value, separate from `value_money`. `null` when no payment amount is
+     * recorded. object.consideration_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     * object.consideration_money.anyOf[2] (Value): null. object.created_at (Required): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.funding_disputes (Required): Array of {@link GiftCardFundingDispute}. Restrictions
+     * tied to original funding, including value restored to replacement cards. A win clears only
+     * its own restriction. A loss keeps spending restricted until you create a gift card funding
+     * disposition. object.funding_disputes[] (Value): {@link GiftCardFundingDispute}. A dispute on
+     * the payment that funded a gift card load, with its status and any loss resolution.
+     * object.gift_card_id (Required): string. ID of the gift card the load added value to.
+     * Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.gift_card_load_id (Required): string.
+     * Unique identifier for this gift card load, prefixed `gcl_`. Example:
+     * "gcl_01KEZF7C00YJED2857SE0J6KWC". object.idempotency_key (Required): string or null. Your
+     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
+     * key was sent. object.purchase_refund_value_holds (Optional): Array of {@link
+     * GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding unspent value on
+     * this descendant funding lot. Unknown provider outcomes retain these holds.
+     * object.purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}. Gift
+     * card value held back by a purchase refund, with the refund, the root gift card and load, and
+     * the amount held. object.purchase_refunds (Required): Array of {@link
+     * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against this
+     * original funding load. Pending refunds reserve their value; confirmed success removes it,
+     * and confirmed failure releases the hold. object.purchase_refunds[] (Value): {@link
+     * GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
+     * object.purchase_restoration (Optional): {@link GiftCardPurchaseRestoration}. Set when the
+     * buyer paid again for value that reversing a gift card purchase had removed, and this load
+     * restored it. Names the original card and load, the purchase refund entry that removed the
+     * value, and the purchased unit. Omitted for other loads. Links a gift card load to the
+     * original card and load it restores value to after a purchase refund, for one unit of an
+     * order line item. object.refund_provenance (Optional): {@link GiftCardRefundProvenance}.
+     * Traces a load made by a refund back to its original funding. `null` when the load wasn't
+     * made by a refund. Traces a gift card load made by a refund back to its original funding
+     * source, root gift card and load, and source refund. object.refund_transferred_money
+     * (Optional): {@link MoneyValue}. The part of this load's value that refunds of redemptions
+     * moved onto replacement gift cards. Omitted until a refund moves value. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code. object.remaining_money
+     * (Required): {@link MoneyValue}. The value from this load still on the card: not yet spent,
+     * reversed, or moved to a replacement card. It includes value held by a reserved redemption.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.reversed_money (Required): {@link MoneyValue}. The value removed from this load by
+     * refunding or reversing the purchase that funded it. It goes down again when a purchase
+     * refund fails and the value is restored. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code. object.source (Required): {@link GiftCardFundingSource}.
+     * Where the value came from, with your reference for it. Where the value of a gift card load
+     * came from, such as an external payment, a Flint payment, an import, or an adjustment, with
+     * your reference for it. object.source_created_at (Required): string or null. RFC3339
+     * timestamp. `null` when no source time was recorded. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.value_money (Required): {@link MoneyValue}. The face value
+     * the load adds to the card. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.version (Required): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: int64. previous_attributes (Optional): object. Previous values of changed
+     * top-level fields in data.object, at this delivery's API version. Nested changes include the
+     * whole previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.consideration_money (Optional): ({@link MoneyValuePreviousAttributes} or
+     * null) or null. What the buyer paid for the value, separate from `value_money`. `null` when
+     * no payment amount is recorded. previous_attributes.consideration_money.anyOf[1] (Value):
+     * ({@link MoneyValuePreviousAttributes} or null). What the buyer paid for the value, separate
+     * from `value_money`. `null` when no payment amount is recorded.
+     * previous_attributes.consideration_money.anyOf[1].anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. previous_attributes.consideration_money.anyOf[1].anyOf[2]
+     * (Value): null. previous_attributes.consideration_money.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.funding_disputes (Optional): Array of {@link
+     * GiftCardFundingDisputePreviousAttributes} or null. Restrictions tied to original funding,
+     * including value restored to replacement cards. A win clears only its own restriction. A loss
+     * keeps spending restricted until you create a gift card funding disposition.
+     * previous_attributes.funding_disputes.anyOf[1] (Value): Array of {@link
+     * GiftCardFundingDisputePreviousAttributes}. Restrictions tied to original funding, including
+     * value restored to replacement cards. A win clears only its own restriction. A loss keeps
+     * spending restricted until you create a gift card funding disposition.
+     * previous_attributes.funding_disputes.anyOf[1][] (Value): {@link
+     * GiftCardFundingDisputePreviousAttributes}. previous_attributes.funding_disputes.anyOf[2]
+     * (Value): null. previous_attributes.gift_card_id (Optional): string or null. ID of the gift
+     * card the load added value to. previous_attributes.gift_card_id.anyOf[1] (Value): string. ID
+     * of the gift card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * previous_attributes.gift_card_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_load_id (Optional): string or null. Unique identifier for this
+     * gift card load, prefixed `gcl_`. previous_attributes.gift_card_load_id.anyOf[1] (Value):
+     * string. Unique identifier for this gift card load, prefixed `gcl_`. Example:
+     * "gcl_01KEZF7C00YJED2857SE0J6KWC". previous_attributes.gift_card_load_id.anyOf[2] (Value):
+     * null. previous_attributes.idempotency_key (Optional): string or null or null. Your
+     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
+     * key was sent. previous_attributes.idempotency_key.anyOf[1] (Value): string or null. Your
+     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
+     * key was sent. previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.purchase_refund_value_holds (Optional): Array of {@link
+     * GiftCardPurchaseRefundValueHoldPreviousAttributes} or null. Pending original cash refunds
+     * holding unspent value on this descendant funding lot. Unknown provider outcomes retain these
+     * holds. previous_attributes.purchase_refund_value_holds.anyOf[1] (Value): Array of {@link
+     * GiftCardPurchaseRefundValueHoldPreviousAttributes}. Pending original cash refunds holding
+     * unspent value on this descendant funding lot. Unknown provider outcomes retain these holds.
+     * previous_attributes.purchase_refund_value_holds.anyOf[1][] (Value): {@link
+     * GiftCardPurchaseRefundValueHoldPreviousAttributes}.
+     * previous_attributes.purchase_refund_value_holds.anyOf[2] (Value): null.
+     * previous_attributes.purchase_refunds (Optional): Array of {@link
+     * GiftCardPurchaseRefundAllocationPreviousAttributes} or null. Cash refunds and manual payment
+     * reversals against this original funding load. Pending refunds reserve their value; confirmed
+     * success removes it, and confirmed failure releases the hold.
+     * previous_attributes.purchase_refunds.anyOf[1] (Value): Array of {@link
+     * GiftCardPurchaseRefundAllocationPreviousAttributes}. Cash refunds and manual payment
+     * reversals against this original funding load. Pending refunds reserve their value; confirmed
+     * success removes it, and confirmed failure releases the hold.
+     * previous_attributes.purchase_refunds.anyOf[1][] (Value): {@link
+     * GiftCardPurchaseRefundAllocationPreviousAttributes}.
+     * previous_attributes.purchase_refunds.anyOf[2] (Value): null.
+     * previous_attributes.purchase_restoration (Optional): {@link
+     * GiftCardPurchaseRestorationPreviousAttributes} or null. Set when the buyer paid again for
+     * value that reversing a gift card purchase had removed, and this load restored it. Names the
+     * original card and load, the purchase refund entry that removed the value, and the purchased
+     * unit. Omitted for other loads. previous_attributes.purchase_restoration.anyOf[1] (Value):
+     * {@link GiftCardPurchaseRestorationPreviousAttributes}.
+     * previous_attributes.purchase_restoration.anyOf[2] (Value): null.
+     * previous_attributes.refund_provenance (Optional): {@link
+     * GiftCardRefundProvenancePreviousAttributes} or null. Traces a load made by a refund back to
+     * its original funding. `null` when the load wasn't made by a refund.
+     * previous_attributes.refund_provenance.anyOf[1] (Value): {@link
+     * GiftCardRefundProvenancePreviousAttributes}. previous_attributes.refund_provenance.anyOf[2]
+     * (Value): null. previous_attributes.refund_transferred_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. The part of this load's value that refunds of
+     * redemptions moved onto replacement gift cards. Omitted until a refund moves value.
+     * previous_attributes.refund_transferred_money.anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. previous_attributes.refund_transferred_money.anyOf[2]
+     * (Value): null. previous_attributes.remaining_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. The value from this load still on the card: not yet
+     * spent, reversed, or moved to a replacement card. It includes value held by a reserved
+     * redemption. previous_attributes.remaining_money.anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. previous_attributes.remaining_money.anyOf[2] (Value): null.
+     * previous_attributes.reversed_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The value removed from this load by refunding or reversing the purchase that funded it. It
+     * goes down again when a purchase refund fails and the value is restored.
+     * previous_attributes.reversed_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.reversed_money.anyOf[2] (Value): null. previous_attributes.source
+     * (Optional): {@link GiftCardFundingSourcePreviousAttributes} or null. Where the value came
+     * from, with your reference for it. previous_attributes.source.anyOf[1] (Value): {@link
+     * GiftCardFundingSourcePreviousAttributes}. previous_attributes.source.anyOf[2] (Value): null.
+     * previous_attributes.source_created_at (Optional): string or null or null. RFC3339 timestamp.
+     * `null` when no source time was recorded. previous_attributes.source_created_at.anyOf[1]
+     * (Value): string or null. RFC3339 timestamp. `null` when no source time was recorded. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.source_created_at.anyOf[2]
+     * (Value): null. previous_attributes.value_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. The face value the load adds to the card.
+     * previous_attributes.value_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.value_money.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: int64. previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * consideration_money (Required): {@link MoneyValue} or null. What the buyer paid for the
+         * value, separate from `value_money`. `null` when no payment amount is recorded.
+         * consideration_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as
+         * integer minor units plus an ISO 4217 currency code. consideration_money.anyOf[2]
+         * (Value): null. created_at (Required): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". funding_disputes (Required): Array of {@link
+         * GiftCardFundingDispute}. Restrictions tied to original funding, including value restored
+         * to replacement cards. A win clears only its own restriction. A loss keeps spending
+         * restricted until you create a gift card funding disposition. funding_disputes[] (Value):
+         * {@link GiftCardFundingDispute}. A dispute on the payment that funded a gift card load,
+         * with its status and any loss resolution. gift_card_id (Required): string. ID of the gift
+         * card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+         * gift_card_load_id (Required): string. Unique identifier for this gift card load,
+         * prefixed `gcl_`. Example: "gcl_01KEZF7C00YJED2857SE0J6KWC". idempotency_key (Required):
+         * string or null. Your Idempotency-Key for the command that created this record. `null`
+         * when Flint created it or no key was sent. purchase_refund_value_holds (Optional): Array
+         * of {@link GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding
+         * unspent value on this descendant funding lot. Unknown provider outcomes retain these
+         * holds. purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}.
+         * Gift card value held back by a purchase refund, with the refund, the root gift card and
+         * load, and the amount held. purchase_refunds (Required): Array of {@link
+         * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against
+         * this original funding load. Pending refunds reserve their value; confirmed success
+         * removes it, and confirmed failure releases the hold. purchase_refunds[] (Value): {@link
+         * GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
+         * purchase_restoration (Optional): {@link GiftCardPurchaseRestoration}. Set when the buyer
+         * paid again for value that reversing a gift card purchase had removed, and this load
+         * restored it. Names the original card and load, the purchase refund entry that removed
+         * the value, and the purchased unit. Omitted for other loads. Links a gift card load to
+         * the original card and load it restores value to after a purchase refund, for one unit of
+         * an order line item. refund_provenance (Optional): {@link GiftCardRefundProvenance}.
+         * Traces a load made by a refund back to its original funding. `null` when the load wasn't
+         * made by a refund. Traces a gift card load made by a refund back to its original funding
+         * source, root gift card and load, and source refund. refund_transferred_money (Optional):
+         * {@link MoneyValue}. The part of this load's value that refunds of redemptions moved onto
+         * replacement gift cards. Omitted until a refund moves value. Monetary amount represented
+         * as integer minor units plus an ISO 4217 currency code. remaining_money (Required):
+         * {@link MoneyValue}. The value from this load still on the card: not yet spent, reversed,
+         * or moved to a replacement card. It includes value held by a reserved redemption.
+         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+         * reversed_money (Required): {@link MoneyValue}. The value removed from this load by
+         * refunding or reversing the purchase that funded it. It goes down again when a purchase
+         * refund fails and the value is restored. Monetary amount represented as integer minor
+         * units plus an ISO 4217 currency code. source (Required): {@link GiftCardFundingSource}.
+         * Where the value came from, with your reference for it. Where the value of a gift card
+         * load came from, such as an external payment, a Flint payment, an import, or an
+         * adjustment, with your reference for it. source_created_at (Required): string or null.
+         * RFC3339 timestamp. `null` when no source time was recorded. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". value_money (Required): {@link MoneyValue}. The face value the
+         * load adds to the card. Monetary amount represented as integer minor units plus an ISO
+         * 4217 currency code. version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: int64.
+         */
+        "object": {
+            /**
+             * What the buyer paid for the value, separate from `value_money`. `null` when no
+             * payment amount is recorded. anyOf[1] (Value): {@link MoneyValue}. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value):
+             * null.
+             */
+            "consideration_money": ((MoneyValue) | (null));
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Restrictions tied to original funding, including value restored to replacement
+             * cards. A win clears only its own restriction. A loss keeps spending restricted until
+             * you create a gift card funding disposition. [] (Value): {@link
+             * GiftCardFundingDispute}. A dispute on the payment that funded a gift card load, with
+             * its status and any loss resolution.
+             */
+            "funding_disputes": Array<GiftCardFundingDispute>;
+            /**
+             * ID of the gift card the load added value to. Example:
+             * "gc_01KEZF7C00RT1618WYBM1Y94CG".
+             */
+            "gift_card_id": string;
+            /**
+             * Unique identifier for this gift card load, prefixed `gcl_`. Example:
+             * "gcl_01KEZF7C00YJED2857SE0J6KWC".
+             */
+            "gift_card_load_id": string;
+            /**
+             * Your Idempotency-Key for the command that created this record. `null` when Flint
+             * created it or no key was sent.
+             */
+            "idempotency_key": string | null;
+            /**
+             * Pending original cash refunds holding unspent value on this descendant funding lot.
+             * Unknown provider outcomes retain these holds. [] (Value): {@link
+             * GiftCardPurchaseRefundValueHold}. Gift card value held back by a purchase refund,
+             * with the refund, the root gift card and load, and the amount held.
+             */
+            "purchase_refund_value_holds"?: Array<GiftCardPurchaseRefundValueHold>;
+            /**
+             * Cash refunds and manual payment reversals against this original funding load.
+             * Pending refunds reserve their value; confirmed success removes it, and confirmed
+             * failure releases the hold. [] (Value): {@link GiftCardPurchaseRefundAllocation}. An
+             * entry in a gift card load's purchase refunds.
+             */
+            "purchase_refunds": Array<GiftCardPurchaseRefundAllocation>;
+            /**
+             * Set when the buyer paid again for value that reversing a gift card purchase had
+             * removed, and this load restored it. Names the original card and load, the purchase
+             * refund entry that removed the value, and the purchased unit. Omitted for other
+             * loads. Links a gift card load to the original card and load it restores value to
+             * after a purchase refund, for one unit of an order line item.
+             */
+            "purchase_restoration"?: GiftCardPurchaseRestoration;
+            /**
+             * Traces a load made by a refund back to its original funding. `null` when the load
+             * wasn't made by a refund. Traces a gift card load made by a refund back to its
+             * original funding source, root gift card and load, and source refund.
+             */
+            "refund_provenance"?: GiftCardRefundProvenance;
+            /**
+             * The part of this load's value that refunds of redemptions moved onto replacement
+             * gift cards. Omitted until a refund moves value. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "refund_transferred_money"?: MoneyValue;
+            /**
+             * The value from this load still on the card: not yet spent, reversed, or moved to a
+             * replacement card. It includes value held by a reserved redemption. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "remaining_money": MoneyValue;
+            /**
+             * The value removed from this load by refunding or reversing the purchase that funded
+             * it. It goes down again when a purchase refund fails and the value is restored.
+             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "reversed_money": MoneyValue;
+            /**
+             * Where the value came from, with your reference for it. Where the value of a gift
+             * card load came from, such as an external payment, a Flint payment, an import, or an
+             * adjustment, with your reference for it.
+             */
+            "source": GiftCardFundingSource;
+            /**
+             * RFC3339 timestamp. `null` when no source time was recorded. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "source_created_at": string | null;
+            /**
+             * The face value the load adds to the card. Monetary amount represented as integer
+             * minor units plus an ISO 4217 currency code.
+             */
+            "value_money": MoneyValue;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64.
              */
             "version": number;
         };
@@ -761,141 +2254,796 @@ export type InventoryCountUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. applied_at (Optional): string or null. RFC3339
-         * timestamp. applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". applied_at.anyOf[2] (Value): null. created_at
-         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
-         * string. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[2] (Value): null. inventory_count_id (Optional): string or null.
-         * Unique identifier for this inventory count, prefixed `invc_`.
-         * inventory_count_id.anyOf[1] (Value): string. Unique identifier for this inventory count,
-         * prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59".
-         * inventory_count_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
-         * InventoryCountLine} or null. Count lines, one for each inventory item being counted.
-         * lines.anyOf[1] (Value): Array of {@link InventoryCountLine}. Count lines, one for each
-         * inventory item being counted. lines.anyOf[1][] (Value): {@link InventoryCountLine}. One
-         * item's line in an inventory count, with the quantities Flint expected, the quantities
-         * counted, and the variance applied. lines.anyOf[2] (Value): null. location_id (Optional):
-         * string or null. ID of the Location whose stock is counted. location_id.anyOf[1] (Value):
-         * string. ID of the Location whose stock is counted. Example:
-         * "loc_01KEZF7C00CMHRRYA3MV996JB2". location_id.anyOf[2] (Value): null.
-         * observation_provenance (Optional): {@link InventoryCountObservationProvenance} or null.
-         * Source system, actor, and time reported with the count's observations.
-         * observation_provenance.anyOf[1] (Value): {@link InventoryCountObservationProvenance}.
-         * Source system, actor, and time reported with the count's observations.
-         * observation_provenance.anyOf[2] (Value): null. status (Optional): string or null.
-         * Whether the count is still open. Applying or canceling a `draft` count ends it. Value
-         * enum: "draft", "applied", "canceled". status.anyOf[1] (Value): string. Whether the count
-         * is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
-         * "applied", "canceled". status.anyOf[2] (Value): null. supported_actions (Optional):
-         * Array of string or null. Actions that can change this count now. A draft can be
-         * canceled, and applied once every line has an observation. Empty after the count is
-         * applied or canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1] (Value):
-         * Array of string. Actions that can change this count now. A draft can be canceled, and
-         * applied once every line has an observation. Empty after the count is applied or
-         * canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1][] (Value): string.
-         * Value enum: "apply", "cancel". supported_actions.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * state, including synthetic test events. consideration_money (Optional): ({@link
+         * MoneyValuePreviousAttributes} or null) or null. What the buyer paid for the value,
+         * separate from `value_money`. `null` when no payment amount is recorded.
+         * consideration_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null).
+         * What the buyer paid for the value, separate from `value_money`. `null` when no payment
+         * amount is recorded. consideration_money.anyOf[1].anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. consideration_money.anyOf[1].anyOf[2] (Value): null.
+         * consideration_money.anyOf[2] (Value): null. created_at (Optional): string or null.
+         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * funding_disputes (Optional): Array of {@link GiftCardFundingDisputePreviousAttributes}
+         * or null. Restrictions tied to original funding, including value restored to replacement
+         * cards. A win clears only its own restriction. A loss keeps spending restricted until you
+         * create a gift card funding disposition. funding_disputes.anyOf[1] (Value): Array of
+         * {@link GiftCardFundingDisputePreviousAttributes}. Restrictions tied to original funding,
+         * including value restored to replacement cards. A win clears only its own restriction. A
+         * loss keeps spending restricted until you create a gift card funding disposition.
+         * funding_disputes.anyOf[1][] (Value): {@link GiftCardFundingDisputePreviousAttributes}.
+         * funding_disputes.anyOf[2] (Value): null. gift_card_id (Optional): string or null. ID of
+         * the gift card the load added value to. gift_card_id.anyOf[1] (Value): string. ID of the
+         * gift card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+         * gift_card_id.anyOf[2] (Value): null. gift_card_load_id (Optional): string or null.
+         * Unique identifier for this gift card load, prefixed `gcl_`. gift_card_load_id.anyOf[1]
+         * (Value): string. Unique identifier for this gift card load, prefixed `gcl_`. Example:
+         * "gcl_01KEZF7C00YJED2857SE0J6KWC". gift_card_load_id.anyOf[2] (Value): null.
+         * idempotency_key (Optional): string or null or null. Your Idempotency-Key for the command
+         * that created this record. `null` when Flint created it or no key was sent.
+         * idempotency_key.anyOf[1] (Value): string or null. Your Idempotency-Key for the command
+         * that created this record. `null` when Flint created it or no key was sent.
+         * idempotency_key.anyOf[2] (Value): null. purchase_refund_value_holds (Optional): Array of
+         * {@link GiftCardPurchaseRefundValueHoldPreviousAttributes} or null. Pending original cash
+         * refunds holding unspent value on this descendant funding lot. Unknown provider outcomes
+         * retain these holds. purchase_refund_value_holds.anyOf[1] (Value): Array of {@link
+         * GiftCardPurchaseRefundValueHoldPreviousAttributes}. Pending original cash refunds
+         * holding unspent value on this descendant funding lot. Unknown provider outcomes retain
+         * these holds. purchase_refund_value_holds.anyOf[1][] (Value): {@link
+         * GiftCardPurchaseRefundValueHoldPreviousAttributes}. purchase_refund_value_holds.anyOf[2]
+         * (Value): null. purchase_refunds (Optional): Array of {@link
+         * GiftCardPurchaseRefundAllocationPreviousAttributes} or null. Cash refunds and manual
+         * payment reversals against this original funding load. Pending refunds reserve their
+         * value; confirmed success removes it, and confirmed failure releases the hold.
+         * purchase_refunds.anyOf[1] (Value): Array of {@link
+         * GiftCardPurchaseRefundAllocationPreviousAttributes}. Cash refunds and manual payment
+         * reversals against this original funding load. Pending refunds reserve their value;
+         * confirmed success removes it, and confirmed failure releases the hold.
+         * purchase_refunds.anyOf[1][] (Value): {@link
+         * GiftCardPurchaseRefundAllocationPreviousAttributes}. purchase_refunds.anyOf[2] (Value):
+         * null. purchase_restoration (Optional): {@link
+         * GiftCardPurchaseRestorationPreviousAttributes} or null. Set when the buyer paid again
+         * for value that reversing a gift card purchase had removed, and this load restored it.
+         * Names the original card and load, the purchase refund entry that removed the value, and
+         * the purchased unit. Omitted for other loads. purchase_restoration.anyOf[1] (Value):
+         * {@link GiftCardPurchaseRestorationPreviousAttributes}. purchase_restoration.anyOf[2]
+         * (Value): null. refund_provenance (Optional): {@link
+         * GiftCardRefundProvenancePreviousAttributes} or null. Traces a load made by a refund back
+         * to its original funding. `null` when the load wasn't made by a refund.
+         * refund_provenance.anyOf[1] (Value): {@link GiftCardRefundProvenancePreviousAttributes}.
+         * refund_provenance.anyOf[2] (Value): null. refund_transferred_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. The part of this load's value that refunds of
+         * redemptions moved onto replacement gift cards. Omitted until a refund moves value.
+         * refund_transferred_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+         * refund_transferred_money.anyOf[2] (Value): null. remaining_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. The value from this load still on the card: not
+         * yet spent, reversed, or moved to a replacement card. It includes value held by a
+         * reserved redemption. remaining_money.anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. remaining_money.anyOf[2] (Value): null. reversed_money
+         * (Optional): {@link MoneyValuePreviousAttributes} or null. The value removed from this
+         * load by refunding or reversing the purchase that funded it. It goes down again when a
+         * purchase refund fails and the value is restored. reversed_money.anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. reversed_money.anyOf[2] (Value): null. source (Optional):
+         * {@link GiftCardFundingSourcePreviousAttributes} or null. Where the value came from, with
+         * your reference for it. source.anyOf[1] (Value): {@link
+         * GiftCardFundingSourcePreviousAttributes}. source.anyOf[2] (Value): null.
+         * source_created_at (Optional): string or null or null. RFC3339 timestamp. `null` when no
+         * source time was recorded. source_created_at.anyOf[1] (Value): string or null. RFC3339
+         * timestamp. `null` when no source time was recorded. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". source_created_at.anyOf[2] (Value): null. value_money
+         * (Optional): {@link MoneyValuePreviousAttributes} or null. The face value the load adds
+         * to the card. value_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+         * value_money.anyOf[2] (Value): null. version (Optional): integer or null. Current version
          * of this resource's owned state. Send it as `expected_version` when changing the resource
          * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
          * resource's owned state. Send it as `expected_version` when changing the resource to
-         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
+         * reject a stale write. Format: int64. version.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
         })
             & ({
             /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * What the buyer paid for the value, separate from `value_money`. `null` when no
+             * payment amount is recorded. anyOf[1] (Value): ({@link MoneyValuePreviousAttributes}
+             * or null). What the buyer paid for the value, separate from `value_money`. `null`
+             * when no payment amount is recorded. anyOf[1].anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value):
+             * null.
              */
-            "applied_at"?: ((string) | (null));
+            "consideration_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "created_at"?: ((string) | (null));
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
-             * string. The Idempotency-Key of the request that created this resource; on a
-             * movement, of the command that wrote it. Omitted when that request had no key.
+             * Restrictions tied to original funding, including value restored to replacement
+             * cards. A win clears only its own restriction. A loss keeps spending restricted until
+             * you create a gift card funding disposition. anyOf[1] (Value): Array of {@link
+             * GiftCardFundingDisputePreviousAttributes}. Restrictions tied to original funding,
+             * including value restored to replacement cards. A win clears only its own
+             * restriction. A loss keeps spending restricted until you create a gift card funding
+             * disposition. anyOf[1][] (Value): {@link GiftCardFundingDisputePreviousAttributes}.
              * anyOf[2] (Value): null.
              */
-            "idempotency_key"?: ((string) | (null));
+            "funding_disputes"?: ((Array<GiftCardFundingDisputePreviousAttributes>) | (null));
             /**
-             * Unique identifier for this inventory count, prefixed `invc_`. anyOf[1] (Value):
-             * string. Unique identifier for this inventory count, prefixed `invc_`. Example:
-             * "invc_01KEZF7C00B47NXRE3ET37QQ59". anyOf[2] (Value): null.
+             * ID of the gift card the load added value to. anyOf[1] (Value): string. ID of the
+             * gift card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+             * anyOf[2] (Value): null.
              */
-            "inventory_count_id"?: ((string) | (null));
+            "gift_card_id"?: ((string) | (null));
             /**
-             * Count lines, one for each inventory item being counted. anyOf[1] (Value): Array of
-             * {@link InventoryCountLine}. Count lines, one for each inventory item being counted.
-             * anyOf[1][] (Value): {@link InventoryCountLine}. One item's line in an inventory
-             * count, with the quantities Flint expected, the quantities counted, and the variance
-             * applied. anyOf[2] (Value): null.
+             * Unique identifier for this gift card load, prefixed `gcl_`. anyOf[1] (Value):
+             * string. Unique identifier for this gift card load, prefixed `gcl_`. Example:
+             * "gcl_01KEZF7C00YJED2857SE0J6KWC". anyOf[2] (Value): null.
              */
-            "lines"?: ((Array<InventoryCountLine>) | (null));
+            "gift_card_load_id"?: ((string) | (null));
             /**
-             * ID of the Location whose stock is counted. anyOf[1] (Value): string. ID of the
-             * Location whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2]
+             * Your Idempotency-Key for the command that created this record. `null` when Flint
+             * created it or no key was sent. anyOf[1] (Value): string or null. Your
+             * Idempotency-Key for the command that created this record. `null` when Flint created
+             * it or no key was sent. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string | null) | (null) | (unknown));
+            /**
+             * Pending original cash refunds holding unspent value on this descendant funding lot.
+             * Unknown provider outcomes retain these holds. anyOf[1] (Value): Array of {@link
+             * GiftCardPurchaseRefundValueHoldPreviousAttributes}. Pending original cash refunds
+             * holding unspent value on this descendant funding lot. Unknown provider outcomes
+             * retain these holds. anyOf[1][] (Value): {@link
+             * GiftCardPurchaseRefundValueHoldPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "purchase_refund_value_holds"?: ((Array<GiftCardPurchaseRefundValueHoldPreviousAttributes>) | (null));
+            /**
+             * Cash refunds and manual payment reversals against this original funding load.
+             * Pending refunds reserve their value; confirmed success removes it, and confirmed
+             * failure releases the hold. anyOf[1] (Value): Array of {@link
+             * GiftCardPurchaseRefundAllocationPreviousAttributes}. Cash refunds and manual payment
+             * reversals against this original funding load. Pending refunds reserve their value;
+             * confirmed success removes it, and confirmed failure releases the hold. anyOf[1][]
+             * (Value): {@link GiftCardPurchaseRefundAllocationPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "location_id"?: ((string) | (null));
+            "purchase_refunds"?: ((Array<GiftCardPurchaseRefundAllocationPreviousAttributes>) | (null));
             /**
-             * Source system, actor, and time reported with the count's observations. anyOf[1]
-             * (Value): {@link InventoryCountObservationProvenance}. Source system, actor, and time
-             * reported with the count's observations. anyOf[2] (Value): null.
+             * Set when the buyer paid again for value that reversing a gift card purchase had
+             * removed, and this load restored it. Names the original card and load, the purchase
+             * refund entry that removed the value, and the purchased unit. Omitted for other
+             * loads. anyOf[1] (Value): {@link GiftCardPurchaseRestorationPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
-            "observation_provenance"?: ((InventoryCountObservationProvenance) | (null));
+            "purchase_restoration"?: ((GiftCardPurchaseRestorationPreviousAttributes) | (null) | (unknown));
             /**
-             * Whether the count is still open. Applying or canceling a `draft` count ends it.
-             * Value enum: "draft", "applied", "canceled". anyOf[1] (Value): string. Whether the
-             * count is still open. Applying or canceling a `draft` count ends it. Value enum:
-             * "draft", "applied", "canceled". anyOf[2] (Value): null.
+             * Traces a load made by a refund back to its original funding. `null` when the load
+             * wasn't made by a refund. anyOf[1] (Value): {@link
+             * GiftCardRefundProvenancePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
+            "refund_provenance"?: ((GiftCardRefundProvenancePreviousAttributes) | (null) | (unknown));
             /**
-             * Actions that can change this count now. A draft can be canceled, and applied once
-             * every line has an observation. Empty after the count is applied or canceled. []
-             * enum: "apply", "cancel". anyOf[1] (Value): Array of string. Actions that can change
-             * this count now. A draft can be canceled, and applied once every line has an
-             * observation. Empty after the count is applied or canceled. [] enum: "apply",
-             * "cancel". anyOf[1][] (Value): string. Value enum: "apply", "cancel". anyOf[2]
-             * (Value): null.
+             * The part of this load's value that refunds of redemptions moved onto replacement
+             * gift cards. Omitted until a refund moves value. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
+            "refund_transferred_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
             /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * The value from this load still on the card: not yet spent, reversed, or moved to a
+             * replacement card. It includes value held by a reserved redemption. anyOf[1] (Value):
+             * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "updated_at"?: ((string) | (null));
+            "remaining_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            /**
+             * The value removed from this load by refunding or reversing the purchase that funded
+             * it. It goes down again when a purchase refund fails and the value is restored.
+             * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "reversed_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            /**
+             * Where the value came from, with your reference for it. anyOf[1] (Value): {@link
+             * GiftCardFundingSourcePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "source"?: ((GiftCardFundingSourcePreviousAttributes) | (null) | (unknown));
+            /**
+             * RFC3339 timestamp. `null` when no source time was recorded. anyOf[1] (Value): string
+             * or null. RFC3339 timestamp. `null` when no source time was recorded. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "source_created_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * The face value the load adds to the card. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "value_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
             /**
              * Current version of this resource's owned state. Send it as `expected_version` when
              * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
              * version of this resource's owned state. Send it as `expected_version` when changing
-             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * the resource to reject a stale write. Format: int64. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "gift_card_load.updated". */
+    "event_type"?: "gift_card_load.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `gift_card_load.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type GiftCardLoadUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.consideration_money (Required): {@link MoneyValue} or null. What
+     * the buyer paid for the value, separate from `value_money`. `null` when no payment amount is
+     * recorded. object.consideration_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     * object.consideration_money.anyOf[2] (Value): null. object.created_at (Required): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.funding_disputes (Required): Array of {@link GiftCardFundingDispute}. Restrictions
+     * tied to original funding, including value restored to replacement cards. A win clears only
+     * its own restriction. A loss keeps spending restricted until you create a gift card funding
+     * disposition. object.funding_disputes[] (Value): {@link GiftCardFundingDispute}. A dispute on
+     * the payment that funded a gift card load, with its status and any loss resolution.
+     * object.gift_card_id (Required): string. ID of the gift card the load added value to.
+     * Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.gift_card_load_id (Required): string.
+     * Unique identifier for this gift card load, prefixed `gcl_`. Example:
+     * "gcl_01KEZF7C00YJED2857SE0J6KWC". object.idempotency_key (Required): string or null. Your
+     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
+     * key was sent. object.purchase_refund_value_holds (Optional): Array of {@link
+     * GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding unspent value on
+     * this descendant funding lot. Unknown provider outcomes retain these holds.
+     * object.purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}. Gift
+     * card value held back by a purchase refund, with the refund, the root gift card and load, and
+     * the amount held. object.purchase_refunds (Required): Array of {@link
+     * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against this
+     * original funding load. Pending refunds reserve their value; confirmed success removes it,
+     * and confirmed failure releases the hold. object.purchase_refunds[] (Value): {@link
+     * GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
+     * object.purchase_restoration (Optional): {@link GiftCardPurchaseRestoration}. Set when the
+     * buyer paid again for value that reversing a gift card purchase had removed, and this load
+     * restored it. Names the original card and load, the purchase refund entry that removed the
+     * value, and the purchased unit. Omitted for other loads. Links a gift card load to the
+     * original card and load it restores value to after a purchase refund, for one unit of an
+     * order line item. object.refund_provenance (Optional): {@link GiftCardRefundProvenance}.
+     * Traces a load made by a refund back to its original funding. `null` when the load wasn't
+     * made by a refund. Traces a gift card load made by a refund back to its original funding
+     * source, root gift card and load, and source refund. object.refund_transferred_money
+     * (Optional): {@link MoneyValue}. The part of this load's value that refunds of redemptions
+     * moved onto replacement gift cards. Omitted until a refund moves value. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code. object.remaining_money
+     * (Required): {@link MoneyValue}. The value from this load still on the card: not yet spent,
+     * reversed, or moved to a replacement card. It includes value held by a reserved redemption.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.reversed_money (Required): {@link MoneyValue}. The value removed from this load by
+     * refunding or reversing the purchase that funded it. It goes down again when a purchase
+     * refund fails and the value is restored. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code. object.source (Required): {@link GiftCardFundingSource}.
+     * Where the value came from, with your reference for it. Where the value of a gift card load
+     * came from, such as an external payment, a Flint payment, an import, or an adjustment, with
+     * your reference for it. object.source_created_at (Required): string or null. RFC3339
+     * timestamp. `null` when no source time was recorded. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.value_money (Required): {@link MoneyValue}. The face value
+     * the load adds to the card. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.version (Required): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: int64. previous_attributes (Optional): object. Previous values of changed
+     * top-level fields in data.object, at this delivery's API version. Nested changes include the
+     * whole previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.consideration_money (Optional): ({@link MoneyValuePreviousAttributes} or
+     * null) or null. What the buyer paid for the value, separate from `value_money`. `null` when
+     * no payment amount is recorded. previous_attributes.consideration_money.anyOf[1] (Value):
+     * ({@link MoneyValuePreviousAttributes} or null). What the buyer paid for the value, separate
+     * from `value_money`. `null` when no payment amount is recorded.
+     * previous_attributes.consideration_money.anyOf[1].anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. previous_attributes.consideration_money.anyOf[1].anyOf[2]
+     * (Value): null. previous_attributes.consideration_money.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.funding_disputes (Optional): Array of {@link
+     * GiftCardFundingDisputePreviousAttributes} or null. Restrictions tied to original funding,
+     * including value restored to replacement cards. A win clears only its own restriction. A loss
+     * keeps spending restricted until you create a gift card funding disposition.
+     * previous_attributes.funding_disputes.anyOf[1] (Value): Array of {@link
+     * GiftCardFundingDisputePreviousAttributes}. Restrictions tied to original funding, including
+     * value restored to replacement cards. A win clears only its own restriction. A loss keeps
+     * spending restricted until you create a gift card funding disposition.
+     * previous_attributes.funding_disputes.anyOf[1][] (Value): {@link
+     * GiftCardFundingDisputePreviousAttributes}. previous_attributes.funding_disputes.anyOf[2]
+     * (Value): null. previous_attributes.gift_card_id (Optional): string or null. ID of the gift
+     * card the load added value to. previous_attributes.gift_card_id.anyOf[1] (Value): string. ID
+     * of the gift card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * previous_attributes.gift_card_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_load_id (Optional): string or null. Unique identifier for this
+     * gift card load, prefixed `gcl_`. previous_attributes.gift_card_load_id.anyOf[1] (Value):
+     * string. Unique identifier for this gift card load, prefixed `gcl_`. Example:
+     * "gcl_01KEZF7C00YJED2857SE0J6KWC". previous_attributes.gift_card_load_id.anyOf[2] (Value):
+     * null. previous_attributes.idempotency_key (Optional): string or null or null. Your
+     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
+     * key was sent. previous_attributes.idempotency_key.anyOf[1] (Value): string or null. Your
+     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
+     * key was sent. previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.purchase_refund_value_holds (Optional): Array of {@link
+     * GiftCardPurchaseRefundValueHoldPreviousAttributes} or null. Pending original cash refunds
+     * holding unspent value on this descendant funding lot. Unknown provider outcomes retain these
+     * holds. previous_attributes.purchase_refund_value_holds.anyOf[1] (Value): Array of {@link
+     * GiftCardPurchaseRefundValueHoldPreviousAttributes}. Pending original cash refunds holding
+     * unspent value on this descendant funding lot. Unknown provider outcomes retain these holds.
+     * previous_attributes.purchase_refund_value_holds.anyOf[1][] (Value): {@link
+     * GiftCardPurchaseRefundValueHoldPreviousAttributes}.
+     * previous_attributes.purchase_refund_value_holds.anyOf[2] (Value): null.
+     * previous_attributes.purchase_refunds (Optional): Array of {@link
+     * GiftCardPurchaseRefundAllocationPreviousAttributes} or null. Cash refunds and manual payment
+     * reversals against this original funding load. Pending refunds reserve their value; confirmed
+     * success removes it, and confirmed failure releases the hold.
+     * previous_attributes.purchase_refunds.anyOf[1] (Value): Array of {@link
+     * GiftCardPurchaseRefundAllocationPreviousAttributes}. Cash refunds and manual payment
+     * reversals against this original funding load. Pending refunds reserve their value; confirmed
+     * success removes it, and confirmed failure releases the hold.
+     * previous_attributes.purchase_refunds.anyOf[1][] (Value): {@link
+     * GiftCardPurchaseRefundAllocationPreviousAttributes}.
+     * previous_attributes.purchase_refunds.anyOf[2] (Value): null.
+     * previous_attributes.purchase_restoration (Optional): {@link
+     * GiftCardPurchaseRestorationPreviousAttributes} or null. Set when the buyer paid again for
+     * value that reversing a gift card purchase had removed, and this load restored it. Names the
+     * original card and load, the purchase refund entry that removed the value, and the purchased
+     * unit. Omitted for other loads. previous_attributes.purchase_restoration.anyOf[1] (Value):
+     * {@link GiftCardPurchaseRestorationPreviousAttributes}.
+     * previous_attributes.purchase_restoration.anyOf[2] (Value): null.
+     * previous_attributes.refund_provenance (Optional): {@link
+     * GiftCardRefundProvenancePreviousAttributes} or null. Traces a load made by a refund back to
+     * its original funding. `null` when the load wasn't made by a refund.
+     * previous_attributes.refund_provenance.anyOf[1] (Value): {@link
+     * GiftCardRefundProvenancePreviousAttributes}. previous_attributes.refund_provenance.anyOf[2]
+     * (Value): null. previous_attributes.refund_transferred_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. The part of this load's value that refunds of
+     * redemptions moved onto replacement gift cards. Omitted until a refund moves value.
+     * previous_attributes.refund_transferred_money.anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. previous_attributes.refund_transferred_money.anyOf[2]
+     * (Value): null. previous_attributes.remaining_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. The value from this load still on the card: not yet
+     * spent, reversed, or moved to a replacement card. It includes value held by a reserved
+     * redemption. previous_attributes.remaining_money.anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. previous_attributes.remaining_money.anyOf[2] (Value): null.
+     * previous_attributes.reversed_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * The value removed from this load by refunding or reversing the purchase that funded it. It
+     * goes down again when a purchase refund fails and the value is restored.
+     * previous_attributes.reversed_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.reversed_money.anyOf[2] (Value): null. previous_attributes.source
+     * (Optional): {@link GiftCardFundingSourcePreviousAttributes} or null. Where the value came
+     * from, with your reference for it. previous_attributes.source.anyOf[1] (Value): {@link
+     * GiftCardFundingSourcePreviousAttributes}. previous_attributes.source.anyOf[2] (Value): null.
+     * previous_attributes.source_created_at (Optional): string or null or null. RFC3339 timestamp.
+     * `null` when no source time was recorded. previous_attributes.source_created_at.anyOf[1]
+     * (Value): string or null. RFC3339 timestamp. `null` when no source time was recorded. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.source_created_at.anyOf[2]
+     * (Value): null. previous_attributes.value_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. The face value the load adds to the card.
+     * previous_attributes.value_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.value_money.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: int64. previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * consideration_money (Required): {@link MoneyValue} or null. What the buyer paid for the
+         * value, separate from `value_money`. `null` when no payment amount is recorded.
+         * consideration_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as
+         * integer minor units plus an ISO 4217 currency code. consideration_money.anyOf[2]
+         * (Value): null. created_at (Required): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". funding_disputes (Required): Array of {@link
+         * GiftCardFundingDispute}. Restrictions tied to original funding, including value restored
+         * to replacement cards. A win clears only its own restriction. A loss keeps spending
+         * restricted until you create a gift card funding disposition. funding_disputes[] (Value):
+         * {@link GiftCardFundingDispute}. A dispute on the payment that funded a gift card load,
+         * with its status and any loss resolution. gift_card_id (Required): string. ID of the gift
+         * card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+         * gift_card_load_id (Required): string. Unique identifier for this gift card load,
+         * prefixed `gcl_`. Example: "gcl_01KEZF7C00YJED2857SE0J6KWC". idempotency_key (Required):
+         * string or null. Your Idempotency-Key for the command that created this record. `null`
+         * when Flint created it or no key was sent. purchase_refund_value_holds (Optional): Array
+         * of {@link GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding
+         * unspent value on this descendant funding lot. Unknown provider outcomes retain these
+         * holds. purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}.
+         * Gift card value held back by a purchase refund, with the refund, the root gift card and
+         * load, and the amount held. purchase_refunds (Required): Array of {@link
+         * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against
+         * this original funding load. Pending refunds reserve their value; confirmed success
+         * removes it, and confirmed failure releases the hold. purchase_refunds[] (Value): {@link
+         * GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
+         * purchase_restoration (Optional): {@link GiftCardPurchaseRestoration}. Set when the buyer
+         * paid again for value that reversing a gift card purchase had removed, and this load
+         * restored it. Names the original card and load, the purchase refund entry that removed
+         * the value, and the purchased unit. Omitted for other loads. Links a gift card load to
+         * the original card and load it restores value to after a purchase refund, for one unit of
+         * an order line item. refund_provenance (Optional): {@link GiftCardRefundProvenance}.
+         * Traces a load made by a refund back to its original funding. `null` when the load wasn't
+         * made by a refund. Traces a gift card load made by a refund back to its original funding
+         * source, root gift card and load, and source refund. refund_transferred_money (Optional):
+         * {@link MoneyValue}. The part of this load's value that refunds of redemptions moved onto
+         * replacement gift cards. Omitted until a refund moves value. Monetary amount represented
+         * as integer minor units plus an ISO 4217 currency code. remaining_money (Required):
+         * {@link MoneyValue}. The value from this load still on the card: not yet spent, reversed,
+         * or moved to a replacement card. It includes value held by a reserved redemption.
+         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+         * reversed_money (Required): {@link MoneyValue}. The value removed from this load by
+         * refunding or reversing the purchase that funded it. It goes down again when a purchase
+         * refund fails and the value is restored. Monetary amount represented as integer minor
+         * units plus an ISO 4217 currency code. source (Required): {@link GiftCardFundingSource}.
+         * Where the value came from, with your reference for it. Where the value of a gift card
+         * load came from, such as an external payment, a Flint payment, an import, or an
+         * adjustment, with your reference for it. source_created_at (Required): string or null.
+         * RFC3339 timestamp. `null` when no source time was recorded. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". value_money (Required): {@link MoneyValue}. The face value the
+         * load adds to the card. Monetary amount represented as integer minor units plus an ISO
+         * 4217 currency code. version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: int64.
+         */
+        "object": {
+            /**
+             * What the buyer paid for the value, separate from `value_money`. `null` when no
+             * payment amount is recorded. anyOf[1] (Value): {@link MoneyValue}. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value):
              * null.
+             */
+            "consideration_money": ((MoneyValue) | (null));
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Restrictions tied to original funding, including value restored to replacement
+             * cards. A win clears only its own restriction. A loss keeps spending restricted until
+             * you create a gift card funding disposition. [] (Value): {@link
+             * GiftCardFundingDispute}. A dispute on the payment that funded a gift card load, with
+             * its status and any loss resolution.
+             */
+            "funding_disputes": Array<GiftCardFundingDispute>;
+            /**
+             * ID of the gift card the load added value to. Example:
+             * "gc_01KEZF7C00RT1618WYBM1Y94CG".
+             */
+            "gift_card_id": string;
+            /**
+             * Unique identifier for this gift card load, prefixed `gcl_`. Example:
+             * "gcl_01KEZF7C00YJED2857SE0J6KWC".
+             */
+            "gift_card_load_id": string;
+            /**
+             * Your Idempotency-Key for the command that created this record. `null` when Flint
+             * created it or no key was sent.
+             */
+            "idempotency_key": string | null;
+            /**
+             * Pending original cash refunds holding unspent value on this descendant funding lot.
+             * Unknown provider outcomes retain these holds. [] (Value): {@link
+             * GiftCardPurchaseRefundValueHold}. Gift card value held back by a purchase refund,
+             * with the refund, the root gift card and load, and the amount held.
+             */
+            "purchase_refund_value_holds"?: Array<GiftCardPurchaseRefundValueHold>;
+            /**
+             * Cash refunds and manual payment reversals against this original funding load.
+             * Pending refunds reserve their value; confirmed success removes it, and confirmed
+             * failure releases the hold. [] (Value): {@link GiftCardPurchaseRefundAllocation}. An
+             * entry in a gift card load's purchase refunds.
+             */
+            "purchase_refunds": Array<GiftCardPurchaseRefundAllocation>;
+            /**
+             * Set when the buyer paid again for value that reversing a gift card purchase had
+             * removed, and this load restored it. Names the original card and load, the purchase
+             * refund entry that removed the value, and the purchased unit. Omitted for other
+             * loads. Links a gift card load to the original card and load it restores value to
+             * after a purchase refund, for one unit of an order line item.
+             */
+            "purchase_restoration"?: GiftCardPurchaseRestoration;
+            /**
+             * Traces a load made by a refund back to its original funding. `null` when the load
+             * wasn't made by a refund. Traces a gift card load made by a refund back to its
+             * original funding source, root gift card and load, and source refund.
+             */
+            "refund_provenance"?: GiftCardRefundProvenance;
+            /**
+             * The part of this load's value that refunds of redemptions moved onto replacement
+             * gift cards. Omitted until a refund moves value. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "refund_transferred_money"?: MoneyValue;
+            /**
+             * The value from this load still on the card: not yet spent, reversed, or moved to a
+             * replacement card. It includes value held by a reserved redemption. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "remaining_money": MoneyValue;
+            /**
+             * The value removed from this load by refunding or reversing the purchase that funded
+             * it. It goes down again when a purchase refund fails and the value is restored.
+             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "reversed_money": MoneyValue;
+            /**
+             * Where the value came from, with your reference for it. Where the value of a gift
+             * card load came from, such as an external payment, a Flint payment, an import, or an
+             * adjustment, with your reference for it.
+             */
+            "source": GiftCardFundingSource;
+            /**
+             * RFC3339 timestamp. `null` when no source time was recorded. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "source_created_at": string | null;
+            /**
+             * The face value the load adds to the card. Monetary amount represented as integer
+             * minor units plus an ISO 4217 currency code.
+             */
+            "value_money": MoneyValue;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. consideration_money (Optional): ({@link
+         * MoneyValuePreviousAttributes} or null) or null. What the buyer paid for the value,
+         * separate from `value_money`. `null` when no payment amount is recorded.
+         * consideration_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null).
+         * What the buyer paid for the value, separate from `value_money`. `null` when no payment
+         * amount is recorded. consideration_money.anyOf[1].anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. consideration_money.anyOf[1].anyOf[2] (Value): null.
+         * consideration_money.anyOf[2] (Value): null. created_at (Optional): string or null.
+         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * funding_disputes (Optional): Array of {@link GiftCardFundingDisputePreviousAttributes}
+         * or null. Restrictions tied to original funding, including value restored to replacement
+         * cards. A win clears only its own restriction. A loss keeps spending restricted until you
+         * create a gift card funding disposition. funding_disputes.anyOf[1] (Value): Array of
+         * {@link GiftCardFundingDisputePreviousAttributes}. Restrictions tied to original funding,
+         * including value restored to replacement cards. A win clears only its own restriction. A
+         * loss keeps spending restricted until you create a gift card funding disposition.
+         * funding_disputes.anyOf[1][] (Value): {@link GiftCardFundingDisputePreviousAttributes}.
+         * funding_disputes.anyOf[2] (Value): null. gift_card_id (Optional): string or null. ID of
+         * the gift card the load added value to. gift_card_id.anyOf[1] (Value): string. ID of the
+         * gift card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+         * gift_card_id.anyOf[2] (Value): null. gift_card_load_id (Optional): string or null.
+         * Unique identifier for this gift card load, prefixed `gcl_`. gift_card_load_id.anyOf[1]
+         * (Value): string. Unique identifier for this gift card load, prefixed `gcl_`. Example:
+         * "gcl_01KEZF7C00YJED2857SE0J6KWC". gift_card_load_id.anyOf[2] (Value): null.
+         * idempotency_key (Optional): string or null or null. Your Idempotency-Key for the command
+         * that created this record. `null` when Flint created it or no key was sent.
+         * idempotency_key.anyOf[1] (Value): string or null. Your Idempotency-Key for the command
+         * that created this record. `null` when Flint created it or no key was sent.
+         * idempotency_key.anyOf[2] (Value): null. purchase_refund_value_holds (Optional): Array of
+         * {@link GiftCardPurchaseRefundValueHoldPreviousAttributes} or null. Pending original cash
+         * refunds holding unspent value on this descendant funding lot. Unknown provider outcomes
+         * retain these holds. purchase_refund_value_holds.anyOf[1] (Value): Array of {@link
+         * GiftCardPurchaseRefundValueHoldPreviousAttributes}. Pending original cash refunds
+         * holding unspent value on this descendant funding lot. Unknown provider outcomes retain
+         * these holds. purchase_refund_value_holds.anyOf[1][] (Value): {@link
+         * GiftCardPurchaseRefundValueHoldPreviousAttributes}. purchase_refund_value_holds.anyOf[2]
+         * (Value): null. purchase_refunds (Optional): Array of {@link
+         * GiftCardPurchaseRefundAllocationPreviousAttributes} or null. Cash refunds and manual
+         * payment reversals against this original funding load. Pending refunds reserve their
+         * value; confirmed success removes it, and confirmed failure releases the hold.
+         * purchase_refunds.anyOf[1] (Value): Array of {@link
+         * GiftCardPurchaseRefundAllocationPreviousAttributes}. Cash refunds and manual payment
+         * reversals against this original funding load. Pending refunds reserve their value;
+         * confirmed success removes it, and confirmed failure releases the hold.
+         * purchase_refunds.anyOf[1][] (Value): {@link
+         * GiftCardPurchaseRefundAllocationPreviousAttributes}. purchase_refunds.anyOf[2] (Value):
+         * null. purchase_restoration (Optional): {@link
+         * GiftCardPurchaseRestorationPreviousAttributes} or null. Set when the buyer paid again
+         * for value that reversing a gift card purchase had removed, and this load restored it.
+         * Names the original card and load, the purchase refund entry that removed the value, and
+         * the purchased unit. Omitted for other loads. purchase_restoration.anyOf[1] (Value):
+         * {@link GiftCardPurchaseRestorationPreviousAttributes}. purchase_restoration.anyOf[2]
+         * (Value): null. refund_provenance (Optional): {@link
+         * GiftCardRefundProvenancePreviousAttributes} or null. Traces a load made by a refund back
+         * to its original funding. `null` when the load wasn't made by a refund.
+         * refund_provenance.anyOf[1] (Value): {@link GiftCardRefundProvenancePreviousAttributes}.
+         * refund_provenance.anyOf[2] (Value): null. refund_transferred_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. The part of this load's value that refunds of
+         * redemptions moved onto replacement gift cards. Omitted until a refund moves value.
+         * refund_transferred_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+         * refund_transferred_money.anyOf[2] (Value): null. remaining_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. The value from this load still on the card: not
+         * yet spent, reversed, or moved to a replacement card. It includes value held by a
+         * reserved redemption. remaining_money.anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. remaining_money.anyOf[2] (Value): null. reversed_money
+         * (Optional): {@link MoneyValuePreviousAttributes} or null. The value removed from this
+         * load by refunding or reversing the purchase that funded it. It goes down again when a
+         * purchase refund fails and the value is restored. reversed_money.anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. reversed_money.anyOf[2] (Value): null. source (Optional):
+         * {@link GiftCardFundingSourcePreviousAttributes} or null. Where the value came from, with
+         * your reference for it. source.anyOf[1] (Value): {@link
+         * GiftCardFundingSourcePreviousAttributes}. source.anyOf[2] (Value): null.
+         * source_created_at (Optional): string or null or null. RFC3339 timestamp. `null` when no
+         * source time was recorded. source_created_at.anyOf[1] (Value): string or null. RFC3339
+         * timestamp. `null` when no source time was recorded. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". source_created_at.anyOf[2] (Value): null. value_money
+         * (Optional): {@link MoneyValuePreviousAttributes} or null. The face value the load adds
+         * to the card. value_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+         * value_money.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: int64. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * What the buyer paid for the value, separate from `value_money`. `null` when no
+             * payment amount is recorded. anyOf[1] (Value): ({@link MoneyValuePreviousAttributes}
+             * or null). What the buyer paid for the value, separate from `value_money`. `null`
+             * when no payment amount is recorded. anyOf[1].anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value):
+             * null.
+             */
+            "consideration_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Restrictions tied to original funding, including value restored to replacement
+             * cards. A win clears only its own restriction. A loss keeps spending restricted until
+             * you create a gift card funding disposition. anyOf[1] (Value): Array of {@link
+             * GiftCardFundingDisputePreviousAttributes}. Restrictions tied to original funding,
+             * including value restored to replacement cards. A win clears only its own
+             * restriction. A loss keeps spending restricted until you create a gift card funding
+             * disposition. anyOf[1][] (Value): {@link GiftCardFundingDisputePreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "funding_disputes"?: ((Array<GiftCardFundingDisputePreviousAttributes>) | (null));
+            /**
+             * ID of the gift card the load added value to. anyOf[1] (Value): string. ID of the
+             * gift card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+             * anyOf[2] (Value): null.
+             */
+            "gift_card_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this gift card load, prefixed `gcl_`. anyOf[1] (Value):
+             * string. Unique identifier for this gift card load, prefixed `gcl_`. Example:
+             * "gcl_01KEZF7C00YJED2857SE0J6KWC". anyOf[2] (Value): null.
+             */
+            "gift_card_load_id"?: ((string) | (null));
+            /**
+             * Your Idempotency-Key for the command that created this record. `null` when Flint
+             * created it or no key was sent. anyOf[1] (Value): string or null. Your
+             * Idempotency-Key for the command that created this record. `null` when Flint created
+             * it or no key was sent. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string | null) | (null) | (unknown));
+            /**
+             * Pending original cash refunds holding unspent value on this descendant funding lot.
+             * Unknown provider outcomes retain these holds. anyOf[1] (Value): Array of {@link
+             * GiftCardPurchaseRefundValueHoldPreviousAttributes}. Pending original cash refunds
+             * holding unspent value on this descendant funding lot. Unknown provider outcomes
+             * retain these holds. anyOf[1][] (Value): {@link
+             * GiftCardPurchaseRefundValueHoldPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "purchase_refund_value_holds"?: ((Array<GiftCardPurchaseRefundValueHoldPreviousAttributes>) | (null));
+            /**
+             * Cash refunds and manual payment reversals against this original funding load.
+             * Pending refunds reserve their value; confirmed success removes it, and confirmed
+             * failure releases the hold. anyOf[1] (Value): Array of {@link
+             * GiftCardPurchaseRefundAllocationPreviousAttributes}. Cash refunds and manual payment
+             * reversals against this original funding load. Pending refunds reserve their value;
+             * confirmed success removes it, and confirmed failure releases the hold. anyOf[1][]
+             * (Value): {@link GiftCardPurchaseRefundAllocationPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "purchase_refunds"?: ((Array<GiftCardPurchaseRefundAllocationPreviousAttributes>) | (null));
+            /**
+             * Set when the buyer paid again for value that reversing a gift card purchase had
+             * removed, and this load restored it. Names the original card and load, the purchase
+             * refund entry that removed the value, and the purchased unit. Omitted for other
+             * loads. anyOf[1] (Value): {@link GiftCardPurchaseRestorationPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "purchase_restoration"?: ((GiftCardPurchaseRestorationPreviousAttributes) | (null) | (unknown));
+            /**
+             * Traces a load made by a refund back to its original funding. `null` when the load
+             * wasn't made by a refund. anyOf[1] (Value): {@link
+             * GiftCardRefundProvenancePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "refund_provenance"?: ((GiftCardRefundProvenancePreviousAttributes) | (null) | (unknown));
+            /**
+             * The part of this load's value that refunds of redemptions moved onto replacement
+             * gift cards. Omitted until a refund moves value. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "refund_transferred_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            /**
+             * The value from this load still on the card: not yet spent, reversed, or moved to a
+             * replacement card. It includes value held by a reserved redemption. anyOf[1] (Value):
+             * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "remaining_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            /**
+             * The value removed from this load by refunding or reversing the purchase that funded
+             * it. It goes down again when a purchase refund fails and the value is restored.
+             * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "reversed_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            /**
+             * Where the value came from, with your reference for it. anyOf[1] (Value): {@link
+             * GiftCardFundingSourcePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "source"?: ((GiftCardFundingSourcePreviousAttributes) | (null) | (unknown));
+            /**
+             * RFC3339 timestamp. `null` when no source time was recorded. anyOf[1] (Value): string
+             * or null. RFC3339 timestamp. `null` when no source time was recorded. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "source_created_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * The face value the load adds to the card. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "value_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. anyOf[2] (Value): null.
              */
             "version"?: ((number) | (null));
         });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
-    /** Value enum: "inventory_count.updated". */
-    "event_type"?: "inventory_count.updated";
+    /** Value enum: "gift_card_load.updated". */
+    "event_type"?: "gift_card_load.updated";
 });
-export type InventoryCountsApplyParams = (InputValue<ApplyInventoryCountRequestInput> | {
-    "expected_version"?: never;
-})
+export type GiftCardLoadsCreateParams = (InputValue<CreateGiftCardLoadRequestInput>)
     & {
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
@@ -916,3618 +3064,79 @@ export type InventoryCountsApplyParams = (InputValue<ApplyInventoryCountRequestI
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type InventoryCountsCancelParams = (InputValue<CancelInventoryCountRequestInput> | {
-    "expected_version"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type InventoryCountsCreateParams = (InputValue<CreateInventoryCountRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type InventoryCountsGetParams = DisputesAcceptParams;
-export type InventoryCountsListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by a counted inventory item. pattern: ^invi_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-     */
-    "inventory_item_id"?: InputValue<string>;
-    /**
-     * Filter by Location. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: InputValue<string>;
-    /**
-     * Filter by count status. Values are trimmed and deduplicated in first-seen order; empty or
-     * unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "draft", "applied", "canceled". Value enum: "draft", "applied", "canceled".
-     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "draft", "applied", "canceled".
-     * anyOf[1][] (Value): string. Value enum: "draft", "applied", "canceled". anyOf[2] (Value):
-     * string. Value enum: "draft", "applied", "canceled".
-     */
-    "status"?: InputValue<("draft" | "applied" | "canceled") | readonly ("draft" | "applied" | "canceled")[]>;
-    /**
-     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
-     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
-     * pending resource does not prove that the operation succeeded, and an empty list does not
-     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
-     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
-     */
-    "idempotency_key"?: InputValue<string>;
+export type GiftCardLoadsGetParams = DisputesAcceptParams;
+export type GiftCardLoadsListParams = {
     /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "created_after"?: InputValue<string | globalThis.Date>;
     /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "created_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on applied_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "applied_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on applied_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "applied_before"?: InputValue<string | globalThis.Date>;
     /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type InventoryCountsUpdateParams = (InputValue<UpdateInventoryCountRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/**
- * A stock-keeping unit that inventory quantities are tracked against. Catalog variants reference
- * an inventory item rather than carrying their own counter.
- */
-export type InventoryItem = {
-    /**
-     * Backorder settings shared by every variant using this inventory item. Backorder settings
-     * shared by every variant using an inventory item.
-     */
-    "backorder": BackorderPolicy;
-    /** Optional searchable barcode. */
-    "barcode"?: string;
-    /** Time the inventory item was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /** Stable inventory item ID. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY". */
-    "inventory_item_id": string;
-    /**
-     * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with
-     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata": MetadataMap;
-    /** Merchant-facing inventory item name. */
-    "name": string;
-    /** Optional searchable stock-keeping unit. */
-    "sku"?: string;
-    /** Current inventory item lifecycle status. Value enum: "active", "inactive", "archived". */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /** Time the inventory item last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /** Optimistic-concurrency version for item writes. Format: uint64. minimum: 1. */
-    "version": number;
-};
-/**
- * Inventory item details you supply when creating an inventory item for a product variant: `name`,
- * `sku`, `barcode`, and metadata.
- */
-export type InventoryItemCreateRequest = {
-    /** Barcode assigned to the new inventory item. minLength: 1. maxLength: 255. */
-    "barcode"?: string;
-    /**
-     * Caller-owned metadata for the new inventory item. Caller-owned key-value data for a new or
-     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
-     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
-     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Name of the inventory item to create for this variant. minLength: 1. maxLength: 255. */
-    "name": string;
-    /** Stock keeping unit assigned to the new inventory item. minLength: 1. maxLength: 255. */
-    "sku"?: string;
-};
-/**
- * Inventory item details you supply when creating an inventory item for a product variant: `name`,
- * `sku`, `barcode`, and metadata.
- */
-export type InventoryItemCreateRequestInput = {
-    /** Barcode assigned to the new inventory item. minLength: 1. maxLength: 255. */
-    "barcode"?: string;
-    /**
-     * Caller-owned metadata for the new inventory item. Caller-owned key-value data for a new or
-     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
-     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
-     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Name of the inventory item to create for this variant. minLength: 1. maxLength: 255. */
-    "name": string;
-    /** Stock keeping unit assigned to the new inventory item. minLength: 1. maxLength: 255. */
-    "sku"?: string;
-};
-/** A page of `InventoryItem` objects. */
-export type InventoryItemListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * InventoryItem}. A stock-keeping unit that inventory quantities are tracked against. Catalog
-     * variants reference an inventory item rather than carrying their own counter.
-     */
-    "data": Array<InventoryItem>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `InventoryItem` data. */
-export type InventoryItemResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A stock-keeping unit
-     * that inventory quantities are tracked against. Catalog variants reference an inventory item
-     * rather than carrying their own counter.
-     */
-    "data": InventoryItem;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type InventoryItemsCreateParams = (InputValue<CreateInventoryItemRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type InventoryItemsDeleteParams = InventoryAllocationPoliciesDeleteParams;
-export type InventoryItemsGetParams = DisputesAcceptParams;
-export type InventoryItemsListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
-     * "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value):
-     * Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value):
-     * string. Value enum: "active", "inactive", "archived". anyOf[2] (Value): string. Value enum:
-     * "active", "inactive", "archived".
-     */
-    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
-    /** Filter by exact SKU. */
-    "sku"?: InputValue<string>;
-    /** Filter by exact barcode. */
-    "barcode"?: InputValue<string>;
-    /**
-     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842".
-     */
-    "external_reference_id"?: InputValue<string>;
-    /** Search inventory item ID, external reference ID, name, SKU, or barcode. maxLength: 255. */
-    "query"?: InputValue<string>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type InventoryItemsUpdateParams = (InputValue<UpdateInventoryItemRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/** The quantity state of one inventory item at one Location. */
-export type InventoryLevel = {
-    /**
-     * Derived and never written: on_hand minus unavailable, held, committed, and safety stock,
-     * never below 0. See shortage_quantity for the excess. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64.
-     */
-    "available_quantity": number;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 0.
-     */
-    "backordered_quantity": number;
-    /** Advances only when held or committed quantities change. Format: int64. minimum: 0. */
-    "claim_version": number;
-    /**
-     * Units promised to accepted orders. Still physically present until fulfillment consumes them.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64.
-     */
-    "committed_quantity": number;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64.
-     */
-    "damaged_quantity": number;
-    /**
-     * Units claimed by an open reservation that has not been committed. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "held_quantity": number;
-    /**
-     * Units recorded as inbound but not yet on hand. Does not count toward availability.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64.
-     */
-    "incoming_quantity": number;
-    /**
-     * The inventory item this level belongs to. Present only when the list request asked for
-     * expand=inventory_item. A stock-keeping unit that inventory quantities are tracked against.
-     * Catalog variants reference an inventory item rather than carrying their own counter.
-     */
-    "inventory_item"?: InventoryItem;
-    /** ID of the inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY". */
-    "inventory_item_id": string;
-    /**
-     * Unique identifier for this inventory level, prefixed `invl_`. Example:
-     * "invl_01KEZF7C00H201XZXKRX5KMDDE".
-     */
-    "inventory_level_id": string;
-    /** ID of the Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-    "location_id": string;
-    /**
-     * Units physically present at the Location, in any condition. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "on_hand_quantity": number;
-    /** Advances only when on-hand or condition quantities change. Format: int64. minimum: 0. */
-    "physical_version": number;
-    /**
-     * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64.
-     */
-    "quality_control_quantity": number;
-    /**
-     * On-hand units isolated for review. Not sellable. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64.
-     */
-    "quarantined_quantity": number;
-    /**
-     * Buffer withheld from allocation. Change it with PATCH
-     * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities are
-     * not supported. Format: int64.
-     */
-    "safety_stock_quantity": number;
-    /**
-     * Derived: claims exceeding sellable physical stock. Positive only after stock is lost,
-     * damaged, or corrected down. Whole-number quantity; fractional quantities are not supported.
-     * Format: int64.
-     */
-    "shortage_quantity": number;
-    /**
-     * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64.
-     */
-    "unavailable_on_hand_quantity": number;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Changes on every quantity or claim change at this level, including holds and commits. Read
-     * it immediately before a PATCH. A level that a counted adjustment creates without a quantity
-     * change starts at version 0. Format: int64. minimum: 0.
-     */
-    "version": number;
-};
-/** A page of `InventoryLevel` objects. */
-export type InventoryLevelListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * InventoryLevel}. The quantity state of one inventory item at one Location.
-     */
-    "data": Array<InventoryLevel>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `InventoryLevel` data. */
-export type InventoryLevelResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The quantity state of
-     * one inventory item at one Location.
-     */
-    "data": InventoryLevel;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type InventoryLevelShortageDetectedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "available_quantity": number;
-            "backordered_quantity": number;
-            "claim_version": number;
-            "committed_quantity": number;
-            "created_at": string;
-            "damaged_quantity": number;
-            "held_quantity": number;
-            "incoming_quantity": number;
-            "inventory_item"?: InventoryItem;
-            "inventory_item_id": string;
-            "inventory_level_id": string;
-            "location_id": string;
-            "on_hand_quantity": number;
-            "physical_version": number;
-            "quality_control_quantity": number;
-            "quarantined_quantity": number;
-            "safety_stock_quantity": number;
-            "shortage_quantity": number;
-            "unavailable_on_hand_quantity": number;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "available_quantity"?: ((number) | (null));
-            "backordered_quantity"?: ((number) | (null));
-            "claim_version"?: ((number) | (null));
-            "committed_quantity"?: ((number) | (null));
-            "created_at"?: ((string) | (null));
-            "damaged_quantity"?: ((number) | (null));
-            "held_quantity"?: ((number) | (null));
-            "incoming_quantity"?: ((number) | (null));
-            "inventory_item"?: ((InventoryItem) | (null));
-            "inventory_item_id"?: ((string) | (null));
-            "inventory_level_id"?: ((string) | (null));
-            "location_id"?: ((string) | (null));
-            "on_hand_quantity"?: ((number) | (null));
-            "physical_version"?: ((number) | (null));
-            "quality_control_quantity"?: ((number) | (null));
-            "quarantined_quantity"?: ((number) | (null));
-            "safety_stock_quantity"?: ((number) | (null));
-            "shortage_quantity"?: ((number) | (null));
-            "unavailable_on_hand_quantity"?: ((number) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "inventory_level.shortage_detected";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "available_quantity": number;
-            "backordered_quantity": number;
-            "claim_version": number;
-            "committed_quantity": number;
-            "created_at": string;
-            "damaged_quantity": number;
-            "held_quantity": number;
-            "incoming_quantity": number;
-            "inventory_item"?: InventoryItem;
-            "inventory_item_id": string;
-            "inventory_level_id": string;
-            "location_id": string;
-            "on_hand_quantity": number;
-            "physical_version": number;
-            "quality_control_quantity": number;
-            "quarantined_quantity": number;
-            "safety_stock_quantity": number;
-            "shortage_quantity": number;
-            "unavailable_on_hand_quantity": number;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "available_quantity"?: ((number) | (null));
-            "backordered_quantity"?: ((number) | (null));
-            "claim_version"?: ((number) | (null));
-            "committed_quantity"?: ((number) | (null));
-            "created_at"?: ((string) | (null));
-            "damaged_quantity"?: ((number) | (null));
-            "held_quantity"?: ((number) | (null));
-            "incoming_quantity"?: ((number) | (null));
-            "inventory_item"?: ((InventoryItem) | (null));
-            "inventory_item_id"?: ((string) | (null));
-            "inventory_level_id"?: ((string) | (null));
-            "location_id"?: ((string) | (null));
-            "on_hand_quantity"?: ((number) | (null));
-            "physical_version"?: ((number) | (null));
-            "quality_control_quantity"?: ((number) | (null));
-            "quarantined_quantity"?: ((number) | (null));
-            "safety_stock_quantity"?: ((number) | (null));
-            "shortage_quantity"?: ((number) | (null));
-            "unavailable_on_hand_quantity"?: ((number) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "inventory_level.shortage_detected";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "inventory_level.shortage_detected";
-});
-/**
- * The `inventory_level.shortage_detected` webhook payload for the `installed_merchants` event
- * source. Fields shared by partner webhook payloads.
- */
-export type InventoryLevelShortageDetectedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.available_quantity (Required): integer. Derived and never written:
-     * on_hand minus unavailable, held, committed, and safety stock, never below 0. See
-     * shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
-     * supported. Format: int64. object.backordered_quantity (Required): integer. Whole-number
-     * quantity; fractional quantities are not supported. Format: int64. minimum: 0.
-     * object.claim_version (Required): integer. Advances only when held or committed quantities
-     * change. Format: int64. minimum: 0. object.committed_quantity (Required): integer. Units
-     * promised to accepted orders. Still physically present until fulfillment consumes them.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64.
-     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.damaged_quantity (Required): integer. On-hand units known to
-     * be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
-     * Format: int64. object.held_quantity (Required): integer. Units claimed by an open
-     * reservation that has not been committed. Whole-number quantity; fractional quantities are
-     * not supported. Format: int64. object.incoming_quantity (Required): integer. Units recorded
-     * as inbound but not yet on hand. Does not count toward availability. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. object.inventory_item (Optional):
-     * {@link InventoryItem}. The inventory item this level belongs to. Present only when the list
-     * request asked for expand=inventory_item. A stock-keeping unit that inventory quantities are
-     * tracked against. Catalog variants reference an inventory item rather than carrying their own
-     * counter. object.inventory_item_id (Required): string. ID of the inventory item the stock is
-     * for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY". object.inventory_level_id (Required):
-     * string. Unique identifier for this inventory level, prefixed `invl_`. Example:
-     * "invl_01KEZF7C00H201XZXKRX5KMDDE". object.location_id (Required): string. ID of the Location
-     * that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.on_hand_quantity
-     * (Required): integer. Units physically present at the Location, in any condition.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64.
-     * object.physical_version (Required): integer. Advances only when on-hand or condition
-     * quantities change. Format: int64. minimum: 0. object.quality_control_quantity (Required):
-     * integer. On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. object.quarantined_quantity (Required):
-     * integer. On-hand units isolated for review. Not sellable. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. object.safety_stock_quantity (Required):
-     * integer. Buffer withheld from allocation. Change it with PATCH
-     * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities are
-     * not supported. Format: int64. object.shortage_quantity (Required): integer. Derived: claims
-     * exceeding sellable physical stock. Positive only after stock is lost, damaged, or corrected
-     * down. Whole-number quantity; fractional quantities are not supported. Format: int64.
-     * object.unavailable_on_hand_quantity (Required): integer. Derived: quality_control + damaged
-     * + quarantined. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Changes on every quantity or
-     * claim change at this level, including holds and commits. Read it immediately before a PATCH.
-     * A level that a counted adjustment creates without a quantity change starts at version 0.
-     * Format: int64. minimum: 0. previous_attributes (Optional): object. Previous values of
-     * changed top-level fields in data.object, at this delivery's API version. Nested changes
-     * include the whole previous top-level value. A value is null when the field was absent before
-     * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events. previous_attributes.available_quantity (Optional): integer or null. Derived and
-     * never written: on_hand minus unavailable, held, committed, and safety stock, never below 0.
-     * See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
-     * supported. previous_attributes.available_quantity.anyOf[1] (Value): integer. Derived and
-     * never written: on_hand minus unavailable, held, committed, and safety stock, never below 0.
-     * See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
-     * supported. Format: int64. previous_attributes.available_quantity.anyOf[2] (Value): null.
-     * previous_attributes.backordered_quantity (Optional): integer or null. Whole-number quantity;
-     * fractional quantities are not supported. previous_attributes.backordered_quantity.anyOf[1]
-     * (Value): integer. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. minimum: 0. previous_attributes.backordered_quantity.anyOf[2] (Value): null.
-     * previous_attributes.claim_version (Optional): integer or null. Advances only when held or
-     * committed quantities change. previous_attributes.claim_version.anyOf[1] (Value): integer.
-     * Advances only when held or committed quantities change. Format: int64. minimum: 0.
-     * previous_attributes.claim_version.anyOf[2] (Value): null.
-     * previous_attributes.committed_quantity (Optional): integer or null. Units promised to
-     * accepted orders. Still physically present until fulfillment consumes them. Whole-number
-     * quantity; fractional quantities are not supported.
-     * previous_attributes.committed_quantity.anyOf[1] (Value): integer. Units promised to accepted
-     * orders. Still physically present until fulfillment consumes them. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64.
-     * previous_attributes.committed_quantity.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.damaged_quantity (Optional): integer or null. On-hand units known
-     * to be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
-     * previous_attributes.damaged_quantity.anyOf[1] (Value): integer. On-hand units known to be
-     * damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
-     * Format: int64. previous_attributes.damaged_quantity.anyOf[2] (Value): null.
-     * previous_attributes.held_quantity (Optional): integer or null. Units claimed by an open
-     * reservation that has not been committed. Whole-number quantity; fractional quantities are
-     * not supported. previous_attributes.held_quantity.anyOf[1] (Value): integer. Units claimed by
-     * an open reservation that has not been committed. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. previous_attributes.held_quantity.anyOf[2]
-     * (Value): null. previous_attributes.incoming_quantity (Optional): integer or null. Units
-     * recorded as inbound but not yet on hand. Does not count toward availability. Whole-number
-     * quantity; fractional quantities are not supported.
-     * previous_attributes.incoming_quantity.anyOf[1] (Value): integer. Units recorded as inbound
-     * but not yet on hand. Does not count toward availability. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. previous_attributes.incoming_quantity.anyOf[2]
-     * (Value): null. previous_attributes.inventory_item (Optional): {@link InventoryItem} or null.
-     * The inventory item this level belongs to. Present only when the list request asked for
-     * expand=inventory_item. previous_attributes.inventory_item.anyOf[1] (Value): {@link
-     * InventoryItem}. The inventory item this level belongs to. Present only when the list request
-     * asked for expand=inventory_item. previous_attributes.inventory_item.anyOf[2] (Value): null.
-     * previous_attributes.inventory_item_id (Optional): string or null. ID of the inventory item
-     * the stock is for. previous_attributes.inventory_item_id.anyOf[1] (Value): string. ID of the
-     * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-     * previous_attributes.inventory_item_id.anyOf[2] (Value): null.
-     * previous_attributes.inventory_level_id (Optional): string or null. Unique identifier for
-     * this inventory level, prefixed `invl_`. previous_attributes.inventory_level_id.anyOf[1]
-     * (Value): string. Unique identifier for this inventory level, prefixed `invl_`. Example:
-     * "invl_01KEZF7C00H201XZXKRX5KMDDE". previous_attributes.inventory_level_id.anyOf[2] (Value):
-     * null. previous_attributes.location_id (Optional): string or null. ID of the Location that
-     * holds the stock. previous_attributes.location_id.anyOf[1] (Value): string. ID of the
-     * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * previous_attributes.location_id.anyOf[2] (Value): null. previous_attributes.on_hand_quantity
-     * (Optional): integer or null. Units physically present at the Location, in any condition.
-     * Whole-number quantity; fractional quantities are not supported.
-     * previous_attributes.on_hand_quantity.anyOf[1] (Value): integer. Units physically present at
-     * the Location, in any condition. Whole-number quantity; fractional quantities are not
-     * supported. Format: int64. previous_attributes.on_hand_quantity.anyOf[2] (Value): null.
-     * previous_attributes.physical_version (Optional): integer or null. Advances only when on-hand
-     * or condition quantities change. previous_attributes.physical_version.anyOf[1] (Value):
-     * integer. Advances only when on-hand or condition quantities change. Format: int64. minimum:
-     * 0. previous_attributes.physical_version.anyOf[2] (Value): null.
-     * previous_attributes.quality_control_quantity (Optional): integer or null. On-hand units
-     * awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are not
-     * supported. previous_attributes.quality_control_quantity.anyOf[1] (Value): integer. On-hand
-     * units awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are
-     * not supported. Format: int64. previous_attributes.quality_control_quantity.anyOf[2] (Value):
-     * null. previous_attributes.quarantined_quantity (Optional): integer or null. On-hand units
-     * isolated for review. Not sellable. Whole-number quantity; fractional quantities are not
-     * supported. previous_attributes.quarantined_quantity.anyOf[1] (Value): integer. On-hand units
-     * isolated for review. Not sellable. Whole-number quantity; fractional quantities are not
-     * supported. Format: int64. previous_attributes.quarantined_quantity.anyOf[2] (Value): null.
-     * previous_attributes.safety_stock_quantity (Optional): integer or null. Buffer withheld from
-     * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
-     * quantity; fractional quantities are not supported.
-     * previous_attributes.safety_stock_quantity.anyOf[1] (Value): integer. Buffer withheld from
-     * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
-     * quantity; fractional quantities are not supported. Format: int64.
-     * previous_attributes.safety_stock_quantity.anyOf[2] (Value): null.
-     * previous_attributes.shortage_quantity (Optional): integer or null. Derived: claims exceeding
-     * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
-     * Whole-number quantity; fractional quantities are not supported.
-     * previous_attributes.shortage_quantity.anyOf[1] (Value): integer. Derived: claims exceeding
-     * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64.
-     * previous_attributes.shortage_quantity.anyOf[2] (Value): null.
-     * previous_attributes.unavailable_on_hand_quantity (Optional): integer or null. Derived:
-     * quality_control + damaged + quarantined. Whole-number quantity; fractional quantities are
-     * not supported. previous_attributes.unavailable_on_hand_quantity.anyOf[1] (Value): integer.
-     * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64.
-     * previous_attributes.unavailable_on_hand_quantity.anyOf[2] (Value): null.
-     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
-     * null. previous_attributes.version (Optional): integer or null. Changes on every quantity or
-     * claim change at this level, including holds and commits. Read it immediately before a PATCH.
-     * A level that a counted adjustment creates without a quantity change starts at version 0.
-     * previous_attributes.version.anyOf[1] (Value): integer. Changes on every quantity or claim
-     * change at this level, including holds and commits. Read it immediately before a PATCH. A
-     * level that a counted adjustment creates without a quantity change starts at version 0.
-     * Format: int64. minimum: 0. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * available_quantity (Required): integer. Derived and never written: on_hand minus
-         * unavailable, held, committed, and safety stock, never below 0. See shortage_quantity for
-         * the excess. Whole-number quantity; fractional quantities are not supported. Format:
-         * int64. backordered_quantity (Required): integer. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. minimum: 0. claim_version (Required):
-         * integer. Advances only when held or committed quantities change. Format: int64. minimum:
-         * 0. committed_quantity (Required): integer. Units promised to accepted orders. Still
-         * physically present until fulfillment consumes them. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". damaged_quantity
-         * (Required): integer. On-hand units known to be damaged. Not sellable. Whole-number
-         * quantity; fractional quantities are not supported. Format: int64. held_quantity
-         * (Required): integer. Units claimed by an open reservation that has not been committed.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * incoming_quantity (Required): integer. Units recorded as inbound but not yet on hand.
-         * Does not count toward availability. Whole-number quantity; fractional quantities are not
-         * supported. Format: int64. inventory_item (Optional): {@link InventoryItem}. The
-         * inventory item this level belongs to. Present only when the list request asked for
-         * expand=inventory_item. A stock-keeping unit that inventory quantities are tracked
-         * against. Catalog variants reference an inventory item rather than carrying their own
-         * counter. inventory_item_id (Required): string. ID of the inventory item the stock is
-         * for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY". inventory_level_id (Required): string.
-         * Unique identifier for this inventory level, prefixed `invl_`. Example:
-         * "invl_01KEZF7C00H201XZXKRX5KMDDE". location_id (Required): string. ID of the Location
-         * that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". on_hand_quantity
-         * (Required): integer. Units physically present at the Location, in any condition.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * physical_version (Required): integer. Advances only when on-hand or condition quantities
-         * change. Format: int64. minimum: 0. quality_control_quantity (Required): integer. On-hand
-         * units awaiting inspection. Not sellable. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. quarantined_quantity (Required): integer. On-hand
-         * units isolated for review. Not sellable. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. safety_stock_quantity (Required): integer. Buffer
-         * withheld from allocation. Change it with PATCH
-         * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. shortage_quantity (Required): integer. Derived: claims
-         * exceeding sellable physical stock. Positive only after stock is lost, damaged, or
-         * corrected down. Whole-number quantity; fractional quantities are not supported. Format:
-         * int64. unavailable_on_hand_quantity (Required): integer. Derived: quality_control +
-         * damaged + quarantined. Whole-number quantity; fractional quantities are not supported.
-         * Format: int64. updated_at (Required): string. RFC3339 timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". version (Required): integer. Changes on every quantity
-         * or claim change at this level, including holds and commits. Read it immediately before a
-         * PATCH. A level that a counted adjustment creates without a quantity change starts at
-         * version 0. Format: int64. minimum: 0.
-         */
-        "object": {
-            /**
-             * Derived and never written: on_hand minus unavailable, held, committed, and safety
-             * stock, never below 0. See shortage_quantity for the excess. Whole-number quantity;
-             * fractional quantities are not supported. Format: int64.
-             */
-            "available_quantity": number;
-            /**
-             * Whole-number quantity; fractional quantities are not supported. Format: int64.
-             * minimum: 0.
-             */
-            "backordered_quantity": number;
-            /**
-             * Advances only when held or committed quantities change. Format: int64. minimum: 0.
-             */
-            "claim_version": number;
-            /**
-             * Units promised to accepted orders. Still physically present until fulfillment
-             * consumes them. Whole-number quantity; fractional quantities are not supported.
-             * Format: int64.
-             */
-            "committed_quantity": number;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "damaged_quantity": number;
-            /**
-             * Units claimed by an open reservation that has not been committed. Whole-number
-             * quantity; fractional quantities are not supported. Format: int64.
-             */
-            "held_quantity": number;
-            /**
-             * Units recorded as inbound but not yet on hand. Does not count toward availability.
-             * Whole-number quantity; fractional quantities are not supported. Format: int64.
-             */
-            "incoming_quantity": number;
-            /**
-             * The inventory item this level belongs to. Present only when the list request asked
-             * for expand=inventory_item. A stock-keeping unit that inventory quantities are
-             * tracked against. Catalog variants reference an inventory item rather than carrying
-             * their own counter.
-             */
-            "inventory_item"?: InventoryItem;
-            /**
-             * ID of the inventory item the stock is for. Example:
-             * "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-             */
-            "inventory_item_id": string;
-            /**
-             * Unique identifier for this inventory level, prefixed `invl_`. Example:
-             * "invl_01KEZF7C00H201XZXKRX5KMDDE".
-             */
-            "inventory_level_id": string;
-            /**
-             * ID of the Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-             */
-            "location_id": string;
-            /**
-             * Units physically present at the Location, in any condition. Whole-number quantity;
-             * fractional quantities are not supported. Format: int64.
-             */
-            "on_hand_quantity": number;
-            /**
-             * Advances only when on-hand or condition quantities change. Format: int64. minimum:
-             * 0.
-             */
-            "physical_version": number;
-            /**
-             * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "quality_control_quantity": number;
-            /**
-             * On-hand units isolated for review. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "quarantined_quantity": number;
-            /**
-             * Buffer withheld from allocation. Change it with PATCH
-             * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "safety_stock_quantity": number;
-            /**
-             * Derived: claims exceeding sellable physical stock. Positive only after stock is
-             * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are
-             * not supported. Format: int64.
-             */
-            "shortage_quantity": number;
-            /**
-             * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "unavailable_on_hand_quantity": number;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Changes on every quantity or claim change at this level, including holds and
-             * commits. Read it immediately before a PATCH. A level that a counted adjustment
-             * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. available_quantity (Optional): integer or null.
-         * Derived and never written: on_hand minus unavailable, held, committed, and safety stock,
-         * never below 0. See shortage_quantity for the excess. Whole-number quantity; fractional
-         * quantities are not supported. available_quantity.anyOf[1] (Value): integer. Derived and
-         * never written: on_hand minus unavailable, held, committed, and safety stock, never below
-         * 0. See shortage_quantity for the excess. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. available_quantity.anyOf[2] (Value): null.
-         * backordered_quantity (Optional): integer or null. Whole-number quantity; fractional
-         * quantities are not supported. backordered_quantity.anyOf[1] (Value): integer.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum:
-         * 0. backordered_quantity.anyOf[2] (Value): null. claim_version (Optional): integer or
-         * null. Advances only when held or committed quantities change. claim_version.anyOf[1]
-         * (Value): integer. Advances only when held or committed quantities change. Format: int64.
-         * minimum: 0. claim_version.anyOf[2] (Value): null. committed_quantity (Optional): integer
-         * or null. Units promised to accepted orders. Still physically present until fulfillment
-         * consumes them. Whole-number quantity; fractional quantities are not supported.
-         * committed_quantity.anyOf[1] (Value): integer. Units promised to accepted orders. Still
-         * physically present until fulfillment consumes them. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. committed_quantity.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. damaged_quantity (Optional): integer or null. On-hand
-         * units known to be damaged. Not sellable. Whole-number quantity; fractional quantities
-         * are not supported. damaged_quantity.anyOf[1] (Value): integer. On-hand units known to be
-         * damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
-         * Format: int64. damaged_quantity.anyOf[2] (Value): null. held_quantity (Optional):
-         * integer or null. Units claimed by an open reservation that has not been committed.
-         * Whole-number quantity; fractional quantities are not supported. held_quantity.anyOf[1]
-         * (Value): integer. Units claimed by an open reservation that has not been committed.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * held_quantity.anyOf[2] (Value): null. incoming_quantity (Optional): integer or null.
-         * Units recorded as inbound but not yet on hand. Does not count toward availability.
-         * Whole-number quantity; fractional quantities are not supported.
-         * incoming_quantity.anyOf[1] (Value): integer. Units recorded as inbound but not yet on
-         * hand. Does not count toward availability. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. incoming_quantity.anyOf[2] (Value): null.
-         * inventory_item (Optional): {@link InventoryItem} or null. The inventory item this level
-         * belongs to. Present only when the list request asked for expand=inventory_item.
-         * inventory_item.anyOf[1] (Value): {@link InventoryItem}. The inventory item this level
-         * belongs to. Present only when the list request asked for expand=inventory_item.
-         * inventory_item.anyOf[2] (Value): null. inventory_item_id (Optional): string or null. ID
-         * of the inventory item the stock is for. inventory_item_id.anyOf[1] (Value): string. ID
-         * of the inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-         * inventory_item_id.anyOf[2] (Value): null. inventory_level_id (Optional): string or null.
-         * Unique identifier for this inventory level, prefixed `invl_`.
-         * inventory_level_id.anyOf[1] (Value): string. Unique identifier for this inventory level,
-         * prefixed `invl_`. Example: "invl_01KEZF7C00H201XZXKRX5KMDDE".
-         * inventory_level_id.anyOf[2] (Value): null. location_id (Optional): string or null. ID of
-         * the Location that holds the stock. location_id.anyOf[1] (Value): string. ID of the
-         * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * location_id.anyOf[2] (Value): null. on_hand_quantity (Optional): integer or null. Units
-         * physically present at the Location, in any condition. Whole-number quantity; fractional
-         * quantities are not supported. on_hand_quantity.anyOf[1] (Value): integer. Units
-         * physically present at the Location, in any condition. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. on_hand_quantity.anyOf[2] (Value): null.
-         * physical_version (Optional): integer or null. Advances only when on-hand or condition
-         * quantities change. physical_version.anyOf[1] (Value): integer. Advances only when
-         * on-hand or condition quantities change. Format: int64. minimum: 0.
-         * physical_version.anyOf[2] (Value): null. quality_control_quantity (Optional): integer or
-         * null. On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-         * quantities are not supported. quality_control_quantity.anyOf[1] (Value): integer.
-         * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. quality_control_quantity.anyOf[2] (Value):
-         * null. quarantined_quantity (Optional): integer or null. On-hand units isolated for
-         * review. Not sellable. Whole-number quantity; fractional quantities are not supported.
-         * quarantined_quantity.anyOf[1] (Value): integer. On-hand units isolated for review. Not
-         * sellable. Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * quarantined_quantity.anyOf[2] (Value): null. safety_stock_quantity (Optional): integer
-         * or null. Buffer withheld from allocation. Change it with PATCH
-         * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities
-         * are not supported. safety_stock_quantity.anyOf[1] (Value): integer. Buffer withheld from
-         * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
-         * quantity; fractional quantities are not supported. Format: int64.
-         * safety_stock_quantity.anyOf[2] (Value): null. shortage_quantity (Optional): integer or
-         * null. Derived: claims exceeding sellable physical stock. Positive only after stock is
-         * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are not
-         * supported. shortage_quantity.anyOf[1] (Value): integer. Derived: claims exceeding
-         * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * shortage_quantity.anyOf[2] (Value): null. unavailable_on_hand_quantity (Optional):
-         * integer or null. Derived: quality_control + damaged + quarantined. Whole-number
-         * quantity; fractional quantities are not supported. unavailable_on_hand_quantity.anyOf[1]
-         * (Value): integer. Derived: quality_control + damaged + quarantined. Whole-number
-         * quantity; fractional quantities are not supported. Format: int64.
-         * unavailable_on_hand_quantity.anyOf[2] (Value): null. updated_at (Optional): string or
-         * null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
-         * (Optional): integer or null. Changes on every quantity or claim change at this level,
-         * including holds and commits. Read it immediately before a PATCH. A level that a counted
-         * adjustment creates without a quantity change starts at version 0. version.anyOf[1]
-         * (Value): integer. Changes on every quantity or claim change at this level, including
-         * holds and commits. Read it immediately before a PATCH. A level that a counted adjustment
-         * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
-         * version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Derived and never written: on_hand minus unavailable, held, committed, and safety
-             * stock, never below 0. See shortage_quantity for the excess. Whole-number quantity;
-             * fractional quantities are not supported. anyOf[1] (Value): integer. Derived and
-             * never written: on_hand minus unavailable, held, committed, and safety stock, never
-             * below 0. See shortage_quantity for the excess. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "available_quantity"?: ((number) | (null));
-            /**
-             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
-             * integer. Whole-number quantity; fractional quantities are not supported. Format:
-             * int64. minimum: 0. anyOf[2] (Value): null.
-             */
-            "backordered_quantity"?: ((number) | (null));
-            /**
-             * Advances only when held or committed quantities change. anyOf[1] (Value): integer.
-             * Advances only when held or committed quantities change. Format: int64. minimum: 0.
-             * anyOf[2] (Value): null.
-             */
-            "claim_version"?: ((number) | (null));
-            /**
-             * Units promised to accepted orders. Still physically present until fulfillment
-             * consumes them. Whole-number quantity; fractional quantities are not supported.
-             * anyOf[1] (Value): integer. Units promised to accepted orders. Still physically
-             * present until fulfillment consumes them. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "committed_quantity"?: ((number) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. On-hand units known to be
-             * damaged. Not sellable. Whole-number quantity; fractional quantities are not
-             * supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "damaged_quantity"?: ((number) | (null));
-            /**
-             * Units claimed by an open reservation that has not been committed. Whole-number
-             * quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Units
-             * claimed by an open reservation that has not been committed. Whole-number quantity;
-             * fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "held_quantity"?: ((number) | (null));
-            /**
-             * Units recorded as inbound but not yet on hand. Does not count toward availability.
-             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
-             * integer. Units recorded as inbound but not yet on hand. Does not count toward
-             * availability. Whole-number quantity; fractional quantities are not supported.
-             * Format: int64. anyOf[2] (Value): null.
-             */
-            "incoming_quantity"?: ((number) | (null));
-            /**
-             * The inventory item this level belongs to. Present only when the list request asked
-             * for expand=inventory_item. anyOf[1] (Value): {@link InventoryItem}. The inventory
-             * item this level belongs to. Present only when the list request asked for
-             * expand=inventory_item. anyOf[2] (Value): null.
-             */
-            "inventory_item"?: ((InventoryItem) | (null));
-            /**
-             * ID of the inventory item the stock is for. anyOf[1] (Value): string. ID of the
-             * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-             * anyOf[2] (Value): null.
-             */
-            "inventory_item_id"?: ((string) | (null));
-            /**
-             * Unique identifier for this inventory level, prefixed `invl_`. anyOf[1] (Value):
-             * string. Unique identifier for this inventory level, prefixed `invl_`. Example:
-             * "invl_01KEZF7C00H201XZXKRX5KMDDE". anyOf[2] (Value): null.
-             */
-            "inventory_level_id"?: ((string) | (null));
-            /**
-             * ID of the Location that holds the stock. anyOf[1] (Value): string. ID of the
-             * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2]
-             * (Value): null.
-             */
-            "location_id"?: ((string) | (null));
-            /**
-             * Units physically present at the Location, in any condition. Whole-number quantity;
-             * fractional quantities are not supported. anyOf[1] (Value): integer. Units physically
-             * present at the Location, in any condition. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "on_hand_quantity"?: ((number) | (null));
-            /**
-             * Advances only when on-hand or condition quantities change. anyOf[1] (Value):
-             * integer. Advances only when on-hand or condition quantities change. Format: int64.
-             * minimum: 0. anyOf[2] (Value): null.
-             */
-            "physical_version"?: ((number) | (null));
-            /**
-             * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. On-hand units awaiting
-             * inspection. Not sellable. Whole-number quantity; fractional quantities are not
-             * supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "quality_control_quantity"?: ((number) | (null));
-            /**
-             * On-hand units isolated for review. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. On-hand units isolated for
-             * review. Not sellable. Whole-number quantity; fractional quantities are not
-             * supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "quarantined_quantity"?: ((number) | (null));
-            /**
-             * Buffer withheld from allocation. Change it with PATCH
-             * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. Buffer withheld from
-             * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}.
-             * Whole-number quantity; fractional quantities are not supported. Format: int64.
-             * anyOf[2] (Value): null.
-             */
-            "safety_stock_quantity"?: ((number) | (null));
-            /**
-             * Derived: claims exceeding sellable physical stock. Positive only after stock is
-             * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are
-             * not supported. anyOf[1] (Value): integer. Derived: claims exceeding sellable
-             * physical stock. Positive only after stock is lost, damaged, or corrected down.
-             * Whole-number quantity; fractional quantities are not supported. Format: int64.
-             * anyOf[2] (Value): null.
-             */
-            "shortage_quantity"?: ((number) | (null));
-            /**
-             * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. Derived: quality_control +
-             * damaged + quarantined. Whole-number quantity; fractional quantities are not
-             * supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "unavailable_on_hand_quantity"?: ((number) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Changes on every quantity or claim change at this level, including holds and
-             * commits. Read it immediately before a PATCH. A level that a counted adjustment
-             * creates without a quantity change starts at version 0. anyOf[1] (Value): integer.
-             * Changes on every quantity or claim change at this level, including holds and
-             * commits. Read it immediately before a PATCH. A level that a counted adjustment
-             * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
-             * anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "inventory_level.shortage_detected". */
-    "event_type"?: "inventory_level.shortage_detected";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `inventory_level.shortage_detected` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type InventoryLevelShortageDetectedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.available_quantity (Required): integer. Derived and never written:
-     * on_hand minus unavailable, held, committed, and safety stock, never below 0. See
-     * shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
-     * supported. Format: int64. object.backordered_quantity (Required): integer. Whole-number
-     * quantity; fractional quantities are not supported. Format: int64. minimum: 0.
-     * object.claim_version (Required): integer. Advances only when held or committed quantities
-     * change. Format: int64. minimum: 0. object.committed_quantity (Required): integer. Units
-     * promised to accepted orders. Still physically present until fulfillment consumes them.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64.
-     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.damaged_quantity (Required): integer. On-hand units known to
-     * be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
-     * Format: int64. object.held_quantity (Required): integer. Units claimed by an open
-     * reservation that has not been committed. Whole-number quantity; fractional quantities are
-     * not supported. Format: int64. object.incoming_quantity (Required): integer. Units recorded
-     * as inbound but not yet on hand. Does not count toward availability. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. object.inventory_item (Optional):
-     * {@link InventoryItem}. The inventory item this level belongs to. Present only when the list
-     * request asked for expand=inventory_item. A stock-keeping unit that inventory quantities are
-     * tracked against. Catalog variants reference an inventory item rather than carrying their own
-     * counter. object.inventory_item_id (Required): string. ID of the inventory item the stock is
-     * for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY". object.inventory_level_id (Required):
-     * string. Unique identifier for this inventory level, prefixed `invl_`. Example:
-     * "invl_01KEZF7C00H201XZXKRX5KMDDE". object.location_id (Required): string. ID of the Location
-     * that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.on_hand_quantity
-     * (Required): integer. Units physically present at the Location, in any condition.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64.
-     * object.physical_version (Required): integer. Advances only when on-hand or condition
-     * quantities change. Format: int64. minimum: 0. object.quality_control_quantity (Required):
-     * integer. On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. object.quarantined_quantity (Required):
-     * integer. On-hand units isolated for review. Not sellable. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. object.safety_stock_quantity (Required):
-     * integer. Buffer withheld from allocation. Change it with PATCH
-     * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities are
-     * not supported. Format: int64. object.shortage_quantity (Required): integer. Derived: claims
-     * exceeding sellable physical stock. Positive only after stock is lost, damaged, or corrected
-     * down. Whole-number quantity; fractional quantities are not supported. Format: int64.
-     * object.unavailable_on_hand_quantity (Required): integer. Derived: quality_control + damaged
-     * + quarantined. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Changes on every quantity or
-     * claim change at this level, including holds and commits. Read it immediately before a PATCH.
-     * A level that a counted adjustment creates without a quantity change starts at version 0.
-     * Format: int64. minimum: 0. previous_attributes (Optional): object. Previous values of
-     * changed top-level fields in data.object, at this delivery's API version. Nested changes
-     * include the whole previous top-level value. A value is null when the field was absent before
-     * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events. previous_attributes.available_quantity (Optional): integer or null. Derived and
-     * never written: on_hand minus unavailable, held, committed, and safety stock, never below 0.
-     * See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
-     * supported. previous_attributes.available_quantity.anyOf[1] (Value): integer. Derived and
-     * never written: on_hand minus unavailable, held, committed, and safety stock, never below 0.
-     * See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
-     * supported. Format: int64. previous_attributes.available_quantity.anyOf[2] (Value): null.
-     * previous_attributes.backordered_quantity (Optional): integer or null. Whole-number quantity;
-     * fractional quantities are not supported. previous_attributes.backordered_quantity.anyOf[1]
-     * (Value): integer. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. minimum: 0. previous_attributes.backordered_quantity.anyOf[2] (Value): null.
-     * previous_attributes.claim_version (Optional): integer or null. Advances only when held or
-     * committed quantities change. previous_attributes.claim_version.anyOf[1] (Value): integer.
-     * Advances only when held or committed quantities change. Format: int64. minimum: 0.
-     * previous_attributes.claim_version.anyOf[2] (Value): null.
-     * previous_attributes.committed_quantity (Optional): integer or null. Units promised to
-     * accepted orders. Still physically present until fulfillment consumes them. Whole-number
-     * quantity; fractional quantities are not supported.
-     * previous_attributes.committed_quantity.anyOf[1] (Value): integer. Units promised to accepted
-     * orders. Still physically present until fulfillment consumes them. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64.
-     * previous_attributes.committed_quantity.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.damaged_quantity (Optional): integer or null. On-hand units known
-     * to be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
-     * previous_attributes.damaged_quantity.anyOf[1] (Value): integer. On-hand units known to be
-     * damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
-     * Format: int64. previous_attributes.damaged_quantity.anyOf[2] (Value): null.
-     * previous_attributes.held_quantity (Optional): integer or null. Units claimed by an open
-     * reservation that has not been committed. Whole-number quantity; fractional quantities are
-     * not supported. previous_attributes.held_quantity.anyOf[1] (Value): integer. Units claimed by
-     * an open reservation that has not been committed. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. previous_attributes.held_quantity.anyOf[2]
-     * (Value): null. previous_attributes.incoming_quantity (Optional): integer or null. Units
-     * recorded as inbound but not yet on hand. Does not count toward availability. Whole-number
-     * quantity; fractional quantities are not supported.
-     * previous_attributes.incoming_quantity.anyOf[1] (Value): integer. Units recorded as inbound
-     * but not yet on hand. Does not count toward availability. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. previous_attributes.incoming_quantity.anyOf[2]
-     * (Value): null. previous_attributes.inventory_item (Optional): {@link InventoryItem} or null.
-     * The inventory item this level belongs to. Present only when the list request asked for
-     * expand=inventory_item. previous_attributes.inventory_item.anyOf[1] (Value): {@link
-     * InventoryItem}. The inventory item this level belongs to. Present only when the list request
-     * asked for expand=inventory_item. previous_attributes.inventory_item.anyOf[2] (Value): null.
-     * previous_attributes.inventory_item_id (Optional): string or null. ID of the inventory item
-     * the stock is for. previous_attributes.inventory_item_id.anyOf[1] (Value): string. ID of the
-     * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-     * previous_attributes.inventory_item_id.anyOf[2] (Value): null.
-     * previous_attributes.inventory_level_id (Optional): string or null. Unique identifier for
-     * this inventory level, prefixed `invl_`. previous_attributes.inventory_level_id.anyOf[1]
-     * (Value): string. Unique identifier for this inventory level, prefixed `invl_`. Example:
-     * "invl_01KEZF7C00H201XZXKRX5KMDDE". previous_attributes.inventory_level_id.anyOf[2] (Value):
-     * null. previous_attributes.location_id (Optional): string or null. ID of the Location that
-     * holds the stock. previous_attributes.location_id.anyOf[1] (Value): string. ID of the
-     * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * previous_attributes.location_id.anyOf[2] (Value): null. previous_attributes.on_hand_quantity
-     * (Optional): integer or null. Units physically present at the Location, in any condition.
-     * Whole-number quantity; fractional quantities are not supported.
-     * previous_attributes.on_hand_quantity.anyOf[1] (Value): integer. Units physically present at
-     * the Location, in any condition. Whole-number quantity; fractional quantities are not
-     * supported. Format: int64. previous_attributes.on_hand_quantity.anyOf[2] (Value): null.
-     * previous_attributes.physical_version (Optional): integer or null. Advances only when on-hand
-     * or condition quantities change. previous_attributes.physical_version.anyOf[1] (Value):
-     * integer. Advances only when on-hand or condition quantities change. Format: int64. minimum:
-     * 0. previous_attributes.physical_version.anyOf[2] (Value): null.
-     * previous_attributes.quality_control_quantity (Optional): integer or null. On-hand units
-     * awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are not
-     * supported. previous_attributes.quality_control_quantity.anyOf[1] (Value): integer. On-hand
-     * units awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are
-     * not supported. Format: int64. previous_attributes.quality_control_quantity.anyOf[2] (Value):
-     * null. previous_attributes.quarantined_quantity (Optional): integer or null. On-hand units
-     * isolated for review. Not sellable. Whole-number quantity; fractional quantities are not
-     * supported. previous_attributes.quarantined_quantity.anyOf[1] (Value): integer. On-hand units
-     * isolated for review. Not sellable. Whole-number quantity; fractional quantities are not
-     * supported. Format: int64. previous_attributes.quarantined_quantity.anyOf[2] (Value): null.
-     * previous_attributes.safety_stock_quantity (Optional): integer or null. Buffer withheld from
-     * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
-     * quantity; fractional quantities are not supported.
-     * previous_attributes.safety_stock_quantity.anyOf[1] (Value): integer. Buffer withheld from
-     * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
-     * quantity; fractional quantities are not supported. Format: int64.
-     * previous_attributes.safety_stock_quantity.anyOf[2] (Value): null.
-     * previous_attributes.shortage_quantity (Optional): integer or null. Derived: claims exceeding
-     * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
-     * Whole-number quantity; fractional quantities are not supported.
-     * previous_attributes.shortage_quantity.anyOf[1] (Value): integer. Derived: claims exceeding
-     * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64.
-     * previous_attributes.shortage_quantity.anyOf[2] (Value): null.
-     * previous_attributes.unavailable_on_hand_quantity (Optional): integer or null. Derived:
-     * quality_control + damaged + quarantined. Whole-number quantity; fractional quantities are
-     * not supported. previous_attributes.unavailable_on_hand_quantity.anyOf[1] (Value): integer.
-     * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64.
-     * previous_attributes.unavailable_on_hand_quantity.anyOf[2] (Value): null.
-     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
-     * null. previous_attributes.version (Optional): integer or null. Changes on every quantity or
-     * claim change at this level, including holds and commits. Read it immediately before a PATCH.
-     * A level that a counted adjustment creates without a quantity change starts at version 0.
-     * previous_attributes.version.anyOf[1] (Value): integer. Changes on every quantity or claim
-     * change at this level, including holds and commits. Read it immediately before a PATCH. A
-     * level that a counted adjustment creates without a quantity change starts at version 0.
-     * Format: int64. minimum: 0. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * available_quantity (Required): integer. Derived and never written: on_hand minus
-         * unavailable, held, committed, and safety stock, never below 0. See shortage_quantity for
-         * the excess. Whole-number quantity; fractional quantities are not supported. Format:
-         * int64. backordered_quantity (Required): integer. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. minimum: 0. claim_version (Required):
-         * integer. Advances only when held or committed quantities change. Format: int64. minimum:
-         * 0. committed_quantity (Required): integer. Units promised to accepted orders. Still
-         * physically present until fulfillment consumes them. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". damaged_quantity
-         * (Required): integer. On-hand units known to be damaged. Not sellable. Whole-number
-         * quantity; fractional quantities are not supported. Format: int64. held_quantity
-         * (Required): integer. Units claimed by an open reservation that has not been committed.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * incoming_quantity (Required): integer. Units recorded as inbound but not yet on hand.
-         * Does not count toward availability. Whole-number quantity; fractional quantities are not
-         * supported. Format: int64. inventory_item (Optional): {@link InventoryItem}. The
-         * inventory item this level belongs to. Present only when the list request asked for
-         * expand=inventory_item. A stock-keeping unit that inventory quantities are tracked
-         * against. Catalog variants reference an inventory item rather than carrying their own
-         * counter. inventory_item_id (Required): string. ID of the inventory item the stock is
-         * for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY". inventory_level_id (Required): string.
-         * Unique identifier for this inventory level, prefixed `invl_`. Example:
-         * "invl_01KEZF7C00H201XZXKRX5KMDDE". location_id (Required): string. ID of the Location
-         * that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". on_hand_quantity
-         * (Required): integer. Units physically present at the Location, in any condition.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * physical_version (Required): integer. Advances only when on-hand or condition quantities
-         * change. Format: int64. minimum: 0. quality_control_quantity (Required): integer. On-hand
-         * units awaiting inspection. Not sellable. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. quarantined_quantity (Required): integer. On-hand
-         * units isolated for review. Not sellable. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. safety_stock_quantity (Required): integer. Buffer
-         * withheld from allocation. Change it with PATCH
-         * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. shortage_quantity (Required): integer. Derived: claims
-         * exceeding sellable physical stock. Positive only after stock is lost, damaged, or
-         * corrected down. Whole-number quantity; fractional quantities are not supported. Format:
-         * int64. unavailable_on_hand_quantity (Required): integer. Derived: quality_control +
-         * damaged + quarantined. Whole-number quantity; fractional quantities are not supported.
-         * Format: int64. updated_at (Required): string. RFC3339 timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". version (Required): integer. Changes on every quantity
-         * or claim change at this level, including holds and commits. Read it immediately before a
-         * PATCH. A level that a counted adjustment creates without a quantity change starts at
-         * version 0. Format: int64. minimum: 0.
-         */
-        "object": {
-            /**
-             * Derived and never written: on_hand minus unavailable, held, committed, and safety
-             * stock, never below 0. See shortage_quantity for the excess. Whole-number quantity;
-             * fractional quantities are not supported. Format: int64.
-             */
-            "available_quantity": number;
-            /**
-             * Whole-number quantity; fractional quantities are not supported. Format: int64.
-             * minimum: 0.
-             */
-            "backordered_quantity": number;
-            /**
-             * Advances only when held or committed quantities change. Format: int64. minimum: 0.
-             */
-            "claim_version": number;
-            /**
-             * Units promised to accepted orders. Still physically present until fulfillment
-             * consumes them. Whole-number quantity; fractional quantities are not supported.
-             * Format: int64.
-             */
-            "committed_quantity": number;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "damaged_quantity": number;
-            /**
-             * Units claimed by an open reservation that has not been committed. Whole-number
-             * quantity; fractional quantities are not supported. Format: int64.
-             */
-            "held_quantity": number;
-            /**
-             * Units recorded as inbound but not yet on hand. Does not count toward availability.
-             * Whole-number quantity; fractional quantities are not supported. Format: int64.
-             */
-            "incoming_quantity": number;
-            /**
-             * The inventory item this level belongs to. Present only when the list request asked
-             * for expand=inventory_item. A stock-keeping unit that inventory quantities are
-             * tracked against. Catalog variants reference an inventory item rather than carrying
-             * their own counter.
-             */
-            "inventory_item"?: InventoryItem;
-            /**
-             * ID of the inventory item the stock is for. Example:
-             * "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-             */
-            "inventory_item_id": string;
-            /**
-             * Unique identifier for this inventory level, prefixed `invl_`. Example:
-             * "invl_01KEZF7C00H201XZXKRX5KMDDE".
-             */
-            "inventory_level_id": string;
-            /**
-             * ID of the Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-             */
-            "location_id": string;
-            /**
-             * Units physically present at the Location, in any condition. Whole-number quantity;
-             * fractional quantities are not supported. Format: int64.
-             */
-            "on_hand_quantity": number;
-            /**
-             * Advances only when on-hand or condition quantities change. Format: int64. minimum:
-             * 0.
-             */
-            "physical_version": number;
-            /**
-             * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "quality_control_quantity": number;
-            /**
-             * On-hand units isolated for review. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "quarantined_quantity": number;
-            /**
-             * Buffer withheld from allocation. Change it with PATCH
-             * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "safety_stock_quantity": number;
-            /**
-             * Derived: claims exceeding sellable physical stock. Positive only after stock is
-             * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are
-             * not supported. Format: int64.
-             */
-            "shortage_quantity": number;
-            /**
-             * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "unavailable_on_hand_quantity": number;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Changes on every quantity or claim change at this level, including holds and
-             * commits. Read it immediately before a PATCH. A level that a counted adjustment
-             * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. available_quantity (Optional): integer or null.
-         * Derived and never written: on_hand minus unavailable, held, committed, and safety stock,
-         * never below 0. See shortage_quantity for the excess. Whole-number quantity; fractional
-         * quantities are not supported. available_quantity.anyOf[1] (Value): integer. Derived and
-         * never written: on_hand minus unavailable, held, committed, and safety stock, never below
-         * 0. See shortage_quantity for the excess. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. available_quantity.anyOf[2] (Value): null.
-         * backordered_quantity (Optional): integer or null. Whole-number quantity; fractional
-         * quantities are not supported. backordered_quantity.anyOf[1] (Value): integer.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum:
-         * 0. backordered_quantity.anyOf[2] (Value): null. claim_version (Optional): integer or
-         * null. Advances only when held or committed quantities change. claim_version.anyOf[1]
-         * (Value): integer. Advances only when held or committed quantities change. Format: int64.
-         * minimum: 0. claim_version.anyOf[2] (Value): null. committed_quantity (Optional): integer
-         * or null. Units promised to accepted orders. Still physically present until fulfillment
-         * consumes them. Whole-number quantity; fractional quantities are not supported.
-         * committed_quantity.anyOf[1] (Value): integer. Units promised to accepted orders. Still
-         * physically present until fulfillment consumes them. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. committed_quantity.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. damaged_quantity (Optional): integer or null. On-hand
-         * units known to be damaged. Not sellable. Whole-number quantity; fractional quantities
-         * are not supported. damaged_quantity.anyOf[1] (Value): integer. On-hand units known to be
-         * damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
-         * Format: int64. damaged_quantity.anyOf[2] (Value): null. held_quantity (Optional):
-         * integer or null. Units claimed by an open reservation that has not been committed.
-         * Whole-number quantity; fractional quantities are not supported. held_quantity.anyOf[1]
-         * (Value): integer. Units claimed by an open reservation that has not been committed.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * held_quantity.anyOf[2] (Value): null. incoming_quantity (Optional): integer or null.
-         * Units recorded as inbound but not yet on hand. Does not count toward availability.
-         * Whole-number quantity; fractional quantities are not supported.
-         * incoming_quantity.anyOf[1] (Value): integer. Units recorded as inbound but not yet on
-         * hand. Does not count toward availability. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. incoming_quantity.anyOf[2] (Value): null.
-         * inventory_item (Optional): {@link InventoryItem} or null. The inventory item this level
-         * belongs to. Present only when the list request asked for expand=inventory_item.
-         * inventory_item.anyOf[1] (Value): {@link InventoryItem}. The inventory item this level
-         * belongs to. Present only when the list request asked for expand=inventory_item.
-         * inventory_item.anyOf[2] (Value): null. inventory_item_id (Optional): string or null. ID
-         * of the inventory item the stock is for. inventory_item_id.anyOf[1] (Value): string. ID
-         * of the inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-         * inventory_item_id.anyOf[2] (Value): null. inventory_level_id (Optional): string or null.
-         * Unique identifier for this inventory level, prefixed `invl_`.
-         * inventory_level_id.anyOf[1] (Value): string. Unique identifier for this inventory level,
-         * prefixed `invl_`. Example: "invl_01KEZF7C00H201XZXKRX5KMDDE".
-         * inventory_level_id.anyOf[2] (Value): null. location_id (Optional): string or null. ID of
-         * the Location that holds the stock. location_id.anyOf[1] (Value): string. ID of the
-         * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * location_id.anyOf[2] (Value): null. on_hand_quantity (Optional): integer or null. Units
-         * physically present at the Location, in any condition. Whole-number quantity; fractional
-         * quantities are not supported. on_hand_quantity.anyOf[1] (Value): integer. Units
-         * physically present at the Location, in any condition. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. on_hand_quantity.anyOf[2] (Value): null.
-         * physical_version (Optional): integer or null. Advances only when on-hand or condition
-         * quantities change. physical_version.anyOf[1] (Value): integer. Advances only when
-         * on-hand or condition quantities change. Format: int64. minimum: 0.
-         * physical_version.anyOf[2] (Value): null. quality_control_quantity (Optional): integer or
-         * null. On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-         * quantities are not supported. quality_control_quantity.anyOf[1] (Value): integer.
-         * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. quality_control_quantity.anyOf[2] (Value):
-         * null. quarantined_quantity (Optional): integer or null. On-hand units isolated for
-         * review. Not sellable. Whole-number quantity; fractional quantities are not supported.
-         * quarantined_quantity.anyOf[1] (Value): integer. On-hand units isolated for review. Not
-         * sellable. Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * quarantined_quantity.anyOf[2] (Value): null. safety_stock_quantity (Optional): integer
-         * or null. Buffer withheld from allocation. Change it with PATCH
-         * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities
-         * are not supported. safety_stock_quantity.anyOf[1] (Value): integer. Buffer withheld from
-         * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
-         * quantity; fractional quantities are not supported. Format: int64.
-         * safety_stock_quantity.anyOf[2] (Value): null. shortage_quantity (Optional): integer or
-         * null. Derived: claims exceeding sellable physical stock. Positive only after stock is
-         * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are not
-         * supported. shortage_quantity.anyOf[1] (Value): integer. Derived: claims exceeding
-         * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * shortage_quantity.anyOf[2] (Value): null. unavailable_on_hand_quantity (Optional):
-         * integer or null. Derived: quality_control + damaged + quarantined. Whole-number
-         * quantity; fractional quantities are not supported. unavailable_on_hand_quantity.anyOf[1]
-         * (Value): integer. Derived: quality_control + damaged + quarantined. Whole-number
-         * quantity; fractional quantities are not supported. Format: int64.
-         * unavailable_on_hand_quantity.anyOf[2] (Value): null. updated_at (Optional): string or
-         * null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
-         * (Optional): integer or null. Changes on every quantity or claim change at this level,
-         * including holds and commits. Read it immediately before a PATCH. A level that a counted
-         * adjustment creates without a quantity change starts at version 0. version.anyOf[1]
-         * (Value): integer. Changes on every quantity or claim change at this level, including
-         * holds and commits. Read it immediately before a PATCH. A level that a counted adjustment
-         * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
-         * version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Derived and never written: on_hand minus unavailable, held, committed, and safety
-             * stock, never below 0. See shortage_quantity for the excess. Whole-number quantity;
-             * fractional quantities are not supported. anyOf[1] (Value): integer. Derived and
-             * never written: on_hand minus unavailable, held, committed, and safety stock, never
-             * below 0. See shortage_quantity for the excess. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "available_quantity"?: ((number) | (null));
-            /**
-             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
-             * integer. Whole-number quantity; fractional quantities are not supported. Format:
-             * int64. minimum: 0. anyOf[2] (Value): null.
-             */
-            "backordered_quantity"?: ((number) | (null));
-            /**
-             * Advances only when held or committed quantities change. anyOf[1] (Value): integer.
-             * Advances only when held or committed quantities change. Format: int64. minimum: 0.
-             * anyOf[2] (Value): null.
-             */
-            "claim_version"?: ((number) | (null));
-            /**
-             * Units promised to accepted orders. Still physically present until fulfillment
-             * consumes them. Whole-number quantity; fractional quantities are not supported.
-             * anyOf[1] (Value): integer. Units promised to accepted orders. Still physically
-             * present until fulfillment consumes them. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "committed_quantity"?: ((number) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. On-hand units known to be
-             * damaged. Not sellable. Whole-number quantity; fractional quantities are not
-             * supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "damaged_quantity"?: ((number) | (null));
-            /**
-             * Units claimed by an open reservation that has not been committed. Whole-number
-             * quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Units
-             * claimed by an open reservation that has not been committed. Whole-number quantity;
-             * fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "held_quantity"?: ((number) | (null));
-            /**
-             * Units recorded as inbound but not yet on hand. Does not count toward availability.
-             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
-             * integer. Units recorded as inbound but not yet on hand. Does not count toward
-             * availability. Whole-number quantity; fractional quantities are not supported.
-             * Format: int64. anyOf[2] (Value): null.
-             */
-            "incoming_quantity"?: ((number) | (null));
-            /**
-             * The inventory item this level belongs to. Present only when the list request asked
-             * for expand=inventory_item. anyOf[1] (Value): {@link InventoryItem}. The inventory
-             * item this level belongs to. Present only when the list request asked for
-             * expand=inventory_item. anyOf[2] (Value): null.
-             */
-            "inventory_item"?: ((InventoryItem) | (null));
-            /**
-             * ID of the inventory item the stock is for. anyOf[1] (Value): string. ID of the
-             * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-             * anyOf[2] (Value): null.
-             */
-            "inventory_item_id"?: ((string) | (null));
-            /**
-             * Unique identifier for this inventory level, prefixed `invl_`. anyOf[1] (Value):
-             * string. Unique identifier for this inventory level, prefixed `invl_`. Example:
-             * "invl_01KEZF7C00H201XZXKRX5KMDDE". anyOf[2] (Value): null.
-             */
-            "inventory_level_id"?: ((string) | (null));
-            /**
-             * ID of the Location that holds the stock. anyOf[1] (Value): string. ID of the
-             * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2]
-             * (Value): null.
-             */
-            "location_id"?: ((string) | (null));
-            /**
-             * Units physically present at the Location, in any condition. Whole-number quantity;
-             * fractional quantities are not supported. anyOf[1] (Value): integer. Units physically
-             * present at the Location, in any condition. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "on_hand_quantity"?: ((number) | (null));
-            /**
-             * Advances only when on-hand or condition quantities change. anyOf[1] (Value):
-             * integer. Advances only when on-hand or condition quantities change. Format: int64.
-             * minimum: 0. anyOf[2] (Value): null.
-             */
-            "physical_version"?: ((number) | (null));
-            /**
-             * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. On-hand units awaiting
-             * inspection. Not sellable. Whole-number quantity; fractional quantities are not
-             * supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "quality_control_quantity"?: ((number) | (null));
-            /**
-             * On-hand units isolated for review. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. On-hand units isolated for
-             * review. Not sellable. Whole-number quantity; fractional quantities are not
-             * supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "quarantined_quantity"?: ((number) | (null));
-            /**
-             * Buffer withheld from allocation. Change it with PATCH
-             * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. Buffer withheld from
-             * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}.
-             * Whole-number quantity; fractional quantities are not supported. Format: int64.
-             * anyOf[2] (Value): null.
-             */
-            "safety_stock_quantity"?: ((number) | (null));
-            /**
-             * Derived: claims exceeding sellable physical stock. Positive only after stock is
-             * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are
-             * not supported. anyOf[1] (Value): integer. Derived: claims exceeding sellable
-             * physical stock. Positive only after stock is lost, damaged, or corrected down.
-             * Whole-number quantity; fractional quantities are not supported. Format: int64.
-             * anyOf[2] (Value): null.
-             */
-            "shortage_quantity"?: ((number) | (null));
-            /**
-             * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. Derived: quality_control +
-             * damaged + quarantined. Whole-number quantity; fractional quantities are not
-             * supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "unavailable_on_hand_quantity"?: ((number) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Changes on every quantity or claim change at this level, including holds and
-             * commits. Read it immediately before a PATCH. A level that a counted adjustment
-             * creates without a quantity change starts at version 0. anyOf[1] (Value): integer.
-             * Changes on every quantity or claim change at this level, including holds and
-             * commits. Read it immediately before a PATCH. A level that a counted adjustment
-             * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
-             * anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "inventory_level.shortage_detected". */
-    "event_type"?: "inventory_level.shortage_detected";
-});
-export type InventoryLevelUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "available_quantity": number;
-            "backordered_quantity": number;
-            "claim_version": number;
-            "committed_quantity": number;
-            "created_at": string;
-            "damaged_quantity": number;
-            "held_quantity": number;
-            "incoming_quantity": number;
-            "inventory_item"?: InventoryItem;
-            "inventory_item_id": string;
-            "inventory_level_id": string;
-            "location_id": string;
-            "on_hand_quantity": number;
-            "physical_version": number;
-            "quality_control_quantity": number;
-            "quarantined_quantity": number;
-            "safety_stock_quantity": number;
-            "shortage_quantity": number;
-            "unavailable_on_hand_quantity": number;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "available_quantity"?: ((number) | (null));
-            "backordered_quantity"?: ((number) | (null));
-            "claim_version"?: ((number) | (null));
-            "committed_quantity"?: ((number) | (null));
-            "created_at"?: ((string) | (null));
-            "damaged_quantity"?: ((number) | (null));
-            "held_quantity"?: ((number) | (null));
-            "incoming_quantity"?: ((number) | (null));
-            "inventory_item"?: ((InventoryItem) | (null));
-            "inventory_item_id"?: ((string) | (null));
-            "inventory_level_id"?: ((string) | (null));
-            "location_id"?: ((string) | (null));
-            "on_hand_quantity"?: ((number) | (null));
-            "physical_version"?: ((number) | (null));
-            "quality_control_quantity"?: ((number) | (null));
-            "quarantined_quantity"?: ((number) | (null));
-            "safety_stock_quantity"?: ((number) | (null));
-            "shortage_quantity"?: ((number) | (null));
-            "unavailable_on_hand_quantity"?: ((number) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "inventory_level.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "available_quantity": number;
-            "backordered_quantity": number;
-            "claim_version": number;
-            "committed_quantity": number;
-            "created_at": string;
-            "damaged_quantity": number;
-            "held_quantity": number;
-            "incoming_quantity": number;
-            "inventory_item"?: InventoryItem;
-            "inventory_item_id": string;
-            "inventory_level_id": string;
-            "location_id": string;
-            "on_hand_quantity": number;
-            "physical_version": number;
-            "quality_control_quantity": number;
-            "quarantined_quantity": number;
-            "safety_stock_quantity": number;
-            "shortage_quantity": number;
-            "unavailable_on_hand_quantity": number;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "available_quantity"?: ((number) | (null));
-            "backordered_quantity"?: ((number) | (null));
-            "claim_version"?: ((number) | (null));
-            "committed_quantity"?: ((number) | (null));
-            "created_at"?: ((string) | (null));
-            "damaged_quantity"?: ((number) | (null));
-            "held_quantity"?: ((number) | (null));
-            "incoming_quantity"?: ((number) | (null));
-            "inventory_item"?: ((InventoryItem) | (null));
-            "inventory_item_id"?: ((string) | (null));
-            "inventory_level_id"?: ((string) | (null));
-            "location_id"?: ((string) | (null));
-            "on_hand_quantity"?: ((number) | (null));
-            "physical_version"?: ((number) | (null));
-            "quality_control_quantity"?: ((number) | (null));
-            "quarantined_quantity"?: ((number) | (null));
-            "safety_stock_quantity"?: ((number) | (null));
-            "shortage_quantity"?: ((number) | (null));
-            "unavailable_on_hand_quantity"?: ((number) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "inventory_level.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "inventory_level.updated";
-});
-/**
- * The `inventory_level.updated` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type InventoryLevelUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.available_quantity (Required): integer. Derived and never written:
-     * on_hand minus unavailable, held, committed, and safety stock, never below 0. See
-     * shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
-     * supported. Format: int64. object.backordered_quantity (Required): integer. Whole-number
-     * quantity; fractional quantities are not supported. Format: int64. minimum: 0.
-     * object.claim_version (Required): integer. Advances only when held or committed quantities
-     * change. Format: int64. minimum: 0. object.committed_quantity (Required): integer. Units
-     * promised to accepted orders. Still physically present until fulfillment consumes them.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64.
-     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.damaged_quantity (Required): integer. On-hand units known to
-     * be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
-     * Format: int64. object.held_quantity (Required): integer. Units claimed by an open
-     * reservation that has not been committed. Whole-number quantity; fractional quantities are
-     * not supported. Format: int64. object.incoming_quantity (Required): integer. Units recorded
-     * as inbound but not yet on hand. Does not count toward availability. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. object.inventory_item (Optional):
-     * {@link InventoryItem}. The inventory item this level belongs to. Present only when the list
-     * request asked for expand=inventory_item. A stock-keeping unit that inventory quantities are
-     * tracked against. Catalog variants reference an inventory item rather than carrying their own
-     * counter. object.inventory_item_id (Required): string. ID of the inventory item the stock is
-     * for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY". object.inventory_level_id (Required):
-     * string. Unique identifier for this inventory level, prefixed `invl_`. Example:
-     * "invl_01KEZF7C00H201XZXKRX5KMDDE". object.location_id (Required): string. ID of the Location
-     * that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.on_hand_quantity
-     * (Required): integer. Units physically present at the Location, in any condition.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64.
-     * object.physical_version (Required): integer. Advances only when on-hand or condition
-     * quantities change. Format: int64. minimum: 0. object.quality_control_quantity (Required):
-     * integer. On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. object.quarantined_quantity (Required):
-     * integer. On-hand units isolated for review. Not sellable. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. object.safety_stock_quantity (Required):
-     * integer. Buffer withheld from allocation. Change it with PATCH
-     * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities are
-     * not supported. Format: int64. object.shortage_quantity (Required): integer. Derived: claims
-     * exceeding sellable physical stock. Positive only after stock is lost, damaged, or corrected
-     * down. Whole-number quantity; fractional quantities are not supported. Format: int64.
-     * object.unavailable_on_hand_quantity (Required): integer. Derived: quality_control + damaged
-     * + quarantined. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Changes on every quantity or
-     * claim change at this level, including holds and commits. Read it immediately before a PATCH.
-     * A level that a counted adjustment creates without a quantity change starts at version 0.
-     * Format: int64. minimum: 0. previous_attributes (Optional): object. Previous values of
-     * changed top-level fields in data.object, at this delivery's API version. Nested changes
-     * include the whole previous top-level value. A value is null when the field was absent before
-     * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events. previous_attributes.available_quantity (Optional): integer or null. Derived and
-     * never written: on_hand minus unavailable, held, committed, and safety stock, never below 0.
-     * See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
-     * supported. previous_attributes.available_quantity.anyOf[1] (Value): integer. Derived and
-     * never written: on_hand minus unavailable, held, committed, and safety stock, never below 0.
-     * See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
-     * supported. Format: int64. previous_attributes.available_quantity.anyOf[2] (Value): null.
-     * previous_attributes.backordered_quantity (Optional): integer or null. Whole-number quantity;
-     * fractional quantities are not supported. previous_attributes.backordered_quantity.anyOf[1]
-     * (Value): integer. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. minimum: 0. previous_attributes.backordered_quantity.anyOf[2] (Value): null.
-     * previous_attributes.claim_version (Optional): integer or null. Advances only when held or
-     * committed quantities change. previous_attributes.claim_version.anyOf[1] (Value): integer.
-     * Advances only when held or committed quantities change. Format: int64. minimum: 0.
-     * previous_attributes.claim_version.anyOf[2] (Value): null.
-     * previous_attributes.committed_quantity (Optional): integer or null. Units promised to
-     * accepted orders. Still physically present until fulfillment consumes them. Whole-number
-     * quantity; fractional quantities are not supported.
-     * previous_attributes.committed_quantity.anyOf[1] (Value): integer. Units promised to accepted
-     * orders. Still physically present until fulfillment consumes them. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64.
-     * previous_attributes.committed_quantity.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.damaged_quantity (Optional): integer or null. On-hand units known
-     * to be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
-     * previous_attributes.damaged_quantity.anyOf[1] (Value): integer. On-hand units known to be
-     * damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
-     * Format: int64. previous_attributes.damaged_quantity.anyOf[2] (Value): null.
-     * previous_attributes.held_quantity (Optional): integer or null. Units claimed by an open
-     * reservation that has not been committed. Whole-number quantity; fractional quantities are
-     * not supported. previous_attributes.held_quantity.anyOf[1] (Value): integer. Units claimed by
-     * an open reservation that has not been committed. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. previous_attributes.held_quantity.anyOf[2]
-     * (Value): null. previous_attributes.incoming_quantity (Optional): integer or null. Units
-     * recorded as inbound but not yet on hand. Does not count toward availability. Whole-number
-     * quantity; fractional quantities are not supported.
-     * previous_attributes.incoming_quantity.anyOf[1] (Value): integer. Units recorded as inbound
-     * but not yet on hand. Does not count toward availability. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. previous_attributes.incoming_quantity.anyOf[2]
-     * (Value): null. previous_attributes.inventory_item (Optional): {@link InventoryItem} or null.
-     * The inventory item this level belongs to. Present only when the list request asked for
-     * expand=inventory_item. previous_attributes.inventory_item.anyOf[1] (Value): {@link
-     * InventoryItem}. The inventory item this level belongs to. Present only when the list request
-     * asked for expand=inventory_item. previous_attributes.inventory_item.anyOf[2] (Value): null.
-     * previous_attributes.inventory_item_id (Optional): string or null. ID of the inventory item
-     * the stock is for. previous_attributes.inventory_item_id.anyOf[1] (Value): string. ID of the
-     * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-     * previous_attributes.inventory_item_id.anyOf[2] (Value): null.
-     * previous_attributes.inventory_level_id (Optional): string or null. Unique identifier for
-     * this inventory level, prefixed `invl_`. previous_attributes.inventory_level_id.anyOf[1]
-     * (Value): string. Unique identifier for this inventory level, prefixed `invl_`. Example:
-     * "invl_01KEZF7C00H201XZXKRX5KMDDE". previous_attributes.inventory_level_id.anyOf[2] (Value):
-     * null. previous_attributes.location_id (Optional): string or null. ID of the Location that
-     * holds the stock. previous_attributes.location_id.anyOf[1] (Value): string. ID of the
-     * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * previous_attributes.location_id.anyOf[2] (Value): null. previous_attributes.on_hand_quantity
-     * (Optional): integer or null. Units physically present at the Location, in any condition.
-     * Whole-number quantity; fractional quantities are not supported.
-     * previous_attributes.on_hand_quantity.anyOf[1] (Value): integer. Units physically present at
-     * the Location, in any condition. Whole-number quantity; fractional quantities are not
-     * supported. Format: int64. previous_attributes.on_hand_quantity.anyOf[2] (Value): null.
-     * previous_attributes.physical_version (Optional): integer or null. Advances only when on-hand
-     * or condition quantities change. previous_attributes.physical_version.anyOf[1] (Value):
-     * integer. Advances only when on-hand or condition quantities change. Format: int64. minimum:
-     * 0. previous_attributes.physical_version.anyOf[2] (Value): null.
-     * previous_attributes.quality_control_quantity (Optional): integer or null. On-hand units
-     * awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are not
-     * supported. previous_attributes.quality_control_quantity.anyOf[1] (Value): integer. On-hand
-     * units awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are
-     * not supported. Format: int64. previous_attributes.quality_control_quantity.anyOf[2] (Value):
-     * null. previous_attributes.quarantined_quantity (Optional): integer or null. On-hand units
-     * isolated for review. Not sellable. Whole-number quantity; fractional quantities are not
-     * supported. previous_attributes.quarantined_quantity.anyOf[1] (Value): integer. On-hand units
-     * isolated for review. Not sellable. Whole-number quantity; fractional quantities are not
-     * supported. Format: int64. previous_attributes.quarantined_quantity.anyOf[2] (Value): null.
-     * previous_attributes.safety_stock_quantity (Optional): integer or null. Buffer withheld from
-     * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
-     * quantity; fractional quantities are not supported.
-     * previous_attributes.safety_stock_quantity.anyOf[1] (Value): integer. Buffer withheld from
-     * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
-     * quantity; fractional quantities are not supported. Format: int64.
-     * previous_attributes.safety_stock_quantity.anyOf[2] (Value): null.
-     * previous_attributes.shortage_quantity (Optional): integer or null. Derived: claims exceeding
-     * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
-     * Whole-number quantity; fractional quantities are not supported.
-     * previous_attributes.shortage_quantity.anyOf[1] (Value): integer. Derived: claims exceeding
-     * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64.
-     * previous_attributes.shortage_quantity.anyOf[2] (Value): null.
-     * previous_attributes.unavailable_on_hand_quantity (Optional): integer or null. Derived:
-     * quality_control + damaged + quarantined. Whole-number quantity; fractional quantities are
-     * not supported. previous_attributes.unavailable_on_hand_quantity.anyOf[1] (Value): integer.
-     * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64.
-     * previous_attributes.unavailable_on_hand_quantity.anyOf[2] (Value): null.
-     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
-     * null. previous_attributes.version (Optional): integer or null. Changes on every quantity or
-     * claim change at this level, including holds and commits. Read it immediately before a PATCH.
-     * A level that a counted adjustment creates without a quantity change starts at version 0.
-     * previous_attributes.version.anyOf[1] (Value): integer. Changes on every quantity or claim
-     * change at this level, including holds and commits. Read it immediately before a PATCH. A
-     * level that a counted adjustment creates without a quantity change starts at version 0.
-     * Format: int64. minimum: 0. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * available_quantity (Required): integer. Derived and never written: on_hand minus
-         * unavailable, held, committed, and safety stock, never below 0. See shortage_quantity for
-         * the excess. Whole-number quantity; fractional quantities are not supported. Format:
-         * int64. backordered_quantity (Required): integer. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. minimum: 0. claim_version (Required):
-         * integer. Advances only when held or committed quantities change. Format: int64. minimum:
-         * 0. committed_quantity (Required): integer. Units promised to accepted orders. Still
-         * physically present until fulfillment consumes them. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". damaged_quantity
-         * (Required): integer. On-hand units known to be damaged. Not sellable. Whole-number
-         * quantity; fractional quantities are not supported. Format: int64. held_quantity
-         * (Required): integer. Units claimed by an open reservation that has not been committed.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * incoming_quantity (Required): integer. Units recorded as inbound but not yet on hand.
-         * Does not count toward availability. Whole-number quantity; fractional quantities are not
-         * supported. Format: int64. inventory_item (Optional): {@link InventoryItem}. The
-         * inventory item this level belongs to. Present only when the list request asked for
-         * expand=inventory_item. A stock-keeping unit that inventory quantities are tracked
-         * against. Catalog variants reference an inventory item rather than carrying their own
-         * counter. inventory_item_id (Required): string. ID of the inventory item the stock is
-         * for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY". inventory_level_id (Required): string.
-         * Unique identifier for this inventory level, prefixed `invl_`. Example:
-         * "invl_01KEZF7C00H201XZXKRX5KMDDE". location_id (Required): string. ID of the Location
-         * that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". on_hand_quantity
-         * (Required): integer. Units physically present at the Location, in any condition.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * physical_version (Required): integer. Advances only when on-hand or condition quantities
-         * change. Format: int64. minimum: 0. quality_control_quantity (Required): integer. On-hand
-         * units awaiting inspection. Not sellable. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. quarantined_quantity (Required): integer. On-hand
-         * units isolated for review. Not sellable. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. safety_stock_quantity (Required): integer. Buffer
-         * withheld from allocation. Change it with PATCH
-         * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. shortage_quantity (Required): integer. Derived: claims
-         * exceeding sellable physical stock. Positive only after stock is lost, damaged, or
-         * corrected down. Whole-number quantity; fractional quantities are not supported. Format:
-         * int64. unavailable_on_hand_quantity (Required): integer. Derived: quality_control +
-         * damaged + quarantined. Whole-number quantity; fractional quantities are not supported.
-         * Format: int64. updated_at (Required): string. RFC3339 timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". version (Required): integer. Changes on every quantity
-         * or claim change at this level, including holds and commits. Read it immediately before a
-         * PATCH. A level that a counted adjustment creates without a quantity change starts at
-         * version 0. Format: int64. minimum: 0.
-         */
-        "object": {
-            /**
-             * Derived and never written: on_hand minus unavailable, held, committed, and safety
-             * stock, never below 0. See shortage_quantity for the excess. Whole-number quantity;
-             * fractional quantities are not supported. Format: int64.
-             */
-            "available_quantity": number;
-            /**
-             * Whole-number quantity; fractional quantities are not supported. Format: int64.
-             * minimum: 0.
-             */
-            "backordered_quantity": number;
-            /**
-             * Advances only when held or committed quantities change. Format: int64. minimum: 0.
-             */
-            "claim_version": number;
-            /**
-             * Units promised to accepted orders. Still physically present until fulfillment
-             * consumes them. Whole-number quantity; fractional quantities are not supported.
-             * Format: int64.
-             */
-            "committed_quantity": number;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "damaged_quantity": number;
-            /**
-             * Units claimed by an open reservation that has not been committed. Whole-number
-             * quantity; fractional quantities are not supported. Format: int64.
-             */
-            "held_quantity": number;
-            /**
-             * Units recorded as inbound but not yet on hand. Does not count toward availability.
-             * Whole-number quantity; fractional quantities are not supported. Format: int64.
-             */
-            "incoming_quantity": number;
-            /**
-             * The inventory item this level belongs to. Present only when the list request asked
-             * for expand=inventory_item. A stock-keeping unit that inventory quantities are
-             * tracked against. Catalog variants reference an inventory item rather than carrying
-             * their own counter.
-             */
-            "inventory_item"?: InventoryItem;
-            /**
-             * ID of the inventory item the stock is for. Example:
-             * "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-             */
-            "inventory_item_id": string;
-            /**
-             * Unique identifier for this inventory level, prefixed `invl_`. Example:
-             * "invl_01KEZF7C00H201XZXKRX5KMDDE".
-             */
-            "inventory_level_id": string;
-            /**
-             * ID of the Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-             */
-            "location_id": string;
-            /**
-             * Units physically present at the Location, in any condition. Whole-number quantity;
-             * fractional quantities are not supported. Format: int64.
-             */
-            "on_hand_quantity": number;
-            /**
-             * Advances only when on-hand or condition quantities change. Format: int64. minimum:
-             * 0.
-             */
-            "physical_version": number;
-            /**
-             * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "quality_control_quantity": number;
-            /**
-             * On-hand units isolated for review. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "quarantined_quantity": number;
-            /**
-             * Buffer withheld from allocation. Change it with PATCH
-             * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "safety_stock_quantity": number;
-            /**
-             * Derived: claims exceeding sellable physical stock. Positive only after stock is
-             * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are
-             * not supported. Format: int64.
-             */
-            "shortage_quantity": number;
-            /**
-             * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "unavailable_on_hand_quantity": number;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Changes on every quantity or claim change at this level, including holds and
-             * commits. Read it immediately before a PATCH. A level that a counted adjustment
-             * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. available_quantity (Optional): integer or null.
-         * Derived and never written: on_hand minus unavailable, held, committed, and safety stock,
-         * never below 0. See shortage_quantity for the excess. Whole-number quantity; fractional
-         * quantities are not supported. available_quantity.anyOf[1] (Value): integer. Derived and
-         * never written: on_hand minus unavailable, held, committed, and safety stock, never below
-         * 0. See shortage_quantity for the excess. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. available_quantity.anyOf[2] (Value): null.
-         * backordered_quantity (Optional): integer or null. Whole-number quantity; fractional
-         * quantities are not supported. backordered_quantity.anyOf[1] (Value): integer.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum:
-         * 0. backordered_quantity.anyOf[2] (Value): null. claim_version (Optional): integer or
-         * null. Advances only when held or committed quantities change. claim_version.anyOf[1]
-         * (Value): integer. Advances only when held or committed quantities change. Format: int64.
-         * minimum: 0. claim_version.anyOf[2] (Value): null. committed_quantity (Optional): integer
-         * or null. Units promised to accepted orders. Still physically present until fulfillment
-         * consumes them. Whole-number quantity; fractional quantities are not supported.
-         * committed_quantity.anyOf[1] (Value): integer. Units promised to accepted orders. Still
-         * physically present until fulfillment consumes them. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. committed_quantity.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. damaged_quantity (Optional): integer or null. On-hand
-         * units known to be damaged. Not sellable. Whole-number quantity; fractional quantities
-         * are not supported. damaged_quantity.anyOf[1] (Value): integer. On-hand units known to be
-         * damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
-         * Format: int64. damaged_quantity.anyOf[2] (Value): null. held_quantity (Optional):
-         * integer or null. Units claimed by an open reservation that has not been committed.
-         * Whole-number quantity; fractional quantities are not supported. held_quantity.anyOf[1]
-         * (Value): integer. Units claimed by an open reservation that has not been committed.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * held_quantity.anyOf[2] (Value): null. incoming_quantity (Optional): integer or null.
-         * Units recorded as inbound but not yet on hand. Does not count toward availability.
-         * Whole-number quantity; fractional quantities are not supported.
-         * incoming_quantity.anyOf[1] (Value): integer. Units recorded as inbound but not yet on
-         * hand. Does not count toward availability. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. incoming_quantity.anyOf[2] (Value): null.
-         * inventory_item (Optional): {@link InventoryItem} or null. The inventory item this level
-         * belongs to. Present only when the list request asked for expand=inventory_item.
-         * inventory_item.anyOf[1] (Value): {@link InventoryItem}. The inventory item this level
-         * belongs to. Present only when the list request asked for expand=inventory_item.
-         * inventory_item.anyOf[2] (Value): null. inventory_item_id (Optional): string or null. ID
-         * of the inventory item the stock is for. inventory_item_id.anyOf[1] (Value): string. ID
-         * of the inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-         * inventory_item_id.anyOf[2] (Value): null. inventory_level_id (Optional): string or null.
-         * Unique identifier for this inventory level, prefixed `invl_`.
-         * inventory_level_id.anyOf[1] (Value): string. Unique identifier for this inventory level,
-         * prefixed `invl_`. Example: "invl_01KEZF7C00H201XZXKRX5KMDDE".
-         * inventory_level_id.anyOf[2] (Value): null. location_id (Optional): string or null. ID of
-         * the Location that holds the stock. location_id.anyOf[1] (Value): string. ID of the
-         * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * location_id.anyOf[2] (Value): null. on_hand_quantity (Optional): integer or null. Units
-         * physically present at the Location, in any condition. Whole-number quantity; fractional
-         * quantities are not supported. on_hand_quantity.anyOf[1] (Value): integer. Units
-         * physically present at the Location, in any condition. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. on_hand_quantity.anyOf[2] (Value): null.
-         * physical_version (Optional): integer or null. Advances only when on-hand or condition
-         * quantities change. physical_version.anyOf[1] (Value): integer. Advances only when
-         * on-hand or condition quantities change. Format: int64. minimum: 0.
-         * physical_version.anyOf[2] (Value): null. quality_control_quantity (Optional): integer or
-         * null. On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-         * quantities are not supported. quality_control_quantity.anyOf[1] (Value): integer.
-         * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. quality_control_quantity.anyOf[2] (Value):
-         * null. quarantined_quantity (Optional): integer or null. On-hand units isolated for
-         * review. Not sellable. Whole-number quantity; fractional quantities are not supported.
-         * quarantined_quantity.anyOf[1] (Value): integer. On-hand units isolated for review. Not
-         * sellable. Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * quarantined_quantity.anyOf[2] (Value): null. safety_stock_quantity (Optional): integer
-         * or null. Buffer withheld from allocation. Change it with PATCH
-         * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities
-         * are not supported. safety_stock_quantity.anyOf[1] (Value): integer. Buffer withheld from
-         * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
-         * quantity; fractional quantities are not supported. Format: int64.
-         * safety_stock_quantity.anyOf[2] (Value): null. shortage_quantity (Optional): integer or
-         * null. Derived: claims exceeding sellable physical stock. Positive only after stock is
-         * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are not
-         * supported. shortage_quantity.anyOf[1] (Value): integer. Derived: claims exceeding
-         * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * shortage_quantity.anyOf[2] (Value): null. unavailable_on_hand_quantity (Optional):
-         * integer or null. Derived: quality_control + damaged + quarantined. Whole-number
-         * quantity; fractional quantities are not supported. unavailable_on_hand_quantity.anyOf[1]
-         * (Value): integer. Derived: quality_control + damaged + quarantined. Whole-number
-         * quantity; fractional quantities are not supported. Format: int64.
-         * unavailable_on_hand_quantity.anyOf[2] (Value): null. updated_at (Optional): string or
-         * null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
-         * (Optional): integer or null. Changes on every quantity or claim change at this level,
-         * including holds and commits. Read it immediately before a PATCH. A level that a counted
-         * adjustment creates without a quantity change starts at version 0. version.anyOf[1]
-         * (Value): integer. Changes on every quantity or claim change at this level, including
-         * holds and commits. Read it immediately before a PATCH. A level that a counted adjustment
-         * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
-         * version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Derived and never written: on_hand minus unavailable, held, committed, and safety
-             * stock, never below 0. See shortage_quantity for the excess. Whole-number quantity;
-             * fractional quantities are not supported. anyOf[1] (Value): integer. Derived and
-             * never written: on_hand minus unavailable, held, committed, and safety stock, never
-             * below 0. See shortage_quantity for the excess. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "available_quantity"?: ((number) | (null));
-            /**
-             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
-             * integer. Whole-number quantity; fractional quantities are not supported. Format:
-             * int64. minimum: 0. anyOf[2] (Value): null.
-             */
-            "backordered_quantity"?: ((number) | (null));
-            /**
-             * Advances only when held or committed quantities change. anyOf[1] (Value): integer.
-             * Advances only when held or committed quantities change. Format: int64. minimum: 0.
-             * anyOf[2] (Value): null.
-             */
-            "claim_version"?: ((number) | (null));
-            /**
-             * Units promised to accepted orders. Still physically present until fulfillment
-             * consumes them. Whole-number quantity; fractional quantities are not supported.
-             * anyOf[1] (Value): integer. Units promised to accepted orders. Still physically
-             * present until fulfillment consumes them. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "committed_quantity"?: ((number) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. On-hand units known to be
-             * damaged. Not sellable. Whole-number quantity; fractional quantities are not
-             * supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "damaged_quantity"?: ((number) | (null));
-            /**
-             * Units claimed by an open reservation that has not been committed. Whole-number
-             * quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Units
-             * claimed by an open reservation that has not been committed. Whole-number quantity;
-             * fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "held_quantity"?: ((number) | (null));
-            /**
-             * Units recorded as inbound but not yet on hand. Does not count toward availability.
-             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
-             * integer. Units recorded as inbound but not yet on hand. Does not count toward
-             * availability. Whole-number quantity; fractional quantities are not supported.
-             * Format: int64. anyOf[2] (Value): null.
-             */
-            "incoming_quantity"?: ((number) | (null));
-            /**
-             * The inventory item this level belongs to. Present only when the list request asked
-             * for expand=inventory_item. anyOf[1] (Value): {@link InventoryItem}. The inventory
-             * item this level belongs to. Present only when the list request asked for
-             * expand=inventory_item. anyOf[2] (Value): null.
-             */
-            "inventory_item"?: ((InventoryItem) | (null));
-            /**
-             * ID of the inventory item the stock is for. anyOf[1] (Value): string. ID of the
-             * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-             * anyOf[2] (Value): null.
-             */
-            "inventory_item_id"?: ((string) | (null));
-            /**
-             * Unique identifier for this inventory level, prefixed `invl_`. anyOf[1] (Value):
-             * string. Unique identifier for this inventory level, prefixed `invl_`. Example:
-             * "invl_01KEZF7C00H201XZXKRX5KMDDE". anyOf[2] (Value): null.
-             */
-            "inventory_level_id"?: ((string) | (null));
-            /**
-             * ID of the Location that holds the stock. anyOf[1] (Value): string. ID of the
-             * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2]
-             * (Value): null.
-             */
-            "location_id"?: ((string) | (null));
-            /**
-             * Units physically present at the Location, in any condition. Whole-number quantity;
-             * fractional quantities are not supported. anyOf[1] (Value): integer. Units physically
-             * present at the Location, in any condition. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "on_hand_quantity"?: ((number) | (null));
-            /**
-             * Advances only when on-hand or condition quantities change. anyOf[1] (Value):
-             * integer. Advances only when on-hand or condition quantities change. Format: int64.
-             * minimum: 0. anyOf[2] (Value): null.
-             */
-            "physical_version"?: ((number) | (null));
-            /**
-             * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. On-hand units awaiting
-             * inspection. Not sellable. Whole-number quantity; fractional quantities are not
-             * supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "quality_control_quantity"?: ((number) | (null));
-            /**
-             * On-hand units isolated for review. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. On-hand units isolated for
-             * review. Not sellable. Whole-number quantity; fractional quantities are not
-             * supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "quarantined_quantity"?: ((number) | (null));
-            /**
-             * Buffer withheld from allocation. Change it with PATCH
-             * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. Buffer withheld from
-             * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}.
-             * Whole-number quantity; fractional quantities are not supported. Format: int64.
-             * anyOf[2] (Value): null.
-             */
-            "safety_stock_quantity"?: ((number) | (null));
-            /**
-             * Derived: claims exceeding sellable physical stock. Positive only after stock is
-             * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are
-             * not supported. anyOf[1] (Value): integer. Derived: claims exceeding sellable
-             * physical stock. Positive only after stock is lost, damaged, or corrected down.
-             * Whole-number quantity; fractional quantities are not supported. Format: int64.
-             * anyOf[2] (Value): null.
-             */
-            "shortage_quantity"?: ((number) | (null));
-            /**
-             * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. Derived: quality_control +
-             * damaged + quarantined. Whole-number quantity; fractional quantities are not
-             * supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "unavailable_on_hand_quantity"?: ((number) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Changes on every quantity or claim change at this level, including holds and
-             * commits. Read it immediately before a PATCH. A level that a counted adjustment
-             * creates without a quantity change starts at version 0. anyOf[1] (Value): integer.
-             * Changes on every quantity or claim change at this level, including holds and
-             * commits. Read it immediately before a PATCH. A level that a counted adjustment
-             * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
-             * anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "inventory_level.updated". */
-    "event_type"?: "inventory_level.updated";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `inventory_level.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type InventoryLevelUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.available_quantity (Required): integer. Derived and never written:
-     * on_hand minus unavailable, held, committed, and safety stock, never below 0. See
-     * shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
-     * supported. Format: int64. object.backordered_quantity (Required): integer. Whole-number
-     * quantity; fractional quantities are not supported. Format: int64. minimum: 0.
-     * object.claim_version (Required): integer. Advances only when held or committed quantities
-     * change. Format: int64. minimum: 0. object.committed_quantity (Required): integer. Units
-     * promised to accepted orders. Still physically present until fulfillment consumes them.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64.
-     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.damaged_quantity (Required): integer. On-hand units known to
-     * be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
-     * Format: int64. object.held_quantity (Required): integer. Units claimed by an open
-     * reservation that has not been committed. Whole-number quantity; fractional quantities are
-     * not supported. Format: int64. object.incoming_quantity (Required): integer. Units recorded
-     * as inbound but not yet on hand. Does not count toward availability. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. object.inventory_item (Optional):
-     * {@link InventoryItem}. The inventory item this level belongs to. Present only when the list
-     * request asked for expand=inventory_item. A stock-keeping unit that inventory quantities are
-     * tracked against. Catalog variants reference an inventory item rather than carrying their own
-     * counter. object.inventory_item_id (Required): string. ID of the inventory item the stock is
-     * for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY". object.inventory_level_id (Required):
-     * string. Unique identifier for this inventory level, prefixed `invl_`. Example:
-     * "invl_01KEZF7C00H201XZXKRX5KMDDE". object.location_id (Required): string. ID of the Location
-     * that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.on_hand_quantity
-     * (Required): integer. Units physically present at the Location, in any condition.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64.
-     * object.physical_version (Required): integer. Advances only when on-hand or condition
-     * quantities change. Format: int64. minimum: 0. object.quality_control_quantity (Required):
-     * integer. On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. object.quarantined_quantity (Required):
-     * integer. On-hand units isolated for review. Not sellable. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. object.safety_stock_quantity (Required):
-     * integer. Buffer withheld from allocation. Change it with PATCH
-     * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities are
-     * not supported. Format: int64. object.shortage_quantity (Required): integer. Derived: claims
-     * exceeding sellable physical stock. Positive only after stock is lost, damaged, or corrected
-     * down. Whole-number quantity; fractional quantities are not supported. Format: int64.
-     * object.unavailable_on_hand_quantity (Required): integer. Derived: quality_control + damaged
-     * + quarantined. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Changes on every quantity or
-     * claim change at this level, including holds and commits. Read it immediately before a PATCH.
-     * A level that a counted adjustment creates without a quantity change starts at version 0.
-     * Format: int64. minimum: 0. previous_attributes (Optional): object. Previous values of
-     * changed top-level fields in data.object, at this delivery's API version. Nested changes
-     * include the whole previous top-level value. A value is null when the field was absent before
-     * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events. previous_attributes.available_quantity (Optional): integer or null. Derived and
-     * never written: on_hand minus unavailable, held, committed, and safety stock, never below 0.
-     * See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
-     * supported. previous_attributes.available_quantity.anyOf[1] (Value): integer. Derived and
-     * never written: on_hand minus unavailable, held, committed, and safety stock, never below 0.
-     * See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
-     * supported. Format: int64. previous_attributes.available_quantity.anyOf[2] (Value): null.
-     * previous_attributes.backordered_quantity (Optional): integer or null. Whole-number quantity;
-     * fractional quantities are not supported. previous_attributes.backordered_quantity.anyOf[1]
-     * (Value): integer. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. minimum: 0. previous_attributes.backordered_quantity.anyOf[2] (Value): null.
-     * previous_attributes.claim_version (Optional): integer or null. Advances only when held or
-     * committed quantities change. previous_attributes.claim_version.anyOf[1] (Value): integer.
-     * Advances only when held or committed quantities change. Format: int64. minimum: 0.
-     * previous_attributes.claim_version.anyOf[2] (Value): null.
-     * previous_attributes.committed_quantity (Optional): integer or null. Units promised to
-     * accepted orders. Still physically present until fulfillment consumes them. Whole-number
-     * quantity; fractional quantities are not supported.
-     * previous_attributes.committed_quantity.anyOf[1] (Value): integer. Units promised to accepted
-     * orders. Still physically present until fulfillment consumes them. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64.
-     * previous_attributes.committed_quantity.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.damaged_quantity (Optional): integer or null. On-hand units known
-     * to be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
-     * previous_attributes.damaged_quantity.anyOf[1] (Value): integer. On-hand units known to be
-     * damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
-     * Format: int64. previous_attributes.damaged_quantity.anyOf[2] (Value): null.
-     * previous_attributes.held_quantity (Optional): integer or null. Units claimed by an open
-     * reservation that has not been committed. Whole-number quantity; fractional quantities are
-     * not supported. previous_attributes.held_quantity.anyOf[1] (Value): integer. Units claimed by
-     * an open reservation that has not been committed. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. previous_attributes.held_quantity.anyOf[2]
-     * (Value): null. previous_attributes.incoming_quantity (Optional): integer or null. Units
-     * recorded as inbound but not yet on hand. Does not count toward availability. Whole-number
-     * quantity; fractional quantities are not supported.
-     * previous_attributes.incoming_quantity.anyOf[1] (Value): integer. Units recorded as inbound
-     * but not yet on hand. Does not count toward availability. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. previous_attributes.incoming_quantity.anyOf[2]
-     * (Value): null. previous_attributes.inventory_item (Optional): {@link InventoryItem} or null.
-     * The inventory item this level belongs to. Present only when the list request asked for
-     * expand=inventory_item. previous_attributes.inventory_item.anyOf[1] (Value): {@link
-     * InventoryItem}. The inventory item this level belongs to. Present only when the list request
-     * asked for expand=inventory_item. previous_attributes.inventory_item.anyOf[2] (Value): null.
-     * previous_attributes.inventory_item_id (Optional): string or null. ID of the inventory item
-     * the stock is for. previous_attributes.inventory_item_id.anyOf[1] (Value): string. ID of the
-     * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-     * previous_attributes.inventory_item_id.anyOf[2] (Value): null.
-     * previous_attributes.inventory_level_id (Optional): string or null. Unique identifier for
-     * this inventory level, prefixed `invl_`. previous_attributes.inventory_level_id.anyOf[1]
-     * (Value): string. Unique identifier for this inventory level, prefixed `invl_`. Example:
-     * "invl_01KEZF7C00H201XZXKRX5KMDDE". previous_attributes.inventory_level_id.anyOf[2] (Value):
-     * null. previous_attributes.location_id (Optional): string or null. ID of the Location that
-     * holds the stock. previous_attributes.location_id.anyOf[1] (Value): string. ID of the
-     * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * previous_attributes.location_id.anyOf[2] (Value): null. previous_attributes.on_hand_quantity
-     * (Optional): integer or null. Units physically present at the Location, in any condition.
-     * Whole-number quantity; fractional quantities are not supported.
-     * previous_attributes.on_hand_quantity.anyOf[1] (Value): integer. Units physically present at
-     * the Location, in any condition. Whole-number quantity; fractional quantities are not
-     * supported. Format: int64. previous_attributes.on_hand_quantity.anyOf[2] (Value): null.
-     * previous_attributes.physical_version (Optional): integer or null. Advances only when on-hand
-     * or condition quantities change. previous_attributes.physical_version.anyOf[1] (Value):
-     * integer. Advances only when on-hand or condition quantities change. Format: int64. minimum:
-     * 0. previous_attributes.physical_version.anyOf[2] (Value): null.
-     * previous_attributes.quality_control_quantity (Optional): integer or null. On-hand units
-     * awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are not
-     * supported. previous_attributes.quality_control_quantity.anyOf[1] (Value): integer. On-hand
-     * units awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are
-     * not supported. Format: int64. previous_attributes.quality_control_quantity.anyOf[2] (Value):
-     * null. previous_attributes.quarantined_quantity (Optional): integer or null. On-hand units
-     * isolated for review. Not sellable. Whole-number quantity; fractional quantities are not
-     * supported. previous_attributes.quarantined_quantity.anyOf[1] (Value): integer. On-hand units
-     * isolated for review. Not sellable. Whole-number quantity; fractional quantities are not
-     * supported. Format: int64. previous_attributes.quarantined_quantity.anyOf[2] (Value): null.
-     * previous_attributes.safety_stock_quantity (Optional): integer or null. Buffer withheld from
-     * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
-     * quantity; fractional quantities are not supported.
-     * previous_attributes.safety_stock_quantity.anyOf[1] (Value): integer. Buffer withheld from
-     * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
-     * quantity; fractional quantities are not supported. Format: int64.
-     * previous_attributes.safety_stock_quantity.anyOf[2] (Value): null.
-     * previous_attributes.shortage_quantity (Optional): integer or null. Derived: claims exceeding
-     * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
-     * Whole-number quantity; fractional quantities are not supported.
-     * previous_attributes.shortage_quantity.anyOf[1] (Value): integer. Derived: claims exceeding
-     * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64.
-     * previous_attributes.shortage_quantity.anyOf[2] (Value): null.
-     * previous_attributes.unavailable_on_hand_quantity (Optional): integer or null. Derived:
-     * quality_control + damaged + quarantined. Whole-number quantity; fractional quantities are
-     * not supported. previous_attributes.unavailable_on_hand_quantity.anyOf[1] (Value): integer.
-     * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64.
-     * previous_attributes.unavailable_on_hand_quantity.anyOf[2] (Value): null.
-     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
-     * null. previous_attributes.version (Optional): integer or null. Changes on every quantity or
-     * claim change at this level, including holds and commits. Read it immediately before a PATCH.
-     * A level that a counted adjustment creates without a quantity change starts at version 0.
-     * previous_attributes.version.anyOf[1] (Value): integer. Changes on every quantity or claim
-     * change at this level, including holds and commits. Read it immediately before a PATCH. A
-     * level that a counted adjustment creates without a quantity change starts at version 0.
-     * Format: int64. minimum: 0. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * available_quantity (Required): integer. Derived and never written: on_hand minus
-         * unavailable, held, committed, and safety stock, never below 0. See shortage_quantity for
-         * the excess. Whole-number quantity; fractional quantities are not supported. Format:
-         * int64. backordered_quantity (Required): integer. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. minimum: 0. claim_version (Required):
-         * integer. Advances only when held or committed quantities change. Format: int64. minimum:
-         * 0. committed_quantity (Required): integer. Units promised to accepted orders. Still
-         * physically present until fulfillment consumes them. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". damaged_quantity
-         * (Required): integer. On-hand units known to be damaged. Not sellable. Whole-number
-         * quantity; fractional quantities are not supported. Format: int64. held_quantity
-         * (Required): integer. Units claimed by an open reservation that has not been committed.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * incoming_quantity (Required): integer. Units recorded as inbound but not yet on hand.
-         * Does not count toward availability. Whole-number quantity; fractional quantities are not
-         * supported. Format: int64. inventory_item (Optional): {@link InventoryItem}. The
-         * inventory item this level belongs to. Present only when the list request asked for
-         * expand=inventory_item. A stock-keeping unit that inventory quantities are tracked
-         * against. Catalog variants reference an inventory item rather than carrying their own
-         * counter. inventory_item_id (Required): string. ID of the inventory item the stock is
-         * for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY". inventory_level_id (Required): string.
-         * Unique identifier for this inventory level, prefixed `invl_`. Example:
-         * "invl_01KEZF7C00H201XZXKRX5KMDDE". location_id (Required): string. ID of the Location
-         * that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". on_hand_quantity
-         * (Required): integer. Units physically present at the Location, in any condition.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * physical_version (Required): integer. Advances only when on-hand or condition quantities
-         * change. Format: int64. minimum: 0. quality_control_quantity (Required): integer. On-hand
-         * units awaiting inspection. Not sellable. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. quarantined_quantity (Required): integer. On-hand
-         * units isolated for review. Not sellable. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. safety_stock_quantity (Required): integer. Buffer
-         * withheld from allocation. Change it with PATCH
-         * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. shortage_quantity (Required): integer. Derived: claims
-         * exceeding sellable physical stock. Positive only after stock is lost, damaged, or
-         * corrected down. Whole-number quantity; fractional quantities are not supported. Format:
-         * int64. unavailable_on_hand_quantity (Required): integer. Derived: quality_control +
-         * damaged + quarantined. Whole-number quantity; fractional quantities are not supported.
-         * Format: int64. updated_at (Required): string. RFC3339 timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". version (Required): integer. Changes on every quantity
-         * or claim change at this level, including holds and commits. Read it immediately before a
-         * PATCH. A level that a counted adjustment creates without a quantity change starts at
-         * version 0. Format: int64. minimum: 0.
-         */
-        "object": {
-            /**
-             * Derived and never written: on_hand minus unavailable, held, committed, and safety
-             * stock, never below 0. See shortage_quantity for the excess. Whole-number quantity;
-             * fractional quantities are not supported. Format: int64.
-             */
-            "available_quantity": number;
-            /**
-             * Whole-number quantity; fractional quantities are not supported. Format: int64.
-             * minimum: 0.
-             */
-            "backordered_quantity": number;
-            /**
-             * Advances only when held or committed quantities change. Format: int64. minimum: 0.
-             */
-            "claim_version": number;
-            /**
-             * Units promised to accepted orders. Still physically present until fulfillment
-             * consumes them. Whole-number quantity; fractional quantities are not supported.
-             * Format: int64.
-             */
-            "committed_quantity": number;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "damaged_quantity": number;
-            /**
-             * Units claimed by an open reservation that has not been committed. Whole-number
-             * quantity; fractional quantities are not supported. Format: int64.
-             */
-            "held_quantity": number;
-            /**
-             * Units recorded as inbound but not yet on hand. Does not count toward availability.
-             * Whole-number quantity; fractional quantities are not supported. Format: int64.
-             */
-            "incoming_quantity": number;
-            /**
-             * The inventory item this level belongs to. Present only when the list request asked
-             * for expand=inventory_item. A stock-keeping unit that inventory quantities are
-             * tracked against. Catalog variants reference an inventory item rather than carrying
-             * their own counter.
-             */
-            "inventory_item"?: InventoryItem;
-            /**
-             * ID of the inventory item the stock is for. Example:
-             * "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-             */
-            "inventory_item_id": string;
-            /**
-             * Unique identifier for this inventory level, prefixed `invl_`. Example:
-             * "invl_01KEZF7C00H201XZXKRX5KMDDE".
-             */
-            "inventory_level_id": string;
-            /**
-             * ID of the Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-             */
-            "location_id": string;
-            /**
-             * Units physically present at the Location, in any condition. Whole-number quantity;
-             * fractional quantities are not supported. Format: int64.
-             */
-            "on_hand_quantity": number;
-            /**
-             * Advances only when on-hand or condition quantities change. Format: int64. minimum:
-             * 0.
-             */
-            "physical_version": number;
-            /**
-             * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "quality_control_quantity": number;
-            /**
-             * On-hand units isolated for review. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "quarantined_quantity": number;
-            /**
-             * Buffer withheld from allocation. Change it with PATCH
-             * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "safety_stock_quantity": number;
-            /**
-             * Derived: claims exceeding sellable physical stock. Positive only after stock is
-             * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are
-             * not supported. Format: int64.
-             */
-            "shortage_quantity": number;
-            /**
-             * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "unavailable_on_hand_quantity": number;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Changes on every quantity or claim change at this level, including holds and
-             * commits. Read it immediately before a PATCH. A level that a counted adjustment
-             * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. available_quantity (Optional): integer or null.
-         * Derived and never written: on_hand minus unavailable, held, committed, and safety stock,
-         * never below 0. See shortage_quantity for the excess. Whole-number quantity; fractional
-         * quantities are not supported. available_quantity.anyOf[1] (Value): integer. Derived and
-         * never written: on_hand minus unavailable, held, committed, and safety stock, never below
-         * 0. See shortage_quantity for the excess. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. available_quantity.anyOf[2] (Value): null.
-         * backordered_quantity (Optional): integer or null. Whole-number quantity; fractional
-         * quantities are not supported. backordered_quantity.anyOf[1] (Value): integer.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum:
-         * 0. backordered_quantity.anyOf[2] (Value): null. claim_version (Optional): integer or
-         * null. Advances only when held or committed quantities change. claim_version.anyOf[1]
-         * (Value): integer. Advances only when held or committed quantities change. Format: int64.
-         * minimum: 0. claim_version.anyOf[2] (Value): null. committed_quantity (Optional): integer
-         * or null. Units promised to accepted orders. Still physically present until fulfillment
-         * consumes them. Whole-number quantity; fractional quantities are not supported.
-         * committed_quantity.anyOf[1] (Value): integer. Units promised to accepted orders. Still
-         * physically present until fulfillment consumes them. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. committed_quantity.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. damaged_quantity (Optional): integer or null. On-hand
-         * units known to be damaged. Not sellable. Whole-number quantity; fractional quantities
-         * are not supported. damaged_quantity.anyOf[1] (Value): integer. On-hand units known to be
-         * damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
-         * Format: int64. damaged_quantity.anyOf[2] (Value): null. held_quantity (Optional):
-         * integer or null. Units claimed by an open reservation that has not been committed.
-         * Whole-number quantity; fractional quantities are not supported. held_quantity.anyOf[1]
-         * (Value): integer. Units claimed by an open reservation that has not been committed.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * held_quantity.anyOf[2] (Value): null. incoming_quantity (Optional): integer or null.
-         * Units recorded as inbound but not yet on hand. Does not count toward availability.
-         * Whole-number quantity; fractional quantities are not supported.
-         * incoming_quantity.anyOf[1] (Value): integer. Units recorded as inbound but not yet on
-         * hand. Does not count toward availability. Whole-number quantity; fractional quantities
-         * are not supported. Format: int64. incoming_quantity.anyOf[2] (Value): null.
-         * inventory_item (Optional): {@link InventoryItem} or null. The inventory item this level
-         * belongs to. Present only when the list request asked for expand=inventory_item.
-         * inventory_item.anyOf[1] (Value): {@link InventoryItem}. The inventory item this level
-         * belongs to. Present only when the list request asked for expand=inventory_item.
-         * inventory_item.anyOf[2] (Value): null. inventory_item_id (Optional): string or null. ID
-         * of the inventory item the stock is for. inventory_item_id.anyOf[1] (Value): string. ID
-         * of the inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-         * inventory_item_id.anyOf[2] (Value): null. inventory_level_id (Optional): string or null.
-         * Unique identifier for this inventory level, prefixed `invl_`.
-         * inventory_level_id.anyOf[1] (Value): string. Unique identifier for this inventory level,
-         * prefixed `invl_`. Example: "invl_01KEZF7C00H201XZXKRX5KMDDE".
-         * inventory_level_id.anyOf[2] (Value): null. location_id (Optional): string or null. ID of
-         * the Location that holds the stock. location_id.anyOf[1] (Value): string. ID of the
-         * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * location_id.anyOf[2] (Value): null. on_hand_quantity (Optional): integer or null. Units
-         * physically present at the Location, in any condition. Whole-number quantity; fractional
-         * quantities are not supported. on_hand_quantity.anyOf[1] (Value): integer. Units
-         * physically present at the Location, in any condition. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. on_hand_quantity.anyOf[2] (Value): null.
-         * physical_version (Optional): integer or null. Advances only when on-hand or condition
-         * quantities change. physical_version.anyOf[1] (Value): integer. Advances only when
-         * on-hand or condition quantities change. Format: int64. minimum: 0.
-         * physical_version.anyOf[2] (Value): null. quality_control_quantity (Optional): integer or
-         * null. On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-         * quantities are not supported. quality_control_quantity.anyOf[1] (Value): integer.
-         * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. quality_control_quantity.anyOf[2] (Value):
-         * null. quarantined_quantity (Optional): integer or null. On-hand units isolated for
-         * review. Not sellable. Whole-number quantity; fractional quantities are not supported.
-         * quarantined_quantity.anyOf[1] (Value): integer. On-hand units isolated for review. Not
-         * sellable. Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * quarantined_quantity.anyOf[2] (Value): null. safety_stock_quantity (Optional): integer
-         * or null. Buffer withheld from allocation. Change it with PATCH
-         * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities
-         * are not supported. safety_stock_quantity.anyOf[1] (Value): integer. Buffer withheld from
-         * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
-         * quantity; fractional quantities are not supported. Format: int64.
-         * safety_stock_quantity.anyOf[2] (Value): null. shortage_quantity (Optional): integer or
-         * null. Derived: claims exceeding sellable physical stock. Positive only after stock is
-         * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are not
-         * supported. shortage_quantity.anyOf[1] (Value): integer. Derived: claims exceeding
-         * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
-         * Whole-number quantity; fractional quantities are not supported. Format: int64.
-         * shortage_quantity.anyOf[2] (Value): null. unavailable_on_hand_quantity (Optional):
-         * integer or null. Derived: quality_control + damaged + quarantined. Whole-number
-         * quantity; fractional quantities are not supported. unavailable_on_hand_quantity.anyOf[1]
-         * (Value): integer. Derived: quality_control + damaged + quarantined. Whole-number
-         * quantity; fractional quantities are not supported. Format: int64.
-         * unavailable_on_hand_quantity.anyOf[2] (Value): null. updated_at (Optional): string or
-         * null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
-         * (Optional): integer or null. Changes on every quantity or claim change at this level,
-         * including holds and commits. Read it immediately before a PATCH. A level that a counted
-         * adjustment creates without a quantity change starts at version 0. version.anyOf[1]
-         * (Value): integer. Changes on every quantity or claim change at this level, including
-         * holds and commits. Read it immediately before a PATCH. A level that a counted adjustment
-         * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
-         * version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Derived and never written: on_hand minus unavailable, held, committed, and safety
-             * stock, never below 0. See shortage_quantity for the excess. Whole-number quantity;
-             * fractional quantities are not supported. anyOf[1] (Value): integer. Derived and
-             * never written: on_hand minus unavailable, held, committed, and safety stock, never
-             * below 0. See shortage_quantity for the excess. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "available_quantity"?: ((number) | (null));
-            /**
-             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
-             * integer. Whole-number quantity; fractional quantities are not supported. Format:
-             * int64. minimum: 0. anyOf[2] (Value): null.
-             */
-            "backordered_quantity"?: ((number) | (null));
-            /**
-             * Advances only when held or committed quantities change. anyOf[1] (Value): integer.
-             * Advances only when held or committed quantities change. Format: int64. minimum: 0.
-             * anyOf[2] (Value): null.
-             */
-            "claim_version"?: ((number) | (null));
-            /**
-             * Units promised to accepted orders. Still physically present until fulfillment
-             * consumes them. Whole-number quantity; fractional quantities are not supported.
-             * anyOf[1] (Value): integer. Units promised to accepted orders. Still physically
-             * present until fulfillment consumes them. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "committed_quantity"?: ((number) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. On-hand units known to be
-             * damaged. Not sellable. Whole-number quantity; fractional quantities are not
-             * supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "damaged_quantity"?: ((number) | (null));
-            /**
-             * Units claimed by an open reservation that has not been committed. Whole-number
-             * quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Units
-             * claimed by an open reservation that has not been committed. Whole-number quantity;
-             * fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "held_quantity"?: ((number) | (null));
-            /**
-             * Units recorded as inbound but not yet on hand. Does not count toward availability.
-             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
-             * integer. Units recorded as inbound but not yet on hand. Does not count toward
-             * availability. Whole-number quantity; fractional quantities are not supported.
-             * Format: int64. anyOf[2] (Value): null.
-             */
-            "incoming_quantity"?: ((number) | (null));
-            /**
-             * The inventory item this level belongs to. Present only when the list request asked
-             * for expand=inventory_item. anyOf[1] (Value): {@link InventoryItem}. The inventory
-             * item this level belongs to. Present only when the list request asked for
-             * expand=inventory_item. anyOf[2] (Value): null.
-             */
-            "inventory_item"?: ((InventoryItem) | (null));
-            /**
-             * ID of the inventory item the stock is for. anyOf[1] (Value): string. ID of the
-             * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-             * anyOf[2] (Value): null.
-             */
-            "inventory_item_id"?: ((string) | (null));
-            /**
-             * Unique identifier for this inventory level, prefixed `invl_`. anyOf[1] (Value):
-             * string. Unique identifier for this inventory level, prefixed `invl_`. Example:
-             * "invl_01KEZF7C00H201XZXKRX5KMDDE". anyOf[2] (Value): null.
-             */
-            "inventory_level_id"?: ((string) | (null));
-            /**
-             * ID of the Location that holds the stock. anyOf[1] (Value): string. ID of the
-             * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2]
-             * (Value): null.
-             */
-            "location_id"?: ((string) | (null));
-            /**
-             * Units physically present at the Location, in any condition. Whole-number quantity;
-             * fractional quantities are not supported. anyOf[1] (Value): integer. Units physically
-             * present at the Location, in any condition. Whole-number quantity; fractional
-             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "on_hand_quantity"?: ((number) | (null));
-            /**
-             * Advances only when on-hand or condition quantities change. anyOf[1] (Value):
-             * integer. Advances only when on-hand or condition quantities change. Format: int64.
-             * minimum: 0. anyOf[2] (Value): null.
-             */
-            "physical_version"?: ((number) | (null));
-            /**
-             * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. On-hand units awaiting
-             * inspection. Not sellable. Whole-number quantity; fractional quantities are not
-             * supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "quality_control_quantity"?: ((number) | (null));
-            /**
-             * On-hand units isolated for review. Not sellable. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. On-hand units isolated for
-             * review. Not sellable. Whole-number quantity; fractional quantities are not
-             * supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "quarantined_quantity"?: ((number) | (null));
-            /**
-             * Buffer withheld from allocation. Change it with PATCH
-             * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. Buffer withheld from
-             * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}.
-             * Whole-number quantity; fractional quantities are not supported. Format: int64.
-             * anyOf[2] (Value): null.
-             */
-            "safety_stock_quantity"?: ((number) | (null));
-            /**
-             * Derived: claims exceeding sellable physical stock. Positive only after stock is
-             * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are
-             * not supported. anyOf[1] (Value): integer. Derived: claims exceeding sellable
-             * physical stock. Positive only after stock is lost, damaged, or corrected down.
-             * Whole-number quantity; fractional quantities are not supported. Format: int64.
-             * anyOf[2] (Value): null.
-             */
-            "shortage_quantity"?: ((number) | (null));
-            /**
-             * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. Derived: quality_control +
-             * damaged + quarantined. Whole-number quantity; fractional quantities are not
-             * supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "unavailable_on_hand_quantity"?: ((number) | (null));
-            /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Changes on every quantity or claim change at this level, including holds and
-             * commits. Read it immediately before a PATCH. A level that a counted adjustment
-             * creates without a quantity change starts at version 0. anyOf[1] (Value): integer.
-             * Changes on every quantity or claim change at this level, including holds and
-             * commits. Read it immediately before a PATCH. A level that a counted adjustment
-             * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
-             * anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "inventory_level.updated". */
-    "event_type"?: "inventory_level.updated";
-});
-export type InventoryLevelsGetParams = {
-    /**
-     * Include related objects in the response. Supported expansions: inventory_item. Include the
-     * full inventory item with expand=inventory_item. Requires commerce.inventory.read. Limits: at
-     * most 10 unique expand paths per request. [] enum: "inventory_item". Value enum:
-     * "inventory_item". anyOf[1] (Value): Array of string. [] enum: "inventory_item". anyOf[1][]
-     * (Value): string. Value enum: "inventory_item". anyOf[2] (Value): string. Value enum:
-     * "inventory_item".
-     */
-    "expand"?: InputValue<("inventory_item") | readonly ("inventory_item")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type InventoryLevelsListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by inventory item. pattern: ^invi_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-     */
-    "inventory_item_id"?: InputValue<string>;
-    /**
-     * Filter by Location. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: InputValue<string>;
-    /**
-     * Filter by the status of the inventory item the level belongs to. Only active items can be
-     * routed or reserved. Values are trimmed and deduplicated in first-seen order; empty or
-     * unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "active", "inactive", "archived". Value enum: "active", "inactive",
-     * "archived". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active", "inactive",
-     * "archived". anyOf[1][] (Value): string. Value enum: "active", "inactive", "archived".
-     * anyOf[2] (Value): string. Value enum: "active", "inactive", "archived".
-     */
-    "inventory_item_status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
-    /**
-     * True selects levels with available quantity; false selects levels with zero available
-     * quantity. Omit for all levels.
-     */
-    "has_available_quantity"?: InputValue<boolean>;
-    /**
-     * True selects levels with unavailable physical stock; false selects levels with none. Omit
-     * for all levels.
-     */
-    "has_unavailable_condition"?: InputValue<boolean>;
-    /** True selects levels with a shortage; false selects levels with none. Omit for all levels. */
-    "has_shortage"?: InputValue<boolean>;
-    /**
-     * Search inventory item ID, name, SKU, or barcode. Case-insensitive substring match.
-     * maxLength: 255.
-     */
-    "query"?: InputValue<string>;
-    /** Inclusive lower bound on available_quantity. Format: int64. minimum: 0. */
-    "min_available_quantity"?: InputValue<number>;
-    /** Inclusive upper bound on available_quantity. Format: int64. minimum: 0. */
-    "max_available_quantity"?: InputValue<number>;
-    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Include related objects in the response. Supported expansions: inventory_item. The expansion
-     * resolves with one batched lookup per page. Expansion requires commerce.inventory.read.
-     * Limits: at most 10 unique expand paths per request. [] enum: "inventory_item". Value enum:
-     * "inventory_item". anyOf[1] (Value): Array of string. [] enum: "inventory_item". anyOf[1][]
-     * (Value): string. Value enum: "inventory_item". anyOf[2] (Value): string. Value enum:
-     * "inventory_item".
-     */
-    "expand"?: InputValue<("inventory_item") | readonly ("inventory_item")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type InventoryLevelsUpdateParams = (InputValue<UpdateInventoryLevelRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/** An immutable record of a single quantity change, including the level state it produced. */
-export type InventoryMovement = {
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "backordered_quantity_delta": number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "committed_quantity_delta": number;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * The credential that recorded this movement. `null` when Flint recorded it on its own, such
-     * as an expired hold or a fulfillment handoff. anyOf[1] (Value): {@link ResourceReference}. A
-     * reference to another resource by `resource_type` and `resource_id`. anyOf[2] (Value): null.
-     */
-    "created_by": ((ResourceReference) | (null));
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "damaged_quantity_delta": number;
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "held_quantity_delta": number;
-    /**
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
-     */
-    "idempotency_key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "incoming_quantity_delta": number;
-    /**
-     * The inventory item this movement is about. Present only when the list request asked for
-     * expand=inventory_item. A stock-keeping unit that inventory quantities are tracked against.
-     * Catalog variants reference an inventory item rather than carrying their own counter.
-     */
-    "inventory_item"?: InventoryItem;
-    /** ID of the inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY". */
-    "inventory_item_id": string;
-    /**
-     * Claim version of the inventory level after this movement. Advances when held or committed
-     * quantities change. Format: int64. minimum: 0.
-     */
-    "inventory_level_claim_version": number;
-    /**
-     * ID of the inventory level this movement changed. Example: "invl_01KEZF7C00H201XZXKRX5KMDDE".
-     */
-    "inventory_level_id": string;
-    /**
-     * Physical version of the inventory level after this movement. Advances when on-hand or
-     * condition quantities change. Format: int64. minimum: 0.
-     */
-    "inventory_level_physical_version": number;
-    /** Version of the inventory level after this movement. Format: int64. minimum: 1. */
-    "inventory_level_version": number;
-    /**
-     * Unique identifier for this inventory movement, prefixed `invm_`. Example:
-     * "invm_01KEZF7C00DYPFT9PS0NZY805Z".
-     */
-    "inventory_movement_id": string;
-    /** ID of the Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-    "location_id": string;
-    /** Note recorded with the command that wrote this movement. Absent when it had none. */
-    "note"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at": string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "on_hand_quantity_delta": number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quality_control_quantity_delta": number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quarantined_quantity_delta": number;
-    /**
-     * The adjustment's reason. Present only on adjustment movements; other movement types already
-     * describe what happened. Value enum: "received", "returned", "sold", "theft", "loss",
-     * "condition_changed", "counted", "correction".
-     */
-    "reason"?: "received"
-        | "returned"
-        | "sold"
-        | "theft"
-        | "loss"
-        | "condition_changed"
-        | "counted"
-        | "correction"
-        | (string & {});
-    /**
-     * The inventory level as it stood after this movement. The quantity state of one inventory
-     * item at one Location.
-     */
-    "resulting_inventory_level": InventoryLevel;
-    /**
-     * ID of the Return disposition whose receipt wrote this movement. Absent on other movements.
-     * Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-     */
-    "return_disposition_id"?: string;
-    /**
-     * ID of the Return whose receipt wrote this movement. Absent on other movements. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "safety_stock_quantity_delta": number;
-    /** Format: int64. minimum: 0. */
-    "source_observation_sequence"?: number;
-    /**
-     * The GET-able resource whose write recorded this movement. A reference to another resource by
-     * `resource_type` and `resource_id`.
-     */
-    "source_reference": ResourceReference;
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. `null` when the
-     * request named no source system. anyOf[1] (Value): {@link InventorySourceSystem}. The system
-     * an inventory event came from, such as manual entry, a point of sale, a warehouse system, or
-     * Flint, with your source identifier when it applies. anyOf[2] (Value): null.
-     */
-    "source_system": ((InventorySourceSystem) | (null));
-    /**
-     * What caused this movement. Value enum: "adjustment", "count_applied",
-     * "reservation_consumed", "reservation_committed", "reservation_commitment_released",
-     * "reservation_expired", "reservation_held", "reservation_hold_released",
-     * "reservation_reallocated_in", "reservation_reallocated_out", "return_received",
-     * "safety_stock_change", "transfer_departed", "transfer_received", "transfer_returned",
-     * "transfer_lost".
-     */
-    "type": "adjustment"
-        | "count_applied"
-        | "reservation_consumed"
-        | "reservation_committed"
-        | "reservation_commitment_released"
-        | "reservation_expired"
-        | "reservation_held"
-        | "reservation_hold_released"
-        | "reservation_reallocated_in"
-        | "reservation_reallocated_out"
-        | "return_received"
-        | "safety_stock_change"
-        | "transfer_departed"
-        | "transfer_received"
-        | "transfer_returned"
-        | "transfer_lost"
-        | (string & {});
-};
-/** A page of `InventoryMovement` objects. */
-export type InventoryMovementListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * InventoryMovement}. An immutable record of a single quantity change, including the level
-     * state it produced.
-     */
-    "data": Array<InventoryMovement>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `InventoryMovement` data. */
-export type InventoryMovementResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. An immutable record of a
-     * single quantity change, including the level state it produced.
-     */
-    "data": InventoryMovement;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type InventoryMovementsGetParams = InventoryLevelsGetParams;
-export type InventoryMovementsListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by inventory item. pattern: ^invi_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-     */
-    "inventory_item_id"?: InputValue<string>;
-    /**
-     * Filter by Location. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: InputValue<string>;
-    /**
-     * Filter by movement type. Values are trimmed and deduplicated in first-seen order; empty or
-     * unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "adjustment", "count_applied", "reservation_consumed",
-     * "reservation_committed", "reservation_commitment_released", "reservation_expired",
-     * "reservation_held", "reservation_hold_released", "reservation_reallocated_in",
-     * "reservation_reallocated_out", "return_received", "safety_stock_change",
-     * "transfer_departed", "transfer_received", "transfer_returned", "transfer_lost". Value enum:
-     * "adjustment", "count_applied", "reservation_consumed", "reservation_committed",
-     * "reservation_commitment_released", "reservation_expired", "reservation_held",
-     * "reservation_hold_released", "reservation_reallocated_in", "reservation_reallocated_out",
-     * "return_received", "safety_stock_change", "transfer_departed", "transfer_received",
-     * "transfer_returned", "transfer_lost". anyOf[1] (Value): Array of string. minItems: 1. []
-     * enum: "adjustment", "count_applied", "reservation_consumed", "reservation_committed",
-     * "reservation_commitment_released", "reservation_expired", "reservation_held",
-     * "reservation_hold_released", "reservation_reallocated_in", "reservation_reallocated_out",
-     * "return_received", "safety_stock_change", "transfer_departed", "transfer_received",
-     * "transfer_returned", "transfer_lost". anyOf[1][] (Value): string. Value enum: "adjustment",
-     * "count_applied", "reservation_consumed", "reservation_committed",
-     * "reservation_commitment_released", "reservation_expired", "reservation_held",
-     * "reservation_hold_released", "reservation_reallocated_in", "reservation_reallocated_out",
-     * "return_received", "safety_stock_change", "transfer_departed", "transfer_received",
-     * "transfer_returned", "transfer_lost". anyOf[2] (Value): string. Value enum: "adjustment",
-     * "count_applied", "reservation_consumed", "reservation_committed",
-     * "reservation_commitment_released", "reservation_expired", "reservation_held",
-     * "reservation_hold_released", "reservation_reallocated_in", "reservation_reallocated_out",
-     * "return_received", "safety_stock_change", "transfer_departed", "transfer_received",
-     * "transfer_returned", "transfer_lost".
-     */
-    "type"?: InputValue<("adjustment"
-        | "count_applied"
-        | "reservation_consumed"
-        | "reservation_committed"
-        | "reservation_commitment_released"
-        | "reservation_expired"
-        | "reservation_held"
-        | "reservation_hold_released"
-        | "reservation_reallocated_in"
-        | "reservation_reallocated_out"
-        | "return_received"
-        | "safety_stock_change"
-        | "transfer_departed"
-        | "transfer_received"
-        | "transfer_returned"
-        | "transfer_lost")
-        | readonly ("adjustment"
-        | "count_applied"
-        | "reservation_consumed"
-        | "reservation_committed"
-        | "reservation_commitment_released"
-        | "reservation_expired"
-        | "reservation_held"
-        | "reservation_hold_released"
-        | "reservation_reallocated_in"
-        | "reservation_reallocated_out"
-        | "return_received"
-        | "safety_stock_change"
-        | "transfer_departed"
-        | "transfer_received"
-        | "transfer_returned"
-        | "transfer_lost")[]>;
-    /**
-     * Filter adjustment movements by the adjustment reason. Values are trimmed and deduplicated in
-     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
-     * separate filters are ANDed. [] enum: "received", "returned", "sold", "theft", "loss",
-     * "condition_changed", "counted", "correction". Value enum: "received", "returned", "sold",
-     * "theft", "loss", "condition_changed", "counted", "correction". anyOf[1] (Value): Array of
-     * string. minItems: 1. [] enum: "received", "returned", "sold", "theft", "loss",
-     * "condition_changed", "counted", "correction". anyOf[1][] (Value): string. Value enum:
-     * "received", "returned", "sold", "theft", "loss", "condition_changed", "counted",
-     * "correction". anyOf[2] (Value): string. Value enum: "received", "returned", "sold", "theft",
-     * "loss", "condition_changed", "counted", "correction".
-     */
-    "reason"?: InputValue<("received" | "returned" | "sold" | "theft" | "loss" | "condition_changed" | "counted" | "correction")
-        | readonly ("received" | "returned" | "sold" | "theft" | "loss" | "condition_changed" | "counted" | "correction")[]>;
-    /**
-     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
-     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
-     * pending resource does not prove that the operation succeeded, and an empty list does not
-     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
-     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
-     */
-    "idempotency_key"?: InputValue<string>;
-    /**
-     * Filter by the customer Return that produced the movement. pattern:
-     * ^ret_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id"?: InputValue<string>;
-    /**
-     * Filter by the Return disposition that produced the movement. pattern:
-     * ^retdsp_[0-9A-HJKMNP-TV-Z]{26}$. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-     */
-    "return_disposition_id"?: InputValue<string>;
-    /** Sort direction. Defaults to asc. Default: "asc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /**
-     * Include related objects in the response. Supported expansions: inventory_item. The expansion
-     * resolves with one batched lookup per page. Expansion requires commerce.inventory.read.
-     * Limits: at most 10 unique expand paths per request. [] enum: "inventory_item". Value enum:
-     * "inventory_item". anyOf[1] (Value): Array of string. [] enum: "inventory_item". anyOf[1][]
-     * (Value): string. Value enum: "inventory_item". anyOf[2] (Value): string. Value enum:
-     * "inventory_item".
-     */
-    "expand"?: InputValue<("inventory_item") | readonly ("inventory_item")[]>;
-    /**
-     * Filter by source-system type. Values are trimmed and deduplicated in first-seen order; empty
+     * Exact, case-sensitive filter. Values are trimmed and deduplicated in first-seen order; empty
      * or unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "manual", "pos", "wms", "erp", "flint", "other". Value enum: "manual",
-     * "pos", "wms", "erp", "flint", "other". anyOf[1] (Value): Array of string. minItems: 1. []
-     * enum: "manual", "pos", "wms", "erp", "flint", "other". anyOf[1][] (Value): string. Value
-     * enum: "manual", "pos", "wms", "erp", "flint", "other". anyOf[2] (Value): string. Value enum:
-     * "manual", "pos", "wms", "erp", "flint", "other".
+     * ANDed. [] enum: "adjustment", "external_payment", "flint_manual_payment", "flint_payment",
+     * "gift_card_purchase_refund_recovery", "gift_card_refund", "import", "store_credit". Value
+     * enum: "adjustment", "external_payment", "flint_manual_payment", "flint_payment",
+     * "gift_card_purchase_refund_recovery", "gift_card_refund", "import", "store_credit". anyOf[1]
+     * (Value): Array of string. minItems: 1. [] enum: "adjustment", "external_payment",
+     * "flint_manual_payment", "flint_payment", "gift_card_purchase_refund_recovery",
+     * "gift_card_refund", "import", "store_credit". anyOf[1][] (Value): string. maxLength: 255.
+     * Value enum: "adjustment", "external_payment", "flint_manual_payment", "flint_payment",
+     * "gift_card_purchase_refund_recovery", "gift_card_refund", "import", "store_credit". anyOf[2]
+     * (Value): string. maxLength: 255. Value enum: "adjustment", "external_payment",
+     * "flint_manual_payment", "flint_payment", "gift_card_purchase_refund_recovery",
+     * "gift_card_refund", "import", "store_credit".
      */
-    "source_system_type"?: InputValue<("manual" | "pos" | "wms" | "erp" | "flint" | "other")
-        | readonly ("manual" | "pos" | "wms" | "erp" | "flint" | "other")[]>;
-    /** Filter by external source ID. Example: "warehouse-1842". */
-    "external_source_id"?: InputValue<string>;
-    /** Filter by external actor ID. Example: "warehouse-1842". */
-    "external_actor_id"?: InputValue<string>;
-    /** Inclusive lower bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "occurred_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "occurred_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
+    "funding_source_type"?: InputValue<("adjustment"
+        | "external_payment"
+        | "flint_manual_payment"
+        | "flint_payment"
+        | "gift_card_purchase_refund_recovery"
+        | "gift_card_refund"
+        | "import"
+        | "store_credit")
+        | readonly ("adjustment"
+        | "external_payment"
+        | "flint_manual_payment"
+        | "flint_payment"
+        | "gift_card_purchase_refund_recovery"
+        | "gift_card_refund"
+        | "import"
+        | "store_credit")[]>;
     /**
-     * Filter by source_reference.resource_type. Values are trimmed and deduplicated in first-seen
-     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
-     * filters are ANDed. [] enum: "fulfillment", "inventory_adjustment", "inventory_count",
-     * "inventory_level", "inventory_receipt", "inventory_reservation", "inventory_transfer". Value
-     * enum: "fulfillment", "inventory_adjustment", "inventory_count", "inventory_level",
-     * "inventory_receipt", "inventory_reservation", "inventory_transfer". anyOf[1] (Value): Array
-     * of string. minItems: 1. [] enum: "fulfillment", "inventory_adjustment", "inventory_count",
-     * "inventory_level", "inventory_receipt", "inventory_reservation", "inventory_transfer".
-     * anyOf[1][] (Value): string. Value enum: "fulfillment", "inventory_adjustment",
-     * "inventory_count", "inventory_level", "inventory_receipt", "inventory_reservation",
-     * "inventory_transfer". anyOf[2] (Value): string. Value enum: "fulfillment",
-     * "inventory_adjustment", "inventory_count", "inventory_level", "inventory_receipt",
-     * "inventory_reservation", "inventory_transfer".
+     * Exact, case-sensitive filter. maxLength: 255. pattern: ^gc_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
      */
-    "source_reference_type"?: InputValue<("fulfillment"
-        | "inventory_adjustment"
-        | "inventory_count"
-        | "inventory_level"
-        | "inventory_receipt"
-        | "inventory_reservation"
-        | "inventory_transfer")
-        | readonly ("fulfillment"
-        | "inventory_adjustment"
-        | "inventory_count"
-        | "inventory_level"
-        | "inventory_receipt"
-        | "inventory_reservation"
-        | "inventory_transfer")[]>;
+    "gift_card_id"?: InputValue<string>;
     /**
-     * Filter by source_reference.resource_id. pattern:
-     * ^(ful|invadj|invc|invl|invr|invrea|invrec|invtr)_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "invadj_01KEZF7C00HFCAS32T4NVHX75M".
+     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
+     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
+     * pending resource does not prove that the operation succeeded, and an empty list does not
+     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
+     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      */
-    "source_reference_id"?: InputValue<string>;
+    "idempotency_key"?: InputValue<string>;
+    /**
+     * Exact, case-sensitive filter. maxLength: 255. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Exact, case-sensitive reference for the payment or import record that funded this value.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "source_external_reference_id"?: InputValue<string>;
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
      * a merchant-bound one, which it must match. Other credentials may send it only with their own
@@ -4547,166 +3156,102 @@ export type InventoryMovementsListParams = {
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/**
- * How Flint handles inventory failures for one order source: the action after a post-payment
- * inventory failure and for a blocked subscription.
- */
-export type InventoryOriginPolicy = {
-    /**
-     * What Flint does when it can't deduct stock for an order after the order is paid. Value enum:
-     * "exception_state", "auto_refund".
-     */
-    "post_payment_inventory_failure_action"?: "exception_state" | "auto_refund" | (string & {});
-    /**
-     * What happens when a subscription renewal cannot get stock. inventory_blocked_open_invoice
-     * creates an open invoice with collection_block_status inventory_blocked, external collection,
-     * caller-managed delivery, and no due date. past_due moves the subscription to past due. Value
-     * enum: "inventory_blocked_open_invoice", "past_due".
-     */
-    "subscription_inventory_block_action"?: "inventory_blocked_open_invoice" | "past_due" | (string & {});
-};
-/**
- * How Flint handles inventory failures for one order source: the action after a post-payment
- * inventory failure and for a blocked subscription.
- */
-export type InventoryOriginPolicyRequestInput = {
-    /**
-     * What Flint does when it can't deduct stock for an order after the order is paid. Value enum:
-     * "exception_state", "auto_refund".
-     */
-    "post_payment_inventory_failure_action"?: "exception_state" | "auto_refund";
-    /**
-     * What happens when a subscription renewal cannot get stock. inventory_blocked_open_invoice
-     * creates an open invoice with collection_block_status inventory_blocked, external collection,
-     * caller-managed delivery, and no due date. past_due moves the subscription to past due. Value
-     * enum: "inventory_blocked_open_invoice", "past_due".
-     */
-    "subscription_inventory_block_action"?: "inventory_blocked_open_invoice" | "past_due";
-};
-/** Where and when an inventory event happened: the source system, external actor, and time. */
-export type InventoryProvenanceRequest = ({
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
-     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string;
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. The source system
-     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
-     * identifier when it applies.
-     */
-    "source_system"?: InventorySourceSystemRequest;
-});
-/** Where and when an inventory event happened: the source system, external actor, and time. */
-export type InventoryProvenanceRequestInput = ({
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
-     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. The source system
-     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
-     * identifier when it applies.
-     */
-    "source_system"?: InventorySourceSystemRequestInput;
-});
-/**
- * Returned units received into Inventory, from a Return disposition or against the reservation
- * line that consumed them. For supplier deliveries, use POST /v1/inventory-adjustments with
- * reason: received.
- */
-export type InventoryReceipt = {
+/** A message sent to a gift card recipient. */
+export type GiftCardNotification = {
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "created_at": string;
     /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * maxLength: 255. Example: "warehouse-1842".
+     * Included on notification retrieval. Contains the most recent sending attempts and delivery
+     * events, newest first. A failed attempt describes the send call; use notification.status to
+     * determine whether acceptance remains unconfirmed. Delivery history of a gift card
+     * notification email: its send attempts and delivery events, and whether more of each exist.
      */
-    "external_actor_id"?: string;
+    "delivery"?: GiftCardNotificationDelivery;
+    /** ID of the gift card the notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". */
+    "gift_card_id": string;
     /**
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
+     * Unique identifier for this gift card notification, prefixed `gcn_`. Example:
+     * "gcn_01KEZF7C0023FN0HF9GH34RZA1".
      */
-    "idempotency_key"?: string;
+    "gift_card_notification_id": string;
     /**
-     * Unique identifier for this inventory receipt, prefixed `invrec_`. Example:
-     * "invrec_01KEZF7C00JXXCYA06SH8RCM2N".
+     * Who the notification is sent to. Who receives a gift card notification: their `email`,
+     * optional `name` and `message`, and an optional `send_at` time.
      */
-    "inventory_receipt_id": string;
+    "recipient": GiftCardPurchaseRecipient;
     /**
-     * Received lines, each with the item, receiving Location, quantity, and disposition. []
-     * (Value): {@link InventoryReceiptLine}. One line of an inventory receipt: a quantity of an
-     * item received at a Location with its disposition.
+     * ID of the earlier notification this one sends again. Example:
+     * "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
      */
-    "lines": Array<InventoryReceiptLine>;
+    "resend_of_notification_id"?: string;
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at": string;
+    "sent_at"?: string;
     /**
-     * ID of the Return disposition this receipt records. Absent when the receipt isn't linked to a
-     * Return. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     * Where sending the notification stands. Read `delivery` for the attempts and email events
+     * behind it. Value enum: "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled".
      */
-    "return_disposition_id"?: string;
+    "status": "scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {});
     /**
-     * ID of the Return these units came back on. Absent when the receipt isn't linked to a Return.
-     * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * Why the notification has its current status. credential_rotated means code rotation canceled
+     * an unsent notification for the previous code. Null when no reason applies. Value enum:
+     * "credential_rotated", null.
      */
-    "return_id"?: string;
+    "status_reason": "credential_rotated" | null | (string & {}) | null;
     /**
-     * System the change came from, such as a point-of-sale or warehouse system. `null` when the
-     * request named no source system. anyOf[1] (Value): {@link InventorySourceSystem}. The system
-     * an inventory event came from, such as manual entry, a point of sale, a warehouse system, or
-     * Flint, with your source identifier when it applies. anyOf[2] (Value): null.
+     * Lifecycle actions accepted for this notification's stored state, independent of the caller's
+     * credentials. Empty when none are available. [] enum: "cancel". [] (Value): string. Value
+     * enum: "cancel".
      */
-    "source_system": ((InventorySourceSystem) | (null));
+    "supported_actions": Array<"cancel" | (string & {})>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64.
+     */
+    "version": number;
 };
-export type InventoryReceiptCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type GiftCardNotificationCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
         "object": {
             "created_at": string;
-            "external_actor_id"?: string;
-            "idempotency_key"?: string;
-            "inventory_receipt_id": string;
-            "lines": Array<InventoryReceiptLine>;
-            "occurred_at": string;
-            "return_disposition_id"?: string;
-            "return_id"?: string;
-            "source_system": ((InventorySourceSystem) | (null));
+            "delivery"?: GiftCardNotificationDelivery;
+            "gift_card_id": string;
+            "gift_card_notification_id": string;
+            "recipient": GiftCardPurchaseRecipient;
+            "resend_of_notification_id"?: string;
+            "sent_at"?: string;
+            "status": "scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {});
+            "status_reason": "credential_rotated" | null | (string & {}) | null;
+            "supported_actions": Array<"cancel" | (string & {})>;
+            "updated_at": string;
+            "version": number;
         };
     };
     "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "inventory_receipt.created";
+    "event_type"?: "gift_card_notification.created";
 }))
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
         "object": {
             "created_at": string;
-            "external_actor_id"?: string;
-            "idempotency_key"?: string;
-            "inventory_receipt_id": string;
-            "lines": Array<InventoryReceiptLine>;
-            "occurred_at": string;
-            "return_disposition_id"?: string;
-            "return_id"?: string;
-            "source_system": ((InventorySourceSystem) | (null));
+            "delivery"?: GiftCardNotificationDelivery;
+            "gift_card_id": string;
+            "gift_card_notification_id": string;
+            "recipient": GiftCardPurchaseRecipient;
+            "resend_of_notification_id"?: string;
+            "sent_at"?: string;
+            "status": "scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {});
+            "status_reason": "credential_rotated" | null | (string & {}) | null;
+            "supported_actions": Array<"cancel" | (string & {})>;
+            "updated_at": string;
+            "version": number;
         };
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "inventory_receipt.created";
+    "event_type"?: "gift_card_notification.created";
     "source"?: ({
         "environment_grant_id": string;
         "merchant_id": string;
@@ -4716,116 +3261,140 @@ export type InventoryReceiptCreatedEvent = ((((Exclude<MerchantWebhookEnvelope &
     });
 })))
     & {
-    "event_type": "inventory_receipt.created";
+    "event_type": "gift_card_notification.created";
 });
 /**
- * The `inventory_receipt.created` webhook payload for the `installed_merchants` event source.
+ * The `gift_card_notification.created` webhook payload for the `installed_merchants` event source.
  * Fields shared by partner webhook payloads.
  */
-export type InventoryReceiptCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type GiftCardNotificationCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
      * additional fields. object.created_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.external_actor_id (Optional): string.
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * maxLength: 255. Example: "warehouse-1842". object.idempotency_key (Optional): string. The
-     * Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key. object.inventory_receipt_id (Required):
-     * string. Unique identifier for this inventory receipt, prefixed `invrec_`. Example:
-     * "invrec_01KEZF7C00JXXCYA06SH8RCM2N". object.lines (Required): Array of {@link
-     * InventoryReceiptLine}. Received lines, each with the item, receiving Location, quantity, and
-     * disposition. object.lines[] (Value): {@link InventoryReceiptLine}. One line of an inventory
-     * receipt: a quantity of an item received at a Location with its disposition.
-     * object.occurred_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.return_disposition_id (Optional): string. ID of the Return
-     * disposition this receipt records. Absent when the receipt isn't linked to a Return. Example:
-     * "retdsp_01KEZF7C007H87J66PH2EEK1VW". object.return_id (Optional): string. ID of the Return
-     * these units came back on. Absent when the receipt isn't linked to a Return. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X". object.source_system (Required): {@link
-     * InventorySourceSystem} or null. System the change came from, such as a point-of-sale or
-     * warehouse system. `null` when the request named no source system.
-     * object.source_system.anyOf[1] (Value): {@link InventorySourceSystem}. The system an
-     * inventory event came from, such as manual entry, a point of sale, a warehouse system, or
-     * Flint, with your source identifier when it applies. object.source_system.anyOf[2] (Value):
-     * null.
+     * date-time. Example: "2026-08-02T16:00:00Z". object.delivery (Optional): {@link
+     * GiftCardNotificationDelivery}. Included on notification retrieval. Contains the most recent
+     * sending attempts and delivery events, newest first. A failed attempt describes the send
+     * call; use notification.status to determine whether acceptance remains unconfirmed. Delivery
+     * history of a gift card notification email: its send attempts and delivery events, and
+     * whether more of each exist. object.gift_card_id (Required): string. ID of the gift card the
+     * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * object.gift_card_notification_id (Required): string. Unique identifier for this gift card
+     * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". object.recipient
+     * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who receives
+     * a gift card notification: their `email`, optional `name` and `message`, and an optional
+     * `send_at` time. object.resend_of_notification_id (Optional): string. ID of the earlier
+     * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". object.sent_at
+     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.status (Required): string. Where sending the notification stands. Read `delivery` for
+     * the attempts and email events behind it. Value enum: "scheduled", "pending", "sent",
+     * "failed", "unconfirmed", "canceled". object.status_reason (Required): string or null. Why
+     * the notification has its current status. credential_rotated means code rotation canceled an
+     * unsent notification for the previous code. Null when no reason applies. Value enum:
+     * "credential_rotated", null. object.supported_actions (Required): Array of string. Lifecycle
+     * actions accepted for this notification's stored state, independent of the caller's
+     * credentials. Empty when none are available. [] enum: "cancel". object.supported_actions[]
+     * (Value): string. Value enum: "cancel". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Current version of this resource's owned state. Send it as `expected_version` when
+     * changing the resource to reject a stale write. Format: int64.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit no additional fields.
          * created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". external_actor_id (Optional): string. Your identifier for the
-         * actor who recorded the event. Don't put secrets in this field. maxLength: 255. Example:
-         * "warehouse-1842". idempotency_key (Optional): string. The Idempotency-Key of the request
-         * that created this resource; on a movement, of the command that wrote it. Omitted when
-         * that request had no key. inventory_receipt_id (Required): string. Unique identifier for
-         * this inventory receipt, prefixed `invrec_`. Example:
-         * "invrec_01KEZF7C00JXXCYA06SH8RCM2N". lines (Required): Array of {@link
-         * InventoryReceiptLine}. Received lines, each with the item, receiving Location, quantity,
-         * and disposition. lines[] (Value): {@link InventoryReceiptLine}. One line of an inventory
-         * receipt: a quantity of an item received at a Location with its disposition. occurred_at
-         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". return_disposition_id (Optional): string. ID of the Return
-         * disposition this receipt records. Absent when the receipt isn't linked to a Return.
-         * Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_id (Optional): string. ID of the
-         * Return these units came back on. Absent when the receipt isn't linked to a Return.
-         * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". source_system (Required): {@link
-         * InventorySourceSystem} or null. System the change came from, such as a point-of-sale or
-         * warehouse system. `null` when the request named no source system. source_system.anyOf[1]
-         * (Value): {@link InventorySourceSystem}. The system an inventory event came from, such as
-         * manual entry, a point of sale, a warehouse system, or Flint, with your source identifier
-         * when it applies. source_system.anyOf[2] (Value): null.
+         * "2026-08-02T16:00:00Z". delivery (Optional): {@link GiftCardNotificationDelivery}.
+         * Included on notification retrieval. Contains the most recent sending attempts and
+         * delivery events, newest first. A failed attempt describes the send call; use
+         * notification.status to determine whether acceptance remains unconfirmed. Delivery
+         * history of a gift card notification email: its send attempts and delivery events, and
+         * whether more of each exist. gift_card_id (Required): string. ID of the gift card the
+         * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+         * gift_card_notification_id (Required): string. Unique identifier for this gift card
+         * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". recipient
+         * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who
+         * receives a gift card notification: their `email`, optional `name` and `message`, and an
+         * optional `send_at` time. resend_of_notification_id (Optional): string. ID of the earlier
+         * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". sent_at
+         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". status (Required): string. Where sending the notification
+         * stands. Read `delivery` for the attempts and email events behind it. Value enum:
+         * "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled". status_reason
+         * (Required): string or null. Why the notification has its current status.
+         * credential_rotated means code rotation canceled an unsent notification for the previous
+         * code. Null when no reason applies. Value enum: "credential_rotated", null.
+         * supported_actions (Required): Array of string. Lifecycle actions accepted for this
+         * notification's stored state, independent of the caller's credentials. Empty when none
+         * are available. [] enum: "cancel". supported_actions[] (Value): string. Value enum:
+         * "cancel". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: int64.
          */
         "object": {
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
             "created_at": string;
             /**
-             * Your identifier for the actor who recorded the event. Don't put secrets in this
-             * field. maxLength: 255. Example: "warehouse-1842".
+             * Included on notification retrieval. Contains the most recent sending attempts and
+             * delivery events, newest first. A failed attempt describes the send call; use
+             * notification.status to determine whether acceptance remains unconfirmed. Delivery
+             * history of a gift card notification email: its send attempts and delivery events,
+             * and whether more of each exist.
              */
-            "external_actor_id"?: string;
+            "delivery"?: GiftCardNotificationDelivery;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * ID of the gift card the notification is about. Example:
+             * "gc_01KEZF7C00RT1618WYBM1Y94CG".
              */
-            "idempotency_key"?: string;
+            "gift_card_id": string;
             /**
-             * Unique identifier for this inventory receipt, prefixed `invrec_`. Example:
-             * "invrec_01KEZF7C00JXXCYA06SH8RCM2N".
+             * Unique identifier for this gift card notification, prefixed `gcn_`. Example:
+             * "gcn_01KEZF7C0023FN0HF9GH34RZA1".
              */
-            "inventory_receipt_id": string;
+            "gift_card_notification_id": string;
             /**
-             * Received lines, each with the item, receiving Location, quantity, and disposition.
-             * [] (Value): {@link InventoryReceiptLine}. One line of an inventory receipt: a
-             * quantity of an item received at a Location with its disposition.
+             * Who the notification is sent to. Who receives a gift card notification: their
+             * `email`, optional `name` and `message`, and an optional `send_at` time.
              */
-            "lines": Array<InventoryReceiptLine>;
+            "recipient": GiftCardPurchaseRecipient;
+            /**
+             * ID of the earlier notification this one sends again. Example:
+             * "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
+             */
+            "resend_of_notification_id"?: string;
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "occurred_at": string;
+            "sent_at"?: string;
             /**
-             * ID of the Return disposition this receipt records. Absent when the receipt isn't
-             * linked to a Return. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+             * Where sending the notification stands. Read `delivery` for the attempts and email
+             * events behind it. Value enum: "scheduled", "pending", "sent", "failed",
+             * "unconfirmed", "canceled".
              */
-            "return_disposition_id"?: string;
+            "status": "scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {});
             /**
-             * ID of the Return these units came back on. Absent when the receipt isn't linked to a
-             * Return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+             * Why the notification has its current status. credential_rotated means code rotation
+             * canceled an unsent notification for the previous code. Null when no reason applies.
+             * Value enum: "credential_rotated", null.
              */
-            "return_id"?: string;
+            "status_reason": "credential_rotated" | null | (string & {}) | null;
             /**
-             * System the change came from, such as a point-of-sale or warehouse system. `null`
-             * when the request named no source system. anyOf[1] (Value): {@link
-             * InventorySourceSystem}. The system an inventory event came from, such as manual
-             * entry, a point of sale, a warehouse system, or Flint, with your source identifier
-             * when it applies. anyOf[2] (Value): null.
+             * Lifecycle actions accepted for this notification's stored state, independent of the
+             * caller's credentials. Empty when none are available. [] enum: "cancel". [] (Value):
+             * string. Value enum: "cancel".
              */
-            "source_system": ((InventorySourceSystem) | (null));
+            "supported_actions": Array<"cancel" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64.
+             */
+            "version": number;
         };
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "inventory_receipt.created". */
-    "event_type"?: "inventory_receipt.created";
+    /** Value enum: "gift_card_notification.created". */
+    "event_type"?: "gift_card_notification.created";
     /**
      *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
      * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
@@ -4862,247 +3431,287 @@ export type InventoryReceiptCreatedInstalledMerchantsEvent = (Exclude<PartnerWeb
     });
 });
 /**
- * The `inventory_receipt.created` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
+ * The `gift_card_notification.created` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
  */
-export type InventoryReceiptCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type GiftCardNotificationCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
      * additional fields. object.created_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.external_actor_id (Optional): string.
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * maxLength: 255. Example: "warehouse-1842". object.idempotency_key (Optional): string. The
-     * Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key. object.inventory_receipt_id (Required):
-     * string. Unique identifier for this inventory receipt, prefixed `invrec_`. Example:
-     * "invrec_01KEZF7C00JXXCYA06SH8RCM2N". object.lines (Required): Array of {@link
-     * InventoryReceiptLine}. Received lines, each with the item, receiving Location, quantity, and
-     * disposition. object.lines[] (Value): {@link InventoryReceiptLine}. One line of an inventory
-     * receipt: a quantity of an item received at a Location with its disposition.
-     * object.occurred_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.return_disposition_id (Optional): string. ID of the Return
-     * disposition this receipt records. Absent when the receipt isn't linked to a Return. Example:
-     * "retdsp_01KEZF7C007H87J66PH2EEK1VW". object.return_id (Optional): string. ID of the Return
-     * these units came back on. Absent when the receipt isn't linked to a Return. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X". object.source_system (Required): {@link
-     * InventorySourceSystem} or null. System the change came from, such as a point-of-sale or
-     * warehouse system. `null` when the request named no source system.
-     * object.source_system.anyOf[1] (Value): {@link InventorySourceSystem}. The system an
-     * inventory event came from, such as manual entry, a point of sale, a warehouse system, or
-     * Flint, with your source identifier when it applies. object.source_system.anyOf[2] (Value):
-     * null.
+     * date-time. Example: "2026-08-02T16:00:00Z". object.delivery (Optional): {@link
+     * GiftCardNotificationDelivery}. Included on notification retrieval. Contains the most recent
+     * sending attempts and delivery events, newest first. A failed attempt describes the send
+     * call; use notification.status to determine whether acceptance remains unconfirmed. Delivery
+     * history of a gift card notification email: its send attempts and delivery events, and
+     * whether more of each exist. object.gift_card_id (Required): string. ID of the gift card the
+     * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * object.gift_card_notification_id (Required): string. Unique identifier for this gift card
+     * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". object.recipient
+     * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who receives
+     * a gift card notification: their `email`, optional `name` and `message`, and an optional
+     * `send_at` time. object.resend_of_notification_id (Optional): string. ID of the earlier
+     * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". object.sent_at
+     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.status (Required): string. Where sending the notification stands. Read `delivery` for
+     * the attempts and email events behind it. Value enum: "scheduled", "pending", "sent",
+     * "failed", "unconfirmed", "canceled". object.status_reason (Required): string or null. Why
+     * the notification has its current status. credential_rotated means code rotation canceled an
+     * unsent notification for the previous code. Null when no reason applies. Value enum:
+     * "credential_rotated", null. object.supported_actions (Required): Array of string. Lifecycle
+     * actions accepted for this notification's stored state, independent of the caller's
+     * credentials. Empty when none are available. [] enum: "cancel". object.supported_actions[]
+     * (Value): string. Value enum: "cancel". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Current version of this resource's owned state. Send it as `expected_version` when
+     * changing the resource to reject a stale write. Format: int64.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit no additional fields.
          * created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". external_actor_id (Optional): string. Your identifier for the
-         * actor who recorded the event. Don't put secrets in this field. maxLength: 255. Example:
-         * "warehouse-1842". idempotency_key (Optional): string. The Idempotency-Key of the request
-         * that created this resource; on a movement, of the command that wrote it. Omitted when
-         * that request had no key. inventory_receipt_id (Required): string. Unique identifier for
-         * this inventory receipt, prefixed `invrec_`. Example:
-         * "invrec_01KEZF7C00JXXCYA06SH8RCM2N". lines (Required): Array of {@link
-         * InventoryReceiptLine}. Received lines, each with the item, receiving Location, quantity,
-         * and disposition. lines[] (Value): {@link InventoryReceiptLine}. One line of an inventory
-         * receipt: a quantity of an item received at a Location with its disposition. occurred_at
-         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". return_disposition_id (Optional): string. ID of the Return
-         * disposition this receipt records. Absent when the receipt isn't linked to a Return.
-         * Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_id (Optional): string. ID of the
-         * Return these units came back on. Absent when the receipt isn't linked to a Return.
-         * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". source_system (Required): {@link
-         * InventorySourceSystem} or null. System the change came from, such as a point-of-sale or
-         * warehouse system. `null` when the request named no source system. source_system.anyOf[1]
-         * (Value): {@link InventorySourceSystem}. The system an inventory event came from, such as
-         * manual entry, a point of sale, a warehouse system, or Flint, with your source identifier
-         * when it applies. source_system.anyOf[2] (Value): null.
+         * "2026-08-02T16:00:00Z". delivery (Optional): {@link GiftCardNotificationDelivery}.
+         * Included on notification retrieval. Contains the most recent sending attempts and
+         * delivery events, newest first. A failed attempt describes the send call; use
+         * notification.status to determine whether acceptance remains unconfirmed. Delivery
+         * history of a gift card notification email: its send attempts and delivery events, and
+         * whether more of each exist. gift_card_id (Required): string. ID of the gift card the
+         * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+         * gift_card_notification_id (Required): string. Unique identifier for this gift card
+         * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". recipient
+         * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who
+         * receives a gift card notification: their `email`, optional `name` and `message`, and an
+         * optional `send_at` time. resend_of_notification_id (Optional): string. ID of the earlier
+         * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". sent_at
+         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". status (Required): string. Where sending the notification
+         * stands. Read `delivery` for the attempts and email events behind it. Value enum:
+         * "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled". status_reason
+         * (Required): string or null. Why the notification has its current status.
+         * credential_rotated means code rotation canceled an unsent notification for the previous
+         * code. Null when no reason applies. Value enum: "credential_rotated", null.
+         * supported_actions (Required): Array of string. Lifecycle actions accepted for this
+         * notification's stored state, independent of the caller's credentials. Empty when none
+         * are available. [] enum: "cancel". supported_actions[] (Value): string. Value enum:
+         * "cancel". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: int64.
          */
         "object": {
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
             "created_at": string;
             /**
-             * Your identifier for the actor who recorded the event. Don't put secrets in this
-             * field. maxLength: 255. Example: "warehouse-1842".
+             * Included on notification retrieval. Contains the most recent sending attempts and
+             * delivery events, newest first. A failed attempt describes the send call; use
+             * notification.status to determine whether acceptance remains unconfirmed. Delivery
+             * history of a gift card notification email: its send attempts and delivery events,
+             * and whether more of each exist.
              */
-            "external_actor_id"?: string;
+            "delivery"?: GiftCardNotificationDelivery;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * ID of the gift card the notification is about. Example:
+             * "gc_01KEZF7C00RT1618WYBM1Y94CG".
              */
-            "idempotency_key"?: string;
+            "gift_card_id": string;
             /**
-             * Unique identifier for this inventory receipt, prefixed `invrec_`. Example:
-             * "invrec_01KEZF7C00JXXCYA06SH8RCM2N".
+             * Unique identifier for this gift card notification, prefixed `gcn_`. Example:
+             * "gcn_01KEZF7C0023FN0HF9GH34RZA1".
              */
-            "inventory_receipt_id": string;
+            "gift_card_notification_id": string;
             /**
-             * Received lines, each with the item, receiving Location, quantity, and disposition.
-             * [] (Value): {@link InventoryReceiptLine}. One line of an inventory receipt: a
-             * quantity of an item received at a Location with its disposition.
+             * Who the notification is sent to. Who receives a gift card notification: their
+             * `email`, optional `name` and `message`, and an optional `send_at` time.
              */
-            "lines": Array<InventoryReceiptLine>;
+            "recipient": GiftCardPurchaseRecipient;
+            /**
+             * ID of the earlier notification this one sends again. Example:
+             * "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
+             */
+            "resend_of_notification_id"?: string;
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "occurred_at": string;
+            "sent_at"?: string;
             /**
-             * ID of the Return disposition this receipt records. Absent when the receipt isn't
-             * linked to a Return. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+             * Where sending the notification stands. Read `delivery` for the attempts and email
+             * events behind it. Value enum: "scheduled", "pending", "sent", "failed",
+             * "unconfirmed", "canceled".
              */
-            "return_disposition_id"?: string;
+            "status": "scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {});
             /**
-             * ID of the Return these units came back on. Absent when the receipt isn't linked to a
-             * Return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+             * Why the notification has its current status. credential_rotated means code rotation
+             * canceled an unsent notification for the previous code. Null when no reason applies.
+             * Value enum: "credential_rotated", null.
              */
-            "return_id"?: string;
+            "status_reason": "credential_rotated" | null | (string & {}) | null;
             /**
-             * System the change came from, such as a point-of-sale or warehouse system. `null`
-             * when the request named no source system. anyOf[1] (Value): {@link
-             * InventorySourceSystem}. The system an inventory event came from, such as manual
-             * entry, a point of sale, a warehouse system, or Flint, with your source identifier
-             * when it applies. anyOf[2] (Value): null.
+             * Lifecycle actions accepted for this notification's stored state, independent of the
+             * caller's credentials. Empty when none are available. [] enum: "cancel". [] (Value):
+             * string. Value enum: "cancel".
              */
-            "source_system": ((InventorySourceSystem) | (null));
+            "supported_actions": Array<"cancel" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64.
+             */
+            "version": number;
         };
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
-    /** Value enum: "inventory_receipt.created". */
-    "event_type"?: "inventory_receipt.created";
+    /** Value enum: "gift_card_notification.created". */
+    "event_type"?: "gift_card_notification.created";
 });
 /**
- * One line of an inventory receipt: a quantity of an item received at a Location with its
- * disposition.
+ * Delivery history of a gift card notification email: its send attempts and delivery events, and
+ * whether more of each exist.
  */
-export type InventoryReceiptLine = {
+export type GiftCardNotificationDelivery = {
     /**
-     * sellable adds on-hand stock available for sale. quality_control, damaged, and quarantined
-     * add on-hand stock to the matching condition bucket. lost records returned units that were
-     * lost and changes no stock quantity. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "lost".
+     * Recent delivery attempts for the notification. maxItems: 20. [] (Value): {@link
+     * GiftCardNotificationDeliveryAttempt}. One attempt to send a gift card notification email,
+     * with its attempt number, status, and start and completion times.
      */
-    "disposition": "sellable" | "quality_control" | "damaged" | "quarantined" | "lost" | (string & {});
-    /** ID of the inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY". */
-    "inventory_item_id": string;
+    "attempts": Array<GiftCardNotificationDeliveryAttempt>;
     /**
-     * Movement this line wrote. Absent when the line wrote none. Example:
-     * "invm_01KEZF7C00DYPFT9PS0NZY805Z".
+     * Recent delivery events for the notification. maxItems: 50. [] (Value): {@link
+     * GiftCardNotificationDeliveryEvent}. A delivery event for a gift card notification email,
+     * such as accepted, delivered, bounced, or dropped, with when it occurred and was received.
      */
-    "inventory_movement_id"?: string;
-    /**
-     * Unique identifier for this inventory receipt line, prefixed `invrecln_`. Example:
-     * "invrecln_01KEZF7C00CN4N90YY8T10462F".
-     */
-    "inventory_receipt_line_id": string;
-    /**
-     * ID of the reservation whose consumed stock these units came from. Example:
-     * "invr_01KEZF7C0041ENRR0C2NF3AP12".
-     */
-    "inventory_reservation_id"?: string;
-    /**
-     * ID of the consumed reservation line these units came from. Example:
-     * "invrln_01KEZF7C002JCDA729XDSNWGY5".
-     */
-    "inventory_reservation_line_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /** ID of the Location that receives the units. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-    "receiving_location_id": string;
-    /**
-     * ID of the Return disposition this receipt records. Absent when the receipt isn't linked to a
-     * Return. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-     */
-    "return_disposition_id"?: string;
-    /**
-     * Return that owns return_line_item_id. `null` when return_line_item_id is null. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string | null;
-    /**
-     * ID of the Return line item these units belong to. Absent when the line isn't linked to a
-     * Return. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id"?: string;
+    "events": Array<GiftCardNotificationDeliveryEvent>;
+    /** Whether the notification has more attempts than `attempts` lists. */
+    "has_more_attempts": boolean;
+    /** Whether the notification has more events than `events` lists. */
+    "has_more_events": boolean;
 };
 /**
- * One line of an inventory receipt you supply: a quantity of an item received at a Location with
- * its disposition.
+ * One attempt to send a gift card notification email, with its attempt number, status, and start
+ * and completion times.
  */
-export type InventoryReceiptLineRequest = {
+export type GiftCardNotificationDeliveryAttempt = {
+    /** Which attempt this is for the notification, starting at 1. Format: int64. */
+    "attempt_number": number;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "completed_at"?: string;
+    /** ID of this delivery attempt. Example: "edat_01KEZF7C00AX45366QP3FMY6VH". */
+    "delivery_attempt_id": string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "started_at": string;
     /**
-     * sellable adds on-hand stock available for sale. quality_control, damaged, and quarantined
-     * add on-hand stock to the matching condition bucket. lost records returned units that were
-     * lost and changes no stock quantity. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "lost".
+     * Where this delivery attempt stands. Value enum: "pending", "sent", "failed", "unconfirmed".
      */
-    "disposition": "sellable" | "quality_control" | "damaged" | "quarantined" | "lost" | (string & {});
+    "status": "pending" | "sent" | "failed" | "unconfirmed" | (string & {});
+};
+export type GiftCardNotificationDeliveryAttemptPreviousAttributes = {
     /**
-     * ID of the inventory item the stock is for. minLength: 1. Example:
-     * "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+     * Which attempt this is for the notification, starting at 1. anyOf[1] (Value): integer. Which
+     * attempt this is for the notification, starting at 1. Format: int64. anyOf[2] (Value): null.
      */
-    "inventory_item_id": string;
+    "attempt_number"?: ((number) | (null));
     /**
-     * The reservation whose consumed stock is being returned. minLength: 1. Example:
-     * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      */
-    "inventory_reservation_id": string;
+    "completed_at"?: ((string) | (null));
     /**
-     * The consumed reservation line. Received quantity cannot exceed consumed quantity less prior
-     * receipts. minLength: 1. Example: "invrln_01KEZF7C002JCDA729XDSNWGY5".
+     * ID of this delivery attempt. anyOf[1] (Value): string. ID of this delivery attempt. Example:
+     * "edat_01KEZF7C00AX45366QP3FMY6VH". anyOf[2] (Value): null.
      */
-    "inventory_reservation_line_id": string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
+    "delivery_attempt_id"?: ((string) | (null));
     /**
-     * ID of the Location that receives the units. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      */
-    "receiving_location_id": string;
+    "started_at"?: ((string) | (null));
+    /**
+     * Where this delivery attempt stands. Value enum: "pending", "sent", "failed", "unconfirmed".
+     * anyOf[1] (Value): string. Where this delivery attempt stands. Value enum: "pending", "sent",
+     * "failed", "unconfirmed". anyOf[2] (Value): null.
+     */
+    "status"?: (("pending" | "sent" | "failed" | "unconfirmed" | (string & {})) | (null));
 };
 /**
- * One line of an inventory receipt you supply: a quantity of an item received at a Location with
- * its disposition.
+ * A delivery event for a gift card notification email, such as accepted, delivered, bounced, or
+ * dropped, with when it occurred and was received.
  */
-export type InventoryReceiptLineRequestInput = {
+export type GiftCardNotificationDeliveryEvent = {
     /**
-     * sellable adds on-hand stock available for sale. quality_control, damaged, and quarantined
-     * add on-hand stock to the matching condition bucket. lost records returned units that were
-     * lost and changes no stock quantity. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "lost".
+     * ID of the delivery attempt the event belongs to. Example: "edat_01KEZF7C00AX45366QP3FMY6VH".
      */
-    "disposition": "sellable" | "quality_control" | "damaged" | "quarantined" | "lost";
+    "delivery_attempt_id": string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "occurred_at": string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "received_at": string;
     /**
-     * ID of the inventory item the stock is for. minLength: 1. Example:
-     * "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+     * accepted means Flint's email service accepted the message for delivery; delivered means it
+     * reached the recipient's mail server; bounced means delivery failed; dropped means the
+     * message was not sent. Value enum: "accepted", "delivered", "bounced", "dropped".
      */
-    "inventory_item_id": string;
-    /**
-     * The reservation whose consumed stock is being returned. minLength: 1. Example:
-     * "invr_01KEZF7C0041ENRR0C2NF3AP12".
-     */
-    "inventory_reservation_id": string;
-    /**
-     * The consumed reservation line. Received quantity cannot exceed consumed quantity less prior
-     * receipts. minLength: 1. Example: "invrln_01KEZF7C002JCDA729XDSNWGY5".
-     */
-    "inventory_reservation_line_id": string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * ID of the Location that receives the units. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "receiving_location_id": string;
+    "type": "accepted" | "delivered" | "bounced" | "dropped" | (string & {});
 };
-/** A page of `InventoryReceipt` objects. */
-export type InventoryReceiptListResponse = {
+export type GiftCardNotificationDeliveryEventPreviousAttributes = {
+    /**
+     * ID of the delivery attempt the event belongs to. anyOf[1] (Value): string. ID of the
+     * delivery attempt the event belongs to. Example: "edat_01KEZF7C00AX45366QP3FMY6VH". anyOf[2]
+     * (Value): null.
+     */
+    "delivery_attempt_id"?: ((string) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "occurred_at"?: ((string) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "received_at"?: ((string) | (null));
+    /**
+     * accepted means Flint's email service accepted the message for delivery; delivered means it
+     * reached the recipient's mail server; bounced means delivery failed; dropped means the
+     * message was not sent. Value enum: "accepted", "delivered", "bounced", "dropped". anyOf[1]
+     * (Value): string. accepted means Flint's email service accepted the message for delivery;
+     * delivered means it reached the recipient's mail server; bounced means delivery failed;
+     * dropped means the message was not sent. Value enum: "accepted", "delivered", "bounced",
+     * "dropped". anyOf[2] (Value): null.
+     */
+    "type"?: (("accepted" | "delivered" | "bounced" | "dropped" | (string & {})) | (null));
+};
+export type GiftCardNotificationDeliveryPreviousAttributes = {
+    /**
+     * Recent delivery attempts for the notification. anyOf[1] (Value): Array of {@link
+     * GiftCardNotificationDeliveryAttemptPreviousAttributes}. Recent delivery attempts for the
+     * notification. maxItems: 20. anyOf[1][] (Value): {@link
+     * GiftCardNotificationDeliveryAttemptPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "attempts"?: ((Array<GiftCardNotificationDeliveryAttemptPreviousAttributes>) | (null));
+    /**
+     * Recent delivery events for the notification. anyOf[1] (Value): Array of {@link
+     * GiftCardNotificationDeliveryEventPreviousAttributes}. Recent delivery events for the
+     * notification. maxItems: 50. anyOf[1][] (Value): {@link
+     * GiftCardNotificationDeliveryEventPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "events"?: ((Array<GiftCardNotificationDeliveryEventPreviousAttributes>) | (null));
+    /**
+     * Whether the notification has more attempts than `attempts` lists. anyOf[1] (Value): boolean.
+     * Whether the notification has more attempts than `attempts` lists. anyOf[2] (Value): null.
+     */
+    "has_more_attempts"?: ((boolean) | (null));
+    /**
+     * Whether the notification has more events than `events` lists. anyOf[1] (Value): boolean.
+     * Whether the notification has more events than `events` lists. anyOf[2] (Value): null.
+     */
+    "has_more_events"?: ((boolean) | (null));
+};
+/** A page of `GiftCardNotification` objects. */
+export type GiftCardNotificationListResponse = {
     /**
      * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * InventoryReceipt}. Returned units received into Inventory, from a Return disposition or
-     * against the reservation line that consumed them. For supplier deliveries, use POST
-     * /v1/inventory-adjustments with reason: received.
+     * GiftCardNotification}. A message sent to a gift card recipient.
      */
-    "data": Array<InventoryReceipt>;
+    "data": Array<GiftCardNotification>;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -5119,14 +3728,33 @@ export type InventoryReceiptListResponse = {
      */
     "request_id": string;
 };
-/** A response containing `InventoryReceipt` data. */
-export type InventoryReceiptResponse = {
+/**
+ * Who receives a gift card notification: their `email`, optional `name` and `message`, and an
+ * optional `send_at` time.
+ */
+export type GiftCardNotificationRecipientInput = {
     /**
-     * Resource, collection, or operation result returned by this request. Returned units received
-     * into Inventory, from a Return disposition or against the reservation line that consumed
-     * them. For supplier deliveries, use POST /v1/inventory-adjustments with reason: received.
+     * Email address the notification is sent to. Format: email. minLength: 1. maxLength: 254.
+     * Example: "buyer@example.com".
      */
-    "data": InventoryReceipt;
+    "email": string;
+    /** Message included in the notification. minLength: 1. maxLength: 200. */
+    "message"?: string;
+    /** Name of the person the notification is addressed to. minLength: 1. maxLength: 255. */
+    "name"?: string;
+    /**
+     * Optional whole-second send time between now and 90 days from now. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "send_at"?: string | globalThis.Date;
+};
+/** A response containing `GiftCardNotification` data. */
+export type GiftCardNotificationResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A message sent to a gift
+     * card recipient.
+     */
+    "data": GiftCardNotification;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -5138,273 +3766,20 @@ export type InventoryReceiptResponse = {
      */
     "request_id": string;
 };
-/**
- * Inventory receipt and the levels it changed. inventory_receipt is the primary resource and
- * expected_version target.
- */
-export type InventoryReceiptResult = {
-    /**
-     * Post-commit state of every level this command touched, one entry per level. A replay returns
-     * the levels the original command produced. Empty when no levels changed. [] (Value): {@link
-     * InventoryLevel}. The quantity state of one inventory item at one Location.
-     */
-    "inventory_levels": Array<InventoryLevel>;
-    /**
-     * The recorded receipt. Returned units received into Inventory, from a Return disposition or
-     * against the reservation line that consumed them. For supplier deliveries, use POST
-     * /v1/inventory-adjustments with reason: received.
-     */
-    "inventory_receipt": InventoryReceipt;
-};
-/** A response containing `InventoryReceiptResult` data. */
-export type InventoryReceiptResultResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. Inventory receipt and
-     * the levels it changed. inventory_receipt is the primary resource and expected_version
-     * target.
-     */
-    "data": InventoryReceiptResult;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type InventoryReceiptsCreateParams = (InputValue<CreateInventoryReceiptRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type InventoryReceiptsGetParams = DisputesAcceptParams;
-export type InventoryReceiptsListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by inventory item. pattern: ^invi_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-     */
-    "inventory_item_id"?: InputValue<string>;
-    /**
-     * Filter by receiving Location. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "receiving_location_id"?: InputValue<string>;
-    /**
-     * Filter by source reservation. pattern: ^invr_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "invr_01KEZF7C0041ENRR0C2NF3AP12".
-     */
-    "inventory_reservation_id"?: InputValue<string>;
-    /**
-     * Filter by the customer Return that produced the receipt. pattern:
-     * ^ret_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id"?: InputValue<string>;
-    /**
-     * Filter by the Return disposition that produced the receipt. pattern:
-     * ^retdsp_[0-9A-HJKMNP-TV-Z]{26}$. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-     */
-    "return_disposition_id"?: InputValue<string>;
-    /**
-     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
-     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
-     * pending resource does not prove that the operation succeeded, and an empty list does not
-     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
-     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
-     */
-    "idempotency_key"?: InputValue<string>;
-    /**
-     * Filter by source-system type. Values are trimmed and deduplicated in first-seen order; empty
-     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "manual", "pos", "wms", "erp", "flint", "other". Value enum: "manual",
-     * "pos", "wms", "erp", "flint", "other". anyOf[1] (Value): Array of string. minItems: 1. []
-     * enum: "manual", "pos", "wms", "erp", "flint", "other". anyOf[1][] (Value): string. Value
-     * enum: "manual", "pos", "wms", "erp", "flint", "other". anyOf[2] (Value): string. Value enum:
-     * "manual", "pos", "wms", "erp", "flint", "other".
-     */
-    "source_system_type"?: InputValue<("manual" | "pos" | "wms" | "erp" | "flint" | "other")
-        | readonly ("manual" | "pos" | "wms" | "erp" | "flint" | "other")[]>;
-    /** Filter by external source ID. Example: "warehouse-1842". */
-    "external_source_id"?: InputValue<string>;
-    /** Filter by external actor ID. Example: "warehouse-1842". */
-    "external_actor_id"?: InputValue<string>;
-    /** Inclusive lower bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "occurred_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "occurred_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/**
- * A claim on stock. Quantity moves from held to committed to consumed, and can be released or
- * reallocated.
- */
-export type InventoryReservation = {
-    /**
-     * How the reservation ended. adopted when its remaining held stock moved to a delivery
-     * selection. mixed when more than one terminal outcome applied. `null` when the reservation
-     * isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
-     * "mixed", null.
-     */
-    "closed_reason"?: "consumed"
-        | "released"
-        | "expired"
-        | "reallocated"
-        | "adopted"
-        | "mixed"
-        | null
-        | (string & {})
-        | null;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * When held quantity is released if it isn't committed first. Backordered quantity that
-     * payment hasn't confirmed yet carries the same deadline. Committed and consumed quantity
-     * never expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "expires_at": string | null;
-    /**
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
-     */
-    "idempotency_key"?: string;
-    /**
-     * Present when the claim needs a merchant action before commerce can continue. Says that an
-     * inventory reservation needs action, with the `reason` and the reservation lines affected.
-     */
-    "inventory_action_required"?: InventoryActionRequired;
-    /**
-     * Unique identifier for this inventory reservation, prefixed `invr_`. Example:
-     * "invr_01KEZF7C0041ENRR0C2NF3AP12".
-     */
-    "inventory_reservation_id": string;
-    /**
-     * How Flint chooses the Locations that serve the reservation: one fixed Location, an
-     * allocation policy, or a specific policy revision. Where an order, payment link, or
-     * reservation routes inventory from: a fixed Location, an inventory allocation policy, or one
-     * policy revision.
-     */
-    "inventory_routing_source": InventoryRoutingSource;
-    /**
-     * Allocations of the reserved stock, one for each item and Location. [] (Value): {@link
-     * InventoryReservationLine}. One item's location allocation within a reservation.
-     */
-    "lines": Array<InventoryReservationLine>;
-    /**
-     * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who
-     * holds an inventory reservation: either a merchant claim identified by your `key`, or an
-     * order.
-     */
-    "owner": InventoryReservationOwner;
-    /**
-     * Set on a reservation whose claim Flint moved when it rerouted an order: the replacement
-     * reservation that now holds the quantity named in this reservation's reallocated_quantity.
-     * Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-     */
-    "replacement_inventory_reservation_id"?: string;
-    /**
-     * Set on a replacement reservation: the reservation whose claim Flint moved here when it
-     * rerouted an order. This reservation holds the quantity that reservation reports as
-     * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-     */
-    "source_inventory_reservation_id"?: string;
-    /**
-     * active while any held, committed, or backordered quantity remains; closed once none does.
-     * Value enum: "active", "closed".
-     */
-    "status": "active" | "closed" | (string & {});
-    /**
-     * Actions that can change this reservation now. Empty for a closed reservation and for one
-     * Flint holds for an order. Resending targets already applied succeeds in any status. Computed
-     * when Flint produced this response or event, so replays and webhooks keep their original
-     * value. [] enum: "commit", "consume", "release". [] (Value): string. Value enum: "commit",
-     * "consume", "release".
-     */
-    "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * The reservation version. Send it as expected_version to reject a write if the reservation
-     * changed. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
-export type InventoryReservationActionRequiredEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type GiftCardNotificationUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
         "object": {
-            "closed_reason"?: "consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null;
             "created_at": string;
-            "expires_at": string | null;
-            "idempotency_key"?: string;
-            "inventory_action_required"?: InventoryActionRequired;
-            "inventory_reservation_id": string;
-            "inventory_routing_source": InventoryRoutingSource;
-            "lines": Array<InventoryReservationLine>;
-            "owner": InventoryReservationOwner;
-            "replacement_inventory_reservation_id"?: string;
-            "source_inventory_reservation_id"?: string;
-            "status": "active" | "closed" | (string & {});
-            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            "delivery"?: GiftCardNotificationDelivery;
+            "gift_card_id": string;
+            "gift_card_notification_id": string;
+            "recipient": GiftCardPurchaseRecipient;
+            "resend_of_notification_id"?: string;
+            "sent_at"?: string;
+            "status": "scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {});
+            "status_reason": "credential_rotated" | null | (string & {}) | null;
+            "supported_actions": Array<"cancel" | (string & {})>;
             "updated_at": string;
             "version": number;
         };
@@ -5412,61 +3787,37 @@ export type InventoryReservationActionRequiredEvent = ((((Exclude<MerchantWebhoo
             [key: string]: unknown;
         })
             & ({
-            "closed_reason"?: (("consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
             "created_at"?: ((string) | (null));
-            "expires_at"?: ((string | null) | (null) | (unknown));
-            "idempotency_key"?: ((string) | (null));
-            "inventory_action_required"?: ((InventoryActionRequired) | (null));
-            "inventory_reservation_id"?: ((string) | (null));
-            "inventory_routing_source"?: ((InventoryRoutingSource) | (null));
-            "lines"?: ((Array<InventoryReservationLine>) | (null));
-            "owner"?: ((InventoryReservationOwner) | (null) | (unknown));
-            "replacement_inventory_reservation_id"?: ((string) | (null));
-            "source_inventory_reservation_id"?: ((string) | (null));
-            "status"?: (("active" | "closed" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"commit" | "consume" | "release" | (string & {})>) | (null));
+            "delivery"?: ((GiftCardNotificationDeliveryPreviousAttributes) | (null) | (unknown));
+            "gift_card_id"?: ((string) | (null));
+            "gift_card_notification_id"?: ((string) | (null));
+            "recipient"?: ((GiftCardPurchaseRecipientPreviousAttributes) | (null) | (unknown));
+            "resend_of_notification_id"?: ((string) | (null));
+            "sent_at"?: ((string) | (null));
+            "status"?: (("scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {})) | (null));
+            "status_reason"?: (("credential_rotated" | null | (string & {}) | null) | (null) | (unknown));
+            "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
         });
     };
     "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "inventory_reservation.action_required";
+    "event_type"?: "gift_card_notification.updated";
 }))
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
         "object": {
-            "closed_reason"?: "consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null;
             "created_at": string;
-            "expires_at": string | null;
-            "idempotency_key"?: string;
-            "inventory_action_required"?: InventoryActionRequired;
-            "inventory_reservation_id": string;
-            "inventory_routing_source": InventoryRoutingSource;
-            "lines": Array<InventoryReservationLine>;
-            "owner": InventoryReservationOwner;
-            "replacement_inventory_reservation_id"?: string;
-            "source_inventory_reservation_id"?: string;
-            "status": "active" | "closed" | (string & {});
-            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            "delivery"?: GiftCardNotificationDelivery;
+            "gift_card_id": string;
+            "gift_card_notification_id": string;
+            "recipient": GiftCardPurchaseRecipient;
+            "resend_of_notification_id"?: string;
+            "sent_at"?: string;
+            "status": "scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {});
+            "status_reason": "credential_rotated" | null | (string & {}) | null;
+            "supported_actions": Array<"cancel" | (string & {})>;
             "updated_at": string;
             "version": number;
         };
@@ -5474,35 +3825,22 @@ export type InventoryReservationActionRequiredEvent = ((((Exclude<MerchantWebhoo
             [key: string]: unknown;
         })
             & ({
-            "closed_reason"?: (("consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
             "created_at"?: ((string) | (null));
-            "expires_at"?: ((string | null) | (null) | (unknown));
-            "idempotency_key"?: ((string) | (null));
-            "inventory_action_required"?: ((InventoryActionRequired) | (null));
-            "inventory_reservation_id"?: ((string) | (null));
-            "inventory_routing_source"?: ((InventoryRoutingSource) | (null));
-            "lines"?: ((Array<InventoryReservationLine>) | (null));
-            "owner"?: ((InventoryReservationOwner) | (null) | (unknown));
-            "replacement_inventory_reservation_id"?: ((string) | (null));
-            "source_inventory_reservation_id"?: ((string) | (null));
-            "status"?: (("active" | "closed" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"commit" | "consume" | "release" | (string & {})>) | (null));
+            "delivery"?: ((GiftCardNotificationDeliveryPreviousAttributes) | (null) | (unknown));
+            "gift_card_id"?: ((string) | (null));
+            "gift_card_notification_id"?: ((string) | (null));
+            "recipient"?: ((GiftCardPurchaseRecipientPreviousAttributes) | (null) | (unknown));
+            "resend_of_notification_id"?: ((string) | (null));
+            "sent_at"?: ((string) | (null));
+            "status"?: (("scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {})) | (null));
+            "status_reason"?: (("credential_rotated" | null | (string & {}) | null) | (null) | (unknown));
+            "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
         });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "inventory_reservation.action_required";
+    "event_type"?: "gift_card_notification.updated";
     "source"?: ({
         "environment_grant_id": string;
         "merchant_id": string;
@@ -5512,294 +3850,195 @@ export type InventoryReservationActionRequiredEvent = ((((Exclude<MerchantWebhoo
     });
 })))
     & {
-    "event_type": "inventory_reservation.action_required";
+    "event_type": "gift_card_notification.updated";
 });
 /**
- * The `inventory_reservation.action_required` webhook payload for the `installed_merchants` event
- * source. Fields shared by partner webhook payloads.
+ * The `gift_card_notification.updated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
  */
-export type InventoryReservationActionRequiredInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type GiftCardNotificationUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_reason (Optional): string or null. How the reservation
-     * ended. adopted when its remaining held stock moved to a delivery selection. mixed when more
-     * than one terminal outcome applied. `null` when the reservation isn't closed. Value enum:
-     * "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
-     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.expires_at (Required): string or null. When held quantity is
-     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
-     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
-     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.idempotency_key (Optional): string. The Idempotency-Key of
-     * the request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. object.inventory_action_required (Optional): {@link
-     * InventoryActionRequired}. Present when the claim needs a merchant action before commerce can
-     * continue. Says that an inventory reservation needs action, with the `reason` and the
-     * reservation lines affected. object.inventory_reservation_id (Required): string. Unique
-     * identifier for this inventory reservation, prefixed `invr_`. Example:
-     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.inventory_routing_source (Required): {@link
-     * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
-     * fixed Location, an allocation policy, or a specific policy revision. Where an order, payment
-     * link, or reservation routes inventory from: a fixed Location, an inventory allocation
-     * policy, or one policy revision. object.lines (Required): Array of {@link
-     * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
-     * Location. object.lines[] (Value): {@link InventoryReservationLine}. One item's location
-     * allocation within a reservation. object.owner (Required): {@link InventoryReservationOwner}.
-     * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who
-     * holds an inventory reservation: either a merchant claim identified by your `key`, or an
-     * order. object.replacement_inventory_reservation_id (Optional): string. Set on a reservation
-     * whose claim Flint moved when it rerouted an order: the replacement reservation that now
-     * holds the quantity named in this reservation's reallocated_quantity. Example:
-     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.source_inventory_reservation_id (Optional):
-     * string. Set on a replacement reservation: the reservation whose claim Flint moved here when
-     * it rerouted an order. This reservation holds the quantity that reservation reports as
-     * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". object.status (Required):
-     * string. active while any held, committed, or backordered quantity remains; closed once none
-     * does. Value enum: "active", "closed". object.supported_actions (Required): Array of string.
-     * Actions that can change this reservation now. Empty for a closed reservation and for one
-     * Flint holds for an order. Resending targets already applied succeeds in any status. Computed
-     * when Flint produced this response or event, so replays and webhooks keep their original
-     * value. [] enum: "commit", "consume", "release". object.supported_actions[] (Value): string.
-     * Value enum: "commit", "consume", "release". object.updated_at (Required): string. RFC3339
+     * additional fields. object.created_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.delivery (Optional): {@link
+     * GiftCardNotificationDelivery}. Included on notification retrieval. Contains the most recent
+     * sending attempts and delivery events, newest first. A failed attempt describes the send
+     * call; use notification.status to determine whether acceptance remains unconfirmed. Delivery
+     * history of a gift card notification email: its send attempts and delivery events, and
+     * whether more of each exist. object.gift_card_id (Required): string. ID of the gift card the
+     * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * object.gift_card_notification_id (Required): string. Unique identifier for this gift card
+     * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". object.recipient
+     * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who receives
+     * a gift card notification: their `email`, optional `name` and `message`, and an optional
+     * `send_at` time. object.resend_of_notification_id (Optional): string. ID of the earlier
+     * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". object.sent_at
+     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.status (Required): string. Where sending the notification stands. Read `delivery` for
+     * the attempts and email events behind it. Value enum: "scheduled", "pending", "sent",
+     * "failed", "unconfirmed", "canceled". object.status_reason (Required): string or null. Why
+     * the notification has its current status. credential_rotated means code rotation canceled an
+     * unsent notification for the previous code. Null when no reason applies. Value enum:
+     * "credential_rotated", null. object.supported_actions (Required): Array of string. Lifecycle
+     * actions accepted for this notification's stored state, independent of the caller's
+     * credentials. Empty when none are available. [] enum: "cancel". object.supported_actions[]
+     * (Value): string. Value enum: "cancel". object.updated_at (Required): string. RFC3339
      * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. The reservation version. Send it as expected_version to reject a write if the
-     * reservation changed. Format: uint64. minimum: 1. previous_attributes (Optional): object.
-     * Previous values of changed top-level fields in data.object, at this delivery's API version.
-     * Nested changes include the whole previous top-level value. A value is null when the field
-     * was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events. previous_attributes.closed_reason (Optional): string or
-     * null or null. How the reservation ended. adopted when its remaining held stock moved to a
-     * delivery selection. mixed when more than one terminal outcome applied. `null` when the
-     * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
-     * "adopted", "mixed", null. previous_attributes.closed_reason.anyOf[1] (Value): string or
-     * null. How the reservation ended. adopted when its remaining held stock moved to a delivery
-     * selection. mixed when more than one terminal outcome applied. `null` when the reservation
-     * isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
-     * "mixed", null. previous_attributes.closed_reason.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.expires_at (Optional): string or null or null. When held quantity
-     * is released if it isn't committed first. Backordered quantity that payment hasn't confirmed
-     * yet carries the same deadline. Committed and consumed quantity never expire. `null` when no
-     * line holds quantity or has unconfirmed backordered quantity.
-     * previous_attributes.expires_at.anyOf[1] (Value): string or null. When held quantity is
-     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
-     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
-     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value): null.
-     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
-     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
-     * previous_attributes.inventory_action_required (Optional): {@link InventoryActionRequired} or
-     * null. Present when the claim needs a merchant action before commerce can continue.
-     * previous_attributes.inventory_action_required.anyOf[1] (Value): {@link
-     * InventoryActionRequired}. Present when the claim needs a merchant action before commerce can
-     * continue. previous_attributes.inventory_action_required.anyOf[2] (Value): null.
-     * previous_attributes.inventory_reservation_id (Optional): string or null. Unique identifier
-     * for this inventory reservation, prefixed `invr_`.
-     * previous_attributes.inventory_reservation_id.anyOf[1] (Value): string. Unique identifier for
-     * this inventory reservation, prefixed `invr_`. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-     * previous_attributes.inventory_reservation_id.anyOf[2] (Value): null.
-     * previous_attributes.inventory_routing_source (Optional): {@link InventoryRoutingSource} or
-     * null. How Flint chooses the Locations that serve the reservation: one fixed Location, an
-     * allocation policy, or a specific policy revision.
-     * previous_attributes.inventory_routing_source.anyOf[1] (Value): {@link
-     * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
-     * fixed Location, an allocation policy, or a specific policy revision.
-     * previous_attributes.inventory_routing_source.anyOf[2] (Value): null.
-     * previous_attributes.lines (Optional): Array of {@link InventoryReservationLine} or null.
-     * Allocations of the reserved stock, one for each item and Location.
-     * previous_attributes.lines.anyOf[1] (Value): Array of {@link InventoryReservationLine}.
-     * Allocations of the reserved stock, one for each item and Location.
-     * previous_attributes.lines.anyOf[1][] (Value): {@link InventoryReservationLine}. One item's
-     * location allocation within a reservation. previous_attributes.lines.anyOf[2] (Value): null.
-     * previous_attributes.owner (Optional): {@link InventoryReservationOwner} or null. Who holds
-     * the reservation: a `key` you choose, or an order Flint holds the stock for.
-     * previous_attributes.owner.anyOf[1] (Value): {@link InventoryReservationOwner}. Who holds the
-     * reservation: a `key` you choose, or an order Flint holds the stock for.
-     * previous_attributes.owner.anyOf[2] (Value): null.
-     * previous_attributes.replacement_inventory_reservation_id (Optional): string or null. Set on
-     * a reservation whose claim Flint moved when it rerouted an order: the replacement reservation
-     * that now holds the quantity named in this reservation's reallocated_quantity.
-     * previous_attributes.replacement_inventory_reservation_id.anyOf[1] (Value): string. Set on a
-     * reservation whose claim Flint moved when it rerouted an order: the replacement reservation
-     * that now holds the quantity named in this reservation's reallocated_quantity. Example:
-     * "invr_01KEZF7C0041ENRR0C2NF3AP12".
-     * previous_attributes.replacement_inventory_reservation_id.anyOf[2] (Value): null.
-     * previous_attributes.source_inventory_reservation_id (Optional): string or null. Set on a
-     * replacement reservation: the reservation whose claim Flint moved here when it rerouted an
-     * order. This reservation holds the quantity that reservation reports as reallocated_quantity.
-     * previous_attributes.source_inventory_reservation_id.anyOf[1] (Value): string. Set on a
-     * replacement reservation: the reservation whose claim Flint moved here when it rerouted an
-     * order. This reservation holds the quantity that reservation reports as reallocated_quantity.
-     * Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-     * previous_attributes.source_inventory_reservation_id.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. active while any held, committed, or
-     * backordered quantity remains; closed once none does. Value enum: "active", "closed".
-     * previous_attributes.status.anyOf[1] (Value): string. active while any held, committed, or
-     * backordered quantity remains; closed once none does. Value enum: "active", "closed".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
-     * (Optional): Array of string or null. Actions that can change this reservation now. Empty for
-     * a closed reservation and for one Flint holds for an order. Resending targets already applied
-     * succeeds in any status. Computed when Flint produced this response or event, so replays and
-     * webhooks keep their original value. [] enum: "commit", "consume", "release".
-     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions that can
-     * change this reservation now. Empty for a closed reservation and for one Flint holds for an
-     * order. Resending targets already applied succeeds in any status. Computed when Flint
-     * produced this response or event, so replays and webhooks keep their original value. [] enum:
-     * "commit", "consume", "release". previous_attributes.supported_actions.anyOf[1][] (Value):
-     * string. Value enum: "commit", "consume", "release".
+     * integer. Current version of this resource's owned state. Send it as `expected_version` when
+     * changing the resource to reject a stale write. Format: int64. previous_attributes
+     * (Optional): object. Previous values of changed top-level fields in data.object, at this
+     * delivery's API version. Nested changes include the whole previous top-level value. A value
+     * is null when the field was absent before the change. Omitted when Flint did not record the
+     * previous state, including synthetic test events. previous_attributes.created_at (Optional):
+     * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.delivery
+     * (Optional): {@link GiftCardNotificationDeliveryPreviousAttributes} or null. Included on
+     * notification retrieval. Contains the most recent sending attempts and delivery events,
+     * newest first. A failed attempt describes the send call; use notification.status to determine
+     * whether acceptance remains unconfirmed. previous_attributes.delivery.anyOf[1] (Value):
+     * {@link GiftCardNotificationDeliveryPreviousAttributes}.
+     * previous_attributes.delivery.anyOf[2] (Value): null. previous_attributes.gift_card_id
+     * (Optional): string or null. ID of the gift card the notification is about.
+     * previous_attributes.gift_card_id.anyOf[1] (Value): string. ID of the gift card the
+     * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * previous_attributes.gift_card_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_notification_id (Optional): string or null. Unique identifier
+     * for this gift card notification, prefixed `gcn_`.
+     * previous_attributes.gift_card_notification_id.anyOf[1] (Value): string. Unique identifier
+     * for this gift card notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1".
+     * previous_attributes.gift_card_notification_id.anyOf[2] (Value): null.
+     * previous_attributes.recipient (Optional): {@link
+     * GiftCardPurchaseRecipientPreviousAttributes} or null. Who the notification is sent to.
+     * previous_attributes.recipient.anyOf[1] (Value): {@link
+     * GiftCardPurchaseRecipientPreviousAttributes}. previous_attributes.recipient.anyOf[2]
+     * (Value): null. previous_attributes.resend_of_notification_id (Optional): string or null. ID
+     * of the earlier notification this one sends again.
+     * previous_attributes.resend_of_notification_id.anyOf[1] (Value): string. ID of the earlier
+     * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
+     * previous_attributes.resend_of_notification_id.anyOf[2] (Value): null.
+     * previous_attributes.sent_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.sent_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.sent_at.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Where sending the notification
+     * stands. Read `delivery` for the attempts and email events behind it. Value enum:
+     * "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled".
+     * previous_attributes.status.anyOf[1] (Value): string. Where sending the notification stands.
+     * Read `delivery` for the attempts and email events behind it. Value enum: "scheduled",
+     * "pending", "sent", "failed", "unconfirmed", "canceled". previous_attributes.status.anyOf[2]
+     * (Value): null. previous_attributes.status_reason (Optional): string or null or null. Why the
+     * notification has its current status. credential_rotated means code rotation canceled an
+     * unsent notification for the previous code. Null when no reason applies. Value enum:
+     * "credential_rotated", null. previous_attributes.status_reason.anyOf[1] (Value): string or
+     * null. Why the notification has its current status. credential_rotated means code rotation
+     * canceled an unsent notification for the previous code. Null when no reason applies. Value
+     * enum: "credential_rotated", null. previous_attributes.status_reason.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * accepted for this notification's stored state, independent of the caller's credentials.
+     * Empty when none are available. [] enum: "cancel".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * accepted for this notification's stored state, independent of the caller's credentials.
+     * Empty when none are available. [] enum: "cancel".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "cancel".
      * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. The reservation version. Send it as expected_version to reject
-     * a write if the reservation changed. previous_attributes.version.anyOf[1] (Value): integer.
-     * The reservation version. Send it as expected_version to reject a write if the reservation
-     * changed. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: int64. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * closed_reason (Optional): string or null. How the reservation ended. adopted when its
-         * remaining held stock moved to a delivery selection. mixed when more than one terminal
-         * outcome applied. `null` when the reservation isn't closed. Value enum: "consumed",
-         * "released", "expired", "reallocated", "adopted", "mixed", null. created_at (Required):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * expires_at (Required): string or null. When held quantity is released if it isn't
-         * committed first. Backordered quantity that payment hasn't confirmed yet carries the same
-         * deadline. Committed and consumed quantity never expire. `null` when no line holds
-         * quantity or has unconfirmed backordered quantity. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". idempotency_key (Optional): string. The Idempotency-Key of the
-         * request that created this resource; on a movement, of the command that wrote it. Omitted
-         * when that request had no key. inventory_action_required (Optional): {@link
-         * InventoryActionRequired}. Present when the claim needs a merchant action before commerce
-         * can continue. Says that an inventory reservation needs action, with the `reason` and the
-         * reservation lines affected. inventory_reservation_id (Required): string. Unique
-         * identifier for this inventory reservation, prefixed `invr_`. Example:
-         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_routing_source (Required): {@link
-         * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
-         * fixed Location, an allocation policy, or a specific policy revision. Where an order,
-         * payment link, or reservation routes inventory from: a fixed Location, an inventory
-         * allocation policy, or one policy revision. lines (Required): Array of {@link
-         * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
-         * Location. lines[] (Value): {@link InventoryReservationLine}. One item's location
-         * allocation within a reservation. owner (Required): {@link InventoryReservationOwner}.
-         * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for.
-         * Who holds an inventory reservation: either a merchant claim identified by your `key`, or
-         * an order. replacement_inventory_reservation_id (Optional): string. Set on a reservation
-         * whose claim Flint moved when it rerouted an order: the replacement reservation that now
-         * holds the quantity named in this reservation's reallocated_quantity. Example:
-         * "invr_01KEZF7C0041ENRR0C2NF3AP12". source_inventory_reservation_id (Optional): string.
-         * Set on a replacement reservation: the reservation whose claim Flint moved here when it
-         * rerouted an order. This reservation holds the quantity that reservation reports as
-         * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". status (Required):
-         * string. active while any held, committed, or backordered quantity remains; closed once
-         * none does. Value enum: "active", "closed". supported_actions (Required): Array of
-         * string. Actions that can change this reservation now. Empty for a closed reservation and
-         * for one Flint holds for an order. Resending targets already applied succeeds in any
-         * status. Computed when Flint produced this response or event, so replays and webhooks
-         * keep their original value. [] enum: "commit", "consume", "release". supported_actions[]
-         * (Value): string. Value enum: "commit", "consume", "release". updated_at (Required):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. The reservation version. Send it as expected_version to reject a
-         * write if the reservation changed. Format: uint64. minimum: 1.
+         * created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". delivery (Optional): {@link GiftCardNotificationDelivery}.
+         * Included on notification retrieval. Contains the most recent sending attempts and
+         * delivery events, newest first. A failed attempt describes the send call; use
+         * notification.status to determine whether acceptance remains unconfirmed. Delivery
+         * history of a gift card notification email: its send attempts and delivery events, and
+         * whether more of each exist. gift_card_id (Required): string. ID of the gift card the
+         * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+         * gift_card_notification_id (Required): string. Unique identifier for this gift card
+         * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". recipient
+         * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who
+         * receives a gift card notification: their `email`, optional `name` and `message`, and an
+         * optional `send_at` time. resend_of_notification_id (Optional): string. ID of the earlier
+         * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". sent_at
+         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". status (Required): string. Where sending the notification
+         * stands. Read `delivery` for the attempts and email events behind it. Value enum:
+         * "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled". status_reason
+         * (Required): string or null. Why the notification has its current status.
+         * credential_rotated means code rotation canceled an unsent notification for the previous
+         * code. Null when no reason applies. Value enum: "credential_rotated", null.
+         * supported_actions (Required): Array of string. Lifecycle actions accepted for this
+         * notification's stored state, independent of the caller's credentials. Empty when none
+         * are available. [] enum: "cancel". supported_actions[] (Value): string. Value enum:
+         * "cancel". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: int64.
          */
         "object": {
-            /**
-             * How the reservation ended. adopted when its remaining held stock moved to a delivery
-             * selection. mixed when more than one terminal outcome applied. `null` when the
-             * reservation isn't closed. Value enum: "consumed", "released", "expired",
-             * "reallocated", "adopted", "mixed", null.
-             */
-            "closed_reason"?: "consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null;
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
             "created_at": string;
             /**
-             * When held quantity is released if it isn't committed first. Backordered quantity
-             * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
-             * quantity never expire. `null` when no line holds quantity or has unconfirmed
-             * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * Included on notification retrieval. Contains the most recent sending attempts and
+             * delivery events, newest first. A failed attempt describes the send call; use
+             * notification.status to determine whether acceptance remains unconfirmed. Delivery
+             * history of a gift card notification email: its send attempts and delivery events,
+             * and whether more of each exist.
              */
-            "expires_at": string | null;
+            "delivery"?: GiftCardNotificationDelivery;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * ID of the gift card the notification is about. Example:
+             * "gc_01KEZF7C00RT1618WYBM1Y94CG".
              */
-            "idempotency_key"?: string;
+            "gift_card_id": string;
             /**
-             * Present when the claim needs a merchant action before commerce can continue. Says
-             * that an inventory reservation needs action, with the `reason` and the reservation
-             * lines affected.
+             * Unique identifier for this gift card notification, prefixed `gcn_`. Example:
+             * "gcn_01KEZF7C0023FN0HF9GH34RZA1".
              */
-            "inventory_action_required"?: InventoryActionRequired;
+            "gift_card_notification_id": string;
             /**
-             * Unique identifier for this inventory reservation, prefixed `invr_`. Example:
-             * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             * Who the notification is sent to. Who receives a gift card notification: their
+             * `email`, optional `name` and `message`, and an optional `send_at` time.
              */
-            "inventory_reservation_id": string;
+            "recipient": GiftCardPurchaseRecipient;
             /**
-             * How Flint chooses the Locations that serve the reservation: one fixed Location, an
-             * allocation policy, or a specific policy revision. Where an order, payment link, or
-             * reservation routes inventory from: a fixed Location, an inventory allocation policy,
-             * or one policy revision.
+             * ID of the earlier notification this one sends again. Example:
+             * "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
              */
-            "inventory_routing_source": InventoryRoutingSource;
+            "resend_of_notification_id"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "sent_at"?: string;
             /**
-             * Allocations of the reserved stock, one for each item and Location. [] (Value):
-             * {@link InventoryReservationLine}. One item's location allocation within a
-             * reservation.
+             * Where sending the notification stands. Read `delivery` for the attempts and email
+             * events behind it. Value enum: "scheduled", "pending", "sent", "failed",
+             * "unconfirmed", "canceled".
              */
-            "lines": Array<InventoryReservationLine>;
+            "status": "scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {});
             /**
-             * Who holds the reservation: a `key` you choose, or an order Flint holds the stock
-             * for. Who holds an inventory reservation: either a merchant claim identified by your
-             * `key`, or an order.
+             * Why the notification has its current status. credential_rotated means code rotation
+             * canceled an unsent notification for the previous code. Null when no reason applies.
+             * Value enum: "credential_rotated", null.
              */
-            "owner": InventoryReservationOwner;
+            "status_reason": "credential_rotated" | null | (string & {}) | null;
             /**
-             * Set on a reservation whose claim Flint moved when it rerouted an order: the
-             * replacement reservation that now holds the quantity named in this reservation's
-             * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             * Lifecycle actions accepted for this notification's stored state, independent of the
+             * caller's credentials. Empty when none are available. [] enum: "cancel". [] (Value):
+             * string. Value enum: "cancel".
              */
-            "replacement_inventory_reservation_id"?: string;
-            /**
-             * Set on a replacement reservation: the reservation whose claim Flint moved here when
-             * it rerouted an order. This reservation holds the quantity that reservation reports
-             * as reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-             */
-            "source_inventory_reservation_id"?: string;
-            /**
-             * active while any held, committed, or backordered quantity remains; closed once none
-             * does. Value enum: "active", "closed".
-             */
-            "status": "active" | "closed" | (string & {});
-            /**
-             * Actions that can change this reservation now. Empty for a closed reservation and for
-             * one Flint holds for an order. Resending targets already applied succeeds in any
-             * status. Computed when Flint produced this response or event, so replays and webhooks
-             * keep their original value. [] enum: "commit", "consume", "release". [] (Value):
-             * string. Value enum: "commit", "consume", "release".
-             */
-            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            "supported_actions": Array<"cancel" | (string & {})>;
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
             "updated_at": string;
             /**
-             * The reservation version. Send it as expected_version to reject a write if the
-             * reservation changed. Format: uint64. minimum: 1.
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64.
              */
             "version": number;
         };
@@ -5807,228 +4046,146 @@ export type InventoryReservationActionRequiredInstalledMerchantsEvent = (Exclude
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. closed_reason (Optional): string or null or
-         * null. How the reservation ended. adopted when its remaining held stock moved to a
-         * delivery selection. mixed when more than one terminal outcome applied. `null` when the
-         * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
-         * "adopted", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How the
-         * reservation ended. adopted when its remaining held stock moved to a delivery selection.
-         * mixed when more than one terminal outcome applied. `null` when the reservation isn't
-         * closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
-         * "mixed", null. closed_reason.anyOf[2] (Value): null. created_at (Optional): string or
-         * null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
-         * expires_at (Optional): string or null or null. When held quantity is released if it
-         * isn't committed first. Backordered quantity that payment hasn't confirmed yet carries
-         * the same deadline. Committed and consumed quantity never expire. `null` when no line
-         * holds quantity or has unconfirmed backordered quantity. expires_at.anyOf[1] (Value):
-         * string or null. When held quantity is released if it isn't committed first. Backordered
-         * quantity that payment hasn't confirmed yet carries the same deadline. Committed and
-         * consumed quantity never expire. `null` when no line holds quantity or has unconfirmed
-         * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * expires_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
-         * string. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[2] (Value): null. inventory_action_required (Optional): {@link
-         * InventoryActionRequired} or null. Present when the claim needs a merchant action before
-         * commerce can continue. inventory_action_required.anyOf[1] (Value): {@link
-         * InventoryActionRequired}. Present when the claim needs a merchant action before commerce
-         * can continue. inventory_action_required.anyOf[2] (Value): null. inventory_reservation_id
-         * (Optional): string or null. Unique identifier for this inventory reservation, prefixed
-         * `invr_`. inventory_reservation_id.anyOf[1] (Value): string. Unique identifier for this
-         * inventory reservation, prefixed `invr_`. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-         * inventory_reservation_id.anyOf[2] (Value): null. inventory_routing_source (Optional):
-         * {@link InventoryRoutingSource} or null. How Flint chooses the Locations that serve the
-         * reservation: one fixed Location, an allocation policy, or a specific policy revision.
-         * inventory_routing_source.anyOf[1] (Value): {@link InventoryRoutingSource}. How Flint
-         * chooses the Locations that serve the reservation: one fixed Location, an allocation
-         * policy, or a specific policy revision. inventory_routing_source.anyOf[2] (Value): null.
-         * lines (Optional): Array of {@link InventoryReservationLine} or null. Allocations of the
-         * reserved stock, one for each item and Location. lines.anyOf[1] (Value): Array of {@link
-         * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
-         * Location. lines.anyOf[1][] (Value): {@link InventoryReservationLine}. One item's
-         * location allocation within a reservation. lines.anyOf[2] (Value): null. owner
-         * (Optional): {@link InventoryReservationOwner} or null. Who holds the reservation: a
-         * `key` you choose, or an order Flint holds the stock for. owner.anyOf[1] (Value): {@link
-         * InventoryReservationOwner}. Who holds the reservation: a `key` you choose, or an order
-         * Flint holds the stock for. owner.anyOf[2] (Value): null.
-         * replacement_inventory_reservation_id (Optional): string or null. Set on a reservation
-         * whose claim Flint moved when it rerouted an order: the replacement reservation that now
-         * holds the quantity named in this reservation's reallocated_quantity.
-         * replacement_inventory_reservation_id.anyOf[1] (Value): string. Set on a reservation
-         * whose claim Flint moved when it rerouted an order: the replacement reservation that now
-         * holds the quantity named in this reservation's reallocated_quantity. Example:
-         * "invr_01KEZF7C0041ENRR0C2NF3AP12". replacement_inventory_reservation_id.anyOf[2]
-         * (Value): null. source_inventory_reservation_id (Optional): string or null. Set on a
-         * replacement reservation: the reservation whose claim Flint moved here when it rerouted
-         * an order. This reservation holds the quantity that reservation reports as
-         * reallocated_quantity. source_inventory_reservation_id.anyOf[1] (Value): string. Set on a
-         * replacement reservation: the reservation whose claim Flint moved here when it rerouted
-         * an order. This reservation holds the quantity that reservation reports as
-         * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-         * source_inventory_reservation_id.anyOf[2] (Value): null. status (Optional): string or
-         * null. active while any held, committed, or backordered quantity remains; closed once
-         * none does. Value enum: "active", "closed". status.anyOf[1] (Value): string. active while
-         * any held, committed, or backordered quantity remains; closed once none does. Value enum:
-         * "active", "closed". status.anyOf[2] (Value): null. supported_actions (Optional): Array
-         * of string or null. Actions that can change this reservation now. Empty for a closed
-         * reservation and for one Flint holds for an order. Resending targets already applied
-         * succeeds in any status. Computed when Flint produced this response or event, so replays
-         * and webhooks keep their original value. [] enum: "commit", "consume", "release".
-         * supported_actions.anyOf[1] (Value): Array of string. Actions that can change this
-         * reservation now. Empty for a closed reservation and for one Flint holds for an order.
-         * Resending targets already applied succeeds in any status. Computed when Flint produced
-         * this response or event, so replays and webhooks keep their original value. [] enum:
-         * "commit", "consume", "release". supported_actions.anyOf[1][] (Value): string. Value
-         * enum: "commit", "consume", "release". supported_actions.anyOf[2] (Value): null.
-         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. The reservation
-         * version. Send it as expected_version to reject a write if the reservation changed.
-         * version.anyOf[1] (Value): integer. The reservation version. Send it as expected_version
-         * to reject a write if the reservation changed. Format: uint64. minimum: 1.
-         * version.anyOf[2] (Value): null.
+         * state, including synthetic test events. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. delivery (Optional):
+         * {@link GiftCardNotificationDeliveryPreviousAttributes} or null. Included on notification
+         * retrieval. Contains the most recent sending attempts and delivery events, newest first.
+         * A failed attempt describes the send call; use notification.status to determine whether
+         * acceptance remains unconfirmed. delivery.anyOf[1] (Value): {@link
+         * GiftCardNotificationDeliveryPreviousAttributes}. delivery.anyOf[2] (Value): null.
+         * gift_card_id (Optional): string or null. ID of the gift card the notification is about.
+         * gift_card_id.anyOf[1] (Value): string. ID of the gift card the notification is about.
+         * Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_id.anyOf[2] (Value): null.
+         * gift_card_notification_id (Optional): string or null. Unique identifier for this gift
+         * card notification, prefixed `gcn_`. gift_card_notification_id.anyOf[1] (Value): string.
+         * Unique identifier for this gift card notification, prefixed `gcn_`. Example:
+         * "gcn_01KEZF7C0023FN0HF9GH34RZA1". gift_card_notification_id.anyOf[2] (Value): null.
+         * recipient (Optional): {@link GiftCardPurchaseRecipientPreviousAttributes} or null. Who
+         * the notification is sent to. recipient.anyOf[1] (Value): {@link
+         * GiftCardPurchaseRecipientPreviousAttributes}. recipient.anyOf[2] (Value): null.
+         * resend_of_notification_id (Optional): string or null. ID of the earlier notification
+         * this one sends again. resend_of_notification_id.anyOf[1] (Value): string. ID of the
+         * earlier notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
+         * resend_of_notification_id.anyOf[2] (Value): null. sent_at (Optional): string or null.
+         * RFC3339 timestamp. sent_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". sent_at.anyOf[2] (Value): null. status
+         * (Optional): string or null. Where sending the notification stands. Read `delivery` for
+         * the attempts and email events behind it. Value enum: "scheduled", "pending", "sent",
+         * "failed", "unconfirmed", "canceled". status.anyOf[1] (Value): string. Where sending the
+         * notification stands. Read `delivery` for the attempts and email events behind it. Value
+         * enum: "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled".
+         * status.anyOf[2] (Value): null. status_reason (Optional): string or null or null. Why the
+         * notification has its current status. credential_rotated means code rotation canceled an
+         * unsent notification for the previous code. Null when no reason applies. Value enum:
+         * "credential_rotated", null. status_reason.anyOf[1] (Value): string or null. Why the
+         * notification has its current status. credential_rotated means code rotation canceled an
+         * unsent notification for the previous code. Null when no reason applies. Value enum:
+         * "credential_rotated", null. status_reason.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Lifecycle actions accepted for this notification's
+         * stored state, independent of the caller's credentials. Empty when none are available. []
+         * enum: "cancel". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+         * accepted for this notification's stored state, independent of the caller's credentials.
+         * Empty when none are available. [] enum: "cancel". supported_actions.anyOf[1][] (Value):
+         * string. Value enum: "cancel". supported_actions.anyOf[2] (Value): null. updated_at
+         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: int64. version.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
         })
             & ({
             /**
-             * How the reservation ended. adopted when its remaining held stock moved to a delivery
-             * selection. mixed when more than one terminal outcome applied. `null` when the
-             * reservation isn't closed. Value enum: "consumed", "released", "expired",
-             * "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string or null. How the
-             * reservation ended. adopted when its remaining held stock moved to a delivery
-             * selection. mixed when more than one terminal outcome applied. `null` when the
-             * reservation isn't closed. Value enum: "consumed", "released", "expired",
-             * "reallocated", "adopted", "mixed", null. anyOf[2] (Value): null.
-             */
-            "closed_reason"?: (("consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
-            /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "created_at"?: ((string) | (null));
             /**
-             * When held quantity is released if it isn't committed first. Backordered quantity
-             * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
-             * quantity never expire. `null` when no line holds quantity or has unconfirmed
-             * backordered quantity. anyOf[1] (Value): string or null. When held quantity is
-             * released if it isn't committed first. Backordered quantity that payment hasn't
-             * confirmed yet carries the same deadline. Committed and consumed quantity never
-             * expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * Included on notification retrieval. Contains the most recent sending attempts and
+             * delivery events, newest first. A failed attempt describes the send call; use
+             * notification.status to determine whether acceptance remains unconfirmed. anyOf[1]
+             * (Value): {@link GiftCardNotificationDeliveryPreviousAttributes}. anyOf[2] (Value):
+             * null.
              */
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "delivery"?: ((GiftCardNotificationDeliveryPreviousAttributes) | (null) | (unknown));
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
-             * string. The Idempotency-Key of the request that created this resource; on a
-             * movement, of the command that wrote it. Omitted when that request had no key.
+             * ID of the gift card the notification is about. anyOf[1] (Value): string. ID of the
+             * gift card the notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
              * anyOf[2] (Value): null.
              */
-            "idempotency_key"?: ((string) | (null));
+            "gift_card_id"?: ((string) | (null));
             /**
-             * Present when the claim needs a merchant action before commerce can continue.
-             * anyOf[1] (Value): {@link InventoryActionRequired}. Present when the claim needs a
-             * merchant action before commerce can continue. anyOf[2] (Value): null.
+             * Unique identifier for this gift card notification, prefixed `gcn_`. anyOf[1]
+             * (Value): string. Unique identifier for this gift card notification, prefixed `gcn_`.
+             * Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". anyOf[2] (Value): null.
              */
-            "inventory_action_required"?: ((InventoryActionRequired) | (null));
+            "gift_card_notification_id"?: ((string) | (null));
             /**
-             * Unique identifier for this inventory reservation, prefixed `invr_`. anyOf[1]
-             * (Value): string. Unique identifier for this inventory reservation, prefixed `invr_`.
-             * Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". anyOf[2] (Value): null.
+             * Who the notification is sent to. anyOf[1] (Value): {@link
+             * GiftCardPurchaseRecipientPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "inventory_reservation_id"?: ((string) | (null));
+            "recipient"?: ((GiftCardPurchaseRecipientPreviousAttributes) | (null) | (unknown));
             /**
-             * How Flint chooses the Locations that serve the reservation: one fixed Location, an
-             * allocation policy, or a specific policy revision. anyOf[1] (Value): {@link
-             * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation:
-             * one fixed Location, an allocation policy, or a specific policy revision. anyOf[2]
+             * ID of the earlier notification this one sends again. anyOf[1] (Value): string. ID of
+             * the earlier notification this one sends again. Example:
+             * "ntf_01KEZF7C00X0DP9KT950FYXHQ1". anyOf[2] (Value): null.
+             */
+            "resend_of_notification_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "sent_at"?: ((string) | (null));
+            /**
+             * Where sending the notification stands. Read `delivery` for the attempts and email
+             * events behind it. Value enum: "scheduled", "pending", "sent", "failed",
+             * "unconfirmed", "canceled". anyOf[1] (Value): string. Where sending the notification
+             * stands. Read `delivery` for the attempts and email events behind it. Value enum:
+             * "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled". anyOf[2]
              * (Value): null.
              */
-            "inventory_routing_source"?: ((InventoryRoutingSource) | (null));
+            "status"?: (("scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {})) | (null));
             /**
-             * Allocations of the reserved stock, one for each item and Location. anyOf[1] (Value):
-             * Array of {@link InventoryReservationLine}. Allocations of the reserved stock, one
-             * for each item and Location. anyOf[1][] (Value): {@link InventoryReservationLine}.
-             * One item's location allocation within a reservation. anyOf[2] (Value): null.
+             * Why the notification has its current status. credential_rotated means code rotation
+             * canceled an unsent notification for the previous code. Null when no reason applies.
+             * Value enum: "credential_rotated", null. anyOf[1] (Value): string or null. Why the
+             * notification has its current status. credential_rotated means code rotation canceled
+             * an unsent notification for the previous code. Null when no reason applies. Value
+             * enum: "credential_rotated", null. anyOf[2] (Value): null.
              */
-            "lines"?: ((Array<InventoryReservationLine>) | (null));
+            "status_reason"?: (("credential_rotated" | null | (string & {}) | null) | (null) | (unknown));
             /**
-             * Who holds the reservation: a `key` you choose, or an order Flint holds the stock
-             * for. anyOf[1] (Value): {@link InventoryReservationOwner}. Who holds the reservation:
-             * a `key` you choose, or an order Flint holds the stock for. anyOf[2] (Value): null.
+             * Lifecycle actions accepted for this notification's stored state, independent of the
+             * caller's credentials. Empty when none are available. [] enum: "cancel". anyOf[1]
+             * (Value): Array of string. Lifecycle actions accepted for this notification's stored
+             * state, independent of the caller's credentials. Empty when none are available. []
+             * enum: "cancel". anyOf[1][] (Value): string. Value enum: "cancel". anyOf[2] (Value):
+             * null.
              */
-            "owner"?: ((InventoryReservationOwner) | (null) | (unknown));
-            /**
-             * Set on a reservation whose claim Flint moved when it rerouted an order: the
-             * replacement reservation that now holds the quantity named in this reservation's
-             * reallocated_quantity. anyOf[1] (Value): string. Set on a reservation whose claim
-             * Flint moved when it rerouted an order: the replacement reservation that now holds
-             * the quantity named in this reservation's reallocated_quantity. Example:
-             * "invr_01KEZF7C0041ENRR0C2NF3AP12". anyOf[2] (Value): null.
-             */
-            "replacement_inventory_reservation_id"?: ((string) | (null));
-            /**
-             * Set on a replacement reservation: the reservation whose claim Flint moved here when
-             * it rerouted an order. This reservation holds the quantity that reservation reports
-             * as reallocated_quantity. anyOf[1] (Value): string. Set on a replacement reservation:
-             * the reservation whose claim Flint moved here when it rerouted an order. This
-             * reservation holds the quantity that reservation reports as reallocated_quantity.
-             * Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". anyOf[2] (Value): null.
-             */
-            "source_inventory_reservation_id"?: ((string) | (null));
-            /**
-             * active while any held, committed, or backordered quantity remains; closed once none
-             * does. Value enum: "active", "closed". anyOf[1] (Value): string. active while any
-             * held, committed, or backordered quantity remains; closed once none does. Value enum:
-             * "active", "closed". anyOf[2] (Value): null.
-             */
-            "status"?: (("active" | "closed" | (string & {})) | (null));
-            /**
-             * Actions that can change this reservation now. Empty for a closed reservation and for
-             * one Flint holds for an order. Resending targets already applied succeeds in any
-             * status. Computed when Flint produced this response or event, so replays and webhooks
-             * keep their original value. [] enum: "commit", "consume", "release". anyOf[1]
-             * (Value): Array of string. Actions that can change this reservation now. Empty for a
-             * closed reservation and for one Flint holds for an order. Resending targets already
-             * applied succeeds in any status. Computed when Flint produced this response or event,
-             * so replays and webhooks keep their original value. [] enum: "commit", "consume",
-             * "release". anyOf[1][] (Value): string. Value enum: "commit", "consume", "release".
-             * anyOf[2] (Value): null.
-             */
-            "supported_actions"?: ((Array<"commit" | "consume" | "release" | (string & {})>) | (null));
+            "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "updated_at"?: ((string) | (null));
             /**
-             * The reservation version. Send it as expected_version to reject a write if the
-             * reservation changed. anyOf[1] (Value): integer. The reservation version. Send it as
-             * expected_version to reject a write if the reservation changed. Format: uint64.
-             * minimum: 1. anyOf[2] (Value): null.
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. anyOf[2] (Value): null.
              */
             "version"?: ((number) | (null));
         });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "inventory_reservation.action_required". */
-    "event_type"?: "inventory_reservation.action_required";
+    /** Value enum: "gift_card_notification.updated". */
+    "event_type"?: "gift_card_notification.updated";
     /**
      *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
      * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
@@ -6064,3 +4221,768 @@ export type InventoryReservationActionRequiredInstalledMerchantsEvent = (Exclude
         "sandbox_id"?: string;
     });
 });
+/**
+ * The `gift_card_notification.updated` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type GiftCardNotificationUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.created_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.delivery (Optional): {@link
+     * GiftCardNotificationDelivery}. Included on notification retrieval. Contains the most recent
+     * sending attempts and delivery events, newest first. A failed attempt describes the send
+     * call; use notification.status to determine whether acceptance remains unconfirmed. Delivery
+     * history of a gift card notification email: its send attempts and delivery events, and
+     * whether more of each exist. object.gift_card_id (Required): string. ID of the gift card the
+     * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * object.gift_card_notification_id (Required): string. Unique identifier for this gift card
+     * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". object.recipient
+     * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who receives
+     * a gift card notification: their `email`, optional `name` and `message`, and an optional
+     * `send_at` time. object.resend_of_notification_id (Optional): string. ID of the earlier
+     * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". object.sent_at
+     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.status (Required): string. Where sending the notification stands. Read `delivery` for
+     * the attempts and email events behind it. Value enum: "scheduled", "pending", "sent",
+     * "failed", "unconfirmed", "canceled". object.status_reason (Required): string or null. Why
+     * the notification has its current status. credential_rotated means code rotation canceled an
+     * unsent notification for the previous code. Null when no reason applies. Value enum:
+     * "credential_rotated", null. object.supported_actions (Required): Array of string. Lifecycle
+     * actions accepted for this notification's stored state, independent of the caller's
+     * credentials. Empty when none are available. [] enum: "cancel". object.supported_actions[]
+     * (Value): string. Value enum: "cancel". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Current version of this resource's owned state. Send it as `expected_version` when
+     * changing the resource to reject a stale write. Format: int64. previous_attributes
+     * (Optional): object. Previous values of changed top-level fields in data.object, at this
+     * delivery's API version. Nested changes include the whole previous top-level value. A value
+     * is null when the field was absent before the change. Omitted when Flint did not record the
+     * previous state, including synthetic test events. previous_attributes.created_at (Optional):
+     * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.delivery
+     * (Optional): {@link GiftCardNotificationDeliveryPreviousAttributes} or null. Included on
+     * notification retrieval. Contains the most recent sending attempts and delivery events,
+     * newest first. A failed attempt describes the send call; use notification.status to determine
+     * whether acceptance remains unconfirmed. previous_attributes.delivery.anyOf[1] (Value):
+     * {@link GiftCardNotificationDeliveryPreviousAttributes}.
+     * previous_attributes.delivery.anyOf[2] (Value): null. previous_attributes.gift_card_id
+     * (Optional): string or null. ID of the gift card the notification is about.
+     * previous_attributes.gift_card_id.anyOf[1] (Value): string. ID of the gift card the
+     * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * previous_attributes.gift_card_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_notification_id (Optional): string or null. Unique identifier
+     * for this gift card notification, prefixed `gcn_`.
+     * previous_attributes.gift_card_notification_id.anyOf[1] (Value): string. Unique identifier
+     * for this gift card notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1".
+     * previous_attributes.gift_card_notification_id.anyOf[2] (Value): null.
+     * previous_attributes.recipient (Optional): {@link
+     * GiftCardPurchaseRecipientPreviousAttributes} or null. Who the notification is sent to.
+     * previous_attributes.recipient.anyOf[1] (Value): {@link
+     * GiftCardPurchaseRecipientPreviousAttributes}. previous_attributes.recipient.anyOf[2]
+     * (Value): null. previous_attributes.resend_of_notification_id (Optional): string or null. ID
+     * of the earlier notification this one sends again.
+     * previous_attributes.resend_of_notification_id.anyOf[1] (Value): string. ID of the earlier
+     * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
+     * previous_attributes.resend_of_notification_id.anyOf[2] (Value): null.
+     * previous_attributes.sent_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.sent_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.sent_at.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Where sending the notification
+     * stands. Read `delivery` for the attempts and email events behind it. Value enum:
+     * "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled".
+     * previous_attributes.status.anyOf[1] (Value): string. Where sending the notification stands.
+     * Read `delivery` for the attempts and email events behind it. Value enum: "scheduled",
+     * "pending", "sent", "failed", "unconfirmed", "canceled". previous_attributes.status.anyOf[2]
+     * (Value): null. previous_attributes.status_reason (Optional): string or null or null. Why the
+     * notification has its current status. credential_rotated means code rotation canceled an
+     * unsent notification for the previous code. Null when no reason applies. Value enum:
+     * "credential_rotated", null. previous_attributes.status_reason.anyOf[1] (Value): string or
+     * null. Why the notification has its current status. credential_rotated means code rotation
+     * canceled an unsent notification for the previous code. Null when no reason applies. Value
+     * enum: "credential_rotated", null. previous_attributes.status_reason.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * accepted for this notification's stored state, independent of the caller's credentials.
+     * Empty when none are available. [] enum: "cancel".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * accepted for this notification's stored state, independent of the caller's credentials.
+     * Empty when none are available. [] enum: "cancel".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: int64. previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". delivery (Optional): {@link GiftCardNotificationDelivery}.
+         * Included on notification retrieval. Contains the most recent sending attempts and
+         * delivery events, newest first. A failed attempt describes the send call; use
+         * notification.status to determine whether acceptance remains unconfirmed. Delivery
+         * history of a gift card notification email: its send attempts and delivery events, and
+         * whether more of each exist. gift_card_id (Required): string. ID of the gift card the
+         * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+         * gift_card_notification_id (Required): string. Unique identifier for this gift card
+         * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". recipient
+         * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who
+         * receives a gift card notification: their `email`, optional `name` and `message`, and an
+         * optional `send_at` time. resend_of_notification_id (Optional): string. ID of the earlier
+         * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". sent_at
+         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". status (Required): string. Where sending the notification
+         * stands. Read `delivery` for the attempts and email events behind it. Value enum:
+         * "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled". status_reason
+         * (Required): string or null. Why the notification has its current status.
+         * credential_rotated means code rotation canceled an unsent notification for the previous
+         * code. Null when no reason applies. Value enum: "credential_rotated", null.
+         * supported_actions (Required): Array of string. Lifecycle actions accepted for this
+         * notification's stored state, independent of the caller's credentials. Empty when none
+         * are available. [] enum: "cancel". supported_actions[] (Value): string. Value enum:
+         * "cancel". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: int64.
+         */
+        "object": {
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Included on notification retrieval. Contains the most recent sending attempts and
+             * delivery events, newest first. A failed attempt describes the send call; use
+             * notification.status to determine whether acceptance remains unconfirmed. Delivery
+             * history of a gift card notification email: its send attempts and delivery events,
+             * and whether more of each exist.
+             */
+            "delivery"?: GiftCardNotificationDelivery;
+            /**
+             * ID of the gift card the notification is about. Example:
+             * "gc_01KEZF7C00RT1618WYBM1Y94CG".
+             */
+            "gift_card_id": string;
+            /**
+             * Unique identifier for this gift card notification, prefixed `gcn_`. Example:
+             * "gcn_01KEZF7C0023FN0HF9GH34RZA1".
+             */
+            "gift_card_notification_id": string;
+            /**
+             * Who the notification is sent to. Who receives a gift card notification: their
+             * `email`, optional `name` and `message`, and an optional `send_at` time.
+             */
+            "recipient": GiftCardPurchaseRecipient;
+            /**
+             * ID of the earlier notification this one sends again. Example:
+             * "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
+             */
+            "resend_of_notification_id"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "sent_at"?: string;
+            /**
+             * Where sending the notification stands. Read `delivery` for the attempts and email
+             * events behind it. Value enum: "scheduled", "pending", "sent", "failed",
+             * "unconfirmed", "canceled".
+             */
+            "status": "scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {});
+            /**
+             * Why the notification has its current status. credential_rotated means code rotation
+             * canceled an unsent notification for the previous code. Null when no reason applies.
+             * Value enum: "credential_rotated", null.
+             */
+            "status_reason": "credential_rotated" | null | (string & {}) | null;
+            /**
+             * Lifecycle actions accepted for this notification's stored state, independent of the
+             * caller's credentials. Empty when none are available. [] enum: "cancel". [] (Value):
+             * string. Value enum: "cancel".
+             */
+            "supported_actions": Array<"cancel" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. delivery (Optional):
+         * {@link GiftCardNotificationDeliveryPreviousAttributes} or null. Included on notification
+         * retrieval. Contains the most recent sending attempts and delivery events, newest first.
+         * A failed attempt describes the send call; use notification.status to determine whether
+         * acceptance remains unconfirmed. delivery.anyOf[1] (Value): {@link
+         * GiftCardNotificationDeliveryPreviousAttributes}. delivery.anyOf[2] (Value): null.
+         * gift_card_id (Optional): string or null. ID of the gift card the notification is about.
+         * gift_card_id.anyOf[1] (Value): string. ID of the gift card the notification is about.
+         * Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_id.anyOf[2] (Value): null.
+         * gift_card_notification_id (Optional): string or null. Unique identifier for this gift
+         * card notification, prefixed `gcn_`. gift_card_notification_id.anyOf[1] (Value): string.
+         * Unique identifier for this gift card notification, prefixed `gcn_`. Example:
+         * "gcn_01KEZF7C0023FN0HF9GH34RZA1". gift_card_notification_id.anyOf[2] (Value): null.
+         * recipient (Optional): {@link GiftCardPurchaseRecipientPreviousAttributes} or null. Who
+         * the notification is sent to. recipient.anyOf[1] (Value): {@link
+         * GiftCardPurchaseRecipientPreviousAttributes}. recipient.anyOf[2] (Value): null.
+         * resend_of_notification_id (Optional): string or null. ID of the earlier notification
+         * this one sends again. resend_of_notification_id.anyOf[1] (Value): string. ID of the
+         * earlier notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
+         * resend_of_notification_id.anyOf[2] (Value): null. sent_at (Optional): string or null.
+         * RFC3339 timestamp. sent_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". sent_at.anyOf[2] (Value): null. status
+         * (Optional): string or null. Where sending the notification stands. Read `delivery` for
+         * the attempts and email events behind it. Value enum: "scheduled", "pending", "sent",
+         * "failed", "unconfirmed", "canceled". status.anyOf[1] (Value): string. Where sending the
+         * notification stands. Read `delivery` for the attempts and email events behind it. Value
+         * enum: "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled".
+         * status.anyOf[2] (Value): null. status_reason (Optional): string or null or null. Why the
+         * notification has its current status. credential_rotated means code rotation canceled an
+         * unsent notification for the previous code. Null when no reason applies. Value enum:
+         * "credential_rotated", null. status_reason.anyOf[1] (Value): string or null. Why the
+         * notification has its current status. credential_rotated means code rotation canceled an
+         * unsent notification for the previous code. Null when no reason applies. Value enum:
+         * "credential_rotated", null. status_reason.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Lifecycle actions accepted for this notification's
+         * stored state, independent of the caller's credentials. Empty when none are available. []
+         * enum: "cancel". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+         * accepted for this notification's stored state, independent of the caller's credentials.
+         * Empty when none are available. [] enum: "cancel". supported_actions.anyOf[1][] (Value):
+         * string. Value enum: "cancel". supported_actions.anyOf[2] (Value): null. updated_at
+         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: int64. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Included on notification retrieval. Contains the most recent sending attempts and
+             * delivery events, newest first. A failed attempt describes the send call; use
+             * notification.status to determine whether acceptance remains unconfirmed. anyOf[1]
+             * (Value): {@link GiftCardNotificationDeliveryPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "delivery"?: ((GiftCardNotificationDeliveryPreviousAttributes) | (null) | (unknown));
+            /**
+             * ID of the gift card the notification is about. anyOf[1] (Value): string. ID of the
+             * gift card the notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+             * anyOf[2] (Value): null.
+             */
+            "gift_card_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this gift card notification, prefixed `gcn_`. anyOf[1]
+             * (Value): string. Unique identifier for this gift card notification, prefixed `gcn_`.
+             * Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". anyOf[2] (Value): null.
+             */
+            "gift_card_notification_id"?: ((string) | (null));
+            /**
+             * Who the notification is sent to. anyOf[1] (Value): {@link
+             * GiftCardPurchaseRecipientPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "recipient"?: ((GiftCardPurchaseRecipientPreviousAttributes) | (null) | (unknown));
+            /**
+             * ID of the earlier notification this one sends again. anyOf[1] (Value): string. ID of
+             * the earlier notification this one sends again. Example:
+             * "ntf_01KEZF7C00X0DP9KT950FYXHQ1". anyOf[2] (Value): null.
+             */
+            "resend_of_notification_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "sent_at"?: ((string) | (null));
+            /**
+             * Where sending the notification stands. Read `delivery` for the attempts and email
+             * events behind it. Value enum: "scheduled", "pending", "sent", "failed",
+             * "unconfirmed", "canceled". anyOf[1] (Value): string. Where sending the notification
+             * stands. Read `delivery` for the attempts and email events behind it. Value enum:
+             * "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {})) | (null));
+            /**
+             * Why the notification has its current status. credential_rotated means code rotation
+             * canceled an unsent notification for the previous code. Null when no reason applies.
+             * Value enum: "credential_rotated", null. anyOf[1] (Value): string or null. Why the
+             * notification has its current status. credential_rotated means code rotation canceled
+             * an unsent notification for the previous code. Null when no reason applies. Value
+             * enum: "credential_rotated", null. anyOf[2] (Value): null.
+             */
+            "status_reason"?: (("credential_rotated" | null | (string & {}) | null) | (null) | (unknown));
+            /**
+             * Lifecycle actions accepted for this notification's stored state, independent of the
+             * caller's credentials. Empty when none are available. [] enum: "cancel". anyOf[1]
+             * (Value): Array of string. Lifecycle actions accepted for this notification's stored
+             * state, independent of the caller's credentials. Empty when none are available. []
+             * enum: "cancel". anyOf[1][] (Value): string. Value enum: "cancel". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "gift_card_notification.updated". */
+    "event_type"?: "gift_card_notification.updated";
+});
+export type GiftCardNotificationsCancelParams = (InputValue<CancelGiftCardNotificationRequestInput> | {})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type GiftCardNotificationsCreateParams = (InputValue<CreateGiftCardNotificationRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type GiftCardNotificationsGetParams = DisputesAcceptParams;
+export type GiftCardNotificationsListParams = {
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Exact, case-sensitive filter. maxLength: 255. pattern: ^gc_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     */
+    "gift_card_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Exact, case-sensitive filter. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "canceled", "failed", "pending", "scheduled", "sent", "unconfirmed". Value
+     * enum: "canceled", "failed", "pending", "scheduled", "sent", "unconfirmed". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "canceled", "failed", "pending", "scheduled", "sent",
+     * "unconfirmed". anyOf[1][] (Value): string. maxLength: 255. Value enum: "canceled", "failed",
+     * "pending", "scheduled", "sent", "unconfirmed". anyOf[2] (Value): string. maxLength: 255.
+     * Value enum: "canceled", "failed", "pending", "scheduled", "sent", "unconfirmed".
+     */
+    "status"?: InputValue<("canceled" | "failed" | "pending" | "scheduled" | "sent" | "unconfirmed")
+        | readonly ("canceled" | "failed" | "pending" | "scheduled" | "sent" | "unconfirmed")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/**
+ * Gift card settings on a product variant: its `face_value_money`, price mode (face value or
+ * discounted), and bounds for custom amounts.
+ */
+export type GiftCardProductConfiguration = {
+    /**
+     * Minimum and maximum gift card values buyers can choose. Omit for a fixed denomination. The
+     * minimum and maximum amounts a buyer can choose when buying a gift card with a custom amount.
+     */
+    "custom_amount_bounds"?: GiftCardCustomAmountBounds;
+    /**
+     * Gift card value issued for one unit of this variant, in the same currency as its unit price.
+     * Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "face_value_money": MoneyValue;
+    /**
+     * Whether the gift card is sold at its face value or at a discounted price. Value enum:
+     * "face_value", "discounted".
+     */
+    "price_mode": "face_value" | "discounted" | (string & {});
+};
+export type GiftCardProductConfigurationPreviousAttributes = {
+    /**
+     * Minimum and maximum gift card values buyers can choose. Omit for a fixed denomination.
+     * anyOf[1] (Value): {@link GiftCardCustomAmountBoundsPreviousAttributes}. anyOf[2] (Value):
+     * null.
+     */
+    "custom_amount_bounds"?: ((GiftCardCustomAmountBoundsPreviousAttributes) | (null) | (unknown));
+    /**
+     * Gift card value issued for one unit of this variant, in the same currency as its unit price.
+     * Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "face_value_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    /**
+     * Whether the gift card is sold at its face value or at a discounted price. Value enum:
+     * "face_value", "discounted". anyOf[1] (Value): string. Whether the gift card is sold at its
+     * face value or at a discounted price. Value enum: "face_value", "discounted". anyOf[2]
+     * (Value): null.
+     */
+    "price_mode"?: (("face_value" | "discounted" | (string & {})) | (null));
+};
+/**
+ * Gift card settings on a product variant: its `face_value_money`, price mode (face value or
+ * discounted), and bounds for custom amounts.
+ */
+export type GiftCardProductConfigurationRequestInput = {
+    /**
+     * Minimum and maximum gift card values buyers can choose. Omit for a fixed denomination. The
+     * minimum and maximum amounts a buyer can choose when buying a gift card with a custom amount.
+     */
+    "custom_amount_bounds"?: GiftCardCustomAmountBoundsRequestInput;
+    /**
+     * Gift card value issued for one unit of this variant, in the same currency as its unit price.
+     * Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "face_value_money": MoneyValueInput;
+    /**
+     * Whether the gift card is sold at its face value or at a discounted price. Value enum:
+     * "face_value", "discounted".
+     */
+    "price_mode": "face_value" | "discounted";
+};
+/**
+ * Gift card details you supply for an order line item: the `face_value_money` and the `recipient`
+ * who receives the card.
+ */
+export type GiftCardPurchaseDetailsRequestInput = {
+    /**
+     * Buyer-selected face value within the gift card offer's limits. Currency must be USD. Amount
+     * must be between 1 and 200000 minor units, inclusive. The amount and every computed order
+     * amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or
+     * calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
+     * responsible input field. Lower payment option limits can apply. Monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code.
+     */
+    "face_value_money"?: MoneyValueInput;
+    /**
+     * Who receives the gift card. `null` when no recipient was set. Recipient of a gift card
+     * purchase that you supply: `email`, optional `name` and `message`, and an optional `send_at`
+     * time.
+     */
+    "recipient"?: GiftCardPurchaseRecipientRequestInput;
+};
+/**
+ * The recipient of a purchased gift card: `email`, optional `name` and `message`, and an optional
+ * `send_at` time.
+ */
+export type GiftCardPurchaseRecipient = {
+    /**
+     * Email address the gift card is delivered to. Format: email. minLength: 1. maxLength: 254.
+     * Example: "buyer@example.com".
+     */
+    "email": string;
+    /** Personal message included with the gift card. maxLength: 200. */
+    "message"?: string;
+    /** Name of the person receiving the gift card. maxLength: 255. */
+    "name"?: string;
+    /**
+     * Optional send time between now and 90 days from now. Omission requests immediate recipient
+     * notification after funding. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "send_at"?: string;
+};
+/**
+ * Changes to the recipient of a gift card purchase when updating a line item. Send null for `name`
+ * or `message` to clear it.
+ */
+export type GiftCardPurchaseRecipientPatchRequest = {
+    /**
+     * Email address the gift card is delivered to. Format: email. minLength: 1. maxLength: 254.
+     * Example: "buyer@example.com".
+     */
+    "email": string;
+    /** Send null to clear it. minLength: 1. maxLength: 200. */
+    "message"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 255. */
+    "name"?: string | null;
+    /**
+     * Optional send time between now and 90 days from now. Omission requests immediate recipient
+     * notification after funding. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "send_at"?: string;
+};
+/**
+ * Changes to the recipient of a gift card purchase when updating a line item. Send null for `name`
+ * or `message` to clear it.
+ */
+export type GiftCardPurchaseRecipientPatchRequestInput = {
+    /**
+     * Email address the gift card is delivered to. Format: email. minLength: 1. maxLength: 254.
+     * Example: "buyer@example.com".
+     */
+    "email": string;
+    /** Send null to clear it. minLength: 1. maxLength: 200. */
+    "message"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 255. */
+    "name"?: string | null;
+    /**
+     * Optional send time between now and 90 days from now. Omission requests immediate recipient
+     * notification after funding. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "send_at"?: string | globalThis.Date;
+};
+export type GiftCardPurchaseRecipientPreviousAttributes = {
+    /**
+     * Email address the gift card is delivered to. anyOf[1] (Value): string. Email address the
+     * gift card is delivered to. Format: email. minLength: 1. maxLength: 254. Example:
+     * "buyer@example.com". anyOf[2] (Value): null.
+     */
+    "email"?: ((string) | (null));
+    /**
+     * Personal message included with the gift card. anyOf[1] (Value): string. Personal message
+     * included with the gift card. maxLength: 200. anyOf[2] (Value): null.
+     */
+    "message"?: ((string) | (null));
+    /**
+     * Name of the person receiving the gift card. anyOf[1] (Value): string. Name of the person
+     * receiving the gift card. maxLength: 255. anyOf[2] (Value): null.
+     */
+    "name"?: ((string) | (null));
+    /**
+     * Optional send time between now and 90 days from now. Omission requests immediate recipient
+     * notification after funding. anyOf[1] (Value): string. Optional send time between now and 90
+     * days from now. Omission requests immediate recipient notification after funding. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "send_at"?: ((string) | (null));
+};
+/**
+ * Recipient of a gift card purchase that you supply: `email`, optional `name` and `message`, and
+ * an optional `send_at` time.
+ */
+export type GiftCardPurchaseRecipientRequestInput = {
+    /**
+     * Email address the gift card is delivered to. Format: email. minLength: 1. maxLength: 254.
+     * Example: "buyer@example.com".
+     */
+    "email": string;
+    /** Personal message included with the gift card. minLength: 1. maxLength: 200. */
+    "message"?: string;
+    /** Name of the person receiving the gift card. minLength: 1. maxLength: 255. */
+    "name"?: string;
+    /**
+     * Optional send time between now and 90 days from now. Omission requests immediate recipient
+     * notification after funding. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "send_at"?: string | globalThis.Date;
+};
+/** An entry in a gift card load's purchase refunds. */
+export type GiftCardPurchaseRefundAllocation = {
+    /**
+     * The part of the amount the buyer paid that this refund or reversal returns. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "consideration_money": MoneyValue;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * ID of the manual payment reversal. Set when this entry reverses a manual payment instead of
+     * refunding a payment. Example: "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_reversal_id"?: string;
+    /**
+     * ID of this entry in the load's purchase refunds. Example:
+     * "gcpra_01KEZF7C00HJZ2YP6AENMZK5KA".
+     */
+    "purchase_refund_allocation_id": string;
+    /**
+     * How the value was restored after the refund failed. `null` when no recovery happened.
+     * Records how value was recovered for a gift card purchase refund, on the original or a
+     * replacement card, with the destinations that received it.
+     */
+    "recovery"?: GiftCardPurchaseRefundRecovery;
+    /**
+     * ID of the refund. `null` when the entry reverses a manual payment, which has no refund.
+     * Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id": string | null;
+    /**
+     * Whether the refund has succeeded, failed, or is still pending. Value enum: "pending",
+     * "succeeded", "failed".
+     */
+    "status": "pending" | "succeeded" | "failed" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Actual value lots reserved or reversed for this original cash refund. Omitted when all value
+     * remains on the original load. [] (Value): {@link GiftCardPurchaseRefundValueAllocation}. A
+     * gift card load and amount reserved or reversed for a gift card purchase refund.
+     */
+    "value_allocations"?: Array<GiftCardPurchaseRefundValueAllocation>;
+    /**
+     * The unspent face value this entry removes from the load. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "value_money": MoneyValue;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64.
+     */
+    "version": number;
+};
+export type GiftCardPurchaseRefundAllocationPreviousAttributes = {
+    /**
+     * The part of the amount the buyer paid that this refund or reversal returns. anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "consideration_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * ID of the manual payment reversal. Set when this entry reverses a manual payment instead of
+     * refunding a payment. anyOf[1] (Value): string. ID of the manual payment reversal. Set when
+     * this entry reverses a manual payment instead of refunding a payment. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE". anyOf[2] (Value): null.
+     */
+    "order_manual_reversal_id"?: ((string) | (null));
+    /**
+     * ID of this entry in the load's purchase refunds. anyOf[1] (Value): string. ID of this entry
+     * in the load's purchase refunds. Example: "gcpra_01KEZF7C00HJZ2YP6AENMZK5KA". anyOf[2]
+     * (Value): null.
+     */
+    "purchase_refund_allocation_id"?: ((string) | (null));
+    /**
+     * How the value was restored after the refund failed. `null` when no recovery happened.
+     * anyOf[1] (Value): {@link GiftCardPurchaseRefundRecoveryPreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "recovery"?: ((GiftCardPurchaseRefundRecoveryPreviousAttributes) | (null) | (unknown));
+    /**
+     * ID of the refund. `null` when the entry reverses a manual payment, which has no refund.
+     * anyOf[1] (Value): string or null. ID of the refund. `null` when the entry reverses a manual
+     * payment, which has no refund. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value):
+     * null.
+     */
+    "refund_id"?: ((string | null) | (null) | (unknown));
+    /**
+     * Whether the refund has succeeded, failed, or is still pending. Value enum: "pending",
+     * "succeeded", "failed". anyOf[1] (Value): string. Whether the refund has succeeded, failed,
+     * or is still pending. Value enum: "pending", "succeeded", "failed". anyOf[2] (Value): null.
+     */
+    "status"?: (("pending" | "succeeded" | "failed" | (string & {})) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "updated_at"?: ((string) | (null));
+    /**
+     * Actual value lots reserved or reversed for this original cash refund. Omitted when all value
+     * remains on the original load. anyOf[1] (Value): Array of {@link
+     * GiftCardPurchaseRefundValueAllocationPreviousAttributes}. Actual value lots reserved or
+     * reversed for this original cash refund. Omitted when all value remains on the original load.
+     * anyOf[1][] (Value): {@link GiftCardPurchaseRefundValueAllocationPreviousAttributes}.
+     * anyOf[2] (Value): null.
+     */
+    "value_allocations"?: ((Array<GiftCardPurchaseRefundValueAllocationPreviousAttributes>) | (null));
+    /**
+     * The unspent face value this entry removes from the load. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "value_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. anyOf[1] (Value): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. anyOf[2] (Value): null.
+     */
+    "version"?: ((number) | (null));
+};
+/**
+ * Records how value was recovered for a gift card purchase refund, on the original or a
+ * replacement card, with the destinations that received it.
+ */
+export type GiftCardPurchaseRefundRecovery = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /** Where the restored value went. Value enum: "original", "replacement". */
+    "destination": "original" | "replacement" | (string & {});
+    /**
+     * The cards and loads that received the restored value. [] (Value): {@link
+     * GiftCardPurchaseRefundRecoveryDestination}. A gift card and load that received recovered
+     * value in a gift card purchase refund recovery, with the amount.
+     */
+    "destinations": Array<GiftCardPurchaseRefundRecoveryDestination>;
+};

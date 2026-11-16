@@ -55,28 +55,28 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `closed_at` | Optional | string or null or null | RFC3339 timestamp. `null` when the review isn't closed. `closed_at`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributesclosed_at). |
-| `closed_by` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) or null or null | The credential that closed this payment review. Null when Flint closed it. `closed_by`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributesclosed_by). |
+| `closed_by` | Optional | ([ResourceReferencePreviousAttributes](../models/ResourceReferencePreviousAttributes.md#resourcereferencepreviousattributes) or null) or null | The credential that closed this payment review. Null when Flint closed it. |
 | `closed_reason` | Optional | string or null or null | How the review was resolved. `null` when the review isn't closed. Values: `"approved"`, `"declined"`, `"refunded"`, `"disputed"`, `"payment_canceled"`, `"expired"`, `null`. `closed_reason`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributesclosed_reason). |
-| `customer` | Optional | [ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) or null or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. |
+| `customer` | Optional | ([ExpandedCustomerSummaryPreviousAttributes](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributes) or null) or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. |
 | `customer_id` | Optional | string or null or null | ID of the customer the payment was made for. `null` when the payment has no customer. `customer_id`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributescustomer_id). |
 | `ip_address` | Optional | string or null or null | The buyer's IP address recorded for the payment when it was confirmed. `null` when no buyer IP address was supplied for the payment. `ip_address`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributesip_address). |
-| `last_resolution_failure` | Optional | [PaymentReviewResolutionFailure](../models/PaymentReviewResolutionFailure.md#paymentreviewresolutionfailure) or null or null | The most recent resolution attempt that failed. Set when a decline's refund failed and the review reopened. Null when no attempt has failed. |
+| `last_resolution_failure` | Optional | ([PaymentReviewResolutionFailurePreviousAttributes](../models/PaymentReviewResolutionFailurePreviousAttributes.md#paymentreviewresolutionfailurepreviousattributes) or null) or null | The most recent resolution attempt that failed. Set when a decline's refund failed and the review reopened. Null when no attempt has failed. |
 | `matched_risk_rule_id` | Optional | string or null | ID of the risk rule with the review action that opened this review. `matched_risk_rule_id`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributesmatched_risk_rule_id). |
 | `opened_at` | Optional | string or null | RFC3339 timestamp. `opened_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `opened_reason` | Optional | string or null | Why Flint opened the review. Values: `"rule"`. `opened_reason`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributesopened_reason). |
-| `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null or null | Present only when `expand` includes `order`; `null` when expanded and there is no related order. |
+| `order` | Optional | ([ExpandedOrderSummaryPreviousAttributes](../models/ExpandedOrderSummaryPreviousAttributes.md#expandedordersummarypreviousattributes) or null) or null | Present only when `expand` includes `order`; `null` when expanded and there is no related order. |
 | `order_id` | Optional | string or null or null | ID of the order the payment belongs to. `null` when the payment doesn't belong to an order. `order_id`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributesorder_id). |
 | `payment_flow` | Optional | string or null | How the reviewed payment was started. Values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. `payment_flow`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributespayment_flow). |
-| `payment_intent` | Optional | [ExpandedPaymentIntentSummary](../models/ExpandedPaymentIntentSummary.md#expandedpaymentintentsummary) or null or null | Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. |
+| `payment_intent` | Optional | ([ExpandedPaymentIntentSummaryPreviousAttributes](../models/ExpandedPaymentIntentSummaryPreviousAttributes.md#expandedpaymentintentsummarypreviousattributes) or null) or null | Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. |
 | `payment_intent_id` | Optional | string or null | ID of the payment intent under review. `payment_intent_id`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributespayment_intent_id). |
 | `payment_review_id` | Optional | string or null | Unique identifier for this payment review, prefixed `rev_`. `payment_review_id`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributespayment_review_id). |
-| `payment_summary` | Optional | [PaymentReviewPaymentSummary](../models/PaymentReviewPaymentSummary.md#paymentreviewpaymentsummary) or null | A snapshot of the payment as it was when the review opened. |
+| `payment_summary` | Optional | [PaymentReviewPaymentSummaryPreviousAttributes](../models/PaymentReviewPaymentSummaryPreviousAttributes.md#paymentreviewpaymentsummarypreviousattributes) or null | A snapshot of the payment as it was when the review opened. |
 | `pending_action` | Optional | string or null or null | The decision being carried out. `null` when status isn't resolving. Values: `"approve"`, `"decline"`, `"expire"`, `null`. `pending_action`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributespending_action). |
 | `refund_id` | Optional | string or null or null | The refund created when the payment was declined. It can be set while status is resolving, before the refund finishes and the review closes. `null` when no refund exists for the review, including after a decline that needed none or when the review is open. `refund_id`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributesrefund_id). |
-| `refunded_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null or null | Refunded amount for this review. Null when no refund is recorded. `refunded_money`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributesrefunded_money). |
+| `refunded_money` | Optional | ([MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null) or null | Refunded amount for this review. Null when no refund is recorded. `refunded_money`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributesrefunded_money). |
 | `resolution_started_at` | Optional | string or null or null | RFC3339 timestamp. `null` when nobody has started approving or declining the review and Flint hasn't started expiring it. `resolution_started_at`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributesresolution_started_at). |
-| `resolution_started_by` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) or null or null | The credential that started resolving this payment review, retained after closure. Null when no resolution has started or Flint started it. `resolution_started_by`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributesresolution_started_by). |
-| `risk` | Optional | [PaymentReviewRisk](../models/PaymentReviewRisk.md#paymentreviewrisk) or null | The payment's risk level and score when the review opened. |
+| `resolution_started_by` | Optional | ([ResourceReferencePreviousAttributes](../models/ResourceReferencePreviousAttributes.md#resourcereferencepreviousattributes) or null) or null | The credential that started resolving this payment review, retained after closure. Null when no resolution has started or Flint started it. |
+| `risk` | Optional | [PaymentReviewRiskPreviousAttributes](../models/PaymentReviewRiskPreviousAttributes.md#paymentreviewriskpreviousattributes) or null | The payment's risk level and score when the review opened. |
 | `status` | Optional | string or null | Where the review is in its lifecycle. Values: `"open"`, `"resolving"`, `"closed"`. `status`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributesstatus). |
 | `supported_actions` | Optional | Array of string or null | Lifecycle actions accepted in the current stored review state. An action remains listed while it is processing or can be repeated without changing the result. Items values: `"approve"`, `"decline"`. `supported_actions`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributessupported_actions). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
@@ -94,25 +94,6 @@ anyOf variant 1: RFC3339 timestamp. `null` when the review isn't closed..
 anyOf variant 2.
 
 - Value shape: null. RFC3339 timestamp. `null` when the review isn't closed. 
-
-### PaymentReviewClosedInstalledMerchantsEvent.data.previous_attributes.closed_by
-
-The credential that closed this payment review. Null when Flint closed it.
-
-Field definitions: [shared fields](ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_by).
-
-### PaymentReviewClosedInstalledMerchantsEvent.data.previous_attributes.closed_by variant 1
-
-anyOf variant 1: The credential that closed this payment review. Null when Flint closed it.; anyOf ResourceReference: A reference to another resource by `resource_type` and `resource_id`..
-
-- Required: `resource_id`, `resource_type`.
-
-### PaymentReviewClosedInstalledMerchantsEvent.data.previous_attributes.closed_by variant 2, 3
-
-anyOf variant 1: The credential that closed this payment review. Null when Flint closed it.; anyOf variant 2; anyOf variant 2.
-
-- Undeclared: `resource_id`, `resource_type`.
-- Value shape: null. The credential that closed this payment review. Null when Flint closed it. 
 
 ### PaymentReviewClosedInstalledMerchantsEvent.data.previous_attributes.closed_reason
 
@@ -276,13 +257,13 @@ anyOf variant 2.
 
 Refunded amount for this review. Null when no refund is recorded.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### PaymentReviewClosedInstalledMerchantsEvent.data.previous_attributes.refunded_money variant 1
 
-anyOf variant 1: Refunded amount for this review. Null when no refund is recorded.; anyOf MoneyValue: Monetary amount represented as integer minor units plus an ISO 4217 currency code..
+anyOf variant 1: Refunded amount for this review. Null when no refund is recorded.; anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### PaymentReviewClosedInstalledMerchantsEvent.data.previous_attributes.refunded_money variant 2, 3
 
@@ -290,6 +271,14 @@ anyOf variant 1: Refunded amount for this review. Null when no refund is recorde
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Refunded amount for this review. Null when no refund is recorded. 
+
+### PaymentReviewClosedInstalledMerchantsEvent.data.previous_attributes.refunded_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### PaymentReviewClosedInstalledMerchantsEvent.data.previous_attributes.refunded_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### PaymentReviewClosedInstalledMerchantsEvent.data.previous_attributes.resolution_started_at
 
@@ -304,25 +293,6 @@ anyOf variant 1: RFC3339 timestamp. `null` when nobody has started approving or 
 anyOf variant 2.
 
 - Value shape: null. RFC3339 timestamp. `null` when nobody has started approving or declining the review and Flint hasn't started expiring it. 
-
-### PaymentReviewClosedInstalledMerchantsEvent.data.previous_attributes.resolution_started_by
-
-The credential that started resolving this payment review, retained after closure. Null when no resolution has started or Flint started it.
-
-Field definitions: [shared fields](ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_by).
-
-### PaymentReviewClosedInstalledMerchantsEvent.data.previous_attributes.resolution_started_by variant 1
-
-anyOf variant 1: The credential that started resolving this payment review, retained after closure. Null when no resolution has started or Flint started it.; anyOf ResourceReference: A reference to another resource by `resource_type` and `resource_id`..
-
-- Required: `resource_id`, `resource_type`.
-
-### PaymentReviewClosedInstalledMerchantsEvent.data.previous_attributes.resolution_started_by variant 2, 3
-
-anyOf variant 1: The credential that started resolving this payment review, retained after closure. Null when no resolution has started or Flint started it.; anyOf variant 2; anyOf variant 2.
-
-- Undeclared: `resource_id`, `resource_type`.
-- Value shape: null. The credential that started resolving this payment review, retained after closure. Null when no resolution has started or Flint started it. 
 
 ### PaymentReviewClosedInstalledMerchantsEvent.data.previous_attributes.status
 

@@ -1,11 +1,10 @@
-import { d7423 as c0, d7426 as c1 } from '../descriptors/data/340.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
-import { d7437 as c2, d7438 as c3, d7439 as c4, d7440 as c5, d7441 as c6, d7442 as c7, d7443 as c8, d7444 as c9, d7445 as c10, d7446 as c11, d7447 as c12 } from '../descriptors/data/341.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
-import { d7448 as c13, d7449 as c14, d7450 as c15 } from '../descriptors/data/342.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
-import { d7423 as d7423 } from '../descriptors/data/340.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
+import { d8536 as c0, d8539 as c1, d8541 as c2 } from '../descriptors/data/376.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
+import { d8542 as c3, d8543 as c4, d8544 as c5, d8545 as c6, d8546 as c7, d8547 as c8, d8557 as c9, d8558 as c10, d8559 as c11, d8560 as c12, d8561 as c13, d8562 as c14, d8563 as c15 } from '../descriptors/data/377.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
+import { d8536 as d8536 } from '../descriptors/data/376.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7423;
+const read = d8536;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["DeliveryProfileConfigurationRequest"]:c0(),["DeliveryProfileOriginPolicyRequest"]:c1(),["SharedCodec745"]:c2(),["SharedCodec746"]:c3(),["SharedCodec747"]:c4(),["SharedCodec748"]:c5(),["SharedCodec749"]:c6(),["SharedCodec750"]:c7(),["SharedCodec751"]:c8(),["SharedCodec752"]:c9(),["SharedCodec753"]:c10(),["SharedCodec756"]:c11(),["SharedCodec757"]:c12(),["SharedCodec758"]:c13(),["SharedCodec759"]:c14(),["SharedCodec760"]:c15()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["DeliveryProfileConfigurationRequest"]:c0(),["DeliveryProfileOriginPolicyRequest"]:c1(),["SharedCodec1000"]:c2(),["SharedCodec1001"]:c3(),["SharedCodec1004"]:c4(),["SharedCodec1005"]:c5(),["SharedCodec1007"]:c6(),["SharedCodec1008"]:c7(),["SharedCodec1009"]:c8(),["SharedCodec987"]:c9(),["SharedCodec988"]:c10(),["SharedCodec989"]:c11(),["SharedCodec990"]:c12(),["SharedCodec991"]:c13(),["SharedCodec992"]:c14(),["SharedCodec993"]:c15()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeDeliveryProfileConfigurationRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

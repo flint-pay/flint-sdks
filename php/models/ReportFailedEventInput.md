@@ -30,7 +30,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object and (object and ([ReportPendingInput](../models/ReportPendingInput.md#reportpendinginput) or [ReportSucceededInput](../models/ReportSucceededInput.md#reportsucceededinput) or [ReportFailedInput](../models/ReportFailedInput.md#reportfailedinput))) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [declared alternatives](../models/ReportFailedEventInput.md#reportfailedeventinputdataobject). |
-| `previous_attributes` | Optional | object and Alternative shapes (see declared variants) | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [declared alternatives](../models/ReportFailedEventInput.md#reportfailedeventinputdataprevious_attributes). |
+| `previous_attributes` | Optional | object and ([ReportPendingPreviousAttributesInput](../models/ReportPendingPreviousAttributesInput.md#reportpendingpreviousattributesinput) or [ReportSucceededPreviousAttributesInput](../models/ReportSucceededPreviousAttributesInput.md#reportsucceededpreviousattributesinput) or [ReportFailedPreviousAttributesInput](../models/ReportFailedPreviousAttributesInput.md#reportfailedpreviousattributesinput)) | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [declared alternatives](../models/ReportFailedEventInput.md#reportfailedeventinputdataprevious_attributes). |
 
 ### ReportFailedEventInput.data.object
 
@@ -73,7 +73,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `as_of_date` | Optional | string or null | Present only for receivables_aging_v1. The calendar date in timezone whose receivables are reported. `as_of_date`: [declared alternatives](../models/ReportFailedEventInput.md#reportfailedeventinputdataprevious_attributesas_of_date). |
 | `created_at` | Optional | string or null | When the report was requested. `created_at`: [declared alternatives](../models/ReportFailedEventInput.md#reportfailedeventinputdataprevious_attributescreated_at). |
 | `currency` | Optional | string or null | Currency the report covers. A report never combines currencies. Uses ISO 4217 currency codes. `currency`: [declared alternatives](../models/ReportFailedEventInput.md#reportfailedeventinputdataprevious_attributescurrency). |
-| `download` | Optional | [PublicDownloadInput](../models/PublicDownloadInput.md#publicdownloadinput) or null | Link to download the generated report. Present only when status is succeeded. |
+| `download` | Optional | [PublicDownloadPreviousAttributesInput](../models/PublicDownloadPreviousAttributesInput.md#publicdownloadpreviousattributesinput) or null | Link to download the generated report. Present only when status is succeeded. |
 | `failure_reason` | Optional | string or null | Why the report failed. Present only when status is failed: limit_exceeded when the report hit a size or time limit, data_unavailable when data it needs wasn't available yet, and generation_failed for other errors. Treat an unknown value like generation_failed. Values: `"generation_failed"`, `"data_unavailable"`, `"limit_exceeded"`. `failure_reason`: [declared alternatives](../models/ReportFailedEventInput.md#reportfailedeventinputdataprevious_attributesfailure_reason). |
 | `interval_end_at` | Optional | string or null | Exclusive interval end instant. Each report type matches its own occurrence time. `interval_end_at`: [declared alternatives](../models/ReportFailedEventInput.md#reportfailedeventinputdataprevious_attributesinterval_end_at). |
 | `interval_start_at` | Optional | string or null | Inclusive interval start instant. Each report type matches its own occurrence time. `interval_start_at`: [declared alternatives](../models/ReportFailedEventInput.md#reportfailedeventinputdataprevious_attributesinterval_start_at). |
@@ -84,19 +84,19 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 ### ReportFailedEventInput.data.previous_attributes variant 1: `status` = `"pending"`
 
-anyOf variant 1.
+anyOf ReportPendingPreviousAttributes.
 
 - Constraints for `status`: Values: `"pending"`.
 
 ### ReportFailedEventInput.data.previous_attributes variant 2: `status` = `"succeeded"`
 
-anyOf variant 2.
+anyOf ReportSucceededPreviousAttributes.
 
 - Constraints for `status`: Values: `"succeeded"`.
 
 ### ReportFailedEventInput.data.previous_attributes variant 3: `status` = `"failed"`
 
-anyOf variant 3.
+anyOf ReportFailedPreviousAttributes.
 
 - Constraints for `status`: Values: `"failed"`.
 

@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read int|null $circuit_failure_count
  * @property-read string|null $circuit_state
- * @property-read DeliveryRateCallbackConfiguration|null $configuration
+ * @property-read mixed $configuration
  * @property-read string|null $created_at
  * @property-read string|null $current_delivery_rate_callback_revision_id
  * @property-read string|null $delivery_rate_callback_id
@@ -29,10 +29,10 @@ final class DeliveryRateCallbackUpdatedMerchantEventDataPreviousAttributes exten
      */
     public function getCircuitState(): string|null { return $this->get('circuit_state'); }
     public function hasCircuitState(): bool { return $this->has('circuit_state'); }
-    /** Current settings of the rate callback. anyOf[1] (Value): {@see DeliveryRateCallbackConfiguration}. Current settings of the rate callback. anyOf[2] (Value): null.
-     * @return DeliveryRateCallbackConfiguration|null
+    /** Current settings of the rate callback. anyOf[1] (Value): {@see DeliveryRateCallbackConfigurationPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getConfiguration(): DeliveryRateCallbackConfiguration|null { return $this->get('configuration'); }
+    public function getConfiguration(): mixed { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

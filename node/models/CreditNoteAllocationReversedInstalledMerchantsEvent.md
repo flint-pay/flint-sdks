@@ -41,7 +41,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `allocated_at` | Optional | string or null | When the credit was applied to the invoice balance. `allocated_at`: [declared alternatives](../models/CreditNoteAllocationReversedInstalledMerchantsEvent.md#creditnoteallocationreversedinstalledmerchantseventdataprevious_attributesallocated_at). |
-| `amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Credit applied to the invoice balance. `amount_money`: [declared alternatives](../models/CreditNoteAllocationReversedInstalledMerchantsEvent.md#creditnoteallocationreversedinstalledmerchantseventdataprevious_attributesamount_money). |
+| `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Credit applied to the invoice balance. `amount_money`: [declared alternatives](../models/CreditNoteAllocationReversedInstalledMerchantsEvent.md#creditnoteallocationreversedinstalledmerchantseventdataprevious_attributesamount_money). |
 | `credit_note_allocation_id` | Optional | string or null | Unique identifier of the allocation. `credit_note_allocation_id`: [declared alternatives](../models/CreditNoteAllocationReversedInstalledMerchantsEvent.md#creditnoteallocationreversedinstalledmerchantseventdataprevious_attributescredit_note_allocation_id). |
 | `credit_note_id` | Optional | string or null | The credit note whose credit was applied. `credit_note_id`: [declared alternatives](../models/CreditNoteAllocationReversedInstalledMerchantsEvent.md#creditnoteallocationreversedinstalledmerchantseventdataprevious_attributescredit_note_id). |
 | `idempotency_key` | Optional | string or null | The Idempotency-Key the caller sent when allocating, or the issue request's Idempotency-Key for an allocation made on issue. Filterable on the allocations list. `idempotency_key`: [declared alternatives](../models/CreditNoteAllocationReversedInstalledMerchantsEvent.md#creditnoteallocationreversedinstalledmerchantseventdataprevious_attributesidempotency_key). |
@@ -67,13 +67,13 @@ anyOf variant 2.
 
 Credit applied to the invoice balance.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### CreditNoteAllocationReversedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1
 
-anyOf MoneyValue: Credit applied to the invoice balance..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### CreditNoteAllocationReversedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 2
 
@@ -81,6 +81,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Credit applied to the invoice balance. 
+
+### CreditNoteAllocationReversedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### CreditNoteAllocationReversedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### CreditNoteAllocationReversedInstalledMerchantsEvent.data.previous_attributes.credit_note_allocation_id
 

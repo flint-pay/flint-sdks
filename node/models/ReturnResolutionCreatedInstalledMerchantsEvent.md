@@ -54,7 +54,7 @@ Field definitions: [BuyerReturnResolution.deduction_money](../models/BuyerReturn
 
 ### ReturnResolutionCreatedInstalledMerchantsEvent.data.object.metadata
 
-Field definitions: [CheckoutSession.metadata](../models/CheckoutSession.md#checkoutsessionmetadata).
+Field definitions: [CancelOrderEditResult.order.metadata](../models/CancelOrderEditResult.md#cancelordereditresultordermetadata).
 
 ### ReturnResolutionCreatedInstalledMerchantsEvent.data.object.replacement_total_money
 

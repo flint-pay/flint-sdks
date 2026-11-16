@@ -3,11 +3,11 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $canceled_at
- * @property-read ReturnActor|null $canceled_by
+ * @property-read mixed $canceled_by
  * @property-read string|null $cancellation_reason
  * @property-read string|null $cancellation_reason_message
  * @property-read string|null $created_at
- * @property-read ReturnActor|null $created_by
+ * @property-read mixed $created_by
  * @property-read string|null $disposition_type
  * @property-read string|null $external_reference_id
  * @property-read string|null $failure_code
@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read string|null $inventory_location_id
  * @property-read list<string>|null $inventory_movement_ids
  * @property-read string|null $inventory_receipt_id
- * @property-read array<array-key, string>|null $metadata
+ * @property-read mixed $metadata
  * @property-read string|null $occurred_at
  * @property-read int|null $quantity
  * @property-read string|null $reason
@@ -42,10 +42,10 @@ final class ReturnDispositionUpdatedInstalledMerchantsEventDataPreviousAttribute
      */
     public function getCanceledAt(): string|null { return $this->get('canceled_at'); }
     public function hasCanceledAt(): bool { return $this->has('canceled_at'); }
-    /** Who canceled the disposition. Merchant reads only. anyOf[1] (Value): {@see ReturnActor}. Who canceled the disposition. Merchant reads only. anyOf[2] (Value): null.
-     * @return ReturnActor|null
+    /** Who canceled the disposition. Merchant reads only. anyOf[1] (Value): {@see ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getCanceledBy(): ReturnActor|null { return $this->get('canceled_by'); }
+    public function getCanceledBy(): mixed { return $this->get('canceled_by'); }
     public function hasCanceledBy(): bool { return $this->has('canceled_by'); }
     /** Why the disposition was canceled. Value enum: "created_in_error", "changed_disposition", "duplicate", "other". anyOf[1] (Value): string. Why the disposition was canceled. Value enum: "created_in_error", "changed_disposition", "duplicate", "other". anyOf[2] (Value): null.
      * @return string|null
@@ -62,10 +62,10 @@ final class ReturnDispositionUpdatedInstalledMerchantsEventDataPreviousAttribute
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Who created the disposition. anyOf[1] (Value): {@see ReturnActor}. Who created the disposition. anyOf[2] (Value): null.
-     * @return ReturnActor|null
+    /** Who created the disposition. anyOf[1] (Value): {@see ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getCreatedBy(): ReturnActor|null { return $this->get('created_by'); }
+    public function getCreatedBy(): mixed { return $this->get('created_by'); }
     public function hasCreatedBy(): bool { return $this->has('created_by'); }
     /** What happens to the received units. Value enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost". anyOf[1] (Value): string. What happens to the received units. Value enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost". anyOf[2] (Value): null.
      * @return string|null
@@ -102,10 +102,10 @@ final class ReturnDispositionUpdatedInstalledMerchantsEventDataPreviousAttribute
      */
     public function getInventoryReceiptId(): string|null { return $this->get('inventory_receipt_id'); }
     public function hasInventoryReceiptId(): bool { return $this->has('inventory_receipt_id'); }
-    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
-     * @return array<array-key, string>|null
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getMetadata(): array|null { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

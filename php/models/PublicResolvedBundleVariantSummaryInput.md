@@ -2,7 +2,7 @@
 
 ## PublicResolvedBundleVariantSummaryInput
 
-A summary of a bundle component's variant, with its name, SKU, selected options, and whether it is available for sale.
+A summary of a bundle component's variant, with its product name, variant name, SKU, selected options, and whether it is available for sale.
 
 Request input.
 
@@ -11,6 +11,7 @@ Request input.
 | `is_available_for_sale` | Required | boolean | Whether the variant can be sold now. |
 | `name` | Optional | string | Name of the variant. |
 | `product_id` | Required | string | Identifier of the product this resolved bundle component variant belongs to. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |
+| `product_name` | Optional | string | Name of the product the component’s variant belongs to. |
 | `selected_options` | Optional | Array of [SelectedProductOptionInput](../models/SelectedProductOptionInput.md#selectedproductoptioninput) | The product options the variant selects, such as size or color. |
 | `sku` | Optional | string | SKU of the variant. |
 | `variant_id` | Required | string | ID of the variant. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read CardDetails|null $card
+ * @property-read mixed $card
  * @property-read string|null $created_at
  * @property-read mixed $customer
  * @property-read string|null $customer_id
@@ -19,17 +19,17 @@ namespace Flint;
 final class PaymentMethodFailedInstalledMerchantsEventDataPreviousAttributes extends Model {
     /** @param array{'card'?: mixed, 'created_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'fingerprint'?: mixed, 'is_default'?: mixed, 'merchant_id'?: mixed, 'payment_method_id'?: mixed, 'saved_with'?: mixed, 'status'?: mixed, 'type'?: mixed, 'updated_at'?: mixed, 'usage'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodFailedInstalledMerchantsEventDataPreviousAttributes')); }
-    /** Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value): {@see CardDetails}. Brand, expiry and last four digits. Present when `type` is `card`. anyOf[2] (Value): null.
-     * @return CardDetails|null
+    /** Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value): {@see CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getCard(): CardDetails|null { return $this->get('card'); }
+    public function getCard(): mixed { return $this->get('card'); }
     public function hasCard(): bool { return $this->has('card'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID when the customer is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): ({@see ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getCustomer(): mixed { return $this->get('customer'); }

@@ -73,7 +73,7 @@ final class PlatformFeeSucceededEventDataObject extends Model {
      */
     public function getPlatformFeeId(): string { return $this->get('platform_fee_id'); }
     public function hasPlatformFeeId(): bool { return $this->has('platform_fee_id'); }
-    /** The fee returned to the installed merchant so far, including opted-in payment refunds and returns of the whole application fee. A failed refund reverses its share of this total. 0 when nothing has been returned. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The fee debited from the platform for returns so far, including opted-in payment refunds and returns of the whole application fee. Matches the platform ledger, including returns awaiting completion; reversals reduce the total. 0 when nothing has been debited. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getRefundedMoney(): MoneyValue { return $this->get('refunded_money'); }

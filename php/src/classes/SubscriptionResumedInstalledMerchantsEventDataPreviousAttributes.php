@@ -5,12 +5,12 @@ namespace Flint;
  * @property-read int|null $billing_anchor_day
  * @property-read string|null $billing_interval
  * @property-read int|null $billing_interval_count
- * @property-read list<SubscriptionIntervalOption>|null $billing_interval_options
+ * @property-read list<SubscriptionIntervalOptionPreviousAttributes>|null $billing_interval_options
  * @property-read string|null $billing_schedule_owner
  * @property-read string|null $billing_schedule_waiting_started_at
  * @property-read bool|null $cancel_at_period_end
  * @property-read string|null $canceled_at
- * @property-read SubscriptionCancellationDetails|null $cancellation_details
+ * @property-read mixed $cancellation_details
  * @property-read string|null $cancellation_reason
  * @property-read int|null $completed_cycles
  * @property-read string|null $contract_end_at
@@ -21,33 +21,33 @@ namespace Flint;
  * @property-read mixed $customer
  * @property-read string|null $customer_id
  * @property-read int|null $deliveries_per_period
- * @property-read SubscriptionDelivery|null $delivery
- * @property-read SubscriptionDeliveryHold|null $delivery_hold
+ * @property-read mixed $delivery
+ * @property-read mixed $delivery_hold
  * @property-read mixed $delivery_interval
  * @property-read mixed $delivery_interval_count
- * @property-read MoneyValue|null $early_termination_fee_money
+ * @property-read mixed $early_termination_fee_money
  * @property-read mixed $end_after
  * @property-read mixed $expires_at
  * @property-read string|null $external_reference_id
  * @property-read mixed $gift_recipient
- * @property-read SubscriptionInventoryWait|null $inventory_wait
+ * @property-read mixed $inventory_wait
  * @property-read bool|null $is_awaiting_billing_schedule
- * @property-read PaymentErrorSummary|null $last_payment_error
- * @property-read list<SubscriptionLineItem>|null $line_items
+ * @property-read mixed $last_payment_error
+ * @property-read list<SubscriptionLineItemPreviousAttributes>|null $line_items
  * @property-read string|null $merchant_id
- * @property-read array<array-key, string>|null $metadata
+ * @property-read mixed $metadata
  * @property-read string|null $missed_billing_at
  * @property-read string|null $next_billing_at
  * @property-read mixed $next_delivery_at
  * @property-read mixed $next_retry_at
  * @property-read string|null $open_renewal_order_id
- * @property-read MoneyValue|null $outstanding_money
+ * @property-read mixed $outstanding_money
  * @property-read string|null $pause_reason
  * @property-read string|null $paused_at
  * @property-read mixed $payment_method
  * @property-read mixed $payment_method_due_at
  * @property-read mixed $payment_method_id
- * @property-read list<SubscriptionPromotion>|null $promotions
+ * @property-read list<SubscriptionPromotionPreviousAttributes>|null $promotions
  * @property-read bool|null $prorate_first_period
  * @property-read mixed $recurring_subtotal_money
  * @property-read mixed $remaining_cycles
@@ -55,9 +55,9 @@ namespace Flint;
  * @property-read mixed $resume_requested_at
  * @property-read mixed $scheduled_cancel_at
  * @property-read mixed $scheduled_plan_change
- * @property-read list<SubscriptionPromotion>|null $scheduled_promotions
+ * @property-read list<SubscriptionPromotionPreviousAttributes>|null $scheduled_promotions
  * @property-read mixed $scheduled_resume_at
- * @property-read SubscriptionServiceLocation|null $service_location
+ * @property-read mixed $service_location
  * @property-read string|null $starts_at
  * @property-read string|null $status
  * @property-read string|null $subscription_id
@@ -68,7 +68,7 @@ namespace Flint;
  * @property-read string|null $terms_type
  * @property-read string|null $test_clock_id
  * @property-read string|null $trial_end_at
- * @property-read SubscriptionUpcomingDeliveryHold|null $upcoming_delivery_hold
+ * @property-read mixed $upcoming_delivery_hold
  * @property-read string|null $updated_at
  * @property-read int|null $version
  * Presence-aware response; omitted optional fields return null. */
@@ -90,8 +90,8 @@ final class SubscriptionResumedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getBillingIntervalCount(): int|null { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** Billing interval and count pairs the subscription can switch to. For a subscription on a plan, they follow the plan's current billing_interval_options. A subscription that came from an offer keeps the pairs the offer had at signup. Prices of lines that ship are per delivery. Each option charges for all deliveries in its period. Changing the interval does not change the per-delivery price. anyOf[1] (Value): Array of {@see SubscriptionIntervalOption}. Billing interval and count pairs the subscription can switch to. For a subscription on a plan, they follow the plan's current billing_interval_options. A subscription that came from an offer keeps the pairs the offer had at signup. Prices of lines that ship are per delivery. Each option charges for all deliveries in its period. Changing the interval does not change the per-delivery price. maxItems: 12. uniqueItems: true. anyOf[1][] (Value): {@see SubscriptionIntervalOption}. A billing interval, such as every 2 months, that a plan, offer, or subscription lets buyers choose. Prices of lines that ship are per delivery, and each option charges for all deliveries in its period. Without a delivery cadence there is one delivery per period, so every option bills the same line prices once per period. With a delivery cadence, a longer period bills more deliveries of the lines that ship; other lines bill once per period. For a different price per interval with no delivery cadence, create separate plans. anyOf[2] (Value): null.
-     * @return list<SubscriptionIntervalOption>|null
+    /** Billing interval and count pairs the subscription can switch to. For a subscription on a plan, they follow the plan's current billing_interval_options. A subscription that came from an offer keeps the pairs the offer had at signup. Prices of lines that ship are per delivery. Each option charges for all deliveries in its period. Changing the interval does not change the per-delivery price. anyOf[1] (Value): Array of {@see SubscriptionIntervalOptionPreviousAttributes}. Billing interval and count pairs the subscription can switch to. For a subscription on a plan, they follow the plan's current billing_interval_options. A subscription that came from an offer keeps the pairs the offer had at signup. Prices of lines that ship are per delivery. Each option charges for all deliveries in its period. Changing the interval does not change the per-delivery price. maxItems: 12. uniqueItems: true. anyOf[1][] (Value): {@see SubscriptionIntervalOptionPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<SubscriptionIntervalOptionPreviousAttributes>|null
      */
     public function getBillingIntervalOptions(): array|null { return $this->get('billing_interval_options'); }
     public function hasBillingIntervalOptions(): bool { return $this->has('billing_interval_options'); }
@@ -115,10 +115,10 @@ final class SubscriptionResumedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getCanceledAt(): string|null { return $this->get('canceled_at'); }
     public function hasCanceledAt(): bool { return $this->has('canceled_at'); }
-    /** Who asked to cancel, when, and why. Present once a cancellation is requested, whether it takes effect at the end of the billing period or right away. Omitted when no one asked, and removed when a scheduled cancellation is undone. See cancellation_reason for voluntary and payment-related cancellations. anyOf[1] (Value): {@see SubscriptionCancellationDetails}. Who asked to cancel, when, and why. Present once a cancellation is requested, whether it takes effect at the end of the billing period or right away. Omitted when no one asked, and removed when a scheduled cancellation is undone. See cancellation_reason for voluntary and payment-related cancellations. anyOf[2] (Value): null.
-     * @return SubscriptionCancellationDetails|null
+    /** Who asked to cancel, when, and why. Present once a cancellation is requested, whether it takes effect at the end of the billing period or right away. Omitted when no one asked, and removed when a scheduled cancellation is undone. See cancellation_reason for voluntary and payment-related cancellations. anyOf[1] (Value): {@see SubscriptionCancellationDetailsPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getCancellationDetails(): SubscriptionCancellationDetails|null { return $this->get('cancellation_details'); }
+    public function getCancellationDetails(): mixed { return $this->get('cancellation_details'); }
     public function hasCancellationDetails(): bool { return $this->has('cancellation_details'); }
     /** Why the subscription is canceled or scheduled to cancel. Uses signup_order_refunded when an automatic inventory refund fully refunds the signup order, end_after_reached when the automatic ending agreement is reached, cancellation_details.requested_by when recorded, payment_failed for other canceled subscriptions without a requester, and other for a scheduled cancellation without a requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration", "payment_failed", "other", "end_after_reached", "signup_order_refunded". anyOf[1] (Value): string. Why the subscription is canceled or scheduled to cancel. Uses signup_order_refunded when an automatic inventory refund fully refunds the signup order, end_after_reached when the automatic ending agreement is reached, cancellation_details.requested_by when recorded, payment_failed for other canceled subscriptions without a requester, and other for a scheduled cancellation without a requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration", "payment_failed", "other", "end_after_reached", "signup_order_refunded". anyOf[2] (Value): null.
      * @return string|null
@@ -155,7 +155,7 @@ final class SubscriptionResumedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getCurrentPeriodStartAt(): string|null { return $this->get('current_period_start_at'); }
     public function hasCurrentPeriodStartAt(): bool { return $this->has('current_period_start_at'); }
-    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID when the customer is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): ({@see ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getCustomer(): mixed { return $this->get('customer'); }
@@ -170,15 +170,15 @@ final class SubscriptionResumedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getDeliveriesPerPeriod(): int|null { return $this->get('deliveries_per_period'); }
     public function hasDeliveriesPerPeriod(): bool { return $this->has('deliveries_per_period'); }
-    /** Saved delivery preference with the current delivery method display. Write responses use the same display as GET: fixed shipping reflects the current method configuration, and quoted shipping shows the last paid shipping amount when available. anyOf[1] (Value): {@see SubscriptionDelivery}. Saved delivery preference with the current delivery method display. Write responses use the same display as GET: fixed shipping reflects the current method configuration, and quoted shipping shows the last paid shipping amount when available. anyOf[2] (Value): null.
-     * @return SubscriptionDelivery|null
+    /** Saved delivery preference with the current delivery method display. Write responses use the same display as GET: fixed shipping reflects the current method configuration, and quoted shipping shows the last paid shipping amount when available. anyOf[1] (Value): {@see SubscriptionDeliveryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getDelivery(): SubscriptionDelivery|null { return $this->get('delivery'); }
+    public function getDelivery(): mixed { return $this->get('delivery'); }
     public function hasDelivery(): bool { return $this->has('delivery'); }
-    /** Current delivery issue that blocks collection. Mutually exclusive with upcoming_delivery_hold. anyOf[1] (Value): {@see SubscriptionDeliveryHold}. Current delivery issue that blocks collection. Mutually exclusive with upcoming_delivery_hold. anyOf[2] (Value): null.
-     * @return SubscriptionDeliveryHold|null
+    /** Current delivery issue that blocks collection. Mutually exclusive with upcoming_delivery_hold. anyOf[1] (Value): {@see SubscriptionDeliveryHoldPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getDeliveryHold(): SubscriptionDeliveryHold|null { return $this->get('delivery_hold'); }
+    public function getDeliveryHold(): mixed { return $this->get('delivery_hold'); }
     public function hasDeliveryHold(): bool { return $this->has('delivery_hold'); }
     /** Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Value enum: "daily", "weekly", "monthly", "yearly", null. anyOf[1] (Value): string or null. Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Value enum: "daily", "weekly", "monthly", "yearly", null. anyOf[2] (Value): null.
      * @return mixed
@@ -190,12 +190,12 @@ final class SubscriptionResumedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getDeliveryIntervalCount(): mixed { return $this->get('delivery_interval_count'); }
     public function hasDeliveryIntervalCount(): bool { return $this->has('delivery_interval_count'); }
-    /** The fee in the recorded contract terms. Present whenever those terms include a fee. It applies only to a cancellation before contract_end_at. Flint never charges it. Later plan changes do not change this fee. anyOf[1] (Value): {@see MoneyValue}. The fee in the recorded contract terms. Present whenever those terms include a fee. It applies only to a cancellation before contract_end_at. Flint never charges it. Later plan changes do not change this fee. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** The fee in the recorded contract terms. Present whenever those terms include a fee. It applies only to a cancellation before contract_end_at. Flint never charges it. Later plan changes do not change this fee. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getEarlyTerminationFeeMoney(): MoneyValue|null { return $this->get('early_termination_fee_money'); }
+    public function getEarlyTerminationFeeMoney(): mixed { return $this->get('early_termination_fee_money'); }
     public function hasEarlyTerminationFeeMoney(): bool { return $this->has('early_termination_fee_money'); }
-    /** Recorded automatic end condition. Null when no automatic end is set. Cycles count charged billing periods, including imported completed_cycles. Pauses and skips do not use cycles. Already-paid prepaid deliveries continue on their shifted dates, even beyond the end date, and cancellation waits for the last remaining delivery. Skipping defers a delivery without consuming its entitlement. Ending never refunds. anyOf[1] (Value): {@see SubscriptionEndAfter} or null. Recorded automatic end condition. Null when no automatic end is set. Cycles count charged billing periods, including imported completed_cycles. Pauses and skips do not use cycles. Already-paid prepaid deliveries continue on their shifted dates, even beyond the end date, and cancellation waits for the last remaining delivery. Skipping defers a delivery without consuming its entitlement. Ending never refunds. anyOf[1].anyOf[1] (Value): {@see SubscriptionEndAfter}. The subscription's automatic end condition, measured by charged billing cycles or a saved local calendar date. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Recorded automatic end condition. Null when no automatic end is set. Cycles count charged billing periods, including imported completed_cycles. Pauses and skips do not use cycles. Already-paid prepaid deliveries continue on their shifted dates, even beyond the end date, and cancellation waits for the last remaining delivery. Skipping defers a delivery without consuming its entitlement. Ending never refunds. anyOf[1] (Value): ({@see SubscriptionEndAfterPreviousAttributes} or null). Recorded automatic end condition. Null when no automatic end is set. Cycles count charged billing periods, including imported completed_cycles. Pauses and skips do not use cycles. Already-paid prepaid deliveries continue on their shifted dates, even beyond the end date, and cancellation waits for the last remaining delivery. Skipping defers a delivery without consuming its entitlement. Ending never refunds. anyOf[1].anyOf[1] (Value): {@see SubscriptionEndAfterPreviousAttributes}. The subscription's automatic end condition, measured by charged billing cycles or a saved local calendar date. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getEndAfter(): mixed { return $this->get('end_after'); }
@@ -210,28 +210,28 @@ final class SubscriptionResumedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Who receives the gift, when this is a gift subscription. customer_id stays the purchaser. Flint clears it when the subscription ends and when the purchaser's data is erased. Null when the subscription isn't a gift. anyOf[1] (Value): {@see SubscriptionGiftRecipient} or null. Who receives the gift, when this is a gift subscription. customer_id stays the purchaser. Flint clears it when the subscription ends and when the purchaser's data is erased. Null when the subscription isn't a gift. anyOf[1].anyOf[1] (Value): {@see SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the purchaser, who pays, gets receipts and reminders, and manages the subscription. delivery.recipient stays the ship-to address. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Who receives the gift, when this is a gift subscription. customer_id stays the purchaser. Flint clears it when the subscription ends and when the purchaser's data is erased. Null when the subscription isn't a gift. anyOf[1] (Value): ({@see SubscriptionGiftRecipientPreviousAttributes} or null). Who receives the gift, when this is a gift subscription. customer_id stays the purchaser. Flint clears it when the subscription ends and when the purchaser's data is erased. Null when the subscription isn't a gift. anyOf[1].anyOf[1] (Value): {@see SubscriptionGiftRecipientPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getGiftRecipient(): mixed { return $this->get('gift_recipient'); }
     public function hasGiftRecipient(): bool { return $this->has('gift_recipient'); }
-    /** Renewal waiting for stock. Buyers receive only started_at. anyOf[1] (Value): {@see SubscriptionInventoryWait}. Renewal waiting for stock. Buyers receive only started_at. anyOf[2] (Value): null.
-     * @return SubscriptionInventoryWait|null
+    /** Renewal waiting for stock. Buyers receive only started_at. anyOf[1] (Value): {@see SubscriptionInventoryWaitPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getInventoryWait(): SubscriptionInventoryWait|null { return $this->get('inventory_wait'); }
+    public function getInventoryWait(): mixed { return $this->get('inventory_wait'); }
     public function hasInventoryWait(): bool { return $this->has('inventory_wait'); }
     /** True while an active or trialing subscription on an external billing schedule has no next billing date. anyOf[1] (Value): boolean. True while an active or trialing subscription on an external billing schedule has no next billing date. anyOf[2] (Value): null.
      * @return bool|null
      */
     public function getIsAwaitingBillingSchedule(): bool|null { return $this->get('is_awaiting_billing_schedule'); }
     public function hasIsAwaitingBillingSchedule(): bool { return $this->has('is_awaiting_billing_schedule'); }
-    /** Latest renewal payment failure, present only while status is past_due and the latest payment failed. Buyer responses omit merchant remediation and sensitive decline signals. anyOf[1] (Value): {@see PaymentErrorSummary}. Latest renewal payment failure, present only while status is past_due and the latest payment failed. Buyer responses omit merchant remediation and sensitive decline signals. anyOf[2] (Value): null.
-     * @return PaymentErrorSummary|null
+    /** Latest renewal payment failure, present only while status is past_due and the latest payment failed. Buyer responses omit merchant remediation and sensitive decline signals. anyOf[1] (Value): {@see PaymentErrorSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getLastPaymentError(): PaymentErrorSummary|null { return $this->get('last_payment_error'); }
+    public function getLastPaymentError(): mixed { return $this->get('last_payment_error'); }
     public function hasLastPaymentError(): bool { return $this->has('last_payment_error'); }
-    /** What each renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes that variant's current catalog price, which then stays until the line changes again. anyOf[1] (Value): Array of {@see SubscriptionLineItem}. What each renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes that variant's current catalog price, which then stays until the line changes again. anyOf[1][] (Value): {@see SubscriptionLineItem}. An item included in a customer's recurring purchase. anyOf[2] (Value): null.
-     * @return list<SubscriptionLineItem>|null
+    /** What each renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes that variant's current catalog price, which then stays until the line changes again. anyOf[1] (Value): Array of {@see SubscriptionLineItemPreviousAttributes}. What each renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes that variant's current catalog price, which then stays until the line changes again. anyOf[1][] (Value): {@see SubscriptionLineItemPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<SubscriptionLineItemPreviousAttributes>|null
      */
     public function getLineItems(): array|null { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
@@ -240,10 +240,10 @@ final class SubscriptionResumedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
-     * @return array<array-key, string>|null
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getMetadata(): array|null { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** The billing date whose payment failed, as an RFC3339 timestamp. Present only while status is past_due. anyOf[1] (Value): string. The billing date whose payment failed, as an RFC3339 timestamp. Present only while status is past_due. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -270,10 +270,10 @@ final class SubscriptionResumedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getOpenRenewalOrderId(): string|null { return $this->get('open_renewal_order_id'); }
     public function hasOpenRenewalOrderId(): bool { return $this->has('open_renewal_order_id'); }
-    /** Unpaid balance of the failed renewal order, including tax, shipping and discounts, after payments and credits. Present only while status is past_due and a positive balance remains. anyOf[1] (Value): {@see MoneyValue}. Unpaid balance of the failed renewal order, including tax, shipping and discounts, after payments and credits. Present only while status is past_due and a positive balance remains. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** Unpaid balance of the failed renewal order, including tax, shipping and discounts, after payments and credits. Present only while status is past_due and a positive balance remains. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getOutstandingMoney(): MoneyValue|null { return $this->get('outstanding_money'); }
+    public function getOutstandingMoney(): mixed { return $this->get('outstanding_money'); }
     public function hasOutstandingMoney(): bool { return $this->has('outstanding_money'); }
     /** Why the subscription is paused: merchant for a pause made with your API key or dashboard, buyer for the buyer's own pause, delivery_action_required for a pause during or after a delivery hold, and payment_failed when renewal payment retries ran out and your dunning settings pause the subscription. Omitted when the subscription is not paused. Value enum: "buyer", "delivery_action_required", "merchant", "payment_failed". anyOf[1] (Value): string. Why the subscription is paused: merchant for a pause made with your API key or dashboard, buyer for the buyer's own pause, delivery_action_required for a pause during or after a delivery hold, and payment_failed when renewal payment retries ran out and your dunning settings pause the subscription. Omitted when the subscription is not paused. Value enum: "buyer", "delivery_action_required", "merchant", "payment_failed". anyOf[2] (Value): null.
      * @return string|null
@@ -285,7 +285,7 @@ final class SubscriptionResumedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getPausedAt(): string|null { return $this->get('paused_at'); }
     public function hasPausedAt(): bool { return $this->has('paused_at'); }
-    /** Present only when `expand` includes `payment_method`; `null` when expanded and there is no related payment method. anyOf[1] (Value): {@see ExpandedPaymentMethodSummary} or null. Present only when `expand` includes `payment_method`; `null` when expanded and there is no related payment method. anyOf[1].anyOf[1] (Value): {@see ExpandedPaymentMethodSummary}. A payment method's summary fields, including type, status, and card details, returned when the payment method is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Present only when `expand` includes `payment_method`; `null` when expanded and there is no related payment method. anyOf[1] (Value): ({@see ExpandedPaymentMethodSummaryPreviousAttributes} or null). Present only when `expand` includes `payment_method`; `null` when expanded and there is no related payment method. anyOf[1].anyOf[1] (Value): {@see ExpandedPaymentMethodSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getPaymentMethod(): mixed { return $this->get('payment_method'); }
@@ -300,8 +300,8 @@ final class SubscriptionResumedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getPaymentMethodId(): mixed { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
-    /** Recurring promotions applying to the next charged cycle. Scheduled attachments are listed in scheduled_promotions. Empty when none apply; signup-only and exhausted promotions are excluded. anyOf[1] (Value): Array of {@see SubscriptionPromotion}. Recurring promotions applying to the next charged cycle. Scheduled attachments are listed in scheduled_promotions. Empty when none apply; signup-only and exhausted promotions are excluded. anyOf[1][] (Value): {@see SubscriptionPromotion}. A recurring promotion applied to a subscription, including its recurrence and remaining discounted cycles. anyOf[2] (Value): null.
-     * @return list<SubscriptionPromotion>|null
+    /** Recurring promotions applying to the next charged cycle. Scheduled attachments are listed in scheduled_promotions. Empty when none apply; signup-only and exhausted promotions are excluded. anyOf[1] (Value): Array of {@see SubscriptionPromotionPreviousAttributes}. Recurring promotions applying to the next charged cycle. Scheduled attachments are listed in scheduled_promotions. Empty when none apply; signup-only and exhausted promotions are excluded. anyOf[1][] (Value): {@see SubscriptionPromotionPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<SubscriptionPromotionPreviousAttributes>|null
      */
     public function getPromotions(): array|null { return $this->get('promotions'); }
     public function hasPromotions(): bool { return $this->has('promotions'); }
@@ -310,7 +310,7 @@ final class SubscriptionResumedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getProrateFirstPeriod(): bool|null { return $this->get('prorate_first_period'); }
     public function hasProrateFirstPeriod(): bool { return $this->has('prorate_first_period'); }
-    /** What one billing period's items cost before discounts, shipping, and tax: each line's price with modifiers, times quantity. It changes when items, quantity, or the plan change; editing the plan doesn't change it. For the next charge, use a subscription preview in next_renewal mode. `null` when a cancellation succeeds but Flint couldn't load the billing snapshot afterward, so the cancel response returns it as null. Retrieve the subscription again to get it. anyOf[1] (Value): {@see MoneyValue} or null. What one billing period's items cost before discounts, shipping, and tax: each line's price with modifiers, times quantity. It changes when items, quantity, or the plan change; editing the plan doesn't change it. For the next charge, use a subscription preview in next_renewal mode. `null` when a cancellation succeeds but Flint couldn't load the billing snapshot afterward, so the cancel response returns it as null. Retrieve the subscription again to get it. anyOf[1].anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** What one billing period's items cost before discounts, shipping, and tax: each line's price with modifiers, times quantity. It changes when items, quantity, or the plan change; editing the plan doesn't change it. For the next charge, use a subscription preview in next_renewal mode. `null` when a cancellation succeeds but Flint couldn't load the billing snapshot afterward, so the cancel response returns it as null. Retrieve the subscription again to get it. anyOf[1] (Value): ({@see MoneyValuePreviousAttributes} or null). What one billing period's items cost before discounts, shipping, and tax: each line's price with modifiers, times quantity. It changes when items, quantity, or the plan change; editing the plan doesn't change it. For the next charge, use a subscription preview in next_renewal mode. `null` when a cancellation succeeds but Flint couldn't load the billing snapshot afterward, so the cancel response returns it as null. Retrieve the subscription again to get it. anyOf[1].anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getRecurringSubtotalMoney(): mixed { return $this->get('recurring_subtotal_money'); }
@@ -335,13 +335,13 @@ final class SubscriptionResumedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getScheduledCancelAt(): mixed { return $this->get('scheduled_cancel_at'); }
     public function hasScheduledCancelAt(): bool { return $this->has('scheduled_cancel_at'); }
-    /** Frozen target terms for the next charged renewal. Null when no plan change is scheduled. Cancel with scheduled_plan_change: null on PATCH; replace through change-plan. anyOf[1] (Value): {@see SubscriptionScheduledPlanChange} or null. Frozen target terms for the next charged renewal. Null when no plan change is scheduled. Cancel with scheduled_plan_change: null on PATCH; replace through change-plan. anyOf[1].anyOf[1] (Value): {@see SubscriptionScheduledPlanChange}. Frozen target terms that apply at the next charged renewal. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Frozen target terms for the next charged renewal. Null when no plan change is scheduled. Cancel with scheduled_plan_change: null on PATCH; replace through change-plan. anyOf[1] (Value): ({@see SubscriptionScheduledPlanChangePreviousAttributes} or null). Frozen target terms for the next charged renewal. Null when no plan change is scheduled. Cancel with scheduled_plan_change: null on PATCH; replace through change-plan. anyOf[1].anyOf[1] (Value): {@see SubscriptionScheduledPlanChangePreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getScheduledPlanChange(): mixed { return $this->get('scheduled_plan_change'); }
     public function hasScheduledPlanChange(): bool { return $this->has('scheduled_plan_change'); }
-    /** Attached promotions whose first_cycle is after the next charged cycle, completed_cycles + 1. Always present; empty when no promotions are scheduled. anyOf[1] (Value): Array of {@see SubscriptionPromotion}. Attached promotions whose first_cycle is after the next charged cycle, completed_cycles + 1. Always present; empty when no promotions are scheduled. anyOf[1][] (Value): {@see SubscriptionPromotion}. A recurring promotion applied to a subscription, including its recurrence and remaining discounted cycles. anyOf[2] (Value): null.
-     * @return list<SubscriptionPromotion>|null
+    /** Attached promotions whose first_cycle is after the next charged cycle, completed_cycles + 1. Always present; empty when no promotions are scheduled. anyOf[1] (Value): Array of {@see SubscriptionPromotionPreviousAttributes}. Attached promotions whose first_cycle is after the next charged cycle, completed_cycles + 1. Always present; empty when no promotions are scheduled. anyOf[1][] (Value): {@see SubscriptionPromotionPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<SubscriptionPromotionPreviousAttributes>|null
      */
     public function getScheduledPromotions(): array|null { return $this->get('scheduled_promotions'); }
     public function hasScheduledPromotions(): bool { return $this->has('scheduled_promotions'); }
@@ -350,10 +350,10 @@ final class SubscriptionResumedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getScheduledResumeAt(): mixed { return $this->get('scheduled_resume_at'); }
     public function hasScheduledResumeAt(): bool { return $this->has('scheduled_resume_at'); }
-    /** Omitted for a checkout session credential that doesn't act for the customer the buyer verified. anyOf[1] (Value): {@see SubscriptionServiceLocation}. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. anyOf[2] (Value): null.
-     * @return SubscriptionServiceLocation|null
+    /** Omitted for a checkout session credential that doesn't act for the customer the buyer verified. anyOf[1] (Value): {@see SubscriptionServiceLocationPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getServiceLocation(): SubscriptionServiceLocation|null { return $this->get('service_location'); }
+    public function getServiceLocation(): mixed { return $this->get('service_location'); }
     public function hasServiceLocation(): bool { return $this->has('service_location'); }
     /** When a scheduled start's first billing period begins. Present only until that first payment succeeds. anyOf[1] (Value): string. When a scheduled start's first billing period begins. Present only until that first payment succeeds. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -370,7 +370,7 @@ final class SubscriptionResumedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getSubscriptionId(): string|null { return $this->get('subscription_id'); }
     public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
-    /** Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. anyOf[1] (Value): {@see ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. anyOf[1].anyOf[1] (Value): {@see ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including name, billing interval, currency, and status, returned when the plan is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. anyOf[1] (Value): ({@see ExpandedSubscriptionPlanSummaryPreviousAttributes} or null). Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. anyOf[1].anyOf[1] (Value): {@see ExpandedSubscriptionPlanSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getSubscriptionPlan(): mixed { return $this->get('subscription_plan'); }
@@ -385,7 +385,7 @@ final class SubscriptionResumedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getSupportedActions(): array|null { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** The tax the subscription's renewal, setup fee and plan change orders use. `null` when they follow `tax.default_enabled` and `tax.default_calculation` from your settings. Returned only to merchant credentials; omitted for buyer credentials. Always present with merchant credentials. anyOf[1] (Value): {@see SubscriptionTax} or null. The tax the subscription's renewal, setup fee and plan change orders use. `null` when they follow `tax.default_enabled` and `tax.default_calculation` from your settings. Returned only to merchant credentials; omitted for buyer credentials. Always present with merchant credentials. anyOf[1].anyOf[1] (Value): {@see SubscriptionTax}. The tax the subscription's renewal, setup fee and plan change orders use. Returned only to merchant credentials; omitted for buyer credentials. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** The tax the subscription's renewal, setup fee and plan change orders use. `null` when they follow `tax.default_enabled` and `tax.default_calculation` from your settings. Returned only to merchant credentials; omitted for buyer credentials. Always present with merchant credentials. anyOf[1] (Value): ({@see SubscriptionTaxPreviousAttributes} or null). The tax the subscription's renewal, setup fee and plan change orders use. `null` when they follow `tax.default_enabled` and `tax.default_calculation` from your settings. Returned only to merchant credentials; omitted for buyer credentials. Always present with merchant credentials. anyOf[1].anyOf[1] (Value): {@see SubscriptionTaxPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getTax(): mixed { return $this->get('tax'); }
@@ -405,10 +405,10 @@ final class SubscriptionResumedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getTrialEndAt(): string|null { return $this->get('trial_end_at'); }
     public function hasTrialEndAt(): bool { return $this->has('trial_end_at'); }
-    /** Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with delivery_hold. anyOf[1] (Value): {@see SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with delivery_hold. anyOf[2] (Value): null.
-     * @return SubscriptionUpcomingDeliveryHold|null
+    /** Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with delivery_hold. anyOf[1] (Value): {@see SubscriptionUpcomingDeliveryHoldPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getUpcomingDeliveryHold(): SubscriptionUpcomingDeliveryHold|null { return $this->get('upcoming_delivery_hold'); }
+    public function getUpcomingDeliveryHold(): mixed { return $this->get('upcoming_delivery_hold'); }
     public function hasUpcomingDeliveryHold(): bool { return $this->has('upcoming_delivery_hold'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

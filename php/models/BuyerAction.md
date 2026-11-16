@@ -14,8 +14,8 @@ Response model.
 | `is_required` | Required | boolean | Whether the store needs the buyer to take the action, such as paying a due invoice. It stays true when the only thing in the way is signing in. |
 | `kind` | Required | string | What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added; ignore kinds you don't recognize. Values: [20 declared values](BuyerActionInput.md#buyeractioninput-kind-values). |
 | `pause` | Optional | [BuyerPauseActionOptions](../models/BuyerPauseActionOptions.md#buyerpauseactionoptions) | Present only on an available pause action. The pause lengths this subscription accepts from its buyer. |
-| `pay_balance` | Optional | [BuyerPayBalanceActionOptions](../models/BuyerPayBalanceActionOptions.md#buyerpaybalanceactionoptions) | Present only on an available pay_balance action. The return resolutions the buyer can pay now. `pay_balance`: [field definitions](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actionspay_balance). |
-| `retry_payment` | Optional | [BuyerRetryPaymentActionOptions](../models/BuyerRetryPaymentActionOptions.md#buyerretrypaymentactionoptions) | How many payment retries the buyer has left this billing period, and the retry that is running. Present while the subscription is past due, including when the action is unavailable. How many payment retries the buyer has left this billing period, and the retry that is running. `retry_payment`: [field definitions](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actionsretry_payment). |
+| `pay_balance` | Optional | [BuyerPayBalanceActionOptions](../models/BuyerPayBalanceActionOptions.md#buyerpaybalanceactionoptions) | Present only on an available pay_balance action. The return resolutions the buyer can pay now. `pay_balance`: [field definitions](../models/OrderResponse.md#orderresponsedatabuyer_actionspay_balance). |
+| `retry_payment` | Optional | [BuyerRetryPaymentActionOptions](../models/BuyerRetryPaymentActionOptions.md#buyerretrypaymentactionoptions) | How many payment retries the buyer has left this billing period, and the retry that is running. Present while the subscription is past due, including when the action is unavailable. How many payment retries the buyer has left this billing period, and the retry that is running. `retry_payment`: [field definitions](../models/OrderResponse.md#orderresponsedatabuyer_actionsretry_payment). |
 | `unavailable_reason` | Optional | string | Why the action can't be taken now. Present exactly when is_available is false. New reasons may be added; show a general message for a reason you don't recognize. Values: [9 declared values](#buyeraction-unavailable_reason-values). |
 
 #### BuyerAction unavailable_reason values
@@ -32,9 +32,9 @@ Response model.
 
 ### BuyerAction.pay_balance
 
-Field definitions: [BuyerReturnResponse.data.buyer_actions[].pay_balance](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actionspay_balance).
+Field definitions: [OrderResponse.data.buyer_actions[].pay_balance](../models/OrderResponse.md#orderresponsedatabuyer_actionspay_balance).
 
 ### BuyerAction.retry_payment
 
-Field definitions: [BuyerReturnResponse.data.buyer_actions[].retry_payment](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actionsretry_payment).
+Field definitions: [OrderResponse.data.buyer_actions[].retry_payment](../models/OrderResponse.md#orderresponsedatabuyer_actionsretry_payment).
 

@@ -48,7 +48,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | --- | --- | --- | --- |
 | `circuit_failure_count` | Optional | integer or null | Consecutive callback failures since the last successful response. `circuit_failure_count`: [declared alternatives](../models/DeliveryRateCallbackActivatedInstalledMerchantsEvent.md#deliveryratecallbackactivatedinstalledmerchantseventdataprevious_attributescircuit_failure_count). |
 | `circuit_state` | Optional | string or null | Whether Flint is currently calling the callback, based on recent failures. Values: `"closed"`, `"open"`, `"half_open"`. `circuit_state`: [declared alternatives](../models/DeliveryRateCallbackActivatedInstalledMerchantsEvent.md#deliveryratecallbackactivatedinstalledmerchantseventdataprevious_attributescircuit_state). |
-| `configuration` | Optional | [DeliveryRateCallbackConfiguration](../models/DeliveryRateCallbackConfiguration.md#deliveryratecallbackconfiguration) or null | Current settings of the rate callback. `configuration`: [declared alternatives](../models/DeliveryRateCallbackActivatedInstalledMerchantsEvent.md#deliveryratecallbackactivatedinstalledmerchantseventdataprevious_attributesconfiguration). |
+| `configuration` | Optional | [DeliveryRateCallbackConfigurationPreviousAttributes](../models/DeliveryRateCallbackConfigurationPreviousAttributes.md#deliveryratecallbackconfigurationpreviousattributes) or null | Current settings of the rate callback. |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `current_delivery_rate_callback_revision_id` | Optional | string or null | ID of the current revision. New quotes use it. `current_delivery_rate_callback_revision_id`: [declared alternatives](../models/DeliveryRateCallbackActivatedInstalledMerchantsEvent.md#deliveryratecallbackactivatedinstalledmerchantseventdataprevious_attributescurrent_delivery_rate_callback_revision_id). |
 | `delivery_rate_callback_id` | Optional | string or null | Unique identifier for this delivery rate callback, prefixed `dcb_`. `delivery_rate_callback_id`: [declared alternatives](../models/DeliveryRateCallbackActivatedInstalledMerchantsEvent.md#deliveryratecallbackactivatedinstalledmerchantseventdataprevious_attributesdelivery_rate_callback_id). |
@@ -87,33 +87,6 @@ anyOf variant 1: Whether Flint is currently calling the callback, based on recen
 anyOf variant 2.
 
 - Value shape: null. Whether Flint is currently calling the callback, based on recent failures. 
-
-### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.configuration
-
-Current settings of the rate callback.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `maximum_request_bytes` | Conditional | integer | Maximum callback request body size in bytes. Defaults to 262144; accepts 1 through 1048576. Format: `int64`. minimum: `1`. maximum: `1048576`. Default: `262144`. |
-| `maximum_response_bytes` | Conditional | integer | Maximum callback response body size in bytes. Defaults to 262144; accepts 1 through 1048576. Format: `int64`. minimum: `1`. maximum: `1048576`. Default: `262144`. |
-| `preview_enabled` | Conditional | boolean | Whether delivery previews call this callback. Previews call it only when this setting and `preview_enabled` on the delivery method are both `true`. Defaults to `false`. Default: `false`. |
-| `redirect_policy` | Conditional | string | What Flint does when the callback responds with an HTTP redirect. Defaults to `reject`. Default: `"reject"`. Values: `"reject"`. |
-| `request_timeout_seconds` | Conditional | number | Maximum time to wait for the callback response, in seconds. Defaults to 2; accepts 0.1 through 10. minimum: `0.1`. maximum: `10`. Default: `2`. |
-| `url` | Conditional | string | HTTPS URL that Flint calls to get a delivery rate. minLength: `1`. |
-
-### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.configuration variant 1: `redirect_policy` = `"reject"`
-
-anyOf DeliveryRateCallbackConfiguration: Current settings of the rate callback..
-
-- Required: `url`.
-- Optional: `maximum_request_bytes`, `maximum_response_bytes`, `preview_enabled`, `redirect_policy`, `request_timeout_seconds`.
-
-### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.configuration variant 2
-
-anyOf variant 2.
-
-- Undeclared: `maximum_request_bytes`, `maximum_response_bytes`, `preview_enabled`, `redirect_policy`, `request_timeout_seconds`, `url`.
-- Value shape: null. Current settings of the rate callback. 
 
 ### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.created_at
 

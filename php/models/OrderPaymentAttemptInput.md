@@ -20,20 +20,7 @@ Request input.
 | `payment_method_save` | Optional | [OrderPaymentAttemptPaymentMethodSaveInput](../models/OrderPaymentAttemptPaymentMethodSaveInput.md#orderpaymentattemptpaymentmethodsaveinput) | Reports only a checkout buyer's skipped save when the pay request sent save_payment_method: true and the attempt paid without saving the payment method. A merchant save has no entry here; read payment_source.card.payment_method_id on the payment intent. A card typed into checkout and saved has no entry here; read payment_method_save on the checkout session for a card waiting for confirmation. What became of the buyer's save_payment_method. The payment does not depend on it. |
 | `pending_actions` | Required | Array of [PendingPaymentActionInput](../models/PendingPaymentActionInput.md#pendingpaymentactioninput) | Steps the buyer must finish in your client before the attempt can continue, such as authentication. Empty when none is pending. Complete them, then resume the attempt. |
 | `started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `status` | Required | string | Where the attempt is in collecting payment or saving a payment method. `partially_succeeded`, `succeeded`, `failed`, `canceled`, and `expired` are final. Values: [10 declared values](#orderpaymentattemptinput-status-values). |
+| `status` | Required | string | Where the attempt is in collecting payment or saving a payment method. `partially_succeeded`, `succeeded`, `failed`, `canceled`, and `expired` are final. Values: `"processing"`, `"requires_action"`, `"requires_capture"`, `"partially_succeeded"`, `"succeeded"`, `"failed"`, `"expired"`, `"canceled"`. |
 | `status_reason` | Optional | string | Non-payment reason an attempt failed, was canceled, or expired. Failed attempts with an unmapped non-payment reason report other. Canceled and expired attempts include a reason only when it adds information beyond status. New values may be added. Values: [30 declared values](BuyerOrderPaymentAttemptInput.md#buyerorderpaymentattemptinput-status_reason-values). |
-| `supported_actions` | Optional | Array of string | Lifecycle actions accepted now. Cancel is available during collection until a payment leg succeeds. Finalizing and terminal attempts list no actions. Always present with merchant credentials. Items values: `"cancel"`. |
-
-#### OrderPaymentAttemptInput status values
-
-- `"processing"`
-- `"requires_action"`
-- `"requires_capture"`
-- `"partially_succeeded"`
-- `"requires_retry"`
-- `"finalizing"`
-- `"succeeded"`
-- `"failed"`
-- `"expired"`
-- `"canceled"`
+| `supported_actions` | Optional | Array of string | Lifecycle actions accepted now. Cancel is available during collection until a payment leg succeeds. Attempts applying their outcome to the order and terminal attempts list no actions. Always present with merchant credentials. Items values: `"cancel"`. |
 

@@ -44,9 +44,17 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 Field definitions: [shared fields](PaymentMethodActivatedMerchantEventDataPreviousAttributes.md#paymentmethodactivatedmerchanteventdatapreviousattributes).
 
+### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.card
+
+Declared alternatives: [PaymentMethodActivatedMerchantEventDataPreviousAttributes.card](../models/PaymentMethodActivatedMerchantEventDataPreviousAttributes.md#paymentmethodactivatedmerchanteventdatapreviousattributescard).
+
 ### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.created_at
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.customer
+
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.customer](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributescustomer).
 
 ### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.customer_id
 
@@ -74,11 +82,11 @@ Declared alternatives: [PaymentMethodActivatedMerchantEventDataPreviousAttribute
 
 ### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.status
 
-Declared alternatives: [PaymentMethodActivatedMerchantEventDataPreviousAttributes.status](../models/PaymentMethodActivatedMerchantEventDataPreviousAttributes.md#paymentmethodactivatedmerchanteventdatapreviousattributesstatus).
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.default_payment_method variant 1.status](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesdefault_payment_method-variant-1status).
 
 ### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.type
 
-Declared alternatives: [PaymentMethodActivatedMerchantEventDataPreviousAttributes.type](../models/PaymentMethodActivatedMerchantEventDataPreviousAttributes.md#paymentmethodactivatedmerchanteventdatapreviousattributestype).
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.default_payment_method variant 1.type](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesdefault_payment_method-variant-1type).
 
 ### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.updated_at
 

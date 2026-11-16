@@ -65,7 +65,7 @@ An immutable record of a single quantity change, including the level state it pr
 
 The credential that recorded this movement. `null` when Flint recorded it on its own, such as an expired hold or a fulfillment handoff.
 
-Field definitions: [shared fields](ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_by).
+Field definitions: [shared fields](GiftCardTransaction.md#giftcardtransactionsource).
 
 ### InventoryMovement.created_by variant 1
 

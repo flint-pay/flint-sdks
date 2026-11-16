@@ -1,6 +1,6 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { InventoryTransfer } from '../declarations/types-30.js';
+import type { InventoryTransfer } from '../declarations/types-33.js';
 import type {
     InventoryTransferListResponse,
     InventoryTransferResponse,
@@ -15,9 +15,9 @@ import type {
     InventoryTransfersReportLossParams,
     InventoryTransfersReturnToOriginParams,
     InventoryTransfersUpdateParams
-} from '../declarations/types-31.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-34.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -48,43 +48,38 @@ export type {
     InventoryTransfersUpdateParams,
     InventoryTransferLineRequestInput,
     InventoryTransferLine
-} from '../declarations/types-31.js';
-export type {
-    RequestOptions,
-    ResponseMeta,
-    ResponseWarning,
-    ResourceReference,
-    ReportInventoryTransferLossRequestInput
-} from '../declarations/types-54.js';
-export type { InventoryTransfer, InventorySourceSystemRequestInput } from '../declarations/types-30.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-34.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { InventoryTransfer, InventorySourceSystemRequestInput } from '../declarations/types-33.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CancelInventoryTransferRequestInput } from '../declarations/types-4.js';
-export type { InventoryProvenanceRequestInput, InventoryLevel, InventoryItem } from '../declarations/types-29.js';
+export type { InventoryProvenanceRequestInput, InventoryLevel, InventoryItem } from '../declarations/types-32.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { MetadataMap } from '../declarations/types-38.js';
-export type { NextAction, MoneyValue } from '../declarations/types-39.js';
-export type { ReadinessMerchantAccountSession, ReceiveInventoryTransferRequestInput } from '../declarations/types-52.js';
+export type { MetadataMap } from '../declarations/types-41.js';
+export type { NextAction, MoneyValue } from '../declarations/types-42.js';
+export type { ReadinessMerchantAccountSession, ReceiveInventoryTransferRequestInput } from '../declarations/types-58.js';
 export type { CreateInventoryTransferRequestInput } from '../declarations/types-10.js';
-export type { DepartInventoryTransferRequestInput, DisputesAcceptParams } from '../declarations/types-23.js';
-export type { ReturnInventoryTransferToOriginRequestInput } from '../declarations/types-55.js';
-export type { UpdateInventoryTransferRequestInput } from '../declarations/types-67.js';
-export { makeCancelInventoryTransferRequest } from '../declarations/types-71.js';
-export { makeCreateInventoryTransferRequest } from '../declarations/types-73.js';
-export { makeDepartInventoryTransferRequest } from '../declarations/types-76.js';
+export type { DepartInventoryTransferRequestInput, DisputesAcceptParams } from '../declarations/types-25.js';
+export type { ReportInventoryTransferLossRequestInput } from '../declarations/types-59.js';
+export type { ReturnInventoryTransferToOriginRequestInput } from '../declarations/types-61.js';
+export type { UpdateInventoryTransferRequestInput } from '../declarations/types-74.js';
+export { makeCancelInventoryTransferRequest } from '../declarations/types-78.js';
+export { makeCreateInventoryTransferRequest } from '../declarations/types-80.js';
 export {
+    makeDepartInventoryTransferRequest,
     makeInventoryProvenanceRequest,
     makeInventorySourceSystemRequest,
     makeInventoryTransferLineRequest
-} from '../declarations/types-77.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
+} from '../declarations/types-84.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export {
     makeReceiveInventoryTransferRequest,
     makeReportInventoryTransferLossRequest,
     makeReturnInventoryTransferToOriginRequest
-} from '../declarations/types-81.js';
-export { makeUpdateInventoryTransferRequest } from '../declarations/types-84.js';
+} from '../declarations/types-88.js';
+export { makeUpdateInventoryTransferRequest } from '../declarations/types-91.js';
 export interface InventoryTransfersResource {
     /**
  * Cancels requested quantity that hasn't departed. Call it only when cancel is in

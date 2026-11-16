@@ -5,12 +5,12 @@ namespace Flint;
  * @property-read string|null $canceled_at
  * @property-read string|null $cancellation_requested_at
  * @property-read string|null $checkout_session_id
- * @property-read MoneyValue|null $expected_amount_money
+ * @property-read mixed $expected_amount_money
  * @property-read string|null $expires_at
  * @property-read string|null $invoice_id
  * @property-read string|null $invoice_payment_attempt_id
  * @property-read string|null $invoice_schedule_entry_id
- * @property-read PaymentErrorSummary|null $last_payment_error
+ * @property-read mixed $last_payment_error
  * @property-read string|null $payment_intent_id
  * @property-read string|null $rail
  * @property-read string|null $settled_at
@@ -37,10 +37,10 @@ final class InvoicePaymentAttemptSucceededMerchantEventDataPreviousAttributes ex
      */
     public function getCheckoutSessionId(): string|null { return $this->get('checkout_session_id'); }
     public function hasCheckoutSessionId(): bool { return $this->has('checkout_session_id'); }
-    /** The amount this attempt collects: the outstanding balance, or the targeted schedule entry's outstanding amount. anyOf[1] (Value): {@see MoneyValue}. The amount this attempt collects: the outstanding balance, or the targeted schedule entry's outstanding amount. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** The amount this attempt collects: the outstanding balance, or the targeted schedule entry's outstanding amount. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getExpectedAmountMoney(): MoneyValue|null { return $this->get('expected_amount_money'); }
+    public function getExpectedAmountMoney(): mixed { return $this->get('expected_amount_money'); }
     public function hasExpectedAmountMoney(): bool { return $this->has('expected_amount_money'); }
     /** When a checkout attempt expires, matching its checkout session. Absent for automatic charges. anyOf[1] (Value): string. When a checkout attempt expires, matching its checkout session. Absent for automatic charges. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -62,10 +62,10 @@ final class InvoicePaymentAttemptSucceededMerchantEventDataPreviousAttributes ex
      */
     public function getInvoiceScheduleEntryId(): string|null { return $this->get('invoice_schedule_entry_id'); }
     public function hasInvoiceScheduleEntryId(): bool { return $this->has('invoice_schedule_entry_id'); }
-    /** Why the payment failed. Present only when status is failed. anyOf[1] (Value): {@see PaymentErrorSummary}. Why the payment failed. Present only when status is failed. anyOf[2] (Value): null.
-     * @return PaymentErrorSummary|null
+    /** Why the payment failed. Present only when status is failed. anyOf[1] (Value): {@see PaymentErrorSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getLastPaymentError(): PaymentErrorSummary|null { return $this->get('last_payment_error'); }
+    public function getLastPaymentError(): mixed { return $this->get('last_payment_error'); }
     public function hasLastPaymentError(): bool { return $this->has('last_payment_error'); }
     /** The payment intent behind this attempt. Absent until payment starts, such as a hosted attempt the buyer hasn't paid yet. anyOf[1] (Value): string. The payment intent behind this attempt. Absent until payment starts, such as a hosted attempt the buyer hasn't paid yet. anyOf[2] (Value): null.
      * @return string|null

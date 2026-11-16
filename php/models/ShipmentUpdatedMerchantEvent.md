@@ -48,11 +48,11 @@ Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.create
 
 ### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.delivered_at
 
-Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.delivered_at](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributesdelivered_at).
+Declared alternatives: [ExpandedShipmentSummaryPreviousAttributes.delivered_at](../models/ExpandedShipmentSummaryPreviousAttributes.md#expandedshipmentsummarypreviousattributesdelivered_at).
 
 ### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.direction
 
-Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.direction](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributesdirection).
+Declared alternatives: [ExpandedShipmentSummaryPreviousAttributes.direction](../models/ExpandedShipmentSummaryPreviousAttributes.md#expandedshipmentsummarypreviousattributesdirection).
 
 ### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.external_reference_id
 
@@ -64,7 +64,7 @@ Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.extern
 
 ### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.fulfillment_id
 
-Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.fulfillment_id](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributesfulfillment_id).
+Declared alternatives: [ExpandedShipmentSummaryPreviousAttributes.fulfillment_id](../models/ExpandedShipmentSummaryPreviousAttributes.md#expandedshipmentsummarypreviousattributesfulfillment_id).
 
 ### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.handed_off_at
 
@@ -74,13 +74,17 @@ Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.hande
 
 Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.metadata](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributesmetadata).
 
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.order
+
+Declared alternatives: [FulfillmentCanceledMerchantEventDataPreviousAttributes.order](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesorder).
+
 ### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.order_id
 
 Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.order_id](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributesorder_id).
 
 ### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.package_count
 
-Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.package_count](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributespackage_count).
+Declared alternatives: [ExpandedShipmentSummaryPreviousAttributes.package_count](../models/ExpandedShipmentSummaryPreviousAttributes.md#expandedshipmentsummarypreviousattributespackage_count).
 
 ### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.packages
 
@@ -100,7 +104,7 @@ Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.shipm
 
 ### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.shipped_at
 
-Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.shipped_at](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributesshipped_at).
+Declared alternatives: [ExpandedShipmentSummaryPreviousAttributes.shipped_at](../models/ExpandedShipmentSummaryPreviousAttributes.md#expandedshipmentsummarypreviousattributesshipped_at).
 
 ### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.status
 

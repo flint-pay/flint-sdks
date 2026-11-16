@@ -1,0 +1,1 @@
+{"shared":"SubscriptionIntervalOptionPreviousAttributes","phpRepresentation":{"kind":"record","fields":{"billing_interval":{"kind":"nullable","value":{"kind":"value","type":"string"}},"billing_interval_count":{"kind":"nullable","value":{"kind":"value","type":"int"}}}},"dependencies":["SharedCodec2906","SharedCodec313","SubscriptionIntervalOptionPreviousAttributes"]}

@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read bool|null $is_actionable
  * @property-read mixed $payment_intent
  * @property-read string|null $payment_intent_id
- * @property-read FraudWarningPaymentSummary|null $payment_summary
+ * @property-read mixed $payment_summary
  * @property-read string|null $reported_at
  * @property-read string|null $updated_at
  * Presence-aware response; omitted optional fields return null. */
@@ -22,7 +22,7 @@ final class FraudWarningUpdatedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Present only when `expand` includes `dispute`; `null` when expanded and there is no related dispute. anyOf[1] (Value): {@see Dispute} or null. Present only when `expand` includes `dispute`; `null` when expanded and there is no related dispute. anyOf[1].anyOf[1] (Value): {@see Dispute}. A challenge to a collected payment. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Present only when `expand` includes `dispute`; `null` when expanded and there is no related dispute. anyOf[1] (Value): ({@see DisputePreviousAttributes} or null). Present only when `expand` includes `dispute`; `null` when expanded and there is no related dispute. anyOf[1].anyOf[1] (Value): {@see DisputePreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getDispute(): mixed { return $this->get('dispute'); }
@@ -47,7 +47,7 @@ final class FraudWarningUpdatedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getIsActionable(): bool|null { return $this->get('is_actionable'); }
     public function hasIsActionable(): bool { return $this->has('is_actionable'); }
-    /** Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1] (Value): {@see ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@see ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status, and capture method, returned when the payment intent is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1] (Value): ({@see ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@see ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getPaymentIntent(): mixed { return $this->get('payment_intent'); }
@@ -57,10 +57,10 @@ final class FraudWarningUpdatedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getPaymentIntentId(): string|null { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** The payment's amount, buyer email, and card, for recognizing it. anyOf[1] (Value): {@see FraudWarningPaymentSummary}. The payment's amount, buyer email, and card, for recognizing it. anyOf[2] (Value): null.
-     * @return FraudWarningPaymentSummary|null
+    /** The payment's amount, buyer email, and card, for recognizing it. anyOf[1] (Value): {@see FraudWarningPaymentSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getPaymentSummary(): FraudWarningPaymentSummary|null { return $this->get('payment_summary'); }
+    public function getPaymentSummary(): mixed { return $this->get('payment_summary'); }
     public function hasPaymentSummary(): bool { return $this->has('payment_summary'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

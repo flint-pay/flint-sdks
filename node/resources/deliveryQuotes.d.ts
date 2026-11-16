@@ -7,9 +7,9 @@ import type {
     DeliveryQuotesCreateParams,
     DeliveryQuotesGetParams,
     DeliveryQuotesListParams
-} from '../declarations/types-20.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-22.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,34 +35,41 @@ export type {
     DeliveryQuoteExecutionLegResource,
     DeliveryQuoteLineItemResource,
     DeliveryQuoteMethodResource
-} from '../declarations/types-20.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions, CreateCheckoutDeliveryQuoteRequestInput } from '../declarations/types-7.js';
+} from '../declarations/types-22.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { ClientOptions } from '../declarations/types-7.js';
+export type { CreateCheckoutDeliveryQuoteRequestInput } from '../declarations/types-8.js';
 export type {
     DeliveryBuyerLocationRequestInput,
-    DeliveryAddressRequestInput,
     DeliveryCoordinateRequestInput,
     DeliveryBuyerLocationInputAddressInput,
     DeliveryBuyerLocationInputCoordinateInput,
-    DeliveryInventoryAssignmentRequestInput,
     DeliveryBuyerLocationResource,
     DeliveryBuyerLocationResourceAddress,
     DeliveryBuyerLocationResourceCoordinate,
-    DeliveryAddressAdvisoryResource,
     DeliveryCandidateOutcomeResource,
-    DeliveryInputRequirement,
-    DeliveryInputConstraint,
-    DeliveryArrivalEstimate,
     DeliveryCandidateOutcomeResourceAvailable,
     DeliveryCandidateOutcomeResourceUnavailable,
     DeliveryCandidateOutcomeResourceInputRequired,
     DeliveryCandidateOutcomeResourceCannotCalculate,
     DeliveryCandidateOutcomeResourceRequiresCheckoutContext,
-    DeliveryEligibilityMismatch,
-    DeliveryAddressRequest,
-    DeliveryInventoryAssignmentRequest
+    DeliveryEligibilityMismatch
+} from '../declarations/types-18.js';
+export type {
+    DeliveryAddressRequestInput,
+    DeliveryAddressAdvisoryResource,
+    DeliveryArrivalEstimate,
+    DeliveryAddressRequest
 } from '../declarations/types-17.js';
+export type {
+    DeliveryInventoryAssignmentRequestInput,
+    DeliveryInputRequirement,
+    DeliveryInputConstraint,
+    DeliveryLocationSummaryResource,
+    DeliveryMerchantDiagnostic,
+    DeliveryInventoryAssignmentRequest
+} from '../declarations/types-19.js';
 export type {
     CallerSuppliedDeliveryMethodResultRequestInput,
     CallerSuppliedDeliveryOutcomeRequestInput,
@@ -70,26 +77,25 @@ export type {
     CallerSuppliedDeliveryOutcomeRequestUnavailableInput,
     CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput
 } from '../declarations/types-4.js';
-export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-39.js';
-export type { DeliveryWindowRequestInput, DeliveryWindowRequest, DeliveryShipmentDetails } from '../declarations/types-22.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-42.js';
+export type { DeliveryWindowRequestInput, DeliveryWindowRequest, DeliveryShipmentDetails } from '../declarations/types-24.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { Address } from '../declarations/types-0.js';
-export type { LocationCoordinate } from '../declarations/types-35.js';
-export type { DeliveryOptionProjection, DeliveryPlan, DeliveryPickupDetails, DeliveryPendingCallerRateRequest } from '../declarations/types-19.js';
+export type { LocationCoordinate } from '../declarations/types-39.js';
+export type { DeliveryOptionProjection, DeliveryPlan, DeliveryPickupDetails, DeliveryPendingCallerRateRequest } from '../declarations/types-20.js';
 export type { BuyerInstructionsConfig } from '../declarations/types-2.js';
-export type { DeliveryLocationSummaryResource, DeliveryMerchantDiagnostic } from '../declarations/types-18.js';
-export type { DeliveryRecipientRequirement } from '../declarations/types-21.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { DisputesAcceptParams } from '../declarations/types-23.js';
+export type { DeliveryRecipientRequirement } from '../declarations/types-23.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { DisputesAcceptParams } from '../declarations/types-25.js';
 export {
     makeCallerSuppliedDeliveryMethodResultRequest,
     makeCallerSuppliedDeliveryOutcomeRequest,
     makeCallerSuppliedDeliveryOutcomeRequestAvailable,
     makeCallerSuppliedDeliveryOutcomeRequestCannotCalculate,
     makeCallerSuppliedDeliveryOutcomeRequestUnavailable
-} from '../declarations/types-71.js';
-export { makeCreateCheckoutDeliveryQuoteRequest } from '../declarations/types-72.js';
+} from '../declarations/types-78.js';
+export { makeCreateCheckoutDeliveryQuoteRequest } from '../declarations/types-79.js';
 export {
     makeDeliveryAddressRequest,
     makeDeliveryBuyerLocationInputAddress,
@@ -97,9 +103,9 @@ export {
     makeDeliveryBuyerLocationRequest,
     makeDeliveryCoordinateRequest,
     makeDeliveryInventoryAssignmentRequest
-} from '../declarations/types-75.js';
-export { makeDeliveryWindowRequest } from '../declarations/types-76.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
+} from '../declarations/types-82.js';
+export { makeDeliveryWindowRequest } from '../declarations/types-83.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export interface DeliveryQuotesResource {
     /**
  * Creates an exact delivery quote for the checkout session named by checkout_session_id, without

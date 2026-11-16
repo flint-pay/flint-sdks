@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read MoneyValue|null $amount_money
+ * @property-read mixed $amount_money
  * @property-read string|null $created_at
  * @property-read string|null $credit_note_id
  * @property-read mixed $customer
@@ -12,15 +12,15 @@ namespace Flint;
  * @property-read string|null $idempotency_key
  * @property-read string|null $initiated_by
  * @property-read string|null $invoice_id
- * @property-read list<RefundLineItemAllocation>|null $line_item_allocations
+ * @property-read list<RefundLineItemAllocationPreviousAttributes>|null $line_item_allocations
  * @property-read string|null $merchant_id
- * @property-read array<array-key, string>|null $metadata
+ * @property-read mixed $metadata
  * @property-read mixed $order
  * @property-read string|null $order_edit_id
  * @property-read string|null $order_id
  * @property-read mixed $payment_intent
  * @property-read string|null $payment_intent_id
- * @property-read list<PaymentRefund>|null $payment_refunds
+ * @property-read list<PaymentRefundPreviousAttributes>|null $payment_refunds
  * @property-read string|null $payment_review_id
  * @property-read mixed $pending_reason
  * @property-read string|null $processed_by
@@ -30,24 +30,24 @@ namespace Flint;
  * @property-read bool|null $refund_platform_fee
  * @property-read string|null $refund_reference
  * @property-read string|null $refunded_at
- * @property-read MoneyValue|null $refunded_tip_money
+ * @property-read mixed $refunded_tip_money
  * @property-read string|null $return_id
  * @property-read string|null $return_resolution_id
  * @property-read string|null $status
  * @property-read string|null $succeeded_at
- * @property-read list<RefundTaxBreakdownRefund>|null $tax_breakdown_refunds
- * @property-read list<RefundTenderAllocation>|null $tender_allocations
- * @property-read list<RefundUnissuedGiftCardRecovery>|null $unissued_gift_card_recoveries
+ * @property-read list<RefundTaxBreakdownRefundPreviousAttributes>|null $tax_breakdown_refunds
+ * @property-read list<RefundTenderAllocationPreviousAttributes>|null $tender_allocations
+ * @property-read list<RefundUnissuedGiftCardRecoveryPreviousAttributes>|null $unissued_gift_card_recoveries
  * @property-read string|null $updated_at
  * @property-read int|null $version
  * Presence-aware response; omitted optional fields return null. */
 final class RefundUpdatedMerchantEventDataPreviousAttributes extends Model {
     /** @param array{'amount_money'?: mixed, 'created_at'?: mixed, 'credit_note_id'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'external_reference_id'?: mixed, 'failure_reason'?: mixed, 'idempotency_key'?: mixed, 'initiated_by'?: mixed, 'invoice_id'?: mixed, 'line_item_allocations'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_edit_id'?: mixed, 'order_id'?: mixed, 'payment_intent'?: mixed, 'payment_intent_id'?: mixed, 'payment_refunds'?: mixed, 'payment_review_id'?: mixed, 'pending_reason'?: mixed, 'processed_by'?: mixed, 'reason'?: mixed, 'reason_message'?: mixed, 'refund_id'?: mixed, 'refund_platform_fee'?: mixed, 'refund_reference'?: mixed, 'refunded_at'?: mixed, 'refunded_tip_money'?: mixed, 'return_id'?: mixed, 'return_resolution_id'?: mixed, 'status'?: mixed, 'succeeded_at'?: mixed, 'tax_breakdown_refunds'?: mixed, 'tender_allocations'?: mixed, 'unissued_gift_card_recoveries'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundUpdatedMerchantEventDataPreviousAttributes')); }
-    /** Total refunded across all tenders, including `refunded_tip_money`. anyOf[1] (Value): {@see MoneyValue}. Total refunded across all tenders, including `refunded_tip_money`. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** Total refunded across all tenders, including `refunded_tip_money`. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getAmountMoney(): MoneyValue|null { return $this->get('amount_money'); }
+    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -59,7 +59,7 @@ final class RefundUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getCreditNoteId(): string|null { return $this->get('credit_note_id'); }
     public function hasCreditNoteId(): bool { return $this->has('credit_note_id'); }
-    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID when the customer is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): ({@see ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getCustomer(): mixed { return $this->get('customer'); }
@@ -94,8 +94,8 @@ final class RefundUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getInvoiceId(): string|null { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** How the refund applied to each order line item it covered, with quantity, tax, and adjustments. anyOf[1] (Value): Array of {@see RefundLineItemAllocation}. How the refund applied to each order line item it covered, with quantity, tax, and adjustments. anyOf[1][] (Value): {@see RefundLineItemAllocation}. How a refund applied to one order line item: quantity, refunded amount, tax, adjustments, and modifier allocations. anyOf[2] (Value): null.
-     * @return list<RefundLineItemAllocation>|null
+    /** How the refund applied to each order line item it covered, with quantity, tax, and adjustments. anyOf[1] (Value): Array of {@see RefundLineItemAllocationPreviousAttributes}. How the refund applied to each order line item it covered, with quantity, tax, and adjustments. anyOf[1][] (Value): {@see RefundLineItemAllocationPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<RefundLineItemAllocationPreviousAttributes>|null
      */
     public function getLineItemAllocations(): array|null { return $this->get('line_item_allocations'); }
     public function hasLineItemAllocations(): bool { return $this->has('line_item_allocations'); }
@@ -104,12 +104,12 @@ final class RefundUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
-     * @return array<array-key, string>|null
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getMetadata(): array|null { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummary} or null. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummary}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): ({@see ExpandedOrderSummaryPreviousAttributes} or null). Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getOrder(): mixed { return $this->get('order'); }
@@ -124,7 +124,7 @@ final class RefundUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getOrderId(): string|null { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1] (Value): {@see ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@see ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status, and capture method, returned when the payment intent is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1] (Value): ({@see ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@see ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getPaymentIntent(): mixed { return $this->get('payment_intent'); }
@@ -134,8 +134,8 @@ final class RefundUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getPaymentIntentId(): string|null { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** The part of the refund returned through each payment, with its own status. Absent when the refund was all gift card credit or store credit. anyOf[1] (Value): Array of {@see PaymentRefund}. The part of the refund returned through each payment, with its own status. Absent when the refund was all gift card credit or store credit. anyOf[1][] (Value): {@see PaymentRefund}. The part of a refund returned through one payment, with the amount, tip, status, and any failure reason. anyOf[2] (Value): null.
-     * @return list<PaymentRefund>|null
+    /** The part of the refund returned through each payment, with its own status. Absent when the refund was all gift card credit or store credit. anyOf[1] (Value): Array of {@see PaymentRefundPreviousAttributes}. The part of the refund returned through each payment, with its own status. Absent when the refund was all gift card credit or store credit. anyOf[1][] (Value): {@see PaymentRefundPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<PaymentRefundPreviousAttributes>|null
      */
     public function getPaymentRefunds(): array|null { return $this->get('payment_refunds'); }
     public function hasPaymentRefunds(): bool { return $this->has('payment_refunds'); }
@@ -184,10 +184,10 @@ final class RefundUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getRefundedAt(): string|null { return $this->get('refunded_at'); }
     public function hasRefundedAt(): bool { return $this->has('refunded_at'); }
-    /** Share of `amount_money` that refunds tips. anyOf[1] (Value): {@see MoneyValue}. Share of `amount_money` that refunds tips. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** Share of `amount_money` that refunds tips. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getRefundedTipMoney(): MoneyValue|null { return $this->get('refunded_tip_money'); }
+    public function getRefundedTipMoney(): mixed { return $this->get('refunded_tip_money'); }
     public function hasRefundedTipMoney(): bool { return $this->has('refunded_tip_money'); }
     /** ID of the return this refund paid out. Present only on refunds issued by a return. anyOf[1] (Value): string. ID of the return this refund paid out. Present only on refunds issued by a return. anyOf[2] (Value): null.
      * @return string|null
@@ -209,18 +209,18 @@ final class RefundUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getSucceededAt(): string|null { return $this->get('succeeded_at'); }
     public function hasSucceededAt(): bool { return $this->has('succeeded_at'); }
-    /** Tax reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`. anyOf[1] (Value): Array of {@see RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`. anyOf[1][] (Value): {@see RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an order. anyOf[2] (Value): null.
-     * @return list<RefundTaxBreakdownRefund>|null
+    /** Tax reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`. anyOf[1] (Value): Array of {@see RefundTaxBreakdownRefundPreviousAttributes}. Tax reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`. anyOf[1][] (Value): {@see RefundTaxBreakdownRefundPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<RefundTaxBreakdownRefundPreviousAttributes>|null
      */
     public function getTaxBreakdownRefunds(): array|null { return $this->get('tax_breakdown_refunds'); }
     public function hasTaxBreakdownRefunds(): bool { return $this->has('tax_breakdown_refunds'); }
-    /** Every tender the refund drew from, payment or gift card, with its amount, tip share, status, and destination. anyOf[1] (Value): Array of {@see RefundTenderAllocation}. Every tender the refund drew from, payment or gift card, with its amount, tip share, status, and destination. anyOf[1][] (Value): {@see RefundTenderAllocation}. One tender's share of a refund, listed in the refund's tender allocations. anyOf[2] (Value): null.
-     * @return list<RefundTenderAllocation>|null
+    /** Every tender the refund drew from, payment or gift card, with its amount, tip share, status, and destination. anyOf[1] (Value): Array of {@see RefundTenderAllocationPreviousAttributes}. Every tender the refund drew from, payment or gift card, with its amount, tip share, status, and destination. anyOf[1][] (Value): {@see RefundTenderAllocationPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<RefundTenderAllocationPreviousAttributes>|null
      */
     public function getTenderAllocations(): array|null { return $this->get('tender_allocations'); }
     public function hasTenderAllocations(): bool { return $this->has('tender_allocations'); }
-    /** Cash returned after an unissued gift card purchase refund failed. Return it through a new refund against payment_intent_id and order_line_item_id. It does not issue another card. Source remaining and pending amounts describe the entire original settlement allocation; repeated entries for that source are not additive. anyOf[1] (Value): Array of {@see RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase refund failed. Return it through a new refund against payment_intent_id and order_line_item_id. It does not issue another card. Source remaining and pending amounts describe the entire original settlement allocation; repeated entries for that source are not additive. anyOf[1][] (Value): {@see RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the card was issued, including the amounts recovered. anyOf[2] (Value): null.
-     * @return list<RefundUnissuedGiftCardRecovery>|null
+    /** Cash returned after an unissued gift card purchase refund failed. Return it through a new refund against payment_intent_id and order_line_item_id. It does not issue another card. Source remaining and pending amounts describe the entire original settlement allocation; repeated entries for that source are not additive. anyOf[1] (Value): Array of {@see RefundUnissuedGiftCardRecoveryPreviousAttributes}. Cash returned after an unissued gift card purchase refund failed. Return it through a new refund against payment_intent_id and order_line_item_id. It does not issue another card. Source remaining and pending amounts describe the entire original settlement allocation; repeated entries for that source are not additive. anyOf[1][] (Value): {@see RefundUnissuedGiftCardRecoveryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<RefundUnissuedGiftCardRecoveryPreviousAttributes>|null
      */
     public function getUnissuedGiftCardRecoveries(): array|null { return $this->get('unissued_gift_card_recoveries'); }
     public function hasUnissuedGiftCardRecoveries(): bool { return $this->has('unissued_gift_card_recoveries'); }

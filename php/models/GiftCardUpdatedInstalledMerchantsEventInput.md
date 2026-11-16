@@ -40,8 +40,8 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `available_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | The balance minus reserved value: what can be spent now. |
-| `balance_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | The posted balance, including value reserved for redemptions in progress. |
+| `available_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | The balance minus reserved value: what can be spent now. |
+| `balance_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | The posted balance, including value reserved for redemptions in progress. |
 | `code_source` | Optional | string or null | Origin of the current code: generated means Flint issued a random code; imported means the merchant supplied an existing code during import. Rotating the code resets this to generated. Values: `"generated"`, `"imported"`. `code_source`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEventInput.md#giftcardupdatedinstalledmerchantseventinputdataprevious_attributescode_source). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
 | `currency` | Optional | string or null | ISO 4217 currency code. Values: `"USD"`. `currency`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEventInput.md#giftcardupdatedinstalledmerchantseventinputdataprevious_attributescurrency). |
@@ -52,12 +52,12 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `last_redeemed_at` | Optional | string or null or null | RFC3339 timestamp. `null` when the card has never been redeemed. `last_redeemed_at`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEventInput.md#giftcardupdatedinstalledmerchantseventinputdataprevious_attributeslast_redeemed_at). |
 | `last4` | Optional | string or null | Last four characters of the card's current code. `last4`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEventInput.md#giftcardupdatedinstalledmerchantseventinputdataprevious_attributeslast4). |
 | `merchant_id` | Optional | string or null | ID of the merchant this resource belongs to. `merchant_id`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributesmerchant_id). |
-| `reserved_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Value held for redemptions in progress. It isn't available to other payments until the redemption succeeds or is released. |
-| `restrictions` | Optional | Array of [GiftCardRestrictionInput](../models/GiftCardRestrictionInput.md#giftcardrestrictioninput) or null | The restrictions that keep the card frozen. unfreeze is supported only when every restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding disposition. `restrictions`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEventInput.md#giftcardupdatedinstalledmerchantseventinputdataprevious_attributesrestrictions). |
+| `reserved_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | Value held for redemptions in progress. It isn't available to other payments until the redemption succeeds or is released. |
+| `restrictions` | Optional | Array of [GiftCardRestrictionPreviousAttributesInput](../models/GiftCardRestrictionPreviousAttributesInput.md#giftcardrestrictionpreviousattributesinput) or null | The restrictions that keep the card frozen. unfreeze is supported only when every restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding disposition. `restrictions`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEventInput.md#giftcardupdatedinstalledmerchantseventinputdataprevious_attributesrestrictions). |
 | `status` | Optional | string or null | Where the card is in its lifecycle. Only an `active` card can be spent. Values: `"pending"`, `"active"`, `"frozen"`, `"closed"`. `status`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEventInput.md#giftcardupdatedinstalledmerchantseventinputdataprevious_attributesstatus). |
 | `supported_actions` | Optional | Array of string or null | Lifecycle actions accepted for the stored card state, independent of the caller's credentials. Empty when no action is available. Items values: `"adjust_balance"`, `"cash_out"`, `"close"`, `"freeze"`, `"unfreeze"`. `supported_actions`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEventInput.md#giftcardupdatedinstalledmerchantseventinputdataprevious_attributessupported_actions). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
-| `version` | Optional | integer or null | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. `version`: [declared alternatives](../models/GiftCardLoadUpdatedInstalledMerchantsEventInput.md#giftcardloadupdatedinstalledmerchantseventinputdataprevious_attributesversion). |
+| `version` | Optional | integer or null | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. `version`: [declared alternatives](../models/GiftCardFundingDisputePreviousAttributesInput.md#giftcardfundingdisputepreviousattributesinputversion). |
 
 ### GiftCardUpdatedInstalledMerchantsEventInput.data.previous_attributes.code_source
 
@@ -185,7 +185,7 @@ Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.merchan
 
 anyOf variant 1: The restrictions that keep the card frozen. unfreeze is supported only when every restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding disposition..
 
-- Value shape: Array of [GiftCardRestrictionInput](../models/GiftCardRestrictionInput.md#giftcardrestrictioninput). The restrictions that keep the card frozen. unfreeze is supported only when every restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding disposition. 
+- Value shape: Array of [GiftCardRestrictionPreviousAttributesInput](../models/GiftCardRestrictionPreviousAttributesInput.md#giftcardrestrictionpreviousattributesinput). The restrictions that keep the card frozen. unfreeze is supported only when every restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding disposition. 
 
 ### GiftCardUpdatedInstalledMerchantsEventInput.data.previous_attributes.restrictions variant 2
 
@@ -227,7 +227,7 @@ Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created
 
 ### GiftCardUpdatedInstalledMerchantsEventInput.data.previous_attributes.version
 
-Declared alternatives: [GiftCardLoadUpdatedInstalledMerchantsEventInput.data.previous_attributes.version](../models/GiftCardLoadUpdatedInstalledMerchantsEventInput.md#giftcardloadupdatedinstalledmerchantseventinputdataprevious_attributesversion).
+Declared alternatives: [GiftCardFundingDisputePreviousAttributesInput.version](../models/GiftCardFundingDisputePreviousAttributesInput.md#giftcardfundingdisputepreviousattributesinputversion).
 
 ### GiftCardUpdatedInstalledMerchantsEventInput.source
 

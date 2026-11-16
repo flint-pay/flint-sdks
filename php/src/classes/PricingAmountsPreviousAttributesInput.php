@@ -1,0 +1,65 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $additive_tax_money
+ * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $charge_money
+ * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $discount_money
+ * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $inclusive_tax_money
+ * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $requested_tip_money
+ * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $subtotal_money
+ * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $tax_money
+ * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $total_money
+ * Presence-aware input; omitted fields throw when accessed. */
+final class PricingAmountsPreviousAttributesInput extends Model {
+    /** @param array{'additive_tax_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'charge_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'discount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'inclusive_tax_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'requested_tip_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'subtotal_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'tax_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'total_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PricingAmountsPreviousAttributesInput')); }
+    /** Tax added on top of prices, included in total_money. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
+     * @throws SdkError When additive_tax_money is omitted; use hasAdditiveTaxMoney() or valueOrDefault().
+     */
+    public function getAdditiveTaxMoney(): mixed { return $this->get('additive_tax_money'); }
+    public function hasAdditiveTaxMoney(): bool { return $this->has('additive_tax_money'); }
+    /** Total of the order's service charges after service-charge discounts. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
+     * @throws SdkError When charge_money is omitted; use hasChargeMoney() or valueOrDefault().
+     */
+    public function getChargeMoney(): mixed { return $this->get('charge_money'); }
+    public function hasChargeMoney(): bool { return $this->has('charge_money'); }
+    /** Total of order and line-item discounts. Service-charge discounts, such as free shipping, are not included; they reduce charge_money. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
+     * @throws SdkError When discount_money is omitted; use hasDiscountMoney() or valueOrDefault().
+     */
+    public function getDiscountMoney(): mixed { return $this->get('discount_money'); }
+    public function hasDiscountMoney(): bool { return $this->has('discount_money'); }
+    /** Tax already included in subtotal_money and charge_money. Informational; it is not added again to total_money. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
+     * @throws SdkError When inclusive_tax_money is omitted; use hasInclusiveTaxMoney() or valueOrDefault().
+     */
+    public function getInclusiveTaxMoney(): mixed { return $this->get('inclusive_tax_money'); }
+    public function hasInclusiveTaxMoney(): bool { return $this->has('inclusive_tax_money'); }
+    /** Tip money in the total: the requested tip before payment, and settled tips net of refunds after. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
+     * @throws SdkError When requested_tip_money is omitted; use hasRequestedTipMoney() or valueOrDefault().
+     */
+    public function getRequestedTipMoney(): mixed { return $this->get('requested_tip_money'); }
+    public function hasRequestedTipMoney(): bool { return $this->has('requested_tip_money'); }
+    /** Sum of the line items' subtotal_money: prices with modifiers, before discounts. Lines with tax-inclusive prices include their tax here. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
+     * @throws SdkError When subtotal_money is omitted; use hasSubtotalMoney() or valueOrDefault().
+     */
+    public function getSubtotalMoney(): mixed { return $this->get('subtotal_money'); }
+    public function hasSubtotalMoney(): bool { return $this->has('subtotal_money'); }
+    /** Total tax, equal to additive_tax_money + inclusive_tax_money. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
+     * @throws SdkError When tax_money is omitted; use hasTaxMoney() or valueOrDefault().
+     */
+    public function getTaxMoney(): mixed { return $this->get('tax_money'); }
+    public function hasTaxMoney(): bool { return $this->has('tax_money'); }
+    /** subtotal_money - discount_money + charge_money + additive_tax_money + requested_tip_money, never below zero. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
+     * @throws SdkError When total_money is omitted; use hasTotalMoney() or valueOrDefault().
+     */
+    public function getTotalMoney(): mixed { return $this->get('total_money'); }
+    public function hasTotalMoney(): bool { return $this->has('total_money'); }
+}

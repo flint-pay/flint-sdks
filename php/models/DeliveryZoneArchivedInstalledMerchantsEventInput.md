@@ -42,86 +42,16 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | [DeliveryZoneConfigurationInput](../models/DeliveryZoneConfigurationInput.md#deliveryzoneconfigurationinput) or null | Current geographic eligibility conditions. `configuration`: [declared alternatives](../models/DeliveryZoneArchivedInstalledMerchantsEventInput.md#deliveryzonearchivedinstalledmerchantseventinputdataprevious_attributesconfiguration). |
+| `configuration` | Optional | [DeliveryZoneConfigurationPreviousAttributesInput](../models/DeliveryZoneConfigurationPreviousAttributesInput.md#deliveryzoneconfigurationpreviousattributesinput) or null | Current geographic eligibility conditions. |
 | `created_at` | Optional | string or null | Time the zone was created. `created_at`: [declared alternatives](../models/DeliveryZoneArchivedInstalledMerchantsEventInput.md#deliveryzonearchivedinstalledmerchantseventinputdataprevious_attributescreated_at). |
 | `current_delivery_zone_revision_id` | Optional | string or null | Immutable revision used for new quotes. `current_delivery_zone_revision_id`: [declared alternatives](../models/DeliveryZoneArchivedInstalledMerchantsEventInput.md#deliveryzonearchivedinstalledmerchantseventinputdataprevious_attributescurrent_delivery_zone_revision_id). |
 | `delivery_zone_id` | Optional | string or null | Stable delivery zone ID. `delivery_zone_id`: [declared alternatives](../models/DeliveryZoneArchivedInstalledMerchantsEventInput.md#deliveryzonearchivedinstalledmerchantseventinputdataprevious_attributesdelivery_zone_id). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEventInput.md#bundlearchivedinstalledmerchantseventinputdataprevious_attributesexternal_reference_id). |
-| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) or null | Caller-owned metadata. |
+| `metadata` | Optional | [MetadataMapPreviousAttributesInput](../models/MetadataMapPreviousAttributesInput.md#metadatamappreviousattributesinput) or null | Caller-owned metadata. |
 | `name` | Optional | string or null | Merchant-facing zone name. `name`: [declared alternatives](../models/DeliveryZoneArchivedInstalledMerchantsEventInput.md#deliveryzonearchivedinstalledmerchantseventinputdataprevious_attributesname). |
 | `status` | Optional | string or null | Current zone lifecycle status. Values: `"active"`, `"archived"`. `status`: [declared alternatives](../models/DeliveryZoneArchivedInstalledMerchantsEventInput.md#deliveryzonearchivedinstalledmerchantseventinputdataprevious_attributesstatus). |
 | `updated_at` | Optional | string or null | Time the zone last changed. `updated_at`: [declared alternatives](../models/DeliveryZoneArchivedInstalledMerchantsEventInput.md#deliveryzonearchivedinstalledmerchantseventinputdataprevious_attributesupdated_at). |
 | `version` | Optional | integer or null | Optimistic-concurrency version for zone writes. `version`: [declared alternatives](../models/DeliveryZoneArchivedInstalledMerchantsEventInput.md#deliveryzonearchivedinstalledmerchantseventinputdataprevious_attributesversion). |
-
-### DeliveryZoneArchivedInstalledMerchantsEventInput.data.previous_attributes.configuration
-
-Current geographic eligibility conditions.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `all` | Conditional | Array of [DeliveryZoneConfigurationInput](../models/DeliveryZoneConfigurationInput.md#deliveryzoneconfigurationinput) | Matches when every nested expression matches. minItems: `1`. maxItems: `100`. |
-| `any` | Conditional | Array of [DeliveryZoneConfigurationInput](../models/DeliveryZoneConfigurationInput.md#deliveryzoneconfigurationinput) | Matches when at least one nested expression matches. minItems: `1`. maxItems: `100`. |
-| `country` | Conditional | [DeliveryCountryConditionInput](../models/DeliveryCountryConditionInput.md#deliverycountryconditioninput) | Matches when the address is in one of the listed countries. A delivery eligibility condition that matches when the address country is one of `values`. |
-| `not` | Conditional | [DeliveryZoneConfigurationInput](../models/DeliveryZoneConfigurationInput.md#deliveryzoneconfigurationinput) | Matches when the nested expression does not match. A reusable geographic predicate containing only country, state, postal_code, and radius conditions. |
-| `postal_code` | Conditional | [DeliveryPostalCodeConditionInput](../models/DeliveryPostalCodeConditionInput.md#deliverypostalcodeconditioninput) | Matches when the address postal code matches one of the listed codes. A delivery eligibility condition that matches the address postal code against exact or prefix `values`. |
-| `radius` | Conditional | [DeliveryRadiusConditionInput](../models/DeliveryRadiusConditionInput.md#deliveryradiusconditioninput) | Matches when the address is within a set distance of an origin. Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line. |
-| `state` | Conditional | [DeliveryStateConditionInput](../models/DeliveryStateConditionInput.md#deliverystateconditioninput) | Matches when the address is in one of the listed states or provinces. Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes. |
-
-### DeliveryZoneArchivedInstalledMerchantsEventInput.data.previous_attributes.configuration variant 1
-
-anyOf DeliveryZoneConfiguration: Current geographic eligibility conditions.; oneOf variant 1.
-
-- Required: `all`.
-- Optional: `any`, `country`, `not`, `postal_code`, `radius`, `state`.
-
-### DeliveryZoneArchivedInstalledMerchantsEventInput.data.previous_attributes.configuration variant 2
-
-anyOf DeliveryZoneConfiguration: Current geographic eligibility conditions.; oneOf variant 2.
-
-- Required: `any`.
-- Optional: `all`, `country`, `not`, `postal_code`, `radius`, `state`.
-
-### DeliveryZoneArchivedInstalledMerchantsEventInput.data.previous_attributes.configuration variant 3
-
-anyOf DeliveryZoneConfiguration: Current geographic eligibility conditions.; oneOf variant 3.
-
-- Required: `not`.
-- Optional: `all`, `any`, `country`, `postal_code`, `radius`, `state`.
-
-### DeliveryZoneArchivedInstalledMerchantsEventInput.data.previous_attributes.configuration variant 4
-
-anyOf DeliveryZoneConfiguration: Current geographic eligibility conditions.; oneOf variant 4.
-
-- Required: `country`.
-- Optional: `all`, `any`, `not`, `postal_code`, `radius`, `state`.
-
-### DeliveryZoneArchivedInstalledMerchantsEventInput.data.previous_attributes.configuration variant 5
-
-anyOf DeliveryZoneConfiguration: Current geographic eligibility conditions.; oneOf variant 5.
-
-- Required: `state`.
-- Optional: `all`, `any`, `country`, `not`, `postal_code`, `radius`.
-
-### DeliveryZoneArchivedInstalledMerchantsEventInput.data.previous_attributes.configuration variant 6
-
-anyOf DeliveryZoneConfiguration: Current geographic eligibility conditions.; oneOf variant 6.
-
-- Required: `postal_code`.
-- Optional: `all`, `any`, `country`, `not`, `radius`, `state`.
-
-### DeliveryZoneArchivedInstalledMerchantsEventInput.data.previous_attributes.configuration variant 7
-
-anyOf DeliveryZoneConfiguration: Current geographic eligibility conditions.; oneOf variant 7.
-
-- Required: `radius`.
-- Optional: `all`, `any`, `country`, `not`, `postal_code`, `state`.
-
-### DeliveryZoneArchivedInstalledMerchantsEventInput.data.previous_attributes.configuration variant 8
-
-anyOf variant 2.
-
-- Undeclared: `all`, `any`, `country`, `not`, `postal_code`, `radius`, `state`.
-- Value shape: null. Current geographic eligibility conditions. 
 
 ### DeliveryZoneArchivedInstalledMerchantsEventInput.data.previous_attributes.created_at
 

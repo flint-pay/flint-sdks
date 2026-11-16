@@ -18,13 +18,13 @@ namespace Flint;
  * @property-read mixed $payment_intent
  * @property-read string|null $payment_intent_id
  * @property-read string|null $payment_review_id
- * @property-read PaymentReviewPaymentSummary|null $payment_summary
+ * @property-read mixed $payment_summary
  * @property-read mixed $pending_action
  * @property-read mixed $refund_id
  * @property-read mixed $refunded_money
  * @property-read mixed $resolution_started_at
  * @property-read mixed $resolution_started_by
- * @property-read PaymentReviewRisk|null $risk
+ * @property-read mixed $risk
  * @property-read string|null $status
  * @property-read list<string>|null $supported_actions
  * @property-read string|null $updated_at
@@ -37,7 +37,7 @@ final class PaymentReviewReopenedInstalledMerchantsEventDataPreviousAttributes e
      */
     public function getClosedAt(): mixed { return $this->get('closed_at'); }
     public function hasClosedAt(): bool { return $this->has('closed_at'); }
-    /** The credential that closed this payment review. Null when Flint closed it. anyOf[1] (Value): {@see ResourceReference} or null. The credential that closed this payment review. Null when Flint closed it. anyOf[1].anyOf[1] (Value): {@see ResourceReference}. A reference to another resource by `resource_type` and `resource_id`. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** The credential that closed this payment review. Null when Flint closed it. anyOf[1] (Value): ({@see ResourceReferencePreviousAttributes} or null). The credential that closed this payment review. Null when Flint closed it. anyOf[1].anyOf[1] (Value): {@see ResourceReferencePreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getClosedBy(): mixed { return $this->get('closed_by'); }
@@ -47,7 +47,7 @@ final class PaymentReviewReopenedInstalledMerchantsEventDataPreviousAttributes e
      */
     public function getClosedReason(): mixed { return $this->get('closed_reason'); }
     public function hasClosedReason(): bool { return $this->has('closed_reason'); }
-    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID when the customer is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): ({@see ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getCustomer(): mixed { return $this->get('customer'); }
@@ -62,7 +62,7 @@ final class PaymentReviewReopenedInstalledMerchantsEventDataPreviousAttributes e
      */
     public function getIpAddress(): mixed { return $this->get('ip_address'); }
     public function hasIpAddress(): bool { return $this->has('ip_address'); }
-    /** The most recent resolution attempt that failed. Set when a decline's refund failed and the review reopened. Null when no attempt has failed. anyOf[1] (Value): {@see PaymentReviewResolutionFailure} or null. The most recent resolution attempt that failed. Set when a decline's refund failed and the review reopened. Null when no attempt has failed. anyOf[1].anyOf[1] (Value): {@see PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund, with the `refund_id` and when it failed. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** The most recent resolution attempt that failed. Set when a decline's refund failed and the review reopened. Null when no attempt has failed. anyOf[1] (Value): ({@see PaymentReviewResolutionFailurePreviousAttributes} or null). The most recent resolution attempt that failed. Set when a decline's refund failed and the review reopened. Null when no attempt has failed. anyOf[1].anyOf[1] (Value): {@see PaymentReviewResolutionFailurePreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getLastResolutionFailure(): mixed { return $this->get('last_resolution_failure'); }
@@ -82,7 +82,7 @@ final class PaymentReviewReopenedInstalledMerchantsEventDataPreviousAttributes e
      */
     public function getOpenedReason(): string|null { return $this->get('opened_reason'); }
     public function hasOpenedReason(): bool { return $this->has('opened_reason'); }
-    /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummary} or null. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummary}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): ({@see ExpandedOrderSummaryPreviousAttributes} or null). Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getOrder(): mixed { return $this->get('order'); }
@@ -97,7 +97,7 @@ final class PaymentReviewReopenedInstalledMerchantsEventDataPreviousAttributes e
      */
     public function getPaymentFlow(): string|null { return $this->get('payment_flow'); }
     public function hasPaymentFlow(): bool { return $this->has('payment_flow'); }
-    /** Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1] (Value): {@see ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@see ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status, and capture method, returned when the payment intent is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1] (Value): ({@see ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@see ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getPaymentIntent(): mixed { return $this->get('payment_intent'); }
@@ -112,10 +112,10 @@ final class PaymentReviewReopenedInstalledMerchantsEventDataPreviousAttributes e
      */
     public function getPaymentReviewId(): string|null { return $this->get('payment_review_id'); }
     public function hasPaymentReviewId(): bool { return $this->has('payment_review_id'); }
-    /** A snapshot of the payment as it was when the review opened. anyOf[1] (Value): {@see PaymentReviewPaymentSummary}. A snapshot of the payment as it was when the review opened. anyOf[2] (Value): null.
-     * @return PaymentReviewPaymentSummary|null
+    /** A snapshot of the payment as it was when the review opened. anyOf[1] (Value): {@see PaymentReviewPaymentSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getPaymentSummary(): PaymentReviewPaymentSummary|null { return $this->get('payment_summary'); }
+    public function getPaymentSummary(): mixed { return $this->get('payment_summary'); }
     public function hasPaymentSummary(): bool { return $this->has('payment_summary'); }
     /** The decision being carried out. `null` when status isn't resolving. Value enum: "approve", "decline", "expire", null. anyOf[1] (Value): string or null. The decision being carried out. `null` when status isn't resolving. Value enum: "approve", "decline", "expire", null. anyOf[2] (Value): null.
      * @return mixed
@@ -127,7 +127,7 @@ final class PaymentReviewReopenedInstalledMerchantsEventDataPreviousAttributes e
      */
     public function getRefundId(): mixed { return $this->get('refund_id'); }
     public function hasRefundId(): bool { return $this->has('refund_id'); }
-    /** Refunded amount for this review. Null when no refund is recorded. anyOf[1] (Value): {@see MoneyValue} or null. Refunded amount for this review. Null when no refund is recorded. anyOf[1].anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Refunded amount for this review. Null when no refund is recorded. anyOf[1] (Value): ({@see MoneyValuePreviousAttributes} or null). Refunded amount for this review. Null when no refund is recorded. anyOf[1].anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getRefundedMoney(): mixed { return $this->get('refunded_money'); }
@@ -137,15 +137,15 @@ final class PaymentReviewReopenedInstalledMerchantsEventDataPreviousAttributes e
      */
     public function getResolutionStartedAt(): mixed { return $this->get('resolution_started_at'); }
     public function hasResolutionStartedAt(): bool { return $this->has('resolution_started_at'); }
-    /** The credential that started resolving this payment review, retained after closure. Null when no resolution has started or Flint started it. anyOf[1] (Value): {@see ResourceReference} or null. The credential that started resolving this payment review, retained after closure. Null when no resolution has started or Flint started it. anyOf[1].anyOf[1] (Value): {@see ResourceReference}. A reference to another resource by `resource_type` and `resource_id`. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** The credential that started resolving this payment review, retained after closure. Null when no resolution has started or Flint started it. anyOf[1] (Value): ({@see ResourceReferencePreviousAttributes} or null). The credential that started resolving this payment review, retained after closure. Null when no resolution has started or Flint started it. anyOf[1].anyOf[1] (Value): {@see ResourceReferencePreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getResolutionStartedBy(): mixed { return $this->get('resolution_started_by'); }
     public function hasResolutionStartedBy(): bool { return $this->has('resolution_started_by'); }
-    /** The payment's risk level and score when the review opened. anyOf[1] (Value): {@see PaymentReviewRisk}. The payment's risk level and score when the review opened. anyOf[2] (Value): null.
-     * @return PaymentReviewRisk|null
+    /** The payment's risk level and score when the review opened. anyOf[1] (Value): {@see PaymentReviewRiskPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getRisk(): PaymentReviewRisk|null { return $this->get('risk'); }
+    public function getRisk(): mixed { return $this->get('risk'); }
     public function hasRisk(): bool { return $this->has('risk'); }
     /** Where the review is in its lifecycle. Value enum: "open", "resolving", "closed". anyOf[1] (Value): string. Where the review is in its lifecycle. Value enum: "open", "resolving", "closed". anyOf[2] (Value): null.
      * @return string|null

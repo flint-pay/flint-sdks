@@ -1,22 +1,134 @@
-import type { GetReturnResponse, GetReturnResolutionResponse, GiftCard } from './types-26.js';
-import type { ReadinessAction, ReadinessRequirements } from './types-52.js';
-import type { MoneyValue, MoneyValueInput } from './types-39.js';
-import type { PlatformFeeRequest, PlatformFeeRequestInput } from './types-49.js';
-import type { SplitReversalRequest } from './types-60.js';
-import type { GiftCardTransaction } from './types-27.js';
-import type { ResponseMeta } from './types-54.js';
+import type { GetReturnDispositionResponse, GetReturnResponse, GetReturnResolutionResponse, GiftCard } from './types-28.js';
+import type {
+    ReadinessAction,
+    ReadinessRequirements,
+    ReadinessActionPreviousAttributes,
+    ReadinessRequirementsPreviousAttributes
+} from './types-58.js';
+import type { MoneyValue, MoneyValueInput } from './types-42.js';
+import type { PlatformFeeRequest, PlatformFeeRequestInput } from './types-54.js';
+import type { SplitReversalRequest } from './types-66.js';
+import type { GiftCardTransaction } from './types-30.js';
+import type { ResponseMeta } from './types-60.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateCategoryRequestInput } from './types-7.js';
-import type { DisputesAcceptParams } from './types-23.js';
-import type { UpdateCategoryRequestInput } from './types-66.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-38.js';
-import type { PartnerWebhookEnvelope } from './types-44.js';
-import type { SubscriptionQuantityChangeLineItemRequest, SubscriptionQuantityChangeLineItemRequestInput } from './types-63.js';
-import type { SubscriptionPlanChangeLineItemRequest, SubscriptionPlanChangeLineItemRequestInput } from './types-62.js';
-import type { Address, AddressRequest, AddressRequestInput } from './types-0.js';
-import type { DeliveryInputRequirement } from './types-17.js';
-import type { DeliveryMerchantDiagnostic } from './types-18.js';
-import type { DeliveryQuoteChoiceGroupResource } from './types-20.js';
+import type { CreateCategoryRequestInput } from './types-8.js';
+import type { DisputesAcceptParams } from './types-25.js';
+import type { UpdateCategoryRequestInput } from './types-73.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-41.js';
+import type { PartnerWebhookEnvelope } from './types-49.js';
+import type { SubscriptionQuantityChangeLineItemRequest, SubscriptionQuantityChangeLineItemRequestInput } from './types-70.js';
+import type { SubscriptionPlanChangeLineItemRequest, SubscriptionPlanChangeLineItemRequestInput } from './types-69.js';
+/** The request body for: Cancel payment intent. */
+export type CancelPaymentIntentRequest = {
+    /**
+     * Optional merchant-supplied cancellation reason. Value enum: "requested_by_customer",
+     * "duplicate", "fraudulent", "abandoned".
+     */
+    "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned" | (string & {});
+    /**
+     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
+     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+/** The request body for: Cancel payment intent. */
+export type CancelPaymentIntentRequestInput = {
+    /**
+     * Optional merchant-supplied cancellation reason. Value enum: "requested_by_customer",
+     * "duplicate", "fraudulent", "abandoned".
+     */
+    "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned";
+    /**
+     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
+     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+/** The request body for: Cancel a payout. */
+export type CancelPayoutRequest = {};
+/** The request body for: Cancel a payout. */
+export type CancelPayoutRequestInput = {};
+/** The request body for: Cancel return disposition. */
+export type CancelReturnDispositionRequest = {
+    /**
+     * Optional. The disposition's current version; a stale value returns 409 VERSION_CONFLICT.
+     * Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Why it is being canceled. Value enum: "created_in_error", "changed_disposition",
+     * "duplicate", "other".
+     */
+    "reason": "created_in_error" | "changed_disposition" | "duplicate" | "other" | (string & {});
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
+    "reason_message"?: string;
+};
+/** The request body for: Cancel return disposition. */
+export type CancelReturnDispositionRequestInput = {
+    /**
+     * Optional. The disposition's current version; a stale value returns 409 VERSION_CONFLICT.
+     * Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Why it is being canceled. Value enum: "created_in_error", "changed_disposition",
+     * "duplicate", "other".
+     */
+    "reason": "created_in_error" | "changed_disposition" | "duplicate" | "other";
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
+    "reason_message"?: string;
+};
+export type CancelReturnDispositionResponse = GetReturnDispositionResponse;
+/** The request body for: Cancel return line item. */
+export type CancelReturnLineItemRequest = {
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * How many of the canceled units the buyer no longer has to send back, as a whole number;
+     * fractional quantities are not supported. Lowers return_required_quantity. Omit it to lower
+     * it only as far as the canceled quantity requires. Format: int64.
+     */
+    "handback_quantity"?: number;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * Why it is being canceled. Value enum: "buyer_request", "merchant_request", "expired",
+     * "created_in_error", "other".
+     */
+    "reason": "buyer_request" | "merchant_request" | "expired" | "created_in_error" | "other" | (string & {});
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
+    "reason_message"?: string;
+};
+/** The request body for: Cancel return line item. */
+export type CancelReturnLineItemRequestInput = {
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * How many of the canceled units the buyer no longer has to send back, as a whole number;
+     * fractional quantities are not supported. Lowers return_required_quantity. Omit it to lower
+     * it only as far as the canceled quantity requires. Format: int64.
+     */
+    "handback_quantity"?: number;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * Why it is being canceled. Value enum: "buyer_request", "merchant_request", "expired",
+     * "created_in_error", "other".
+     */
+    "reason": "buyer_request" | "merchant_request" | "expired" | "created_in_error" | "other";
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
+    "reason_message"?: string;
+};
 export type CancelReturnLineItemResponse = GetReturnResponse;
 /** The request body for: Cancel return. */
 export type CancelReturnRequest = {
@@ -231,6 +343,99 @@ export type CapabilityReadiness = {
         | "other"
         | (string & {});
 };
+export type CapabilityReadinessPreviousAttributes = {
+    /**
+     * Flint-owned capability name. Payment capabilities describe transaction acceptance readiness;
+     * money movement capabilities describe payout and balance movement readiness. Value enum:
+     * "accept_card_payments", "save_payment_methods", "accept_affirm_payments",
+     * "accept_ach_debit_payments", "receive_payouts", "create_standard_payouts",
+     * "manage_payout_destinations", "manage_payout_settings". anyOf[1] (Value): string.
+     * Flint-owned capability name. Payment capabilities describe transaction acceptance readiness;
+     * money movement capabilities describe payout and balance movement readiness. Value enum:
+     * "accept_card_payments", "save_payment_methods", "accept_affirm_payments",
+     * "accept_ach_debit_payments", "receive_payouts", "create_standard_payouts",
+     * "manage_payout_destinations", "manage_payout_settings". anyOf[2] (Value): null.
+     */
+    "capability"?: (("accept_card_payments"
+        | "save_payment_methods"
+        | "accept_affirm_payments"
+        | "accept_ach_debit_payments"
+        | "receive_payouts"
+        | "create_standard_payouts"
+        | "manage_payout_destinations"
+        | "manage_payout_settings"
+        | (string & {}))
+        | (null));
+    /**
+     * Product domain this capability belongs to: payments for payment acceptance or money_movement
+     * for balances and payouts. Value enum: "money_movement", "payments". anyOf[1] (Value):
+     * string. Product domain this capability belongs to: payments for payment acceptance or
+     * money_movement for balances and payouts. Value enum: "money_movement", "payments". anyOf[2]
+     * (Value): null.
+     */
+    "domain"?: (("money_movement" | "payments" | (string & {})) | (null));
+    /**
+     * Actions that can remediate or refresh this capability when Flint can suggest one. anyOf[1]
+     * (Value): Array of {@link ReadinessActionPreviousAttributes}. Actions that can remediate or
+     * refresh this capability when Flint can suggest one. anyOf[1][] (Value): {@link
+     * ReadinessActionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "next_actions"?: ((Array<ReadinessActionPreviousAttributes>) | (null));
+    /**
+     * Merchant requirements that affect this capability. anyOf[1] (Value): {@link
+     * ReadinessRequirementsPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "requirements"?: ((ReadinessRequirementsPreviousAttributes) | (null) | (unknown));
+    /**
+     * Current readiness status for this capability. Value enum: "ready", "pending", "blocked",
+     * "not_requested", "not_available". anyOf[1] (Value): string. Current readiness status for
+     * this capability. Value enum: "ready", "pending", "blocked", "not_requested",
+     * "not_available". anyOf[2] (Value): null.
+     */
+    "status"?: (("ready" | "pending" | "blocked" | "not_requested" | "not_available" | (string & {})) | (null));
+    /**
+     * Why readiness has its current status. MERCHANT_NOT_READY uses onboarding_required for
+     * onboarding_not_started, requirements_due, requirements_past_due and pending_verification,
+     * and platform_review for Flint's own review. `null` when no reason applies. Value enum:
+     * "provisioning", "onboarding_not_started", "requirements_due", "requirements_past_due",
+     * "pending_verification", "account_rejected", "disabled_by_platform_policy",
+     * "billing_suspended", "platform_review", "processing_not_enabled",
+     * "platform_funding_unavailable", "tax_category_required", "service_unavailable",
+     * "payment_option_access_not_provisioned", "payment_option_activation_pending",
+     * "payment_option_not_in_plan", "payment_option_not_available", "capability_not_active",
+     * "other". anyOf[1] (Value): string. Why readiness has its current status. MERCHANT_NOT_READY
+     * uses onboarding_required for onboarding_not_started, requirements_due, requirements_past_due
+     * and pending_verification, and platform_review for Flint's own review. `null` when no reason
+     * applies. Value enum: "provisioning", "onboarding_not_started", "requirements_due",
+     * "requirements_past_due", "pending_verification", "account_rejected",
+     * "disabled_by_platform_policy", "billing_suspended", "platform_review",
+     * "processing_not_enabled", "platform_funding_unavailable", "tax_category_required",
+     * "service_unavailable", "payment_option_access_not_provisioned",
+     * "payment_option_activation_pending", "payment_option_not_in_plan",
+     * "payment_option_not_available", "capability_not_active", "other". anyOf[2] (Value): null.
+     */
+    "status_reason"?: (("provisioning"
+        | "onboarding_not_started"
+        | "requirements_due"
+        | "requirements_past_due"
+        | "pending_verification"
+        | "account_rejected"
+        | "disabled_by_platform_policy"
+        | "billing_suspended"
+        | "platform_review"
+        | "processing_not_enabled"
+        | "platform_funding_unavailable"
+        | "tax_category_required"
+        | "service_unavailable"
+        | "payment_option_access_not_provisioned"
+        | "payment_option_activation_pending"
+        | "payment_option_not_in_plan"
+        | "payment_option_not_available"
+        | "capability_not_active"
+        | "other"
+        | (string & {}))
+        | (null));
+};
 /** The request body for: Capture payment intent. */
 export type CapturePaymentIntentRequest = {
     /**
@@ -425,6 +630,36 @@ export type CardDetails = {
      */
     "wallet"?: "apple_pay" | "google_pay" | (string & {});
 };
+export type CardDetailsPreviousAttributes = {
+    /**
+     * The card network. Value enum: "visa", "mastercard", "amex", "discover", "diners", "jcb",
+     * "unionpay". anyOf[1] (Value): string. The card network. Value enum: "visa", "mastercard",
+     * "amex", "discover", "diners", "jcb", "unionpay". anyOf[2] (Value): null.
+     */
+    "brand"?: (("visa" | "mastercard" | "amex" | "discover" | "diners" | "jcb" | "unionpay" | (string & {}))
+        | (null));
+    /**
+     * Month the card expires, from 1 to 12. anyOf[1] (Value): integer. Month the card expires,
+     * from 1 to 12. Format: int32. anyOf[2] (Value): null.
+     */
+    "exp_month"?: ((number) | (null));
+    /**
+     * Four-digit year the card expires. anyOf[1] (Value): integer. Four-digit year the card
+     * expires. Format: int32. anyOf[2] (Value): null.
+     */
+    "exp_year"?: ((number) | (null));
+    /**
+     * Last four digits of the card number. anyOf[1] (Value): string. Last four digits of the card
+     * number. anyOf[2] (Value): null.
+     */
+    "last4"?: ((string) | (null));
+    /**
+     * The wallet the card came from. Absent for a card entered directly. Value enum: "apple_pay",
+     * "google_pay". anyOf[1] (Value): string. The wallet the card came from. Absent for a card
+     * entered directly. Value enum: "apple_pay", "google_pay". anyOf[2] (Value): null.
+     */
+    "wallet"?: (("apple_pay" | "google_pay" | (string & {})) | (null));
+};
 /** The request body for: Record a cash-out. */
 export type CashOutGiftCardRequest = {
     /**
@@ -516,6 +751,27 @@ export type CatalogPricing = {
      * "price_list".
      */
     "source": "variant" | "price_list" | (string & {});
+};
+export type CatalogPricingPreviousAttributes = {
+    /**
+     * Minimum quantity of the applied break. Null when the base price applies. anyOf[1] (Value):
+     * integer or null. Minimum quantity of the applied break. Null when the base price applies.
+     * Format: int64. anyOf[2] (Value): null.
+     */
+    "minimum_quantity"?: ((number | null) | (null) | (unknown));
+    /**
+     * Price list providing the selected schedule. Null when the variant's default schedule
+     * applies. anyOf[1] (Value): string or null. Price list providing the selected schedule. Null
+     * when the variant's default schedule applies. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     * anyOf[2] (Value): null.
+     */
+    "price_list_id"?: ((string | null) | (null) | (unknown));
+    /**
+     * Source of the selected schedule. New source values may be added. Value enum: "variant",
+     * "price_list". anyOf[1] (Value): string. Source of the selected schedule. New source values
+     * may be added. Value enum: "variant", "price_list". anyOf[2] (Value): null.
+     */
+    "source"?: (("variant" | "price_list" | (string & {})) | (null));
 };
 export type CategoriesCreateParams = (InputValue<CreateCategoryRequestInput>)
     & {
@@ -1421,6 +1677,19 @@ export type CategoryReference = {
      */
     "handle": string;
 };
+export type CategoryReferencePreviousAttributes = {
+    /**
+     * Stable identifier of the category. anyOf[1] (Value): string. Stable identifier of the
+     * category. Example: "ctg_01KEZF7C001T4WWBPVGWRZD88Q". anyOf[2] (Value): null.
+     */
+    "category_id"?: ((string) | (null));
+    /**
+     * Immutable handle of the referenced category. Read the category resource for its current
+     * name. anyOf[1] (Value): string. Immutable handle of the referenced category. Read the
+     * category resource for its current name. anyOf[2] (Value): null.
+     */
+    "handle"?: ((string) | (null));
+};
 /** A response containing `Category` data. */
 export type CategoryResponse = {
     /** The requested category data. A catalog grouping used to organize items. */
@@ -1467,7 +1736,7 @@ export type CategoryUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "external_reference_id"?: ((string) | (null));
             "handle"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
+            "metadata"?: ((MetadataMap) | (null) | (unknown));
             "name"?: ((string) | (null));
             "status"?: (("active" | "deleted" | (string & {})) | (null));
             "targeting_reference_count"?: ((number) | (null));
@@ -1509,7 +1778,7 @@ export type CategoryUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "external_reference_id"?: ((string) | (null));
             "handle"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
+            "metadata"?: ((MetadataMap) | (null) | (unknown));
             "name"?: ((string) | (null));
             "status"?: (("active" | "deleted" | (string & {})) | (null));
             "targeting_reference_count"?: ((number) | (null));
@@ -1600,14 +1869,13 @@ export type CategoryUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value): null.
      * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata
      * stored on this resource. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * Caller-owned metadata stored on this resource. previous_attributes.metadata.anyOf[2]
-     * (Value): null. previous_attributes.name (Optional): string or null. Category name shown to
-     * buyers. previous_attributes.name.anyOf[1] (Value): string. Category name shown to buyers.
-     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.status (Optional):
-     * string or null. Category lifecycle status. Active categories can be assigned; deleted is
-     * returned only by DELETE. Value enum: "active", "deleted".
-     * previous_attributes.status.anyOf[1] (Value): string. Category lifecycle status. Active
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Category name shown to buyers. previous_attributes.name.anyOf[1] (Value):
+     * string. Category name shown to buyers. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Category lifecycle status. Active
      * categories can be assigned; deleted is returned only by DELETE. Value enum: "active",
+     * "deleted". previous_attributes.status.anyOf[1] (Value): string. Category lifecycle status.
+     * Active categories can be assigned; deleted is returned only by DELETE. Value enum: "active",
      * "deleted". previous_attributes.status.anyOf[2] (Value): null.
      * previous_attributes.targeting_reference_count (Optional): integer or null. Number of
      * promotions, return reasons and return policy versions that reference this category. Deleting
@@ -1745,20 +2013,19 @@ export type CategoryUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
          * merchant_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
          * Caller-owned metadata stored on this resource. metadata.anyOf[1] (Value): {@link
-         * MetadataMap}. Caller-owned metadata stored on this resource. metadata.anyOf[2] (Value):
-         * null. name (Optional): string or null. Category name shown to buyers. name.anyOf[1]
-         * (Value): string. Category name shown to buyers. name.anyOf[2] (Value): null. status
-         * (Optional): string or null. Category lifecycle status. Active categories can be
-         * assigned; deleted is returned only by DELETE. Value enum: "active", "deleted".
-         * status.anyOf[1] (Value): string. Category lifecycle status. Active categories can be
-         * assigned; deleted is returned only by DELETE. Value enum: "active", "deleted".
-         * status.anyOf[2] (Value): null. targeting_reference_count (Optional): integer or null.
-         * Number of promotions, return reasons and return policy versions that reference this
-         * category. Deleting the category is refused with `409 RESOURCE_IN_USE` while this or
-         * `assigned_product_count` or `assigned_bundle_count` is above zero.
-         * targeting_reference_count.anyOf[1] (Value): integer. Number of promotions, return
-         * reasons and return policy versions that reference this category. Deleting the category
-         * is refused with `409 RESOURCE_IN_USE` while this or `assigned_product_count` or
+         * MetadataMap}. metadata.anyOf[2] (Value): null. name (Optional): string or null. Category
+         * name shown to buyers. name.anyOf[1] (Value): string. Category name shown to buyers.
+         * name.anyOf[2] (Value): null. status (Optional): string or null. Category lifecycle
+         * status. Active categories can be assigned; deleted is returned only by DELETE. Value
+         * enum: "active", "deleted". status.anyOf[1] (Value): string. Category lifecycle status.
+         * Active categories can be assigned; deleted is returned only by DELETE. Value enum:
+         * "active", "deleted". status.anyOf[2] (Value): null. targeting_reference_count
+         * (Optional): integer or null. Number of promotions, return reasons and return policy
+         * versions that reference this category. Deleting the category is refused with `409
+         * RESOURCE_IN_USE` while this or `assigned_product_count` or `assigned_bundle_count` is
+         * above zero. targeting_reference_count.anyOf[1] (Value): integer. Number of promotions,
+         * return reasons and return policy versions that reference this category. Deleting the
+         * category is refused with `409 RESOURCE_IN_USE` while this or `assigned_product_count` or
          * `assigned_bundle_count` is above zero. Format: int64. targeting_reference_count.anyOf[2]
          * (Value): null. updated_at (Optional): string or null. When this resource last changed,
          * as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When this resource last
@@ -1821,9 +2088,9 @@ export type CategoryUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
             "merchant_id"?: ((string) | (null));
             /**
              * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
-             * MetadataMap}. Caller-owned metadata stored on this resource. anyOf[2] (Value): null.
+             * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null));
+            "metadata"?: ((MetadataMap) | (null) | (unknown));
             /**
              * Category name shown to buyers. anyOf[1] (Value): string. Category name shown to
              * buyers. anyOf[2] (Value): null.
@@ -1970,14 +2237,13 @@ export type CategoryUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value): null.
      * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata
      * stored on this resource. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * Caller-owned metadata stored on this resource. previous_attributes.metadata.anyOf[2]
-     * (Value): null. previous_attributes.name (Optional): string or null. Category name shown to
-     * buyers. previous_attributes.name.anyOf[1] (Value): string. Category name shown to buyers.
-     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.status (Optional):
-     * string or null. Category lifecycle status. Active categories can be assigned; deleted is
-     * returned only by DELETE. Value enum: "active", "deleted".
-     * previous_attributes.status.anyOf[1] (Value): string. Category lifecycle status. Active
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Category name shown to buyers. previous_attributes.name.anyOf[1] (Value):
+     * string. Category name shown to buyers. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Category lifecycle status. Active
      * categories can be assigned; deleted is returned only by DELETE. Value enum: "active",
+     * "deleted". previous_attributes.status.anyOf[1] (Value): string. Category lifecycle status.
+     * Active categories can be assigned; deleted is returned only by DELETE. Value enum: "active",
      * "deleted". previous_attributes.status.anyOf[2] (Value): null.
      * previous_attributes.targeting_reference_count (Optional): integer or null. Number of
      * promotions, return reasons and return policy versions that reference this category. Deleting
@@ -2115,20 +2381,19 @@ export type CategoryUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
          * merchant_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
          * Caller-owned metadata stored on this resource. metadata.anyOf[1] (Value): {@link
-         * MetadataMap}. Caller-owned metadata stored on this resource. metadata.anyOf[2] (Value):
-         * null. name (Optional): string or null. Category name shown to buyers. name.anyOf[1]
-         * (Value): string. Category name shown to buyers. name.anyOf[2] (Value): null. status
-         * (Optional): string or null. Category lifecycle status. Active categories can be
-         * assigned; deleted is returned only by DELETE. Value enum: "active", "deleted".
-         * status.anyOf[1] (Value): string. Category lifecycle status. Active categories can be
-         * assigned; deleted is returned only by DELETE. Value enum: "active", "deleted".
-         * status.anyOf[2] (Value): null. targeting_reference_count (Optional): integer or null.
-         * Number of promotions, return reasons and return policy versions that reference this
-         * category. Deleting the category is refused with `409 RESOURCE_IN_USE` while this or
-         * `assigned_product_count` or `assigned_bundle_count` is above zero.
-         * targeting_reference_count.anyOf[1] (Value): integer. Number of promotions, return
-         * reasons and return policy versions that reference this category. Deleting the category
-         * is refused with `409 RESOURCE_IN_USE` while this or `assigned_product_count` or
+         * MetadataMap}. metadata.anyOf[2] (Value): null. name (Optional): string or null. Category
+         * name shown to buyers. name.anyOf[1] (Value): string. Category name shown to buyers.
+         * name.anyOf[2] (Value): null. status (Optional): string or null. Category lifecycle
+         * status. Active categories can be assigned; deleted is returned only by DELETE. Value
+         * enum: "active", "deleted". status.anyOf[1] (Value): string. Category lifecycle status.
+         * Active categories can be assigned; deleted is returned only by DELETE. Value enum:
+         * "active", "deleted". status.anyOf[2] (Value): null. targeting_reference_count
+         * (Optional): integer or null. Number of promotions, return reasons and return policy
+         * versions that reference this category. Deleting the category is refused with `409
+         * RESOURCE_IN_USE` while this or `assigned_product_count` or `assigned_bundle_count` is
+         * above zero. targeting_reference_count.anyOf[1] (Value): integer. Number of promotions,
+         * return reasons and return policy versions that reference this category. Deleting the
+         * category is refused with `409 RESOURCE_IN_USE` while this or `assigned_product_count` or
          * `assigned_bundle_count` is above zero. Format: int64. targeting_reference_count.anyOf[2]
          * (Value): null. updated_at (Optional): string or null. When this resource last changed,
          * as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When this resource last
@@ -2191,9 +2456,9 @@ export type CategoryUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
             "merchant_id"?: ((string) | (null));
             /**
              * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
-             * MetadataMap}. Caller-owned metadata stored on this resource. anyOf[2] (Value): null.
+             * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null));
+            "metadata"?: ((MetadataMap) | (null) | (unknown));
             /**
              * Category name shown to buyers. anyOf[1] (Value): string. Category name shown to
              * buyers. anyOf[2] (Value): null.
@@ -2483,6 +2748,46 @@ export type CheckoutBuyerContact = {
      */
     "updated_at"?: string;
 };
+export type CheckoutBuyerContactPreviousAttributes = {
+    /**
+     * Email supplied for the buyer, exactly as sent. Null when no email is saved; is_email_cleared
+     * distinguishes an explicit clear. anyOf[1] (Value): string or null. Email supplied for the
+     * buyer, exactly as sent. Null when no email is saved; is_email_cleared distinguishes an
+     * explicit clear. Format: email. maxLength: 255. Example: "buyer@example.com". anyOf[2]
+     * (Value): null.
+     */
+    "email"?: ((string | null) | (null) | (unknown));
+    /**
+     * True when the buyer explicitly cleared the email, including before entering one. Saving an
+     * email resets it to false. Do not restore a prefilled email while true. anyOf[1] (Value):
+     * boolean. True when the buyer explicitly cleared the email, including before entering one.
+     * Saving an email resets it to false. Do not restore a prefilled email while true. anyOf[2]
+     * (Value): null.
+     */
+    "is_email_cleared"?: ((boolean) | (null));
+    /**
+     * True when the buyer explicitly cleared the phone, including before entering one. Saving a
+     * phone resets it to false. Do not restore a prefilled phone while true. anyOf[1] (Value):
+     * boolean. True when the buyer explicitly cleared the phone, including before entering one.
+     * Saving a phone resets it to false. Do not restore a prefilled phone while true. anyOf[2]
+     * (Value): null.
+     */
+    "is_phone_cleared"?: ((boolean) | (null));
+    /**
+     * Phone supplied for the buyer, in E.164 format. Null when no phone is saved; is_phone_cleared
+     * distinguishes an explicit clear. anyOf[1] (Value): string or null. Phone supplied for the
+     * buyer, in E.164 format. Null when no phone is saved; is_phone_cleared distinguishes an
+     * explicit clear. pattern: ^\+[1-9][0-9]{1,14}$. anyOf[2] (Value): null.
+     */
+    "phone"?: ((string | null) | (null) | (unknown));
+    /**
+     * When the buyer last changed the saved checkout contact. Omitted on order buyer contact.
+     * anyOf[1] (Value): string. When the buyer last changed the saved checkout contact. Omitted on
+     * order buyer contact. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+     * null.
+     */
+    "updated_at"?: ((string) | (null));
+};
 /**
  * Buyer contact to supply with payment or save during checkout. Send at least one field. Values
  * are stored exactly as sent, so an email with surrounding spaces is rejected. Checkout session
@@ -2521,300 +2826,4 @@ export type CheckoutBuyerFields = {
     "require_email"?: boolean;
     /** Whether checkout requires the buyer's phone number. */
     "require_phone"?: boolean;
-};
-/** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
-export type CheckoutBuyerFieldsRequestInput = CheckoutBuyerFields;
-/** Custom text shown in checkout: an order summary message and a shipping address label. */
-export type CheckoutCustomTextConfig = {
-    /** Message shown near the order summary in checkout. */
-    "order_summary_message"?: string;
-    /** Label shown for the shipping address in checkout. */
-    "shipping_address_label"?: string;
-};
-/**
- * Custom checkout text you supply when creating a checkout session: an order summary message and a
- * shipping address label.
- */
-export type CheckoutCustomTextWriteConfigInput = {
-    /** Message shown near the order summary in checkout. minLength: 1. */
-    "order_summary_message"?: string;
-    /** Label shown for the shipping address in checkout. minLength: 1. */
-    "shipping_address_label"?: string;
-};
-/** Details the buyer's checkout can prefill from the customer it acts for. */
-export type CheckoutCustomerPrefill = {
-    /**
-     * The customer's default billing address. Omitted when the customer has none. A postal
-     * address. Every address has country. Addresses Flint checked as complete (customer and saved
-     * addresses, merchant, location, invoice, order delivery destination, tax identity,
-     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
-     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
-     * locations hold only what was provided, such as postal_code and country.
-     */
-    "billing_address"?: Address;
-    /** The customer's email. */
-    "email": string;
-    /**
-     * The customer's default shipping address. Omitted when the customer has none. A postal
-     * address. Every address has country. Addresses Flint checked as complete (customer and saved
-     * addresses, merchant, location, invoice, order delivery destination, tax identity,
-     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
-     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
-     * locations hold only what was provided, such as postal_code and country.
-     */
-    "shipping_address"?: Address;
-    /**
-     * Recipient name of the customer's default shipping address. Present whenever
-     * `shipping_address` is.
-     */
-    "shipping_recipient_name"?: string;
-};
-/**
- * The delivery options Flint derived for a checkout as a buyer sees them: choice groups, input
- * requirements, and evaluation status.
- */
-export type CheckoutDerivedDeliveryResource = {
-    /**
-     * Buyer-safe reasons candidate methods did not produce an option. These can be present even
-     * when another method is available. [] (Value): string.
-     */
-    "buyer_reasons": Array<string>;
-    /**
-     * Groups of order items that each choose their own delivery option. Empty until the checkout
-     * has a delivery quote. [] (Value): {@link DeliveryQuoteChoiceGroupResource}. One group of
-     * order items in a delivery quote, with the delivery options the buyer can choose, its
-     * availability status, and any input still needed.
-     */
-    "choice_groups": Array<DeliveryQuoteChoiceGroupResource>;
-    /**
-     * ID of the checkout's current delivery quote. Omitted until the checkout has one. Example:
-     * "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
-     */
-    "delivery_quote_id"?: string;
-    /**
-     * Current delivery selection ID after reconciliation. `null` when no selection is current.
-     * Assert this value with expected_delivery_selection_id on checkout delivery writes. Example:
-     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
-     */
-    "delivery_selection_id": string | null;
-    /**
-     * How completely Flint evaluated the candidate delivery methods. Value enum: "complete",
-     * "incomplete", "degraded", "requires_explicit_quote".
-     */
-    "evaluation_status": "complete" | "incomplete" | "degraded" | "requires_explicit_quote" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "expires_at"?: string;
-    /**
-     * Inputs the checkout's delivery methods need. Once the checkout has a delivery quote, these
-     * are the quote's input_requirements. Before that, they come from the methods alone and name
-     * no choice group: the fields in each method's quote_input_fields, and each recipient field a
-     * method requires. [] (Value): {@link DeliveryInputRequirement}. An input a delivery method
-     * needs, such as an address field or time window, with its `field_path`, purpose, and
-     * constraint.
-     */
-    "input_requirements": Array<DeliveryInputRequirement>;
-    /**
-     * Always present with an API key or dashboard credential. [] (Value): {@link
-     * DeliveryMerchantDiagnostic}. A merchant-only diagnostic explaining why a delivery method
-     * produced no option, with its outcome, recommended action, and eligibility mismatches.
-     */
-    "merchant_diagnostics"?: Array<DeliveryMerchantDiagnostic>;
-};
-/** A URL to load in an iframe when applying a gift card returns `GIFT_CARD_CHALLENGE_REQUIRED`. */
-export type CheckoutGiftCardChallenge = {
-    /**
-     * Load this URL in an iframe on page_origin when applying a gift card returns
-     * GIFT_CARD_CHALLENGE_REQUIRED. On a hosted session, Flint's checkout loads it for you, so you
-     * don't need to do anything. The page posts a single-use proof to your page; send it in
-     * Flint-Gift-Card-Challenge. Treat the URL as opaque. It stays the same for the session and
-     * stops working when the session ends. Format: uri. Example: "https://example.com/receipt".
-     */
-    "url": string;
-};
-/**
- * Legal settings you supply when creating a checkout session: whether buyers must accept terms,
- * and links to the terms, refund policy, shipping policy, and contract.
- */
-export type CheckoutLegalConfigRequestInput = {
-    /** An `https://` URL of the contract the buyer agrees to, linked in checkout. minLength: 1. */
-    "contract_url"?: string;
-    /** An `https://` URL of your refund policy, linked in checkout. minLength: 1. */
-    "refund_policy_url"?: string;
-    /** Whether the buyer must accept the terms of service before paying. */
-    "require_terms_of_service"?: boolean;
-    /** An `https://` URL of your shipping policy, linked in checkout. minLength: 1. */
-    "shipping_policy_url"?: string;
-    /** An `https://` URL of your terms of service, linked in checkout. minLength: 1. */
-    "terms_of_service_url"?: string;
-};
-/** The merchant's support contact. Each field is omitted when the merchant has not set it. */
-export type CheckoutMerchantSupport = {
-    /** Support email address. Format: email. Example: "buyer@example.com". */
-    "email"?: string;
-    /** Support phone number. */
-    "phone"?: string;
-    /**
-     * Support page, as an absolute http or https URL. Format: uri. Example:
-     * "https://example.com/receipt".
-     */
-    "url"?: string;
-};
-/** Payment settings for a checkout: the enabled payment options and a note shown with payment. */
-export type CheckoutPaymentConfig = {
-    /**
-     * Payment options for this session. The list replaces
-     * settings.checkout.enabled_payment_options; omit it to use that setting. [] enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit".
-     */
-    "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
-    /** A note shown to the buyer with the payment options. */
-    "payment_note"?: string;
-};
-/**
- * Payment settings you supply when creating a checkout session: the enabled payment options and a
- * note shown with payment.
- */
-export type CheckoutPaymentConfigRequestInput = {
-    /**
-     * Payment options for this session. The list replaces
-     * settings.checkout.enabled_payment_options; omit it to use that setting. [] enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit".
-     */
-    "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
-    /** A note shown to the buyer with the payment options. minLength: 1. */
-    "payment_note"?: string;
-};
-/**
- * A card the buyer saved with this checkout's payment that waits for a code. It works for nothing
- * until the buyer confirms it with a code: request one with POST
- * /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose
- * confirm_saved_payment_method.
- */
-export type CheckoutPaymentMethodSave = {
-    /**
-     * True from the moment status is pending when an emailed code is what finishes the save: the
-     * buyer gave no number, or the number alone can't save the card. An emailed code alone saves
-     * the card by email. If the buyer already confirmed the number by text, the emailed code saves
-     * the card with that number.
-     */
-    "email_confirmation_required": boolean;
-    /**
-     * When a pending save stops waiting: 24 hours after the payment succeeded or was approved.
-     * `null` when the save is no longer pending. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "expires_at"?: string | null;
-    /**
-     * Last two digits of the number the buyer gave, which a code is texted to. Set while status is
-     * pending and the buyer gave a number.
-     */
-    "phone_last_digits"?: string;
-    /**
-     * How the buyer confirmed the card: with a code texted to their phone or emailed to them.
-     * Value enum: "sms", "email".
-     */
-    "saved_with"?: "sms" | "email" | (string & {});
-    /**
-     * Whether the card is saved. Until `saved`, the card can't be used. Value enum: "pending",
-     * "saved", "expired".
-     */
-    "status": "pending" | "saved" | "expired" | (string & {});
-};
-/**
- * Contact details and addresses to fill in for the buyer, who can change them. For a customer with
- * saved addresses, Flint fills in any address you leave out, and reads include it. With quick_pay
- * or subscription_plan and automatic tax on, a prefilled address sets the order's tax location.
- * Not changed by what the buyer types; for that, read buyer_contact. customer_prefill is what the
- * checkout credential reads from the customer record.
- */
-export type CheckoutPrefill = {
-    /**
-     * The billing address to fill in. A postal address. Every address has country. Addresses Flint
-     * checked as complete (customer and saved addresses, merchant, location, invoice, order
-     * delivery destination, tax identity, fulfillment recipient and pickup addresses) always have
-     * line1 and city, and US ones always have state and postal_code. Delivery quote destinations,
-     * buyer locations and postal-code tax locations hold only what was provided, such as
-     * postal_code and country.
-     */
-    "billing_address"?: Address;
-    /** The buyer's email address to fill in. */
-    "email"?: string;
-    /** The buyer's phone number to fill in. */
-    "phone"?: string;
-    /**
-     * The shipping address to fill in. A postal address. Every address has country. Addresses
-     * Flint checked as complete (customer and saved addresses, merchant, location, invoice, order
-     * delivery destination, tax identity, fulfillment recipient and pickup addresses) always have
-     * line1 and city, and US ones always have state and postal_code. Delivery quote destinations,
-     * buyer locations and postal-code tax locations hold only what was provided, such as
-     * postal_code and country.
-     */
-    "shipping_address"?: Address;
-    /**
-     * The name of the person receiving the delivery, to fill in with the shipping address.
-     * minLength: 1. maxLength: 200.
-     */
-    "shipping_recipient_name"?: string;
-};
-/**
- * Contact details and addresses to fill in for the buyer, who can change them. For a customer with
- * saved addresses, Flint fills in any address you leave out, and reads include it. With quick_pay
- * or subscription_plan and automatic tax on, a prefilled address sets the order's tax location.
- * Not changed by what the buyer types; for that, read buyer_contact. customer_prefill is what the
- * checkout credential reads from the customer record.
- */
-export type CheckoutPrefillRequest = {
-    /**
-     * The billing address to fill in. A complete postal address. State and postal_code are
-     * required for US addresses and optional for other countries. Send null or omit line2, state,
-     * and postal_code when the address has none.
-     */
-    "billing_address"?: AddressRequest;
-    /** The buyer's email address to fill in. minLength: 1. */
-    "email"?: string;
-    /** The buyer's phone number to fill in. minLength: 1. */
-    "phone"?: string;
-    /**
-     * The shipping address to fill in. A complete postal address. State and postal_code are
-     * required for US addresses and optional for other countries. Send null or omit line2, state,
-     * and postal_code when the address has none.
-     */
-    "shipping_address"?: AddressRequest;
-    /**
-     * The name of the person receiving the delivery, to fill in with the shipping address.
-     * minLength: 1. maxLength: 200.
-     */
-    "shipping_recipient_name"?: string;
-};
-/**
- * Contact details and addresses to fill in for the buyer, who can change them. For a customer with
- * saved addresses, Flint fills in any address you leave out, and reads include it. With quick_pay
- * or subscription_plan and automatic tax on, a prefilled address sets the order's tax location.
- * Not changed by what the buyer types; for that, read buyer_contact. customer_prefill is what the
- * checkout credential reads from the customer record.
- */
-export type CheckoutPrefillRequestInput = {
-    /**
-     * The billing address to fill in. A complete postal address. State and postal_code are
-     * required for US addresses and optional for other countries. Send null or omit line2, state,
-     * and postal_code when the address has none.
-     */
-    "billing_address"?: AddressRequestInput;
-    /** The buyer's email address to fill in. minLength: 1. */
-    "email"?: string;
-    /** The buyer's phone number to fill in. minLength: 1. */
-    "phone"?: string;
-    /**
-     * The shipping address to fill in. A complete postal address. State and postal_code are
-     * required for US addresses and optional for other countries. Send null or omit line2, state,
-     * and postal_code when the address has none.
-     */
-    "shipping_address"?: AddressRequestInput;
-    /**
-     * The name of the person receiving the delivery, to fill in with the shipping address.
-     * minLength: 1. maxLength: 200.
-     */
-    "shipping_recipient_name"?: string;
 };

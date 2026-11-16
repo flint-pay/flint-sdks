@@ -1,1 +1,1 @@
-{"shared":"UpdateReturnReplacementLineItemInputCustom","dependencies":["LineItemFulfillmentOriginRequestModel","LineItemFulfillmentRequestModel","MoneyValue","SharedCodec155","SharedCodec2153","UpdateReturnReplacementLineItemInputCustom"]}
+{"shared":"UpdateReturnReplacementLineItemInputCustom","dependencies":["LineItemFulfillmentOriginRequestModel","LineItemFulfillmentRequestModel","MoneyValue","SharedCodec195","SharedCodec2766","UpdateReturnReplacementLineItemInputCustom"]}

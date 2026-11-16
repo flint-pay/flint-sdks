@@ -198,13 +198,13 @@ Signature: `start(params: OnboardingStartParams, options?: RequestOptions<never>
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `body` | Required | [OnboardingStartRequestInput](../models/OnboardingStartRequestInput.md#onboardingstartrequestinput) | The request body for: Start onboarding flow. |
+| `body` | Required | [OnboardingStartRequestInput](../models/OnboardingStartRequest.md#onboardingstartrequest) | The request body for: Start onboarding flow. |
 
-Body model: [OnboardingStartRequestInput](../models/OnboardingStartRequestInput.md#onboardingstartrequestinput).
+Body model: [OnboardingStartRequestInput](../models/OnboardingStartRequest.md#onboardingstartrequest).
 
 #### onboarding.start body fields
 
-Field definitions: [shared fields](../models/OnboardingStartRequestInput.md#onboardingstartrequestinput).
+Field definitions: [shared fields](../models/OnboardingStartRequest.md#onboardingstartrequest).
 
 #### Response
 

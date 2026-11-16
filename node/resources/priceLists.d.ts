@@ -1,6 +1,6 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { CreatePriceListPricesResponse, CreatePriceListPricesResult } from '../declarations/types-11.js';
+import type { CreatePriceListPricesResponse, CreatePriceListPricesResult } from '../declarations/types-12.js';
 import type {
     PriceList,
     PriceListListResponse,
@@ -14,13 +14,11 @@ import type {
     PriceListsDeletePriceParams,
     PriceListsGetParams,
     PriceListsGetPriceParams,
-    PriceListsListParams,
-    PriceListsListPricesParams,
-    PriceListsUpdateParams,
-    PriceListsUpdatePriceParams
-} from '../declarations/types-49.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+    PriceListsListParams
+} from '../declarations/types-54.js';
+import type { PriceListsListPricesParams, PriceListsUpdateParams, PriceListsUpdatePriceParams } from '../declarations/types-55.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -46,33 +44,36 @@ export type {
     PriceListsGetPriceParams,
     PriceListPrice,
     PriceListPriceResponse,
-    PriceListsListPricesParams,
     PriceListPriceListResponse,
     PriceListsListParams,
     PriceListListResponse,
-    PriceListsUpdateParams,
-    PriceListsUpdatePriceParams,
     PriceListPriceRequestInput,
     PriceListPriceAddition
-} from '../declarations/types-49.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { CreatePriceListPricesResult, CreatePriceListPricesResponse, CreatePriceListPricesRequestInput } from '../declarations/types-11.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-54.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type {
+    CreatePriceListPricesResult,
+    CreatePriceListPricesResponse,
+    CreatePriceListRequestInput,
+    CreatePriceListPricesRequestInput
+} from '../declarations/types-12.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { PriceListsListPricesParams, PriceListsUpdateParams, PriceListsUpdatePriceParams } from '../declarations/types-55.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreatePriceListRequestInput } from '../declarations/types-12.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-38.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue, MoneyValueInput } from '../declarations/types-39.js';
-export type { ReadinessMerchantAccountSession, QuantityPriceBreakRequestInput, QuantityPriceBreak } from '../declarations/types-52.js';
-export type { UpdatePriceListRequestInput, UpdatePriceListPriceRequestInput } from '../declarations/types-67.js';
-export type { DisputesAcceptParams } from '../declarations/types-23.js';
-export { makeCreatePriceListPricesRequest, makeCreatePriceListRequest } from '../declarations/types-74.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-78.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
-export { makePriceListPriceRequest } from '../declarations/types-80.js';
-export { makeQuantityPriceBreakRequest } from '../declarations/types-81.js';
-export { makeUpdatePriceListPriceRequest, makeUpdatePriceListRequest } from '../declarations/types-84.js';
+export type { NextAction, MoneyValue, MoneyValueInput } from '../declarations/types-42.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { QuantityPriceBreakRequestInput, QuantityPriceBreak } from '../declarations/types-57.js';
+export type { UpdatePriceListRequestInput, UpdatePriceListPriceRequestInput } from '../declarations/types-74.js';
+export type { DisputesAcceptParams } from '../declarations/types-25.js';
+export { makeCreatePriceListPricesRequest, makeCreatePriceListRequest } from '../declarations/types-81.js';
+export { makeMetadataPatchRequest } from '../declarations/types-85.js';
+export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makePriceListPriceRequest } from '../declarations/types-87.js';
+export { makeQuantityPriceBreakRequest } from '../declarations/types-88.js';
+export { makeUpdatePriceListPriceRequest, makeUpdatePriceListRequest } from '../declarations/types-91.js';
 export interface PriceListsResource {
     /**
  * Creates a merchant-only price list. Currency is immutable. A customer segment can belong to only

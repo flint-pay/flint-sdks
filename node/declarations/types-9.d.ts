@@ -1,53 +1,1840 @@
+import type { CustomerTaxExemptionCoverage, CustomerTaxExemptionCoverageRequestInput } from './types-16.js';
+import type { MetadataMap, MetadataRequestInput } from './types-41.js';
 import type {
-    CreateDeliveryRevocationTargetDeliveryMethodRevisionInput,
-    CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput,
-    CreateDeliveryRevocationTargetDeliveryRateCallbackSigningKeyInput,
-    CreateDeliveryFulfillmentDetails,
-    CreateDeliveryFulfillmentDetailsInput
-} from './types-8.js';
+    DeliveryLocationSetConfiguration,
+    DeliveryLocationSetConfigurationInput,
+    DeliveryMethodConfigurationCreateRequest,
+    DeliveryMethodConfigurationCreateRequestInput,
+    DeliveryMethodConfigurationRequest,
+    DeliveryMethodConfigurationRequestInput
+} from './types-19.js';
 import type {
+    DeliveryMethodOriginSelectorRequest,
+    DeliveryMethodOriginSelectorRequestInput,
+    DeliveryPickupAvailabilityMaximumDistanceRequestInput
+} from './types-20.js';
+import type { CreateOrderLineItemRequest, CreateOrderLineItemRequestInput } from './types-11.js';
+import type { DeliveryAddressRequest, DeliveryAddressRequestInput } from './types-17.js';
+import type { DeliveryBuyerLocationRequest, DeliveryBuyerLocationRequestInput, DeliveryDistance } from './types-18.js';
+import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-33.js';
+import type { DeliveryProfileConfigurationRequest, DeliveryProfileConfigurationRequestInput } from './types-21.js';
+import type { DeliveryRateCallbackConfiguration, DeliveryRateCallbackConfigurationRequestInput } from './types-22.js';
+import type { WebhookSigningMethod, WebhookSigningMethodInput } from './types-77.js';
+import type {
+    DeliveryRevocationTarget,
     DeliverySelectionInstructionsRequest,
-    DeliverySelectionInstructionsRequestInput,
+    DeliverySelectionInstructionsRequestInput
+} from './types-23.js';
+import type { AddressRequest, AddressRequestInput, APIKey } from './types-0.js';
+import type {
     DeliverySelectionRecipientRequest,
     DeliverySelectionRecipientRequestInput,
     DeliveryZoneConfigurationRequest,
     DeliveryZoneConfigurationRequestInput
-} from './types-22.js';
-import type { AddressRequest, AddressRequestInput, APIKey } from './types-0.js';
-import type { MetadataMap, MetadataRequestInput } from './types-38.js';
-import type { Sandbox } from './types-59.js';
-import type { FeedbackReportingClient, FeedbackReportingClientRequestInput } from './types-24.js';
-import type { CreatePickupFulfillmentDetails, CreatePickupFulfillmentDetailsInput } from './types-11.js';
+} from './types-24.js';
+import type { Sandbox } from './types-65.js';
+import type { FeedbackReportingClient, FeedbackReportingClientRequestInput } from './types-26.js';
+import type {
+    CreateFulfillmentRequestService,
+    CreateFulfillmentRequestShipment,
+    CreateFulfillmentRequestPickupInput,
+    CreateFulfillmentRequestServiceInput,
+    CreateFulfillmentRequestShipmentInput
+} from './types-10.js';
+import type { CreatePickupFulfillmentDetails, CreatePickupFulfillmentDetailsInput } from './types-12.js';
 import type { CreateServiceFulfillmentDetails, CreateServiceFulfillmentDetailsInput } from './types-13.js';
 import type {
     FulfillmentLineItemRequest,
     FulfillmentPackagingRequest,
-    FulfillmentRecipientRequest,
     FulfillmentLineItemRequestInput,
-    FulfillmentPackagingRequestInput,
-    FulfillmentRecipientRequestInput
-} from './types-25.js';
-import type {
-    GiftCardFundingSource,
-    GiftCardFundingSourceRequestInput,
-    GiftCard,
-    GiftCardLoad,
-    GiftCardNotification
-} from './types-26.js';
-import type { MoneyValue, MoneyValueInput } from './types-39.js';
-import type { GiftCardTransaction, GiftCardPurchaseRecipient, GiftCardNotificationRecipientInput } from './types-27.js';
-import type { ResponseMeta } from './types-54.js';
-import type {
-    InitialGiftCardFunding,
-    InitialGiftCardFundingInput,
-    InventoryAdjustmentConditionChangeLineRequest,
-    InventoryAdjustmentConditionChangeLineRequestInput,
-    InventoryAdjustmentSetLineRequest,
-    InventoryAdjustmentSetLineRequestInput
-} from './types-28.js';
-import type { CreateModifierRequestInput } from './types-10.js';
-import type { TextModifierConfigRequestInput } from './types-65.js';
-import type { InventorySourceSystemRequest, InventorySourceSystemRequestInput } from './types-30.js';
+    FulfillmentPackagingRequestInput
+} from './types-27.js';
+import type { FulfillmentRecipientRequest, FulfillmentRecipientRequestInput } from './types-28.js';
+/** The request body for: Create a customer tax exemption. */
+export type CreateCustomerTaxExemptionRequest = {
+    /**
+     * Merchant's exemption certificate number. Null when none is recorded. minLength: 1.
+     * maxLength: 255.
+     */
+    "certificate_number"?: string | null;
+    /**
+     * Replaced as a whole: send every field you want to keep. Replaced as a whole: send every
+     * field you want to keep. Covers all US states or an explicit list of US states and DC.
+     */
+    "coverage": CustomerTaxExemptionCoverage;
+    /**
+     * Explanation of the exemption. Required for other. Null when none is recorded. minLength: 1.
+     * maxLength: 500.
+     */
+    "description"?: string | null;
+    /**
+     * Last day of the exemption, inclusive, in YYYY-MM-DD format. Null when the exemption has no
+     * end date. Format: date. minLength: 1. Example: "2026-08-02".
+     */
+    "end_date"?: string | null;
+    /**
+     * Merchant-only reference to the supporting document. Never shown to buyers or printed on
+     * buyer documents. Null when none is recorded. minLength: 1. maxLength: 1024.
+     */
+    "evidence_reference"?: string | null;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Exemption reason. Other requires a description. Value enum: "federal_government",
+     * "state_or_local_government", "tribal_government", "foreign_diplomat",
+     * "charitable_organization", "religious_organization", "educational_organization", "resale",
+     * "agricultural_production", "industrial_production", "direct_pay_permit", "direct_mail",
+     * "other".
+     */
+    "reason": "federal_government"
+        | "state_or_local_government"
+        | "tribal_government"
+        | "foreign_diplomat"
+        | "charitable_organization"
+        | "religious_organization"
+        | "educational_organization"
+        | "resale"
+        | "agricultural_production"
+        | "industrial_production"
+        | "direct_pay_permit"
+        | "direct_mail"
+        | "other"
+        | (string & {});
+    /**
+     * First day of the exemption, inclusive, in YYYY-MM-DD format. May be up to 365 days in the
+     * future. Format: date. minLength: 1. Example: "2026-08-02".
+     */
+    "start_date": string;
+};
+/** The request body for: Create a customer tax exemption. */
+export type CreateCustomerTaxExemptionRequestInput = {
+    /**
+     * Merchant's exemption certificate number. Null when none is recorded. minLength: 1.
+     * maxLength: 255.
+     */
+    "certificate_number"?: string | null;
+    /**
+     * Replaced as a whole: send every field you want to keep. Replaced as a whole: send every
+     * field you want to keep. Covers all US states or an explicit list of US states and DC.
+     */
+    "coverage": CustomerTaxExemptionCoverageRequestInput;
+    /**
+     * Explanation of the exemption. Required for other. Null when none is recorded. minLength: 1.
+     * maxLength: 500.
+     */
+    "description"?: string | null;
+    /**
+     * Last day of the exemption, inclusive, in YYYY-MM-DD format. Null when the exemption has no
+     * end date. Format: date. minLength: 1. Example: "2026-08-02".
+     */
+    "end_date"?: string | null;
+    /**
+     * Merchant-only reference to the supporting document. Never shown to buyers or printed on
+     * buyer documents. Null when none is recorded. minLength: 1. maxLength: 1024.
+     */
+    "evidence_reference"?: string | null;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Exemption reason. Other requires a description. Value enum: "federal_government",
+     * "state_or_local_government", "tribal_government", "foreign_diplomat",
+     * "charitable_organization", "religious_organization", "educational_organization", "resale",
+     * "agricultural_production", "industrial_production", "direct_pay_permit", "direct_mail",
+     * "other".
+     */
+    "reason": "federal_government"
+        | "state_or_local_government"
+        | "tribal_government"
+        | "foreign_diplomat"
+        | "charitable_organization"
+        | "religious_organization"
+        | "educational_organization"
+        | "resale"
+        | "agricultural_production"
+        | "industrial_production"
+        | "direct_pay_permit"
+        | "direct_mail"
+        | "other";
+    /**
+     * First day of the exemption, inclusive, in YYYY-MM-DD format. May be up to 365 days in the
+     * future. Format: date. minLength: 1. Example: "2026-08-02".
+     */
+    "start_date": string;
+};
+/** The request body for: Create a customer email verification. */
+export type CreateCustomerVerificationRequest = {
+    /**
+     * Defaults to email when omitted. Explicit null and an empty value are not accepted. Default:
+     * "email". Value enum: "email".
+     */
+    "channel"?: "email" | (string & {});
+    /**
+     * ID of the customer whose email to verify. The code goes to this customer's current email.
+     * minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * What the verification is for. It can only be used for that purpose. Value enum:
+     * "link_guest_purchases".
+     */
+    "purpose": "link_guest_purchases" | (string & {});
+};
+/** The request body for: Create a customer email verification. */
+export type CreateCustomerVerificationRequestInput = {
+    /**
+     * Defaults to email when omitted. Explicit null and an empty value are not accepted. Default:
+     * "email". Value enum: "email".
+     */
+    "channel"?: "email";
+    /**
+     * ID of the customer whose email to verify. The code goes to this customer's current email.
+     * minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * What the verification is for. It can only be used for that purpose. Value enum:
+     * "link_guest_purchases".
+     */
+    "purpose": "link_guest_purchases";
+};
+/**
+ * Local delivery details you supply when creating a fulfillment: courier, timing window,
+ * instructions, and tracking.
+ */
+export type CreateDeliveryFulfillmentDetails = {
+    /** Carrier or courier handling the local delivery. minLength: 1. */
+    "carrier"?: string;
+    /**
+     * Time at which the courier collected the order. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "courier_pickup_at"?: string;
+    /**
+     * Width of the promised courier pickup window, from 0 to 86400 seconds. Format: int64.
+     * minimum: 0. maximum: 86400.
+     */
+    "courier_pickup_window_duration_seconds"?: number;
+    /**
+     * Delivery network or merchant fleet provider handling the job. minLength: 1. maxLength: 255.
+     */
+    "courier_provider_name"?: string;
+    /** Buyer-safe support number for the courier or merchant fleet. minLength: 1. maxLength: 30. */
+    "courier_support_phone"?: string;
+    /**
+     * Time by which the order should be delivered. Passing it does not change status or emit an
+     * event automatically; the merchant decides how to follow up. Format: date-time. minLength: 1.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "delivery_due_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "dispatched_at"?: string;
+    /** Driver-facing notes for the final handoff. minLength: 1. maxLength: 2048. */
+    "dropoff_notes"?: string;
+    /**
+     * Stable delivery job ID owned by the courier or merchant dispatch system. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_delivery_id"?: string;
+    /** Instructions for the delivery, such as where to leave the items. minLength: 1. */
+    "instructions"?: string;
+    /** Whether the buyer requested a no-contact handoff. */
+    "no_contact"?: boolean;
+    /**
+     * Expected preparation time before courier pickup, from 0 to 86400 seconds. Format: int64.
+     * minimum: 0. maximum: 86400.
+     */
+    "prep_time_duration_seconds"?: number;
+    /**
+     * Time at which the order became ready for courier pickup. Format: date-time. minLength: 1.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "ready_at"?: string;
+    /**
+     * Your ID for the service area this delivery covers. Only merchant credentials can read it
+     * back. minLength: 1. Example: "boston-north".
+     */
+    "service_area_id"?: string;
+    /** Uses an IANA time zone name. minLength: 1. */
+    "timezone"?: string;
+    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
+    "tracking_url"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_end_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_start_at"?: string;
+};
+/**
+ * Local delivery details you supply when creating a fulfillment: courier, timing window,
+ * instructions, and tracking.
+ */
+export type CreateDeliveryFulfillmentDetailsInput = {
+    /** Carrier or courier handling the local delivery. minLength: 1. */
+    "carrier"?: string;
+    /**
+     * Time at which the courier collected the order. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "courier_pickup_at"?: string | globalThis.Date;
+    /**
+     * Width of the promised courier pickup window, from 0 to 86400 seconds. Format: int64.
+     * minimum: 0. maximum: 86400.
+     */
+    "courier_pickup_window_duration_seconds"?: number;
+    /**
+     * Delivery network or merchant fleet provider handling the job. minLength: 1. maxLength: 255.
+     */
+    "courier_provider_name"?: string;
+    /** Buyer-safe support number for the courier or merchant fleet. minLength: 1. maxLength: 30. */
+    "courier_support_phone"?: string;
+    /**
+     * Time by which the order should be delivered. Passing it does not change status or emit an
+     * event automatically; the merchant decides how to follow up. Format: date-time. minLength: 1.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "delivery_due_at"?: string | globalThis.Date;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "dispatched_at"?: string | globalThis.Date;
+    /** Driver-facing notes for the final handoff. minLength: 1. maxLength: 2048. */
+    "dropoff_notes"?: string;
+    /**
+     * Stable delivery job ID owned by the courier or merchant dispatch system. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_delivery_id"?: string;
+    /** Instructions for the delivery, such as where to leave the items. minLength: 1. */
+    "instructions"?: string;
+    /** Whether the buyer requested a no-contact handoff. */
+    "no_contact"?: boolean;
+    /**
+     * Expected preparation time before courier pickup, from 0 to 86400 seconds. Format: int64.
+     * minimum: 0. maximum: 86400.
+     */
+    "prep_time_duration_seconds"?: number;
+    /**
+     * Time at which the order became ready for courier pickup. Format: date-time. minLength: 1.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "ready_at"?: string | globalThis.Date;
+    /**
+     * Your ID for the service area this delivery covers. Only merchant credentials can read it
+     * back. minLength: 1. Example: "boston-north".
+     */
+    "service_area_id"?: string;
+    /** Uses an IANA time zone name. minLength: 1. */
+    "timezone"?: string;
+    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
+    "tracking_url"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_end_at"?: string | globalThis.Date;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_start_at"?: string | globalThis.Date;
+};
+/** The request body for: Create delivery location set. */
+export type CreateDeliveryLocationSetRequest = {
+    /**
+     * The settings that define this resource. Changing them publishes a new revision. The location
+     * IDs in a delivery location set.
+     */
+    "configuration": DeliveryLocationSetConfiguration;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Merchant-facing name. minLength: 1. */
+    "name": string;
+};
+/** The request body for: Create delivery location set. */
+export type CreateDeliveryLocationSetRequestInput = {
+    /**
+     * The settings that define this resource. Changing them publishes a new revision. The location
+     * IDs in a delivery location set.
+     */
+    "configuration": DeliveryLocationSetConfigurationInput;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Merchant-facing name. minLength: 1. */
+    "name": string;
+};
+/** The request body for: Create delivery method. */
+export type CreateDeliveryMethodRequest = ({
+    /**
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply when creating a
+     * delivery method. `origin` and `pricing` are required.
+     */
+    "configuration": DeliveryMethodConfigurationCreateRequest;
+    /** Buyer-visible description of the method. minLength: 1. */
+    "description"?: string;
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
+    "display_position"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
+    "name": string;
+    /**
+     * Marks this method as recommended. Within each choice group, the available method with the
+     * lowest value is recommended and listed first. Ties go to the lower display_position, then
+     * the method ID. Null never recommends the method. Format: int32.
+     */
+    "recommendation_priority"?: number;
+    /**
+     * Whether this method is available for new delivery quotes. Defaults to inactive. Default:
+     * "inactive". Value enum: "inactive", "active".
+     */
+    "status"?: "inactive" | "active" | (string & {});
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "shipment", "local_delivery", "pickup".
+     */
+    "type": "shipment" | "local_delivery" | "pickup" | (string & {});
+})
+    & ((Exclude<CreateDeliveryMethodRequestShipment & object, readonly unknown[]>)
+    | (Exclude<CreateDeliveryMethodRequestLocalDelivery & object, readonly unknown[]>)
+    | (Exclude<CreateDeliveryMethodRequestPickup & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The request body for: Create delivery method. */
+export type CreateDeliveryMethodRequestInput = ({
+    /**
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply when creating a
+     * delivery method. `origin` and `pricing` are required.
+     */
+    "configuration": DeliveryMethodConfigurationCreateRequestInput;
+    /** Buyer-visible description of the method. minLength: 1. */
+    "description"?: string;
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
+    "display_position"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
+    "name": string;
+    /**
+     * Marks this method as recommended. Within each choice group, the available method with the
+     * lowest value is recommended and listed first. Ties go to the lower display_position, then
+     * the method ID. Null never recommends the method. Format: int32.
+     */
+    "recommendation_priority"?: number;
+    /**
+     * Whether this method is available for new delivery quotes. Defaults to inactive. Default:
+     * "inactive". Value enum: "inactive", "active".
+     */
+    "status"?: "inactive" | "active";
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "shipment", "local_delivery", "pickup".
+     */
+    "type": "shipment" | "local_delivery" | "pickup";
+})
+    & ((Exclude<CreateDeliveryMethodRequestShipmentInput & object, readonly unknown[]>)
+    | (Exclude<CreateDeliveryMethodRequestLocalDeliveryInput & object, readonly unknown[]>)
+    | (Exclude<CreateDeliveryMethodRequestPickupInput & object, readonly unknown[]>));
+/** The `local_delivery` variant of `CreateDeliveryMethodRequest`. */
+export type CreateDeliveryMethodRequestLocalDelivery = ({
+    /**
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply when creating a
+     * delivery method. `origin` and `pricing` are required.
+     */
+    "configuration": DeliveryMethodConfigurationCreateRequest;
+    /** Buyer-visible description of the method. minLength: 1. */
+    "description"?: string;
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
+    "display_position"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
+    "name": string;
+    /**
+     * Marks this method as recommended. Within each choice group, the available method with the
+     * lowest value is recommended and listed first. Ties go to the lower display_position, then
+     * the method ID. Null never recommends the method. Format: int32.
+     */
+    "recommendation_priority"?: number;
+    /**
+     * Whether this method is available for new delivery quotes. Defaults to inactive. Default:
+     * "inactive". Value enum: "inactive", "active".
+     */
+    "status"?: "inactive" | "active" | (string & {});
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "local_delivery".
+     */
+    "type": "local_delivery" | (string & {});
+})
+    & ({
+    /**
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply for a delivery
+     * method: origin, pricing, eligibility, timing estimate, tax settings, and recipient
+     * requirements. buyer_instructions (Optional): {@link BuyerInstructionsConfig}. Controls
+     * whether checkout collects buyer instructions for this method. Controls buyer instructions
+     * for a delivery option. Omit it from a method configuration to disable instruction
+     * collection. charge_tax_category (Optional): string or null. Tax category of the delivery
+     * charge, which decides its automatic tax and appears in tax records and reporting. Null
+     * inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for
+     * shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create
+     * to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to
+     * inheriting. Automatic tax calculates service_fee, shipping, delivery, handling, and
+     * surcharge at the general rate at the charge location, including the store for pickup. Value
+     * enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null. eligibility
+     * (Optional): {@link DeliveryEligibilityExpressionRequest}. Conditions that decide where this
+     * method is offered. Omit this field to offer the method everywhere the merchant serves. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes. estimate (Optional): {@link
+     * DeliveryEstimateRule}. The buyer-visible delivery or pickup estimate. Use type none when the
+     * merchant makes no timing promise. The timing estimate rule you supply for a delivery method,
+     * chosen by `type`: none, a transit time, or a schedule window.
+     * minimum_option_lifetime_seconds (Optional): integer. Minimum remaining quote lifetime
+     * required before Flint offers this method. Required for calculated, callback, and
+     * caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's
+     * 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899. origin (Required): {@link
+     * DeliveryMethodOriginSelectorRequest}. Where delivery starts. A method can use a fixed
+     * location or a delivery location set; origin.type determines allocation or buyer pickup
+     * behavior. The origin you supply for a delivery method, chosen by `type`: a fixed location,
+     * or locations from a delivery location set or an inline list. pricing (Required): {@link
+     * DeliveryPricingStrategyRequest}. How Flint calculates the delivery charge. The pricing
+     * strategy you supply when updating a delivery method. Set `type` and the matching property.
+     * public_details (Optional): object. Buyer-visible structured details supplied by the
+     * merchant. public_details.instructions (Optional): string. Buyer-visible instructions for
+     * this method. minLength: 1. maxLength: 2048. public_details.pickup_mode (Optional): string.
+     * Required for pickup methods and rejected for other method types. Value enum: "in_store",
+     * "curbside", "locker", "other". public_details.service_level (Optional): string.
+     * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+     * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+     * "same_day", "on_demand", "scheduled". quote_input_fields (Optional): Array of string.
+     * Address and coordinate fields a callback method requires and is allowed to receive.
+     * maxItems: 12. uniqueItems: true. [] enum: "destination_address",
+     * "destination_address.line1", "destination_address.line2", "destination_address.city",
+     * "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
+     * "buyer_location.address.line2", "buyer_location.address.city",
+     * "buyer_location.address.state", "buyer_location.address.postal_code",
+     * "buyer_location.address.country", "buyer_location.coordinate". quote_input_fields[] (Value):
+     * string. Request properties the callback needs. - `destination_address`: The full destination
+     * address. - `destination_address.line1`: The destination street address. -
+     * `destination_address.line2`: The destination apartment, suite, or other secondary address. -
+     * `destination_address.city`: The destination city. - `destination_address.state`: The
+     * destination state or region. - `destination_address.postal_code`: The destination postal
+     * code. - `destination_address.country`: The destination ISO 3166-1 alpha-2 country code. -
+     * `buyer_location`: The buyer location, supplied as an address or coordinates. -
+     * `buyer_location.address.line1`: The street address in the buyer location's address variant.
+     * - `buyer_location.address.line2`: The apartment, suite, or other secondary address in the
+     * buyer location's address variant. - `buyer_location.address.city`: The city in the buyer
+     * location's address variant. - `buyer_location.address.state`: The state or region in the
+     * buyer location's address variant. - `buyer_location.address.postal_code`: The postal code in
+     * the buyer location's address variant. - `buyer_location.address.country`: The ISO 3166-1
+     * alpha-2 country code in the buyer location's address variant. - `buyer_location.coordinate`:
+     * The latitude and longitude in the buyer location's coordinate variant. Value enum:
+     * "destination_address", "destination_address.line1", "destination_address.line2",
+     * "destination_address.city", "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
+     * "buyer_location.address.line2", "buyer_location.address.city",
+     * "buyer_location.address.state", "buyer_location.address.postal_code",
+     * "buyer_location.address.country", "buyer_location.coordinate". recipient_requirements
+     * (Optional): Array of {@link DeliveryRecipientRequirement}. Recipient fields this method asks
+     * for. A delivery selection can leave out required fields, but payment needs them.
+     * recipient_requirements[] (Value): {@link DeliveryRecipientRequirement}. Says whether a
+     * recipient field (`name`, `email`, or `phone`) is required for a delivery method, and the
+     * format it must use. selection_guarantee_seconds (Optional): integer. How long after
+     * evaluation Flint guarantees a selected price, when that is later than the option expiry.
+     * Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart
+     * without tracked inventory hold until the checkout's calculation expiry. Format: int64.
+     * minimum: 0. taxable (Optional): boolean or null. Whether the delivery charge is taxable.
+     * Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it
+     * on PATCH to preserve the current value, or send null to clear it back to inheriting.
+     */
+    "configuration": (Exclude<DeliveryMethodConfigurationRequest & object, readonly unknown[]>)
+        & ({
+        /**  service_level (Optional): string.  Value enum: "on_demand", "same_day", "scheduled". */
+        "public_details"?: ({
+            /** Value enum: "on_demand", "same_day", "scheduled". */
+            "service_level"?: "on_demand" | "same_day" | "scheduled" | (string & {});
+        });
+    });
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "local_delivery".
+     */
+    "type": "local_delivery" | (string & {});
+});
+/** The `local_delivery` variant of `CreateDeliveryMethodRequest`. */
+export type CreateDeliveryMethodRequestLocalDeliveryInput = ({
+    /**
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply when creating a
+     * delivery method. `origin` and `pricing` are required.
+     */
+    "configuration": DeliveryMethodConfigurationCreateRequestInput;
+    /** Buyer-visible description of the method. minLength: 1. */
+    "description"?: string;
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
+    "display_position"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
+    "name": string;
+    /**
+     * Marks this method as recommended. Within each choice group, the available method with the
+     * lowest value is recommended and listed first. Ties go to the lower display_position, then
+     * the method ID. Null never recommends the method. Format: int32.
+     */
+    "recommendation_priority"?: number;
+    /**
+     * Whether this method is available for new delivery quotes. Defaults to inactive. Default:
+     * "inactive". Value enum: "inactive", "active".
+     */
+    "status"?: "inactive" | "active";
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "local_delivery".
+     */
+    "type": "local_delivery";
+})
+    & ({
+    /**
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply for a delivery
+     * method: origin, pricing, eligibility, timing estimate, tax settings, and recipient
+     * requirements. buyer_instructions (Optional): {@link BuyerInstructionsConfigRequestInput}.
+     * Controls whether checkout collects buyer instructions for this method. Controls buyer
+     * instructions for a delivery option. Omit it from a method configuration to disable
+     * instruction collection. charge_tax_category (Optional): string or null. Tax category of the
+     * delivery charge, which decides its automatic tax and appears in tax records and reporting.
+     * Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping
+     * for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on
+     * create to inherit, omit it on PATCH to preserve the current value, or send null to clear it
+     * back to inheriting. Automatic tax calculates service_fee, shipping, delivery, handling, and
+     * surcharge at the general rate at the charge location, including the store for pickup. Value
+     * enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null. eligibility
+     * (Optional): {@link DeliveryEligibilityExpressionRequestInput}. Conditions that decide where
+     * this method is offered. Omit this field to offer the method everywhere the merchant serves.
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes. estimate (Optional): {@link
+     * DeliveryEstimateRuleRequestInput}. The buyer-visible delivery or pickup estimate. Use type
+     * none when the merchant makes no timing promise. The timing estimate rule you supply for a
+     * delivery method, chosen by `type`: none, a transit time, or a schedule window.
+     * minimum_option_lifetime_seconds (Optional): integer. Minimum remaining quote lifetime
+     * required before Flint offers this method. Required for calculated, callback, and
+     * caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's
+     * 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899. origin (Required): {@link
+     * DeliveryMethodOriginSelectorRequestInput}. Where delivery starts. A method can use a fixed
+     * location or a delivery location set; origin.type determines allocation or buyer pickup
+     * behavior. The origin you supply for a delivery method, chosen by `type`: a fixed location,
+     * or locations from a delivery location set or an inline list. pricing (Required): {@link
+     * DeliveryPricingStrategyRequestInput}. How Flint calculates the delivery charge. The pricing
+     * strategy you supply when updating a delivery method. Set `type` and the matching property.
+     * public_details (Optional): object. Buyer-visible structured details supplied by the
+     * merchant. public_details.instructions (Optional): string. Buyer-visible instructions for
+     * this method. minLength: 1. maxLength: 2048. public_details.pickup_mode (Optional): string.
+     * Required for pickup methods and rejected for other method types. Value enum: "in_store",
+     * "curbside", "locker", "other". public_details.service_level (Optional): string.
+     * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+     * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+     * "same_day", "on_demand", "scheduled". quote_input_fields (Optional): Array of string.
+     * Address and coordinate fields a callback method requires and is allowed to receive.
+     * maxItems: 12. uniqueItems: true. [] enum: "destination_address",
+     * "destination_address.line1", "destination_address.line2", "destination_address.city",
+     * "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
+     * "buyer_location.address.line2", "buyer_location.address.city",
+     * "buyer_location.address.state", "buyer_location.address.postal_code",
+     * "buyer_location.address.country", "buyer_location.coordinate". quote_input_fields[] (Value):
+     * string. Request properties the callback needs. - `destination_address`: The full destination
+     * address. - `destination_address.line1`: The destination street address. -
+     * `destination_address.line2`: The destination apartment, suite, or other secondary address. -
+     * `destination_address.city`: The destination city. - `destination_address.state`: The
+     * destination state or region. - `destination_address.postal_code`: The destination postal
+     * code. - `destination_address.country`: The destination ISO 3166-1 alpha-2 country code. -
+     * `buyer_location`: The buyer location, supplied as an address or coordinates. -
+     * `buyer_location.address.line1`: The street address in the buyer location's address variant.
+     * - `buyer_location.address.line2`: The apartment, suite, or other secondary address in the
+     * buyer location's address variant. - `buyer_location.address.city`: The city in the buyer
+     * location's address variant. - `buyer_location.address.state`: The state or region in the
+     * buyer location's address variant. - `buyer_location.address.postal_code`: The postal code in
+     * the buyer location's address variant. - `buyer_location.address.country`: The ISO 3166-1
+     * alpha-2 country code in the buyer location's address variant. - `buyer_location.coordinate`:
+     * The latitude and longitude in the buyer location's coordinate variant. Value enum:
+     * "destination_address", "destination_address.line1", "destination_address.line2",
+     * "destination_address.city", "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
+     * "buyer_location.address.line2", "buyer_location.address.city",
+     * "buyer_location.address.state", "buyer_location.address.postal_code",
+     * "buyer_location.address.country", "buyer_location.coordinate". recipient_requirements
+     * (Optional): Array of {@link DeliveryRecipientRequirementRequestInput}. Recipient fields this
+     * method asks for. A delivery selection can leave out required fields, but payment needs them.
+     * recipient_requirements[] (Value): {@link DeliveryRecipientRequirementRequestInput}. Says
+     * whether a recipient field (`name`, `email`, or `phone`) is required for a delivery method,
+     * and the format it must use. selection_guarantee_seconds (Optional): integer. How long after
+     * evaluation Flint guarantees a selected price, when that is later than the option expiry.
+     * Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart
+     * without tracked inventory hold until the checkout's calculation expiry. Format: int64.
+     * minimum: 0. taxable (Optional): boolean or null. Whether the delivery charge is taxable.
+     * Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it
+     * on PATCH to preserve the current value, or send null to clear it back to inheriting.
+     */
+    "configuration": (Exclude<DeliveryMethodConfigurationRequestInput & object, readonly unknown[]>)
+        & ({
+        /**  service_level (Optional): string.  Value enum: "on_demand", "same_day", "scheduled". */
+        "public_details"?: ({
+            /** Value enum: "on_demand", "same_day", "scheduled". */
+            "service_level"?: "on_demand" | "same_day" | "scheduled";
+        })
+            & ({
+            "pickup_mode"?: never;
+        });
+    });
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "local_delivery".
+     */
+    "type": "local_delivery";
+});
+/** The `pickup` variant of `CreateDeliveryMethodRequest`. */
+export type CreateDeliveryMethodRequestPickup = ({
+    /**
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply when creating a
+     * delivery method. `origin` and `pricing` are required.
+     */
+    "configuration": DeliveryMethodConfigurationCreateRequest;
+    /** Buyer-visible description of the method. minLength: 1. */
+    "description"?: string;
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
+    "display_position"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
+    "name": string;
+    /**
+     * Marks this method as recommended. Within each choice group, the available method with the
+     * lowest value is recommended and listed first. Ties go to the lower display_position, then
+     * the method ID. Null never recommends the method. Format: int32.
+     */
+    "recommendation_priority"?: number;
+    /**
+     * Whether this method is available for new delivery quotes. Defaults to inactive. Default:
+     * "inactive". Value enum: "inactive", "active".
+     */
+    "status"?: "inactive" | "active" | (string & {});
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "pickup".
+     */
+    "type": "pickup" | (string & {});
+})
+    & ({
+    /**
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply for a delivery
+     * method: origin, pricing, eligibility, timing estimate, tax settings, and recipient
+     * requirements. buyer_instructions (Optional): {@link BuyerInstructionsConfig}. Controls
+     * whether checkout collects buyer instructions for this method. Controls buyer instructions
+     * for a delivery option. Omit it from a method configuration to disable instruction
+     * collection. charge_tax_category (Optional): string or null. Tax category of the delivery
+     * charge, which decides its automatic tax and appears in tax records and reporting. Null
+     * inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for
+     * shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create
+     * to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to
+     * inheriting. Automatic tax calculates service_fee, shipping, delivery, handling, and
+     * surcharge at the general rate at the charge location, including the store for pickup. Value
+     * enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null. eligibility
+     * (Optional): {@link DeliveryEligibilityExpressionRequest}. Conditions that decide where this
+     * method is offered. Omit this field to offer the method everywhere the merchant serves. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes. estimate (Optional): {@link
+     * DeliveryEstimateRule}. The buyer-visible delivery or pickup estimate. Use type none when the
+     * merchant makes no timing promise. The timing estimate rule you supply for a delivery method,
+     * chosen by `type`: none, a transit time, or a schedule window.
+     * minimum_option_lifetime_seconds (Optional): integer. Minimum remaining quote lifetime
+     * required before Flint offers this method. Required for calculated, callback, and
+     * caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's
+     * 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899. origin (Required): {@link
+     * DeliveryMethodOriginSelectorRequest}. Where delivery starts. A method can use a fixed
+     * location or a delivery location set; origin.type determines allocation or buyer pickup
+     * behavior. The origin you supply for a delivery method, chosen by `type`: a fixed location,
+     * or locations from a delivery location set or an inline list. origin.delivery_location_set_id
+     * (Optional): string. Named delivery location set to reuse. Send either
+     * delivery_location_set_id or inline location_ids, never both. The set may contain at most 25
+     * Locations for allocated_origin_group or 1,000 for pickup_location_collection. minLength: 1.
+     * Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". origin.location_id (Optional): string. ID of the
+     * Location delivery starts from. Required for `fixed_location` and not allowed otherwise.
+     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin.location_ids (Optional):
+     * Array of string. Inline Location IDs for a set managed by this delivery method. Send either
+     * location_ids or delivery_location_set_id, never both. Use 1 to 25 unique Locations for
+     * allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these
+     * Location IDs without exposing the managed set. origin.location_ids[] (Value): string.
+     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin.type (Required): string.
+     * Where delivery starts. Delivery type of the method. It cannot change after you create the
+     * method. Value enum: "pickup_location_collection". origin.oneOf[1] (Value): {@link
+     * DeliveryMethodOriginSelectorInputFixedLocation}. The `fixed_location` variant of
+     * `DeliveryMethodOriginSelectorInput`. origin.oneOf[2] (Value): {@link
+     * DeliveryMethodOriginSelectorInputAllocatedOriginGroup}. The `allocated_origin_group` variant
+     * of `DeliveryMethodOriginSelectorInput`. origin.oneOf[3] (Value): {@link
+     * DeliveryMethodOriginSelectorInputPickupLocationCollection}. The `pickup_location_collection`
+     * variant of `DeliveryMethodOriginSelectorInput`. pricing (Required): {@link
+     * DeliveryPricingStrategyRequest}. How Flint calculates the delivery charge. The pricing
+     * strategy you supply when updating a delivery method. Set `type` and the matching property.
+     * public_details (Required): object. Buyer-visible structured details supplied by the
+     * merchant. public_details.instructions (Optional): string. Buyer-visible instructions for
+     * this method. minLength: 1. maxLength: 2048. public_details.pickup_mode (Required): string.
+     * Required for pickup methods and rejected for other method types. Value enum: "in_store",
+     * "curbside", "locker", "other". public_details.service_level (Optional): string.
+     * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+     * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+     * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
+     * "scheduled". quote_input_fields (Optional): Array of string. Address and coordinate fields a
+     * callback method requires and is allowed to receive. maxItems: 12. uniqueItems: true. []
+     * enum: "destination_address", "destination_address.line1", "destination_address.line2",
+     * "destination_address.city", "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
+     * "buyer_location.address.line2", "buyer_location.address.city",
+     * "buyer_location.address.state", "buyer_location.address.postal_code",
+     * "buyer_location.address.country", "buyer_location.coordinate". quote_input_fields[] (Value):
+     * string. Request properties the callback needs. - `destination_address`: The full destination
+     * address. - `destination_address.line1`: The destination street address. -
+     * `destination_address.line2`: The destination apartment, suite, or other secondary address. -
+     * `destination_address.city`: The destination city. - `destination_address.state`: The
+     * destination state or region. - `destination_address.postal_code`: The destination postal
+     * code. - `destination_address.country`: The destination ISO 3166-1 alpha-2 country code. -
+     * `buyer_location`: The buyer location, supplied as an address or coordinates. -
+     * `buyer_location.address.line1`: The street address in the buyer location's address variant.
+     * - `buyer_location.address.line2`: The apartment, suite, or other secondary address in the
+     * buyer location's address variant. - `buyer_location.address.city`: The city in the buyer
+     * location's address variant. - `buyer_location.address.state`: The state or region in the
+     * buyer location's address variant. - `buyer_location.address.postal_code`: The postal code in
+     * the buyer location's address variant. - `buyer_location.address.country`: The ISO 3166-1
+     * alpha-2 country code in the buyer location's address variant. - `buyer_location.coordinate`:
+     * The latitude and longitude in the buyer location's coordinate variant. Value enum:
+     * "destination_address", "destination_address.line1", "destination_address.line2",
+     * "destination_address.city", "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
+     * "buyer_location.address.line2", "buyer_location.address.city",
+     * "buyer_location.address.state", "buyer_location.address.postal_code",
+     * "buyer_location.address.country", "buyer_location.coordinate". recipient_requirements
+     * (Optional): Array of {@link DeliveryRecipientRequirement}. Recipient fields this method asks
+     * for. A delivery selection can leave out required fields, but payment needs them.
+     * recipient_requirements[] (Value): {@link DeliveryRecipientRequirement}. Says whether a
+     * recipient field (`name`, `email`, or `phone`) is required for a delivery method, and the
+     * format it must use. selection_guarantee_seconds (Optional): integer. How long after
+     * evaluation Flint guarantees a selected price, when that is later than the option expiry.
+     * Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart
+     * without tracked inventory hold until the checkout's calculation expiry. Format: int64.
+     * minimum: 0. taxable (Optional): boolean or null. Whether the delivery charge is taxable.
+     * Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it
+     * on PATCH to preserve the current value, or send null to clear it back to inheriting.
+     */
+    "configuration": (Exclude<DeliveryMethodConfigurationRequest & object, readonly unknown[]>)
+        & ({
+        /**
+         * The origin you supply for a delivery method, chosen by `type`: a fixed location, or
+         * locations from a delivery location set or an inline list. delivery_location_set_id
+         * (Optional): string. Named delivery location set to reuse. Send either
+         * delivery_location_set_id or inline location_ids, never both. The set may contain at most
+         * 25 Locations for allocated_origin_group or 1,000 for pickup_location_collection.
+         * minLength: 1. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". location_id (Optional): string.
+         * ID of the Location delivery starts from. Required for `fixed_location` and not allowed
+         * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". location_ids
+         * (Optional): Array of string. Inline Location IDs for a set managed by this delivery
+         * method. Send either location_ids or delivery_location_set_id, never both. Use 1 to 25
+         * unique Locations for allocated_origin_group or 1 to 1,000 for
+         * pickup_location_collection. Reads return these Location IDs without exposing the managed
+         * set. location_ids[] (Value): string. minLength: 1. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". type (Required): string. Where delivery starts.
+         * Delivery type of the method. It cannot change after you create the method. Value enum:
+         * "pickup_location_collection". oneOf[1] (Value): {@link
+         * DeliveryMethodOriginSelectorInputFixedLocation}. The `fixed_location` variant of
+         * `DeliveryMethodOriginSelectorInput`. oneOf[2] (Value): {@link
+         * DeliveryMethodOriginSelectorInputAllocatedOriginGroup}. The `allocated_origin_group`
+         * variant of `DeliveryMethodOriginSelectorInput`. oneOf[3] (Value): {@link
+         * DeliveryMethodOriginSelectorInputPickupLocationCollection}. The
+         * `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.
+         */
+        "origin": (Exclude<DeliveryMethodOriginSelectorRequest & object, readonly unknown[]>)
+            & ({
+            /**
+             * Delivery type of the method. It cannot change after you create the method. Value
+             * enum: "pickup_location_collection".
+             */
+            "type"?: "pickup_location_collection" | (string & {});
+        });
+        /**
+         *  pickup_mode (Required): string. Value enum: "in_store", "curbside", "locker", "other".
+         */
+        "public_details": ({
+            /** Value enum: "in_store", "curbside", "locker", "other". */
+            "pickup_mode": "in_store" | "curbside" | "locker" | "other" | (string & {});
+        });
+    });
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "pickup".
+     */
+    "type": "pickup" | (string & {});
+});
+/** The `pickup` variant of `CreateDeliveryMethodRequest`. */
+export type CreateDeliveryMethodRequestPickupInput = ({
+    /**
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply when creating a
+     * delivery method. `origin` and `pricing` are required.
+     */
+    "configuration": DeliveryMethodConfigurationCreateRequestInput;
+    /** Buyer-visible description of the method. minLength: 1. */
+    "description"?: string;
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
+    "display_position"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
+    "name": string;
+    /**
+     * Marks this method as recommended. Within each choice group, the available method with the
+     * lowest value is recommended and listed first. Ties go to the lower display_position, then
+     * the method ID. Null never recommends the method. Format: int32.
+     */
+    "recommendation_priority"?: number;
+    /**
+     * Whether this method is available for new delivery quotes. Defaults to inactive. Default:
+     * "inactive". Value enum: "inactive", "active".
+     */
+    "status"?: "inactive" | "active";
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "pickup".
+     */
+    "type": "pickup";
+})
+    & ({
+    /**
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply for a delivery
+     * method: origin, pricing, eligibility, timing estimate, tax settings, and recipient
+     * requirements. buyer_instructions (Optional): {@link BuyerInstructionsConfigRequestInput}.
+     * Controls whether checkout collects buyer instructions for this method. Controls buyer
+     * instructions for a delivery option. Omit it from a method configuration to disable
+     * instruction collection. charge_tax_category (Optional): string or null. Tax category of the
+     * delivery charge, which decides its automatic tax and appears in tax records and reporting.
+     * Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping
+     * for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on
+     * create to inherit, omit it on PATCH to preserve the current value, or send null to clear it
+     * back to inheriting. Automatic tax calculates service_fee, shipping, delivery, handling, and
+     * surcharge at the general rate at the charge location, including the store for pickup. Value
+     * enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null. eligibility
+     * (Optional): {@link DeliveryEligibilityExpressionRequestInput}. Conditions that decide where
+     * this method is offered. Omit this field to offer the method everywhere the merchant serves.
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes. estimate (Optional): {@link
+     * DeliveryEstimateRuleRequestInput}. The buyer-visible delivery or pickup estimate. Use type
+     * none when the merchant makes no timing promise. The timing estimate rule you supply for a
+     * delivery method, chosen by `type`: none, a transit time, or a schedule window.
+     * minimum_option_lifetime_seconds (Optional): integer. Minimum remaining quote lifetime
+     * required before Flint offers this method. Required for calculated, callback, and
+     * caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's
+     * 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899. origin (Required): {@link
+     * DeliveryMethodOriginSelectorRequestInput}. Where delivery starts. A method can use a fixed
+     * location or a delivery location set; origin.type determines allocation or buyer pickup
+     * behavior. The origin you supply for a delivery method, chosen by `type`: a fixed location,
+     * or locations from a delivery location set or an inline list. origin.delivery_location_set_id
+     * (Optional): string. Named delivery location set to reuse. Send either
+     * delivery_location_set_id or inline location_ids, never both. The set may contain at most 25
+     * Locations for allocated_origin_group or 1,000 for pickup_location_collection. minLength: 1.
+     * Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". origin.location_id (Optional): string. ID of the
+     * Location delivery starts from. Required for `fixed_location` and not allowed otherwise.
+     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin.location_ids (Optional):
+     * Array of string. Inline Location IDs for a set managed by this delivery method. Send either
+     * location_ids or delivery_location_set_id, never both. Use 1 to 25 unique Locations for
+     * allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these
+     * Location IDs without exposing the managed set. origin.location_ids[] (Value): string.
+     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin.type (Required): string.
+     * Where delivery starts. Delivery type of the method. It cannot change after you create the
+     * method. Value enum: "pickup_location_collection". origin.oneOf[1] (Value): {@link
+     * DeliveryMethodOriginSelectorInputFixedLocationInput}. The `fixed_location` variant of
+     * `DeliveryMethodOriginSelectorInput`. origin.oneOf[2] (Value): {@link
+     * DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput}. The `allocated_origin_group`
+     * variant of `DeliveryMethodOriginSelectorInput`. origin.oneOf[3] (Value): {@link
+     * DeliveryMethodOriginSelectorInputPickupLocationCollectionInput}. The
+     * `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`. pricing
+     * (Required): {@link DeliveryPricingStrategyRequestInput}. How Flint calculates the delivery
+     * charge. The pricing strategy you supply when updating a delivery method. Set `type` and the
+     * matching property. public_details (Required): object. Buyer-visible structured details
+     * supplied by the merchant. public_details.instructions (Optional): string. Buyer-visible
+     * instructions for this method. minLength: 1. maxLength: 2048. public_details.pickup_mode
+     * (Required): string. Required for pickup methods and rejected for other method types. Value
+     * enum: "in_store", "curbside", "locker", "other". public_details.service_level (Optional):
+     * string. Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+     * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+     * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
+     * "scheduled". quote_input_fields (Optional): Array of string. Address and coordinate fields a
+     * callback method requires and is allowed to receive. maxItems: 12. uniqueItems: true. []
+     * enum: "destination_address", "destination_address.line1", "destination_address.line2",
+     * "destination_address.city", "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
+     * "buyer_location.address.line2", "buyer_location.address.city",
+     * "buyer_location.address.state", "buyer_location.address.postal_code",
+     * "buyer_location.address.country", "buyer_location.coordinate". quote_input_fields[] (Value):
+     * string. Request properties the callback needs. - `destination_address`: The full destination
+     * address. - `destination_address.line1`: The destination street address. -
+     * `destination_address.line2`: The destination apartment, suite, or other secondary address. -
+     * `destination_address.city`: The destination city. - `destination_address.state`: The
+     * destination state or region. - `destination_address.postal_code`: The destination postal
+     * code. - `destination_address.country`: The destination ISO 3166-1 alpha-2 country code. -
+     * `buyer_location`: The buyer location, supplied as an address or coordinates. -
+     * `buyer_location.address.line1`: The street address in the buyer location's address variant.
+     * - `buyer_location.address.line2`: The apartment, suite, or other secondary address in the
+     * buyer location's address variant. - `buyer_location.address.city`: The city in the buyer
+     * location's address variant. - `buyer_location.address.state`: The state or region in the
+     * buyer location's address variant. - `buyer_location.address.postal_code`: The postal code in
+     * the buyer location's address variant. - `buyer_location.address.country`: The ISO 3166-1
+     * alpha-2 country code in the buyer location's address variant. - `buyer_location.coordinate`:
+     * The latitude and longitude in the buyer location's coordinate variant. Value enum:
+     * "destination_address", "destination_address.line1", "destination_address.line2",
+     * "destination_address.city", "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
+     * "buyer_location.address.line2", "buyer_location.address.city",
+     * "buyer_location.address.state", "buyer_location.address.postal_code",
+     * "buyer_location.address.country", "buyer_location.coordinate". recipient_requirements
+     * (Optional): Array of {@link DeliveryRecipientRequirementRequestInput}. Recipient fields this
+     * method asks for. A delivery selection can leave out required fields, but payment needs them.
+     * recipient_requirements[] (Value): {@link DeliveryRecipientRequirementRequestInput}. Says
+     * whether a recipient field (`name`, `email`, or `phone`) is required for a delivery method,
+     * and the format it must use. selection_guarantee_seconds (Optional): integer. How long after
+     * evaluation Flint guarantees a selected price, when that is later than the option expiry.
+     * Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart
+     * without tracked inventory hold until the checkout's calculation expiry. Format: int64.
+     * minimum: 0. taxable (Optional): boolean or null. Whether the delivery charge is taxable.
+     * Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it
+     * on PATCH to preserve the current value, or send null to clear it back to inheriting.
+     */
+    "configuration": (Exclude<DeliveryMethodConfigurationRequestInput & object, readonly unknown[]>)
+        & ({
+        /**
+         * The origin you supply for a delivery method, chosen by `type`: a fixed location, or
+         * locations from a delivery location set or an inline list. delivery_location_set_id
+         * (Optional): string. Named delivery location set to reuse. Send either
+         * delivery_location_set_id or inline location_ids, never both. The set may contain at most
+         * 25 Locations for allocated_origin_group or 1,000 for pickup_location_collection.
+         * minLength: 1. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". location_id (Optional): string.
+         * ID of the Location delivery starts from. Required for `fixed_location` and not allowed
+         * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". location_ids
+         * (Optional): Array of string. Inline Location IDs for a set managed by this delivery
+         * method. Send either location_ids or delivery_location_set_id, never both. Use 1 to 25
+         * unique Locations for allocated_origin_group or 1 to 1,000 for
+         * pickup_location_collection. Reads return these Location IDs without exposing the managed
+         * set. location_ids[] (Value): string. minLength: 1. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". type (Required): string. Where delivery starts.
+         * Delivery type of the method. It cannot change after you create the method. Value enum:
+         * "pickup_location_collection". oneOf[1] (Value): {@link
+         * DeliveryMethodOriginSelectorInputFixedLocationInput}. The `fixed_location` variant of
+         * `DeliveryMethodOriginSelectorInput`. oneOf[2] (Value): {@link
+         * DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput}. The
+         * `allocated_origin_group` variant of `DeliveryMethodOriginSelectorInput`. oneOf[3]
+         * (Value): {@link DeliveryMethodOriginSelectorInputPickupLocationCollectionInput}. The
+         * `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.
+         */
+        "origin": (Exclude<DeliveryMethodOriginSelectorRequestInput & object, readonly unknown[]>)
+            & ({
+            /**
+             * Delivery type of the method. It cannot change after you create the method. Value
+             * enum: "pickup_location_collection".
+             */
+            "type"?: "pickup_location_collection";
+        });
+        /**
+         *  pickup_mode (Required): string. Value enum: "in_store", "curbside", "locker", "other".
+         */
+        "public_details": ({
+            /** Value enum: "in_store", "curbside", "locker", "other". */
+            "pickup_mode": "in_store" | "curbside" | "locker" | "other";
+        })
+            & ({
+            "service_level"?: never;
+        });
+    });
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "pickup".
+     */
+    "type": "pickup";
+});
+/** The `shipment` variant of `CreateDeliveryMethodRequest`. */
+export type CreateDeliveryMethodRequestShipment = ({
+    /**
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply when creating a
+     * delivery method. `origin` and `pricing` are required.
+     */
+    "configuration": DeliveryMethodConfigurationCreateRequest;
+    /** Buyer-visible description of the method. minLength: 1. */
+    "description"?: string;
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
+    "display_position"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
+    "name": string;
+    /**
+     * Marks this method as recommended. Within each choice group, the available method with the
+     * lowest value is recommended and listed first. Ties go to the lower display_position, then
+     * the method ID. Null never recommends the method. Format: int32.
+     */
+    "recommendation_priority"?: number;
+    /**
+     * Whether this method is available for new delivery quotes. Defaults to inactive. Default:
+     * "inactive". Value enum: "inactive", "active".
+     */
+    "status"?: "inactive" | "active" | (string & {});
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "shipment".
+     */
+    "type": "shipment" | (string & {});
+})
+    & ({
+    /**
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply for a delivery
+     * method: origin, pricing, eligibility, timing estimate, tax settings, and recipient
+     * requirements. buyer_instructions (Optional): {@link BuyerInstructionsConfig}. Controls
+     * whether checkout collects buyer instructions for this method. Controls buyer instructions
+     * for a delivery option. Omit it from a method configuration to disable instruction
+     * collection. charge_tax_category (Optional): string or null. Tax category of the delivery
+     * charge, which decides its automatic tax and appears in tax records and reporting. Null
+     * inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for
+     * shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create
+     * to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to
+     * inheriting. Automatic tax calculates service_fee, shipping, delivery, handling, and
+     * surcharge at the general rate at the charge location, including the store for pickup. Value
+     * enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null. eligibility
+     * (Optional): {@link DeliveryEligibilityExpressionRequest}. Conditions that decide where this
+     * method is offered. Omit this field to offer the method everywhere the merchant serves. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes. estimate (Optional): {@link
+     * DeliveryEstimateRule}. The buyer-visible delivery or pickup estimate. Use type none when the
+     * merchant makes no timing promise. The timing estimate rule you supply for a delivery method,
+     * chosen by `type`: none, a transit time, or a schedule window.
+     * minimum_option_lifetime_seconds (Optional): integer. Minimum remaining quote lifetime
+     * required before Flint offers this method. Required for calculated, callback, and
+     * caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's
+     * 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899. origin (Required): {@link
+     * DeliveryMethodOriginSelectorRequest}. Where delivery starts. A method can use a fixed
+     * location or a delivery location set; origin.type determines allocation or buyer pickup
+     * behavior. The origin you supply for a delivery method, chosen by `type`: a fixed location,
+     * or locations from a delivery location set or an inline list. pricing (Required): {@link
+     * DeliveryPricingStrategyRequest}. How Flint calculates the delivery charge. The pricing
+     * strategy you supply when updating a delivery method. Set `type` and the matching property.
+     * public_details (Optional): object. Buyer-visible structured details supplied by the
+     * merchant. public_details.instructions (Optional): string. Buyer-visible instructions for
+     * this method. minLength: 1. maxLength: 2048. public_details.pickup_mode (Optional): string.
+     * Required for pickup methods and rejected for other method types. Value enum: "in_store",
+     * "curbside", "locker", "other". public_details.service_level (Optional): string.
+     * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+     * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+     * "economy", "standard", "expedited", "express", "overnight", "same_day". quote_input_fields
+     * (Optional): Array of string. Address and coordinate fields a callback method requires and is
+     * allowed to receive. maxItems: 12. uniqueItems: true. [] enum: "destination_address",
+     * "destination_address.line1", "destination_address.line2", "destination_address.city",
+     * "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
+     * "buyer_location.address.line2", "buyer_location.address.city",
+     * "buyer_location.address.state", "buyer_location.address.postal_code",
+     * "buyer_location.address.country", "buyer_location.coordinate". quote_input_fields[] (Value):
+     * string. Request properties the callback needs. - `destination_address`: The full destination
+     * address. - `destination_address.line1`: The destination street address. -
+     * `destination_address.line2`: The destination apartment, suite, or other secondary address. -
+     * `destination_address.city`: The destination city. - `destination_address.state`: The
+     * destination state or region. - `destination_address.postal_code`: The destination postal
+     * code. - `destination_address.country`: The destination ISO 3166-1 alpha-2 country code. -
+     * `buyer_location`: The buyer location, supplied as an address or coordinates. -
+     * `buyer_location.address.line1`: The street address in the buyer location's address variant.
+     * - `buyer_location.address.line2`: The apartment, suite, or other secondary address in the
+     * buyer location's address variant. - `buyer_location.address.city`: The city in the buyer
+     * location's address variant. - `buyer_location.address.state`: The state or region in the
+     * buyer location's address variant. - `buyer_location.address.postal_code`: The postal code in
+     * the buyer location's address variant. - `buyer_location.address.country`: The ISO 3166-1
+     * alpha-2 country code in the buyer location's address variant. - `buyer_location.coordinate`:
+     * The latitude and longitude in the buyer location's coordinate variant. Value enum:
+     * "destination_address", "destination_address.line1", "destination_address.line2",
+     * "destination_address.city", "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
+     * "buyer_location.address.line2", "buyer_location.address.city",
+     * "buyer_location.address.state", "buyer_location.address.postal_code",
+     * "buyer_location.address.country", "buyer_location.coordinate". recipient_requirements
+     * (Optional): Array of {@link DeliveryRecipientRequirement}. Recipient fields this method asks
+     * for. A delivery selection can leave out required fields, but payment needs them.
+     * recipient_requirements[] (Value): {@link DeliveryRecipientRequirement}. Says whether a
+     * recipient field (`name`, `email`, or `phone`) is required for a delivery method, and the
+     * format it must use. selection_guarantee_seconds (Optional): integer. How long after
+     * evaluation Flint guarantees a selected price, when that is later than the option expiry.
+     * Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart
+     * without tracked inventory hold until the checkout's calculation expiry. Format: int64.
+     * minimum: 0. taxable (Optional): boolean or null. Whether the delivery charge is taxable.
+     * Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it
+     * on PATCH to preserve the current value, or send null to clear it back to inheriting.
+     */
+    "configuration": (Exclude<DeliveryMethodConfigurationRequest & object, readonly unknown[]>)
+        & ({
+        /**
+         *  service_level (Optional): string. Value enum: "economy", "standard", "expedited",
+         * "express", "overnight", "same_day".
+         */
+        "public_details"?: ({
+            /**
+             * Value enum: "economy", "standard", "expedited", "express", "overnight", "same_day".
+             */
+            "service_level"?: "economy" | "standard" | "expedited" | "express" | "overnight" | "same_day" | (string & {});
+        });
+    });
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "shipment".
+     */
+    "type": "shipment" | (string & {});
+});
+/** The `shipment` variant of `CreateDeliveryMethodRequest`. */
+export type CreateDeliveryMethodRequestShipmentInput = ({
+    /**
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply when creating a
+     * delivery method. `origin` and `pricing` are required.
+     */
+    "configuration": DeliveryMethodConfigurationCreateRequestInput;
+    /** Buyer-visible description of the method. minLength: 1. */
+    "description"?: string;
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
+    "display_position"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
+    "name": string;
+    /**
+     * Marks this method as recommended. Within each choice group, the available method with the
+     * lowest value is recommended and listed first. Ties go to the lower display_position, then
+     * the method ID. Null never recommends the method. Format: int32.
+     */
+    "recommendation_priority"?: number;
+    /**
+     * Whether this method is available for new delivery quotes. Defaults to inactive. Default:
+     * "inactive". Value enum: "inactive", "active".
+     */
+    "status"?: "inactive" | "active";
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "shipment".
+     */
+    "type": "shipment";
+})
+    & ({
+    /**
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply for a delivery
+     * method: origin, pricing, eligibility, timing estimate, tax settings, and recipient
+     * requirements. buyer_instructions (Optional): {@link BuyerInstructionsConfigRequestInput}.
+     * Controls whether checkout collects buyer instructions for this method. Controls buyer
+     * instructions for a delivery option. Omit it from a method configuration to disable
+     * instruction collection. charge_tax_category (Optional): string or null. Tax category of the
+     * delivery charge, which decides its automatic tax and appears in tax records and reporting.
+     * Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping
+     * for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on
+     * create to inherit, omit it on PATCH to preserve the current value, or send null to clear it
+     * back to inheriting. Automatic tax calculates service_fee, shipping, delivery, handling, and
+     * surcharge at the general rate at the charge location, including the store for pickup. Value
+     * enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null. eligibility
+     * (Optional): {@link DeliveryEligibilityExpressionRequestInput}. Conditions that decide where
+     * this method is offered. Omit this field to offer the method everywhere the merchant serves.
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes. estimate (Optional): {@link
+     * DeliveryEstimateRuleRequestInput}. The buyer-visible delivery or pickup estimate. Use type
+     * none when the merchant makes no timing promise. The timing estimate rule you supply for a
+     * delivery method, chosen by `type`: none, a transit time, or a schedule window.
+     * minimum_option_lifetime_seconds (Optional): integer. Minimum remaining quote lifetime
+     * required before Flint offers this method. Required for calculated, callback, and
+     * caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's
+     * 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899. origin (Required): {@link
+     * DeliveryMethodOriginSelectorRequestInput}. Where delivery starts. A method can use a fixed
+     * location or a delivery location set; origin.type determines allocation or buyer pickup
+     * behavior. The origin you supply for a delivery method, chosen by `type`: a fixed location,
+     * or locations from a delivery location set or an inline list. pricing (Required): {@link
+     * DeliveryPricingStrategyRequestInput}. How Flint calculates the delivery charge. The pricing
+     * strategy you supply when updating a delivery method. Set `type` and the matching property.
+     * public_details (Optional): object. Buyer-visible structured details supplied by the
+     * merchant. public_details.instructions (Optional): string. Buyer-visible instructions for
+     * this method. minLength: 1. maxLength: 2048. public_details.pickup_mode (Optional): string.
+     * Required for pickup methods and rejected for other method types. Value enum: "in_store",
+     * "curbside", "locker", "other". public_details.service_level (Optional): string.
+     * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+     * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+     * "economy", "standard", "expedited", "express", "overnight", "same_day". quote_input_fields
+     * (Optional): Array of string. Address and coordinate fields a callback method requires and is
+     * allowed to receive. maxItems: 12. uniqueItems: true. [] enum: "destination_address",
+     * "destination_address.line1", "destination_address.line2", "destination_address.city",
+     * "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
+     * "buyer_location.address.line2", "buyer_location.address.city",
+     * "buyer_location.address.state", "buyer_location.address.postal_code",
+     * "buyer_location.address.country", "buyer_location.coordinate". quote_input_fields[] (Value):
+     * string. Request properties the callback needs. - `destination_address`: The full destination
+     * address. - `destination_address.line1`: The destination street address. -
+     * `destination_address.line2`: The destination apartment, suite, or other secondary address. -
+     * `destination_address.city`: The destination city. - `destination_address.state`: The
+     * destination state or region. - `destination_address.postal_code`: The destination postal
+     * code. - `destination_address.country`: The destination ISO 3166-1 alpha-2 country code. -
+     * `buyer_location`: The buyer location, supplied as an address or coordinates. -
+     * `buyer_location.address.line1`: The street address in the buyer location's address variant.
+     * - `buyer_location.address.line2`: The apartment, suite, or other secondary address in the
+     * buyer location's address variant. - `buyer_location.address.city`: The city in the buyer
+     * location's address variant. - `buyer_location.address.state`: The state or region in the
+     * buyer location's address variant. - `buyer_location.address.postal_code`: The postal code in
+     * the buyer location's address variant. - `buyer_location.address.country`: The ISO 3166-1
+     * alpha-2 country code in the buyer location's address variant. - `buyer_location.coordinate`:
+     * The latitude and longitude in the buyer location's coordinate variant. Value enum:
+     * "destination_address", "destination_address.line1", "destination_address.line2",
+     * "destination_address.city", "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
+     * "buyer_location.address.line2", "buyer_location.address.city",
+     * "buyer_location.address.state", "buyer_location.address.postal_code",
+     * "buyer_location.address.country", "buyer_location.coordinate". recipient_requirements
+     * (Optional): Array of {@link DeliveryRecipientRequirementRequestInput}. Recipient fields this
+     * method asks for. A delivery selection can leave out required fields, but payment needs them.
+     * recipient_requirements[] (Value): {@link DeliveryRecipientRequirementRequestInput}. Says
+     * whether a recipient field (`name`, `email`, or `phone`) is required for a delivery method,
+     * and the format it must use. selection_guarantee_seconds (Optional): integer. How long after
+     * evaluation Flint guarantees a selected price, when that is later than the option expiry.
+     * Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart
+     * without tracked inventory hold until the checkout's calculation expiry. Format: int64.
+     * minimum: 0. taxable (Optional): boolean or null. Whether the delivery charge is taxable.
+     * Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it
+     * on PATCH to preserve the current value, or send null to clear it back to inheriting.
+     */
+    "configuration": (Exclude<DeliveryMethodConfigurationRequestInput & object, readonly unknown[]>)
+        & ({
+        /**
+         *  service_level (Optional): string. Value enum: "economy", "standard", "expedited",
+         * "express", "overnight", "same_day".
+         */
+        "public_details"?: ({
+            /**
+             * Value enum: "economy", "standard", "expedited", "express", "overnight", "same_day".
+             */
+            "service_level"?: "economy" | "standard" | "expedited" | "express" | "overnight" | "same_day";
+        })
+            & ({
+            "pickup_mode"?: never;
+        });
+    });
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "shipment".
+     */
+    "type": "shipment";
+});
+/** The `delivery_options` variant of `CreateDeliveryPreviewRequest`. */
+export type CreateDeliveryOptionsPreviewRequest = {
+    /**
+     * Buyer location used to evaluate pickup and local delivery availability. The buyer's location
+     * for pickup or local delivery, supplied as an address or a coordinate, chosen by `type`.
+     */
+    "buyer_location"?: DeliveryBuyerLocationRequest;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency": string;
+    /**
+     * Delivery methods to evaluate. When omitted, uses
+     * settings.checkout.default_delivery_method_ids, or no methods when that setting is empty. []
+     * (Value): string. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_ids"?: Array<string>;
+    /**
+     * Destination address used to evaluate shipment and local delivery options. A partial address
+     * for delivery quotes, previews, and buyer locations. Country is required when any member is
+     * present.
+     */
+    "destination_address"?: DeliveryAddressRequest;
+    /**
+     * Where the preview allocates tracked stock: a fixed Location, the current revision of an
+     * allocation policy, or one policy revision. Required when any line item tracks inventory.
+     * Where you want inventory routed from: a fixed Location, an inventory allocation policy, or
+     * one policy revision, selected by `type`.
+     */
+    "inventory_routing_source"?: InventoryRoutingSourceRequest;
+    /**
+     * Items to evaluate delivery for, from 1 to 100. minItems: 1. maxItems: 100. [] (Value):
+     * {@link CreateOrderLineItemRequest}. A line item to add to an order: a catalog variant, a
+     * bundle, or a custom item with a name and unit price.
+     */
+    "line_items": Array<CreateOrderLineItemRequest>;
+    /**
+     * The delivery question this preview answers. - `delivery_options`: Evaluates delivery methods
+     * and prices for the supplied items and buyer location. Value enum: "delivery_options".
+     */
+    "mode": "delivery_options" | (string & {});
+    /**
+     * ID of the Location at which to price pickup methods. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "pickup_location_id"?: string;
+};
+/** The `delivery_options` variant of `CreateDeliveryPreviewRequest`. */
+export type CreateDeliveryOptionsPreviewRequestInput = {
+    /**
+     * Buyer location used to evaluate pickup and local delivery availability. The buyer's location
+     * for pickup or local delivery, supplied as an address or a coordinate, chosen by `type`.
+     */
+    "buyer_location"?: DeliveryBuyerLocationRequestInput;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency": string;
+    /**
+     * Delivery methods to evaluate. When omitted, uses
+     * settings.checkout.default_delivery_method_ids, or no methods when that setting is empty. []
+     * (Value): string. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_ids"?: Array<string>;
+    /**
+     * Destination address used to evaluate shipment and local delivery options. A partial address
+     * for delivery quotes, previews, and buyer locations. Country is required when any member is
+     * present.
+     */
+    "destination_address"?: DeliveryAddressRequestInput;
+    /**
+     * Where the preview allocates tracked stock: a fixed Location, the current revision of an
+     * allocation policy, or one policy revision. Required when any line item tracks inventory.
+     * Where you want inventory routed from: a fixed Location, an inventory allocation policy, or
+     * one policy revision, selected by `type`.
+     */
+    "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
+    /**
+     * Items to evaluate delivery for, from 1 to 100. minItems: 1. maxItems: 100. [] (Value):
+     * {@link CreateOrderLineItemRequestInput}. A line item to add to an order: a catalog variant,
+     * a bundle, or a custom item with a name and unit price.
+     */
+    "line_items": Array<CreateOrderLineItemRequestInput>;
+    /**
+     * The delivery question this preview answers. - `delivery_options`: Evaluates delivery methods
+     * and prices for the supplied items and buyer location. Value enum: "delivery_options".
+     */
+    "mode": "delivery_options";
+    /**
+     * ID of the Location at which to price pickup methods. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "pickup_location_id"?: string;
+};
+/** The `pickup_locations` variant of `CreateDeliveryPreviewRequest`. */
+export type CreateDeliveryPickupLocationsPreviewRequest = {
+    /**
+     * Buyer location to measure pickup distance from. Locations are ordered nearest first when it
+     * is set. The buyer's location for pickup or local delivery, supplied as an address or a
+     * coordinate, chosen by `type`.
+     */
+    "buyer_location"?: DeliveryBuyerLocationRequest;
+    /**
+     * Checkout session whose pickup locations to evaluate. Checkout credentials must identify
+     * their own session. minLength: 1. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+     */
+    "checkout_session_id": string;
+    /**
+     * Farthest a pickup Location can be from the buyer location. Omit it to apply no limit. A
+     * maximum distance from the buyer location, as a value and unit, that limits which pickup
+     * locations a preview returns.
+     */
+    "maximum_distance"?: DeliveryDistance;
+    /**
+     * The delivery question this preview answers. - `pickup_locations`: Lists the checkout
+     * session's pickup locations and whether each can supply its items. Value enum:
+     * "pickup_locations".
+     */
+    "mode": "pickup_locations" | (string & {});
+};
+/** The `pickup_locations` variant of `CreateDeliveryPreviewRequest`. */
+export type CreateDeliveryPickupLocationsPreviewRequestInput = {
+    /**
+     * Buyer location to measure pickup distance from. Locations are ordered nearest first when it
+     * is set. The buyer's location for pickup or local delivery, supplied as an address or a
+     * coordinate, chosen by `type`.
+     */
+    "buyer_location"?: DeliveryBuyerLocationRequestInput;
+    /**
+     * Checkout session whose pickup locations to evaluate. Checkout credentials must identify
+     * their own session. minLength: 1. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+     */
+    "checkout_session_id": string;
+    /**
+     * Farthest a pickup Location can be from the buyer location. Omit it to apply no limit. A
+     * maximum distance from the buyer location, as a value and unit, that limits which pickup
+     * locations a preview returns.
+     */
+    "maximum_distance"?: DeliveryPickupAvailabilityMaximumDistanceRequestInput;
+    /**
+     * The delivery question this preview answers. - `pickup_locations`: Lists the checkout
+     * session's pickup locations and whether each can supply its items. Value enum:
+     * "pickup_locations".
+     */
+    "mode": "pickup_locations";
+};
+/** The request body for: Create delivery preview. */
+export type CreateDeliveryPreviewRequest = ((CreateDeliveryOptionsPreviewRequest)
+    | (CreateDeliveryPickupLocationsPreviewRequest)
+    | (Record<string, unknown>));
+/** The request body for: Create delivery preview. */
+export type CreateDeliveryPreviewRequestInput = ((CreateDeliveryOptionsPreviewRequestInput) | (CreateDeliveryPickupLocationsPreviewRequestInput));
+/** The request body for: Create delivery profile. */
+export type CreateDeliveryProfileRequest = {
+    /**
+     * The settings that define this resource. Changing them publishes a new revision. Delivery
+     * planning settings you supply when creating or updating a delivery profile. Which fields are
+     * allowed depends on `requirement` and `resolution_mode`.
+     */
+    "configuration": DeliveryProfileConfigurationRequest;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Merchant-facing name. minLength: 1. */
+    "name": string;
+};
+/** The request body for: Create delivery profile. */
+export type CreateDeliveryProfileRequestInput = {
+    /**
+     * The settings that define this resource. Changing them publishes a new revision. Delivery
+     * planning settings you supply when creating or updating a delivery profile. Which fields are
+     * allowed depends on `requirement` and `resolution_mode`.
+     */
+    "configuration": DeliveryProfileConfigurationRequestInput;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Merchant-facing name. minLength: 1. */
+    "name": string;
+};
+/** The request body for: Create delivery rate callback. */
+export type CreateDeliveryRateCallbackRequest = {
+    /**
+     * The settings that define this resource. Changing them publishes a new revision. Settings for
+     * a delivery rate callback: the endpoint `url` Flint calls, request timeout, request and
+     * response size limits, redirect policy, and whether previews can use it.
+     */
+    "configuration": DeliveryRateCallbackConfiguration;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /** Merchant-facing name. minLength: 1. */
+    "name": string;
+    /**
+     * Signing methods for callback requests. Defaults to JWT verification with Flint's public
+     * JWKS. When hmac is included, the response returns the shared secret and its
+     * delivery_rate_callback_signing_key_id once. minItems: 1. uniqueItems: true. Default:
+     * ["jwt"]. [] enum: "jwt", "hmac". [] (Value): {@link WebhookSigningMethod}. How Flint signs
+     * requests to this endpoint. Value enum: "jwt", "hmac".
+     */
+    "signing_methods"?: Array<WebhookSigningMethod>;
+    /**
+     * Whether active delivery methods can price with this callback. Defaults to inactive. Default:
+     * "inactive". Value enum: "inactive", "active".
+     */
+    "status"?: "inactive" | "active" | (string & {});
+};
+/** The request body for: Create delivery rate callback. */
+export type CreateDeliveryRateCallbackRequestInput = {
+    /**
+     * The settings that define this resource. Changing them publishes a new revision. Settings for
+     * a delivery rate callback: the endpoint `url` Flint calls, request timeout, request and
+     * response size limits, redirect policy, and whether previews can use it.
+     */
+    "configuration": DeliveryRateCallbackConfigurationRequestInput;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /** Merchant-facing name. minLength: 1. */
+    "name": string;
+    /**
+     * Signing methods for callback requests. Defaults to JWT verification with Flint's public
+     * JWKS. When hmac is included, the response returns the shared secret and its
+     * delivery_rate_callback_signing_key_id once. minItems: 1. uniqueItems: true. Default:
+     * ["jwt"]. [] enum: "jwt", "hmac". [] (Value): {@link WebhookSigningMethodInput}. How Flint
+     * signs requests to this endpoint. Value enum: "jwt", "hmac".
+     */
+    "signing_methods"?: Array<WebhookSigningMethodInput>;
+    /**
+     * Whether active delivery methods can price with this callback. Defaults to inactive. Default:
+     * "inactive". Value enum: "inactive", "active".
+     */
+    "status"?: "inactive" | "active";
+};
+/** Creates a permanent fence for one exact delivery dependency in this merchant and environment. */
+export type CreateDeliveryRevocationRequest = {
+    /** Optional incident context retained with this revocation. minLength: 1. maxLength: 2048. */
+    "merchant_note"?: string;
+    /**
+     * Why this dependency must no longer be used. Value enum: "unsafe_configuration",
+     * "location_unavailable", "credential_compromise", "legal_requirement", "other".
+     */
+    "reason": "unsafe_configuration"
+        | "location_unavailable"
+        | "credential_compromise"
+        | "legal_requirement"
+        | "other"
+        | (string & {});
+    /**
+     * The parent and exact child identity to fence. Each target_type accepts only its own IDs. The
+     * parent and exact child identity to fence. Targets never resolve an alias to a current
+     * revision.
+     */
+    "target": DeliveryRevocationTarget;
+};
+/** Creates a permanent fence for one exact delivery dependency in this merchant and environment. */
+export type CreateDeliveryRevocationRequestInput = {
+    /** Optional incident context retained with this revocation. minLength: 1. maxLength: 2048. */
+    "merchant_note"?: string;
+    /**
+     * Why this dependency must no longer be used. Value enum: "unsafe_configuration",
+     * "location_unavailable", "credential_compromise", "legal_requirement", "other".
+     */
+    "reason": "unsafe_configuration"
+        | "location_unavailable"
+        | "credential_compromise"
+        | "legal_requirement"
+        | "other";
+    /**
+     * The parent and exact child identity to fence. Each target_type accepts only its own IDs. The
+     * parent and exact child identity to fence. Targets never resolve an alias to a current
+     * revision.
+     */
+    "target": CreateDeliveryRevocationTargetInput;
+};
+/** Fences one immutable revision of the named delivery method. */
+export type CreateDeliveryRevocationTargetDeliveryMethodRevisionInput = {
+    /**
+     * ID of the delivery method that owns the targeted revision. minLength: 1. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_id": string;
+    /**
+     * ID of the immutable revision to fence. It must belong to delivery_method_id. minLength: 1.
+     * Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+     */
+    "delivery_method_revision_id": string;
+    /**
+     * Fences one immutable revision of the named delivery method. Value enum:
+     * "delivery_method_revision".
+     */
+    "target_type": ("delivery_method_revision") & ("delivery_method_revision");
+};
+/** Fences one immutable revision of the named delivery rate callback. */
+export type CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput = {
+    /**
+     * ID of the delivery rate callback that owns the targeted revision or signing key. minLength:
+     * 1. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+     */
+    "delivery_rate_callback_id": string;
+    /**
+     * ID of the immutable revision to fence. It must belong to delivery_rate_callback_id.
+     * minLength: 1. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+     */
+    "delivery_rate_callback_revision_id": string;
+    /**
+     * Fences one immutable revision of the named delivery rate callback. Value enum:
+     * "delivery_rate_callback_revision".
+     */
+    "target_type": ("delivery_rate_callback_revision") & ("delivery_rate_callback_revision");
+};
+/** Fences one current or previous HMAC signing key of the named delivery rate callback. */
+export type CreateDeliveryRevocationTargetDeliveryRateCallbackSigningKeyInput = {
+    /**
+     * ID of the delivery rate callback that owns the targeted revision or signing key. minLength:
+     * 1. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+     */
+    "delivery_rate_callback_id": string;
+    /**
+     * ID of the HMAC signing key to fence. It must be the named callback's current or previous
+     * key; secret material is never returned. minLength: 1. Example:
+     * "cbkey_00112233445566778899aabb".
+     */
+    "delivery_rate_callback_signing_key_id": string;
+    /**
+     * Fences one current or previous HMAC signing key of the named delivery rate callback. Value
+     * enum: "delivery_rate_callback_signing_key".
+     */
+    "target_type": ("delivery_rate_callback_signing_key") & ("delivery_rate_callback_signing_key");
+};
 /**
  * The parent and exact child identity to fence. Targets never resolve an alias to a current
  * revision.
@@ -1916,1626 +3703,3 @@ export type CreateFulfillmentRequestPickup = ({
     /** The kind of fulfillment. Value enum: "pickup". */
     "type": "pickup" | (string & {});
 });
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestPickupInput = ({
-    /**
-     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     */
-    "device_id"?: string;
-    /**
-     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
-     * you supply when creating a fulfillment: the delivery URL.
-     */
-    "digital_details"?: CreateDigitalFulfillmentDetailsInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
-     * (Value): {@link FulfillmentLineItemRequestInput}. An order line item and quantity to include
-     * when creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequestInput>;
-    /**
-     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
-     * delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput;
-    /**
-     * Merchant location responsible for this fulfillment. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-    /**
-     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
-     * the pickup address, location, window, instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetailsInput;
-    /**
-     * Who receives the fulfillment. Recipient details you supply when creating or updating a
-     * fulfillment: name, email, phone, address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequestInput;
-    /**
-     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
-     * the scheduled start and end, timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetailsInput;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequestInput;
-    /** The kind of fulfillment. Value enum: "pickup". */
-    "type": "pickup";
-})
-    & (({
-    "shipment"?: never;
-}))
-    & (({
-    "local_delivery_details"?: never;
-}))
-    & (({
-    "digital_details"?: never;
-}))
-    & (({
-    "service_details"?: never;
-}));
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestService = ({
-    /**
-     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     */
-    "device_id"?: string;
-    /**
-     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
-     * you supply when creating a fulfillment: the delivery URL.
-     */
-    "digital_details"?: CreateDigitalFulfillmentDetails;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
-     * (Value): {@link FulfillmentLineItemRequest}. An order line item and quantity to include when
-     * creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequest>;
-    /**
-     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
-     * delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetails;
-    /**
-     * Merchant location responsible for this fulfillment. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-    /**
-     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
-     * the pickup address, location, window, instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetails;
-    /**
-     * Who receives the fulfillment. Recipient details you supply when creating or updating a
-     * fulfillment: name, email, phone, address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequest;
-    /**
-     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
-     * the scheduled start and end, timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetails;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequest;
-    /** The kind of fulfillment. Value enum: "service". */
-    "type": "service" | (string & {});
-});
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestServiceInput = ({
-    /**
-     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     */
-    "device_id"?: string;
-    /**
-     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
-     * you supply when creating a fulfillment: the delivery URL.
-     */
-    "digital_details"?: CreateDigitalFulfillmentDetailsInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
-     * (Value): {@link FulfillmentLineItemRequestInput}. An order line item and quantity to include
-     * when creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequestInput>;
-    /**
-     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
-     * delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput;
-    /**
-     * Merchant location responsible for this fulfillment. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-    /**
-     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
-     * the pickup address, location, window, instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetailsInput;
-    /**
-     * Who receives the fulfillment. Recipient details you supply when creating or updating a
-     * fulfillment: name, email, phone, address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequestInput;
-    /**
-     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
-     * the scheduled start and end, timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetailsInput;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequestInput;
-    /** The kind of fulfillment. Value enum: "service". */
-    "type": "service";
-})
-    & (({
-    "shipment"?: never;
-}))
-    & (({
-    "pickup_details"?: never;
-}))
-    & (({
-    "local_delivery_details"?: never;
-}))
-    & (({
-    "digital_details"?: never;
-}));
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestShipment = ({
-    /**
-     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     */
-    "device_id"?: string;
-    /**
-     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
-     * you supply when creating a fulfillment: the delivery URL.
-     */
-    "digital_details"?: CreateDigitalFulfillmentDetails;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
-     * (Value): {@link FulfillmentLineItemRequest}. An order line item and quantity to include when
-     * creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequest>;
-    /**
-     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
-     * delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetails;
-    /**
-     * Merchant location responsible for this fulfillment. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-    /**
-     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
-     * the pickup address, location, window, instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetails;
-    /**
-     * Who receives the fulfillment. Recipient details you supply when creating or updating a
-     * fulfillment: name, email, phone, address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequest;
-    /**
-     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
-     * the scheduled start and end, timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetails;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequest;
-    /** The kind of fulfillment. Value enum: "shipment". */
-    "type": "shipment" | (string & {});
-});
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestShipmentInput = ({
-    /**
-     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     */
-    "device_id"?: string;
-    /**
-     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
-     * you supply when creating a fulfillment: the delivery URL.
-     */
-    "digital_details"?: CreateDigitalFulfillmentDetailsInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
-     * (Value): {@link FulfillmentLineItemRequestInput}. An order line item and quantity to include
-     * when creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequestInput>;
-    /**
-     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
-     * delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput;
-    /**
-     * Merchant location responsible for this fulfillment. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-    /**
-     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
-     * the pickup address, location, window, instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetailsInput;
-    /**
-     * Who receives the fulfillment. Recipient details you supply when creating or updating a
-     * fulfillment: name, email, phone, address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequestInput;
-    /**
-     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
-     * the scheduled start and end, timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetailsInput;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequestInput;
-    /** The kind of fulfillment. Value enum: "shipment". */
-    "type": "shipment";
-})
-    & (({
-    "pickup_details"?: never;
-}))
-    & (({
-    "local_delivery_details"?: never;
-}))
-    & (({
-    "digital_details"?: never;
-}))
-    & (({
-    "service_details"?: never;
-}));
-/** The request body for: Create a gift card funding disposition. */
-export type CreateGiftCardFundingDispositionRequest = {
-    /**
-     * What the merchant decided about the card's value after the funding payment lost a dispute.
-     * Default: "honor_value". Value enum: "honor_value".
-     */
-    "disposition"?: "honor_value" | (string & {});
-    /**
-     * The lost dispute on the payment that funded the gift card value. minLength: 1. pattern:
-     * ^du_[0-9A-HJKMNP-TV-Z]{26}$. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
-     */
-    "dispute_id": string;
-    /**
-     * Your reason for honoring the gift card value despite the confirmed funding loss. minLength:
-     * 1. maxLength: 200.
-     */
-    "reason_message": string;
-};
-/** The request body for: Create a gift card funding disposition. */
-export type CreateGiftCardFundingDispositionRequestInput = {
-    /**
-     * What the merchant decided about the card's value after the funding payment lost a dispute.
-     * Default: "honor_value". Value enum: "honor_value".
-     */
-    "disposition"?: "honor_value";
-    /**
-     * The lost dispute on the payment that funded the gift card value. minLength: 1. pattern:
-     * ^du_[0-9A-HJKMNP-TV-Z]{26}$. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
-     */
-    "dispute_id": string;
-    /**
-     * Your reason for honoring the gift card value despite the confirmed funding loss. minLength:
-     * 1. maxLength: 200.
-     */
-    "reason_message": string;
-};
-/** The request body for: Load a gift card. */
-export type CreateGiftCardLoadRequest = ({
-    /**
-     * What the buyer paid for the value, separate from `value_money`. `null` when no payment
-     * amount is recorded. anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code. anyOf[1].amount (Required): integer
-     * string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
-     * minimum: 0. Amount in the currency's minor unit, such as cents for USD. Use an integer
-     * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-     * anyOf[1].currency (Required): string. ISO 4217 currency code for this amount. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
-     */
-    "consideration_money"?: ((({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 0.
-         */
-        "amount"?: `${bigint}`;
-    })
-        & (Exclude<MoneyValue & object, readonly unknown[]>))
-        | (null)
-        | (unknown));
-    /**
-     * The gift card version last read. The command changes this card only when its current version
-     * matches. Format: int64. minimum: 1.
-     */
-    "expected_gift_card_version"?: number;
-    /** The gift card to load. minLength: 1. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". */
-    "gift_card_id": string;
-    /**
-     * Where the value came from, with your reference for it. Where the value of a gift card load
-     * came from, such as an external payment, a Flint payment, an import, or an adjustment, with
-     * your reference for it. funding_source_type (Required): string. Where the value came from.
-     * Value enum: "external_payment", "flint_payment", "import". customer_id (Optional): string.
-     * ID of the customer the funding is attributed to. Required for `external_payment` and
-     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". external_reference_id (Required): string. Your reference
-     * for the payment or import record that funded this value, such as a POS sale ID. Required; 1
-     * to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842". order_id
-     * (Optional): string. ID of the order that funded the value. Required for
-     * `flint_manual_payment` and `store_credit`; not accepted for `external_payment` or `import`.
-     * minLength: 1. maxLength: 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     * order_manual_payment_id (Optional): string. ID of the manual payment on the order that
-     * funded the value. Required for `flint_manual_payment`. minLength: 1. maxLength: 255.
-     * Example: "omp_01KEZF7C007J18203RBJKB9TYE". payment_intent_id (Optional): string. The
-     * original payment for flint_payment or store_credit value. For standalone paid funding, use a
-     * captured payment intent without an order_id. Order-linked payments fund purchased cards or
-     * store credit through their order. minLength: 1. maxLength: 255. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". refund_id (Optional): string. Refund that issued this
-     * value. Present only when funding_source_type is store_credit. minLength: 1. Example:
-     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". oneOf[1] (Value): {@link
-     * GiftCardFundingSourceExternalPayment}. The `external_payment` variant of
-     * `GiftCardFundingSource`. oneOf[2] (Value): {@link GiftCardFundingSourceFlintPayment}. The
-     * `flint_payment` variant of `GiftCardFundingSource`. oneOf[3] (Value): {@link
-     * GiftCardFundingSourceFlintManualPayment}. The `flint_manual_payment` variant of
-     * `GiftCardFundingSource`. oneOf[4] (Value): {@link GiftCardFundingSourceImport}. The `import`
-     * variant of `GiftCardFundingSource`. oneOf[5] (Value): {@link
-     * GiftCardFundingSourceAdjustment}. The `adjustment` variant of `GiftCardFundingSource`.
-     * oneOf[6] (Value): {@link GiftCardFundingSourceGiftCardRefund}. The `gift_card_refund`
-     * variant of `GiftCardFundingSource`. oneOf[7] (Value): {@link
-     * GiftCardFundingSourceGiftCardPurchaseRefundRecovery}. The
-     * `gift_card_purchase_refund_recovery` variant of `GiftCardFundingSource`. oneOf[8] (Value):
-     * {@link GiftCardFundingSourceStoreCredit}. The `store_credit` variant of
-     * `GiftCardFundingSource`.
-     */
-    "source": ({
-        /** Value enum: "external_payment", "flint_payment", "import". */
-        "funding_source_type"?: unknown;
-    })
-        & (Exclude<GiftCardFundingSource & object, readonly unknown[]>);
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "source_created_at"?: string;
-    /**
-     * The face value the load adds to the card. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. amount (Required): integer string. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the
-     * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     */
-    "value_money": ({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
-         */
-        "amount"?: `${bigint}`;
-    })
-        & (Exclude<MoneyValue & object, readonly unknown[]>);
-});
-/** The request body for: Load a gift card. */
-export type CreateGiftCardLoadRequestInput = ({
-    /**
-     * What the buyer paid for the value, separate from `value_money`. `null` when no payment
-     * amount is recorded. anyOf[1] (Value): {@link MoneyValueInput}. Monetary amount represented
-     * as integer minor units plus an ISO 4217 currency code. anyOf[1].amount (Required): integer
-     * string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
-     * minimum: 0. Amount in the currency's minor unit, such as cents for USD. Use an integer
-     * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-     * anyOf[1].currency (Required): string. ISO 4217 currency code for this amount. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
-     */
-    "consideration_money"?: ((({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 0.
-         */
-        "amount"?: `${bigint}` | bigint;
-    })
-        & (Exclude<MoneyValueInput & object, readonly unknown[]>))
-        | (null));
-    /**
-     * The gift card version last read. The command changes this card only when its current version
-     * matches. Format: int64. minimum: 1.
-     */
-    "expected_gift_card_version"?: number;
-    /** The gift card to load. minLength: 1. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". */
-    "gift_card_id": string;
-    /**
-     * Where the value came from, with your reference for it. Where the value of a gift card load
-     * came from, such as an external payment, a Flint payment, an import, or an adjustment, with
-     * your reference for it. funding_source_type (Required): string. Where the value came from.
-     * Value enum: "external_payment", "flint_payment", "import". customer_id (Optional): string.
-     * ID of the customer the funding is attributed to. Required for `external_payment` and
-     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". external_reference_id (Required): string. Your reference
-     * for the payment or import record that funded this value, such as a POS sale ID. Required; 1
-     * to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842". order_id
-     * (Optional): string. ID of the order that funded the value. Required for
-     * `flint_manual_payment` and `store_credit`; not accepted for `external_payment` or `import`.
-     * minLength: 1. maxLength: 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_intent_id
-     * (Optional): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". oneOf[1] (Value): {@link
-     * GiftCardFundingSourceExternalPaymentRequestInput}. The `external_payment` variant of
-     * `GiftCardFundingSource`. oneOf[2] (Value): {@link
-     * GiftCardFundingSourceFlintPaymentRequestInput}. The `flint_payment` variant of
-     * `GiftCardFundingSource`. oneOf[3] (Value): {@link
-     * GiftCardFundingSourceFlintManualPaymentRequestInput}. The `flint_manual_payment` variant of
-     * `GiftCardFundingSource`. oneOf[4] (Value): {@link GiftCardFundingSourceImportRequestInput}.
-     * The `import` variant of `GiftCardFundingSource`. oneOf[5] (Value): {@link
-     * GiftCardFundingSourceAdjustmentRequestInput}. The `adjustment` variant of
-     * `GiftCardFundingSource`. oneOf[6] (Value): {@link
-     * GiftCardFundingSourceGiftCardRefundRequestInput}. The `gift_card_refund` variant of
-     * `GiftCardFundingSource`. oneOf[7] (Value): {@link
-     * GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequestInput}. The
-     * `gift_card_purchase_refund_recovery` variant of `GiftCardFundingSource`. oneOf[8] (Value):
-     * {@link GiftCardFundingSourceStoreCreditRequestInput}. The `store_credit` variant of
-     * `GiftCardFundingSource`.
-     */
-    "source": ({
-        /** Value enum: "external_payment", "flint_payment", "import". */
-        "funding_source_type"?: "external_payment" | "flint_payment" | "import";
-    })
-        & (Exclude<GiftCardFundingSourceRequestInput & object, readonly unknown[]>)
-        & ({
-        "order_manual_payment_id"?: never;
-    });
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "source_created_at"?: string | globalThis.Date;
-    /**
-     * The face value the load adds to the card. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. amount (Required): integer string. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the
-     * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     */
-    "value_money": ({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
-         */
-        "amount"?: `${bigint}` | bigint;
-    })
-        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
-});
-/**
- * The result of loading a gift card: the updated gift card, the gift card load, and the
- * transactions it created.
- */
-export type CreateGiftCardLoadResult = {
-    /**
-     * The gift card after the command. Merchant-issued purchased gift card. Posted balance
-     * includes reserved value; available value is balance minus reservations. Frozen value remains
-     * part of outstanding liability. Gift cards are independent resources and cannot be
-     * transferred across merchants or currencies.
-     */
-    "gift_card": GiftCard;
-    /**
-     * The load the command created. Top-level child of a gift card. Value and consideration are
-     * separate. External funding and import provenance are merchant-attested; no payment is
-     * collected by recording them. Replacement refund lots retain original funding provenance and
-     * do not represent new paid funding.
-     */
-    "gift_card_load": GiftCardLoad;
-    /**
-     * The transactions the command posted to the card. [] (Value): {@link GiftCardTransaction}.
-     * Immutable posted financial movement with signed amount, per-card sequence, merchant sequence
-     * and balance snapshots. Corrections create new transactions.
-     */
-    "gift_card_transactions": Array<GiftCardTransaction>;
-};
-/** A response containing `CreateGiftCardLoadResult` data. */
-export type CreateGiftCardLoadResultResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The result of loading a
-     * gift card: the updated gift card, the gift card load, and the transactions it created.
-     */
-    "data": CreateGiftCardLoadResult;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The request body for: Send a gift card notification. */
-export type CreateGiftCardNotificationRequest = {
-    /**
-     * ID of the gift card the notification is about. minLength: 1. Example:
-     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
-     */
-    "gift_card_id": string;
-    /**
-     * Who the notification is sent to. Who receives a gift card notification: their `email`,
-     * optional `name` and `message`, and an optional `send_at` time.
-     */
-    "recipient": GiftCardPurchaseRecipient;
-    /**
-     * ID of the earlier notification this one sends again. minLength: 1. Example:
-     * "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
-     */
-    "resend_of_notification_id"?: string;
-};
-/** The request body for: Send a gift card notification. */
-export type CreateGiftCardNotificationRequestInput = {
-    /**
-     * ID of the gift card the notification is about. minLength: 1. Example:
-     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
-     */
-    "gift_card_id": string;
-    /**
-     * Who the notification is sent to. Who receives a gift card notification: their `email`,
-     * optional `name` and `message`, and an optional `send_at` time.
-     */
-    "recipient": GiftCardNotificationRecipientInput;
-    /**
-     * ID of the earlier notification this one sends again. minLength: 1. Example:
-     * "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
-     */
-    "resend_of_notification_id"?: string;
-};
-/** The request body for: Redeem gift card value. */
-export type CreateGiftCardRedemptionRequest = ({
-    /**
-     * The amount to redeem from the card. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
-     * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     */
-    "amount_money": ({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
-         */
-        "amount"?: `${bigint}`;
-    })
-        & (Exclude<MoneyValue & object, readonly unknown[]>);
-    /**
-     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
-     * "automatic", "manual".
-     */
-    "capture_mode": "automatic" | "manual" | (string & {});
-    /**
-     * The gift card version last read. The command changes this card only when its current version
-     * matches. Format: int64. minimum: 1.
-     */
-    "expected_gift_card_version"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "expires_at"?: string;
-    /**
-     * ID of the gift card the value is spent from. minLength: 1. Example:
-     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
-     */
-    "gift_card_id": string;
-    /**
-     * Your reference for the sale the redemption pays for. Required; 1 to 255 characters. The
-     * value is preserved exactly as sent. minLength: 1. maxLength: 255.
-     */
-    "sale_reference": string;
-})
-    & ((Exclude<CreateGiftCardRedemptionRequestAutomatic & object, readonly unknown[]>)
-    | (Exclude<CreateGiftCardRedemptionRequestManual & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The `automatic` variant of `CreateGiftCardRedemptionRequest`. */
-export type CreateGiftCardRedemptionRequestAutomatic = ({
-    /**
-     * The amount to redeem from the card. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
-     * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     */
-    "amount_money": ({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
-         */
-        "amount"?: `${bigint}`;
-    })
-        & (Exclude<MoneyValue & object, readonly unknown[]>);
-    /**
-     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
-     * "automatic".
-     */
-    "capture_mode": "automatic" | (string & {});
-    /**
-     * The gift card version last read. The command changes this card only when its current version
-     * matches. Format: int64. minimum: 1.
-     */
-    "expected_gift_card_version"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "expires_at"?: string;
-    /**
-     * ID of the gift card the value is spent from. minLength: 1. Example:
-     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
-     */
-    "gift_card_id": string;
-    /**
-     * Your reference for the sale the redemption pays for. Required; 1 to 255 characters. The
-     * value is preserved exactly as sent. minLength: 1. maxLength: 255.
-     */
-    "sale_reference": string;
-})
-    & (({
-    /**
-     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
-     * "automatic".
-     */
-    "capture_mode": unknown;
-}));
-/** The `automatic` variant of `CreateGiftCardRedemptionRequest`. */
-export type CreateGiftCardRedemptionRequestAutomaticInput = ({
-    /**
-     * The amount to redeem from the card. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
-     * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     */
-    "amount_money": ({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
-         */
-        "amount"?: `${bigint}` | bigint;
-    })
-        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
-    /**
-     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
-     * "automatic".
-     */
-    "capture_mode": "automatic";
-    /**
-     * The gift card version last read. The command changes this card only when its current version
-     * matches. Format: int64. minimum: 1.
-     */
-    "expected_gift_card_version"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "expires_at"?: string | globalThis.Date;
-    /**
-     * ID of the gift card the value is spent from. minLength: 1. Example:
-     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
-     */
-    "gift_card_id": string;
-    /**
-     * Your reference for the sale the redemption pays for. Required; 1 to 255 characters. The
-     * value is preserved exactly as sent. minLength: 1. maxLength: 255.
-     */
-    "sale_reference": string;
-})
-    & (({
-    /**
-     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
-     * "automatic".
-     */
-    "capture_mode": ("automatic") & ("automatic");
-})
-    & ({
-    "expires_at"?: never;
-}));
-/** The request body for: Redeem gift card value. */
-export type CreateGiftCardRedemptionRequestInput = ({
-    /**
-     * The amount to redeem from the card. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
-     * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     */
-    "amount_money": ({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
-         */
-        "amount"?: `${bigint}` | bigint;
-    })
-        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
-    /**
-     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
-     * "automatic", "manual".
-     */
-    "capture_mode": "automatic" | "manual";
-    /**
-     * The gift card version last read. The command changes this card only when its current version
-     * matches. Format: int64. minimum: 1.
-     */
-    "expected_gift_card_version"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "expires_at"?: string | globalThis.Date;
-    /**
-     * ID of the gift card the value is spent from. minLength: 1. Example:
-     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
-     */
-    "gift_card_id": string;
-    /**
-     * Your reference for the sale the redemption pays for. Required; 1 to 255 characters. The
-     * value is preserved exactly as sent. minLength: 1. maxLength: 255.
-     */
-    "sale_reference": string;
-})
-    & ((Exclude<CreateGiftCardRedemptionRequestAutomaticInput & object, readonly unknown[]>)
-    | (Exclude<CreateGiftCardRedemptionRequestManualInput & object, readonly unknown[]>));
-/** The `manual` variant of `CreateGiftCardRedemptionRequest`. */
-export type CreateGiftCardRedemptionRequestManual = ({
-    /**
-     * The amount to redeem from the card. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
-     * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     */
-    "amount_money": ({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
-         */
-        "amount"?: `${bigint}`;
-    })
-        & (Exclude<MoneyValue & object, readonly unknown[]>);
-    /**
-     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
-     * "manual".
-     */
-    "capture_mode": "manual" | (string & {});
-    /**
-     * The gift card version last read. The command changes this card only when its current version
-     * matches. Format: int64. minimum: 1.
-     */
-    "expected_gift_card_version"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "expires_at"?: string;
-    /**
-     * ID of the gift card the value is spent from. minLength: 1. Example:
-     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
-     */
-    "gift_card_id": string;
-    /**
-     * Your reference for the sale the redemption pays for. Required; 1 to 255 characters. The
-     * value is preserved exactly as sent. minLength: 1. maxLength: 255.
-     */
-    "sale_reference": string;
-})
-    & ({
-    /**
-     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
-     * "manual".
-     */
-    "capture_mode": unknown;
-});
-/** The `manual` variant of `CreateGiftCardRedemptionRequest`. */
-export type CreateGiftCardRedemptionRequestManualInput = ({
-    /**
-     * The amount to redeem from the card. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
-     * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     */
-    "amount_money": ({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
-         */
-        "amount"?: `${bigint}` | bigint;
-    })
-        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
-    /**
-     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
-     * "manual".
-     */
-    "capture_mode": "manual";
-    /**
-     * The gift card version last read. The command changes this card only when its current version
-     * matches. Format: int64. minimum: 1.
-     */
-    "expected_gift_card_version"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "expires_at"?: string | globalThis.Date;
-    /**
-     * ID of the gift card the value is spent from. minLength: 1. Example:
-     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
-     */
-    "gift_card_id": string;
-    /**
-     * Your reference for the sale the redemption pays for. Required; 1 to 255 characters. The
-     * value is preserved exactly as sent. minLength: 1. maxLength: 255.
-     */
-    "sale_reference": string;
-})
-    & ({
-    /**
-     * Whether the redemption spends the value now or reserves it to capture later. Value enum:
-     * "manual".
-     */
-    "capture_mode": ("manual") & ("manual");
-});
-/** The request body for: Create a gift card. */
-export type CreateGiftCardRequest = {
-    /**
-     * ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     * Value enum: "USD".
-     */
-    "currency": "USD" | (string & {});
-    /**
-     * ID of the customer to associate with the card. minLength: 1. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * The card's initial value and where it came from. Omit it to create an unfunded `pending`
-     * card. anyOf[1] (Value): {@link InitialGiftCardFunding}. The initial funding for a new gift
-     * card: the `source` of the value, the `value_money`, and optional consideration and source
-     * time. anyOf[2] (Value): null.
-     */
-    "funding"?: ((InitialGiftCardFunding) | (null));
-    /**
-     * Optional recipient notification recorded with issuance. Requires
-     * commerce.gift_cards.secrets.write in addition to issuance authority. Who receives a gift
-     * card notification: their `email`, optional `name` and `message`, and an optional `send_at`
-     * time.
-     */
-    "notification"?: GiftCardPurchaseRecipient;
-};
-/** The request body for: Create a gift card. */
-export type CreateGiftCardRequestInput = {
-    /**
-     * Existing gift card code, accepted only with funding.source.funding_source_type import. Must
-     * contain 16 gift card alphabet characters after removing spaces and hyphens; O maps to 0 and
-     * I/L to 1. The supplied code is never returned. minLength: 1. maxLength: 64.
-     */
-    "code"?: string;
-    /**
-     * ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     * Value enum: "USD".
-     */
-    "currency": "USD";
-    /**
-     * ID of the customer to associate with the card. minLength: 1. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * The card's initial value and where it came from. Omit it to create an unfunded `pending`
-     * card. anyOf[1] (Value): {@link InitialGiftCardFundingInput}. The initial funding for a new
-     * gift card: the `source` of the value, the `value_money`, and optional consideration and
-     * source time. anyOf[2] (Value): null.
-     */
-    "funding"?: ((InitialGiftCardFundingInput) | (null));
-    /**
-     * Optional recipient notification recorded with issuance. Requires
-     * commerce.gift_cards.secrets.write in addition to issuance authority. Who receives a gift
-     * card notification: their `email`, optional `name` and `message`, and an optional `send_at`
-     * time.
-     */
-    "notification"?: GiftCardNotificationRecipientInput;
-};
-/**
- * The result of creating a gift card: the card, its transactions, any load and notification, and
- * the code while it can still be recovered.
- */
-export type CreateGiftCardResult = {
-    /**
-     * The full current code. Omitted after the 24-hour recovery window or when this code has been
-     * replaced.
-     */
-    "code"?: string;
-    /**
-     * When recovery of this code expires. Omitted when the code cannot be recovered. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "code_recovery_expires_at"?: string;
-    /**
-     * The gift card after the command. Merchant-issued purchased gift card. Posted balance
-     * includes reserved value; available value is balance minus reservations. Frozen value remains
-     * part of outstanding liability. Gift cards are independent resources and cannot be
-     * transferred across merchants or currencies.
-     */
-    "gift_card": GiftCard;
-    /**
-     * The load the command created. Top-level child of a gift card. Value and consideration are
-     * separate. External funding and import provenance are merchant-attested; no payment is
-     * collected by recording them. Replacement refund lots retain original funding provenance and
-     * do not represent new paid funding.
-     */
-    "gift_card_load"?: GiftCardLoad;
-    /**
-     * The notification the command created because the request included `notification`. Omitted
-     * otherwise. A message sent to a gift card recipient.
-     */
-    "gift_card_notification"?: GiftCardNotification;
-    /**
-     * The transactions the command posted to the card. [] (Value): {@link GiftCardTransaction}.
-     * Immutable posted financial movement with signed amount, per-card sequence, merchant sequence
-     * and balance snapshots. Corrections create new transactions.
-     */
-    "gift_card_transactions": Array<GiftCardTransaction>;
-};
-/** A response containing `CreateGiftCardResult` data. */
-export type CreateGiftCardResultResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The result of creating a
-     * gift card: the card, its transactions, any load and notification, and the code while it can
-     * still be recovered.
-     */
-    "data": CreateGiftCardResult;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * A modifier group defined inline when creating a modifier set, with its selection limits,
- * modifiers or text rules, and display flags.
- */
-export type CreateInlineModifierGroupRequestInput = {
-    /** Whether buyers can select more than one unit of a list modifier. Default: false. */
-    "allow_quantities"?: boolean;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Maximum whole-number quantity for each selected list modifier when allow_quantities is true;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "max_quantity"?: number;
-    /**
-     * Maximum number of distinct modifiers buyers can select from a list group. Omit it for no
-     * limit. A modifier set can override this value. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
-     * are not supported. Format: int64.
-     */
-    "max_total_quantity"?: number;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Minimum whole-number quantity for each selected list modifier when allow_quantities is true;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "min_quantity"?: number;
-    /**
-     * Minimum number of distinct modifiers buyers must select from a list group. Omit it to
-     * require no selections. A modifier set can override this value. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Whether buyers choose from a list of modifiers or enter text. On create, inferred as text
-     * when text configuration is supplied, otherwise list. Value enum: "list", "text".
-     */
-    "modifier_group_type"?: "list" | "text";
-    /**
-     * Choices in a list group. Only active modifiers whose set override's available is not false
-     * are offered to buyers. Text groups do not have choices. [] (Value): {@link
-     * CreateModifierRequestInput}. A modifier to create in a modifier group, with its name, price
-     * change, tax category, and default selection.
-     */
-    "modifiers"?: Array<CreateModifierRequestInput>;
-    /** Name of the modifier group shown to buyers. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Whether selections from this group appear in fulfillment details unless overridden for a
-     * modifier set.
-     */
-    "show_on_fulfillment"?: boolean;
-    /**
-     * Whether selections from this group appear on buyer receipts unless overridden for a modifier
-     * set.
-     */
-    "show_on_receipt"?: boolean;
-    /**
-     * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
-     * archived groups remain readable and cannot be edited. Default: "active". Value enum:
-     * "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /**
-     * Text entry rules for a text group. Use text.required to require a value; list groups use
-     * min_selected instead. Settings for a text modifier group when creating or updating one:
-     * required, multiline, and length limits.
-     */
-    "text"?: TextModifierConfigRequestInput;
-};
-/**
- * The `balance_transactions_itemized_v1` variant of `CreateReportRequest`. The
- * `gift_card_liability_v1` variant of `CreateReportRequest`. The `invoices_itemized_v1` variant of
- * `CreateReportRequest`. The `merchant_billing_itemized_v1` variant of `CreateReportRequest`. The
- * `orders_itemized_v1` variant of `CreateReportRequest`. The `orders_itemized_v2` variant of
- * `CreateReportRequest`. The `payments_itemized_v1` variant of `CreateReportRequest`. The
- * `payouts_itemized_v1` variant of `CreateReportRequest`. The `tax_itemized_v1` variant of
- * `CreateReportRequest`. The `tax_summarized_v1` variant of `CreateReportRequest`. The
- * `tax_transactions_itemized_v1` variant of `CreateReportRequest`. The
- * `tax_transactions_itemized_v2` variant of `CreateReportRequest`.
- */
-export type CreateIntervalReportRequest = ({
-    /**
-     * Required only for receivables_aging_v1. Calendar date in timezone, YYYY-MM-DD, no later than
-     * today. Balances are measured at the earlier of the end of that day and report creation.
-     * Format: date. minLength: 1. Example: "2026-08-02".
-     */
-    "as_of_date"?: string;
-    /**
-     * Three-letter ISO 4217 currency. Reports never combine currencies. gift_card_liability_v1
-     * supports USD only; other currencies return INVALID_REQUEST on currency. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency": string;
-    /**
-     * Exclusive report interval end instant. Each report type matches its own occurrence time. At
-     * most the same local time 366 calendar days after interval_start_at in timezone. Must not be
-     * in the future. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "interval_end_at": string;
-    /**
-     * Inclusive report interval start instant. Each report type matches its own occurrence time.
-     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "interval_start_at": string;
-    /**
-     * Which report to generate. The value names the row and the column version, such as
-     * payments_itemized_v1. The Reports guide lists each type's rows, interval matching, and
-     * columns. Value enum: "invoices_itemized_v1", "gift_card_liability_v1", "orders_itemized_v1",
-     * "orders_itemized_v2", "payments_itemized_v1", "balance_transactions_itemized_v1",
-     * "payouts_itemized_v1", "tax_itemized_v1", "tax_summarized_v1",
-     * "merchant_billing_itemized_v1", "tax_transactions_itemized_v1",
-     * "tax_transactions_itemized_v2".
-     */
-    "report_type": "invoices_itemized_v1"
-        | "gift_card_liability_v1"
-        | "orders_itemized_v1"
-        | "orders_itemized_v2"
-        | "payments_itemized_v1"
-        | "balance_transactions_itemized_v1"
-        | "payouts_itemized_v1"
-        | "tax_itemized_v1"
-        | "tax_summarized_v1"
-        | "merchant_billing_itemized_v1"
-        | "tax_transactions_itemized_v1"
-        | "tax_transactions_itemized_v2"
-        | (string & {});
-    /**
-     * IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its
-     * arrival_date in this timezone. Defaults to the merchant's timezone, then UTC, and is saved
-     * on the report at creation. minLength: 1.
-     */
-    "timezone"?: string;
-});
-/**
- * The `balance_transactions_itemized_v1` variant of `CreateReportRequest`. The
- * `gift_card_liability_v1` variant of `CreateReportRequest`. The `invoices_itemized_v1` variant of
- * `CreateReportRequest`. The `merchant_billing_itemized_v1` variant of `CreateReportRequest`. The
- * `orders_itemized_v1` variant of `CreateReportRequest`. The `orders_itemized_v2` variant of
- * `CreateReportRequest`. The `payments_itemized_v1` variant of `CreateReportRequest`. The
- * `payouts_itemized_v1` variant of `CreateReportRequest`. The `tax_itemized_v1` variant of
- * `CreateReportRequest`. The `tax_summarized_v1` variant of `CreateReportRequest`. The
- * `tax_transactions_itemized_v1` variant of `CreateReportRequest`. The
- * `tax_transactions_itemized_v2` variant of `CreateReportRequest`.
- */
-export type CreateIntervalReportRequestInput = ({
-    /**
-     * Required only for receivables_aging_v1. Calendar date in timezone, YYYY-MM-DD, no later than
-     * today. Balances are measured at the earlier of the end of that day and report creation.
-     * Format: date. minLength: 1. Example: "2026-08-02".
-     */
-    "as_of_date"?: string;
-    /**
-     * Three-letter ISO 4217 currency. Reports never combine currencies. gift_card_liability_v1
-     * supports USD only; other currencies return INVALID_REQUEST on currency. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency": string;
-    /**
-     * Exclusive report interval end instant. Each report type matches its own occurrence time. At
-     * most the same local time 366 calendar days after interval_start_at in timezone. Must not be
-     * in the future. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "interval_end_at": string | globalThis.Date;
-    /**
-     * Inclusive report interval start instant. Each report type matches its own occurrence time.
-     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "interval_start_at": string | globalThis.Date;
-    /**
-     * Which report to generate. The value names the row and the column version, such as
-     * payments_itemized_v1. The Reports guide lists each type's rows, interval matching, and
-     * columns. Value enum: "invoices_itemized_v1", "gift_card_liability_v1", "orders_itemized_v1",
-     * "orders_itemized_v2", "payments_itemized_v1", "balance_transactions_itemized_v1",
-     * "payouts_itemized_v1", "tax_itemized_v1", "tax_summarized_v1",
-     * "merchant_billing_itemized_v1", "tax_transactions_itemized_v1",
-     * "tax_transactions_itemized_v2".
-     */
-    "report_type": "invoices_itemized_v1"
-        | "gift_card_liability_v1"
-        | "orders_itemized_v1"
-        | "orders_itemized_v2"
-        | "payments_itemized_v1"
-        | "balance_transactions_itemized_v1"
-        | "payouts_itemized_v1"
-        | "tax_itemized_v1"
-        | "tax_summarized_v1"
-        | "merchant_billing_itemized_v1"
-        | "tax_transactions_itemized_v1"
-        | "tax_transactions_itemized_v2";
-    /**
-     * IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its
-     * arrival_date in this timezone. Defaults to the merchant's timezone, then UTC, and is saved
-     * on the report at creation. minLength: 1.
-     */
-    "timezone"?: string;
-})
-    & (({
-    "as_of_date"?: never;
-}));
-/** The `condition_changed` variant of `CreateInventoryAdjustmentRequest`. */
-export type CreateInventoryAdjustmentConditionChangeRequest = ({
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
-     * maxItems: 100. [] (Value): {@link InventoryAdjustmentConditionChangeLineRequest}. One line
-     * of an inventory condition change: moves a `quantity` of an item at a Location from one
-     * condition to another.
-     */
-    "lines": Array<InventoryAdjustmentConditionChangeLineRequest>;
-    /**
-     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
-     */
-    "note"?: string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
-     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string;
-    /**
-     * Why the stock changed. It decides which fields each line takes. Value enum:
-     * "condition_changed".
-     */
-    "reason": "condition_changed" | (string & {});
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. The source system
-     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
-     * identifier when it applies.
-     */
-    "source_system"?: InventorySourceSystemRequest;
-});
-/** The `condition_changed` variant of `CreateInventoryAdjustmentRequest`. */
-export type CreateInventoryAdjustmentConditionChangeRequestInput = ({
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
-     * maxItems: 100. [] (Value): {@link InventoryAdjustmentConditionChangeLineRequestInput}. One
-     * line of an inventory condition change: moves a `quantity` of an item at a Location from one
-     * condition to another.
-     */
-    "lines": Array<InventoryAdjustmentConditionChangeLineRequestInput>;
-    /**
-     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
-     */
-    "note"?: string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
-     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Why the stock changed. It decides which fields each line takes. Value enum:
-     * "condition_changed".
-     */
-    "reason": "condition_changed";
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. The source system
-     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
-     * identifier when it applies.
-     */
-    "source_system"?: InventorySourceSystemRequestInput;
-});
-/** The `correction` variant of `CreateInventoryAdjustmentRequest`. */
-export type CreateInventoryAdjustmentCorrectionRequest = ({
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
-     * maxItems: 100. [] (Value): {@link InventoryAdjustmentSetLineRequest}. One line of an
-     * inventory adjustment that sets absolute quantities for an item at a Location. Omitted
-     * quantities stay unchanged.
-     */
-    "lines": Array<InventoryAdjustmentSetLineRequest>;
-    /**
-     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
-     * pattern: \S.
-     */
-    "note": string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
-     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string;
-    /** Why the stock changed. It decides which fields each line takes. Value enum: "correction". */
-    "reason": "correction" | (string & {});
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. The source system
-     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
-     * identifier when it applies.
-     */
-    "source_system"?: InventorySourceSystemRequest;
-})
-    & (({
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. type (Required):
-     * string. Value enum: "pos", "wms", "erp", "other".
-     */
-    "source_system": null
-        | boolean
-        | number
-        | string
-        | unknown[]
-        | ({
-        /** Value enum: "pos", "wms", "erp", "other". */
-        "type": "pos" | "wms" | "erp" | "other" | (string & {});
-        "external_source_id": unknown;
-    });
-})
-    | ({
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. [] (Value):
-     * any.
-     */
-    "lines"?: unknown;
-})
-    | (Record<string, unknown>));
-/** The `correction` variant of `CreateInventoryAdjustmentRequest`. */
-export type CreateInventoryAdjustmentCorrectionRequestInput = ({
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
-     * maxItems: 100. [] (Value): {@link InventoryAdjustmentSetLineRequestInput}. One line of an
-     * inventory adjustment that sets absolute quantities for an item at a Location. Omitted
-     * quantities stay unchanged.
-     */
-    "lines": Array<InventoryAdjustmentSetLineRequestInput>;
-    /**
-     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
-     * pattern: \S.
-     */
-    "note": string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
-     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string | globalThis.Date;
-    /** Why the stock changed. It decides which fields each line takes. Value enum: "correction". */
-    "reason": "correction";
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. The source system
-     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
-     * identifier when it applies.
-     */
-    "source_system"?: InventorySourceSystemRequestInput;
-})
-    & (({
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. type (Required):
-     * string. Value enum: "pos", "wms", "erp", "other".
-     */
-    "source_system": null
-        | boolean
-        | number
-        | string
-        | unknown[]
-        | ({
-        /** Value enum: "pos", "wms", "erp", "other". */
-        "type": "pos" | "wms" | "erp" | "other";
-        "external_source_id": unknown;
-    });
-})
-    | ({
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. [] (Value):
-     * any.
-     */
-    "lines"?: unknown;
-}));
-/** The `counted` variant of `CreateInventoryAdjustmentRequest`. */
-export type CreateInventoryAdjustmentCountedRequest = ({
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
-     * maxItems: 100. [] (Value): {@link InventoryAdjustmentSetLineRequest}. One line of an
-     * inventory adjustment that sets absolute quantities for an item at a Location. Omitted
-     * quantities stay unchanged.
-     */
-    "lines": Array<InventoryAdjustmentSetLineRequest>;
-    /**
-     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
-     */
-    "note"?: string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
-     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string;
-    /** Why the stock changed. It decides which fields each line takes. Value enum: "counted". */
-    "reason": "counted" | (string & {});
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. The source system
-     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
-     * identifier when it applies.
-     */
-    "source_system"?: InventorySourceSystemRequest;
-})
-    & (({
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. type (Required):
-     * string. Value enum: "pos", "wms", "erp", "other".
-     */
-    "source_system": null
-        | boolean
-        | number
-        | string
-        | unknown[]
-        | ({
-        /** Value enum: "pos", "wms", "erp", "other". */
-        "type": "pos" | "wms" | "erp" | "other" | (string & {});
-        "external_source_id": unknown;
-    });
-})
-    | ({
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. [] (Value):
-     * any.
-     */
-    "lines"?: unknown;
-})
-    | (Record<string, unknown>));

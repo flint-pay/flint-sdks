@@ -2,12 +2,12 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read list<OrderEditLineAddition>|null $add_line_items
- * @property-read MoneyValue|null $added_total_money
- * @property-read MoneyValue|null $amount_due_money
+ * @property-read list<OrderEditLineAdditionPreviousAttributes>|null $add_line_items
+ * @property-read mixed $added_total_money
+ * @property-read mixed $amount_due_money
  * @property-read mixed $canceled_at
  * @property-read mixed $cancellation_reason
- * @property-read list<OrderEditChargeRefund>|null $charge_refunds
+ * @property-read list<OrderEditChargeRefundPreviousAttributes>|null $charge_refunds
  * @property-read mixed $completed_at
  * @property-read string|null $created_at
  * @property-read mixed $expires_at
@@ -16,31 +16,31 @@ namespace Flint;
  * @property-read mixed $payment_intent_id
  * @property-read string|null $reason
  * @property-read list<string>|null $refund_ids
- * @property-read MoneyValue|null $refund_money
- * @property-read list<OrderEditLineRemoval>|null $remove_line_items
- * @property-read MoneyValue|null $removed_total_money
+ * @property-read mixed $refund_money
+ * @property-read list<OrderEditLineRemovalPreviousAttributes>|null $remove_line_items
+ * @property-read mixed $removed_total_money
  * @property-read string|null $status
  * @property-read list<string>|null $supported_actions
- * @property-read MoneyValue|null $unrefunded_money
+ * @property-read mixed $unrefunded_money
  * @property-read int|null $version
  * Presence-aware response; omitted optional fields return null. */
 final class OrderEditCanceledInstalledMerchantsEventDataPreviousAttributes extends Model {
     /** @param array{'add_line_items'?: mixed, 'added_total_money'?: mixed, 'amount_due_money'?: mixed, 'canceled_at'?: mixed, 'cancellation_reason'?: mixed, 'charge_refunds'?: mixed, 'completed_at'?: mixed, 'created_at'?: mixed, 'expires_at'?: mixed, 'order_edit_id'?: mixed, 'order_id'?: mixed, 'payment_intent_id'?: mixed, 'reason'?: mixed, 'refund_ids'?: mixed, 'refund_money'?: mixed, 'remove_line_items'?: mixed, 'removed_total_money'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'unrefunded_money'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderEditCanceledInstalledMerchantsEventDataPreviousAttributes')); }
-    /** Added order lines, in request order, with their quantities and values frozen at creation. Empty when the edit added nothing. anyOf[1] (Value): Array of {@see OrderEditLineAddition}. Added order lines, in request order, with their quantities and values frozen at creation. Empty when the edit added nothing. anyOf[1][] (Value): {@see OrderEditLineAddition}. An order line added by the enclosing edit, with its value frozen at creation. anyOf[2] (Value): null.
-     * @return list<OrderEditLineAddition>|null
+    /** Added order lines, in request order, with their quantities and values frozen at creation. Empty when the edit added nothing. anyOf[1] (Value): Array of {@see OrderEditLineAdditionPreviousAttributes}. Added order lines, in request order, with their quantities and values frozen at creation. Empty when the edit added nothing. anyOf[1][] (Value): {@see OrderEditLineAdditionPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<OrderEditLineAdditionPreviousAttributes>|null
      */
     public function getAddLineItems(): array|null { return $this->get('add_line_items'); }
     public function hasAddLineItems(): bool { return $this->has('add_line_items'); }
-    /** The cost of the added lines: the sum of add_line_items[].total_money. Zero when the edit added nothing. anyOf[1] (Value): {@see MoneyValue}. The cost of the added lines: the sum of add_line_items[].total_money. Zero when the edit added nothing. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** The cost of the added lines: the sum of add_line_items[].total_money. Zero when the edit added nothing. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getAddedTotalMoney(): MoneyValue|null { return $this->get('added_total_money'); }
+    public function getAddedTotalMoney(): mixed { return $this->get('added_total_money'); }
     public function hasAddedTotalMoney(): bool { return $this->has('added_total_money'); }
-    /** What the added lines cost beyond the removed value and released charges, tax included, frozen when the edit was created. Zero when the edit had no balance. anyOf[1] (Value): {@see MoneyValue}. What the added lines cost beyond the removed value and released charges, tax included, frozen when the edit was created. Zero when the edit had no balance. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** What the added lines cost beyond the removed value and released charges, tax included, frozen when the edit was created. Zero when the edit had no balance. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getAmountDueMoney(): MoneyValue|null { return $this->get('amount_due_money'); }
+    public function getAmountDueMoney(): mixed { return $this->get('amount_due_money'); }
     public function hasAmountDueMoney(): bool { return $this->has('amount_due_money'); }
     /** When the edit was canceled. `null` when the edit is not canceled. anyOf[1] (Value): string or null. When the edit was canceled. `null` when the edit is not canceled. Format: date-time. anyOf[2] (Value): null.
      * @return mixed
@@ -52,8 +52,8 @@ final class OrderEditCanceledInstalledMerchantsEventDataPreviousAttributes exten
      */
     public function getCancellationReason(): mixed { return $this->get('cancellation_reason'); }
     public function hasCancellationReason(): bool { return $this->has('cancellation_reason'); }
-    /** Charges released by this edit, frozen at creation. Empty when no charges were released. anyOf[1] (Value): Array of {@see OrderEditChargeRefund}. Charges released by this edit, frozen at creation. Empty when no charges were released. anyOf[1][] (Value): {@see OrderEditChargeRefund}. The value an edit releases from one order charge, and the part refunded to the buyer. anyOf[2] (Value): null.
-     * @return list<OrderEditChargeRefund>|null
+    /** Charges released by this edit, frozen at creation. Empty when no charges were released. anyOf[1] (Value): Array of {@see OrderEditChargeRefundPreviousAttributes}. Charges released by this edit, frozen at creation. Empty when no charges were released. anyOf[1][] (Value): {@see OrderEditChargeRefundPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<OrderEditChargeRefundPreviousAttributes>|null
      */
     public function getChargeRefunds(): array|null { return $this->get('charge_refunds'); }
     public function hasChargeRefunds(): bool { return $this->has('charge_refunds'); }
@@ -97,20 +97,20 @@ final class OrderEditCanceledInstalledMerchantsEventDataPreviousAttributes exten
      */
     public function getRefundIds(): array|null { return $this->get('refund_ids'); }
     public function hasRefundIds(): bool { return $this->has('refund_ids'); }
-    /** Money to refund after the removed value and released charges pay for added lines. May be zero; an edit with no refund money creates no refund. anyOf[1] (Value): {@see MoneyValue}. Money to refund after the removed value and released charges pay for added lines. May be zero; an edit with no refund money creates no refund. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** Money to refund after the removed value and released charges pay for added lines. May be zero; an edit with no refund money creates no refund. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getRefundMoney(): MoneyValue|null { return $this->get('refund_money'); }
+    public function getRefundMoney(): mixed { return $this->get('refund_money'); }
     public function hasRefundMoney(): bool { return $this->has('refund_money'); }
-    /** Removed units and their refund amounts frozen at creation. anyOf[1] (Value): Array of {@see OrderEditLineRemoval}. Removed units and their refund amounts frozen at creation. anyOf[1][] (Value): {@see OrderEditLineRemoval}. Removed whole units of an order line and their refund amount frozen at creation. The enclosing edit identifies the order. anyOf[2] (Value): null.
-     * @return list<OrderEditLineRemoval>|null
+    /** Removed units and their refund amounts frozen at creation. anyOf[1] (Value): Array of {@see OrderEditLineRemovalPreviousAttributes}. Removed units and their refund amounts frozen at creation. anyOf[1][] (Value): {@see OrderEditLineRemovalPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<OrderEditLineRemovalPreviousAttributes>|null
      */
     public function getRemoveLineItems(): array|null { return $this->get('remove_line_items'); }
     public function hasRemoveLineItems(): bool { return $this->has('remove_line_items'); }
-    /** The value of the removed units: the sum of remove_line_items[].total_money. anyOf[1] (Value): {@see MoneyValue}. The value of the removed units: the sum of remove_line_items[].total_money. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** The value of the removed units: the sum of remove_line_items[].total_money. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getRemovedTotalMoney(): MoneyValue|null { return $this->get('removed_total_money'); }
+    public function getRemovedTotalMoney(): mixed { return $this->get('removed_total_money'); }
     public function hasRemovedTotalMoney(): bool { return $this->has('removed_total_money'); }
     /** Pending while waiting for a balance payment, completed once the item changes are applied, or canceled when it ends without changing the order. Refund processing has its own status on each refund. Value enum: "pending", "completed", "canceled". anyOf[1] (Value): string. Pending while waiting for a balance payment, completed once the item changes are applied, or canceled when it ends without changing the order. Refund processing has its own status on each refund. Value enum: "pending", "completed", "canceled". anyOf[2] (Value): null.
      * @return string|null
@@ -122,10 +122,10 @@ final class OrderEditCanceledInstalledMerchantsEventDataPreviousAttributes exten
      */
     public function getSupportedActions(): array|null { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** Frozen refund money not covered by pending or succeeded allocations from refunds linked to this edit. Failed allocations do not reduce it. anyOf[1] (Value): {@see MoneyValue}. Frozen refund money not covered by pending or succeeded allocations from refunds linked to this edit. Failed allocations do not reduce it. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** Frozen refund money not covered by pending or succeeded allocations from refunds linked to this edit. Failed allocations do not reduce it. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getUnrefundedMoney(): MoneyValue|null { return $this->get('unrefunded_money'); }
+    public function getUnrefundedMoney(): mixed { return $this->get('unrefunded_money'); }
     public function hasUnrefundedMoney(): bool { return $this->has('unrefunded_money'); }
     /** The counter advances when status, payment_intent_id, completed_at, canceled_at or cancellation_reason change. anyOf[1] (Value): integer. The counter advances when status, payment_intent_id, completed_at, canceled_at or cancellation_reason change. Format: uint64. minimum: 1. anyOf[2] (Value): null.
      * @return int|null

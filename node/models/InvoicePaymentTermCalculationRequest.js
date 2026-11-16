@@ -1,10 +1,10 @@
-import { d7976 as c0 } from '../descriptors/data/372.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
-import { d7023 as c1, d7024 as c2, d7025 as c3, d7026 as c4, d7027 as c5, d7028 as c6, d7029 as c7, d7030 as c8, d7031 as c9, d7032 as c10, d7033 as c11 } from '../descriptors/data/319.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
-import { d7976 as d7976 } from '../descriptors/data/372.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
+import { d9089 as c0 } from '../descriptors/data/408.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
+import { d8136 as c1, d8137 as c2, d8138 as c3, d8139 as c4, d8140 as c5, d8141 as c6, d8142 as c7, d8143 as c8, d8144 as c9, d8145 as c10, d8146 as c11 } from '../descriptors/data/355.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
+import { d9089 as d9089 } from '../descriptors/data/408.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7976;
+const read = d9089;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["InvoicePaymentTermCalculationRequest"]:c0(),["SharedCodec1268"]:c1(),["SharedCodec1269"]:c2(),["SharedCodec1270"]:c3(),["SharedCodec1271"]:c4(),["SharedCodec1272"]:c5(),["SharedCodec1273"]:c6(),["SharedCodec1274"]:c7(),["SharedCodec1275"]:c8(),["SharedCodec1276"]:c9(),["SharedCodec1277"]:c10(),["SharedCodec1278"]:c11()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["InvoicePaymentTermCalculationRequest"]:c0(),["SharedCodec1659"]:c1(),["SharedCodec1660"]:c2(),["SharedCodec1661"]:c3(),["SharedCodec1662"]:c4(),["SharedCodec1663"]:c5(),["SharedCodec1664"]:c6(),["SharedCodec1665"]:c7(),["SharedCodec1666"]:c8(),["SharedCodec1667"]:c9(),["SharedCodec1668"]:c10(),["SharedCodec1669"]:c11()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeInvoicePaymentTermCalculationRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

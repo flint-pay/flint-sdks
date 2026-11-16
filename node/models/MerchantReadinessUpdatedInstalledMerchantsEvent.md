@@ -38,7 +38,7 @@ Field definitions: [shared fields](Merchant.md#merchant).
 
 ### MerchantReadinessUpdatedInstalledMerchantsEvent.data.object.metadata
 
-Field definitions: [CheckoutSession.metadata](../models/CheckoutSession.md#checkoutsessionmetadata).
+Field definitions: [CancelOrderEditResult.order.metadata](../models/CancelOrderEditResult.md#cancelordereditresultordermetadata).
 
 ### MerchantReadinessUpdatedInstalledMerchantsEvent.data.previous_attributes
 
@@ -46,7 +46,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Optional | [Address](../models/Address.md#address) or null | The merchant's business address. |
+| `address` | Optional | [AddressPreviousAttributes](../models/AddressPreviousAttributes.md#addresspreviousattributes) or null | The merchant's business address. |
 | `api_version` | Optional | string or null | Default API version for requests without a Flint-Version header. Shared across live and test environments. `api_version`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributesapi_version). |
 | `api_version_changed_at` | Optional | string or null | When the merchant's default API version last changed. `api_version_changed_at`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributesapi_version_changed_at). |
 | `api_version_pinned_at` | Optional | string or null | When the merchant's default API version was first set. `api_version_pinned_at`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributesapi_version_pinned_at). |
@@ -56,17 +56,17 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `business_type` | Optional | string or null | Merchant's business type. - `other`: A business type Flint does not map yet. Values: `"individual"`, `"company"`, `"non_profit"`, `"government_entity"`, `"other"`. `business_type`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributesbusiness_type). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `email` | Optional | string or null or null | The account's contact email address. A new account starts with the sign-up email. `null` when none is set. `email`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributesemail). |
-| `icon` | Optional | [ImageAttachment](../models/ImageAttachment.md#imageattachment) or null | A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. |
-| `logo` | Optional | [ImageAttachment](../models/ImageAttachment.md#imageattachment) or null | The merchant's public brand mark. |
+| `icon` | Optional | [ImageAttachmentPreviousAttributes](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributes) or null | A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. |
+| `logo` | Optional | [ImageAttachmentPreviousAttributes](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributes) or null | The merchant's public brand mark. |
 | `merchant_id` | Optional | string or null | Stable identifier of the merchant. `merchant_id`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributesmerchant_id). |
 | `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) or null | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. `metadata`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesmetadata). |
 | `phone` | Optional | string or null | The account's contact phone number, in international format such as +12125551234. `phone`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributesphone). |
-| `readiness` | Optional | [MerchantReadiness](../models/MerchantReadiness.md#merchantreadiness) or null | Whether the merchant can accept payments and receive payouts, and what is still needed. |
+| `readiness` | Optional | [MerchantReadinessPreviousAttributes](../models/MerchantReadinessPreviousAttributes.md#merchantreadinesspreviousattributes) or null | Whether the merchant can accept payments and receive payouts, and what is still needed. |
 | `status` | Optional | string or null | Whether Flint lets the account operate. `readiness` says whether payments and payouts are available. Values: `"active"`, `"suspended"`, `"restricted"`, `"closed"`. `status`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributesstatus). |
 | `support_email` | Optional | string or null | Support email address shown to buyers, for example on receipts and checkout. `support_email`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributessupport_email). |
 | `support_phone` | Optional | string or null | Support phone number shown to buyers, in international format such as +12125551234. `support_phone`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributessupport_phone). |
 | `support_url` | Optional | string or null | Support page shown to buyers. `support_url`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributessupport_url). |
-| `timezone` | Optional | string or null | Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies. Existing resources keep their saved time zone. `timezone`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributestimezone). |
+| `timezone` | Optional | string or null | Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone. `timezone`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributestimezone). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `version` | Optional | integer or null | Merchant version. Profile, status, and API version changes advance this version, including business name and business type changes synced from the payment provider. Readiness updates alone do not. `version`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributesversion). |
 | `website_url` | Optional | string or null | The business's website. `website_url`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributeswebsite_url). |
@@ -280,15 +280,15 @@ anyOf variant 2.
 
 ### MerchantReadinessUpdatedInstalledMerchantsEvent.data.previous_attributes.timezone variant 1
 
-anyOf variant 1: Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies. Existing resources keep their saved time zone..
+anyOf variant 1: Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone..
 
-- Value shape: string. Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies. Existing resources keep their saved time zone. 
+- Value shape: string. Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone. 
 
 ### MerchantReadinessUpdatedInstalledMerchantsEvent.data.previous_attributes.timezone variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies. Existing resources keep their saved time zone. 
+- Value shape: null. Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone. 
 
 ### MerchantReadinessUpdatedInstalledMerchantsEvent.data.previous_attributes.updated_at
 

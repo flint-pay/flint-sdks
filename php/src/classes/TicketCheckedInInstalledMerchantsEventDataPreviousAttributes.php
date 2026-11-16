@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read mixed $check_in_method
  * @property-read mixed $checked_in_at
  * @property-read string|null $created_at
- * @property-read ExpandedOrderSummary|null $order
+ * @property-read mixed $order
  * @property-read string|null $order_id
  * @property-read string|null $order_line_item_id
  * @property-read string|null $payment_link_id
@@ -38,7 +38,7 @@ final class TicketCheckedInInstalledMerchantsEventDataPreviousAttributes extends
      */
     public function getAttendeeName(): mixed { return $this->get('attendee_name'); }
     public function hasAttendeeName(): bool { return $this->has('attendee_name'); }
-    /** How the ticket was admitted. Null when the ticket is not checked in. Value enum: "admission_code", "manual". anyOf[1] (Value): string or null. How the ticket was admitted. Null when the ticket is not checked in. Value enum: "admission_code", "manual". anyOf[1].anyOf[1] (Value): string.  Value enum: "admission_code", "manual". anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** How the ticket was admitted. Null when the ticket is not checked in. Value enum: "admission_code", "manual". anyOf[1] (Value): (string or null). How the ticket was admitted. Null when the ticket is not checked in. Value enum: "admission_code", "manual". anyOf[1].anyOf[1] (Value): string.  Value enum: "admission_code", "manual". anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getCheckInMethod(): mixed { return $this->get('check_in_method'); }
@@ -53,10 +53,10 @@ final class TicketCheckedInInstalledMerchantsEventDataPreviousAttributes extends
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Order summary, present only with expand=order. Requires commerce.orders.read. anyOf[1] (Value): {@see ExpandedOrderSummary}. Order summary, present only with expand=order. Requires commerce.orders.read. anyOf[2] (Value): null.
-     * @return ExpandedOrderSummary|null
+    /** Order summary, present only with expand=order. Requires commerce.orders.read. anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getOrder(): ExpandedOrderSummary|null { return $this->get('order'); }
+    public function getOrder(): mixed { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
     /** The order that purchased this ticket. anyOf[1] (Value): string. The order that purchased this ticket. anyOf[2] (Value): null.
      * @return string|null

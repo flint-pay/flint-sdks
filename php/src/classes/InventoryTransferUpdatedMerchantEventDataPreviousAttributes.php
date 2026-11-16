@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read string|null $external_reference_id
  * @property-read string|null $idempotency_key
  * @property-read string|null $inventory_transfer_id
- * @property-read list<InventoryTransferLine>|null $lines
+ * @property-read list<InventoryTransferLinePreviousAttributes>|null $lines
  * @property-read string|null $note
  * @property-read string|null $origin_location_id
  * @property-read string|null $received_at
@@ -62,8 +62,8 @@ final class InventoryTransferUpdatedMerchantEventDataPreviousAttributes extends 
      */
     public function getInventoryTransferId(): string|null { return $this->get('inventory_transfer_id'); }
     public function hasInventoryTransferId(): bool { return $this->has('inventory_transfer_id'); }
-    /** Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. anyOf[1] (Value): Array of {@see InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. anyOf[1][] (Value): {@see InventoryTransferLine}. One line of an inventory transfer, with its quantities. anyOf[2] (Value): null.
-     * @return list<InventoryTransferLine>|null
+    /** Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. anyOf[1] (Value): Array of {@see InventoryTransferLinePreviousAttributes}. Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. anyOf[1][] (Value): {@see InventoryTransferLinePreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<InventoryTransferLinePreviousAttributes>|null
      */
     public function getLines(): array|null { return $this->get('lines'); }
     public function hasLines(): bool { return $this->has('lines'); }

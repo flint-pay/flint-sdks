@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# BuyerReturnPreviewResolution to CategoryDeletedMerchantEvent
+# BuyerReturnHandoffRequirement to CardDetails
 
+- [BuyerReturnHandoffRequirement](BuyerReturnHandoffRequirement.md)
+- [BuyerReturnLineItem](BuyerReturnLineItem.md)
+- [BuyerReturnLineItemEligibility](BuyerReturnLineItemEligibility.md)
+- [BuyerReturnLineItemModifier](BuyerReturnLineItemModifier.md)
+- [BuyerReturnListResponse](BuyerReturnListResponse.md)
+- [BuyerReturnPolicyEvaluation](BuyerReturnPolicyEvaluation.md)
+- [BuyerReturnPolicyEvaluationLineItem](BuyerReturnPolicyEvaluationLineItem.md)
+- [BuyerReturnPreview](BuyerReturnPreview.md)
+- [BuyerReturnPreviewEligibility](BuyerReturnPreviewEligibility.md)
 - [BuyerReturnPreviewResolution](BuyerReturnPreviewResolution.md)
 - [BuyerReturnPreviewResponse](BuyerReturnPreviewResponse.md)
 - [BuyerReturnReplacementLineItemInputBundle](BuyerReturnReplacementLineItemInputBundle.md)
@@ -88,18 +97,9 @@
 - [CancelSubscriptionRequest](CancelSubscriptionRequest.md)
 - [CancelSubscriptionRequestInput](CancelSubscriptionRequestInput.md)
 - [CapabilityReadiness](CapabilityReadiness.md)
+- [CapabilityReadinessPreviousAttributes](CapabilityReadinessPreviousAttributes.md)
 - [CapturePaymentIntentRequest](CapturePaymentIntentRequest.md)
 - [CapturePaymentIntentRequestInput](CapturePaymentIntentRequestInput.md)
 - [CapturePaymentSplitRequestInput](CapturePaymentSplitRequestInput.md)
 - [CardDetails](CardDetails.md)
-- [CashOutGiftCardRequest](CashOutGiftCardRequest.md)
-- [CashOutGiftCardRequestInput](CashOutGiftCardRequestInput.md)
-- [CashOutGiftCardResult](CashOutGiftCardResult.md)
-- [CashOutGiftCardResultResponse](CashOutGiftCardResultResponse.md)
-- [CatalogPricing](CatalogPricing.md)
-- [Category](Category.md)
-- [CategoryCreatedInstalledMerchantsEvent](CategoryCreatedInstalledMerchantsEvent.md)
-- [CategoryCreatedMerchantEvent](CategoryCreatedMerchantEvent.md)
-- [CategoryDeletedInstalledMerchantsEvent](CategoryDeletedInstalledMerchantsEvent.md)
-- [CategoryDeletedMerchantEvent](CategoryDeletedMerchantEvent.md)
 

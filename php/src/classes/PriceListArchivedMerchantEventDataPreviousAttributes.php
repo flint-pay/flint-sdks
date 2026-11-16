@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read list<string>|null $customer_segments
  * @property-read mixed $external_reference_id
  * @property-read string|null $merchant_id
- * @property-read array<array-key, string>|null $metadata
+ * @property-read mixed $metadata
  * @property-read string|null $name
  * @property-read int|null $price_count
  * @property-read string|null $price_list_id
@@ -49,10 +49,10 @@ final class PriceListArchivedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Caller-owned metadata stored on this price list. anyOf[1] (Value): {@see MetadataMap}. Caller-owned metadata stored on this price list. anyOf[2] (Value): null.
-     * @return array<array-key, string>|null
+    /** Caller-owned metadata stored on this price list. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getMetadata(): array|null { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Name used to identify this price list. anyOf[1] (Value): string. Name used to identify this price list. anyOf[2] (Value): null.
      * @return string|null

@@ -127,7 +127,7 @@ anyOf variant 2.
 
 ### PromotionCodeArchivedMerchantEventDataPreviousAttributes.metadata variant 1
 
-anyOf MetadataMap: Key-value data you attach to the promotion code..
+anyOf MetadataMapPreviousAttributes.
 
 - Value shape: Map of string. Key-value data you attach to the promotion code. Map values: maxLength: `4096`. 
 

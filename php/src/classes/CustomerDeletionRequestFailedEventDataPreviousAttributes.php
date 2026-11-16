@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read int|null $blocking_resource_count
- * @property-read list<ErrorResourceReference>|null $blocking_resources
+ * @property-read list<ErrorResourceReferencePreviousAttributes>|null $blocking_resources
  * @property-read list<string>|null $canceled_subscription_ids
  * @property-read string|null $customer_deletion_request_id
  * @property-read string|null $customer_id
@@ -26,8 +26,8 @@ final class CustomerDeletionRequestFailedEventDataPreviousAttributes extends Mod
      */
     public function getBlockingResourceCount(): int|null { return $this->get('blocking_resource_count'); }
     public function hasBlockingResourceCount(): bool { return $this->has('blocking_resource_count'); }
-    /** Resources currently preventing approval, computed when the request is read. Present only for pending_review, including an empty array when nothing blocks approval. Uses the same references as RESOURCE_IN_USE: non-canceled subscriptions and active or pending payment methods, ordered by resource_type then resource_id, capped at 25 of each type. List the customer's subscriptions and payment methods for the remaining resources when blocking_resource_count exceeds this array's length. Approval rechecks the blockers; cancel_subscriptions and remove_payment_methods can clear the matching resources before erasure. anyOf[1] (Value): Array of {@see ErrorResourceReference}. Resources currently preventing approval, computed when the request is read. Present only for pending_review, including an empty array when nothing blocks approval. Uses the same references as RESOURCE_IN_USE: non-canceled subscriptions and active or pending payment methods, ordered by resource_type then resource_id, capped at 25 of each type. List the customer's subscriptions and payment methods for the remaining resources when blocking_resource_count exceeds this array's length. Approval rechecks the blockers; cancel_subscriptions and remove_payment_methods can clear the matching resources before erasure. anyOf[1][] (Value): {@see ErrorResourceReference}. A reference to a public resource named in an error, with its type, ID, and current status when available. anyOf[2] (Value): null.
-     * @return list<ErrorResourceReference>|null
+    /** Resources currently preventing approval, computed when the request is read. Present only for pending_review, including an empty array when nothing blocks approval. Uses the same references as RESOURCE_IN_USE: non-canceled subscriptions and active or pending payment methods, ordered by resource_type then resource_id, capped at 25 of each type. List the customer's subscriptions and payment methods for the remaining resources when blocking_resource_count exceeds this array's length. Approval rechecks the blockers; cancel_subscriptions and remove_payment_methods can clear the matching resources before erasure. anyOf[1] (Value): Array of {@see ErrorResourceReferencePreviousAttributes}. Resources currently preventing approval, computed when the request is read. Present only for pending_review, including an empty array when nothing blocks approval. Uses the same references as RESOURCE_IN_USE: non-canceled subscriptions and active or pending payment methods, ordered by resource_type then resource_id, capped at 25 of each type. List the customer's subscriptions and payment methods for the remaining resources when blocking_resource_count exceeds this array's length. Approval rechecks the blockers; cancel_subscriptions and remove_payment_methods can clear the matching resources before erasure. anyOf[1][] (Value): {@see ErrorResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ErrorResourceReferencePreviousAttributes>|null
      */
     public function getBlockingResources(): array|null { return $this->get('blocking_resources'); }
     public function hasBlockingResources(): bool { return $this->has('blocking_resources'); }

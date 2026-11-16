@@ -1,46 +1,1158 @@
-import type { PromotionRefRequestInput } from './types-51.js';
+import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-41.js';
+import type { PackageCreateRequest, PackageCreateRequestInput } from './types-47.js';
+import type { ReturnResolutionLineItemRequest, ReturnShipmentLineItemAllocationRequestInput } from './types-63.js';
 import type {
+    SubscriptionIntervalOption,
+    SubscriptionIntervalOptionRequestInput,
+    SubscriptionEndAfterCycles,
+    SubscriptionEndAfterCyclesRequestInput,
+    SubscriptionDeliveryRequest,
+    SubscriptionDeliveryRequestInput,
+    SubscriptionEndAfterRequest,
+    SubscriptionGiftRecipientRequest,
+    SubscriptionEndAfterRequestInput,
+    SubscriptionGiftRecipientRequestInput
+} from './types-68.js';
+import type { ImageRequest, ImageRequestInput } from './types-31.js';
+import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-33.js';
+import type { MoneyValue, MoneyValueInput, MoneyValuePreviousAttributes } from './types-42.js';
+import type {
+    SubscriptionPlanChangeOption,
+    SubscriptionPlanLineItemRequest,
+    SubscriptionPlanChangeOptionRequestInput,
+    SubscriptionPlanLineItemRequestInput,
+    SubscriptionPlanChangeLineItemRequest,
+    SubscriptionPlanChangeLineItemRequestInput
+} from './types-69.js';
+import type { UpdateDeliveryMethodRequest, UpdateDeliveryMethodRequestInput } from './types-73.js';
+import type {
+    SubscriptionServiceLocationRequest,
     SubscriptionQuantityChangeLineItemRequest,
     SubscriptionQuantityChangeLineItemRequestInput,
     SubscriptionPromotionRequest,
-    SubscriptionServiceLocationRequest,
-    SubscriptionPromotionRequestInput,
-    SubscriptionServiceLocationRequestInput
-} from './types-63.js';
-import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-38.js';
-import type { SubscriptionBillingScheduleRequest, SubscriptionBillingScheduleRequestInput } from './types-60.js';
-import type {
-    SubscriptionBillingStartRequest,
-    SubscriptionDeliveryRequest,
-    SubscriptionEndAfterRequest,
-    SubscriptionBillingStartRequestInput,
-    SubscriptionDeliveryRequestInput,
-    SubscriptionEndAfterRequestInput
-} from './types-61.js';
-import type { SubscriptionGiftRecipientRequest, SubscriptionGiftRecipientRequestInput } from './types-62.js';
-import type {
     SubscriptionTaxRequest,
     SubscriptionTermsRequest,
+    SubscriptionPromotionRequestInput,
+    SubscriptionServiceLocationRequestInput,
     SubscriptionTaxRequestInput,
-    SubscriptionTermsRequestInput,
-    TaxCalculationCallbackConfiguration,
-    TaxCalculationCallbackConfigurationRequestInput
-} from './types-64.js';
+    SubscriptionTermsRequestInput
+} from './types-70.js';
+import type {
+    SubscriptionDeliveryDestinationRequestInput,
+    SubscriptionBillingScheduleRequest,
+    SubscriptionBillingStartRequest,
+    SubscriptionBillingScheduleRequestInput,
+    SubscriptionBillingStartRequestInput
+} from './types-67.js';
+import type { PromotionRefRequest, PromotionRefRequestInput } from './types-57.js';
+import type { TaxCalculationCallbackConfiguration, TaxCalculationCallbackConfigurationRequestInput } from './types-71.js';
 import type {
     WebhookSigningMethod,
     WebhookSigningMethodInput,
     WorkloadIdentityClaimConditionRequest,
     WorkloadIdentityClaimConditionRequestInput
-} from './types-70.js';
-import type { CredentialProvider, InputValue } from '../runtime.js';
-import type { ExpandedInvoiceSummary } from './types-24.js';
-import type { MoneyValue, MoneyValueInput } from './types-39.js';
-import type { TaxCurrencyConversion, TaxIdentity } from './types-65.js';
-import type { PartnerWebhookEnvelope } from './types-44.js';
-import type { ResponseMeta } from './types-54.js';
-import type { Invoice } from './types-31.js';
-import type { CreateCreditNoteAllocationRequestInput, CreateCreditNoteRequestInput } from './types-8.js';
-import type { DisputesAcceptParams } from './types-23.js';
+} from './types-77.js';
+import type { CredentialProvider } from '../runtime.js';
+import type { CreditNoteLineItem } from './types-15.js';
+import type { ExpandedInvoiceSummary } from './types-26.js';
+import type { TaxCurrencyConversion, TaxIdentity } from './types-72.js';
+import type { PartnerWebhookEnvelope } from './types-49.js';
+import type { ResponseMeta } from './types-60.js';
+import type { Invoice } from './types-34.js';
+/** The `return` variant of `CreateShipmentRequest`. */
+export type CreateShipmentRequestReturn = ({
+    /**
+     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
+     * "return".
+     */
+    "direction": "return" | (string & {});
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     */
+    "external_system"?: string;
+    /**
+     * Shipment fulfillment that owns an outbound shipment. Required when direction is outbound;
+     * forbidden when direction is return. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Creates packages atomically with an outbound shipment. Items are optional per package.
+     * Created packages are included in the response. minItems: 1. maxItems: 20. [] (Value): {@link
+     * PackageCreateRequest}. Package to create inline with its enclosing shipment or fulfillment.
+     * Set status to created before handoff, or shipped to report handoff during creation.
+     */
+    "packages"?: Array<PackageCreateRequest>;
+    /**
+     * Return associated with this shipment, when its direction is return. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
+     * Return lines and quantities the shipment carries. minItems: 1. [] (Value): {@link
+     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
+     * shipment or package. The enclosing Return or shipment determines its parent.
+     */
+    "return_line_items": Array<ReturnResolutionLineItemRequest>;
+});
+/** The `return` variant of `CreateShipmentRequest`. */
+export type CreateShipmentRequestReturnInput = ({
+    /**
+     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
+     * "return".
+     */
+    "direction": "return";
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     */
+    "external_system"?: string;
+    /**
+     * Shipment fulfillment that owns an outbound shipment. Required when direction is outbound;
+     * forbidden when direction is return. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Creates packages atomically with an outbound shipment. Items are optional per package.
+     * Created packages are included in the response. minItems: 1. maxItems: 20. [] (Value): {@link
+     * PackageCreateRequestInput}. Package to create inline with its enclosing shipment or
+     * fulfillment. Set status to created before handoff, or shipped to report handoff during
+     * creation.
+     */
+    "packages"?: Array<PackageCreateRequestInput>;
+    /**
+     * Return associated with this shipment, when its direction is return. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
+     * Return lines and quantities the shipment carries. minItems: 1. [] (Value): {@link
+     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
+     * return shipment or package. The enclosing Return or shipment determines its parent.
+     */
+    "return_line_items": Array<ReturnShipmentLineItemAllocationRequestInput>;
+})
+    & (({
+    "packages"?: never;
+}))
+    & (({
+    "fulfillment_id"?: never;
+}));
+/** Registers a countertop reader with the pairing code it shows under Settings. */
+export type CreateSmartReaderRequest = {
+    /**
+     * The register, kiosk or phone the reader takes payments for. Needs `accounts.devices.read` as
+     * well. When the device has a location, it must be the reader's. A device holds at most one
+     * active Tap to Pay reader. minLength: 1. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+     */
+    "device_id"?: string;
+    /**
+     * An active location with a complete US address (`line1`, `city`, `state`, `postal_code`,
+     * `country: US`). Stripe requires every reader to have one. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id": string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Your label for the reader. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * The pairing code the reader shows under Settings. In a sandbox, `simulated-s700` registers a
+     * simulated Stripe Reader S700. Never returned. A code works once, so send an
+     * `Idempotency-Key` and retry with it. minLength: 1. maxLength: 255.
+     */
+    "registration_code": string;
+    /** `smart_reader`. Value enum: "smart_reader". */
+    "type": "smart_reader" | (string & {});
+};
+/** Registers a countertop reader with the pairing code it shows under Settings. */
+export type CreateSmartReaderRequestInput = {
+    /**
+     * The register, kiosk or phone the reader takes payments for. Needs `accounts.devices.read` as
+     * well. When the device has a location, it must be the reader's. A device holds at most one
+     * active Tap to Pay reader. minLength: 1. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+     */
+    "device_id"?: string;
+    /**
+     * An active location with a complete US address (`line1`, `city`, `state`, `postal_code`,
+     * `country: US`). Stripe requires every reader to have one. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id": string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Your label for the reader. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * The pairing code the reader shows under Settings. In a sandbox, `simulated-s700` registers a
+     * simulated Stripe Reader S700. Never returned. A code works once, so send an
+     * `Idempotency-Key` and retry with it. minLength: 1. maxLength: 255.
+     */
+    "registration_code": string;
+    /** `smart_reader`. Value enum: "smart_reader". */
+    "type": "smart_reader";
+};
+/**
+ * The access a subscription link gives its buyer. Omit the body or purpose for read-only access.
+ */
+export type CreateSubscriptionAccessLinkRequest = {
+    /**
+     * subscription_view opens the subscription read-only. subscription_manage also lets the buyer
+     * cancel, pause, or undo a scheduled cancellation, subject to your store's policy and the
+     * subscription's state; it requires commerce.subscriptions.write. Both work for 14 days or 5
+     * opens. Default: "subscription_view". Value enum: "subscription_view", "subscription_manage".
+     */
+    "purpose"?: "subscription_view" | "subscription_manage" | (string & {});
+    /**
+     * Where the buyer can return to on your site. Kept for the browser session this link starts,
+     * until sign-out or session end. Absolute HTTPS URL without credentials; test mode also
+     * accepts HTTP loopback URLs. Up to 2,048 characters. Query strings and fragments are allowed.
+     * Omit it for no return destination. Format: uri. minLength: 1. maxLength: 2048. Example:
+     * "https://example.com/receipt".
+     */
+    "return_url"?: string;
+};
+/**
+ * The access a subscription link gives its buyer. Omit the body or purpose for read-only access.
+ */
+export type CreateSubscriptionAccessLinkRequestInput = {
+    /**
+     * subscription_view opens the subscription read-only. subscription_manage also lets the buyer
+     * cancel, pause, or undo a scheduled cancellation, subject to your store's policy and the
+     * subscription's state; it requires commerce.subscriptions.write. Both work for 14 days or 5
+     * opens. Default: "subscription_view". Value enum: "subscription_view", "subscription_manage".
+     */
+    "purpose"?: "subscription_view" | "subscription_manage";
+    /**
+     * Where the buyer can return to on your site. Kept for the browser session this link starts,
+     * until sign-out or session end. Absolute HTTPS URL without credentials; test mode also
+     * accepts HTTP loopback URLs. Up to 2,048 characters. Query strings and fragments are allowed.
+     * Omit it for no return destination. Format: uri. minLength: 1. maxLength: 2048. Example:
+     * "https://example.com/receipt".
+     */
+    "return_url"?: string;
+};
+/** The request body for: Move subscribers to another delivery method. */
+export type CreateSubscriptionDeliveryMigrationRequest = {
+    /**
+     * ID of the delivery method whose subscriptions to move. One migration can run for a method at
+     * a time. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "from_delivery_method_id": string;
+    /**
+     * Limit the migration to this plan's live subscriptions. minLength: 1. Example:
+     * "plan_01KEZF7C004CY5ZR33XST2AASV".
+     */
+    "subscription_plan_id"?: string;
+    /**
+     * ID of the active delivery method to move them to. A subscription the new method can't serve
+     * is reported as a failure and keeps its current method. minLength: 1. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "to_delivery_method_id": string;
+};
+/** The request body for: Move subscribers to another delivery method. */
+export type CreateSubscriptionDeliveryMigrationRequestInput = CreateSubscriptionDeliveryMigrationRequest;
+/** The request body for: Add subscription line item. */
+export type CreateSubscriptionLineItemRequest = ({
+    /**
+     * ID of the catalog bundle to add. Required when `type` is `bundle`; not accepted when it is
+     * `variant`. The line is priced from the bundle's catalog price for the subscription's
+     * customer when it is added. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Subscription version last read. A stale version returns VERSION_CONFLICT. Format: uint64.
+     * minimum: 1.
+     */
+    "expected_subscription_version"?: number;
+    /**
+     * Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 9999.
+     */
+    "quantity": number;
+    /** The catalog source of the new line: variant or bundle. Value enum: "variant", "bundle". */
+    "type": "variant" | "bundle" | (string & {});
+    /**
+     * ID of the catalog variant to add. Required when `type` is `variant`; not accepted when it is
+     * `bundle`. The line is priced from the variant's catalog price for the subscription's
+     * customer when it is added. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+})
+    & ((Exclude<CreateSubscriptionLineItemRequestVariant & object, readonly unknown[]>)
+    | (Exclude<CreateSubscriptionLineItemRequestBundle & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `bundle` variant of `CreateSubscriptionLineItemRequest`. */
+export type CreateSubscriptionLineItemRequestBundle = ({
+    /**
+     * ID of the catalog bundle to add. Required when `type` is `bundle`; not accepted when it is
+     * `variant`. The line is priced from the bundle's catalog price for the subscription's
+     * customer when it is added. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /**
+     * Subscription version last read. A stale version returns VERSION_CONFLICT. Format: uint64.
+     * minimum: 1.
+     */
+    "expected_subscription_version"?: number;
+    /**
+     * Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 9999.
+     */
+    "quantity": number;
+    /** The catalog source of the new line: variant or bundle. Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /**
+     * ID of the catalog variant to add. Required when `type` is `variant`; not accepted when it is
+     * `bundle`. The line is priced from the variant's catalog price for the subscription's
+     * customer when it is added. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+});
+/** The `bundle` variant of `CreateSubscriptionLineItemRequest`. */
+export type CreateSubscriptionLineItemRequestBundleInput = ({
+    /**
+     * ID of the catalog bundle to add. Required when `type` is `bundle`; not accepted when it is
+     * `variant`. The line is priced from the bundle's catalog price for the subscription's
+     * customer when it is added. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /**
+     * Subscription version last read. A stale version returns VERSION_CONFLICT. Format: uint64.
+     * minimum: 1.
+     */
+    "expected_subscription_version"?: number;
+    /**
+     * Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 9999.
+     */
+    "quantity": number;
+    /** The catalog source of the new line: variant or bundle. Value enum: "bundle". */
+    "type": "bundle";
+    /**
+     * ID of the catalog variant to add. Required when `type` is `variant`; not accepted when it is
+     * `bundle`. The line is priced from the variant's catalog price for the subscription's
+     * customer when it is added. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+})
+    & (({
+    "variant_id"?: never;
+}));
+/** The request body for: Add subscription line item. */
+export type CreateSubscriptionLineItemRequestInput = ({
+    /**
+     * ID of the catalog bundle to add. Required when `type` is `bundle`; not accepted when it is
+     * `variant`. The line is priced from the bundle's catalog price for the subscription's
+     * customer when it is added. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Subscription version last read. A stale version returns VERSION_CONFLICT. Format: uint64.
+     * minimum: 1.
+     */
+    "expected_subscription_version"?: number;
+    /**
+     * Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 9999.
+     */
+    "quantity": number;
+    /** The catalog source of the new line: variant or bundle. Value enum: "variant", "bundle". */
+    "type": "variant" | "bundle";
+    /**
+     * ID of the catalog variant to add. Required when `type` is `variant`; not accepted when it is
+     * `bundle`. The line is priced from the variant's catalog price for the subscription's
+     * customer when it is added. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+})
+    & ((Exclude<CreateSubscriptionLineItemRequestVariantInput & object, readonly unknown[]>)
+    | (Exclude<CreateSubscriptionLineItemRequestBundleInput & object, readonly unknown[]>));
+/** The `variant` variant of `CreateSubscriptionLineItemRequest`. */
+export type CreateSubscriptionLineItemRequestVariant = ({
+    /**
+     * ID of the catalog bundle to add. Required when `type` is `bundle`; not accepted when it is
+     * `variant`. The line is priced from the bundle's catalog price for the subscription's
+     * customer when it is added. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Subscription version last read. A stale version returns VERSION_CONFLICT. Format: uint64.
+     * minimum: 1.
+     */
+    "expected_subscription_version"?: number;
+    /**
+     * Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 9999.
+     */
+    "quantity": number;
+    /** The catalog source of the new line: variant or bundle. Value enum: "variant". */
+    "type": "variant" | (string & {});
+    /**
+     * ID of the catalog variant to add. Required when `type` is `variant`; not accepted when it is
+     * `bundle`. The line is priced from the variant's catalog price for the subscription's
+     * customer when it is added. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+});
+/** The `variant` variant of `CreateSubscriptionLineItemRequest`. */
+export type CreateSubscriptionLineItemRequestVariantInput = ({
+    /**
+     * ID of the catalog bundle to add. Required when `type` is `bundle`; not accepted when it is
+     * `variant`. The line is priced from the bundle's catalog price for the subscription's
+     * customer when it is added. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Subscription version last read. A stale version returns VERSION_CONFLICT. Format: uint64.
+     * minimum: 1.
+     */
+    "expected_subscription_version"?: number;
+    /**
+     * Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 9999.
+     */
+    "quantity": number;
+    /** The catalog source of the new line: variant or bundle. Value enum: "variant". */
+    "type": "variant";
+    /**
+     * ID of the catalog variant to add. Required when `type` is `variant`; not accepted when it is
+     * `bundle`. The line is priced from the variant's catalog price for the subscription's
+     * customer when it is added. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    & (({
+    "bundle_id"?: never;
+}));
+/** The request body for: Create subscription offer. */
+export type CreateSubscriptionOfferRequest = {
+    /**
+     * Offered billing interval and count pairs. Every option bills the same catalog line prices
+     * once per period; changing cadence does not scale prices. minItems: 1. maxItems: 12.
+     * uniqueItems: true. [] (Value): {@link SubscriptionIntervalOption}. A billing interval, such
+     * as every 2 months, that a plan, offer, or subscription lets buyers choose. Prices of lines
+     * that ship are per delivery, and each option charges for all deliveries in its period.
+     * Without a delivery cadence there is one delivery per period, so every option bills the same
+     * line prices once per period. With a delivery cadence, a longer period bills more deliveries
+     * of the lines that ship; other lines bill once per period. For a different price per interval
+     * with no delivery cadence, create separate plans.
+     */
+    "billing_interval_options": Array<SubscriptionIntervalOption>;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Name of the offer. Buyers see it on the order lines it covers, so write it for them.
+     * minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Products whose active variants the offer covers, including variants added later. At most
+     * 100. Send at least one product or variant. Each product must be active and physical,
+     * digital, or a service. A variant can be in only one active offer; an overlap returns `409
+     * ALREADY_EXISTS` naming the other offer. maxItems: 100. uniqueItems: true. [] (Value):
+     * string. minLength: 1. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_ids"?: Array<string>;
+    /**
+     * An active promotion with forever recurrence. On PATCH, null removes the discount for new
+     * signups; omission keeps it. minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+     */
+    "promotion_id"?: string | null;
+    /** Use active or inactive. Archive the offer with DELETE. Value enum: "active", "inactive". */
+    "status"?: "active" | "inactive" | (string & {});
+    /**
+     * Delivery methods offered at signup. An empty array uses the store's checkout defaults.
+     * Existing subscriptions keep their selected method. maxItems: 25. uniqueItems: true. []
+     * (Value): string. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "subscription_delivery_method_ids"?: Array<string>;
+    /**
+     * Individual variants the offer covers. At most 100. Send at least one product or variant. A
+     * variant can be in only one active offer; an overlap returns `409 ALREADY_EXISTS` naming the
+     * other offer. maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+};
+/** The request body for: Create subscription offer. */
+export type CreateSubscriptionOfferRequestInput = {
+    /**
+     * Offered billing interval and count pairs. Every option bills the same catalog line prices
+     * once per period; changing cadence does not scale prices. minItems: 1. maxItems: 12.
+     * uniqueItems: true. [] (Value): {@link SubscriptionIntervalOptionRequestInput}. A billing
+     * interval, such as every 2 months, that a plan, offer, or subscription lets buyers choose.
+     * Prices of lines that ship are per delivery, and each option charges for all deliveries in
+     * its period. Without a delivery cadence there is one delivery per period, so every option
+     * bills the same line prices once per period. With a delivery cadence, a longer period bills
+     * more deliveries of the lines that ship; other lines bill once per period. For a different
+     * price per interval with no delivery cadence, create separate plans.
+     */
+    "billing_interval_options": Array<SubscriptionIntervalOptionRequestInput>;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Name of the offer. Buyers see it on the order lines it covers, so write it for them.
+     * minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Products whose active variants the offer covers, including variants added later. At most
+     * 100. Send at least one product or variant. Each product must be active and physical,
+     * digital, or a service. A variant can be in only one active offer; an overlap returns `409
+     * ALREADY_EXISTS` naming the other offer. maxItems: 100. uniqueItems: true. [] (Value):
+     * string. minLength: 1. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_ids"?: Array<string>;
+    /**
+     * An active promotion with forever recurrence. On PATCH, null removes the discount for new
+     * signups; omission keeps it. minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+     */
+    "promotion_id"?: string | null;
+    /** Use active or inactive. Archive the offer with DELETE. Value enum: "active", "inactive". */
+    "status"?: "active" | "inactive";
+    /**
+     * Delivery methods offered at signup. An empty array uses the store's checkout defaults.
+     * Existing subscriptions keep their selected method. maxItems: 25. uniqueItems: true. []
+     * (Value): string. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "subscription_delivery_method_ids"?: Array<string>;
+    /**
+     * Individual variants the offer covers. At most 100. Send at least one product or variant. A
+     * variant can be in only one active offer; an overlap returns `409 ALREADY_EXISTS` naming the
+     * other offer. maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+};
+/** The request body for: Create subscription plan. */
+export type CreateSubscriptionPlanRequest = {
+    /**
+     * Unit of the plan's default billing period. Read with `billing_interval_count`: monthly with
+     * a count of 3 bills every three months. Add other choices with `billing_interval_options`.
+     * Value enum: "daily", "weekly", "monthly", "yearly".
+     */
+    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
+    /**
+     * Number of `billing_interval` units between charges on the plan's default pair, up to 365.
+     * Format: int32.
+     */
+    "billing_interval_count": number;
+    /**
+     * Offered billing interval and count pairs, including the plan's default pair. Prices of lines
+     * that ship are per delivery. Each option charges for all deliveries in its period. Use
+     * separate plans or promotions for different prices per interval. maxItems: 12. uniqueItems:
+     * true. [] (Value): {@link SubscriptionIntervalOption}. A billing interval, such as every 2
+     * months, that a plan, offer, or subscription lets buyers choose. Prices of lines that ship
+     * are per delivery, and each option charges for all deliveries in its period. Without a
+     * delivery cadence there is one delivery per period, so every option bills the same line
+     * prices once per period. With a delivery cadence, a longer period bills more deliveries of
+     * the lines that ship; other lines bill once per period. For a different price per interval
+     * with no delivery cadence, create separate plans.
+     */
+    "billing_interval_options"?: Array<SubscriptionIntervalOption>;
+    /**
+     * A commitment period you agree with the buyer, 1 to 120 months. Flint shows it at checkout
+     * and records it on each new subscription (contract_start_at, contract_end_at). Flint does not
+     * stop the buyer from canceling earlier. Format: int32. minimum: 1. maximum: 120.
+     */
+    "contract_term_months"?: number;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency": string;
+    /**
+     * Delivery cadence, set together with delivery_interval_count. Null when no separate delivery
+     * cadence is set; one delivery is made per billing period. Each billing option must be a whole
+     * multiple in the same unit family (days/weeks or months/years), with 1 to 24 deliveries per
+     * period. Existing subscriptions keep their frozen cadence. Omit both fields on PATCH to keep
+     * the cadence; send both as null to clear it. Value enum: "daily", "weekly", "monthly",
+     * "yearly", null.
+     */
+    "delivery_interval"?: "daily" | "weekly" | "monthly" | "yearly" | null | (string & {}) | null;
+    /**
+     * Positive number of delivery intervals between deliveries. Set or clear together with
+     * delivery_interval. Null when no separate delivery cadence is set; one delivery is made per
+     * billing period. Format: int32. minimum: 1.
+     */
+    "delivery_interval_count"?: number | null;
+    /** Description of the plan, up to 2,048 characters. Omit for none. minLength: 1. */
+    "description"?: string;
+    /**
+     * A fee you agree the buyer owes for canceling before the contract term ends. Flint shows it
+     * at checkout and records it on each new subscription, but never charges it. To collect it,
+     * charge the buyer yourself, for example with an order on their saved payment method. Requires
+     * contract_term_months. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "early_termination_fee_money"?: MoneyValue;
+    /**
+     * Default automatic end for new subscriptions. Counts charged billing cycles, from 1 to 1200.
+     * Send null for no automatic end. Existing subscriptions keep their recorded condition. Null
+     * when no default automatic end is set. anyOf[1] (Value): {@link SubscriptionEndAfterCycles}.
+     * A subscription automatic end measured by the total number of charged billing cycles.
+     * anyOf[2] (Value): null.
+     */
+    "end_after"?: ((SubscriptionEndAfterCycles) | (null));
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Whether checkout buyers can name a gift recipient. Checkout sessions freeze it when they are
+     * created. Defaults to false. You can set gift_recipient on a subscription through the API
+     * either way.
+     */
+    "gifts_enabled"?: boolean;
+    /**
+     * The complete desired gallery in display order. The first image is primary. Send [] to clear
+     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequest}. An image you supply
+     * by `source_url`, with optional `alt` text and external reference.
+     */
+    "images"?: Array<ImageRequest>;
+    /**
+     * Where tracked demand from this plan is routed: a fixed Location, an allocation policy, or an
+     * immutable policy revision. When omitted for tracked demand, Flint stores
+     * settings.inventory.default_routing_source if set. Otherwise, exactly one active Location
+     * with inventory_allocation_enabled in the current environment supplies the demand. The plan
+     * does not store this implicit source and resolves it again when demand is evaluated. Zero or
+     * multiple eligible Locations still require a source. New subscriptions and payment links for
+     * the plan copy an explicit or stored default source, unless the payment link sends its own.
+     * Where you want inventory routed from: a fixed Location, an inventory allocation policy, or
+     * one policy revision, selected by `type`.
+     */
+    "inventory_routing_source"?: InventoryRoutingSourceRequest;
+    /**
+     * The lines a subscription on this plan bills each period. At least one. Each line sells a
+     * catalog variant, a catalog bundle, or a custom item you price yourself. minItems: 1. []
+     * (Value): {@link SubscriptionPlanLineItemRequest}. A line item to put on a new subscription
+     * plan, from a variant, a bundle, or a custom name and price.
+     */
+    "line_items": Array<SubscriptionPlanLineItemRequest>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Name of the plan. Buyers see it at checkout and on their subscription. Required, and can't
+     * be empty. minLength: 1.
+     */
+    "name": string;
+    /**
+     * Plans subscribers may switch to, in display order, with the billing timing for each target.
+     * Empty means plan changes are off. Omission on PATCH keeps the options; an array replaces
+     * them and requires expected_version. Send [] to clear. Null is invalid. maxItems: 25. []
+     * (Value): {@link SubscriptionPlanChangeOption}. A target plan subscribers may switch to and
+     * the billing timing for that change.
+     */
+    "plan_change_options"?: Array<SubscriptionPlanChangeOption>;
+    /**
+     * One-time fee charged with the first payment of a new subscription, except one that continues
+     * an imported paid period. Must be above zero and in the plan's currency. Omit for no setup
+     * fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "setup_fee_money"?: MoneyValue;
+    /**
+     * Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED
+     * while existing subscriptions keep renewing. Archived plans are read-only and their status is
+     * set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Default: "active". Value
+     * enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /**
+     * IDs of the delivery methods a subscriber can choose for this plan's lines that ship. Omit to
+     * use the delivery methods in your checkout settings. [] (Value): string. minLength: 1.
+     * Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "subscription_delivery_method_ids"?: Array<string>;
+    /**
+     * Days of free trial before the first charge, from 0 to 365; 0 means no trial. Not allowed on
+     * plans with lines that ship. Format: int32. minimum: 0. maximum: 365.
+     */
+    "trial_period_days"?: number;
+};
+/** The request body for: Create subscription plan. */
+export type CreateSubscriptionPlanRequestInput = {
+    /**
+     * Unit of the plan's default billing period. Read with `billing_interval_count`: monthly with
+     * a count of 3 bills every three months. Add other choices with `billing_interval_options`.
+     * Value enum: "daily", "weekly", "monthly", "yearly".
+     */
+    "billing_interval": "daily" | "weekly" | "monthly" | "yearly";
+    /**
+     * Number of `billing_interval` units between charges on the plan's default pair, up to 365.
+     * Format: int32.
+     */
+    "billing_interval_count": number;
+    /**
+     * Offered billing interval and count pairs, including the plan's default pair. Prices of lines
+     * that ship are per delivery. Each option charges for all deliveries in its period. Use
+     * separate plans or promotions for different prices per interval. maxItems: 12. uniqueItems:
+     * true. [] (Value): {@link SubscriptionIntervalOptionRequestInput}. A billing interval, such
+     * as every 2 months, that a plan, offer, or subscription lets buyers choose. Prices of lines
+     * that ship are per delivery, and each option charges for all deliveries in its period.
+     * Without a delivery cadence there is one delivery per period, so every option bills the same
+     * line prices once per period. With a delivery cadence, a longer period bills more deliveries
+     * of the lines that ship; other lines bill once per period. For a different price per interval
+     * with no delivery cadence, create separate plans.
+     */
+    "billing_interval_options"?: Array<SubscriptionIntervalOptionRequestInput>;
+    /**
+     * A commitment period you agree with the buyer, 1 to 120 months. Flint shows it at checkout
+     * and records it on each new subscription (contract_start_at, contract_end_at). Flint does not
+     * stop the buyer from canceling earlier. Format: int32. minimum: 1. maximum: 120.
+     */
+    "contract_term_months"?: number;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency": string;
+    /**
+     * Delivery cadence, set together with delivery_interval_count. Null when no separate delivery
+     * cadence is set; one delivery is made per billing period. Each billing option must be a whole
+     * multiple in the same unit family (days/weeks or months/years), with 1 to 24 deliveries per
+     * period. Existing subscriptions keep their frozen cadence. Omit both fields on PATCH to keep
+     * the cadence; send both as null to clear it. Value enum: "daily", "weekly", "monthly",
+     * "yearly", null.
+     */
+    "delivery_interval"?: "daily" | "weekly" | "monthly" | "yearly" | null;
+    /**
+     * Positive number of delivery intervals between deliveries. Set or clear together with
+     * delivery_interval. Null when no separate delivery cadence is set; one delivery is made per
+     * billing period. Format: int32. minimum: 1.
+     */
+    "delivery_interval_count"?: number | null;
+    /** Description of the plan, up to 2,048 characters. Omit for none. minLength: 1. */
+    "description"?: string;
+    /**
+     * A fee you agree the buyer owes for canceling before the contract term ends. Flint shows it
+     * at checkout and records it on each new subscription, but never charges it. To collect it,
+     * charge the buyer yourself, for example with an order on their saved payment method. Requires
+     * contract_term_months. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "early_termination_fee_money"?: MoneyValueInput;
+    /**
+     * Default automatic end for new subscriptions. Counts charged billing cycles, from 1 to 1200.
+     * Send null for no automatic end. Existing subscriptions keep their recorded condition. Null
+     * when no default automatic end is set. anyOf[1] (Value): {@link
+     * SubscriptionEndAfterCyclesRequestInput}. A subscription automatic end measured by the total
+     * number of charged billing cycles. anyOf[2] (Value): null.
+     */
+    "end_after"?: ((SubscriptionEndAfterCyclesRequestInput) | (null));
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Whether checkout buyers can name a gift recipient. Checkout sessions freeze it when they are
+     * created. Defaults to false. You can set gift_recipient on a subscription through the API
+     * either way.
+     */
+    "gifts_enabled"?: boolean;
+    /**
+     * The complete desired gallery in display order. The first image is primary. Send [] to clear
+     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequestInput}. An image you
+     * supply by `source_url`, with optional `alt` text and external reference.
+     */
+    "images"?: Array<ImageRequestInput>;
+    /**
+     * Where tracked demand from this plan is routed: a fixed Location, an allocation policy, or an
+     * immutable policy revision. When omitted for tracked demand, Flint stores
+     * settings.inventory.default_routing_source if set. Otherwise, exactly one active Location
+     * with inventory_allocation_enabled in the current environment supplies the demand. The plan
+     * does not store this implicit source and resolves it again when demand is evaluated. Zero or
+     * multiple eligible Locations still require a source. New subscriptions and payment links for
+     * the plan copy an explicit or stored default source, unless the payment link sends its own.
+     * Where you want inventory routed from: a fixed Location, an inventory allocation policy, or
+     * one policy revision, selected by `type`.
+     */
+    "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
+    /**
+     * The lines a subscription on this plan bills each period. At least one. Each line sells a
+     * catalog variant, a catalog bundle, or a custom item you price yourself. minItems: 1. []
+     * (Value): {@link SubscriptionPlanLineItemRequestInput}. A line item to put on a new
+     * subscription plan, from a variant, a bundle, or a custom name and price.
+     */
+    "line_items": Array<SubscriptionPlanLineItemRequestInput>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Name of the plan. Buyers see it at checkout and on their subscription. Required, and can't
+     * be empty. minLength: 1.
+     */
+    "name": string;
+    /**
+     * Plans subscribers may switch to, in display order, with the billing timing for each target.
+     * Empty means plan changes are off. Omission on PATCH keeps the options; an array replaces
+     * them and requires expected_version. Send [] to clear. Null is invalid. maxItems: 25. []
+     * (Value): {@link SubscriptionPlanChangeOptionRequestInput}. A target plan subscribers may
+     * switch to and the billing timing for that change.
+     */
+    "plan_change_options"?: Array<SubscriptionPlanChangeOptionRequestInput>;
+    /**
+     * One-time fee charged with the first payment of a new subscription, except one that continues
+     * an imported paid period. Must be above zero and in the plan's currency. Omit for no setup
+     * fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "setup_fee_money"?: MoneyValueInput;
+    /**
+     * Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED
+     * while existing subscriptions keep renewing. Archived plans are read-only and their status is
+     * set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Default: "active". Value
+     * enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /**
+     * IDs of the delivery methods a subscriber can choose for this plan's lines that ship. Omit to
+     * use the delivery methods in your checkout settings. [] (Value): string. minLength: 1.
+     * Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "subscription_delivery_method_ids"?: Array<string>;
+    /**
+     * Days of free trial before the first charge, from 0 to 365; 0 means no trial. Not allowed on
+     * plans with lines that ship. Format: int32. minimum: 0. maximum: 365.
+     */
+    "trial_period_days"?: number;
+};
+/** The request body for: Preview subscription. */
+export type CreateSubscriptionPreviewRequest = ((CreateSubscriptionPreviewRequestDeliveryOptions)
+    | (CreateSubscriptionPreviewRequestCreate)
+    | (CreateSubscriptionPreviewRequestDeliveryMethodUpdate)
+    | (CreateSubscriptionPreviewRequestNextRenewal)
+    | (CreateSubscriptionPreviewRequestPlanChange)
+    | (CreateSubscriptionPreviewRequestQuantityChange)
+    | (CreateSubscriptionPreviewRequestPromotionApply)
+    | (Record<string, unknown>));
+/** The `create` variant of `CreateSubscriptionPreviewRequest`. */
+export type CreateSubscriptionPreviewRequestCreate = {
+    /** Selects the create preview. Value enum: "create". */
+    "mode": "create" | (string & {});
+    /**
+     * The subscription to validate and price, in the same shape as the body of Create
+     * subscription. The request body for: Create subscription.
+     */
+    "subscription": CreateSubscriptionRequest;
+};
+/** The `create` variant of `CreateSubscriptionPreviewRequest`. */
+export type CreateSubscriptionPreviewRequestCreateInput = {
+    /** Selects the create preview. Value enum: "create". */
+    "mode": "create";
+    /**
+     * The subscription to validate and price, in the same shape as the body of Create
+     * subscription. The request body for: Create subscription.
+     */
+    "subscription": CreateSubscriptionRequestInput;
+};
+/** The `delivery_method_update` variant of `CreateSubscriptionPreviewRequest`. */
+export type CreateSubscriptionPreviewRequestDeliveryMethodUpdate = {
+    /**
+     * The edit to preview, in the same shape as an update to the delivery method. Flint saves
+     * nothing. The request body for: Update delivery method. minProperties: 1.
+     */
+    "delivery_method": UpdateDeliveryMethodRequest;
+    /**
+     * ID of the delivery method whose edit to preview. minLength: 1. pattern:
+     * ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_id": string;
+    /** Selects the delivery method update preview. Value enum: "delivery_method_update". */
+    "mode": "delivery_method_update" | (string & {});
+};
+/** The `delivery_method_update` variant of `CreateSubscriptionPreviewRequest`. */
+export type CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput = {
+    /**
+     * The edit to preview, in the same shape as an update to the delivery method. Flint saves
+     * nothing. The request body for: Update delivery method. minProperties: 1.
+     */
+    "delivery_method": UpdateDeliveryMethodRequestInput;
+    /**
+     * ID of the delivery method whose edit to preview. minLength: 1. pattern:
+     * ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_id": string;
+    /** Selects the delivery method update preview. Value enum: "delivery_method_update". */
+    "mode": "delivery_method_update";
+};
+/** The `delivery_options` variant of `CreateSubscriptionPreviewRequest`. */
+export type CreateSubscriptionPreviewRequestDeliveryOptions = {
+    /**
+     * Address to evaluate each method against: one of the customer's saved addresses or a new
+     * address. Where to deliver a subscription: a saved customer address by ID, or a new address.
+     */
+    "destination": SubscriptionServiceLocationRequest;
+    /** Selects the delivery options preview. Value enum: "delivery_options". */
+    "mode": "delivery_options" | (string & {});
+    /**
+     * ID of the subscription to list delivery methods for. minLength: 1. pattern:
+     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "subscription_id": string;
+};
+/** The `delivery_options` variant of `CreateSubscriptionPreviewRequest`. */
+export type CreateSubscriptionPreviewRequestDeliveryOptionsInput = {
+    /**
+     * Address to evaluate each method against: one of the customer's saved addresses or a new
+     * address. Where to deliver a subscription: a saved customer address by ID, or a new address.
+     */
+    "destination": SubscriptionDeliveryDestinationRequestInput;
+    /** Selects the delivery options preview. Value enum: "delivery_options". */
+    "mode": "delivery_options";
+    /**
+     * ID of the subscription to list delivery methods for. minLength: 1. pattern:
+     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "subscription_id": string;
+};
+/** The request body for: Preview subscription. */
+export type CreateSubscriptionPreviewRequestInput = ((CreateSubscriptionPreviewRequestDeliveryOptionsInput)
+    | (CreateSubscriptionPreviewRequestCreateInput)
+    | (CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput)
+    | (CreateSubscriptionPreviewRequestNextRenewalInput)
+    | (CreateSubscriptionPreviewRequestPlanChangeInput)
+    | (CreateSubscriptionPreviewRequestQuantityChangeInput)
+    | (CreateSubscriptionPreviewRequestPromotionApplyInput));
+/** The `next_renewal` variant of `CreateSubscriptionPreviewRequest`. */
+export type CreateSubscriptionPreviewRequestNextRenewal = {
+    /**
+     * Proposed complete delivery preference, as accepted by subscription PATCH. Prices the next
+     * paid renewal as if this delivery were saved. A held delivery with
+     * remaining_prepaid_deliveries greater than zero is already paid: fixing it charges nothing,
+     * while this preview still prices the next paid cycle. Nothing is saved, no stock is reserved,
+     * and no rate is guaranteed. Refusals match PATCH. The delivery preference to set on a
+     * subscription: delivery method, type, destination, and recipient.
+     */
+    "delivery"?: SubscriptionDeliveryRequest;
+    /** Selects the next renewal preview. Value enum: "next_renewal". */
+    "mode": "next_renewal" | (string & {});
+    /**
+     * ID of the subscription to preview the next renewal for. minLength: 1. pattern:
+     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "subscription_id": string;
+};
+/** The `next_renewal` variant of `CreateSubscriptionPreviewRequest`. */
+export type CreateSubscriptionPreviewRequestNextRenewalInput = {
+    /**
+     * Proposed complete delivery preference, as accepted by subscription PATCH. Prices the next
+     * paid renewal as if this delivery were saved. A held delivery with
+     * remaining_prepaid_deliveries greater than zero is already paid: fixing it charges nothing,
+     * while this preview still prices the next paid cycle. Nothing is saved, no stock is reserved,
+     * and no rate is guaranteed. Refusals match PATCH. The delivery preference to set on a
+     * subscription: delivery method, type, destination, and recipient.
+     */
+    "delivery"?: SubscriptionDeliveryRequestInput;
+    /** Selects the next renewal preview. Value enum: "next_renewal". */
+    "mode": "next_renewal";
+    /**
+     * ID of the subscription to preview the next renewal for. minLength: 1. pattern:
+     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "subscription_id": string;
+};
+/** The `plan_change` variant of `CreateSubscriptionPreviewRequest`. */
+export type CreateSubscriptionPreviewRequestPlanChange = ({
+    /**
+     * Send with billing_interval_count to choose a target plan option. Omit both to keep the
+     * current interval if the target offers that pair, otherwise use the target plan's default
+     * interval and count. Value enum: "daily", "weekly", "monthly", "yearly".
+     */
+    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly" | (string & {});
+    /**
+     * Required when billing_interval is sent; billing_interval is required when this field is
+     * sent. minimum: 1. maximum: 365.
+     */
+    "billing_interval_count"?: number;
+    /**
+     * now bills a new period with credit for unused paid item time. next_renewal changes the plan
+     * immediately and keeps the current paid period and next billing date. period_end keeps the
+     * current plan until the next charged renewal, then applies and bills the scheduled terms.
+     * prorated_now charges the new terms for the rest of the current period, less unused paid item
+     * credit, and keeps the billing period and anchor. Value enum: "now", "next_renewal",
+     * "period_end", "prorated_now".
+     */
+    "billing_starts": "now" | "next_renewal" | "period_end" | "prorated_now" | (string & {});
+    /**
+     * Optional quantities for target plan lines, with no duplicate IDs. Omitted lines carry their
+     * paired current line's quantity, or use the target line's quantity when unpaired. If an
+     * adjusted current quantity cannot be paired, send a quantity for every target line. []
+     * (Value): {@link SubscriptionPlanChangeLineItemRequest}. Quantity override for a line in the
+     * target subscription plan.
+     */
+    "line_items"?: Array<SubscriptionPlanChangeLineItemRequest>;
+    /** Selects the plan change preview. Value enum: "plan_change". */
+    "mode": "plan_change" | (string & {});
+    /**
+     * ID of the subscription to preview a plan change for. minLength: 1. pattern:
+     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "subscription_id": string;
+    /**
+     * The target subscription plan. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "plan_01KEZF7C004CY5ZR33XST2AASV".
+     */
+    "subscription_plan_id": string;
+});
+/** The `plan_change` variant of `CreateSubscriptionPreviewRequest`. */
+export type CreateSubscriptionPreviewRequestPlanChangeInput = ({
+    /**
+     * Send with billing_interval_count to choose a target plan option. Omit both to keep the
+     * current interval if the target offers that pair, otherwise use the target plan's default
+     * interval and count. Value enum: "daily", "weekly", "monthly", "yearly".
+     */
+    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly";
+    /**
+     * Required when billing_interval is sent; billing_interval is required when this field is
+     * sent. minimum: 1. maximum: 365.
+     */
+    "billing_interval_count"?: number;
+    /**
+     * now bills a new period with credit for unused paid item time. next_renewal changes the plan
+     * immediately and keeps the current paid period and next billing date. period_end keeps the
+     * current plan until the next charged renewal, then applies and bills the scheduled terms.
+     * prorated_now charges the new terms for the rest of the current period, less unused paid item
+     * credit, and keeps the billing period and anchor. Value enum: "now", "next_renewal",
+     * "period_end", "prorated_now".
+     */
+    "billing_starts": "now" | "next_renewal" | "period_end" | "prorated_now";
+    /**
+     * Optional quantities for target plan lines, with no duplicate IDs. Omitted lines carry their
+     * paired current line's quantity, or use the target line's quantity when unpaired. If an
+     * adjusted current quantity cannot be paired, send a quantity for every target line. []
+     * (Value): {@link SubscriptionPlanChangeLineItemRequestInput}. Quantity override for a line in
+     * the target subscription plan.
+     */
+    "line_items"?: Array<SubscriptionPlanChangeLineItemRequestInput>;
+    /** Selects the plan change preview. Value enum: "plan_change". */
+    "mode": "plan_change";
+    /**
+     * ID of the subscription to preview a plan change for. minLength: 1. pattern:
+     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "subscription_id": string;
+    /**
+     * The target subscription plan. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "plan_01KEZF7C004CY5ZR33XST2AASV".
+     */
+    "subscription_plan_id": string;
+});
+/** The `promotion_apply` variant of `CreateSubscriptionPreviewRequest`. */
+export type CreateSubscriptionPreviewRequestPromotionApply = {
+    /**
+     * First charged cycle eligible for this promotion. Defaults to the next cycle without a
+     * renewal order, which is also the minimum: completed_cycles + 1, or completed_cycles + 2
+     * while past_due. The maximum is completed_cycles + 120. The unpaid past_due order keeps its
+     * price. Format: uint64. minimum: 1.
+     */
+    "first_cycle"?: number;
+    /**
+     * Preview applying a promotion to an existing subscription without saving changes. Value enum:
+     * "promotion_apply".
+     */
+    "mode": "promotion_apply" | (string & {});
+    /**
+     * Promotion to attach. Reattaching a removed promotion freezes its current terms and keeps its
+     * consumed cycles. Identifies the promotion to apply, by promotion code or by promotion ID.
+     */
+    "promotion": PromotionRefRequest;
+    /**
+     * Active or scheduled promotion to replace. It stops applying from first_cycle and continues
+     * to apply to earlier cycles. Must differ from the new promotion. An offer's own promotion
+     * cannot be replaced. minLength: 1. pattern: ^promo_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+     */
+    "replace_promotion_id"?: string;
+    /**
+     * ID of the subscription to preview. minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "subscription_id": string;
+};
 /** The `promotion_apply` variant of `CreateSubscriptionPreviewRequest`. */
 export type CreateSubscriptionPreviewRequestPromotionApplyInput = {
     /**
@@ -528,7 +1640,9 @@ export type CreateTaxRegistrationRequestInput = ({
      */
     "end_date"?: string | null;
     /**
-     * Seller's tax registration number. For EU, the non-Union OSS number: EU followed by nine
+     * Seller's tax registration number as issued: letters and digits with optional spaces,
+     * hyphens, periods or slashes. The original format is stored; separators are omitted when
+     * confirming with the tax account. For EU, the non-Union OSS number: EU followed by nine
      * digits. Write-only; responses return only its last four characters. minLength: 1. maxLength:
      * 255.
      */
@@ -2576,7 +3690,7 @@ export type CreditNoteAllocationReversedEvent = ((((Exclude<MerchantWebhookEnvel
         })
             & ({
             "allocated_at"?: ((string) | (null));
-            "amount_money"?: ((MoneyValue) | (null));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
             "credit_note_allocation_id"?: ((string) | (null));
             "credit_note_id"?: ((string) | (null));
             "idempotency_key"?: ((string) | (null));
@@ -2606,7 +3720,7 @@ export type CreditNoteAllocationReversedEvent = ((((Exclude<MerchantWebhookEnvel
         })
             & ({
             "allocated_at"?: ((string) | (null));
-            "amount_money"?: ((MoneyValue) | (null));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
             "credit_note_allocation_id"?: ((string) | (null));
             "credit_note_id"?: ((string) | (null));
             "idempotency_key"?: ((string) | (null));
@@ -2661,9 +3775,9 @@ export type CreditNoteAllocationReversedInstalledMerchantsEvent = (Exclude<Partn
      * the invoice balance. previous_attributes.allocated_at.anyOf[1] (Value): string. When the
      * credit was applied to the invoice balance. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". previous_attributes.allocated_at.anyOf[2] (Value): null.
-     * previous_attributes.amount_money (Optional): {@link MoneyValue} or null. Credit applied to
-     * the invoice balance. previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValue}.
-     * Credit applied to the invoice balance. previous_attributes.amount_money.anyOf[2] (Value):
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * Credit applied to the invoice balance. previous_attributes.amount_money.anyOf[1] (Value):
+     * {@link MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value):
      * null. previous_attributes.credit_note_allocation_id (Optional): string or null. Unique
      * identifier of the allocation. previous_attributes.credit_note_allocation_id.anyOf[1]
      * (Value): string. Unique identifier of the allocation. Example:
@@ -2765,8 +3879,8 @@ export type CreditNoteAllocationReversedInstalledMerchantsEvent = (Exclude<Partn
          * the credit was applied to the invoice balance. allocated_at.anyOf[1] (Value): string.
          * When the credit was applied to the invoice balance. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". allocated_at.anyOf[2] (Value): null. amount_money (Optional):
-         * {@link MoneyValue} or null. Credit applied to the invoice balance. amount_money.anyOf[1]
-         * (Value): {@link MoneyValue}. Credit applied to the invoice balance.
+         * {@link MoneyValuePreviousAttributes} or null. Credit applied to the invoice balance.
+         * amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
          * amount_money.anyOf[2] (Value): null. credit_note_allocation_id (Optional): string or
          * null. Unique identifier of the allocation. credit_note_allocation_id.anyOf[1] (Value):
          * string. Unique identifier of the allocation. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA".
@@ -2806,10 +3920,10 @@ export type CreditNoteAllocationReversedInstalledMerchantsEvent = (Exclude<Partn
              */
             "allocated_at"?: ((string) | (null));
             /**
-             * Credit applied to the invoice balance. anyOf[1] (Value): {@link MoneyValue}. Credit
-             * applied to the invoice balance. anyOf[2] (Value): null.
+             * Credit applied to the invoice balance. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValue) | (null));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
             /**
              * Unique identifier of the allocation. anyOf[1] (Value): string. Unique identifier of
              * the allocation. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". anyOf[2] (Value): null.
@@ -2893,6999 +4007,3 @@ export type CreditNoteAllocationReversedInstalledMerchantsEvent = (Exclude<Partn
         "sandbox_id"?: string;
     });
 });
-/**
- * The `credit_note_allocation.reversed` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type CreditNoteAllocationReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allocated_at (Required): string. When the credit was applied to
-     * the invoice balance. Format: date-time. Example: "2026-08-02T16:00:00Z". object.amount_money
-     * (Required): {@link MoneyValue}. Credit applied to the invoice balance. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     * object.credit_note_allocation_id (Required): string. Unique identifier of the allocation.
-     * Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". object.credit_note_id (Required): string. The
-     * credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     * object.idempotency_key (Required): string. The Idempotency-Key the caller sent when
-     * allocating, or the issue request's Idempotency-Key for an allocation made on issue.
-     * Filterable on the allocations list. object.invoice_id (Required): string. The invoice whose
-     * balance the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.reversed_at
-     * (Optional): string. When the allocation was reversed and its credit returned. Absent while
-     * the allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.supported_actions (Required): Array of string. Lifecycle actions Flint accepts for
-     * this resource now, based on stored state. Independent of the caller's permissions; each
-     * action still requires its route's scope. Always [] when no action is available. [] enum:
-     * "reverse". object.supported_actions[] (Value): string. Value enum: "reverse".
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.allocated_at (Optional): string or null. When the credit was applied to
-     * the invoice balance. previous_attributes.allocated_at.anyOf[1] (Value): string. When the
-     * credit was applied to the invoice balance. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.allocated_at.anyOf[2] (Value): null.
-     * previous_attributes.amount_money (Optional): {@link MoneyValue} or null. Credit applied to
-     * the invoice balance. previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValue}.
-     * Credit applied to the invoice balance. previous_attributes.amount_money.anyOf[2] (Value):
-     * null. previous_attributes.credit_note_allocation_id (Optional): string or null. Unique
-     * identifier of the allocation. previous_attributes.credit_note_allocation_id.anyOf[1]
-     * (Value): string. Unique identifier of the allocation. Example:
-     * "cna_01KEZF7C00EH6DMS9BD8F72CMA". previous_attributes.credit_note_allocation_id.anyOf[2]
-     * (Value): null. previous_attributes.credit_note_id (Optional): string or null. The credit
-     * note whose credit was applied. previous_attributes.credit_note_id.anyOf[1] (Value): string.
-     * The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     * previous_attributes.credit_note_id.anyOf[2] (Value): null.
-     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key the
-     * caller sent when allocating, or the issue request's Idempotency-Key for an allocation made
-     * on issue. Filterable on the allocations list. previous_attributes.idempotency_key.anyOf[1]
-     * (Value): string. The Idempotency-Key the caller sent when allocating, or the issue request's
-     * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
-     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice_id
-     * (Optional): string or null. The invoice whose balance the credit reduced.
-     * previous_attributes.invoice_id.anyOf[1] (Value): string. The invoice whose balance the
-     * credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.reversed_at
-     * (Optional): string or null. When the allocation was reversed and its credit returned. Absent
-     * while the allocation stands. previous_attributes.reversed_at.anyOf[1] (Value): string. When
-     * the allocation was reversed and its credit returned. Absent while the allocation stands.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.reversed_at.anyOf[2]
-     * (Value): null. previous_attributes.supported_actions (Optional): Array of string or null.
-     * Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of
-     * the caller's permissions; each action still requires its route's scope. Always [] when no
-     * action is available. [] enum: "reverse". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Lifecycle actions Flint accepts for this resource now, based on
-     * stored state. Independent of the caller's permissions; each action still requires its
-     * route's scope. Always [] when no action is available. [] enum: "reverse".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "reverse".
-     * previous_attributes.supported_actions.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allocated_at (Required): string. When the credit was applied to the invoice balance.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". amount_money (Required): {@link
-         * MoneyValue}. Credit applied to the invoice balance. Monetary amount represented as
-         * integer minor units plus an ISO 4217 currency code. credit_note_allocation_id
-         * (Required): string. Unique identifier of the allocation. Example:
-         * "cna_01KEZF7C00EH6DMS9BD8F72CMA". credit_note_id (Required): string. The credit note
-         * whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". idempotency_key
-         * (Required): string. The Idempotency-Key the caller sent when allocating, or the issue
-         * request's Idempotency-Key for an allocation made on issue. Filterable on the allocations
-         * list. invoice_id (Required): string. The invoice whose balance the credit reduced.
-         * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". reversed_at (Optional): string. When the
-         * allocation was reversed and its credit returned. Absent while the allocation stands.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". supported_actions (Required): Array
-         * of string. Lifecycle actions Flint accepts for this resource now, based on stored state.
-         * Independent of the caller's permissions; each action still requires its route's scope.
-         * Always [] when no action is available. [] enum: "reverse". supported_actions[] (Value):
-         * string. Value enum: "reverse".
-         */
-        "object": {
-            /**
-             * When the credit was applied to the invoice balance. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "allocated_at": string;
-            /**
-             * Credit applied to the invoice balance. Monetary amount represented as integer minor
-             * units plus an ISO 4217 currency code.
-             */
-            "amount_money": MoneyValue;
-            /** Unique identifier of the allocation. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". */
-            "credit_note_allocation_id": string;
-            /**
-             * The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-             */
-            "credit_note_id": string;
-            /**
-             * The Idempotency-Key the caller sent when allocating, or the issue request's
-             * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
-             */
-            "idempotency_key": string;
-            /**
-             * The invoice whose balance the credit reduced. Example:
-             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-             */
-            "invoice_id": string;
-            /**
-             * When the allocation was reversed and its credit returned. Absent while the
-             * allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "reversed_at"?: string;
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "reverse". [] (Value):
-             * string. Value enum: "reverse".
-             */
-            "supported_actions": Array<"reverse" | (string & {})>;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. allocated_at (Optional): string or null. When
-         * the credit was applied to the invoice balance. allocated_at.anyOf[1] (Value): string.
-         * When the credit was applied to the invoice balance. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". allocated_at.anyOf[2] (Value): null. amount_money (Optional):
-         * {@link MoneyValue} or null. Credit applied to the invoice balance. amount_money.anyOf[1]
-         * (Value): {@link MoneyValue}. Credit applied to the invoice balance.
-         * amount_money.anyOf[2] (Value): null. credit_note_allocation_id (Optional): string or
-         * null. Unique identifier of the allocation. credit_note_allocation_id.anyOf[1] (Value):
-         * string. Unique identifier of the allocation. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA".
-         * credit_note_allocation_id.anyOf[2] (Value): null. credit_note_id (Optional): string or
-         * null. The credit note whose credit was applied. credit_note_id.anyOf[1] (Value): string.
-         * The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-         * credit_note_id.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key the caller sent when allocating, or the issue request's Idempotency-Key
-         * for an allocation made on issue. Filterable on the allocations list.
-         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key the caller sent when
-         * allocating, or the issue request's Idempotency-Key for an allocation made on issue.
-         * Filterable on the allocations list. idempotency_key.anyOf[2] (Value): null. invoice_id
-         * (Optional): string or null. The invoice whose balance the credit reduced.
-         * invoice_id.anyOf[1] (Value): string. The invoice whose balance the credit reduced.
-         * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null.
-         * reversed_at (Optional): string or null. When the allocation was reversed and its credit
-         * returned. Absent while the allocation stands. reversed_at.anyOf[1] (Value): string. When
-         * the allocation was reversed and its credit returned. Absent while the allocation stands.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". reversed_at.anyOf[2] (Value): null.
-         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
-         * for this resource now, based on stored state. Independent of the caller's permissions;
-         * each action still requires its route's scope. Always [] when no action is available. []
-         * enum: "reverse". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
-         * Flint accepts for this resource now, based on stored state. Independent of the caller's
-         * permissions; each action still requires its route's scope. Always [] when no action is
-         * available. [] enum: "reverse". supported_actions.anyOf[1][] (Value): string. Value enum:
-         * "reverse". supported_actions.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * When the credit was applied to the invoice balance. anyOf[1] (Value): string. When
-             * the credit was applied to the invoice balance. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "allocated_at"?: ((string) | (null));
-            /**
-             * Credit applied to the invoice balance. anyOf[1] (Value): {@link MoneyValue}. Credit
-             * applied to the invoice balance. anyOf[2] (Value): null.
-             */
-            "amount_money"?: ((MoneyValue) | (null));
-            /**
-             * Unique identifier of the allocation. anyOf[1] (Value): string. Unique identifier of
-             * the allocation. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". anyOf[2] (Value): null.
-             */
-            "credit_note_allocation_id"?: ((string) | (null));
-            /**
-             * The credit note whose credit was applied. anyOf[1] (Value): string. The credit note
-             * whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". anyOf[2]
-             * (Value): null.
-             */
-            "credit_note_id"?: ((string) | (null));
-            /**
-             * The Idempotency-Key the caller sent when allocating, or the issue request's
-             * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
-             * anyOf[1] (Value): string. The Idempotency-Key the caller sent when allocating, or
-             * the issue request's Idempotency-Key for an allocation made on issue. Filterable on
-             * the allocations list. anyOf[2] (Value): null.
-             */
-            "idempotency_key"?: ((string) | (null));
-            /**
-             * The invoice whose balance the credit reduced. anyOf[1] (Value): string. The invoice
-             * whose balance the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-             * anyOf[2] (Value): null.
-             */
-            "invoice_id"?: ((string) | (null));
-            /**
-             * When the allocation was reversed and its credit returned. Absent while the
-             * allocation stands. anyOf[1] (Value): string. When the allocation was reversed and
-             * its credit returned. Absent while the allocation stands. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "reversed_at"?: ((string) | (null));
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "reverse". anyOf[1] (Value):
-             * Array of string. Lifecycle actions Flint accepts for this resource now, based on
-             * stored state. Independent of the caller's permissions; each action still requires
-             * its route's scope. Always [] when no action is available. [] enum: "reverse".
-             * anyOf[1][] (Value): string. Value enum: "reverse". anyOf[2] (Value): null.
-             */
-            "supported_actions"?: ((Array<"reverse" | (string & {})>) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "credit_note_allocation.reversed". */
-    "event_type"?: "credit_note_allocation.reversed";
-});
-/**
- * How much of an invoice line item a credit note line credits, by whole `quantity` or by `amount`,
- * chosen by `type`.
- */
-export type CreditNoteCorrectionRequest = ({
-    /**
-     * Positive billed value to credit in the invoice currency, no more than the frozen source
-     * line's remaining value. Consumes proportional remaining tax and discount without consuming
-     * quantity; later quantity corrections use the reduced remaining value. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Positive whole units; fractional quantities are not supported. No more than the source
-     * line's remaining uncredited quantity. Credits that fraction of its remaining billed value,
-     * rounded half up once at line level. Earlier amount corrections reduce that remaining value
-     * without consuming quantity. A share that rounds to zero is rejected; use a larger quantity
-     * or a positive amount. Format: int64.
-     */
-    "quantity"?: number;
-    /**
-     * quantity credits whole units and requires quantity. amount credits a named figure and
-     * requires amount_money. The two are mutually exclusive. Value enum: "quantity", "amount".
-     */
-    "type": "quantity" | "amount" | (string & {});
-})
-    & ((Exclude<CreditNoteCorrectionRequestQuantity & object, readonly unknown[]>)
-    | (Exclude<CreditNoteCorrectionRequestAmount & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The `amount` variant of `CreditNoteCorrectionRequest`. */
-export type CreditNoteCorrectionRequestAmount = ({
-    /**
-     * Positive billed value to credit in the invoice currency, no more than the frozen source
-     * line's remaining value. Consumes proportional remaining tax and discount without consuming
-     * quantity; later quantity corrections use the reduced remaining value. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * quantity credits whole units and requires quantity. amount credits a named figure and
-     * requires amount_money. The two are mutually exclusive. Value enum: "amount".
-     */
-    "type": "amount" | (string & {});
-})
-    & (({
-    /**
-     * quantity credits whole units and requires quantity. amount credits a named figure and
-     * requires amount_money. The two are mutually exclusive. Value enum: "amount".
-     */
-    "type": "amount" | (string & {});
-    /**
-     * Positive billed value to credit in the invoice currency, no more than the frozen source
-     * line's remaining value. Consumes proportional remaining tax and discount without consuming
-     * quantity; later quantity corrections use the reduced remaining value. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-}));
-/** The `amount` variant of `CreditNoteCorrectionRequest`. */
-export type CreditNoteCorrectionRequestAmountRequestInput = ({
-    /**
-     * Positive billed value to credit in the invoice currency, no more than the frozen source
-     * line's remaining value. Consumes proportional remaining tax and discount without consuming
-     * quantity; later quantity corrections use the reduced remaining value. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-    /**
-     * quantity credits whole units and requires quantity. amount credits a named figure and
-     * requires amount_money. The two are mutually exclusive. Value enum: "amount".
-     */
-    "type": "amount";
-})
-    & (({
-    /**
-     * quantity credits whole units and requires quantity. amount credits a named figure and
-     * requires amount_money. The two are mutually exclusive. Value enum: "amount".
-     */
-    "type": "amount";
-    /**
-     * Positive billed value to credit in the invoice currency, no more than the frozen source
-     * line's remaining value. Consumes proportional remaining tax and discount without consuming
-     * quantity; later quantity corrections use the reduced remaining value. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-})
-    & ({
-    "quantity"?: never;
-}));
-/**
- * How much of an invoice line item a credit note line credits, by whole `quantity` or by `amount`,
- * chosen by `type`.
- */
-export type CreditNoteCorrectionRequestModelInput = ({
-    /**
-     * Positive billed value to credit in the invoice currency, no more than the frozen source
-     * line's remaining value. Consumes proportional remaining tax and discount without consuming
-     * quantity; later quantity corrections use the reduced remaining value. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-    /**
-     * Positive whole units; fractional quantities are not supported. No more than the source
-     * line's remaining uncredited quantity. Credits that fraction of its remaining billed value,
-     * rounded half up once at line level. Earlier amount corrections reduce that remaining value
-     * without consuming quantity. A share that rounds to zero is rejected; use a larger quantity
-     * or a positive amount. Format: int64.
-     */
-    "quantity"?: number;
-    /**
-     * quantity credits whole units and requires quantity. amount credits a named figure and
-     * requires amount_money. The two are mutually exclusive. Value enum: "quantity", "amount".
-     */
-    "type": "quantity" | "amount";
-})
-    & ((Exclude<CreditNoteCorrectionRequestQuantityRequestInput & object, readonly unknown[]>)
-    | (Exclude<CreditNoteCorrectionRequestAmountRequestInput & object, readonly unknown[]>));
-/** The `quantity` variant of `CreditNoteCorrectionRequest`. */
-export type CreditNoteCorrectionRequestQuantity = ({
-    /**
-     * Positive whole units; fractional quantities are not supported. No more than the source
-     * line's remaining uncredited quantity. Credits that fraction of its remaining billed value,
-     * rounded half up once at line level. Earlier amount corrections reduce that remaining value
-     * without consuming quantity. A share that rounds to zero is rejected; use a larger quantity
-     * or a positive amount. Format: int64.
-     */
-    "quantity": number;
-    /**
-     * quantity credits whole units and requires quantity. amount credits a named figure and
-     * requires amount_money. The two are mutually exclusive. Value enum: "quantity".
-     */
-    "type": "quantity" | (string & {});
-})
-    & (({
-    /**
-     * quantity credits whole units and requires quantity. amount credits a named figure and
-     * requires amount_money. The two are mutually exclusive. Value enum: "quantity".
-     */
-    "type": "quantity" | (string & {});
-    /**
-     * Positive whole units; fractional quantities are not supported. No more than the source
-     * line's remaining uncredited quantity. Credits that fraction of its remaining billed value,
-     * rounded half up once at line level. Earlier amount corrections reduce that remaining value
-     * without consuming quantity. A share that rounds to zero is rejected; use a larger quantity
-     * or a positive amount. Format: int64.
-     */
-    "quantity": number;
-}));
-/** The `quantity` variant of `CreditNoteCorrectionRequest`. */
-export type CreditNoteCorrectionRequestQuantityRequestInput = ({
-    /**
-     * Positive whole units; fractional quantities are not supported. No more than the source
-     * line's remaining uncredited quantity. Credits that fraction of its remaining billed value,
-     * rounded half up once at line level. Earlier amount corrections reduce that remaining value
-     * without consuming quantity. A share that rounds to zero is rejected; use a larger quantity
-     * or a positive amount. Format: int64.
-     */
-    "quantity": number;
-    /**
-     * quantity credits whole units and requires quantity. amount credits a named figure and
-     * requires amount_money. The two are mutually exclusive. Value enum: "quantity".
-     */
-    "type": "quantity";
-})
-    & (({
-    /**
-     * quantity credits whole units and requires quantity. amount credits a named figure and
-     * requires amount_money. The two are mutually exclusive. Value enum: "quantity".
-     */
-    "type": "quantity";
-    /**
-     * Positive whole units; fractional quantities are not supported. No more than the source
-     * line's remaining uncredited quantity. Credits that fraction of its remaining billed value,
-     * rounded half up once at line level. Earlier amount corrections reduce that remaining value
-     * without consuming quantity. A share that rounds to zero is rejected; use a larger quantity
-     * or a positive amount. Format: int64.
-     */
-    "quantity": number;
-})
-    & ({
-    "amount_money"?: never;
-}));
-export type CreditNoteCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "allocated_money": MoneyValue;
-            "available_money": MoneyValue;
-            "buyer_tax_identity": ((TaxIdentity) | (null));
-            "created_at": string;
-            "credit_note_id": string;
-            "credit_note_number"?: string;
-            "external_reference_id": string | null;
-            "invoice"?: ExpandedInvoiceSummary;
-            "invoice_id": string;
-            "issued_at"?: string;
-            "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            "line_items": Array<CreditNoteLineItem>;
-            "memo": string | null;
-            "merchant_id": string;
-            "pending_refund_money": MoneyValue;
-            "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-            "refunded_money": MoneyValue;
-            "seller_tax_identity": ((TaxIdentity) | (null));
-            "status": "draft" | "issued" | "voided" | (string & {});
-            "supported_actions": Array<"issue" | "void" | (string & {})>;
-            "tax_currency_conversions": Array<TaxCurrencyConversion>;
-            "total_money": MoneyValue;
-            "updated_at": string;
-            "version": number;
-            "voided_at"?: string;
-        };
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "credit_note.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "allocated_money": MoneyValue;
-            "available_money": MoneyValue;
-            "buyer_tax_identity": ((TaxIdentity) | (null));
-            "created_at": string;
-            "credit_note_id": string;
-            "credit_note_number"?: string;
-            "external_reference_id": string | null;
-            "invoice"?: ExpandedInvoiceSummary;
-            "invoice_id": string;
-            "issued_at"?: string;
-            "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            "line_items": Array<CreditNoteLineItem>;
-            "memo": string | null;
-            "merchant_id": string;
-            "pending_refund_money": MoneyValue;
-            "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-            "refunded_money": MoneyValue;
-            "seller_tax_identity": ((TaxIdentity) | (null));
-            "status": "draft" | "issued" | "voided" | (string & {});
-            "supported_actions": Array<"issue" | "void" | (string & {})>;
-            "tax_currency_conversions": Array<TaxCurrencyConversion>;
-            "total_money": MoneyValue;
-            "updated_at": string;
-            "version": number;
-            "voided_at"?: string;
-        };
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "credit_note.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "credit_note.created";
-});
-/**
- * The `credit_note.created` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type CreditNoteCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allocated_money (Required): {@link MoneyValue}. Credit applied to
-     * the invoice, net of reversed allocations. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.available_money (Required): {@link MoneyValue}.
-     * Credit available to allocate or refund. Zero on draft and voided notes. On issued notes,
-     * total_money equals allocated_money plus pending_refund_money plus refunded_money plus
-     * available_money. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.buyer_tax_identity (Required): {@link TaxIdentity} or null. Identity
-     * frozen on the source invoice at issue. Later profile edits do not change this document.
-     * `null` when no buyer tax identity was captured on the source invoice. Customer deletion
-     * preserves identities captured on issued invoices and credit notes.
-     * object.buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. object.buyer_tax_identity.anyOf[2] (Value): null.
-     * object.created_at (Required): string. When the credit note was created. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.credit_note_id (Required): string. Unique identifier
-     * of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". object.credit_note_number
-     * (Optional): string. Assigned at issue and stable from then on. Absent while the credit note
-     * is a draft. object.external_reference_id (Required): string or null. Caller-owned identifier
-     * for this resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842". object.invoice (Optional): {@link ExpandedInvoiceSummary}.
-     * Summary of the source invoice. Returned only with expand=invoice. An invoice's summary
-     * fields, including status, due date, and paid, outstanding, and refunded amounts, returned
-     * when the invoice is expanded. object.invoice_id (Required): string. The invoice this credit
-     * note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.issued_at (Optional):
-     * string. When the credit note was issued. Absent on a draft. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.latest_refund_status (Optional): string. Status of the most
-     * recent refund linked to this credit note. Absent when no refund has been requested. Value
-     * enum: "pending", "succeeded", "partially_succeeded", "failed". object.line_items (Required):
-     * Array of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-     * Amount and quantity corrections share each source line's remaining value, discount, and tax
-     * across issued credit notes that have not been voided. Drafts reserve no credit.
-     * object.line_items[] (Value): {@link CreditNoteLineItem}. One correction calculated from the
-     * frozen invoice line's remaining billed value, discount, and tax. The source line's inclusive
-     * or additive tax mode is preserved. Current catalog prices and tax settings do not affect the
-     * correction. Stored issued values are never recalculated by a read. object.memo (Required):
-     * string or null. Free text shown on the credit note, up to 4096 characters. `null` when
-     * unset. object.merchant_id (Required): string. The merchant that owns the credit note.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.pending_refund_money (Required): {@link
-     * MoneyValue}. Credit reserved by linked refunds that have not resolved yet. Released if a
-     * refund fails or is canceled. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code. object.reason (Required): string. Why the invoice is being corrected.
-     * Shown on the credit note document. Value enum: "returned_goods", "order_adjustment",
-     * "billing_error", "goodwill", "other". object.refunded_money (Required): {@link MoneyValue}.
-     * Credit consumed by linked refunds that succeeded. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. object.seller_tax_identity (Required): {@link
-     * TaxIdentity} or null. Identity frozen on the source invoice at issue. Later profile edits do
-     * not change this document. `null` when no seller tax identity was captured.
-     * object.seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. object.seller_tax_identity.anyOf[2] (Value): null. object.status
-     * (Required): string. draft while the credit note is editable, issued once it is numbered and
-     * frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-     * object.supported_actions (Required): Array of string. Lifecycle actions Flint accepts for
-     * this resource now, based on stored state. Independent of the caller's permissions; each
-     * action still requires its route's scope. Always [] when no action is available. [] enum:
-     * "issue", "void". object.supported_actions[] (Value): string. Value enum: "issue", "void".
-     * object.tax_currency_conversions (Required): Array of {@link TaxCurrencyConversion}. The
-     * credit note's VAT stated in the currency of the country that charges it, frozen at issue.
-     * Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from
-     * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-     * converted the same way. Always [] on drafts and when the invoice froze no conversion. The
-     * credit note PDF prints the same figures. object.tax_currency_conversions[] (Value): {@link
-     * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the country
-     * whose VAT is charged. object.total_money (Required): {@link MoneyValue}. The face value of
-     * the credit note, the sum of its lines. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.updated_at (Required): string. When the credit note
-     * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current credit note version. Send this as expected_version when updating the draft.
-     * Format: int64. minimum: 1. object.voided_at (Optional): string. When the credit note was
-     * voided. Absent unless its status is voided. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allocated_money (Required): {@link MoneyValue}. Credit applied to the invoice, net of
-         * reversed allocations. Monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. available_money (Required): {@link MoneyValue}. Credit available to
-         * allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-         * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-         * buyer_tax_identity (Required): {@link TaxIdentity} or null. Identity frozen on the
-         * source invoice at issue. Later profile edits do not change this document. `null` when no
-         * buyer tax identity was captured on the source invoice. Customer deletion preserves
-         * identities captured on issued invoices and credit notes. buyer_tax_identity.anyOf[1]
-         * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-         * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID
-         * for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-         * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-         * display order; replacing the array requires the parent's expected_version. Existing
-         * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add
-         * one. buyer_tax_identity.anyOf[2] (Value): null. created_at (Required): string. When the
-         * credit note was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * credit_note_id (Required): string. Unique identifier of the credit note. Example:
-         * "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_number (Optional): string. Assigned at
-         * issue and stable from then on. Absent while the credit note is a draft.
-         * external_reference_id (Required): string or null. Caller-owned identifier for this
-         * resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
-         * Example: "warehouse-1842". invoice (Optional): {@link ExpandedInvoiceSummary}. Summary
-         * of the source invoice. Returned only with expand=invoice. An invoice's summary fields,
-         * including status, due date, and paid, outstanding, and refunded amounts, returned when
-         * the invoice is expanded. invoice_id (Required): string. The invoice this credit note
-         * corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". issued_at (Optional): string. When
-         * the credit note was issued. Absent on a draft. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". latest_refund_status (Optional): string. Status of the most
-         * recent refund linked to this credit note. Absent when no refund has been requested.
-         * Value enum: "pending", "succeeded", "partially_succeeded", "failed". line_items
-         * (Required): Array of {@link CreditNoteLineItem}. Itemized corrections against frozen
-         * invoice lines. Amount and quantity corrections share each source line's remaining value,
-         * discount, and tax across issued credit notes that have not been voided. Drafts reserve
-         * no credit. line_items[] (Value): {@link CreditNoteLineItem}. One correction calculated
-         * from the frozen invoice line's remaining billed value, discount, and tax. The source
-         * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-         * settings do not affect the correction. Stored issued values are never recalculated by a
-         * read. memo (Required): string or null. Free text shown on the credit note, up to 4096
-         * characters. `null` when unset. merchant_id (Required): string. The merchant that owns
-         * the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". pending_refund_money
-         * (Required): {@link MoneyValue}. Credit reserved by linked refunds that have not resolved
-         * yet. Released if a refund fails or is canceled. Monetary amount represented as integer
-         * minor units plus an ISO 4217 currency code. reason (Required): string. Why the invoice
-         * is being corrected. Shown on the credit note document. Value enum: "returned_goods",
-         * "order_adjustment", "billing_error", "goodwill", "other". refunded_money (Required):
-         * {@link MoneyValue}. Credit consumed by linked refunds that succeeded. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code. seller_tax_identity
-         * (Required): {@link TaxIdentity} or null. Identity frozen on the source invoice at issue.
-         * Later profile edits do not change this document. `null` when no seller tax identity was
-         * captured. seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided
-         * legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-         * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax
-         * provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax
-         * IDs are an owned collection in display order; replacing the array requires the parent's
-         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
-         * it, or omit its ID to add one. seller_tax_identity.anyOf[2] (Value): null. status
-         * (Required): string. draft while the credit note is editable, issued once it is numbered
-         * and frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-         * supported_actions (Required): Array of string. Lifecycle actions Flint accepts for this
-         * resource now, based on stored state. Independent of the caller's permissions; each
-         * action still requires its route's scope. Always [] when no action is available. [] enum:
-         * "issue", "void". supported_actions[] (Value): string. Value enum: "issue", "void".
-         * tax_currency_conversions (Required): Array of {@link TaxCurrencyConversion}. The credit
-         * note's VAT stated in the currency of the country that charges it, frozen at issue. Each
-         * entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from
-         * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-         * converted the same way. Always [] on drafts and when the invoice froze no conversion.
-         * The credit note PDF prints the same figures. tax_currency_conversions[] (Value): {@link
-         * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-         * country whose VAT is charged. total_money (Required): {@link MoneyValue}. The face value
-         * of the credit note, the sum of its lines. Monetary amount represented as integer minor
-         * units plus an ISO 4217 currency code. updated_at (Required): string. When the credit
-         * note last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Current credit note version. Send this as expected_version when
-         * updating the draft. Format: int64. minimum: 1. voided_at (Optional): string. When the
-         * credit note was voided. Absent unless its status is voided. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * Credit applied to the invoice, net of reversed allocations. Monetary amount
-             * represented as integer minor units plus an ISO 4217 currency code.
-             */
-            "allocated_money": MoneyValue;
-            /**
-             * Credit available to allocate or refund. Zero on draft and voided notes. On issued
-             * notes, total_money equals allocated_money plus pending_refund_money plus
-             * refunded_money plus available_money. Monetary amount represented as integer minor
-             * units plus an ISO 4217 currency code.
-             */
-            "available_money": MoneyValue;
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no buyer tax identity was captured on the source invoice.
-             * Customer deletion preserves identities captured on issued invoices and credit notes.
-             * anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on
-             * invoices and credit notes. Flint does not verify IDs. On a customer, automatic tax
-             * sends the tax ID for an EU, GB, AU or NZ destination to its tax provider, which can
-             * apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
-             * collection in display order; replacing the array requires the parent's
-             * expected_version. Existing entries retain their document_tax_id; omit an entry to
-             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
-             */
-            "buyer_tax_identity": ((TaxIdentity) | (null));
-            /**
-             * When the credit note was created. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /** Unique identifier of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". */
-            "credit_note_id": string;
-            /**
-             * Assigned at issue and stable from then on. Absent while the credit note is a draft.
-             */
-            "credit_note_number"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. `null` when unset.
-             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-             */
-            "external_reference_id": string | null;
-            /**
-             * Summary of the source invoice. Returned only with expand=invoice. An invoice's
-             * summary fields, including status, due date, and paid, outstanding, and refunded
-             * amounts, returned when the invoice is expanded.
-             */
-            "invoice"?: ExpandedInvoiceSummary;
-            /** The invoice this credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
-            "invoice_id": string;
-            /**
-             * When the credit note was issued. Absent on a draft. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "issued_at"?: string;
-            /**
-             * Status of the most recent refund linked to this credit note. Absent when no refund
-             * has been requested. Value enum: "pending", "succeeded", "partially_succeeded",
-             * "failed".
-             */
-            "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            /**
-             * Itemized corrections against frozen invoice lines. Amount and quantity corrections
-             * share each source line's remaining value, discount, and tax across issued credit
-             * notes that have not been voided. Drafts reserve no credit. [] (Value): {@link
-             * CreditNoteLineItem}. One correction calculated from the frozen invoice line's
-             * remaining billed value, discount, and tax. The source line's inclusive or additive
-             * tax mode is preserved. Current catalog prices and tax settings do not affect the
-             * correction. Stored issued values are never recalculated by a read.
-             */
-            "line_items": Array<CreditNoteLineItem>;
-            /** Free text shown on the credit note, up to 4096 characters. `null` when unset. */
-            "memo": string | null;
-            /**
-             * The merchant that owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Credit reserved by linked refunds that have not resolved yet. Released if a refund
-             * fails or is canceled. Monetary amount represented as integer minor units plus an ISO
-             * 4217 currency code.
-             */
-            "pending_refund_money": MoneyValue;
-            /**
-             * Why the invoice is being corrected. Shown on the credit note document. Value enum:
-             * "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
-             */
-            "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-            /**
-             * Credit consumed by linked refunds that succeeded. Monetary amount represented as
-             * integer minor units plus an ISO 4217 currency code.
-             */
-            "refunded_money": MoneyValue;
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no seller tax identity was captured. anyOf[1] (Value):
-             * {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-             * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax
-             * ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a
-             * reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
-             * collection in display order; replacing the array requires the parent's
-             * expected_version. Existing entries retain their document_tax_id; omit an entry to
-             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
-             */
-            "seller_tax_identity": ((TaxIdentity) | (null));
-            /**
-             * draft while the credit note is editable, issued once it is numbered and frozen,
-             * voided once withdrawn. Value enum: "draft", "issued", "voided".
-             */
-            "status": "draft" | "issued" | "voided" | (string & {});
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "issue", "void". [] (Value):
-             * string. Value enum: "issue", "void".
-             */
-            "supported_actions": Array<"issue" | "void" | (string & {})>;
-            /**
-             * The credit note's VAT stated in the currency of the country that charges it, frozen
-             * at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-             * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT
-             * and taxable amount converted the same way. Always [] on drafts and when the invoice
-             * froze no conversion. The credit note PDF prints the same figures. [] (Value): {@link
-             * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-             * country whose VAT is charged.
-             */
-            "tax_currency_conversions": Array<TaxCurrencyConversion>;
-            /**
-             * The face value of the credit note, the sum of its lines. Monetary amount represented
-             * as integer minor units plus an ISO 4217 currency code.
-             */
-            "total_money": MoneyValue;
-            /**
-             * When the credit note last changed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "updated_at": string;
-            /**
-             * Current credit note version. Send this as expected_version when updating the draft.
-             * Format: int64. minimum: 1.
-             */
-            "version": number;
-            /**
-             * When the credit note was voided. Absent unless its status is voided. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "voided_at"?: string;
-        };
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "credit_note.created". */
-    "event_type"?: "credit_note.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `credit_note.created` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type CreditNoteCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allocated_money (Required): {@link MoneyValue}. Credit applied to
-     * the invoice, net of reversed allocations. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.available_money (Required): {@link MoneyValue}.
-     * Credit available to allocate or refund. Zero on draft and voided notes. On issued notes,
-     * total_money equals allocated_money plus pending_refund_money plus refunded_money plus
-     * available_money. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.buyer_tax_identity (Required): {@link TaxIdentity} or null. Identity
-     * frozen on the source invoice at issue. Later profile edits do not change this document.
-     * `null` when no buyer tax identity was captured on the source invoice. Customer deletion
-     * preserves identities captured on issued invoices and credit notes.
-     * object.buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. object.buyer_tax_identity.anyOf[2] (Value): null.
-     * object.created_at (Required): string. When the credit note was created. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.credit_note_id (Required): string. Unique identifier
-     * of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". object.credit_note_number
-     * (Optional): string. Assigned at issue and stable from then on. Absent while the credit note
-     * is a draft. object.external_reference_id (Required): string or null. Caller-owned identifier
-     * for this resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842". object.invoice (Optional): {@link ExpandedInvoiceSummary}.
-     * Summary of the source invoice. Returned only with expand=invoice. An invoice's summary
-     * fields, including status, due date, and paid, outstanding, and refunded amounts, returned
-     * when the invoice is expanded. object.invoice_id (Required): string. The invoice this credit
-     * note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.issued_at (Optional):
-     * string. When the credit note was issued. Absent on a draft. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.latest_refund_status (Optional): string. Status of the most
-     * recent refund linked to this credit note. Absent when no refund has been requested. Value
-     * enum: "pending", "succeeded", "partially_succeeded", "failed". object.line_items (Required):
-     * Array of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-     * Amount and quantity corrections share each source line's remaining value, discount, and tax
-     * across issued credit notes that have not been voided. Drafts reserve no credit.
-     * object.line_items[] (Value): {@link CreditNoteLineItem}. One correction calculated from the
-     * frozen invoice line's remaining billed value, discount, and tax. The source line's inclusive
-     * or additive tax mode is preserved. Current catalog prices and tax settings do not affect the
-     * correction. Stored issued values are never recalculated by a read. object.memo (Required):
-     * string or null. Free text shown on the credit note, up to 4096 characters. `null` when
-     * unset. object.merchant_id (Required): string. The merchant that owns the credit note.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.pending_refund_money (Required): {@link
-     * MoneyValue}. Credit reserved by linked refunds that have not resolved yet. Released if a
-     * refund fails or is canceled. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code. object.reason (Required): string. Why the invoice is being corrected.
-     * Shown on the credit note document. Value enum: "returned_goods", "order_adjustment",
-     * "billing_error", "goodwill", "other". object.refunded_money (Required): {@link MoneyValue}.
-     * Credit consumed by linked refunds that succeeded. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. object.seller_tax_identity (Required): {@link
-     * TaxIdentity} or null. Identity frozen on the source invoice at issue. Later profile edits do
-     * not change this document. `null` when no seller tax identity was captured.
-     * object.seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. object.seller_tax_identity.anyOf[2] (Value): null. object.status
-     * (Required): string. draft while the credit note is editable, issued once it is numbered and
-     * frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-     * object.supported_actions (Required): Array of string. Lifecycle actions Flint accepts for
-     * this resource now, based on stored state. Independent of the caller's permissions; each
-     * action still requires its route's scope. Always [] when no action is available. [] enum:
-     * "issue", "void". object.supported_actions[] (Value): string. Value enum: "issue", "void".
-     * object.tax_currency_conversions (Required): Array of {@link TaxCurrencyConversion}. The
-     * credit note's VAT stated in the currency of the country that charges it, frozen at issue.
-     * Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from
-     * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-     * converted the same way. Always [] on drafts and when the invoice froze no conversion. The
-     * credit note PDF prints the same figures. object.tax_currency_conversions[] (Value): {@link
-     * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the country
-     * whose VAT is charged. object.total_money (Required): {@link MoneyValue}. The face value of
-     * the credit note, the sum of its lines. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.updated_at (Required): string. When the credit note
-     * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current credit note version. Send this as expected_version when updating the draft.
-     * Format: int64. minimum: 1. object.voided_at (Optional): string. When the credit note was
-     * voided. Absent unless its status is voided. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allocated_money (Required): {@link MoneyValue}. Credit applied to the invoice, net of
-         * reversed allocations. Monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. available_money (Required): {@link MoneyValue}. Credit available to
-         * allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-         * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-         * buyer_tax_identity (Required): {@link TaxIdentity} or null. Identity frozen on the
-         * source invoice at issue. Later profile edits do not change this document. `null` when no
-         * buyer tax identity was captured on the source invoice. Customer deletion preserves
-         * identities captured on issued invoices and credit notes. buyer_tax_identity.anyOf[1]
-         * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-         * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID
-         * for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-         * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-         * display order; replacing the array requires the parent's expected_version. Existing
-         * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add
-         * one. buyer_tax_identity.anyOf[2] (Value): null. created_at (Required): string. When the
-         * credit note was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * credit_note_id (Required): string. Unique identifier of the credit note. Example:
-         * "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_number (Optional): string. Assigned at
-         * issue and stable from then on. Absent while the credit note is a draft.
-         * external_reference_id (Required): string or null. Caller-owned identifier for this
-         * resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
-         * Example: "warehouse-1842". invoice (Optional): {@link ExpandedInvoiceSummary}. Summary
-         * of the source invoice. Returned only with expand=invoice. An invoice's summary fields,
-         * including status, due date, and paid, outstanding, and refunded amounts, returned when
-         * the invoice is expanded. invoice_id (Required): string. The invoice this credit note
-         * corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". issued_at (Optional): string. When
-         * the credit note was issued. Absent on a draft. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". latest_refund_status (Optional): string. Status of the most
-         * recent refund linked to this credit note. Absent when no refund has been requested.
-         * Value enum: "pending", "succeeded", "partially_succeeded", "failed". line_items
-         * (Required): Array of {@link CreditNoteLineItem}. Itemized corrections against frozen
-         * invoice lines. Amount and quantity corrections share each source line's remaining value,
-         * discount, and tax across issued credit notes that have not been voided. Drafts reserve
-         * no credit. line_items[] (Value): {@link CreditNoteLineItem}. One correction calculated
-         * from the frozen invoice line's remaining billed value, discount, and tax. The source
-         * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-         * settings do not affect the correction. Stored issued values are never recalculated by a
-         * read. memo (Required): string or null. Free text shown on the credit note, up to 4096
-         * characters. `null` when unset. merchant_id (Required): string. The merchant that owns
-         * the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". pending_refund_money
-         * (Required): {@link MoneyValue}. Credit reserved by linked refunds that have not resolved
-         * yet. Released if a refund fails or is canceled. Monetary amount represented as integer
-         * minor units plus an ISO 4217 currency code. reason (Required): string. Why the invoice
-         * is being corrected. Shown on the credit note document. Value enum: "returned_goods",
-         * "order_adjustment", "billing_error", "goodwill", "other". refunded_money (Required):
-         * {@link MoneyValue}. Credit consumed by linked refunds that succeeded. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code. seller_tax_identity
-         * (Required): {@link TaxIdentity} or null. Identity frozen on the source invoice at issue.
-         * Later profile edits do not change this document. `null` when no seller tax identity was
-         * captured. seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided
-         * legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-         * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax
-         * provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax
-         * IDs are an owned collection in display order; replacing the array requires the parent's
-         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
-         * it, or omit its ID to add one. seller_tax_identity.anyOf[2] (Value): null. status
-         * (Required): string. draft while the credit note is editable, issued once it is numbered
-         * and frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-         * supported_actions (Required): Array of string. Lifecycle actions Flint accepts for this
-         * resource now, based on stored state. Independent of the caller's permissions; each
-         * action still requires its route's scope. Always [] when no action is available. [] enum:
-         * "issue", "void". supported_actions[] (Value): string. Value enum: "issue", "void".
-         * tax_currency_conversions (Required): Array of {@link TaxCurrencyConversion}. The credit
-         * note's VAT stated in the currency of the country that charges it, frozen at issue. Each
-         * entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from
-         * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-         * converted the same way. Always [] on drafts and when the invoice froze no conversion.
-         * The credit note PDF prints the same figures. tax_currency_conversions[] (Value): {@link
-         * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-         * country whose VAT is charged. total_money (Required): {@link MoneyValue}. The face value
-         * of the credit note, the sum of its lines. Monetary amount represented as integer minor
-         * units plus an ISO 4217 currency code. updated_at (Required): string. When the credit
-         * note last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Current credit note version. Send this as expected_version when
-         * updating the draft. Format: int64. minimum: 1. voided_at (Optional): string. When the
-         * credit note was voided. Absent unless its status is voided. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * Credit applied to the invoice, net of reversed allocations. Monetary amount
-             * represented as integer minor units plus an ISO 4217 currency code.
-             */
-            "allocated_money": MoneyValue;
-            /**
-             * Credit available to allocate or refund. Zero on draft and voided notes. On issued
-             * notes, total_money equals allocated_money plus pending_refund_money plus
-             * refunded_money plus available_money. Monetary amount represented as integer minor
-             * units plus an ISO 4217 currency code.
-             */
-            "available_money": MoneyValue;
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no buyer tax identity was captured on the source invoice.
-             * Customer deletion preserves identities captured on issued invoices and credit notes.
-             * anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on
-             * invoices and credit notes. Flint does not verify IDs. On a customer, automatic tax
-             * sends the tax ID for an EU, GB, AU or NZ destination to its tax provider, which can
-             * apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
-             * collection in display order; replacing the array requires the parent's
-             * expected_version. Existing entries retain their document_tax_id; omit an entry to
-             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
-             */
-            "buyer_tax_identity": ((TaxIdentity) | (null));
-            /**
-             * When the credit note was created. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /** Unique identifier of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". */
-            "credit_note_id": string;
-            /**
-             * Assigned at issue and stable from then on. Absent while the credit note is a draft.
-             */
-            "credit_note_number"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. `null` when unset.
-             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-             */
-            "external_reference_id": string | null;
-            /**
-             * Summary of the source invoice. Returned only with expand=invoice. An invoice's
-             * summary fields, including status, due date, and paid, outstanding, and refunded
-             * amounts, returned when the invoice is expanded.
-             */
-            "invoice"?: ExpandedInvoiceSummary;
-            /** The invoice this credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
-            "invoice_id": string;
-            /**
-             * When the credit note was issued. Absent on a draft. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "issued_at"?: string;
-            /**
-             * Status of the most recent refund linked to this credit note. Absent when no refund
-             * has been requested. Value enum: "pending", "succeeded", "partially_succeeded",
-             * "failed".
-             */
-            "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            /**
-             * Itemized corrections against frozen invoice lines. Amount and quantity corrections
-             * share each source line's remaining value, discount, and tax across issued credit
-             * notes that have not been voided. Drafts reserve no credit. [] (Value): {@link
-             * CreditNoteLineItem}. One correction calculated from the frozen invoice line's
-             * remaining billed value, discount, and tax. The source line's inclusive or additive
-             * tax mode is preserved. Current catalog prices and tax settings do not affect the
-             * correction. Stored issued values are never recalculated by a read.
-             */
-            "line_items": Array<CreditNoteLineItem>;
-            /** Free text shown on the credit note, up to 4096 characters. `null` when unset. */
-            "memo": string | null;
-            /**
-             * The merchant that owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Credit reserved by linked refunds that have not resolved yet. Released if a refund
-             * fails or is canceled. Monetary amount represented as integer minor units plus an ISO
-             * 4217 currency code.
-             */
-            "pending_refund_money": MoneyValue;
-            /**
-             * Why the invoice is being corrected. Shown on the credit note document. Value enum:
-             * "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
-             */
-            "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-            /**
-             * Credit consumed by linked refunds that succeeded. Monetary amount represented as
-             * integer minor units plus an ISO 4217 currency code.
-             */
-            "refunded_money": MoneyValue;
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no seller tax identity was captured. anyOf[1] (Value):
-             * {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-             * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax
-             * ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a
-             * reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
-             * collection in display order; replacing the array requires the parent's
-             * expected_version. Existing entries retain their document_tax_id; omit an entry to
-             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
-             */
-            "seller_tax_identity": ((TaxIdentity) | (null));
-            /**
-             * draft while the credit note is editable, issued once it is numbered and frozen,
-             * voided once withdrawn. Value enum: "draft", "issued", "voided".
-             */
-            "status": "draft" | "issued" | "voided" | (string & {});
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "issue", "void". [] (Value):
-             * string. Value enum: "issue", "void".
-             */
-            "supported_actions": Array<"issue" | "void" | (string & {})>;
-            /**
-             * The credit note's VAT stated in the currency of the country that charges it, frozen
-             * at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-             * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT
-             * and taxable amount converted the same way. Always [] on drafts and when the invoice
-             * froze no conversion. The credit note PDF prints the same figures. [] (Value): {@link
-             * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-             * country whose VAT is charged.
-             */
-            "tax_currency_conversions": Array<TaxCurrencyConversion>;
-            /**
-             * The face value of the credit note, the sum of its lines. Monetary amount represented
-             * as integer minor units plus an ISO 4217 currency code.
-             */
-            "total_money": MoneyValue;
-            /**
-             * When the credit note last changed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "updated_at": string;
-            /**
-             * Current credit note version. Send this as expected_version when updating the draft.
-             * Format: int64. minimum: 1.
-             */
-            "version": number;
-            /**
-             * When the credit note was voided. Absent unless its status is voided. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "voided_at"?: string;
-        };
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "credit_note.created". */
-    "event_type"?: "credit_note.created";
-});
-/** Credit to apply to the invoice when issuing a credit note. */
-export type CreditNoteIssueAllocationRequest = {
-    /**
-     * Credit to apply. Omit to apply the smaller of the credit available after issue and the
-     * invoice's outstanding balance. An explicit amount must be positive, use the invoice's
-     * currency, and fit both balances. Either way, the allocation must leave the order's unpaid
-     * tip outstanding. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "amount_money"?: MoneyValue;
-};
-/** Credit to apply to the invoice when issuing a credit note. */
-export type CreditNoteIssueAllocationRequestInput = {
-    /**
-     * Credit to apply. Omit to apply the smaller of the credit available after issue and the
-     * invoice's outstanding balance. An explicit amount must be positive, use the invoice's
-     * currency, and fit both balances. Either way, the allocation must leave the order's unpaid
-     * tip outstanding. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-};
-export type CreditNoteIssuedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "allocated_money": MoneyValue;
-            "available_money": MoneyValue;
-            "buyer_tax_identity": ((TaxIdentity) | (null));
-            "created_at": string;
-            "credit_note_id": string;
-            "credit_note_number"?: string;
-            "external_reference_id": string | null;
-            "invoice"?: ExpandedInvoiceSummary;
-            "invoice_id": string;
-            "issued_at"?: string;
-            "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            "line_items": Array<CreditNoteLineItem>;
-            "memo": string | null;
-            "merchant_id": string;
-            "pending_refund_money": MoneyValue;
-            "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-            "refunded_money": MoneyValue;
-            "seller_tax_identity": ((TaxIdentity) | (null));
-            "status": "draft" | "issued" | "voided" | (string & {});
-            "supported_actions": Array<"issue" | "void" | (string & {})>;
-            "tax_currency_conversions": Array<TaxCurrencyConversion>;
-            "total_money": MoneyValue;
-            "updated_at": string;
-            "version": number;
-            "voided_at"?: string;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "allocated_money"?: ((MoneyValue) | (null));
-            "available_money"?: ((MoneyValue) | (null));
-            "buyer_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            "created_at"?: ((string) | (null));
-            "credit_note_id"?: ((string) | (null));
-            "credit_note_number"?: ((string) | (null));
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
-            "invoice"?: ((ExpandedInvoiceSummary) | (null));
-            "invoice_id"?: ((string) | (null));
-            "issued_at"?: ((string) | (null));
-            "latest_refund_status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
-            "line_items"?: ((Array<CreditNoteLineItem>) | (null));
-            "memo"?: ((string | null) | (null) | (unknown));
-            "merchant_id"?: ((string) | (null));
-            "pending_refund_money"?: ((MoneyValue) | (null));
-            "reason"?: (("returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {}))
-                | (null));
-            "refunded_money"?: ((MoneyValue) | (null));
-            "seller_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            "status"?: (("draft" | "issued" | "voided" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"issue" | "void" | (string & {})>) | (null));
-            "tax_currency_conversions"?: ((Array<TaxCurrencyConversion>) | (null));
-            "total_money"?: ((MoneyValue) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-            "voided_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "credit_note.issued";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "allocated_money": MoneyValue;
-            "available_money": MoneyValue;
-            "buyer_tax_identity": ((TaxIdentity) | (null));
-            "created_at": string;
-            "credit_note_id": string;
-            "credit_note_number"?: string;
-            "external_reference_id": string | null;
-            "invoice"?: ExpandedInvoiceSummary;
-            "invoice_id": string;
-            "issued_at"?: string;
-            "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            "line_items": Array<CreditNoteLineItem>;
-            "memo": string | null;
-            "merchant_id": string;
-            "pending_refund_money": MoneyValue;
-            "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-            "refunded_money": MoneyValue;
-            "seller_tax_identity": ((TaxIdentity) | (null));
-            "status": "draft" | "issued" | "voided" | (string & {});
-            "supported_actions": Array<"issue" | "void" | (string & {})>;
-            "tax_currency_conversions": Array<TaxCurrencyConversion>;
-            "total_money": MoneyValue;
-            "updated_at": string;
-            "version": number;
-            "voided_at"?: string;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "allocated_money"?: ((MoneyValue) | (null));
-            "available_money"?: ((MoneyValue) | (null));
-            "buyer_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            "created_at"?: ((string) | (null));
-            "credit_note_id"?: ((string) | (null));
-            "credit_note_number"?: ((string) | (null));
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
-            "invoice"?: ((ExpandedInvoiceSummary) | (null));
-            "invoice_id"?: ((string) | (null));
-            "issued_at"?: ((string) | (null));
-            "latest_refund_status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
-            "line_items"?: ((Array<CreditNoteLineItem>) | (null));
-            "memo"?: ((string | null) | (null) | (unknown));
-            "merchant_id"?: ((string) | (null));
-            "pending_refund_money"?: ((MoneyValue) | (null));
-            "reason"?: (("returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {}))
-                | (null));
-            "refunded_money"?: ((MoneyValue) | (null));
-            "seller_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            "status"?: (("draft" | "issued" | "voided" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"issue" | "void" | (string & {})>) | (null));
-            "tax_currency_conversions"?: ((Array<TaxCurrencyConversion>) | (null));
-            "total_money"?: ((MoneyValue) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-            "voided_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "credit_note.issued";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "credit_note.issued";
-});
-/**
- * The `credit_note.issued` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type CreditNoteIssuedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allocated_money (Required): {@link MoneyValue}. Credit applied to
-     * the invoice, net of reversed allocations. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.available_money (Required): {@link MoneyValue}.
-     * Credit available to allocate or refund. Zero on draft and voided notes. On issued notes,
-     * total_money equals allocated_money plus pending_refund_money plus refunded_money plus
-     * available_money. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.buyer_tax_identity (Required): {@link TaxIdentity} or null. Identity
-     * frozen on the source invoice at issue. Later profile edits do not change this document.
-     * `null` when no buyer tax identity was captured on the source invoice. Customer deletion
-     * preserves identities captured on issued invoices and credit notes.
-     * object.buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. object.buyer_tax_identity.anyOf[2] (Value): null.
-     * object.created_at (Required): string. When the credit note was created. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.credit_note_id (Required): string. Unique identifier
-     * of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". object.credit_note_number
-     * (Optional): string. Assigned at issue and stable from then on. Absent while the credit note
-     * is a draft. object.external_reference_id (Required): string or null. Caller-owned identifier
-     * for this resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842". object.invoice (Optional): {@link ExpandedInvoiceSummary}.
-     * Summary of the source invoice. Returned only with expand=invoice. An invoice's summary
-     * fields, including status, due date, and paid, outstanding, and refunded amounts, returned
-     * when the invoice is expanded. object.invoice_id (Required): string. The invoice this credit
-     * note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.issued_at (Optional):
-     * string. When the credit note was issued. Absent on a draft. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.latest_refund_status (Optional): string. Status of the most
-     * recent refund linked to this credit note. Absent when no refund has been requested. Value
-     * enum: "pending", "succeeded", "partially_succeeded", "failed". object.line_items (Required):
-     * Array of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-     * Amount and quantity corrections share each source line's remaining value, discount, and tax
-     * across issued credit notes that have not been voided. Drafts reserve no credit.
-     * object.line_items[] (Value): {@link CreditNoteLineItem}. One correction calculated from the
-     * frozen invoice line's remaining billed value, discount, and tax. The source line's inclusive
-     * or additive tax mode is preserved. Current catalog prices and tax settings do not affect the
-     * correction. Stored issued values are never recalculated by a read. object.memo (Required):
-     * string or null. Free text shown on the credit note, up to 4096 characters. `null` when
-     * unset. object.merchant_id (Required): string. The merchant that owns the credit note.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.pending_refund_money (Required): {@link
-     * MoneyValue}. Credit reserved by linked refunds that have not resolved yet. Released if a
-     * refund fails or is canceled. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code. object.reason (Required): string. Why the invoice is being corrected.
-     * Shown on the credit note document. Value enum: "returned_goods", "order_adjustment",
-     * "billing_error", "goodwill", "other". object.refunded_money (Required): {@link MoneyValue}.
-     * Credit consumed by linked refunds that succeeded. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. object.seller_tax_identity (Required): {@link
-     * TaxIdentity} or null. Identity frozen on the source invoice at issue. Later profile edits do
-     * not change this document. `null` when no seller tax identity was captured.
-     * object.seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. object.seller_tax_identity.anyOf[2] (Value): null. object.status
-     * (Required): string. draft while the credit note is editable, issued once it is numbered and
-     * frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-     * object.supported_actions (Required): Array of string. Lifecycle actions Flint accepts for
-     * this resource now, based on stored state. Independent of the caller's permissions; each
-     * action still requires its route's scope. Always [] when no action is available. [] enum:
-     * "issue", "void". object.supported_actions[] (Value): string. Value enum: "issue", "void".
-     * object.tax_currency_conversions (Required): Array of {@link TaxCurrencyConversion}. The
-     * credit note's VAT stated in the currency of the country that charges it, frozen at issue.
-     * Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from
-     * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-     * converted the same way. Always [] on drafts and when the invoice froze no conversion. The
-     * credit note PDF prints the same figures. object.tax_currency_conversions[] (Value): {@link
-     * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the country
-     * whose VAT is charged. object.total_money (Required): {@link MoneyValue}. The face value of
-     * the credit note, the sum of its lines. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.updated_at (Required): string. When the credit note
-     * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current credit note version. Send this as expected_version when updating the draft.
-     * Format: int64. minimum: 1. object.voided_at (Optional): string. When the credit note was
-     * voided. Absent unless its status is voided. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous values of changed
-     * top-level fields in data.object, at this delivery's API version. Nested changes include the
-     * whole previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.allocated_money (Optional): {@link MoneyValue} or null. Credit applied
-     * to the invoice, net of reversed allocations. previous_attributes.allocated_money.anyOf[1]
-     * (Value): {@link MoneyValue}. Credit applied to the invoice, net of reversed allocations.
-     * previous_attributes.allocated_money.anyOf[2] (Value): null.
-     * previous_attributes.available_money (Optional): {@link MoneyValue} or null. Credit available
-     * to allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-     * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-     * previous_attributes.available_money.anyOf[1] (Value): {@link MoneyValue}. Credit available
-     * to allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-     * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-     * previous_attributes.available_money.anyOf[2] (Value): null.
-     * previous_attributes.buyer_tax_identity (Optional): {@link TaxIdentity} or null or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-     * deletion preserves identities captured on issued invoices and credit notes.
-     * previous_attributes.buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-     * deletion preserves identities captured on issued invoices and credit notes.
-     * previous_attributes.buyer_tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}.
-     * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not
-     * verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
-     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
-     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
-     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
-     * an entry to remove it, or omit its ID to add one.
-     * previous_attributes.buyer_tax_identity.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.buyer_tax_identity.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. When the credit note was created.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the credit note was created.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
-     * (Value): null. previous_attributes.credit_note_id (Optional): string or null. Unique
-     * identifier of the credit note. previous_attributes.credit_note_id.anyOf[1] (Value): string.
-     * Unique identifier of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     * previous_attributes.credit_note_id.anyOf[2] (Value): null.
-     * previous_attributes.credit_note_number (Optional): string or null. Assigned at issue and
-     * stable from then on. Absent while the credit note is a draft.
-     * previous_attributes.credit_note_number.anyOf[1] (Value): string. Assigned at issue and
-     * stable from then on. Absent while the credit note is a draft.
-     * previous_attributes.credit_note_number.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null or null. Caller-owned
-     * identifier for this resource in an external system. `null` when unset.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-     * identifier for this resource in an external system. `null` when unset. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.invoice (Optional): {@link ExpandedInvoiceSummary} or null. Summary of
-     * the source invoice. Returned only with expand=invoice. previous_attributes.invoice.anyOf[1]
-     * (Value): {@link ExpandedInvoiceSummary}. Summary of the source invoice. Returned only with
-     * expand=invoice. previous_attributes.invoice.anyOf[2] (Value): null.
-     * previous_attributes.invoice_id (Optional): string or null. The invoice this credit note
-     * corrects. previous_attributes.invoice_id.anyOf[1] (Value): string. The invoice this credit
-     * note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.issued_at
-     * (Optional): string or null. When the credit note was issued. Absent on a draft.
-     * previous_attributes.issued_at.anyOf[1] (Value): string. When the credit note was issued.
-     * Absent on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.issued_at.anyOf[2] (Value): null.
-     * previous_attributes.latest_refund_status (Optional): string or null. Status of the most
-     * recent refund linked to this credit note. Absent when no refund has been requested. Value
-     * enum: "pending", "succeeded", "partially_succeeded", "failed".
-     * previous_attributes.latest_refund_status.anyOf[1] (Value): string. Status of the most recent
-     * refund linked to this credit note. Absent when no refund has been requested. Value enum:
-     * "pending", "succeeded", "partially_succeeded", "failed".
-     * previous_attributes.latest_refund_status.anyOf[2] (Value): null.
-     * previous_attributes.line_items (Optional): Array of {@link CreditNoteLineItem} or null.
-     * Itemized corrections against frozen invoice lines. Amount and quantity corrections share
-     * each source line's remaining value, discount, and tax across issued credit notes that have
-     * not been voided. Drafts reserve no credit. previous_attributes.line_items.anyOf[1] (Value):
-     * Array of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-     * Amount and quantity corrections share each source line's remaining value, discount, and tax
-     * across issued credit notes that have not been voided. Drafts reserve no credit.
-     * previous_attributes.line_items.anyOf[1][] (Value): {@link CreditNoteLineItem}. One
-     * correction calculated from the frozen invoice line's remaining billed value, discount, and
-     * tax. The source line's inclusive or additive tax mode is preserved. Current catalog prices
-     * and tax settings do not affect the correction. Stored issued values are never recalculated
-     * by a read. previous_attributes.line_items.anyOf[2] (Value): null. previous_attributes.memo
-     * (Optional): string or null or null. Free text shown on the credit note, up to 4096
-     * characters. `null` when unset. previous_attributes.memo.anyOf[1] (Value): string or null.
-     * Free text shown on the credit note, up to 4096 characters. `null` when unset.
-     * previous_attributes.memo.anyOf[2] (Value): null. previous_attributes.merchant_id (Optional):
-     * string or null. The merchant that owns the credit note.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. The merchant that owns the credit
-     * note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2]
-     * (Value): null. previous_attributes.pending_refund_money (Optional): {@link MoneyValue} or
-     * null. Credit reserved by linked refunds that have not resolved yet. Released if a refund
-     * fails or is canceled. previous_attributes.pending_refund_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Credit reserved by linked refunds that have not resolved yet. Released if a
-     * refund fails or is canceled. previous_attributes.pending_refund_money.anyOf[2] (Value):
-     * null. previous_attributes.reason (Optional): string or null. Why the invoice is being
-     * corrected. Shown on the credit note document. Value enum: "returned_goods",
-     * "order_adjustment", "billing_error", "goodwill", "other".
-     * previous_attributes.reason.anyOf[1] (Value): string. Why the invoice is being corrected.
-     * Shown on the credit note document. Value enum: "returned_goods", "order_adjustment",
-     * "billing_error", "goodwill", "other". previous_attributes.reason.anyOf[2] (Value): null.
-     * previous_attributes.refunded_money (Optional): {@link MoneyValue} or null. Credit consumed
-     * by linked refunds that succeeded. previous_attributes.refunded_money.anyOf[1] (Value):
-     * {@link MoneyValue}. Credit consumed by linked refunds that succeeded.
-     * previous_attributes.refunded_money.anyOf[2] (Value): null.
-     * previous_attributes.seller_tax_identity (Optional): {@link TaxIdentity} or null or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no seller tax identity was captured.
-     * previous_attributes.seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no seller tax identity was captured.
-     * previous_attributes.seller_tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}.
-     * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not
-     * verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
-     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
-     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
-     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
-     * an entry to remove it, or omit its ID to add one.
-     * previous_attributes.seller_tax_identity.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.seller_tax_identity.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. draft while the credit note is editable, issued once it is
-     * numbered and frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-     * previous_attributes.status.anyOf[1] (Value): string. draft while the credit note is
-     * editable, issued once it is numbered and frozen, voided once withdrawn. Value enum: "draft",
-     * "issued", "voided". previous_attributes.status.anyOf[2] (Value): null.
-     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
-     * Flint accepts for this resource now, based on stored state. Independent of the caller's
-     * permissions; each action still requires its route's scope. Always [] when no action is
-     * available. [] enum: "issue", "void". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Lifecycle actions Flint accepts for this resource now, based on stored
-     * state. Independent of the caller's permissions; each action still requires its route's
-     * scope. Always [] when no action is available. [] enum: "issue", "void".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "issue",
-     * "void". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tax_currency_conversions (Optional): Array of {@link
-     * TaxCurrencyConversion} or null. The credit note's VAT stated in the currency of the country
-     * that charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate,
-     * rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited
-     * VAT and taxable amount converted the same way. Always [] on drafts and when the invoice
-     * froze no conversion. The credit note PDF prints the same figures.
-     * previous_attributes.tax_currency_conversions.anyOf[1] (Value): Array of {@link
-     * TaxCurrencyConversion}. The credit note's VAT stated in the currency of the country that
-     * charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate,
-     * rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited
-     * VAT and taxable amount converted the same way. Always [] on drafts and when the invoice
-     * froze no conversion. The credit note PDF prints the same figures.
-     * previous_attributes.tax_currency_conversions.anyOf[1][] (Value): {@link
-     * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the country
-     * whose VAT is charged. previous_attributes.tax_currency_conversions.anyOf[2] (Value): null.
-     * previous_attributes.total_money (Optional): {@link MoneyValue} or null. The face value of
-     * the credit note, the sum of its lines. previous_attributes.total_money.anyOf[1] (Value):
-     * {@link MoneyValue}. The face value of the credit note, the sum of its lines.
-     * previous_attributes.total_money.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. When the credit note last changed.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. When the credit note last changed.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
-     * (Value): null. previous_attributes.version (Optional): integer or null. Current credit note
-     * version. Send this as expected_version when updating the draft.
-     * previous_attributes.version.anyOf[1] (Value): integer. Current credit note version. Send
-     * this as expected_version when updating the draft. Format: int64. minimum: 1.
-     * previous_attributes.version.anyOf[2] (Value): null. previous_attributes.voided_at
-     * (Optional): string or null. When the credit note was voided. Absent unless its status is
-     * voided. previous_attributes.voided_at.anyOf[1] (Value): string. When the credit note was
-     * voided. Absent unless its status is voided. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allocated_money (Required): {@link MoneyValue}. Credit applied to the invoice, net of
-         * reversed allocations. Monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. available_money (Required): {@link MoneyValue}. Credit available to
-         * allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-         * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-         * buyer_tax_identity (Required): {@link TaxIdentity} or null. Identity frozen on the
-         * source invoice at issue. Later profile edits do not change this document. `null` when no
-         * buyer tax identity was captured on the source invoice. Customer deletion preserves
-         * identities captured on issued invoices and credit notes. buyer_tax_identity.anyOf[1]
-         * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-         * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID
-         * for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-         * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-         * display order; replacing the array requires the parent's expected_version. Existing
-         * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add
-         * one. buyer_tax_identity.anyOf[2] (Value): null. created_at (Required): string. When the
-         * credit note was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * credit_note_id (Required): string. Unique identifier of the credit note. Example:
-         * "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_number (Optional): string. Assigned at
-         * issue and stable from then on. Absent while the credit note is a draft.
-         * external_reference_id (Required): string or null. Caller-owned identifier for this
-         * resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
-         * Example: "warehouse-1842". invoice (Optional): {@link ExpandedInvoiceSummary}. Summary
-         * of the source invoice. Returned only with expand=invoice. An invoice's summary fields,
-         * including status, due date, and paid, outstanding, and refunded amounts, returned when
-         * the invoice is expanded. invoice_id (Required): string. The invoice this credit note
-         * corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". issued_at (Optional): string. When
-         * the credit note was issued. Absent on a draft. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". latest_refund_status (Optional): string. Status of the most
-         * recent refund linked to this credit note. Absent when no refund has been requested.
-         * Value enum: "pending", "succeeded", "partially_succeeded", "failed". line_items
-         * (Required): Array of {@link CreditNoteLineItem}. Itemized corrections against frozen
-         * invoice lines. Amount and quantity corrections share each source line's remaining value,
-         * discount, and tax across issued credit notes that have not been voided. Drafts reserve
-         * no credit. line_items[] (Value): {@link CreditNoteLineItem}. One correction calculated
-         * from the frozen invoice line's remaining billed value, discount, and tax. The source
-         * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-         * settings do not affect the correction. Stored issued values are never recalculated by a
-         * read. memo (Required): string or null. Free text shown on the credit note, up to 4096
-         * characters. `null` when unset. merchant_id (Required): string. The merchant that owns
-         * the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". pending_refund_money
-         * (Required): {@link MoneyValue}. Credit reserved by linked refunds that have not resolved
-         * yet. Released if a refund fails or is canceled. Monetary amount represented as integer
-         * minor units plus an ISO 4217 currency code. reason (Required): string. Why the invoice
-         * is being corrected. Shown on the credit note document. Value enum: "returned_goods",
-         * "order_adjustment", "billing_error", "goodwill", "other". refunded_money (Required):
-         * {@link MoneyValue}. Credit consumed by linked refunds that succeeded. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code. seller_tax_identity
-         * (Required): {@link TaxIdentity} or null. Identity frozen on the source invoice at issue.
-         * Later profile edits do not change this document. `null` when no seller tax identity was
-         * captured. seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided
-         * legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-         * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax
-         * provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax
-         * IDs are an owned collection in display order; replacing the array requires the parent's
-         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
-         * it, or omit its ID to add one. seller_tax_identity.anyOf[2] (Value): null. status
-         * (Required): string. draft while the credit note is editable, issued once it is numbered
-         * and frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-         * supported_actions (Required): Array of string. Lifecycle actions Flint accepts for this
-         * resource now, based on stored state. Independent of the caller's permissions; each
-         * action still requires its route's scope. Always [] when no action is available. [] enum:
-         * "issue", "void". supported_actions[] (Value): string. Value enum: "issue", "void".
-         * tax_currency_conversions (Required): Array of {@link TaxCurrencyConversion}. The credit
-         * note's VAT stated in the currency of the country that charges it, frozen at issue. Each
-         * entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from
-         * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-         * converted the same way. Always [] on drafts and when the invoice froze no conversion.
-         * The credit note PDF prints the same figures. tax_currency_conversions[] (Value): {@link
-         * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-         * country whose VAT is charged. total_money (Required): {@link MoneyValue}. The face value
-         * of the credit note, the sum of its lines. Monetary amount represented as integer minor
-         * units plus an ISO 4217 currency code. updated_at (Required): string. When the credit
-         * note last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Current credit note version. Send this as expected_version when
-         * updating the draft. Format: int64. minimum: 1. voided_at (Optional): string. When the
-         * credit note was voided. Absent unless its status is voided. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * Credit applied to the invoice, net of reversed allocations. Monetary amount
-             * represented as integer minor units plus an ISO 4217 currency code.
-             */
-            "allocated_money": MoneyValue;
-            /**
-             * Credit available to allocate or refund. Zero on draft and voided notes. On issued
-             * notes, total_money equals allocated_money plus pending_refund_money plus
-             * refunded_money plus available_money. Monetary amount represented as integer minor
-             * units plus an ISO 4217 currency code.
-             */
-            "available_money": MoneyValue;
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no buyer tax identity was captured on the source invoice.
-             * Customer deletion preserves identities captured on issued invoices and credit notes.
-             * anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on
-             * invoices and credit notes. Flint does not verify IDs. On a customer, automatic tax
-             * sends the tax ID for an EU, GB, AU or NZ destination to its tax provider, which can
-             * apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
-             * collection in display order; replacing the array requires the parent's
-             * expected_version. Existing entries retain their document_tax_id; omit an entry to
-             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
-             */
-            "buyer_tax_identity": ((TaxIdentity) | (null));
-            /**
-             * When the credit note was created. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /** Unique identifier of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". */
-            "credit_note_id": string;
-            /**
-             * Assigned at issue and stable from then on. Absent while the credit note is a draft.
-             */
-            "credit_note_number"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. `null` when unset.
-             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-             */
-            "external_reference_id": string | null;
-            /**
-             * Summary of the source invoice. Returned only with expand=invoice. An invoice's
-             * summary fields, including status, due date, and paid, outstanding, and refunded
-             * amounts, returned when the invoice is expanded.
-             */
-            "invoice"?: ExpandedInvoiceSummary;
-            /** The invoice this credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
-            "invoice_id": string;
-            /**
-             * When the credit note was issued. Absent on a draft. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "issued_at"?: string;
-            /**
-             * Status of the most recent refund linked to this credit note. Absent when no refund
-             * has been requested. Value enum: "pending", "succeeded", "partially_succeeded",
-             * "failed".
-             */
-            "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            /**
-             * Itemized corrections against frozen invoice lines. Amount and quantity corrections
-             * share each source line's remaining value, discount, and tax across issued credit
-             * notes that have not been voided. Drafts reserve no credit. [] (Value): {@link
-             * CreditNoteLineItem}. One correction calculated from the frozen invoice line's
-             * remaining billed value, discount, and tax. The source line's inclusive or additive
-             * tax mode is preserved. Current catalog prices and tax settings do not affect the
-             * correction. Stored issued values are never recalculated by a read.
-             */
-            "line_items": Array<CreditNoteLineItem>;
-            /** Free text shown on the credit note, up to 4096 characters. `null` when unset. */
-            "memo": string | null;
-            /**
-             * The merchant that owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Credit reserved by linked refunds that have not resolved yet. Released if a refund
-             * fails or is canceled. Monetary amount represented as integer minor units plus an ISO
-             * 4217 currency code.
-             */
-            "pending_refund_money": MoneyValue;
-            /**
-             * Why the invoice is being corrected. Shown on the credit note document. Value enum:
-             * "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
-             */
-            "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-            /**
-             * Credit consumed by linked refunds that succeeded. Monetary amount represented as
-             * integer minor units plus an ISO 4217 currency code.
-             */
-            "refunded_money": MoneyValue;
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no seller tax identity was captured. anyOf[1] (Value):
-             * {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-             * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax
-             * ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a
-             * reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
-             * collection in display order; replacing the array requires the parent's
-             * expected_version. Existing entries retain their document_tax_id; omit an entry to
-             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
-             */
-            "seller_tax_identity": ((TaxIdentity) | (null));
-            /**
-             * draft while the credit note is editable, issued once it is numbered and frozen,
-             * voided once withdrawn. Value enum: "draft", "issued", "voided".
-             */
-            "status": "draft" | "issued" | "voided" | (string & {});
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "issue", "void". [] (Value):
-             * string. Value enum: "issue", "void".
-             */
-            "supported_actions": Array<"issue" | "void" | (string & {})>;
-            /**
-             * The credit note's VAT stated in the currency of the country that charges it, frozen
-             * at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-             * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT
-             * and taxable amount converted the same way. Always [] on drafts and when the invoice
-             * froze no conversion. The credit note PDF prints the same figures. [] (Value): {@link
-             * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-             * country whose VAT is charged.
-             */
-            "tax_currency_conversions": Array<TaxCurrencyConversion>;
-            /**
-             * The face value of the credit note, the sum of its lines. Monetary amount represented
-             * as integer minor units plus an ISO 4217 currency code.
-             */
-            "total_money": MoneyValue;
-            /**
-             * When the credit note last changed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "updated_at": string;
-            /**
-             * Current credit note version. Send this as expected_version when updating the draft.
-             * Format: int64. minimum: 1.
-             */
-            "version": number;
-            /**
-             * When the credit note was voided. Absent unless its status is voided. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "voided_at"?: string;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. allocated_money (Optional): {@link MoneyValue}
-         * or null. Credit applied to the invoice, net of reversed allocations.
-         * allocated_money.anyOf[1] (Value): {@link MoneyValue}. Credit applied to the invoice, net
-         * of reversed allocations. allocated_money.anyOf[2] (Value): null. available_money
-         * (Optional): {@link MoneyValue} or null. Credit available to allocate or refund. Zero on
-         * draft and voided notes. On issued notes, total_money equals allocated_money plus
-         * pending_refund_money plus refunded_money plus available_money. available_money.anyOf[1]
-         * (Value): {@link MoneyValue}. Credit available to allocate or refund. Zero on draft and
-         * voided notes. On issued notes, total_money equals allocated_money plus
-         * pending_refund_money plus refunded_money plus available_money. available_money.anyOf[2]
-         * (Value): null. buyer_tax_identity (Optional): {@link TaxIdentity} or null or null.
-         * Identity frozen on the source invoice at issue. Later profile edits do not change this
-         * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-         * deletion preserves identities captured on issued invoices and credit notes.
-         * buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null. Identity frozen on the
-         * source invoice at issue. Later profile edits do not change this document. `null` when no
-         * buyer tax identity was captured on the source invoice. Customer deletion preserves
-         * identities captured on issued invoices and credit notes.
-         * buyer_tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided
-         * legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-         * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax
-         * provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax
-         * IDs are an owned collection in display order; replacing the array requires the parent's
-         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
-         * it, or omit its ID to add one. buyer_tax_identity.anyOf[1].anyOf[2] (Value): null.
-         * buyer_tax_identity.anyOf[2] (Value): null. created_at (Optional): string or null. When
-         * the credit note was created. created_at.anyOf[1] (Value): string. When the credit note
-         * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
-         * (Value): null. credit_note_id (Optional): string or null. Unique identifier of the
-         * credit note. credit_note_id.anyOf[1] (Value): string. Unique identifier of the credit
-         * note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_id.anyOf[2] (Value): null.
-         * credit_note_number (Optional): string or null. Assigned at issue and stable from then
-         * on. Absent while the credit note is a draft. credit_note_number.anyOf[1] (Value):
-         * string. Assigned at issue and stable from then on. Absent while the credit note is a
-         * draft. credit_note_number.anyOf[2] (Value): null. external_reference_id (Optional):
-         * string or null or null. Caller-owned identifier for this resource in an external system.
-         * `null` when unset. external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-         * identifier for this resource in an external system. `null` when unset. minLength: 1.
-         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummary} or null. Summary of the source
-         * invoice. Returned only with expand=invoice. invoice.anyOf[1] (Value): {@link
-         * ExpandedInvoiceSummary}. Summary of the source invoice. Returned only with
-         * expand=invoice. invoice.anyOf[2] (Value): null. invoice_id (Optional): string or null.
-         * The invoice this credit note corrects. invoice_id.anyOf[1] (Value): string. The invoice
-         * this credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. issued_at (Optional): string or null. When the credit
-         * note was issued. Absent on a draft. issued_at.anyOf[1] (Value): string. When the credit
-         * note was issued. Absent on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * issued_at.anyOf[2] (Value): null. latest_refund_status (Optional): string or null.
-         * Status of the most recent refund linked to this credit note. Absent when no refund has
-         * been requested. Value enum: "pending", "succeeded", "partially_succeeded", "failed".
-         * latest_refund_status.anyOf[1] (Value): string. Status of the most recent refund linked
-         * to this credit note. Absent when no refund has been requested. Value enum: "pending",
-         * "succeeded", "partially_succeeded", "failed". latest_refund_status.anyOf[2] (Value):
-         * null. line_items (Optional): Array of {@link CreditNoteLineItem} or null. Itemized
-         * corrections against frozen invoice lines. Amount and quantity corrections share each
-         * source line's remaining value, discount, and tax across issued credit notes that have
-         * not been voided. Drafts reserve no credit. line_items.anyOf[1] (Value): Array of {@link
-         * CreditNoteLineItem}. Itemized corrections against frozen invoice lines. Amount and
-         * quantity corrections share each source line's remaining value, discount, and tax across
-         * issued credit notes that have not been voided. Drafts reserve no credit.
-         * line_items.anyOf[1][] (Value): {@link CreditNoteLineItem}. One correction calculated
-         * from the frozen invoice line's remaining billed value, discount, and tax. The source
-         * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-         * settings do not affect the correction. Stored issued values are never recalculated by a
-         * read. line_items.anyOf[2] (Value): null. memo (Optional): string or null or null. Free
-         * text shown on the credit note, up to 4096 characters. `null` when unset. memo.anyOf[1]
-         * (Value): string or null. Free text shown on the credit note, up to 4096 characters.
-         * `null` when unset. memo.anyOf[2] (Value): null. merchant_id (Optional): string or null.
-         * The merchant that owns the credit note. merchant_id.anyOf[1] (Value): string. The
-         * merchant that owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. pending_refund_money (Optional): {@link MoneyValue}
-         * or null. Credit reserved by linked refunds that have not resolved yet. Released if a
-         * refund fails or is canceled. pending_refund_money.anyOf[1] (Value): {@link MoneyValue}.
-         * Credit reserved by linked refunds that have not resolved yet. Released if a refund fails
-         * or is canceled. pending_refund_money.anyOf[2] (Value): null. reason (Optional): string
-         * or null. Why the invoice is being corrected. Shown on the credit note document. Value
-         * enum: "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
-         * reason.anyOf[1] (Value): string. Why the invoice is being corrected. Shown on the credit
-         * note document. Value enum: "returned_goods", "order_adjustment", "billing_error",
-         * "goodwill", "other". reason.anyOf[2] (Value): null. refunded_money (Optional): {@link
-         * MoneyValue} or null. Credit consumed by linked refunds that succeeded.
-         * refunded_money.anyOf[1] (Value): {@link MoneyValue}. Credit consumed by linked refunds
-         * that succeeded. refunded_money.anyOf[2] (Value): null. seller_tax_identity (Optional):
-         * {@link TaxIdentity} or null or null. Identity frozen on the source invoice at issue.
-         * Later profile edits do not change this document. `null` when no seller tax identity was
-         * captured. seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null. Identity
-         * frozen on the source invoice at issue. Later profile edits do not change this document.
-         * `null` when no seller tax identity was captured. seller_tax_identity.anyOf[1].anyOf[1]
-         * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-         * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID
-         * for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-         * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-         * display order; replacing the array requires the parent's expected_version. Existing
-         * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add
-         * one. seller_tax_identity.anyOf[1].anyOf[2] (Value): null. seller_tax_identity.anyOf[2]
-         * (Value): null. status (Optional): string or null. draft while the credit note is
-         * editable, issued once it is numbered and frozen, voided once withdrawn. Value enum:
-         * "draft", "issued", "voided". status.anyOf[1] (Value): string. draft while the credit
-         * note is editable, issued once it is numbered and frozen, voided once withdrawn. Value
-         * enum: "draft", "issued", "voided". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Lifecycle actions Flint accepts for this resource
-         * now, based on stored state. Independent of the caller's permissions; each action still
-         * requires its route's scope. Always [] when no action is available. [] enum: "issue",
-         * "void". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint
-         * accepts for this resource now, based on stored state. Independent of the caller's
-         * permissions; each action still requires its route's scope. Always [] when no action is
-         * available. [] enum: "issue", "void". supported_actions.anyOf[1][] (Value): string. Value
-         * enum: "issue", "void". supported_actions.anyOf[2] (Value): null.
-         * tax_currency_conversions (Optional): Array of {@link TaxCurrencyConversion} or null. The
-         * credit note's VAT stated in the currency of the country that charges it, frozen at
-         * issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-         * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and
-         * taxable amount converted the same way. Always [] on drafts and when the invoice froze no
-         * conversion. The credit note PDF prints the same figures.
-         * tax_currency_conversions.anyOf[1] (Value): Array of {@link TaxCurrencyConversion}. The
-         * credit note's VAT stated in the currency of the country that charges it, frozen at
-         * issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-         * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and
-         * taxable amount converted the same way. Always [] on drafts and when the invoice froze no
-         * conversion. The credit note PDF prints the same figures.
-         * tax_currency_conversions.anyOf[1][] (Value): {@link TaxCurrencyConversion}. VAT on an
-         * issued document converted into the currency of the country whose VAT is charged.
-         * tax_currency_conversions.anyOf[2] (Value): null. total_money (Optional): {@link
-         * MoneyValue} or null. The face value of the credit note, the sum of its lines.
-         * total_money.anyOf[1] (Value): {@link MoneyValue}. The face value of the credit note, the
-         * sum of its lines. total_money.anyOf[2] (Value): null. updated_at (Optional): string or
-         * null. When the credit note last changed. updated_at.anyOf[1] (Value): string. When the
-         * credit note last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current credit
-         * note version. Send this as expected_version when updating the draft. version.anyOf[1]
-         * (Value): integer. Current credit note version. Send this as expected_version when
-         * updating the draft. Format: int64. minimum: 1. version.anyOf[2] (Value): null. voided_at
-         * (Optional): string or null. When the credit note was voided. Absent unless its status is
-         * voided. voided_at.anyOf[1] (Value): string. When the credit note was voided. Absent
-         * unless its status is voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * voided_at.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Credit applied to the invoice, net of reversed allocations. anyOf[1] (Value): {@link
-             * MoneyValue}. Credit applied to the invoice, net of reversed allocations. anyOf[2]
-             * (Value): null.
-             */
-            "allocated_money"?: ((MoneyValue) | (null));
-            /**
-             * Credit available to allocate or refund. Zero on draft and voided notes. On issued
-             * notes, total_money equals allocated_money plus pending_refund_money plus
-             * refunded_money plus available_money. anyOf[1] (Value): {@link MoneyValue}. Credit
-             * available to allocate or refund. Zero on draft and voided notes. On issued notes,
-             * total_money equals allocated_money plus pending_refund_money plus refunded_money
-             * plus available_money. anyOf[2] (Value): null.
-             */
-            "available_money"?: ((MoneyValue) | (null));
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no buyer tax identity was captured on the source invoice.
-             * Customer deletion preserves identities captured on issued invoices and credit notes.
-             * anyOf[1] (Value): {@link TaxIdentity} or null. Identity frozen on the source invoice
-             * at issue. Later profile edits do not change this document. `null` when no buyer tax
-             * identity was captured on the source invoice. Customer deletion preserves identities
-             * captured on issued invoices and credit notes. anyOf[1].anyOf[1] (Value): {@link
-             * TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit
-             * notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for
-             * an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-             * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-             * display order; replacing the array requires the parent's expected_version. Existing
-             * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to
-             * add one. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "buyer_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            /**
-             * When the credit note was created. anyOf[1] (Value): string. When the credit note was
-             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Unique identifier of the credit note. anyOf[1] (Value): string. Unique identifier of
-             * the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". anyOf[2] (Value): null.
-             */
-            "credit_note_id"?: ((string) | (null));
-            /**
-             * Assigned at issue and stable from then on. Absent while the credit note is a draft.
-             * anyOf[1] (Value): string. Assigned at issue and stable from then on. Absent while
-             * the credit note is a draft. anyOf[2] (Value): null.
-             */
-            "credit_note_number"?: ((string) | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. `null` when unset.
-             * anyOf[1] (Value): string or null. Caller-owned identifier for this resource in an
-             * external system. `null` when unset. minLength: 1. maxLength: 255. Example:
-             * "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * Summary of the source invoice. Returned only with expand=invoice. anyOf[1] (Value):
-             * {@link ExpandedInvoiceSummary}. Summary of the source invoice. Returned only with
-             * expand=invoice. anyOf[2] (Value): null.
-             */
-            "invoice"?: ((ExpandedInvoiceSummary) | (null));
-            /**
-             * The invoice this credit note corrects. anyOf[1] (Value): string. The invoice this
-             * credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value):
-             * null.
-             */
-            "invoice_id"?: ((string) | (null));
-            /**
-             * When the credit note was issued. Absent on a draft. anyOf[1] (Value): string. When
-             * the credit note was issued. Absent on a draft. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "issued_at"?: ((string) | (null));
-            /**
-             * Status of the most recent refund linked to this credit note. Absent when no refund
-             * has been requested. Value enum: "pending", "succeeded", "partially_succeeded",
-             * "failed". anyOf[1] (Value): string. Status of the most recent refund linked to this
-             * credit note. Absent when no refund has been requested. Value enum: "pending",
-             * "succeeded", "partially_succeeded", "failed". anyOf[2] (Value): null.
-             */
-            "latest_refund_status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
-            /**
-             * Itemized corrections against frozen invoice lines. Amount and quantity corrections
-             * share each source line's remaining value, discount, and tax across issued credit
-             * notes that have not been voided. Drafts reserve no credit. anyOf[1] (Value): Array
-             * of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-             * Amount and quantity corrections share each source line's remaining value, discount,
-             * and tax across issued credit notes that have not been voided. Drafts reserve no
-             * credit. anyOf[1][] (Value): {@link CreditNoteLineItem}. One correction calculated
-             * from the frozen invoice line's remaining billed value, discount, and tax. The source
-             * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-             * settings do not affect the correction. Stored issued values are never recalculated
-             * by a read. anyOf[2] (Value): null.
-             */
-            "line_items"?: ((Array<CreditNoteLineItem>) | (null));
-            /**
-             * Free text shown on the credit note, up to 4096 characters. `null` when unset.
-             * anyOf[1] (Value): string or null. Free text shown on the credit note, up to 4096
-             * characters. `null` when unset. anyOf[2] (Value): null.
-             */
-            "memo"?: ((string | null) | (null) | (unknown));
-            /**
-             * The merchant that owns the credit note. anyOf[1] (Value): string. The merchant that
-             * owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value):
-             * null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Credit reserved by linked refunds that have not resolved yet. Released if a refund
-             * fails or is canceled. anyOf[1] (Value): {@link MoneyValue}. Credit reserved by
-             * linked refunds that have not resolved yet. Released if a refund fails or is
-             * canceled. anyOf[2] (Value): null.
-             */
-            "pending_refund_money"?: ((MoneyValue) | (null));
-            /**
-             * Why the invoice is being corrected. Shown on the credit note document. Value enum:
-             * "returned_goods", "order_adjustment", "billing_error", "goodwill", "other". anyOf[1]
-             * (Value): string. Why the invoice is being corrected. Shown on the credit note
-             * document. Value enum: "returned_goods", "order_adjustment", "billing_error",
-             * "goodwill", "other". anyOf[2] (Value): null.
-             */
-            "reason"?: (("returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {}))
-                | (null));
-            /**
-             * Credit consumed by linked refunds that succeeded. anyOf[1] (Value): {@link
-             * MoneyValue}. Credit consumed by linked refunds that succeeded. anyOf[2] (Value):
-             * null.
-             */
-            "refunded_money"?: ((MoneyValue) | (null));
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no seller tax identity was captured. anyOf[1] (Value):
-             * {@link TaxIdentity} or null. Identity frozen on the source invoice at issue. Later
-             * profile edits do not change this document. `null` when no seller tax identity was
-             * captured. anyOf[1].anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-             * identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-             * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its
-             * tax provider, which can apply a reverse charge; other IDs do not change tax
-             * treatment. Tax IDs are an owned collection in display order; replacing the array
-             * requires the parent's expected_version. Existing entries retain their
-             * document_tax_id; omit an entry to remove it, or omit its ID to add one.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "seller_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            /**
-             * draft while the credit note is editable, issued once it is numbered and frozen,
-             * voided once withdrawn. Value enum: "draft", "issued", "voided". anyOf[1] (Value):
-             * string. draft while the credit note is editable, issued once it is numbered and
-             * frozen, voided once withdrawn. Value enum: "draft", "issued", "voided". anyOf[2]
-             * (Value): null.
-             */
-            "status"?: (("draft" | "issued" | "voided" | (string & {})) | (null));
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "issue", "void". anyOf[1]
-             * (Value): Array of string. Lifecycle actions Flint accepts for this resource now,
-             * based on stored state. Independent of the caller's permissions; each action still
-             * requires its route's scope. Always [] when no action is available. [] enum: "issue",
-             * "void". anyOf[1][] (Value): string. Value enum: "issue", "void". anyOf[2] (Value):
-             * null.
-             */
-            "supported_actions"?: ((Array<"issue" | "void" | (string & {})>) | (null));
-            /**
-             * The credit note's VAT stated in the currency of the country that charges it, frozen
-             * at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-             * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT
-             * and taxable amount converted the same way. Always [] on drafts and when the invoice
-             * froze no conversion. The credit note PDF prints the same figures. anyOf[1] (Value):
-             * Array of {@link TaxCurrencyConversion}. The credit note's VAT stated in the currency
-             * of the country that charges it, frozen at issue. Each entry reuses the invoice's
-             * currency, exchange_rate, rate_date, and rate_source from
-             * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-             * converted the same way. Always [] on drafts and when the invoice froze no
-             * conversion. The credit note PDF prints the same figures. anyOf[1][] (Value): {@link
-             * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-             * country whose VAT is charged. anyOf[2] (Value): null.
-             */
-            "tax_currency_conversions"?: ((Array<TaxCurrencyConversion>) | (null));
-            /**
-             * The face value of the credit note, the sum of its lines. anyOf[1] (Value): {@link
-             * MoneyValue}. The face value of the credit note, the sum of its lines. anyOf[2]
-             * (Value): null.
-             */
-            "total_money"?: ((MoneyValue) | (null));
-            /**
-             * When the credit note last changed. anyOf[1] (Value): string. When the credit note
-             * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
-             * null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Current credit note version. Send this as expected_version when updating the draft.
-             * anyOf[1] (Value): integer. Current credit note version. Send this as
-             * expected_version when updating the draft. Format: int64. minimum: 1. anyOf[2]
-             * (Value): null.
-             */
-            "version"?: ((number) | (null));
-            /**
-             * When the credit note was voided. Absent unless its status is voided. anyOf[1]
-             * (Value): string. When the credit note was voided. Absent unless its status is
-             * voided. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "voided_at"?: ((string) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "credit_note.issued". */
-    "event_type"?: "credit_note.issued";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `credit_note.issued` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type CreditNoteIssuedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allocated_money (Required): {@link MoneyValue}. Credit applied to
-     * the invoice, net of reversed allocations. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.available_money (Required): {@link MoneyValue}.
-     * Credit available to allocate or refund. Zero on draft and voided notes. On issued notes,
-     * total_money equals allocated_money plus pending_refund_money plus refunded_money plus
-     * available_money. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.buyer_tax_identity (Required): {@link TaxIdentity} or null. Identity
-     * frozen on the source invoice at issue. Later profile edits do not change this document.
-     * `null` when no buyer tax identity was captured on the source invoice. Customer deletion
-     * preserves identities captured on issued invoices and credit notes.
-     * object.buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. object.buyer_tax_identity.anyOf[2] (Value): null.
-     * object.created_at (Required): string. When the credit note was created. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.credit_note_id (Required): string. Unique identifier
-     * of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". object.credit_note_number
-     * (Optional): string. Assigned at issue and stable from then on. Absent while the credit note
-     * is a draft. object.external_reference_id (Required): string or null. Caller-owned identifier
-     * for this resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842". object.invoice (Optional): {@link ExpandedInvoiceSummary}.
-     * Summary of the source invoice. Returned only with expand=invoice. An invoice's summary
-     * fields, including status, due date, and paid, outstanding, and refunded amounts, returned
-     * when the invoice is expanded. object.invoice_id (Required): string. The invoice this credit
-     * note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.issued_at (Optional):
-     * string. When the credit note was issued. Absent on a draft. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.latest_refund_status (Optional): string. Status of the most
-     * recent refund linked to this credit note. Absent when no refund has been requested. Value
-     * enum: "pending", "succeeded", "partially_succeeded", "failed". object.line_items (Required):
-     * Array of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-     * Amount and quantity corrections share each source line's remaining value, discount, and tax
-     * across issued credit notes that have not been voided. Drafts reserve no credit.
-     * object.line_items[] (Value): {@link CreditNoteLineItem}. One correction calculated from the
-     * frozen invoice line's remaining billed value, discount, and tax. The source line's inclusive
-     * or additive tax mode is preserved. Current catalog prices and tax settings do not affect the
-     * correction. Stored issued values are never recalculated by a read. object.memo (Required):
-     * string or null. Free text shown on the credit note, up to 4096 characters. `null` when
-     * unset. object.merchant_id (Required): string. The merchant that owns the credit note.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.pending_refund_money (Required): {@link
-     * MoneyValue}. Credit reserved by linked refunds that have not resolved yet. Released if a
-     * refund fails or is canceled. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code. object.reason (Required): string. Why the invoice is being corrected.
-     * Shown on the credit note document. Value enum: "returned_goods", "order_adjustment",
-     * "billing_error", "goodwill", "other". object.refunded_money (Required): {@link MoneyValue}.
-     * Credit consumed by linked refunds that succeeded. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. object.seller_tax_identity (Required): {@link
-     * TaxIdentity} or null. Identity frozen on the source invoice at issue. Later profile edits do
-     * not change this document. `null` when no seller tax identity was captured.
-     * object.seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. object.seller_tax_identity.anyOf[2] (Value): null. object.status
-     * (Required): string. draft while the credit note is editable, issued once it is numbered and
-     * frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-     * object.supported_actions (Required): Array of string. Lifecycle actions Flint accepts for
-     * this resource now, based on stored state. Independent of the caller's permissions; each
-     * action still requires its route's scope. Always [] when no action is available. [] enum:
-     * "issue", "void". object.supported_actions[] (Value): string. Value enum: "issue", "void".
-     * object.tax_currency_conversions (Required): Array of {@link TaxCurrencyConversion}. The
-     * credit note's VAT stated in the currency of the country that charges it, frozen at issue.
-     * Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from
-     * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-     * converted the same way. Always [] on drafts and when the invoice froze no conversion. The
-     * credit note PDF prints the same figures. object.tax_currency_conversions[] (Value): {@link
-     * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the country
-     * whose VAT is charged. object.total_money (Required): {@link MoneyValue}. The face value of
-     * the credit note, the sum of its lines. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.updated_at (Required): string. When the credit note
-     * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current credit note version. Send this as expected_version when updating the draft.
-     * Format: int64. minimum: 1. object.voided_at (Optional): string. When the credit note was
-     * voided. Absent unless its status is voided. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous values of changed
-     * top-level fields in data.object, at this delivery's API version. Nested changes include the
-     * whole previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.allocated_money (Optional): {@link MoneyValue} or null. Credit applied
-     * to the invoice, net of reversed allocations. previous_attributes.allocated_money.anyOf[1]
-     * (Value): {@link MoneyValue}. Credit applied to the invoice, net of reversed allocations.
-     * previous_attributes.allocated_money.anyOf[2] (Value): null.
-     * previous_attributes.available_money (Optional): {@link MoneyValue} or null. Credit available
-     * to allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-     * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-     * previous_attributes.available_money.anyOf[1] (Value): {@link MoneyValue}. Credit available
-     * to allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-     * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-     * previous_attributes.available_money.anyOf[2] (Value): null.
-     * previous_attributes.buyer_tax_identity (Optional): {@link TaxIdentity} or null or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-     * deletion preserves identities captured on issued invoices and credit notes.
-     * previous_attributes.buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-     * deletion preserves identities captured on issued invoices and credit notes.
-     * previous_attributes.buyer_tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}.
-     * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not
-     * verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
-     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
-     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
-     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
-     * an entry to remove it, or omit its ID to add one.
-     * previous_attributes.buyer_tax_identity.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.buyer_tax_identity.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. When the credit note was created.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the credit note was created.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
-     * (Value): null. previous_attributes.credit_note_id (Optional): string or null. Unique
-     * identifier of the credit note. previous_attributes.credit_note_id.anyOf[1] (Value): string.
-     * Unique identifier of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     * previous_attributes.credit_note_id.anyOf[2] (Value): null.
-     * previous_attributes.credit_note_number (Optional): string or null. Assigned at issue and
-     * stable from then on. Absent while the credit note is a draft.
-     * previous_attributes.credit_note_number.anyOf[1] (Value): string. Assigned at issue and
-     * stable from then on. Absent while the credit note is a draft.
-     * previous_attributes.credit_note_number.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null or null. Caller-owned
-     * identifier for this resource in an external system. `null` when unset.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-     * identifier for this resource in an external system. `null` when unset. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.invoice (Optional): {@link ExpandedInvoiceSummary} or null. Summary of
-     * the source invoice. Returned only with expand=invoice. previous_attributes.invoice.anyOf[1]
-     * (Value): {@link ExpandedInvoiceSummary}. Summary of the source invoice. Returned only with
-     * expand=invoice. previous_attributes.invoice.anyOf[2] (Value): null.
-     * previous_attributes.invoice_id (Optional): string or null. The invoice this credit note
-     * corrects. previous_attributes.invoice_id.anyOf[1] (Value): string. The invoice this credit
-     * note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.issued_at
-     * (Optional): string or null. When the credit note was issued. Absent on a draft.
-     * previous_attributes.issued_at.anyOf[1] (Value): string. When the credit note was issued.
-     * Absent on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.issued_at.anyOf[2] (Value): null.
-     * previous_attributes.latest_refund_status (Optional): string or null. Status of the most
-     * recent refund linked to this credit note. Absent when no refund has been requested. Value
-     * enum: "pending", "succeeded", "partially_succeeded", "failed".
-     * previous_attributes.latest_refund_status.anyOf[1] (Value): string. Status of the most recent
-     * refund linked to this credit note. Absent when no refund has been requested. Value enum:
-     * "pending", "succeeded", "partially_succeeded", "failed".
-     * previous_attributes.latest_refund_status.anyOf[2] (Value): null.
-     * previous_attributes.line_items (Optional): Array of {@link CreditNoteLineItem} or null.
-     * Itemized corrections against frozen invoice lines. Amount and quantity corrections share
-     * each source line's remaining value, discount, and tax across issued credit notes that have
-     * not been voided. Drafts reserve no credit. previous_attributes.line_items.anyOf[1] (Value):
-     * Array of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-     * Amount and quantity corrections share each source line's remaining value, discount, and tax
-     * across issued credit notes that have not been voided. Drafts reserve no credit.
-     * previous_attributes.line_items.anyOf[1][] (Value): {@link CreditNoteLineItem}. One
-     * correction calculated from the frozen invoice line's remaining billed value, discount, and
-     * tax. The source line's inclusive or additive tax mode is preserved. Current catalog prices
-     * and tax settings do not affect the correction. Stored issued values are never recalculated
-     * by a read. previous_attributes.line_items.anyOf[2] (Value): null. previous_attributes.memo
-     * (Optional): string or null or null. Free text shown on the credit note, up to 4096
-     * characters. `null` when unset. previous_attributes.memo.anyOf[1] (Value): string or null.
-     * Free text shown on the credit note, up to 4096 characters. `null` when unset.
-     * previous_attributes.memo.anyOf[2] (Value): null. previous_attributes.merchant_id (Optional):
-     * string or null. The merchant that owns the credit note.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. The merchant that owns the credit
-     * note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2]
-     * (Value): null. previous_attributes.pending_refund_money (Optional): {@link MoneyValue} or
-     * null. Credit reserved by linked refunds that have not resolved yet. Released if a refund
-     * fails or is canceled. previous_attributes.pending_refund_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Credit reserved by linked refunds that have not resolved yet. Released if a
-     * refund fails or is canceled. previous_attributes.pending_refund_money.anyOf[2] (Value):
-     * null. previous_attributes.reason (Optional): string or null. Why the invoice is being
-     * corrected. Shown on the credit note document. Value enum: "returned_goods",
-     * "order_adjustment", "billing_error", "goodwill", "other".
-     * previous_attributes.reason.anyOf[1] (Value): string. Why the invoice is being corrected.
-     * Shown on the credit note document. Value enum: "returned_goods", "order_adjustment",
-     * "billing_error", "goodwill", "other". previous_attributes.reason.anyOf[2] (Value): null.
-     * previous_attributes.refunded_money (Optional): {@link MoneyValue} or null. Credit consumed
-     * by linked refunds that succeeded. previous_attributes.refunded_money.anyOf[1] (Value):
-     * {@link MoneyValue}. Credit consumed by linked refunds that succeeded.
-     * previous_attributes.refunded_money.anyOf[2] (Value): null.
-     * previous_attributes.seller_tax_identity (Optional): {@link TaxIdentity} or null or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no seller tax identity was captured.
-     * previous_attributes.seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no seller tax identity was captured.
-     * previous_attributes.seller_tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}.
-     * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not
-     * verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
-     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
-     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
-     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
-     * an entry to remove it, or omit its ID to add one.
-     * previous_attributes.seller_tax_identity.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.seller_tax_identity.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. draft while the credit note is editable, issued once it is
-     * numbered and frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-     * previous_attributes.status.anyOf[1] (Value): string. draft while the credit note is
-     * editable, issued once it is numbered and frozen, voided once withdrawn. Value enum: "draft",
-     * "issued", "voided". previous_attributes.status.anyOf[2] (Value): null.
-     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
-     * Flint accepts for this resource now, based on stored state. Independent of the caller's
-     * permissions; each action still requires its route's scope. Always [] when no action is
-     * available. [] enum: "issue", "void". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Lifecycle actions Flint accepts for this resource now, based on stored
-     * state. Independent of the caller's permissions; each action still requires its route's
-     * scope. Always [] when no action is available. [] enum: "issue", "void".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "issue",
-     * "void". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tax_currency_conversions (Optional): Array of {@link
-     * TaxCurrencyConversion} or null. The credit note's VAT stated in the currency of the country
-     * that charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate,
-     * rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited
-     * VAT and taxable amount converted the same way. Always [] on drafts and when the invoice
-     * froze no conversion. The credit note PDF prints the same figures.
-     * previous_attributes.tax_currency_conversions.anyOf[1] (Value): Array of {@link
-     * TaxCurrencyConversion}. The credit note's VAT stated in the currency of the country that
-     * charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate,
-     * rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited
-     * VAT and taxable amount converted the same way. Always [] on drafts and when the invoice
-     * froze no conversion. The credit note PDF prints the same figures.
-     * previous_attributes.tax_currency_conversions.anyOf[1][] (Value): {@link
-     * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the country
-     * whose VAT is charged. previous_attributes.tax_currency_conversions.anyOf[2] (Value): null.
-     * previous_attributes.total_money (Optional): {@link MoneyValue} or null. The face value of
-     * the credit note, the sum of its lines. previous_attributes.total_money.anyOf[1] (Value):
-     * {@link MoneyValue}. The face value of the credit note, the sum of its lines.
-     * previous_attributes.total_money.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. When the credit note last changed.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. When the credit note last changed.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
-     * (Value): null. previous_attributes.version (Optional): integer or null. Current credit note
-     * version. Send this as expected_version when updating the draft.
-     * previous_attributes.version.anyOf[1] (Value): integer. Current credit note version. Send
-     * this as expected_version when updating the draft. Format: int64. minimum: 1.
-     * previous_attributes.version.anyOf[2] (Value): null. previous_attributes.voided_at
-     * (Optional): string or null. When the credit note was voided. Absent unless its status is
-     * voided. previous_attributes.voided_at.anyOf[1] (Value): string. When the credit note was
-     * voided. Absent unless its status is voided. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allocated_money (Required): {@link MoneyValue}. Credit applied to the invoice, net of
-         * reversed allocations. Monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. available_money (Required): {@link MoneyValue}. Credit available to
-         * allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-         * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-         * buyer_tax_identity (Required): {@link TaxIdentity} or null. Identity frozen on the
-         * source invoice at issue. Later profile edits do not change this document. `null` when no
-         * buyer tax identity was captured on the source invoice. Customer deletion preserves
-         * identities captured on issued invoices and credit notes. buyer_tax_identity.anyOf[1]
-         * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-         * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID
-         * for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-         * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-         * display order; replacing the array requires the parent's expected_version. Existing
-         * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add
-         * one. buyer_tax_identity.anyOf[2] (Value): null. created_at (Required): string. When the
-         * credit note was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * credit_note_id (Required): string. Unique identifier of the credit note. Example:
-         * "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_number (Optional): string. Assigned at
-         * issue and stable from then on. Absent while the credit note is a draft.
-         * external_reference_id (Required): string or null. Caller-owned identifier for this
-         * resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
-         * Example: "warehouse-1842". invoice (Optional): {@link ExpandedInvoiceSummary}. Summary
-         * of the source invoice. Returned only with expand=invoice. An invoice's summary fields,
-         * including status, due date, and paid, outstanding, and refunded amounts, returned when
-         * the invoice is expanded. invoice_id (Required): string. The invoice this credit note
-         * corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". issued_at (Optional): string. When
-         * the credit note was issued. Absent on a draft. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". latest_refund_status (Optional): string. Status of the most
-         * recent refund linked to this credit note. Absent when no refund has been requested.
-         * Value enum: "pending", "succeeded", "partially_succeeded", "failed". line_items
-         * (Required): Array of {@link CreditNoteLineItem}. Itemized corrections against frozen
-         * invoice lines. Amount and quantity corrections share each source line's remaining value,
-         * discount, and tax across issued credit notes that have not been voided. Drafts reserve
-         * no credit. line_items[] (Value): {@link CreditNoteLineItem}. One correction calculated
-         * from the frozen invoice line's remaining billed value, discount, and tax. The source
-         * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-         * settings do not affect the correction. Stored issued values are never recalculated by a
-         * read. memo (Required): string or null. Free text shown on the credit note, up to 4096
-         * characters. `null` when unset. merchant_id (Required): string. The merchant that owns
-         * the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". pending_refund_money
-         * (Required): {@link MoneyValue}. Credit reserved by linked refunds that have not resolved
-         * yet. Released if a refund fails or is canceled. Monetary amount represented as integer
-         * minor units plus an ISO 4217 currency code. reason (Required): string. Why the invoice
-         * is being corrected. Shown on the credit note document. Value enum: "returned_goods",
-         * "order_adjustment", "billing_error", "goodwill", "other". refunded_money (Required):
-         * {@link MoneyValue}. Credit consumed by linked refunds that succeeded. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code. seller_tax_identity
-         * (Required): {@link TaxIdentity} or null. Identity frozen on the source invoice at issue.
-         * Later profile edits do not change this document. `null` when no seller tax identity was
-         * captured. seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided
-         * legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-         * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax
-         * provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax
-         * IDs are an owned collection in display order; replacing the array requires the parent's
-         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
-         * it, or omit its ID to add one. seller_tax_identity.anyOf[2] (Value): null. status
-         * (Required): string. draft while the credit note is editable, issued once it is numbered
-         * and frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-         * supported_actions (Required): Array of string. Lifecycle actions Flint accepts for this
-         * resource now, based on stored state. Independent of the caller's permissions; each
-         * action still requires its route's scope. Always [] when no action is available. [] enum:
-         * "issue", "void". supported_actions[] (Value): string. Value enum: "issue", "void".
-         * tax_currency_conversions (Required): Array of {@link TaxCurrencyConversion}. The credit
-         * note's VAT stated in the currency of the country that charges it, frozen at issue. Each
-         * entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from
-         * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-         * converted the same way. Always [] on drafts and when the invoice froze no conversion.
-         * The credit note PDF prints the same figures. tax_currency_conversions[] (Value): {@link
-         * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-         * country whose VAT is charged. total_money (Required): {@link MoneyValue}. The face value
-         * of the credit note, the sum of its lines. Monetary amount represented as integer minor
-         * units plus an ISO 4217 currency code. updated_at (Required): string. When the credit
-         * note last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Current credit note version. Send this as expected_version when
-         * updating the draft. Format: int64. minimum: 1. voided_at (Optional): string. When the
-         * credit note was voided. Absent unless its status is voided. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * Credit applied to the invoice, net of reversed allocations. Monetary amount
-             * represented as integer minor units plus an ISO 4217 currency code.
-             */
-            "allocated_money": MoneyValue;
-            /**
-             * Credit available to allocate or refund. Zero on draft and voided notes. On issued
-             * notes, total_money equals allocated_money plus pending_refund_money plus
-             * refunded_money plus available_money. Monetary amount represented as integer minor
-             * units plus an ISO 4217 currency code.
-             */
-            "available_money": MoneyValue;
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no buyer tax identity was captured on the source invoice.
-             * Customer deletion preserves identities captured on issued invoices and credit notes.
-             * anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on
-             * invoices and credit notes. Flint does not verify IDs. On a customer, automatic tax
-             * sends the tax ID for an EU, GB, AU or NZ destination to its tax provider, which can
-             * apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
-             * collection in display order; replacing the array requires the parent's
-             * expected_version. Existing entries retain their document_tax_id; omit an entry to
-             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
-             */
-            "buyer_tax_identity": ((TaxIdentity) | (null));
-            /**
-             * When the credit note was created. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /** Unique identifier of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". */
-            "credit_note_id": string;
-            /**
-             * Assigned at issue and stable from then on. Absent while the credit note is a draft.
-             */
-            "credit_note_number"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. `null` when unset.
-             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-             */
-            "external_reference_id": string | null;
-            /**
-             * Summary of the source invoice. Returned only with expand=invoice. An invoice's
-             * summary fields, including status, due date, and paid, outstanding, and refunded
-             * amounts, returned when the invoice is expanded.
-             */
-            "invoice"?: ExpandedInvoiceSummary;
-            /** The invoice this credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
-            "invoice_id": string;
-            /**
-             * When the credit note was issued. Absent on a draft. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "issued_at"?: string;
-            /**
-             * Status of the most recent refund linked to this credit note. Absent when no refund
-             * has been requested. Value enum: "pending", "succeeded", "partially_succeeded",
-             * "failed".
-             */
-            "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            /**
-             * Itemized corrections against frozen invoice lines. Amount and quantity corrections
-             * share each source line's remaining value, discount, and tax across issued credit
-             * notes that have not been voided. Drafts reserve no credit. [] (Value): {@link
-             * CreditNoteLineItem}. One correction calculated from the frozen invoice line's
-             * remaining billed value, discount, and tax. The source line's inclusive or additive
-             * tax mode is preserved. Current catalog prices and tax settings do not affect the
-             * correction. Stored issued values are never recalculated by a read.
-             */
-            "line_items": Array<CreditNoteLineItem>;
-            /** Free text shown on the credit note, up to 4096 characters. `null` when unset. */
-            "memo": string | null;
-            /**
-             * The merchant that owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Credit reserved by linked refunds that have not resolved yet. Released if a refund
-             * fails or is canceled. Monetary amount represented as integer minor units plus an ISO
-             * 4217 currency code.
-             */
-            "pending_refund_money": MoneyValue;
-            /**
-             * Why the invoice is being corrected. Shown on the credit note document. Value enum:
-             * "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
-             */
-            "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-            /**
-             * Credit consumed by linked refunds that succeeded. Monetary amount represented as
-             * integer minor units plus an ISO 4217 currency code.
-             */
-            "refunded_money": MoneyValue;
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no seller tax identity was captured. anyOf[1] (Value):
-             * {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-             * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax
-             * ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a
-             * reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
-             * collection in display order; replacing the array requires the parent's
-             * expected_version. Existing entries retain their document_tax_id; omit an entry to
-             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
-             */
-            "seller_tax_identity": ((TaxIdentity) | (null));
-            /**
-             * draft while the credit note is editable, issued once it is numbered and frozen,
-             * voided once withdrawn. Value enum: "draft", "issued", "voided".
-             */
-            "status": "draft" | "issued" | "voided" | (string & {});
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "issue", "void". [] (Value):
-             * string. Value enum: "issue", "void".
-             */
-            "supported_actions": Array<"issue" | "void" | (string & {})>;
-            /**
-             * The credit note's VAT stated in the currency of the country that charges it, frozen
-             * at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-             * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT
-             * and taxable amount converted the same way. Always [] on drafts and when the invoice
-             * froze no conversion. The credit note PDF prints the same figures. [] (Value): {@link
-             * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-             * country whose VAT is charged.
-             */
-            "tax_currency_conversions": Array<TaxCurrencyConversion>;
-            /**
-             * The face value of the credit note, the sum of its lines. Monetary amount represented
-             * as integer minor units plus an ISO 4217 currency code.
-             */
-            "total_money": MoneyValue;
-            /**
-             * When the credit note last changed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "updated_at": string;
-            /**
-             * Current credit note version. Send this as expected_version when updating the draft.
-             * Format: int64. minimum: 1.
-             */
-            "version": number;
-            /**
-             * When the credit note was voided. Absent unless its status is voided. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "voided_at"?: string;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. allocated_money (Optional): {@link MoneyValue}
-         * or null. Credit applied to the invoice, net of reversed allocations.
-         * allocated_money.anyOf[1] (Value): {@link MoneyValue}. Credit applied to the invoice, net
-         * of reversed allocations. allocated_money.anyOf[2] (Value): null. available_money
-         * (Optional): {@link MoneyValue} or null. Credit available to allocate or refund. Zero on
-         * draft and voided notes. On issued notes, total_money equals allocated_money plus
-         * pending_refund_money plus refunded_money plus available_money. available_money.anyOf[1]
-         * (Value): {@link MoneyValue}. Credit available to allocate or refund. Zero on draft and
-         * voided notes. On issued notes, total_money equals allocated_money plus
-         * pending_refund_money plus refunded_money plus available_money. available_money.anyOf[2]
-         * (Value): null. buyer_tax_identity (Optional): {@link TaxIdentity} or null or null.
-         * Identity frozen on the source invoice at issue. Later profile edits do not change this
-         * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-         * deletion preserves identities captured on issued invoices and credit notes.
-         * buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null. Identity frozen on the
-         * source invoice at issue. Later profile edits do not change this document. `null` when no
-         * buyer tax identity was captured on the source invoice. Customer deletion preserves
-         * identities captured on issued invoices and credit notes.
-         * buyer_tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided
-         * legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-         * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax
-         * provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax
-         * IDs are an owned collection in display order; replacing the array requires the parent's
-         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
-         * it, or omit its ID to add one. buyer_tax_identity.anyOf[1].anyOf[2] (Value): null.
-         * buyer_tax_identity.anyOf[2] (Value): null. created_at (Optional): string or null. When
-         * the credit note was created. created_at.anyOf[1] (Value): string. When the credit note
-         * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
-         * (Value): null. credit_note_id (Optional): string or null. Unique identifier of the
-         * credit note. credit_note_id.anyOf[1] (Value): string. Unique identifier of the credit
-         * note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_id.anyOf[2] (Value): null.
-         * credit_note_number (Optional): string or null. Assigned at issue and stable from then
-         * on. Absent while the credit note is a draft. credit_note_number.anyOf[1] (Value):
-         * string. Assigned at issue and stable from then on. Absent while the credit note is a
-         * draft. credit_note_number.anyOf[2] (Value): null. external_reference_id (Optional):
-         * string or null or null. Caller-owned identifier for this resource in an external system.
-         * `null` when unset. external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-         * identifier for this resource in an external system. `null` when unset. minLength: 1.
-         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummary} or null. Summary of the source
-         * invoice. Returned only with expand=invoice. invoice.anyOf[1] (Value): {@link
-         * ExpandedInvoiceSummary}. Summary of the source invoice. Returned only with
-         * expand=invoice. invoice.anyOf[2] (Value): null. invoice_id (Optional): string or null.
-         * The invoice this credit note corrects. invoice_id.anyOf[1] (Value): string. The invoice
-         * this credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. issued_at (Optional): string or null. When the credit
-         * note was issued. Absent on a draft. issued_at.anyOf[1] (Value): string. When the credit
-         * note was issued. Absent on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * issued_at.anyOf[2] (Value): null. latest_refund_status (Optional): string or null.
-         * Status of the most recent refund linked to this credit note. Absent when no refund has
-         * been requested. Value enum: "pending", "succeeded", "partially_succeeded", "failed".
-         * latest_refund_status.anyOf[1] (Value): string. Status of the most recent refund linked
-         * to this credit note. Absent when no refund has been requested. Value enum: "pending",
-         * "succeeded", "partially_succeeded", "failed". latest_refund_status.anyOf[2] (Value):
-         * null. line_items (Optional): Array of {@link CreditNoteLineItem} or null. Itemized
-         * corrections against frozen invoice lines. Amount and quantity corrections share each
-         * source line's remaining value, discount, and tax across issued credit notes that have
-         * not been voided. Drafts reserve no credit. line_items.anyOf[1] (Value): Array of {@link
-         * CreditNoteLineItem}. Itemized corrections against frozen invoice lines. Amount and
-         * quantity corrections share each source line's remaining value, discount, and tax across
-         * issued credit notes that have not been voided. Drafts reserve no credit.
-         * line_items.anyOf[1][] (Value): {@link CreditNoteLineItem}. One correction calculated
-         * from the frozen invoice line's remaining billed value, discount, and tax. The source
-         * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-         * settings do not affect the correction. Stored issued values are never recalculated by a
-         * read. line_items.anyOf[2] (Value): null. memo (Optional): string or null or null. Free
-         * text shown on the credit note, up to 4096 characters. `null` when unset. memo.anyOf[1]
-         * (Value): string or null. Free text shown on the credit note, up to 4096 characters.
-         * `null` when unset. memo.anyOf[2] (Value): null. merchant_id (Optional): string or null.
-         * The merchant that owns the credit note. merchant_id.anyOf[1] (Value): string. The
-         * merchant that owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. pending_refund_money (Optional): {@link MoneyValue}
-         * or null. Credit reserved by linked refunds that have not resolved yet. Released if a
-         * refund fails or is canceled. pending_refund_money.anyOf[1] (Value): {@link MoneyValue}.
-         * Credit reserved by linked refunds that have not resolved yet. Released if a refund fails
-         * or is canceled. pending_refund_money.anyOf[2] (Value): null. reason (Optional): string
-         * or null. Why the invoice is being corrected. Shown on the credit note document. Value
-         * enum: "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
-         * reason.anyOf[1] (Value): string. Why the invoice is being corrected. Shown on the credit
-         * note document. Value enum: "returned_goods", "order_adjustment", "billing_error",
-         * "goodwill", "other". reason.anyOf[2] (Value): null. refunded_money (Optional): {@link
-         * MoneyValue} or null. Credit consumed by linked refunds that succeeded.
-         * refunded_money.anyOf[1] (Value): {@link MoneyValue}. Credit consumed by linked refunds
-         * that succeeded. refunded_money.anyOf[2] (Value): null. seller_tax_identity (Optional):
-         * {@link TaxIdentity} or null or null. Identity frozen on the source invoice at issue.
-         * Later profile edits do not change this document. `null` when no seller tax identity was
-         * captured. seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null. Identity
-         * frozen on the source invoice at issue. Later profile edits do not change this document.
-         * `null` when no seller tax identity was captured. seller_tax_identity.anyOf[1].anyOf[1]
-         * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-         * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID
-         * for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-         * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-         * display order; replacing the array requires the parent's expected_version. Existing
-         * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add
-         * one. seller_tax_identity.anyOf[1].anyOf[2] (Value): null. seller_tax_identity.anyOf[2]
-         * (Value): null. status (Optional): string or null. draft while the credit note is
-         * editable, issued once it is numbered and frozen, voided once withdrawn. Value enum:
-         * "draft", "issued", "voided". status.anyOf[1] (Value): string. draft while the credit
-         * note is editable, issued once it is numbered and frozen, voided once withdrawn. Value
-         * enum: "draft", "issued", "voided". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Lifecycle actions Flint accepts for this resource
-         * now, based on stored state. Independent of the caller's permissions; each action still
-         * requires its route's scope. Always [] when no action is available. [] enum: "issue",
-         * "void". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint
-         * accepts for this resource now, based on stored state. Independent of the caller's
-         * permissions; each action still requires its route's scope. Always [] when no action is
-         * available. [] enum: "issue", "void". supported_actions.anyOf[1][] (Value): string. Value
-         * enum: "issue", "void". supported_actions.anyOf[2] (Value): null.
-         * tax_currency_conversions (Optional): Array of {@link TaxCurrencyConversion} or null. The
-         * credit note's VAT stated in the currency of the country that charges it, frozen at
-         * issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-         * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and
-         * taxable amount converted the same way. Always [] on drafts and when the invoice froze no
-         * conversion. The credit note PDF prints the same figures.
-         * tax_currency_conversions.anyOf[1] (Value): Array of {@link TaxCurrencyConversion}. The
-         * credit note's VAT stated in the currency of the country that charges it, frozen at
-         * issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-         * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and
-         * taxable amount converted the same way. Always [] on drafts and when the invoice froze no
-         * conversion. The credit note PDF prints the same figures.
-         * tax_currency_conversions.anyOf[1][] (Value): {@link TaxCurrencyConversion}. VAT on an
-         * issued document converted into the currency of the country whose VAT is charged.
-         * tax_currency_conversions.anyOf[2] (Value): null. total_money (Optional): {@link
-         * MoneyValue} or null. The face value of the credit note, the sum of its lines.
-         * total_money.anyOf[1] (Value): {@link MoneyValue}. The face value of the credit note, the
-         * sum of its lines. total_money.anyOf[2] (Value): null. updated_at (Optional): string or
-         * null. When the credit note last changed. updated_at.anyOf[1] (Value): string. When the
-         * credit note last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current credit
-         * note version. Send this as expected_version when updating the draft. version.anyOf[1]
-         * (Value): integer. Current credit note version. Send this as expected_version when
-         * updating the draft. Format: int64. minimum: 1. version.anyOf[2] (Value): null. voided_at
-         * (Optional): string or null. When the credit note was voided. Absent unless its status is
-         * voided. voided_at.anyOf[1] (Value): string. When the credit note was voided. Absent
-         * unless its status is voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * voided_at.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Credit applied to the invoice, net of reversed allocations. anyOf[1] (Value): {@link
-             * MoneyValue}. Credit applied to the invoice, net of reversed allocations. anyOf[2]
-             * (Value): null.
-             */
-            "allocated_money"?: ((MoneyValue) | (null));
-            /**
-             * Credit available to allocate or refund. Zero on draft and voided notes. On issued
-             * notes, total_money equals allocated_money plus pending_refund_money plus
-             * refunded_money plus available_money. anyOf[1] (Value): {@link MoneyValue}. Credit
-             * available to allocate or refund. Zero on draft and voided notes. On issued notes,
-             * total_money equals allocated_money plus pending_refund_money plus refunded_money
-             * plus available_money. anyOf[2] (Value): null.
-             */
-            "available_money"?: ((MoneyValue) | (null));
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no buyer tax identity was captured on the source invoice.
-             * Customer deletion preserves identities captured on issued invoices and credit notes.
-             * anyOf[1] (Value): {@link TaxIdentity} or null. Identity frozen on the source invoice
-             * at issue. Later profile edits do not change this document. `null` when no buyer tax
-             * identity was captured on the source invoice. Customer deletion preserves identities
-             * captured on issued invoices and credit notes. anyOf[1].anyOf[1] (Value): {@link
-             * TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit
-             * notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for
-             * an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-             * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-             * display order; replacing the array requires the parent's expected_version. Existing
-             * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to
-             * add one. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "buyer_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            /**
-             * When the credit note was created. anyOf[1] (Value): string. When the credit note was
-             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Unique identifier of the credit note. anyOf[1] (Value): string. Unique identifier of
-             * the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". anyOf[2] (Value): null.
-             */
-            "credit_note_id"?: ((string) | (null));
-            /**
-             * Assigned at issue and stable from then on. Absent while the credit note is a draft.
-             * anyOf[1] (Value): string. Assigned at issue and stable from then on. Absent while
-             * the credit note is a draft. anyOf[2] (Value): null.
-             */
-            "credit_note_number"?: ((string) | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. `null` when unset.
-             * anyOf[1] (Value): string or null. Caller-owned identifier for this resource in an
-             * external system. `null` when unset. minLength: 1. maxLength: 255. Example:
-             * "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * Summary of the source invoice. Returned only with expand=invoice. anyOf[1] (Value):
-             * {@link ExpandedInvoiceSummary}. Summary of the source invoice. Returned only with
-             * expand=invoice. anyOf[2] (Value): null.
-             */
-            "invoice"?: ((ExpandedInvoiceSummary) | (null));
-            /**
-             * The invoice this credit note corrects. anyOf[1] (Value): string. The invoice this
-             * credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value):
-             * null.
-             */
-            "invoice_id"?: ((string) | (null));
-            /**
-             * When the credit note was issued. Absent on a draft. anyOf[1] (Value): string. When
-             * the credit note was issued. Absent on a draft. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "issued_at"?: ((string) | (null));
-            /**
-             * Status of the most recent refund linked to this credit note. Absent when no refund
-             * has been requested. Value enum: "pending", "succeeded", "partially_succeeded",
-             * "failed". anyOf[1] (Value): string. Status of the most recent refund linked to this
-             * credit note. Absent when no refund has been requested. Value enum: "pending",
-             * "succeeded", "partially_succeeded", "failed". anyOf[2] (Value): null.
-             */
-            "latest_refund_status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
-            /**
-             * Itemized corrections against frozen invoice lines. Amount and quantity corrections
-             * share each source line's remaining value, discount, and tax across issued credit
-             * notes that have not been voided. Drafts reserve no credit. anyOf[1] (Value): Array
-             * of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-             * Amount and quantity corrections share each source line's remaining value, discount,
-             * and tax across issued credit notes that have not been voided. Drafts reserve no
-             * credit. anyOf[1][] (Value): {@link CreditNoteLineItem}. One correction calculated
-             * from the frozen invoice line's remaining billed value, discount, and tax. The source
-             * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-             * settings do not affect the correction. Stored issued values are never recalculated
-             * by a read. anyOf[2] (Value): null.
-             */
-            "line_items"?: ((Array<CreditNoteLineItem>) | (null));
-            /**
-             * Free text shown on the credit note, up to 4096 characters. `null` when unset.
-             * anyOf[1] (Value): string or null. Free text shown on the credit note, up to 4096
-             * characters. `null` when unset. anyOf[2] (Value): null.
-             */
-            "memo"?: ((string | null) | (null) | (unknown));
-            /**
-             * The merchant that owns the credit note. anyOf[1] (Value): string. The merchant that
-             * owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value):
-             * null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Credit reserved by linked refunds that have not resolved yet. Released if a refund
-             * fails or is canceled. anyOf[1] (Value): {@link MoneyValue}. Credit reserved by
-             * linked refunds that have not resolved yet. Released if a refund fails or is
-             * canceled. anyOf[2] (Value): null.
-             */
-            "pending_refund_money"?: ((MoneyValue) | (null));
-            /**
-             * Why the invoice is being corrected. Shown on the credit note document. Value enum:
-             * "returned_goods", "order_adjustment", "billing_error", "goodwill", "other". anyOf[1]
-             * (Value): string. Why the invoice is being corrected. Shown on the credit note
-             * document. Value enum: "returned_goods", "order_adjustment", "billing_error",
-             * "goodwill", "other". anyOf[2] (Value): null.
-             */
-            "reason"?: (("returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {}))
-                | (null));
-            /**
-             * Credit consumed by linked refunds that succeeded. anyOf[1] (Value): {@link
-             * MoneyValue}. Credit consumed by linked refunds that succeeded. anyOf[2] (Value):
-             * null.
-             */
-            "refunded_money"?: ((MoneyValue) | (null));
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no seller tax identity was captured. anyOf[1] (Value):
-             * {@link TaxIdentity} or null. Identity frozen on the source invoice at issue. Later
-             * profile edits do not change this document. `null` when no seller tax identity was
-             * captured. anyOf[1].anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-             * identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-             * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its
-             * tax provider, which can apply a reverse charge; other IDs do not change tax
-             * treatment. Tax IDs are an owned collection in display order; replacing the array
-             * requires the parent's expected_version. Existing entries retain their
-             * document_tax_id; omit an entry to remove it, or omit its ID to add one.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "seller_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            /**
-             * draft while the credit note is editable, issued once it is numbered and frozen,
-             * voided once withdrawn. Value enum: "draft", "issued", "voided". anyOf[1] (Value):
-             * string. draft while the credit note is editable, issued once it is numbered and
-             * frozen, voided once withdrawn. Value enum: "draft", "issued", "voided". anyOf[2]
-             * (Value): null.
-             */
-            "status"?: (("draft" | "issued" | "voided" | (string & {})) | (null));
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "issue", "void". anyOf[1]
-             * (Value): Array of string. Lifecycle actions Flint accepts for this resource now,
-             * based on stored state. Independent of the caller's permissions; each action still
-             * requires its route's scope. Always [] when no action is available. [] enum: "issue",
-             * "void". anyOf[1][] (Value): string. Value enum: "issue", "void". anyOf[2] (Value):
-             * null.
-             */
-            "supported_actions"?: ((Array<"issue" | "void" | (string & {})>) | (null));
-            /**
-             * The credit note's VAT stated in the currency of the country that charges it, frozen
-             * at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-             * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT
-             * and taxable amount converted the same way. Always [] on drafts and when the invoice
-             * froze no conversion. The credit note PDF prints the same figures. anyOf[1] (Value):
-             * Array of {@link TaxCurrencyConversion}. The credit note's VAT stated in the currency
-             * of the country that charges it, frozen at issue. Each entry reuses the invoice's
-             * currency, exchange_rate, rate_date, and rate_source from
-             * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-             * converted the same way. Always [] on drafts and when the invoice froze no
-             * conversion. The credit note PDF prints the same figures. anyOf[1][] (Value): {@link
-             * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-             * country whose VAT is charged. anyOf[2] (Value): null.
-             */
-            "tax_currency_conversions"?: ((Array<TaxCurrencyConversion>) | (null));
-            /**
-             * The face value of the credit note, the sum of its lines. anyOf[1] (Value): {@link
-             * MoneyValue}. The face value of the credit note, the sum of its lines. anyOf[2]
-             * (Value): null.
-             */
-            "total_money"?: ((MoneyValue) | (null));
-            /**
-             * When the credit note last changed. anyOf[1] (Value): string. When the credit note
-             * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
-             * null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Current credit note version. Send this as expected_version when updating the draft.
-             * anyOf[1] (Value): integer. Current credit note version. Send this as
-             * expected_version when updating the draft. Format: int64. minimum: 1. anyOf[2]
-             * (Value): null.
-             */
-            "version"?: ((number) | (null));
-            /**
-             * When the credit note was voided. Absent unless its status is voided. anyOf[1]
-             * (Value): string. When the credit note was voided. Absent unless its status is
-             * voided. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "voided_at"?: ((string) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "credit_note.issued". */
-    "event_type"?: "credit_note.issued";
-});
-/**
- * One correction calculated from the frozen invoice line's remaining billed value, discount, and
- * tax. The source line's inclusive or additive tax mode is preserved. Current catalog prices and
- * tax settings do not affect the correction. Stored issued values are never recalculated by a
- * read.
- */
-export type CreditNoteLineItem = {
-    /**
-     * The correction that produced this line, using the same shape accepted by draft writes.
-     * Amount corrections return the requested billed value in amount_money, equal to total_money.
-     * How much of an invoice line item a credit note line credits, by whole `quantity` or by
-     * `amount`, chosen by `type`.
-     */
-    "correction": CreditNoteCorrectionRequest;
-    /**
-     * Unique identifier of the credit note line item. Example: "cnli_01KEZF7C006N101PGMWKNHFD1J".
-     */
-    "credit_note_line_item_id": string;
-    /**
-     * The credited share of the frozen line's remaining allocated merchandise discount, rounded
-     * half up in currency minor units. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "discount_money": MoneyValue;
-    /** The invoice snapshot line this corrects. Example: "invli_01KEZF7C00H767MAT1DY7ZWSVW". */
-    "invoice_line_item_id": string;
-    /** Label of the credited invoice line. */
-    "name": string;
-    /**
-     * Credited subtotal before the credited discount, in the source line's inclusive or additive
-     * price units. Balances the total after tax and discount are rounded from the remaining pool;
-     * it is not a rounded per-unit price. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "subtotal_money": MoneyValue;
-    /**
-     * The credited share of the frozen line's remaining tax, rounded half up in currency minor
-     * units. Included tax is already part of total_money. Tax-exclusive consideration is
-     * total_money minus tax_money. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code.
-     */
-    "tax_money": MoneyValue;
-    /**
-     * Billed value credited by this line. For inclusive tax, subtotal_money minus discount_money.
-     * For additive tax, subtotal_money minus discount_money plus tax_money. A full remaining-value
-     * correction consumes the exact remaining components. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "total_money": MoneyValue;
-};
-/**
- * A credit note line you supply when creating or updating a credit note: the invoice line item it
- * credits and how much, or an existing line to keep.
- */
-export type CreditNoteLineItemRequest = {
-    /**
-     * How much of the invoice line to credit, by quantity or by amount. How much of an invoice
-     * line item a credit note line credits, by whole `quantity` or by `amount`, chosen by `type`.
-     */
-    "correction": CreditNoteCorrectionRequest;
-    /**
-     * Existing credit note line item to retain. Omit to create a new line item. minLength: 1.
-     * Example: "cnli_01KEZF7C006N101PGMWKNHFD1J".
-     */
-    "credit_note_line_item_id"?: string;
-    /**
-     * The invoice snapshot line to credit. minLength: 1. Example:
-     * "invli_01KEZF7C00H767MAT1DY7ZWSVW".
-     */
-    "invoice_line_item_id": string;
-};
-/**
- * A credit note line you supply when creating or updating a credit note: the invoice line item it
- * credits and how much, or an existing line to keep.
- */
-export type CreditNoteLineItemRequestInput = {
-    /**
-     * How much of the invoice line to credit, by quantity or by amount. How much of an invoice
-     * line item a credit note line credits, by whole `quantity` or by `amount`, chosen by `type`.
-     */
-    "correction": CreditNoteCorrectionRequestModelInput;
-    /**
-     * Existing credit note line item to retain. Omit to create a new line item. minLength: 1.
-     * Example: "cnli_01KEZF7C006N101PGMWKNHFD1J".
-     */
-    "credit_note_line_item_id"?: string;
-    /**
-     * The invoice snapshot line to credit. minLength: 1. Example:
-     * "invli_01KEZF7C00H767MAT1DY7ZWSVW".
-     */
-    "invoice_line_item_id": string;
-};
-/** A page of `CreditNote` objects. */
-export type CreditNoteListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * CreditNote}. A correction against an issued invoice. Credit notes reduce what is owed;
-     * refunds return what was already collected.
-     */
-    "data": Array<CreditNote>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Refund details you supply when issuing a credit note: the reason, an optional message, and an
- * optional amount.
- */
-export type CreditNoteRefundRequest = {
-    /**
-     * Credit to refund. Omit to refund all available credit, which Flint resolves once when it
-     * accepts the request. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Why the refund is being made. Omit to record no reason. Value enum: "duplicate",
-     * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
-     * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
-     * "better_price_found", "accidental_order", "other", "out_of_stock".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other"
-        | "out_of_stock"
-        | (string & {});
-    /**
-     * Optional note explaining the refund, up to 1,024 characters. minLength: 1. maxLength: 1024.
-     */
-    "reason_message"?: string;
-};
-/**
- * Refund details you supply when issuing a credit note: the reason, an optional message, and an
- * optional amount.
- */
-export type CreditNoteRefundRequestInput = {
-    /**
-     * Credit to refund. Omit to refund all available credit, which Flint resolves once when it
-     * accepts the request. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-    /**
-     * Why the refund is being made. Omit to record no reason. Value enum: "duplicate",
-     * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
-     * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
-     * "better_price_found", "accidental_order", "other", "out_of_stock".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other"
-        | "out_of_stock";
-    /**
-     * Optional note explaining the refund, up to 1,024 characters. minLength: 1. maxLength: 1024.
-     */
-    "reason_message"?: string;
-};
-/** A response containing `CreditNote` data. */
-export type CreditNoteResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A correction against an
-     * issued invoice. Credit notes reduce what is owed; refunds return what was already collected.
-     */
-    "data": CreditNote;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type CreditNoteUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "allocated_money": MoneyValue;
-            "available_money": MoneyValue;
-            "buyer_tax_identity": ((TaxIdentity) | (null));
-            "created_at": string;
-            "credit_note_id": string;
-            "credit_note_number"?: string;
-            "external_reference_id": string | null;
-            "invoice"?: ExpandedInvoiceSummary;
-            "invoice_id": string;
-            "issued_at"?: string;
-            "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            "line_items": Array<CreditNoteLineItem>;
-            "memo": string | null;
-            "merchant_id": string;
-            "pending_refund_money": MoneyValue;
-            "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-            "refunded_money": MoneyValue;
-            "seller_tax_identity": ((TaxIdentity) | (null));
-            "status": "draft" | "issued" | "voided" | (string & {});
-            "supported_actions": Array<"issue" | "void" | (string & {})>;
-            "tax_currency_conversions": Array<TaxCurrencyConversion>;
-            "total_money": MoneyValue;
-            "updated_at": string;
-            "version": number;
-            "voided_at"?: string;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "allocated_money"?: ((MoneyValue) | (null));
-            "available_money"?: ((MoneyValue) | (null));
-            "buyer_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            "created_at"?: ((string) | (null));
-            "credit_note_id"?: ((string) | (null));
-            "credit_note_number"?: ((string) | (null));
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
-            "invoice"?: ((ExpandedInvoiceSummary) | (null));
-            "invoice_id"?: ((string) | (null));
-            "issued_at"?: ((string) | (null));
-            "latest_refund_status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
-            "line_items"?: ((Array<CreditNoteLineItem>) | (null));
-            "memo"?: ((string | null) | (null) | (unknown));
-            "merchant_id"?: ((string) | (null));
-            "pending_refund_money"?: ((MoneyValue) | (null));
-            "reason"?: (("returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {}))
-                | (null));
-            "refunded_money"?: ((MoneyValue) | (null));
-            "seller_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            "status"?: (("draft" | "issued" | "voided" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"issue" | "void" | (string & {})>) | (null));
-            "tax_currency_conversions"?: ((Array<TaxCurrencyConversion>) | (null));
-            "total_money"?: ((MoneyValue) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-            "voided_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "credit_note.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "allocated_money": MoneyValue;
-            "available_money": MoneyValue;
-            "buyer_tax_identity": ((TaxIdentity) | (null));
-            "created_at": string;
-            "credit_note_id": string;
-            "credit_note_number"?: string;
-            "external_reference_id": string | null;
-            "invoice"?: ExpandedInvoiceSummary;
-            "invoice_id": string;
-            "issued_at"?: string;
-            "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            "line_items": Array<CreditNoteLineItem>;
-            "memo": string | null;
-            "merchant_id": string;
-            "pending_refund_money": MoneyValue;
-            "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-            "refunded_money": MoneyValue;
-            "seller_tax_identity": ((TaxIdentity) | (null));
-            "status": "draft" | "issued" | "voided" | (string & {});
-            "supported_actions": Array<"issue" | "void" | (string & {})>;
-            "tax_currency_conversions": Array<TaxCurrencyConversion>;
-            "total_money": MoneyValue;
-            "updated_at": string;
-            "version": number;
-            "voided_at"?: string;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "allocated_money"?: ((MoneyValue) | (null));
-            "available_money"?: ((MoneyValue) | (null));
-            "buyer_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            "created_at"?: ((string) | (null));
-            "credit_note_id"?: ((string) | (null));
-            "credit_note_number"?: ((string) | (null));
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
-            "invoice"?: ((ExpandedInvoiceSummary) | (null));
-            "invoice_id"?: ((string) | (null));
-            "issued_at"?: ((string) | (null));
-            "latest_refund_status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
-            "line_items"?: ((Array<CreditNoteLineItem>) | (null));
-            "memo"?: ((string | null) | (null) | (unknown));
-            "merchant_id"?: ((string) | (null));
-            "pending_refund_money"?: ((MoneyValue) | (null));
-            "reason"?: (("returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {}))
-                | (null));
-            "refunded_money"?: ((MoneyValue) | (null));
-            "seller_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            "status"?: (("draft" | "issued" | "voided" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"issue" | "void" | (string & {})>) | (null));
-            "tax_currency_conversions"?: ((Array<TaxCurrencyConversion>) | (null));
-            "total_money"?: ((MoneyValue) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-            "voided_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "credit_note.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "credit_note.updated";
-});
-/**
- * The `credit_note.updated` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type CreditNoteUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allocated_money (Required): {@link MoneyValue}. Credit applied to
-     * the invoice, net of reversed allocations. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.available_money (Required): {@link MoneyValue}.
-     * Credit available to allocate or refund. Zero on draft and voided notes. On issued notes,
-     * total_money equals allocated_money plus pending_refund_money plus refunded_money plus
-     * available_money. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.buyer_tax_identity (Required): {@link TaxIdentity} or null. Identity
-     * frozen on the source invoice at issue. Later profile edits do not change this document.
-     * `null` when no buyer tax identity was captured on the source invoice. Customer deletion
-     * preserves identities captured on issued invoices and credit notes.
-     * object.buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. object.buyer_tax_identity.anyOf[2] (Value): null.
-     * object.created_at (Required): string. When the credit note was created. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.credit_note_id (Required): string. Unique identifier
-     * of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". object.credit_note_number
-     * (Optional): string. Assigned at issue and stable from then on. Absent while the credit note
-     * is a draft. object.external_reference_id (Required): string or null. Caller-owned identifier
-     * for this resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842". object.invoice (Optional): {@link ExpandedInvoiceSummary}.
-     * Summary of the source invoice. Returned only with expand=invoice. An invoice's summary
-     * fields, including status, due date, and paid, outstanding, and refunded amounts, returned
-     * when the invoice is expanded. object.invoice_id (Required): string. The invoice this credit
-     * note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.issued_at (Optional):
-     * string. When the credit note was issued. Absent on a draft. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.latest_refund_status (Optional): string. Status of the most
-     * recent refund linked to this credit note. Absent when no refund has been requested. Value
-     * enum: "pending", "succeeded", "partially_succeeded", "failed". object.line_items (Required):
-     * Array of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-     * Amount and quantity corrections share each source line's remaining value, discount, and tax
-     * across issued credit notes that have not been voided. Drafts reserve no credit.
-     * object.line_items[] (Value): {@link CreditNoteLineItem}. One correction calculated from the
-     * frozen invoice line's remaining billed value, discount, and tax. The source line's inclusive
-     * or additive tax mode is preserved. Current catalog prices and tax settings do not affect the
-     * correction. Stored issued values are never recalculated by a read. object.memo (Required):
-     * string or null. Free text shown on the credit note, up to 4096 characters. `null` when
-     * unset. object.merchant_id (Required): string. The merchant that owns the credit note.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.pending_refund_money (Required): {@link
-     * MoneyValue}. Credit reserved by linked refunds that have not resolved yet. Released if a
-     * refund fails or is canceled. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code. object.reason (Required): string. Why the invoice is being corrected.
-     * Shown on the credit note document. Value enum: "returned_goods", "order_adjustment",
-     * "billing_error", "goodwill", "other". object.refunded_money (Required): {@link MoneyValue}.
-     * Credit consumed by linked refunds that succeeded. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. object.seller_tax_identity (Required): {@link
-     * TaxIdentity} or null. Identity frozen on the source invoice at issue. Later profile edits do
-     * not change this document. `null` when no seller tax identity was captured.
-     * object.seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. object.seller_tax_identity.anyOf[2] (Value): null. object.status
-     * (Required): string. draft while the credit note is editable, issued once it is numbered and
-     * frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-     * object.supported_actions (Required): Array of string. Lifecycle actions Flint accepts for
-     * this resource now, based on stored state. Independent of the caller's permissions; each
-     * action still requires its route's scope. Always [] when no action is available. [] enum:
-     * "issue", "void". object.supported_actions[] (Value): string. Value enum: "issue", "void".
-     * object.tax_currency_conversions (Required): Array of {@link TaxCurrencyConversion}. The
-     * credit note's VAT stated in the currency of the country that charges it, frozen at issue.
-     * Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from
-     * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-     * converted the same way. Always [] on drafts and when the invoice froze no conversion. The
-     * credit note PDF prints the same figures. object.tax_currency_conversions[] (Value): {@link
-     * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the country
-     * whose VAT is charged. object.total_money (Required): {@link MoneyValue}. The face value of
-     * the credit note, the sum of its lines. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.updated_at (Required): string. When the credit note
-     * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current credit note version. Send this as expected_version when updating the draft.
-     * Format: int64. minimum: 1. object.voided_at (Optional): string. When the credit note was
-     * voided. Absent unless its status is voided. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous values of changed
-     * top-level fields in data.object, at this delivery's API version. Nested changes include the
-     * whole previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.allocated_money (Optional): {@link MoneyValue} or null. Credit applied
-     * to the invoice, net of reversed allocations. previous_attributes.allocated_money.anyOf[1]
-     * (Value): {@link MoneyValue}. Credit applied to the invoice, net of reversed allocations.
-     * previous_attributes.allocated_money.anyOf[2] (Value): null.
-     * previous_attributes.available_money (Optional): {@link MoneyValue} or null. Credit available
-     * to allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-     * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-     * previous_attributes.available_money.anyOf[1] (Value): {@link MoneyValue}. Credit available
-     * to allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-     * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-     * previous_attributes.available_money.anyOf[2] (Value): null.
-     * previous_attributes.buyer_tax_identity (Optional): {@link TaxIdentity} or null or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-     * deletion preserves identities captured on issued invoices and credit notes.
-     * previous_attributes.buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-     * deletion preserves identities captured on issued invoices and credit notes.
-     * previous_attributes.buyer_tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}.
-     * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not
-     * verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
-     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
-     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
-     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
-     * an entry to remove it, or omit its ID to add one.
-     * previous_attributes.buyer_tax_identity.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.buyer_tax_identity.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. When the credit note was created.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the credit note was created.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
-     * (Value): null. previous_attributes.credit_note_id (Optional): string or null. Unique
-     * identifier of the credit note. previous_attributes.credit_note_id.anyOf[1] (Value): string.
-     * Unique identifier of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     * previous_attributes.credit_note_id.anyOf[2] (Value): null.
-     * previous_attributes.credit_note_number (Optional): string or null. Assigned at issue and
-     * stable from then on. Absent while the credit note is a draft.
-     * previous_attributes.credit_note_number.anyOf[1] (Value): string. Assigned at issue and
-     * stable from then on. Absent while the credit note is a draft.
-     * previous_attributes.credit_note_number.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null or null. Caller-owned
-     * identifier for this resource in an external system. `null` when unset.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-     * identifier for this resource in an external system. `null` when unset. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.invoice (Optional): {@link ExpandedInvoiceSummary} or null. Summary of
-     * the source invoice. Returned only with expand=invoice. previous_attributes.invoice.anyOf[1]
-     * (Value): {@link ExpandedInvoiceSummary}. Summary of the source invoice. Returned only with
-     * expand=invoice. previous_attributes.invoice.anyOf[2] (Value): null.
-     * previous_attributes.invoice_id (Optional): string or null. The invoice this credit note
-     * corrects. previous_attributes.invoice_id.anyOf[1] (Value): string. The invoice this credit
-     * note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.issued_at
-     * (Optional): string or null. When the credit note was issued. Absent on a draft.
-     * previous_attributes.issued_at.anyOf[1] (Value): string. When the credit note was issued.
-     * Absent on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.issued_at.anyOf[2] (Value): null.
-     * previous_attributes.latest_refund_status (Optional): string or null. Status of the most
-     * recent refund linked to this credit note. Absent when no refund has been requested. Value
-     * enum: "pending", "succeeded", "partially_succeeded", "failed".
-     * previous_attributes.latest_refund_status.anyOf[1] (Value): string. Status of the most recent
-     * refund linked to this credit note. Absent when no refund has been requested. Value enum:
-     * "pending", "succeeded", "partially_succeeded", "failed".
-     * previous_attributes.latest_refund_status.anyOf[2] (Value): null.
-     * previous_attributes.line_items (Optional): Array of {@link CreditNoteLineItem} or null.
-     * Itemized corrections against frozen invoice lines. Amount and quantity corrections share
-     * each source line's remaining value, discount, and tax across issued credit notes that have
-     * not been voided. Drafts reserve no credit. previous_attributes.line_items.anyOf[1] (Value):
-     * Array of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-     * Amount and quantity corrections share each source line's remaining value, discount, and tax
-     * across issued credit notes that have not been voided. Drafts reserve no credit.
-     * previous_attributes.line_items.anyOf[1][] (Value): {@link CreditNoteLineItem}. One
-     * correction calculated from the frozen invoice line's remaining billed value, discount, and
-     * tax. The source line's inclusive or additive tax mode is preserved. Current catalog prices
-     * and tax settings do not affect the correction. Stored issued values are never recalculated
-     * by a read. previous_attributes.line_items.anyOf[2] (Value): null. previous_attributes.memo
-     * (Optional): string or null or null. Free text shown on the credit note, up to 4096
-     * characters. `null` when unset. previous_attributes.memo.anyOf[1] (Value): string or null.
-     * Free text shown on the credit note, up to 4096 characters. `null` when unset.
-     * previous_attributes.memo.anyOf[2] (Value): null. previous_attributes.merchant_id (Optional):
-     * string or null. The merchant that owns the credit note.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. The merchant that owns the credit
-     * note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2]
-     * (Value): null. previous_attributes.pending_refund_money (Optional): {@link MoneyValue} or
-     * null. Credit reserved by linked refunds that have not resolved yet. Released if a refund
-     * fails or is canceled. previous_attributes.pending_refund_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Credit reserved by linked refunds that have not resolved yet. Released if a
-     * refund fails or is canceled. previous_attributes.pending_refund_money.anyOf[2] (Value):
-     * null. previous_attributes.reason (Optional): string or null. Why the invoice is being
-     * corrected. Shown on the credit note document. Value enum: "returned_goods",
-     * "order_adjustment", "billing_error", "goodwill", "other".
-     * previous_attributes.reason.anyOf[1] (Value): string. Why the invoice is being corrected.
-     * Shown on the credit note document. Value enum: "returned_goods", "order_adjustment",
-     * "billing_error", "goodwill", "other". previous_attributes.reason.anyOf[2] (Value): null.
-     * previous_attributes.refunded_money (Optional): {@link MoneyValue} or null. Credit consumed
-     * by linked refunds that succeeded. previous_attributes.refunded_money.anyOf[1] (Value):
-     * {@link MoneyValue}. Credit consumed by linked refunds that succeeded.
-     * previous_attributes.refunded_money.anyOf[2] (Value): null.
-     * previous_attributes.seller_tax_identity (Optional): {@link TaxIdentity} or null or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no seller tax identity was captured.
-     * previous_attributes.seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no seller tax identity was captured.
-     * previous_attributes.seller_tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}.
-     * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not
-     * verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
-     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
-     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
-     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
-     * an entry to remove it, or omit its ID to add one.
-     * previous_attributes.seller_tax_identity.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.seller_tax_identity.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. draft while the credit note is editable, issued once it is
-     * numbered and frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-     * previous_attributes.status.anyOf[1] (Value): string. draft while the credit note is
-     * editable, issued once it is numbered and frozen, voided once withdrawn. Value enum: "draft",
-     * "issued", "voided". previous_attributes.status.anyOf[2] (Value): null.
-     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
-     * Flint accepts for this resource now, based on stored state. Independent of the caller's
-     * permissions; each action still requires its route's scope. Always [] when no action is
-     * available. [] enum: "issue", "void". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Lifecycle actions Flint accepts for this resource now, based on stored
-     * state. Independent of the caller's permissions; each action still requires its route's
-     * scope. Always [] when no action is available. [] enum: "issue", "void".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "issue",
-     * "void". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tax_currency_conversions (Optional): Array of {@link
-     * TaxCurrencyConversion} or null. The credit note's VAT stated in the currency of the country
-     * that charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate,
-     * rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited
-     * VAT and taxable amount converted the same way. Always [] on drafts and when the invoice
-     * froze no conversion. The credit note PDF prints the same figures.
-     * previous_attributes.tax_currency_conversions.anyOf[1] (Value): Array of {@link
-     * TaxCurrencyConversion}. The credit note's VAT stated in the currency of the country that
-     * charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate,
-     * rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited
-     * VAT and taxable amount converted the same way. Always [] on drafts and when the invoice
-     * froze no conversion. The credit note PDF prints the same figures.
-     * previous_attributes.tax_currency_conversions.anyOf[1][] (Value): {@link
-     * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the country
-     * whose VAT is charged. previous_attributes.tax_currency_conversions.anyOf[2] (Value): null.
-     * previous_attributes.total_money (Optional): {@link MoneyValue} or null. The face value of
-     * the credit note, the sum of its lines. previous_attributes.total_money.anyOf[1] (Value):
-     * {@link MoneyValue}. The face value of the credit note, the sum of its lines.
-     * previous_attributes.total_money.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. When the credit note last changed.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. When the credit note last changed.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
-     * (Value): null. previous_attributes.version (Optional): integer or null. Current credit note
-     * version. Send this as expected_version when updating the draft.
-     * previous_attributes.version.anyOf[1] (Value): integer. Current credit note version. Send
-     * this as expected_version when updating the draft. Format: int64. minimum: 1.
-     * previous_attributes.version.anyOf[2] (Value): null. previous_attributes.voided_at
-     * (Optional): string or null. When the credit note was voided. Absent unless its status is
-     * voided. previous_attributes.voided_at.anyOf[1] (Value): string. When the credit note was
-     * voided. Absent unless its status is voided. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allocated_money (Required): {@link MoneyValue}. Credit applied to the invoice, net of
-         * reversed allocations. Monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. available_money (Required): {@link MoneyValue}. Credit available to
-         * allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-         * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-         * buyer_tax_identity (Required): {@link TaxIdentity} or null. Identity frozen on the
-         * source invoice at issue. Later profile edits do not change this document. `null` when no
-         * buyer tax identity was captured on the source invoice. Customer deletion preserves
-         * identities captured on issued invoices and credit notes. buyer_tax_identity.anyOf[1]
-         * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-         * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID
-         * for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-         * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-         * display order; replacing the array requires the parent's expected_version. Existing
-         * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add
-         * one. buyer_tax_identity.anyOf[2] (Value): null. created_at (Required): string. When the
-         * credit note was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * credit_note_id (Required): string. Unique identifier of the credit note. Example:
-         * "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_number (Optional): string. Assigned at
-         * issue and stable from then on. Absent while the credit note is a draft.
-         * external_reference_id (Required): string or null. Caller-owned identifier for this
-         * resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
-         * Example: "warehouse-1842". invoice (Optional): {@link ExpandedInvoiceSummary}. Summary
-         * of the source invoice. Returned only with expand=invoice. An invoice's summary fields,
-         * including status, due date, and paid, outstanding, and refunded amounts, returned when
-         * the invoice is expanded. invoice_id (Required): string. The invoice this credit note
-         * corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". issued_at (Optional): string. When
-         * the credit note was issued. Absent on a draft. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". latest_refund_status (Optional): string. Status of the most
-         * recent refund linked to this credit note. Absent when no refund has been requested.
-         * Value enum: "pending", "succeeded", "partially_succeeded", "failed". line_items
-         * (Required): Array of {@link CreditNoteLineItem}. Itemized corrections against frozen
-         * invoice lines. Amount and quantity corrections share each source line's remaining value,
-         * discount, and tax across issued credit notes that have not been voided. Drafts reserve
-         * no credit. line_items[] (Value): {@link CreditNoteLineItem}. One correction calculated
-         * from the frozen invoice line's remaining billed value, discount, and tax. The source
-         * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-         * settings do not affect the correction. Stored issued values are never recalculated by a
-         * read. memo (Required): string or null. Free text shown on the credit note, up to 4096
-         * characters. `null` when unset. merchant_id (Required): string. The merchant that owns
-         * the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". pending_refund_money
-         * (Required): {@link MoneyValue}. Credit reserved by linked refunds that have not resolved
-         * yet. Released if a refund fails or is canceled. Monetary amount represented as integer
-         * minor units plus an ISO 4217 currency code. reason (Required): string. Why the invoice
-         * is being corrected. Shown on the credit note document. Value enum: "returned_goods",
-         * "order_adjustment", "billing_error", "goodwill", "other". refunded_money (Required):
-         * {@link MoneyValue}. Credit consumed by linked refunds that succeeded. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code. seller_tax_identity
-         * (Required): {@link TaxIdentity} or null. Identity frozen on the source invoice at issue.
-         * Later profile edits do not change this document. `null` when no seller tax identity was
-         * captured. seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided
-         * legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-         * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax
-         * provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax
-         * IDs are an owned collection in display order; replacing the array requires the parent's
-         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
-         * it, or omit its ID to add one. seller_tax_identity.anyOf[2] (Value): null. status
-         * (Required): string. draft while the credit note is editable, issued once it is numbered
-         * and frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-         * supported_actions (Required): Array of string. Lifecycle actions Flint accepts for this
-         * resource now, based on stored state. Independent of the caller's permissions; each
-         * action still requires its route's scope. Always [] when no action is available. [] enum:
-         * "issue", "void". supported_actions[] (Value): string. Value enum: "issue", "void".
-         * tax_currency_conversions (Required): Array of {@link TaxCurrencyConversion}. The credit
-         * note's VAT stated in the currency of the country that charges it, frozen at issue. Each
-         * entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from
-         * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-         * converted the same way. Always [] on drafts and when the invoice froze no conversion.
-         * The credit note PDF prints the same figures. tax_currency_conversions[] (Value): {@link
-         * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-         * country whose VAT is charged. total_money (Required): {@link MoneyValue}. The face value
-         * of the credit note, the sum of its lines. Monetary amount represented as integer minor
-         * units plus an ISO 4217 currency code. updated_at (Required): string. When the credit
-         * note last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Current credit note version. Send this as expected_version when
-         * updating the draft. Format: int64. minimum: 1. voided_at (Optional): string. When the
-         * credit note was voided. Absent unless its status is voided. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * Credit applied to the invoice, net of reversed allocations. Monetary amount
-             * represented as integer minor units plus an ISO 4217 currency code.
-             */
-            "allocated_money": MoneyValue;
-            /**
-             * Credit available to allocate or refund. Zero on draft and voided notes. On issued
-             * notes, total_money equals allocated_money plus pending_refund_money plus
-             * refunded_money plus available_money. Monetary amount represented as integer minor
-             * units plus an ISO 4217 currency code.
-             */
-            "available_money": MoneyValue;
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no buyer tax identity was captured on the source invoice.
-             * Customer deletion preserves identities captured on issued invoices and credit notes.
-             * anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on
-             * invoices and credit notes. Flint does not verify IDs. On a customer, automatic tax
-             * sends the tax ID for an EU, GB, AU or NZ destination to its tax provider, which can
-             * apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
-             * collection in display order; replacing the array requires the parent's
-             * expected_version. Existing entries retain their document_tax_id; omit an entry to
-             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
-             */
-            "buyer_tax_identity": ((TaxIdentity) | (null));
-            /**
-             * When the credit note was created. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /** Unique identifier of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". */
-            "credit_note_id": string;
-            /**
-             * Assigned at issue and stable from then on. Absent while the credit note is a draft.
-             */
-            "credit_note_number"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. `null` when unset.
-             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-             */
-            "external_reference_id": string | null;
-            /**
-             * Summary of the source invoice. Returned only with expand=invoice. An invoice's
-             * summary fields, including status, due date, and paid, outstanding, and refunded
-             * amounts, returned when the invoice is expanded.
-             */
-            "invoice"?: ExpandedInvoiceSummary;
-            /** The invoice this credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
-            "invoice_id": string;
-            /**
-             * When the credit note was issued. Absent on a draft. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "issued_at"?: string;
-            /**
-             * Status of the most recent refund linked to this credit note. Absent when no refund
-             * has been requested. Value enum: "pending", "succeeded", "partially_succeeded",
-             * "failed".
-             */
-            "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            /**
-             * Itemized corrections against frozen invoice lines. Amount and quantity corrections
-             * share each source line's remaining value, discount, and tax across issued credit
-             * notes that have not been voided. Drafts reserve no credit. [] (Value): {@link
-             * CreditNoteLineItem}. One correction calculated from the frozen invoice line's
-             * remaining billed value, discount, and tax. The source line's inclusive or additive
-             * tax mode is preserved. Current catalog prices and tax settings do not affect the
-             * correction. Stored issued values are never recalculated by a read.
-             */
-            "line_items": Array<CreditNoteLineItem>;
-            /** Free text shown on the credit note, up to 4096 characters. `null` when unset. */
-            "memo": string | null;
-            /**
-             * The merchant that owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Credit reserved by linked refunds that have not resolved yet. Released if a refund
-             * fails or is canceled. Monetary amount represented as integer minor units plus an ISO
-             * 4217 currency code.
-             */
-            "pending_refund_money": MoneyValue;
-            /**
-             * Why the invoice is being corrected. Shown on the credit note document. Value enum:
-             * "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
-             */
-            "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-            /**
-             * Credit consumed by linked refunds that succeeded. Monetary amount represented as
-             * integer minor units plus an ISO 4217 currency code.
-             */
-            "refunded_money": MoneyValue;
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no seller tax identity was captured. anyOf[1] (Value):
-             * {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-             * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax
-             * ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a
-             * reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
-             * collection in display order; replacing the array requires the parent's
-             * expected_version. Existing entries retain their document_tax_id; omit an entry to
-             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
-             */
-            "seller_tax_identity": ((TaxIdentity) | (null));
-            /**
-             * draft while the credit note is editable, issued once it is numbered and frozen,
-             * voided once withdrawn. Value enum: "draft", "issued", "voided".
-             */
-            "status": "draft" | "issued" | "voided" | (string & {});
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "issue", "void". [] (Value):
-             * string. Value enum: "issue", "void".
-             */
-            "supported_actions": Array<"issue" | "void" | (string & {})>;
-            /**
-             * The credit note's VAT stated in the currency of the country that charges it, frozen
-             * at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-             * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT
-             * and taxable amount converted the same way. Always [] on drafts and when the invoice
-             * froze no conversion. The credit note PDF prints the same figures. [] (Value): {@link
-             * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-             * country whose VAT is charged.
-             */
-            "tax_currency_conversions": Array<TaxCurrencyConversion>;
-            /**
-             * The face value of the credit note, the sum of its lines. Monetary amount represented
-             * as integer minor units plus an ISO 4217 currency code.
-             */
-            "total_money": MoneyValue;
-            /**
-             * When the credit note last changed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "updated_at": string;
-            /**
-             * Current credit note version. Send this as expected_version when updating the draft.
-             * Format: int64. minimum: 1.
-             */
-            "version": number;
-            /**
-             * When the credit note was voided. Absent unless its status is voided. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "voided_at"?: string;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. allocated_money (Optional): {@link MoneyValue}
-         * or null. Credit applied to the invoice, net of reversed allocations.
-         * allocated_money.anyOf[1] (Value): {@link MoneyValue}. Credit applied to the invoice, net
-         * of reversed allocations. allocated_money.anyOf[2] (Value): null. available_money
-         * (Optional): {@link MoneyValue} or null. Credit available to allocate or refund. Zero on
-         * draft and voided notes. On issued notes, total_money equals allocated_money plus
-         * pending_refund_money plus refunded_money plus available_money. available_money.anyOf[1]
-         * (Value): {@link MoneyValue}. Credit available to allocate or refund. Zero on draft and
-         * voided notes. On issued notes, total_money equals allocated_money plus
-         * pending_refund_money plus refunded_money plus available_money. available_money.anyOf[2]
-         * (Value): null. buyer_tax_identity (Optional): {@link TaxIdentity} or null or null.
-         * Identity frozen on the source invoice at issue. Later profile edits do not change this
-         * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-         * deletion preserves identities captured on issued invoices and credit notes.
-         * buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null. Identity frozen on the
-         * source invoice at issue. Later profile edits do not change this document. `null` when no
-         * buyer tax identity was captured on the source invoice. Customer deletion preserves
-         * identities captured on issued invoices and credit notes.
-         * buyer_tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided
-         * legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-         * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax
-         * provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax
-         * IDs are an owned collection in display order; replacing the array requires the parent's
-         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
-         * it, or omit its ID to add one. buyer_tax_identity.anyOf[1].anyOf[2] (Value): null.
-         * buyer_tax_identity.anyOf[2] (Value): null. created_at (Optional): string or null. When
-         * the credit note was created. created_at.anyOf[1] (Value): string. When the credit note
-         * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
-         * (Value): null. credit_note_id (Optional): string or null. Unique identifier of the
-         * credit note. credit_note_id.anyOf[1] (Value): string. Unique identifier of the credit
-         * note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_id.anyOf[2] (Value): null.
-         * credit_note_number (Optional): string or null. Assigned at issue and stable from then
-         * on. Absent while the credit note is a draft. credit_note_number.anyOf[1] (Value):
-         * string. Assigned at issue and stable from then on. Absent while the credit note is a
-         * draft. credit_note_number.anyOf[2] (Value): null. external_reference_id (Optional):
-         * string or null or null. Caller-owned identifier for this resource in an external system.
-         * `null` when unset. external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-         * identifier for this resource in an external system. `null` when unset. minLength: 1.
-         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummary} or null. Summary of the source
-         * invoice. Returned only with expand=invoice. invoice.anyOf[1] (Value): {@link
-         * ExpandedInvoiceSummary}. Summary of the source invoice. Returned only with
-         * expand=invoice. invoice.anyOf[2] (Value): null. invoice_id (Optional): string or null.
-         * The invoice this credit note corrects. invoice_id.anyOf[1] (Value): string. The invoice
-         * this credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. issued_at (Optional): string or null. When the credit
-         * note was issued. Absent on a draft. issued_at.anyOf[1] (Value): string. When the credit
-         * note was issued. Absent on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * issued_at.anyOf[2] (Value): null. latest_refund_status (Optional): string or null.
-         * Status of the most recent refund linked to this credit note. Absent when no refund has
-         * been requested. Value enum: "pending", "succeeded", "partially_succeeded", "failed".
-         * latest_refund_status.anyOf[1] (Value): string. Status of the most recent refund linked
-         * to this credit note. Absent when no refund has been requested. Value enum: "pending",
-         * "succeeded", "partially_succeeded", "failed". latest_refund_status.anyOf[2] (Value):
-         * null. line_items (Optional): Array of {@link CreditNoteLineItem} or null. Itemized
-         * corrections against frozen invoice lines. Amount and quantity corrections share each
-         * source line's remaining value, discount, and tax across issued credit notes that have
-         * not been voided. Drafts reserve no credit. line_items.anyOf[1] (Value): Array of {@link
-         * CreditNoteLineItem}. Itemized corrections against frozen invoice lines. Amount and
-         * quantity corrections share each source line's remaining value, discount, and tax across
-         * issued credit notes that have not been voided. Drafts reserve no credit.
-         * line_items.anyOf[1][] (Value): {@link CreditNoteLineItem}. One correction calculated
-         * from the frozen invoice line's remaining billed value, discount, and tax. The source
-         * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-         * settings do not affect the correction. Stored issued values are never recalculated by a
-         * read. line_items.anyOf[2] (Value): null. memo (Optional): string or null or null. Free
-         * text shown on the credit note, up to 4096 characters. `null` when unset. memo.anyOf[1]
-         * (Value): string or null. Free text shown on the credit note, up to 4096 characters.
-         * `null` when unset. memo.anyOf[2] (Value): null. merchant_id (Optional): string or null.
-         * The merchant that owns the credit note. merchant_id.anyOf[1] (Value): string. The
-         * merchant that owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. pending_refund_money (Optional): {@link MoneyValue}
-         * or null. Credit reserved by linked refunds that have not resolved yet. Released if a
-         * refund fails or is canceled. pending_refund_money.anyOf[1] (Value): {@link MoneyValue}.
-         * Credit reserved by linked refunds that have not resolved yet. Released if a refund fails
-         * or is canceled. pending_refund_money.anyOf[2] (Value): null. reason (Optional): string
-         * or null. Why the invoice is being corrected. Shown on the credit note document. Value
-         * enum: "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
-         * reason.anyOf[1] (Value): string. Why the invoice is being corrected. Shown on the credit
-         * note document. Value enum: "returned_goods", "order_adjustment", "billing_error",
-         * "goodwill", "other". reason.anyOf[2] (Value): null. refunded_money (Optional): {@link
-         * MoneyValue} or null. Credit consumed by linked refunds that succeeded.
-         * refunded_money.anyOf[1] (Value): {@link MoneyValue}. Credit consumed by linked refunds
-         * that succeeded. refunded_money.anyOf[2] (Value): null. seller_tax_identity (Optional):
-         * {@link TaxIdentity} or null or null. Identity frozen on the source invoice at issue.
-         * Later profile edits do not change this document. `null` when no seller tax identity was
-         * captured. seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null. Identity
-         * frozen on the source invoice at issue. Later profile edits do not change this document.
-         * `null` when no seller tax identity was captured. seller_tax_identity.anyOf[1].anyOf[1]
-         * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-         * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID
-         * for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-         * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-         * display order; replacing the array requires the parent's expected_version. Existing
-         * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add
-         * one. seller_tax_identity.anyOf[1].anyOf[2] (Value): null. seller_tax_identity.anyOf[2]
-         * (Value): null. status (Optional): string or null. draft while the credit note is
-         * editable, issued once it is numbered and frozen, voided once withdrawn. Value enum:
-         * "draft", "issued", "voided". status.anyOf[1] (Value): string. draft while the credit
-         * note is editable, issued once it is numbered and frozen, voided once withdrawn. Value
-         * enum: "draft", "issued", "voided". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Lifecycle actions Flint accepts for this resource
-         * now, based on stored state. Independent of the caller's permissions; each action still
-         * requires its route's scope. Always [] when no action is available. [] enum: "issue",
-         * "void". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint
-         * accepts for this resource now, based on stored state. Independent of the caller's
-         * permissions; each action still requires its route's scope. Always [] when no action is
-         * available. [] enum: "issue", "void". supported_actions.anyOf[1][] (Value): string. Value
-         * enum: "issue", "void". supported_actions.anyOf[2] (Value): null.
-         * tax_currency_conversions (Optional): Array of {@link TaxCurrencyConversion} or null. The
-         * credit note's VAT stated in the currency of the country that charges it, frozen at
-         * issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-         * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and
-         * taxable amount converted the same way. Always [] on drafts and when the invoice froze no
-         * conversion. The credit note PDF prints the same figures.
-         * tax_currency_conversions.anyOf[1] (Value): Array of {@link TaxCurrencyConversion}. The
-         * credit note's VAT stated in the currency of the country that charges it, frozen at
-         * issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-         * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and
-         * taxable amount converted the same way. Always [] on drafts and when the invoice froze no
-         * conversion. The credit note PDF prints the same figures.
-         * tax_currency_conversions.anyOf[1][] (Value): {@link TaxCurrencyConversion}. VAT on an
-         * issued document converted into the currency of the country whose VAT is charged.
-         * tax_currency_conversions.anyOf[2] (Value): null. total_money (Optional): {@link
-         * MoneyValue} or null. The face value of the credit note, the sum of its lines.
-         * total_money.anyOf[1] (Value): {@link MoneyValue}. The face value of the credit note, the
-         * sum of its lines. total_money.anyOf[2] (Value): null. updated_at (Optional): string or
-         * null. When the credit note last changed. updated_at.anyOf[1] (Value): string. When the
-         * credit note last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current credit
-         * note version. Send this as expected_version when updating the draft. version.anyOf[1]
-         * (Value): integer. Current credit note version. Send this as expected_version when
-         * updating the draft. Format: int64. minimum: 1. version.anyOf[2] (Value): null. voided_at
-         * (Optional): string or null. When the credit note was voided. Absent unless its status is
-         * voided. voided_at.anyOf[1] (Value): string. When the credit note was voided. Absent
-         * unless its status is voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * voided_at.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Credit applied to the invoice, net of reversed allocations. anyOf[1] (Value): {@link
-             * MoneyValue}. Credit applied to the invoice, net of reversed allocations. anyOf[2]
-             * (Value): null.
-             */
-            "allocated_money"?: ((MoneyValue) | (null));
-            /**
-             * Credit available to allocate or refund. Zero on draft and voided notes. On issued
-             * notes, total_money equals allocated_money plus pending_refund_money plus
-             * refunded_money plus available_money. anyOf[1] (Value): {@link MoneyValue}. Credit
-             * available to allocate or refund. Zero on draft and voided notes. On issued notes,
-             * total_money equals allocated_money plus pending_refund_money plus refunded_money
-             * plus available_money. anyOf[2] (Value): null.
-             */
-            "available_money"?: ((MoneyValue) | (null));
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no buyer tax identity was captured on the source invoice.
-             * Customer deletion preserves identities captured on issued invoices and credit notes.
-             * anyOf[1] (Value): {@link TaxIdentity} or null. Identity frozen on the source invoice
-             * at issue. Later profile edits do not change this document. `null` when no buyer tax
-             * identity was captured on the source invoice. Customer deletion preserves identities
-             * captured on issued invoices and credit notes. anyOf[1].anyOf[1] (Value): {@link
-             * TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit
-             * notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for
-             * an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-             * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-             * display order; replacing the array requires the parent's expected_version. Existing
-             * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to
-             * add one. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "buyer_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            /**
-             * When the credit note was created. anyOf[1] (Value): string. When the credit note was
-             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Unique identifier of the credit note. anyOf[1] (Value): string. Unique identifier of
-             * the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". anyOf[2] (Value): null.
-             */
-            "credit_note_id"?: ((string) | (null));
-            /**
-             * Assigned at issue and stable from then on. Absent while the credit note is a draft.
-             * anyOf[1] (Value): string. Assigned at issue and stable from then on. Absent while
-             * the credit note is a draft. anyOf[2] (Value): null.
-             */
-            "credit_note_number"?: ((string) | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. `null` when unset.
-             * anyOf[1] (Value): string or null. Caller-owned identifier for this resource in an
-             * external system. `null` when unset. minLength: 1. maxLength: 255. Example:
-             * "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * Summary of the source invoice. Returned only with expand=invoice. anyOf[1] (Value):
-             * {@link ExpandedInvoiceSummary}. Summary of the source invoice. Returned only with
-             * expand=invoice. anyOf[2] (Value): null.
-             */
-            "invoice"?: ((ExpandedInvoiceSummary) | (null));
-            /**
-             * The invoice this credit note corrects. anyOf[1] (Value): string. The invoice this
-             * credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value):
-             * null.
-             */
-            "invoice_id"?: ((string) | (null));
-            /**
-             * When the credit note was issued. Absent on a draft. anyOf[1] (Value): string. When
-             * the credit note was issued. Absent on a draft. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "issued_at"?: ((string) | (null));
-            /**
-             * Status of the most recent refund linked to this credit note. Absent when no refund
-             * has been requested. Value enum: "pending", "succeeded", "partially_succeeded",
-             * "failed". anyOf[1] (Value): string. Status of the most recent refund linked to this
-             * credit note. Absent when no refund has been requested. Value enum: "pending",
-             * "succeeded", "partially_succeeded", "failed". anyOf[2] (Value): null.
-             */
-            "latest_refund_status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
-            /**
-             * Itemized corrections against frozen invoice lines. Amount and quantity corrections
-             * share each source line's remaining value, discount, and tax across issued credit
-             * notes that have not been voided. Drafts reserve no credit. anyOf[1] (Value): Array
-             * of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-             * Amount and quantity corrections share each source line's remaining value, discount,
-             * and tax across issued credit notes that have not been voided. Drafts reserve no
-             * credit. anyOf[1][] (Value): {@link CreditNoteLineItem}. One correction calculated
-             * from the frozen invoice line's remaining billed value, discount, and tax. The source
-             * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-             * settings do not affect the correction. Stored issued values are never recalculated
-             * by a read. anyOf[2] (Value): null.
-             */
-            "line_items"?: ((Array<CreditNoteLineItem>) | (null));
-            /**
-             * Free text shown on the credit note, up to 4096 characters. `null` when unset.
-             * anyOf[1] (Value): string or null. Free text shown on the credit note, up to 4096
-             * characters. `null` when unset. anyOf[2] (Value): null.
-             */
-            "memo"?: ((string | null) | (null) | (unknown));
-            /**
-             * The merchant that owns the credit note. anyOf[1] (Value): string. The merchant that
-             * owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value):
-             * null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Credit reserved by linked refunds that have not resolved yet. Released if a refund
-             * fails or is canceled. anyOf[1] (Value): {@link MoneyValue}. Credit reserved by
-             * linked refunds that have not resolved yet. Released if a refund fails or is
-             * canceled. anyOf[2] (Value): null.
-             */
-            "pending_refund_money"?: ((MoneyValue) | (null));
-            /**
-             * Why the invoice is being corrected. Shown on the credit note document. Value enum:
-             * "returned_goods", "order_adjustment", "billing_error", "goodwill", "other". anyOf[1]
-             * (Value): string. Why the invoice is being corrected. Shown on the credit note
-             * document. Value enum: "returned_goods", "order_adjustment", "billing_error",
-             * "goodwill", "other". anyOf[2] (Value): null.
-             */
-            "reason"?: (("returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {}))
-                | (null));
-            /**
-             * Credit consumed by linked refunds that succeeded. anyOf[1] (Value): {@link
-             * MoneyValue}. Credit consumed by linked refunds that succeeded. anyOf[2] (Value):
-             * null.
-             */
-            "refunded_money"?: ((MoneyValue) | (null));
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no seller tax identity was captured. anyOf[1] (Value):
-             * {@link TaxIdentity} or null. Identity frozen on the source invoice at issue. Later
-             * profile edits do not change this document. `null` when no seller tax identity was
-             * captured. anyOf[1].anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-             * identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-             * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its
-             * tax provider, which can apply a reverse charge; other IDs do not change tax
-             * treatment. Tax IDs are an owned collection in display order; replacing the array
-             * requires the parent's expected_version. Existing entries retain their
-             * document_tax_id; omit an entry to remove it, or omit its ID to add one.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "seller_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            /**
-             * draft while the credit note is editable, issued once it is numbered and frozen,
-             * voided once withdrawn. Value enum: "draft", "issued", "voided". anyOf[1] (Value):
-             * string. draft while the credit note is editable, issued once it is numbered and
-             * frozen, voided once withdrawn. Value enum: "draft", "issued", "voided". anyOf[2]
-             * (Value): null.
-             */
-            "status"?: (("draft" | "issued" | "voided" | (string & {})) | (null));
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "issue", "void". anyOf[1]
-             * (Value): Array of string. Lifecycle actions Flint accepts for this resource now,
-             * based on stored state. Independent of the caller's permissions; each action still
-             * requires its route's scope. Always [] when no action is available. [] enum: "issue",
-             * "void". anyOf[1][] (Value): string. Value enum: "issue", "void". anyOf[2] (Value):
-             * null.
-             */
-            "supported_actions"?: ((Array<"issue" | "void" | (string & {})>) | (null));
-            /**
-             * The credit note's VAT stated in the currency of the country that charges it, frozen
-             * at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-             * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT
-             * and taxable amount converted the same way. Always [] on drafts and when the invoice
-             * froze no conversion. The credit note PDF prints the same figures. anyOf[1] (Value):
-             * Array of {@link TaxCurrencyConversion}. The credit note's VAT stated in the currency
-             * of the country that charges it, frozen at issue. Each entry reuses the invoice's
-             * currency, exchange_rate, rate_date, and rate_source from
-             * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-             * converted the same way. Always [] on drafts and when the invoice froze no
-             * conversion. The credit note PDF prints the same figures. anyOf[1][] (Value): {@link
-             * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-             * country whose VAT is charged. anyOf[2] (Value): null.
-             */
-            "tax_currency_conversions"?: ((Array<TaxCurrencyConversion>) | (null));
-            /**
-             * The face value of the credit note, the sum of its lines. anyOf[1] (Value): {@link
-             * MoneyValue}. The face value of the credit note, the sum of its lines. anyOf[2]
-             * (Value): null.
-             */
-            "total_money"?: ((MoneyValue) | (null));
-            /**
-             * When the credit note last changed. anyOf[1] (Value): string. When the credit note
-             * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
-             * null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Current credit note version. Send this as expected_version when updating the draft.
-             * anyOf[1] (Value): integer. Current credit note version. Send this as
-             * expected_version when updating the draft. Format: int64. minimum: 1. anyOf[2]
-             * (Value): null.
-             */
-            "version"?: ((number) | (null));
-            /**
-             * When the credit note was voided. Absent unless its status is voided. anyOf[1]
-             * (Value): string. When the credit note was voided. Absent unless its status is
-             * voided. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "voided_at"?: ((string) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "credit_note.updated". */
-    "event_type"?: "credit_note.updated";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `credit_note.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type CreditNoteUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allocated_money (Required): {@link MoneyValue}. Credit applied to
-     * the invoice, net of reversed allocations. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.available_money (Required): {@link MoneyValue}.
-     * Credit available to allocate or refund. Zero on draft and voided notes. On issued notes,
-     * total_money equals allocated_money plus pending_refund_money plus refunded_money plus
-     * available_money. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.buyer_tax_identity (Required): {@link TaxIdentity} or null. Identity
-     * frozen on the source invoice at issue. Later profile edits do not change this document.
-     * `null` when no buyer tax identity was captured on the source invoice. Customer deletion
-     * preserves identities captured on issued invoices and credit notes.
-     * object.buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. object.buyer_tax_identity.anyOf[2] (Value): null.
-     * object.created_at (Required): string. When the credit note was created. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.credit_note_id (Required): string. Unique identifier
-     * of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". object.credit_note_number
-     * (Optional): string. Assigned at issue and stable from then on. Absent while the credit note
-     * is a draft. object.external_reference_id (Required): string or null. Caller-owned identifier
-     * for this resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842". object.invoice (Optional): {@link ExpandedInvoiceSummary}.
-     * Summary of the source invoice. Returned only with expand=invoice. An invoice's summary
-     * fields, including status, due date, and paid, outstanding, and refunded amounts, returned
-     * when the invoice is expanded. object.invoice_id (Required): string. The invoice this credit
-     * note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.issued_at (Optional):
-     * string. When the credit note was issued. Absent on a draft. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.latest_refund_status (Optional): string. Status of the most
-     * recent refund linked to this credit note. Absent when no refund has been requested. Value
-     * enum: "pending", "succeeded", "partially_succeeded", "failed". object.line_items (Required):
-     * Array of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-     * Amount and quantity corrections share each source line's remaining value, discount, and tax
-     * across issued credit notes that have not been voided. Drafts reserve no credit.
-     * object.line_items[] (Value): {@link CreditNoteLineItem}. One correction calculated from the
-     * frozen invoice line's remaining billed value, discount, and tax. The source line's inclusive
-     * or additive tax mode is preserved. Current catalog prices and tax settings do not affect the
-     * correction. Stored issued values are never recalculated by a read. object.memo (Required):
-     * string or null. Free text shown on the credit note, up to 4096 characters. `null` when
-     * unset. object.merchant_id (Required): string. The merchant that owns the credit note.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.pending_refund_money (Required): {@link
-     * MoneyValue}. Credit reserved by linked refunds that have not resolved yet. Released if a
-     * refund fails or is canceled. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code. object.reason (Required): string. Why the invoice is being corrected.
-     * Shown on the credit note document. Value enum: "returned_goods", "order_adjustment",
-     * "billing_error", "goodwill", "other". object.refunded_money (Required): {@link MoneyValue}.
-     * Credit consumed by linked refunds that succeeded. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. object.seller_tax_identity (Required): {@link
-     * TaxIdentity} or null. Identity frozen on the source invoice at issue. Later profile edits do
-     * not change this document. `null` when no seller tax identity was captured.
-     * object.seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. object.seller_tax_identity.anyOf[2] (Value): null. object.status
-     * (Required): string. draft while the credit note is editable, issued once it is numbered and
-     * frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-     * object.supported_actions (Required): Array of string. Lifecycle actions Flint accepts for
-     * this resource now, based on stored state. Independent of the caller's permissions; each
-     * action still requires its route's scope. Always [] when no action is available. [] enum:
-     * "issue", "void". object.supported_actions[] (Value): string. Value enum: "issue", "void".
-     * object.tax_currency_conversions (Required): Array of {@link TaxCurrencyConversion}. The
-     * credit note's VAT stated in the currency of the country that charges it, frozen at issue.
-     * Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from
-     * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-     * converted the same way. Always [] on drafts and when the invoice froze no conversion. The
-     * credit note PDF prints the same figures. object.tax_currency_conversions[] (Value): {@link
-     * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the country
-     * whose VAT is charged. object.total_money (Required): {@link MoneyValue}. The face value of
-     * the credit note, the sum of its lines. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.updated_at (Required): string. When the credit note
-     * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current credit note version. Send this as expected_version when updating the draft.
-     * Format: int64. minimum: 1. object.voided_at (Optional): string. When the credit note was
-     * voided. Absent unless its status is voided. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous values of changed
-     * top-level fields in data.object, at this delivery's API version. Nested changes include the
-     * whole previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.allocated_money (Optional): {@link MoneyValue} or null. Credit applied
-     * to the invoice, net of reversed allocations. previous_attributes.allocated_money.anyOf[1]
-     * (Value): {@link MoneyValue}. Credit applied to the invoice, net of reversed allocations.
-     * previous_attributes.allocated_money.anyOf[2] (Value): null.
-     * previous_attributes.available_money (Optional): {@link MoneyValue} or null. Credit available
-     * to allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-     * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-     * previous_attributes.available_money.anyOf[1] (Value): {@link MoneyValue}. Credit available
-     * to allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-     * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-     * previous_attributes.available_money.anyOf[2] (Value): null.
-     * previous_attributes.buyer_tax_identity (Optional): {@link TaxIdentity} or null or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-     * deletion preserves identities captured on issued invoices and credit notes.
-     * previous_attributes.buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-     * deletion preserves identities captured on issued invoices and credit notes.
-     * previous_attributes.buyer_tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}.
-     * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not
-     * verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
-     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
-     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
-     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
-     * an entry to remove it, or omit its ID to add one.
-     * previous_attributes.buyer_tax_identity.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.buyer_tax_identity.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. When the credit note was created.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the credit note was created.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
-     * (Value): null. previous_attributes.credit_note_id (Optional): string or null. Unique
-     * identifier of the credit note. previous_attributes.credit_note_id.anyOf[1] (Value): string.
-     * Unique identifier of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     * previous_attributes.credit_note_id.anyOf[2] (Value): null.
-     * previous_attributes.credit_note_number (Optional): string or null. Assigned at issue and
-     * stable from then on. Absent while the credit note is a draft.
-     * previous_attributes.credit_note_number.anyOf[1] (Value): string. Assigned at issue and
-     * stable from then on. Absent while the credit note is a draft.
-     * previous_attributes.credit_note_number.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null or null. Caller-owned
-     * identifier for this resource in an external system. `null` when unset.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-     * identifier for this resource in an external system. `null` when unset. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.invoice (Optional): {@link ExpandedInvoiceSummary} or null. Summary of
-     * the source invoice. Returned only with expand=invoice. previous_attributes.invoice.anyOf[1]
-     * (Value): {@link ExpandedInvoiceSummary}. Summary of the source invoice. Returned only with
-     * expand=invoice. previous_attributes.invoice.anyOf[2] (Value): null.
-     * previous_attributes.invoice_id (Optional): string or null. The invoice this credit note
-     * corrects. previous_attributes.invoice_id.anyOf[1] (Value): string. The invoice this credit
-     * note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.issued_at
-     * (Optional): string or null. When the credit note was issued. Absent on a draft.
-     * previous_attributes.issued_at.anyOf[1] (Value): string. When the credit note was issued.
-     * Absent on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.issued_at.anyOf[2] (Value): null.
-     * previous_attributes.latest_refund_status (Optional): string or null. Status of the most
-     * recent refund linked to this credit note. Absent when no refund has been requested. Value
-     * enum: "pending", "succeeded", "partially_succeeded", "failed".
-     * previous_attributes.latest_refund_status.anyOf[1] (Value): string. Status of the most recent
-     * refund linked to this credit note. Absent when no refund has been requested. Value enum:
-     * "pending", "succeeded", "partially_succeeded", "failed".
-     * previous_attributes.latest_refund_status.anyOf[2] (Value): null.
-     * previous_attributes.line_items (Optional): Array of {@link CreditNoteLineItem} or null.
-     * Itemized corrections against frozen invoice lines. Amount and quantity corrections share
-     * each source line's remaining value, discount, and tax across issued credit notes that have
-     * not been voided. Drafts reserve no credit. previous_attributes.line_items.anyOf[1] (Value):
-     * Array of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-     * Amount and quantity corrections share each source line's remaining value, discount, and tax
-     * across issued credit notes that have not been voided. Drafts reserve no credit.
-     * previous_attributes.line_items.anyOf[1][] (Value): {@link CreditNoteLineItem}. One
-     * correction calculated from the frozen invoice line's remaining billed value, discount, and
-     * tax. The source line's inclusive or additive tax mode is preserved. Current catalog prices
-     * and tax settings do not affect the correction. Stored issued values are never recalculated
-     * by a read. previous_attributes.line_items.anyOf[2] (Value): null. previous_attributes.memo
-     * (Optional): string or null or null. Free text shown on the credit note, up to 4096
-     * characters. `null` when unset. previous_attributes.memo.anyOf[1] (Value): string or null.
-     * Free text shown on the credit note, up to 4096 characters. `null` when unset.
-     * previous_attributes.memo.anyOf[2] (Value): null. previous_attributes.merchant_id (Optional):
-     * string or null. The merchant that owns the credit note.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. The merchant that owns the credit
-     * note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2]
-     * (Value): null. previous_attributes.pending_refund_money (Optional): {@link MoneyValue} or
-     * null. Credit reserved by linked refunds that have not resolved yet. Released if a refund
-     * fails or is canceled. previous_attributes.pending_refund_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Credit reserved by linked refunds that have not resolved yet. Released if a
-     * refund fails or is canceled. previous_attributes.pending_refund_money.anyOf[2] (Value):
-     * null. previous_attributes.reason (Optional): string or null. Why the invoice is being
-     * corrected. Shown on the credit note document. Value enum: "returned_goods",
-     * "order_adjustment", "billing_error", "goodwill", "other".
-     * previous_attributes.reason.anyOf[1] (Value): string. Why the invoice is being corrected.
-     * Shown on the credit note document. Value enum: "returned_goods", "order_adjustment",
-     * "billing_error", "goodwill", "other". previous_attributes.reason.anyOf[2] (Value): null.
-     * previous_attributes.refunded_money (Optional): {@link MoneyValue} or null. Credit consumed
-     * by linked refunds that succeeded. previous_attributes.refunded_money.anyOf[1] (Value):
-     * {@link MoneyValue}. Credit consumed by linked refunds that succeeded.
-     * previous_attributes.refunded_money.anyOf[2] (Value): null.
-     * previous_attributes.seller_tax_identity (Optional): {@link TaxIdentity} or null or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no seller tax identity was captured.
-     * previous_attributes.seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no seller tax identity was captured.
-     * previous_attributes.seller_tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}.
-     * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not
-     * verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
-     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
-     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
-     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
-     * an entry to remove it, or omit its ID to add one.
-     * previous_attributes.seller_tax_identity.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.seller_tax_identity.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. draft while the credit note is editable, issued once it is
-     * numbered and frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-     * previous_attributes.status.anyOf[1] (Value): string. draft while the credit note is
-     * editable, issued once it is numbered and frozen, voided once withdrawn. Value enum: "draft",
-     * "issued", "voided". previous_attributes.status.anyOf[2] (Value): null.
-     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
-     * Flint accepts for this resource now, based on stored state. Independent of the caller's
-     * permissions; each action still requires its route's scope. Always [] when no action is
-     * available. [] enum: "issue", "void". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Lifecycle actions Flint accepts for this resource now, based on stored
-     * state. Independent of the caller's permissions; each action still requires its route's
-     * scope. Always [] when no action is available. [] enum: "issue", "void".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "issue",
-     * "void". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tax_currency_conversions (Optional): Array of {@link
-     * TaxCurrencyConversion} or null. The credit note's VAT stated in the currency of the country
-     * that charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate,
-     * rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited
-     * VAT and taxable amount converted the same way. Always [] on drafts and when the invoice
-     * froze no conversion. The credit note PDF prints the same figures.
-     * previous_attributes.tax_currency_conversions.anyOf[1] (Value): Array of {@link
-     * TaxCurrencyConversion}. The credit note's VAT stated in the currency of the country that
-     * charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate,
-     * rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited
-     * VAT and taxable amount converted the same way. Always [] on drafts and when the invoice
-     * froze no conversion. The credit note PDF prints the same figures.
-     * previous_attributes.tax_currency_conversions.anyOf[1][] (Value): {@link
-     * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the country
-     * whose VAT is charged. previous_attributes.tax_currency_conversions.anyOf[2] (Value): null.
-     * previous_attributes.total_money (Optional): {@link MoneyValue} or null. The face value of
-     * the credit note, the sum of its lines. previous_attributes.total_money.anyOf[1] (Value):
-     * {@link MoneyValue}. The face value of the credit note, the sum of its lines.
-     * previous_attributes.total_money.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. When the credit note last changed.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. When the credit note last changed.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
-     * (Value): null. previous_attributes.version (Optional): integer or null. Current credit note
-     * version. Send this as expected_version when updating the draft.
-     * previous_attributes.version.anyOf[1] (Value): integer. Current credit note version. Send
-     * this as expected_version when updating the draft. Format: int64. minimum: 1.
-     * previous_attributes.version.anyOf[2] (Value): null. previous_attributes.voided_at
-     * (Optional): string or null. When the credit note was voided. Absent unless its status is
-     * voided. previous_attributes.voided_at.anyOf[1] (Value): string. When the credit note was
-     * voided. Absent unless its status is voided. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allocated_money (Required): {@link MoneyValue}. Credit applied to the invoice, net of
-         * reversed allocations. Monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. available_money (Required): {@link MoneyValue}. Credit available to
-         * allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-         * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-         * buyer_tax_identity (Required): {@link TaxIdentity} or null. Identity frozen on the
-         * source invoice at issue. Later profile edits do not change this document. `null` when no
-         * buyer tax identity was captured on the source invoice. Customer deletion preserves
-         * identities captured on issued invoices and credit notes. buyer_tax_identity.anyOf[1]
-         * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-         * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID
-         * for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-         * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-         * display order; replacing the array requires the parent's expected_version. Existing
-         * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add
-         * one. buyer_tax_identity.anyOf[2] (Value): null. created_at (Required): string. When the
-         * credit note was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * credit_note_id (Required): string. Unique identifier of the credit note. Example:
-         * "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_number (Optional): string. Assigned at
-         * issue and stable from then on. Absent while the credit note is a draft.
-         * external_reference_id (Required): string or null. Caller-owned identifier for this
-         * resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
-         * Example: "warehouse-1842". invoice (Optional): {@link ExpandedInvoiceSummary}. Summary
-         * of the source invoice. Returned only with expand=invoice. An invoice's summary fields,
-         * including status, due date, and paid, outstanding, and refunded amounts, returned when
-         * the invoice is expanded. invoice_id (Required): string. The invoice this credit note
-         * corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". issued_at (Optional): string. When
-         * the credit note was issued. Absent on a draft. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". latest_refund_status (Optional): string. Status of the most
-         * recent refund linked to this credit note. Absent when no refund has been requested.
-         * Value enum: "pending", "succeeded", "partially_succeeded", "failed". line_items
-         * (Required): Array of {@link CreditNoteLineItem}. Itemized corrections against frozen
-         * invoice lines. Amount and quantity corrections share each source line's remaining value,
-         * discount, and tax across issued credit notes that have not been voided. Drafts reserve
-         * no credit. line_items[] (Value): {@link CreditNoteLineItem}. One correction calculated
-         * from the frozen invoice line's remaining billed value, discount, and tax. The source
-         * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-         * settings do not affect the correction. Stored issued values are never recalculated by a
-         * read. memo (Required): string or null. Free text shown on the credit note, up to 4096
-         * characters. `null` when unset. merchant_id (Required): string. The merchant that owns
-         * the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". pending_refund_money
-         * (Required): {@link MoneyValue}. Credit reserved by linked refunds that have not resolved
-         * yet. Released if a refund fails or is canceled. Monetary amount represented as integer
-         * minor units plus an ISO 4217 currency code. reason (Required): string. Why the invoice
-         * is being corrected. Shown on the credit note document. Value enum: "returned_goods",
-         * "order_adjustment", "billing_error", "goodwill", "other". refunded_money (Required):
-         * {@link MoneyValue}. Credit consumed by linked refunds that succeeded. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code. seller_tax_identity
-         * (Required): {@link TaxIdentity} or null. Identity frozen on the source invoice at issue.
-         * Later profile edits do not change this document. `null` when no seller tax identity was
-         * captured. seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided
-         * legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-         * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax
-         * provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax
-         * IDs are an owned collection in display order; replacing the array requires the parent's
-         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
-         * it, or omit its ID to add one. seller_tax_identity.anyOf[2] (Value): null. status
-         * (Required): string. draft while the credit note is editable, issued once it is numbered
-         * and frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-         * supported_actions (Required): Array of string. Lifecycle actions Flint accepts for this
-         * resource now, based on stored state. Independent of the caller's permissions; each
-         * action still requires its route's scope. Always [] when no action is available. [] enum:
-         * "issue", "void". supported_actions[] (Value): string. Value enum: "issue", "void".
-         * tax_currency_conversions (Required): Array of {@link TaxCurrencyConversion}. The credit
-         * note's VAT stated in the currency of the country that charges it, frozen at issue. Each
-         * entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from
-         * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-         * converted the same way. Always [] on drafts and when the invoice froze no conversion.
-         * The credit note PDF prints the same figures. tax_currency_conversions[] (Value): {@link
-         * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-         * country whose VAT is charged. total_money (Required): {@link MoneyValue}. The face value
-         * of the credit note, the sum of its lines. Monetary amount represented as integer minor
-         * units plus an ISO 4217 currency code. updated_at (Required): string. When the credit
-         * note last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Current credit note version. Send this as expected_version when
-         * updating the draft. Format: int64. minimum: 1. voided_at (Optional): string. When the
-         * credit note was voided. Absent unless its status is voided. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * Credit applied to the invoice, net of reversed allocations. Monetary amount
-             * represented as integer minor units plus an ISO 4217 currency code.
-             */
-            "allocated_money": MoneyValue;
-            /**
-             * Credit available to allocate or refund. Zero on draft and voided notes. On issued
-             * notes, total_money equals allocated_money plus pending_refund_money plus
-             * refunded_money plus available_money. Monetary amount represented as integer minor
-             * units plus an ISO 4217 currency code.
-             */
-            "available_money": MoneyValue;
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no buyer tax identity was captured on the source invoice.
-             * Customer deletion preserves identities captured on issued invoices and credit notes.
-             * anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on
-             * invoices and credit notes. Flint does not verify IDs. On a customer, automatic tax
-             * sends the tax ID for an EU, GB, AU or NZ destination to its tax provider, which can
-             * apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
-             * collection in display order; replacing the array requires the parent's
-             * expected_version. Existing entries retain their document_tax_id; omit an entry to
-             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
-             */
-            "buyer_tax_identity": ((TaxIdentity) | (null));
-            /**
-             * When the credit note was created. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /** Unique identifier of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". */
-            "credit_note_id": string;
-            /**
-             * Assigned at issue and stable from then on. Absent while the credit note is a draft.
-             */
-            "credit_note_number"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. `null` when unset.
-             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-             */
-            "external_reference_id": string | null;
-            /**
-             * Summary of the source invoice. Returned only with expand=invoice. An invoice's
-             * summary fields, including status, due date, and paid, outstanding, and refunded
-             * amounts, returned when the invoice is expanded.
-             */
-            "invoice"?: ExpandedInvoiceSummary;
-            /** The invoice this credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
-            "invoice_id": string;
-            /**
-             * When the credit note was issued. Absent on a draft. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "issued_at"?: string;
-            /**
-             * Status of the most recent refund linked to this credit note. Absent when no refund
-             * has been requested. Value enum: "pending", "succeeded", "partially_succeeded",
-             * "failed".
-             */
-            "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            /**
-             * Itemized corrections against frozen invoice lines. Amount and quantity corrections
-             * share each source line's remaining value, discount, and tax across issued credit
-             * notes that have not been voided. Drafts reserve no credit. [] (Value): {@link
-             * CreditNoteLineItem}. One correction calculated from the frozen invoice line's
-             * remaining billed value, discount, and tax. The source line's inclusive or additive
-             * tax mode is preserved. Current catalog prices and tax settings do not affect the
-             * correction. Stored issued values are never recalculated by a read.
-             */
-            "line_items": Array<CreditNoteLineItem>;
-            /** Free text shown on the credit note, up to 4096 characters. `null` when unset. */
-            "memo": string | null;
-            /**
-             * The merchant that owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Credit reserved by linked refunds that have not resolved yet. Released if a refund
-             * fails or is canceled. Monetary amount represented as integer minor units plus an ISO
-             * 4217 currency code.
-             */
-            "pending_refund_money": MoneyValue;
-            /**
-             * Why the invoice is being corrected. Shown on the credit note document. Value enum:
-             * "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
-             */
-            "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-            /**
-             * Credit consumed by linked refunds that succeeded. Monetary amount represented as
-             * integer minor units plus an ISO 4217 currency code.
-             */
-            "refunded_money": MoneyValue;
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no seller tax identity was captured. anyOf[1] (Value):
-             * {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-             * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax
-             * ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a
-             * reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
-             * collection in display order; replacing the array requires the parent's
-             * expected_version. Existing entries retain their document_tax_id; omit an entry to
-             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
-             */
-            "seller_tax_identity": ((TaxIdentity) | (null));
-            /**
-             * draft while the credit note is editable, issued once it is numbered and frozen,
-             * voided once withdrawn. Value enum: "draft", "issued", "voided".
-             */
-            "status": "draft" | "issued" | "voided" | (string & {});
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "issue", "void". [] (Value):
-             * string. Value enum: "issue", "void".
-             */
-            "supported_actions": Array<"issue" | "void" | (string & {})>;
-            /**
-             * The credit note's VAT stated in the currency of the country that charges it, frozen
-             * at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-             * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT
-             * and taxable amount converted the same way. Always [] on drafts and when the invoice
-             * froze no conversion. The credit note PDF prints the same figures. [] (Value): {@link
-             * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-             * country whose VAT is charged.
-             */
-            "tax_currency_conversions": Array<TaxCurrencyConversion>;
-            /**
-             * The face value of the credit note, the sum of its lines. Monetary amount represented
-             * as integer minor units plus an ISO 4217 currency code.
-             */
-            "total_money": MoneyValue;
-            /**
-             * When the credit note last changed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "updated_at": string;
-            /**
-             * Current credit note version. Send this as expected_version when updating the draft.
-             * Format: int64. minimum: 1.
-             */
-            "version": number;
-            /**
-             * When the credit note was voided. Absent unless its status is voided. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "voided_at"?: string;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. allocated_money (Optional): {@link MoneyValue}
-         * or null. Credit applied to the invoice, net of reversed allocations.
-         * allocated_money.anyOf[1] (Value): {@link MoneyValue}. Credit applied to the invoice, net
-         * of reversed allocations. allocated_money.anyOf[2] (Value): null. available_money
-         * (Optional): {@link MoneyValue} or null. Credit available to allocate or refund. Zero on
-         * draft and voided notes. On issued notes, total_money equals allocated_money plus
-         * pending_refund_money plus refunded_money plus available_money. available_money.anyOf[1]
-         * (Value): {@link MoneyValue}. Credit available to allocate or refund. Zero on draft and
-         * voided notes. On issued notes, total_money equals allocated_money plus
-         * pending_refund_money plus refunded_money plus available_money. available_money.anyOf[2]
-         * (Value): null. buyer_tax_identity (Optional): {@link TaxIdentity} or null or null.
-         * Identity frozen on the source invoice at issue. Later profile edits do not change this
-         * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-         * deletion preserves identities captured on issued invoices and credit notes.
-         * buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null. Identity frozen on the
-         * source invoice at issue. Later profile edits do not change this document. `null` when no
-         * buyer tax identity was captured on the source invoice. Customer deletion preserves
-         * identities captured on issued invoices and credit notes.
-         * buyer_tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided
-         * legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-         * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax
-         * provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax
-         * IDs are an owned collection in display order; replacing the array requires the parent's
-         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
-         * it, or omit its ID to add one. buyer_tax_identity.anyOf[1].anyOf[2] (Value): null.
-         * buyer_tax_identity.anyOf[2] (Value): null. created_at (Optional): string or null. When
-         * the credit note was created. created_at.anyOf[1] (Value): string. When the credit note
-         * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
-         * (Value): null. credit_note_id (Optional): string or null. Unique identifier of the
-         * credit note. credit_note_id.anyOf[1] (Value): string. Unique identifier of the credit
-         * note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_id.anyOf[2] (Value): null.
-         * credit_note_number (Optional): string or null. Assigned at issue and stable from then
-         * on. Absent while the credit note is a draft. credit_note_number.anyOf[1] (Value):
-         * string. Assigned at issue and stable from then on. Absent while the credit note is a
-         * draft. credit_note_number.anyOf[2] (Value): null. external_reference_id (Optional):
-         * string or null or null. Caller-owned identifier for this resource in an external system.
-         * `null` when unset. external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-         * identifier for this resource in an external system. `null` when unset. minLength: 1.
-         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummary} or null. Summary of the source
-         * invoice. Returned only with expand=invoice. invoice.anyOf[1] (Value): {@link
-         * ExpandedInvoiceSummary}. Summary of the source invoice. Returned only with
-         * expand=invoice. invoice.anyOf[2] (Value): null. invoice_id (Optional): string or null.
-         * The invoice this credit note corrects. invoice_id.anyOf[1] (Value): string. The invoice
-         * this credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. issued_at (Optional): string or null. When the credit
-         * note was issued. Absent on a draft. issued_at.anyOf[1] (Value): string. When the credit
-         * note was issued. Absent on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * issued_at.anyOf[2] (Value): null. latest_refund_status (Optional): string or null.
-         * Status of the most recent refund linked to this credit note. Absent when no refund has
-         * been requested. Value enum: "pending", "succeeded", "partially_succeeded", "failed".
-         * latest_refund_status.anyOf[1] (Value): string. Status of the most recent refund linked
-         * to this credit note. Absent when no refund has been requested. Value enum: "pending",
-         * "succeeded", "partially_succeeded", "failed". latest_refund_status.anyOf[2] (Value):
-         * null. line_items (Optional): Array of {@link CreditNoteLineItem} or null. Itemized
-         * corrections against frozen invoice lines. Amount and quantity corrections share each
-         * source line's remaining value, discount, and tax across issued credit notes that have
-         * not been voided. Drafts reserve no credit. line_items.anyOf[1] (Value): Array of {@link
-         * CreditNoteLineItem}. Itemized corrections against frozen invoice lines. Amount and
-         * quantity corrections share each source line's remaining value, discount, and tax across
-         * issued credit notes that have not been voided. Drafts reserve no credit.
-         * line_items.anyOf[1][] (Value): {@link CreditNoteLineItem}. One correction calculated
-         * from the frozen invoice line's remaining billed value, discount, and tax. The source
-         * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-         * settings do not affect the correction. Stored issued values are never recalculated by a
-         * read. line_items.anyOf[2] (Value): null. memo (Optional): string or null or null. Free
-         * text shown on the credit note, up to 4096 characters. `null` when unset. memo.anyOf[1]
-         * (Value): string or null. Free text shown on the credit note, up to 4096 characters.
-         * `null` when unset. memo.anyOf[2] (Value): null. merchant_id (Optional): string or null.
-         * The merchant that owns the credit note. merchant_id.anyOf[1] (Value): string. The
-         * merchant that owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. pending_refund_money (Optional): {@link MoneyValue}
-         * or null. Credit reserved by linked refunds that have not resolved yet. Released if a
-         * refund fails or is canceled. pending_refund_money.anyOf[1] (Value): {@link MoneyValue}.
-         * Credit reserved by linked refunds that have not resolved yet. Released if a refund fails
-         * or is canceled. pending_refund_money.anyOf[2] (Value): null. reason (Optional): string
-         * or null. Why the invoice is being corrected. Shown on the credit note document. Value
-         * enum: "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
-         * reason.anyOf[1] (Value): string. Why the invoice is being corrected. Shown on the credit
-         * note document. Value enum: "returned_goods", "order_adjustment", "billing_error",
-         * "goodwill", "other". reason.anyOf[2] (Value): null. refunded_money (Optional): {@link
-         * MoneyValue} or null. Credit consumed by linked refunds that succeeded.
-         * refunded_money.anyOf[1] (Value): {@link MoneyValue}. Credit consumed by linked refunds
-         * that succeeded. refunded_money.anyOf[2] (Value): null. seller_tax_identity (Optional):
-         * {@link TaxIdentity} or null or null. Identity frozen on the source invoice at issue.
-         * Later profile edits do not change this document. `null` when no seller tax identity was
-         * captured. seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null. Identity
-         * frozen on the source invoice at issue. Later profile edits do not change this document.
-         * `null` when no seller tax identity was captured. seller_tax_identity.anyOf[1].anyOf[1]
-         * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-         * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID
-         * for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-         * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-         * display order; replacing the array requires the parent's expected_version. Existing
-         * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add
-         * one. seller_tax_identity.anyOf[1].anyOf[2] (Value): null. seller_tax_identity.anyOf[2]
-         * (Value): null. status (Optional): string or null. draft while the credit note is
-         * editable, issued once it is numbered and frozen, voided once withdrawn. Value enum:
-         * "draft", "issued", "voided". status.anyOf[1] (Value): string. draft while the credit
-         * note is editable, issued once it is numbered and frozen, voided once withdrawn. Value
-         * enum: "draft", "issued", "voided". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Lifecycle actions Flint accepts for this resource
-         * now, based on stored state. Independent of the caller's permissions; each action still
-         * requires its route's scope. Always [] when no action is available. [] enum: "issue",
-         * "void". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint
-         * accepts for this resource now, based on stored state. Independent of the caller's
-         * permissions; each action still requires its route's scope. Always [] when no action is
-         * available. [] enum: "issue", "void". supported_actions.anyOf[1][] (Value): string. Value
-         * enum: "issue", "void". supported_actions.anyOf[2] (Value): null.
-         * tax_currency_conversions (Optional): Array of {@link TaxCurrencyConversion} or null. The
-         * credit note's VAT stated in the currency of the country that charges it, frozen at
-         * issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-         * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and
-         * taxable amount converted the same way. Always [] on drafts and when the invoice froze no
-         * conversion. The credit note PDF prints the same figures.
-         * tax_currency_conversions.anyOf[1] (Value): Array of {@link TaxCurrencyConversion}. The
-         * credit note's VAT stated in the currency of the country that charges it, frozen at
-         * issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-         * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and
-         * taxable amount converted the same way. Always [] on drafts and when the invoice froze no
-         * conversion. The credit note PDF prints the same figures.
-         * tax_currency_conversions.anyOf[1][] (Value): {@link TaxCurrencyConversion}. VAT on an
-         * issued document converted into the currency of the country whose VAT is charged.
-         * tax_currency_conversions.anyOf[2] (Value): null. total_money (Optional): {@link
-         * MoneyValue} or null. The face value of the credit note, the sum of its lines.
-         * total_money.anyOf[1] (Value): {@link MoneyValue}. The face value of the credit note, the
-         * sum of its lines. total_money.anyOf[2] (Value): null. updated_at (Optional): string or
-         * null. When the credit note last changed. updated_at.anyOf[1] (Value): string. When the
-         * credit note last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current credit
-         * note version. Send this as expected_version when updating the draft. version.anyOf[1]
-         * (Value): integer. Current credit note version. Send this as expected_version when
-         * updating the draft. Format: int64. minimum: 1. version.anyOf[2] (Value): null. voided_at
-         * (Optional): string or null. When the credit note was voided. Absent unless its status is
-         * voided. voided_at.anyOf[1] (Value): string. When the credit note was voided. Absent
-         * unless its status is voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * voided_at.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Credit applied to the invoice, net of reversed allocations. anyOf[1] (Value): {@link
-             * MoneyValue}. Credit applied to the invoice, net of reversed allocations. anyOf[2]
-             * (Value): null.
-             */
-            "allocated_money"?: ((MoneyValue) | (null));
-            /**
-             * Credit available to allocate or refund. Zero on draft and voided notes. On issued
-             * notes, total_money equals allocated_money plus pending_refund_money plus
-             * refunded_money plus available_money. anyOf[1] (Value): {@link MoneyValue}. Credit
-             * available to allocate or refund. Zero on draft and voided notes. On issued notes,
-             * total_money equals allocated_money plus pending_refund_money plus refunded_money
-             * plus available_money. anyOf[2] (Value): null.
-             */
-            "available_money"?: ((MoneyValue) | (null));
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no buyer tax identity was captured on the source invoice.
-             * Customer deletion preserves identities captured on issued invoices and credit notes.
-             * anyOf[1] (Value): {@link TaxIdentity} or null. Identity frozen on the source invoice
-             * at issue. Later profile edits do not change this document. `null` when no buyer tax
-             * identity was captured on the source invoice. Customer deletion preserves identities
-             * captured on issued invoices and credit notes. anyOf[1].anyOf[1] (Value): {@link
-             * TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit
-             * notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for
-             * an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-             * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-             * display order; replacing the array requires the parent's expected_version. Existing
-             * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to
-             * add one. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "buyer_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            /**
-             * When the credit note was created. anyOf[1] (Value): string. When the credit note was
-             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Unique identifier of the credit note. anyOf[1] (Value): string. Unique identifier of
-             * the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". anyOf[2] (Value): null.
-             */
-            "credit_note_id"?: ((string) | (null));
-            /**
-             * Assigned at issue and stable from then on. Absent while the credit note is a draft.
-             * anyOf[1] (Value): string. Assigned at issue and stable from then on. Absent while
-             * the credit note is a draft. anyOf[2] (Value): null.
-             */
-            "credit_note_number"?: ((string) | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. `null` when unset.
-             * anyOf[1] (Value): string or null. Caller-owned identifier for this resource in an
-             * external system. `null` when unset. minLength: 1. maxLength: 255. Example:
-             * "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * Summary of the source invoice. Returned only with expand=invoice. anyOf[1] (Value):
-             * {@link ExpandedInvoiceSummary}. Summary of the source invoice. Returned only with
-             * expand=invoice. anyOf[2] (Value): null.
-             */
-            "invoice"?: ((ExpandedInvoiceSummary) | (null));
-            /**
-             * The invoice this credit note corrects. anyOf[1] (Value): string. The invoice this
-             * credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value):
-             * null.
-             */
-            "invoice_id"?: ((string) | (null));
-            /**
-             * When the credit note was issued. Absent on a draft. anyOf[1] (Value): string. When
-             * the credit note was issued. Absent on a draft. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "issued_at"?: ((string) | (null));
-            /**
-             * Status of the most recent refund linked to this credit note. Absent when no refund
-             * has been requested. Value enum: "pending", "succeeded", "partially_succeeded",
-             * "failed". anyOf[1] (Value): string. Status of the most recent refund linked to this
-             * credit note. Absent when no refund has been requested. Value enum: "pending",
-             * "succeeded", "partially_succeeded", "failed". anyOf[2] (Value): null.
-             */
-            "latest_refund_status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
-            /**
-             * Itemized corrections against frozen invoice lines. Amount and quantity corrections
-             * share each source line's remaining value, discount, and tax across issued credit
-             * notes that have not been voided. Drafts reserve no credit. anyOf[1] (Value): Array
-             * of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-             * Amount and quantity corrections share each source line's remaining value, discount,
-             * and tax across issued credit notes that have not been voided. Drafts reserve no
-             * credit. anyOf[1][] (Value): {@link CreditNoteLineItem}. One correction calculated
-             * from the frozen invoice line's remaining billed value, discount, and tax. The source
-             * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-             * settings do not affect the correction. Stored issued values are never recalculated
-             * by a read. anyOf[2] (Value): null.
-             */
-            "line_items"?: ((Array<CreditNoteLineItem>) | (null));
-            /**
-             * Free text shown on the credit note, up to 4096 characters. `null` when unset.
-             * anyOf[1] (Value): string or null. Free text shown on the credit note, up to 4096
-             * characters. `null` when unset. anyOf[2] (Value): null.
-             */
-            "memo"?: ((string | null) | (null) | (unknown));
-            /**
-             * The merchant that owns the credit note. anyOf[1] (Value): string. The merchant that
-             * owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value):
-             * null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Credit reserved by linked refunds that have not resolved yet. Released if a refund
-             * fails or is canceled. anyOf[1] (Value): {@link MoneyValue}. Credit reserved by
-             * linked refunds that have not resolved yet. Released if a refund fails or is
-             * canceled. anyOf[2] (Value): null.
-             */
-            "pending_refund_money"?: ((MoneyValue) | (null));
-            /**
-             * Why the invoice is being corrected. Shown on the credit note document. Value enum:
-             * "returned_goods", "order_adjustment", "billing_error", "goodwill", "other". anyOf[1]
-             * (Value): string. Why the invoice is being corrected. Shown on the credit note
-             * document. Value enum: "returned_goods", "order_adjustment", "billing_error",
-             * "goodwill", "other". anyOf[2] (Value): null.
-             */
-            "reason"?: (("returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {}))
-                | (null));
-            /**
-             * Credit consumed by linked refunds that succeeded. anyOf[1] (Value): {@link
-             * MoneyValue}. Credit consumed by linked refunds that succeeded. anyOf[2] (Value):
-             * null.
-             */
-            "refunded_money"?: ((MoneyValue) | (null));
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no seller tax identity was captured. anyOf[1] (Value):
-             * {@link TaxIdentity} or null. Identity frozen on the source invoice at issue. Later
-             * profile edits do not change this document. `null` when no seller tax identity was
-             * captured. anyOf[1].anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-             * identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-             * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its
-             * tax provider, which can apply a reverse charge; other IDs do not change tax
-             * treatment. Tax IDs are an owned collection in display order; replacing the array
-             * requires the parent's expected_version. Existing entries retain their
-             * document_tax_id; omit an entry to remove it, or omit its ID to add one.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "seller_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            /**
-             * draft while the credit note is editable, issued once it is numbered and frozen,
-             * voided once withdrawn. Value enum: "draft", "issued", "voided". anyOf[1] (Value):
-             * string. draft while the credit note is editable, issued once it is numbered and
-             * frozen, voided once withdrawn. Value enum: "draft", "issued", "voided". anyOf[2]
-             * (Value): null.
-             */
-            "status"?: (("draft" | "issued" | "voided" | (string & {})) | (null));
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "issue", "void". anyOf[1]
-             * (Value): Array of string. Lifecycle actions Flint accepts for this resource now,
-             * based on stored state. Independent of the caller's permissions; each action still
-             * requires its route's scope. Always [] when no action is available. [] enum: "issue",
-             * "void". anyOf[1][] (Value): string. Value enum: "issue", "void". anyOf[2] (Value):
-             * null.
-             */
-            "supported_actions"?: ((Array<"issue" | "void" | (string & {})>) | (null));
-            /**
-             * The credit note's VAT stated in the currency of the country that charges it, frozen
-             * at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-             * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT
-             * and taxable amount converted the same way. Always [] on drafts and when the invoice
-             * froze no conversion. The credit note PDF prints the same figures. anyOf[1] (Value):
-             * Array of {@link TaxCurrencyConversion}. The credit note's VAT stated in the currency
-             * of the country that charges it, frozen at issue. Each entry reuses the invoice's
-             * currency, exchange_rate, rate_date, and rate_source from
-             * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-             * converted the same way. Always [] on drafts and when the invoice froze no
-             * conversion. The credit note PDF prints the same figures. anyOf[1][] (Value): {@link
-             * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-             * country whose VAT is charged. anyOf[2] (Value): null.
-             */
-            "tax_currency_conversions"?: ((Array<TaxCurrencyConversion>) | (null));
-            /**
-             * The face value of the credit note, the sum of its lines. anyOf[1] (Value): {@link
-             * MoneyValue}. The face value of the credit note, the sum of its lines. anyOf[2]
-             * (Value): null.
-             */
-            "total_money"?: ((MoneyValue) | (null));
-            /**
-             * When the credit note last changed. anyOf[1] (Value): string. When the credit note
-             * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
-             * null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Current credit note version. Send this as expected_version when updating the draft.
-             * anyOf[1] (Value): integer. Current credit note version. Send this as
-             * expected_version when updating the draft. Format: int64. minimum: 1. anyOf[2]
-             * (Value): null.
-             */
-            "version"?: ((number) | (null));
-            /**
-             * When the credit note was voided. Absent unless its status is voided. anyOf[1]
-             * (Value): string. When the credit note was voided. Absent unless its status is
-             * voided. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "voided_at"?: ((string) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "credit_note.updated". */
-    "event_type"?: "credit_note.updated";
-});
-export type CreditNoteVoidedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "allocated_money": MoneyValue;
-            "available_money": MoneyValue;
-            "buyer_tax_identity": ((TaxIdentity) | (null));
-            "created_at": string;
-            "credit_note_id": string;
-            "credit_note_number"?: string;
-            "external_reference_id": string | null;
-            "invoice"?: ExpandedInvoiceSummary;
-            "invoice_id": string;
-            "issued_at"?: string;
-            "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            "line_items": Array<CreditNoteLineItem>;
-            "memo": string | null;
-            "merchant_id": string;
-            "pending_refund_money": MoneyValue;
-            "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-            "refunded_money": MoneyValue;
-            "seller_tax_identity": ((TaxIdentity) | (null));
-            "status": "draft" | "issued" | "voided" | (string & {});
-            "supported_actions": Array<"issue" | "void" | (string & {})>;
-            "tax_currency_conversions": Array<TaxCurrencyConversion>;
-            "total_money": MoneyValue;
-            "updated_at": string;
-            "version": number;
-            "voided_at"?: string;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "allocated_money"?: ((MoneyValue) | (null));
-            "available_money"?: ((MoneyValue) | (null));
-            "buyer_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            "created_at"?: ((string) | (null));
-            "credit_note_id"?: ((string) | (null));
-            "credit_note_number"?: ((string) | (null));
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
-            "invoice"?: ((ExpandedInvoiceSummary) | (null));
-            "invoice_id"?: ((string) | (null));
-            "issued_at"?: ((string) | (null));
-            "latest_refund_status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
-            "line_items"?: ((Array<CreditNoteLineItem>) | (null));
-            "memo"?: ((string | null) | (null) | (unknown));
-            "merchant_id"?: ((string) | (null));
-            "pending_refund_money"?: ((MoneyValue) | (null));
-            "reason"?: (("returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {}))
-                | (null));
-            "refunded_money"?: ((MoneyValue) | (null));
-            "seller_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            "status"?: (("draft" | "issued" | "voided" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"issue" | "void" | (string & {})>) | (null));
-            "tax_currency_conversions"?: ((Array<TaxCurrencyConversion>) | (null));
-            "total_money"?: ((MoneyValue) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-            "voided_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "credit_note.voided";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "allocated_money": MoneyValue;
-            "available_money": MoneyValue;
-            "buyer_tax_identity": ((TaxIdentity) | (null));
-            "created_at": string;
-            "credit_note_id": string;
-            "credit_note_number"?: string;
-            "external_reference_id": string | null;
-            "invoice"?: ExpandedInvoiceSummary;
-            "invoice_id": string;
-            "issued_at"?: string;
-            "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            "line_items": Array<CreditNoteLineItem>;
-            "memo": string | null;
-            "merchant_id": string;
-            "pending_refund_money": MoneyValue;
-            "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-            "refunded_money": MoneyValue;
-            "seller_tax_identity": ((TaxIdentity) | (null));
-            "status": "draft" | "issued" | "voided" | (string & {});
-            "supported_actions": Array<"issue" | "void" | (string & {})>;
-            "tax_currency_conversions": Array<TaxCurrencyConversion>;
-            "total_money": MoneyValue;
-            "updated_at": string;
-            "version": number;
-            "voided_at"?: string;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "allocated_money"?: ((MoneyValue) | (null));
-            "available_money"?: ((MoneyValue) | (null));
-            "buyer_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            "created_at"?: ((string) | (null));
-            "credit_note_id"?: ((string) | (null));
-            "credit_note_number"?: ((string) | (null));
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
-            "invoice"?: ((ExpandedInvoiceSummary) | (null));
-            "invoice_id"?: ((string) | (null));
-            "issued_at"?: ((string) | (null));
-            "latest_refund_status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
-            "line_items"?: ((Array<CreditNoteLineItem>) | (null));
-            "memo"?: ((string | null) | (null) | (unknown));
-            "merchant_id"?: ((string) | (null));
-            "pending_refund_money"?: ((MoneyValue) | (null));
-            "reason"?: (("returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {}))
-                | (null));
-            "refunded_money"?: ((MoneyValue) | (null));
-            "seller_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            "status"?: (("draft" | "issued" | "voided" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"issue" | "void" | (string & {})>) | (null));
-            "tax_currency_conversions"?: ((Array<TaxCurrencyConversion>) | (null));
-            "total_money"?: ((MoneyValue) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-            "voided_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "credit_note.voided";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "credit_note.voided";
-});
-/**
- * The `credit_note.voided` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type CreditNoteVoidedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allocated_money (Required): {@link MoneyValue}. Credit applied to
-     * the invoice, net of reversed allocations. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.available_money (Required): {@link MoneyValue}.
-     * Credit available to allocate or refund. Zero on draft and voided notes. On issued notes,
-     * total_money equals allocated_money plus pending_refund_money plus refunded_money plus
-     * available_money. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.buyer_tax_identity (Required): {@link TaxIdentity} or null. Identity
-     * frozen on the source invoice at issue. Later profile edits do not change this document.
-     * `null` when no buyer tax identity was captured on the source invoice. Customer deletion
-     * preserves identities captured on issued invoices and credit notes.
-     * object.buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. object.buyer_tax_identity.anyOf[2] (Value): null.
-     * object.created_at (Required): string. When the credit note was created. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.credit_note_id (Required): string. Unique identifier
-     * of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". object.credit_note_number
-     * (Optional): string. Assigned at issue and stable from then on. Absent while the credit note
-     * is a draft. object.external_reference_id (Required): string or null. Caller-owned identifier
-     * for this resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842". object.invoice (Optional): {@link ExpandedInvoiceSummary}.
-     * Summary of the source invoice. Returned only with expand=invoice. An invoice's summary
-     * fields, including status, due date, and paid, outstanding, and refunded amounts, returned
-     * when the invoice is expanded. object.invoice_id (Required): string. The invoice this credit
-     * note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.issued_at (Optional):
-     * string. When the credit note was issued. Absent on a draft. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.latest_refund_status (Optional): string. Status of the most
-     * recent refund linked to this credit note. Absent when no refund has been requested. Value
-     * enum: "pending", "succeeded", "partially_succeeded", "failed". object.line_items (Required):
-     * Array of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-     * Amount and quantity corrections share each source line's remaining value, discount, and tax
-     * across issued credit notes that have not been voided. Drafts reserve no credit.
-     * object.line_items[] (Value): {@link CreditNoteLineItem}. One correction calculated from the
-     * frozen invoice line's remaining billed value, discount, and tax. The source line's inclusive
-     * or additive tax mode is preserved. Current catalog prices and tax settings do not affect the
-     * correction. Stored issued values are never recalculated by a read. object.memo (Required):
-     * string or null. Free text shown on the credit note, up to 4096 characters. `null` when
-     * unset. object.merchant_id (Required): string. The merchant that owns the credit note.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.pending_refund_money (Required): {@link
-     * MoneyValue}. Credit reserved by linked refunds that have not resolved yet. Released if a
-     * refund fails or is canceled. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code. object.reason (Required): string. Why the invoice is being corrected.
-     * Shown on the credit note document. Value enum: "returned_goods", "order_adjustment",
-     * "billing_error", "goodwill", "other". object.refunded_money (Required): {@link MoneyValue}.
-     * Credit consumed by linked refunds that succeeded. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. object.seller_tax_identity (Required): {@link
-     * TaxIdentity} or null. Identity frozen on the source invoice at issue. Later profile edits do
-     * not change this document. `null` when no seller tax identity was captured.
-     * object.seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. object.seller_tax_identity.anyOf[2] (Value): null. object.status
-     * (Required): string. draft while the credit note is editable, issued once it is numbered and
-     * frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-     * object.supported_actions (Required): Array of string. Lifecycle actions Flint accepts for
-     * this resource now, based on stored state. Independent of the caller's permissions; each
-     * action still requires its route's scope. Always [] when no action is available. [] enum:
-     * "issue", "void". object.supported_actions[] (Value): string. Value enum: "issue", "void".
-     * object.tax_currency_conversions (Required): Array of {@link TaxCurrencyConversion}. The
-     * credit note's VAT stated in the currency of the country that charges it, frozen at issue.
-     * Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from
-     * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-     * converted the same way. Always [] on drafts and when the invoice froze no conversion. The
-     * credit note PDF prints the same figures. object.tax_currency_conversions[] (Value): {@link
-     * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the country
-     * whose VAT is charged. object.total_money (Required): {@link MoneyValue}. The face value of
-     * the credit note, the sum of its lines. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.updated_at (Required): string. When the credit note
-     * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current credit note version. Send this as expected_version when updating the draft.
-     * Format: int64. minimum: 1. object.voided_at (Optional): string. When the credit note was
-     * voided. Absent unless its status is voided. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous values of changed
-     * top-level fields in data.object, at this delivery's API version. Nested changes include the
-     * whole previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.allocated_money (Optional): {@link MoneyValue} or null. Credit applied
-     * to the invoice, net of reversed allocations. previous_attributes.allocated_money.anyOf[1]
-     * (Value): {@link MoneyValue}. Credit applied to the invoice, net of reversed allocations.
-     * previous_attributes.allocated_money.anyOf[2] (Value): null.
-     * previous_attributes.available_money (Optional): {@link MoneyValue} or null. Credit available
-     * to allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-     * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-     * previous_attributes.available_money.anyOf[1] (Value): {@link MoneyValue}. Credit available
-     * to allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-     * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-     * previous_attributes.available_money.anyOf[2] (Value): null.
-     * previous_attributes.buyer_tax_identity (Optional): {@link TaxIdentity} or null or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-     * deletion preserves identities captured on issued invoices and credit notes.
-     * previous_attributes.buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-     * deletion preserves identities captured on issued invoices and credit notes.
-     * previous_attributes.buyer_tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}.
-     * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not
-     * verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
-     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
-     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
-     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
-     * an entry to remove it, or omit its ID to add one.
-     * previous_attributes.buyer_tax_identity.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.buyer_tax_identity.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. When the credit note was created.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the credit note was created.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
-     * (Value): null. previous_attributes.credit_note_id (Optional): string or null. Unique
-     * identifier of the credit note. previous_attributes.credit_note_id.anyOf[1] (Value): string.
-     * Unique identifier of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     * previous_attributes.credit_note_id.anyOf[2] (Value): null.
-     * previous_attributes.credit_note_number (Optional): string or null. Assigned at issue and
-     * stable from then on. Absent while the credit note is a draft.
-     * previous_attributes.credit_note_number.anyOf[1] (Value): string. Assigned at issue and
-     * stable from then on. Absent while the credit note is a draft.
-     * previous_attributes.credit_note_number.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null or null. Caller-owned
-     * identifier for this resource in an external system. `null` when unset.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-     * identifier for this resource in an external system. `null` when unset. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.invoice (Optional): {@link ExpandedInvoiceSummary} or null. Summary of
-     * the source invoice. Returned only with expand=invoice. previous_attributes.invoice.anyOf[1]
-     * (Value): {@link ExpandedInvoiceSummary}. Summary of the source invoice. Returned only with
-     * expand=invoice. previous_attributes.invoice.anyOf[2] (Value): null.
-     * previous_attributes.invoice_id (Optional): string or null. The invoice this credit note
-     * corrects. previous_attributes.invoice_id.anyOf[1] (Value): string. The invoice this credit
-     * note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.issued_at
-     * (Optional): string or null. When the credit note was issued. Absent on a draft.
-     * previous_attributes.issued_at.anyOf[1] (Value): string. When the credit note was issued.
-     * Absent on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.issued_at.anyOf[2] (Value): null.
-     * previous_attributes.latest_refund_status (Optional): string or null. Status of the most
-     * recent refund linked to this credit note. Absent when no refund has been requested. Value
-     * enum: "pending", "succeeded", "partially_succeeded", "failed".
-     * previous_attributes.latest_refund_status.anyOf[1] (Value): string. Status of the most recent
-     * refund linked to this credit note. Absent when no refund has been requested. Value enum:
-     * "pending", "succeeded", "partially_succeeded", "failed".
-     * previous_attributes.latest_refund_status.anyOf[2] (Value): null.
-     * previous_attributes.line_items (Optional): Array of {@link CreditNoteLineItem} or null.
-     * Itemized corrections against frozen invoice lines. Amount and quantity corrections share
-     * each source line's remaining value, discount, and tax across issued credit notes that have
-     * not been voided. Drafts reserve no credit. previous_attributes.line_items.anyOf[1] (Value):
-     * Array of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-     * Amount and quantity corrections share each source line's remaining value, discount, and tax
-     * across issued credit notes that have not been voided. Drafts reserve no credit.
-     * previous_attributes.line_items.anyOf[1][] (Value): {@link CreditNoteLineItem}. One
-     * correction calculated from the frozen invoice line's remaining billed value, discount, and
-     * tax. The source line's inclusive or additive tax mode is preserved. Current catalog prices
-     * and tax settings do not affect the correction. Stored issued values are never recalculated
-     * by a read. previous_attributes.line_items.anyOf[2] (Value): null. previous_attributes.memo
-     * (Optional): string or null or null. Free text shown on the credit note, up to 4096
-     * characters. `null` when unset. previous_attributes.memo.anyOf[1] (Value): string or null.
-     * Free text shown on the credit note, up to 4096 characters. `null` when unset.
-     * previous_attributes.memo.anyOf[2] (Value): null. previous_attributes.merchant_id (Optional):
-     * string or null. The merchant that owns the credit note.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. The merchant that owns the credit
-     * note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2]
-     * (Value): null. previous_attributes.pending_refund_money (Optional): {@link MoneyValue} or
-     * null. Credit reserved by linked refunds that have not resolved yet. Released if a refund
-     * fails or is canceled. previous_attributes.pending_refund_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Credit reserved by linked refunds that have not resolved yet. Released if a
-     * refund fails or is canceled. previous_attributes.pending_refund_money.anyOf[2] (Value):
-     * null. previous_attributes.reason (Optional): string or null. Why the invoice is being
-     * corrected. Shown on the credit note document. Value enum: "returned_goods",
-     * "order_adjustment", "billing_error", "goodwill", "other".
-     * previous_attributes.reason.anyOf[1] (Value): string. Why the invoice is being corrected.
-     * Shown on the credit note document. Value enum: "returned_goods", "order_adjustment",
-     * "billing_error", "goodwill", "other". previous_attributes.reason.anyOf[2] (Value): null.
-     * previous_attributes.refunded_money (Optional): {@link MoneyValue} or null. Credit consumed
-     * by linked refunds that succeeded. previous_attributes.refunded_money.anyOf[1] (Value):
-     * {@link MoneyValue}. Credit consumed by linked refunds that succeeded.
-     * previous_attributes.refunded_money.anyOf[2] (Value): null.
-     * previous_attributes.seller_tax_identity (Optional): {@link TaxIdentity} or null or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no seller tax identity was captured.
-     * previous_attributes.seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no seller tax identity was captured.
-     * previous_attributes.seller_tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}.
-     * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not
-     * verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
-     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
-     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
-     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
-     * an entry to remove it, or omit its ID to add one.
-     * previous_attributes.seller_tax_identity.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.seller_tax_identity.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. draft while the credit note is editable, issued once it is
-     * numbered and frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-     * previous_attributes.status.anyOf[1] (Value): string. draft while the credit note is
-     * editable, issued once it is numbered and frozen, voided once withdrawn. Value enum: "draft",
-     * "issued", "voided". previous_attributes.status.anyOf[2] (Value): null.
-     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
-     * Flint accepts for this resource now, based on stored state. Independent of the caller's
-     * permissions; each action still requires its route's scope. Always [] when no action is
-     * available. [] enum: "issue", "void". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Lifecycle actions Flint accepts for this resource now, based on stored
-     * state. Independent of the caller's permissions; each action still requires its route's
-     * scope. Always [] when no action is available. [] enum: "issue", "void".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "issue",
-     * "void". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tax_currency_conversions (Optional): Array of {@link
-     * TaxCurrencyConversion} or null. The credit note's VAT stated in the currency of the country
-     * that charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate,
-     * rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited
-     * VAT and taxable amount converted the same way. Always [] on drafts and when the invoice
-     * froze no conversion. The credit note PDF prints the same figures.
-     * previous_attributes.tax_currency_conversions.anyOf[1] (Value): Array of {@link
-     * TaxCurrencyConversion}. The credit note's VAT stated in the currency of the country that
-     * charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate,
-     * rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited
-     * VAT and taxable amount converted the same way. Always [] on drafts and when the invoice
-     * froze no conversion. The credit note PDF prints the same figures.
-     * previous_attributes.tax_currency_conversions.anyOf[1][] (Value): {@link
-     * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the country
-     * whose VAT is charged. previous_attributes.tax_currency_conversions.anyOf[2] (Value): null.
-     * previous_attributes.total_money (Optional): {@link MoneyValue} or null. The face value of
-     * the credit note, the sum of its lines. previous_attributes.total_money.anyOf[1] (Value):
-     * {@link MoneyValue}. The face value of the credit note, the sum of its lines.
-     * previous_attributes.total_money.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. When the credit note last changed.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. When the credit note last changed.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
-     * (Value): null. previous_attributes.version (Optional): integer or null. Current credit note
-     * version. Send this as expected_version when updating the draft.
-     * previous_attributes.version.anyOf[1] (Value): integer. Current credit note version. Send
-     * this as expected_version when updating the draft. Format: int64. minimum: 1.
-     * previous_attributes.version.anyOf[2] (Value): null. previous_attributes.voided_at
-     * (Optional): string or null. When the credit note was voided. Absent unless its status is
-     * voided. previous_attributes.voided_at.anyOf[1] (Value): string. When the credit note was
-     * voided. Absent unless its status is voided. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allocated_money (Required): {@link MoneyValue}. Credit applied to the invoice, net of
-         * reversed allocations. Monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. available_money (Required): {@link MoneyValue}. Credit available to
-         * allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-         * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-         * buyer_tax_identity (Required): {@link TaxIdentity} or null. Identity frozen on the
-         * source invoice at issue. Later profile edits do not change this document. `null` when no
-         * buyer tax identity was captured on the source invoice. Customer deletion preserves
-         * identities captured on issued invoices and credit notes. buyer_tax_identity.anyOf[1]
-         * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-         * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID
-         * for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-         * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-         * display order; replacing the array requires the parent's expected_version. Existing
-         * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add
-         * one. buyer_tax_identity.anyOf[2] (Value): null. created_at (Required): string. When the
-         * credit note was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * credit_note_id (Required): string. Unique identifier of the credit note. Example:
-         * "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_number (Optional): string. Assigned at
-         * issue and stable from then on. Absent while the credit note is a draft.
-         * external_reference_id (Required): string or null. Caller-owned identifier for this
-         * resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
-         * Example: "warehouse-1842". invoice (Optional): {@link ExpandedInvoiceSummary}. Summary
-         * of the source invoice. Returned only with expand=invoice. An invoice's summary fields,
-         * including status, due date, and paid, outstanding, and refunded amounts, returned when
-         * the invoice is expanded. invoice_id (Required): string. The invoice this credit note
-         * corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". issued_at (Optional): string. When
-         * the credit note was issued. Absent on a draft. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". latest_refund_status (Optional): string. Status of the most
-         * recent refund linked to this credit note. Absent when no refund has been requested.
-         * Value enum: "pending", "succeeded", "partially_succeeded", "failed". line_items
-         * (Required): Array of {@link CreditNoteLineItem}. Itemized corrections against frozen
-         * invoice lines. Amount and quantity corrections share each source line's remaining value,
-         * discount, and tax across issued credit notes that have not been voided. Drafts reserve
-         * no credit. line_items[] (Value): {@link CreditNoteLineItem}. One correction calculated
-         * from the frozen invoice line's remaining billed value, discount, and tax. The source
-         * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-         * settings do not affect the correction. Stored issued values are never recalculated by a
-         * read. memo (Required): string or null. Free text shown on the credit note, up to 4096
-         * characters. `null` when unset. merchant_id (Required): string. The merchant that owns
-         * the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". pending_refund_money
-         * (Required): {@link MoneyValue}. Credit reserved by linked refunds that have not resolved
-         * yet. Released if a refund fails or is canceled. Monetary amount represented as integer
-         * minor units plus an ISO 4217 currency code. reason (Required): string. Why the invoice
-         * is being corrected. Shown on the credit note document. Value enum: "returned_goods",
-         * "order_adjustment", "billing_error", "goodwill", "other". refunded_money (Required):
-         * {@link MoneyValue}. Credit consumed by linked refunds that succeeded. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code. seller_tax_identity
-         * (Required): {@link TaxIdentity} or null. Identity frozen on the source invoice at issue.
-         * Later profile edits do not change this document. `null` when no seller tax identity was
-         * captured. seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided
-         * legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-         * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax
-         * provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax
-         * IDs are an owned collection in display order; replacing the array requires the parent's
-         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
-         * it, or omit its ID to add one. seller_tax_identity.anyOf[2] (Value): null. status
-         * (Required): string. draft while the credit note is editable, issued once it is numbered
-         * and frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-         * supported_actions (Required): Array of string. Lifecycle actions Flint accepts for this
-         * resource now, based on stored state. Independent of the caller's permissions; each
-         * action still requires its route's scope. Always [] when no action is available. [] enum:
-         * "issue", "void". supported_actions[] (Value): string. Value enum: "issue", "void".
-         * tax_currency_conversions (Required): Array of {@link TaxCurrencyConversion}. The credit
-         * note's VAT stated in the currency of the country that charges it, frozen at issue. Each
-         * entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from
-         * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-         * converted the same way. Always [] on drafts and when the invoice froze no conversion.
-         * The credit note PDF prints the same figures. tax_currency_conversions[] (Value): {@link
-         * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-         * country whose VAT is charged. total_money (Required): {@link MoneyValue}. The face value
-         * of the credit note, the sum of its lines. Monetary amount represented as integer minor
-         * units plus an ISO 4217 currency code. updated_at (Required): string. When the credit
-         * note last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Current credit note version. Send this as expected_version when
-         * updating the draft. Format: int64. minimum: 1. voided_at (Optional): string. When the
-         * credit note was voided. Absent unless its status is voided. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * Credit applied to the invoice, net of reversed allocations. Monetary amount
-             * represented as integer minor units plus an ISO 4217 currency code.
-             */
-            "allocated_money": MoneyValue;
-            /**
-             * Credit available to allocate or refund. Zero on draft and voided notes. On issued
-             * notes, total_money equals allocated_money plus pending_refund_money plus
-             * refunded_money plus available_money. Monetary amount represented as integer minor
-             * units plus an ISO 4217 currency code.
-             */
-            "available_money": MoneyValue;
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no buyer tax identity was captured on the source invoice.
-             * Customer deletion preserves identities captured on issued invoices and credit notes.
-             * anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on
-             * invoices and credit notes. Flint does not verify IDs. On a customer, automatic tax
-             * sends the tax ID for an EU, GB, AU or NZ destination to its tax provider, which can
-             * apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
-             * collection in display order; replacing the array requires the parent's
-             * expected_version. Existing entries retain their document_tax_id; omit an entry to
-             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
-             */
-            "buyer_tax_identity": ((TaxIdentity) | (null));
-            /**
-             * When the credit note was created. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /** Unique identifier of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". */
-            "credit_note_id": string;
-            /**
-             * Assigned at issue and stable from then on. Absent while the credit note is a draft.
-             */
-            "credit_note_number"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. `null` when unset.
-             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-             */
-            "external_reference_id": string | null;
-            /**
-             * Summary of the source invoice. Returned only with expand=invoice. An invoice's
-             * summary fields, including status, due date, and paid, outstanding, and refunded
-             * amounts, returned when the invoice is expanded.
-             */
-            "invoice"?: ExpandedInvoiceSummary;
-            /** The invoice this credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
-            "invoice_id": string;
-            /**
-             * When the credit note was issued. Absent on a draft. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "issued_at"?: string;
-            /**
-             * Status of the most recent refund linked to this credit note. Absent when no refund
-             * has been requested. Value enum: "pending", "succeeded", "partially_succeeded",
-             * "failed".
-             */
-            "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            /**
-             * Itemized corrections against frozen invoice lines. Amount and quantity corrections
-             * share each source line's remaining value, discount, and tax across issued credit
-             * notes that have not been voided. Drafts reserve no credit. [] (Value): {@link
-             * CreditNoteLineItem}. One correction calculated from the frozen invoice line's
-             * remaining billed value, discount, and tax. The source line's inclusive or additive
-             * tax mode is preserved. Current catalog prices and tax settings do not affect the
-             * correction. Stored issued values are never recalculated by a read.
-             */
-            "line_items": Array<CreditNoteLineItem>;
-            /** Free text shown on the credit note, up to 4096 characters. `null` when unset. */
-            "memo": string | null;
-            /**
-             * The merchant that owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Credit reserved by linked refunds that have not resolved yet. Released if a refund
-             * fails or is canceled. Monetary amount represented as integer minor units plus an ISO
-             * 4217 currency code.
-             */
-            "pending_refund_money": MoneyValue;
-            /**
-             * Why the invoice is being corrected. Shown on the credit note document. Value enum:
-             * "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
-             */
-            "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-            /**
-             * Credit consumed by linked refunds that succeeded. Monetary amount represented as
-             * integer minor units plus an ISO 4217 currency code.
-             */
-            "refunded_money": MoneyValue;
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no seller tax identity was captured. anyOf[1] (Value):
-             * {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-             * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax
-             * ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a
-             * reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
-             * collection in display order; replacing the array requires the parent's
-             * expected_version. Existing entries retain their document_tax_id; omit an entry to
-             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
-             */
-            "seller_tax_identity": ((TaxIdentity) | (null));
-            /**
-             * draft while the credit note is editable, issued once it is numbered and frozen,
-             * voided once withdrawn. Value enum: "draft", "issued", "voided".
-             */
-            "status": "draft" | "issued" | "voided" | (string & {});
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "issue", "void". [] (Value):
-             * string. Value enum: "issue", "void".
-             */
-            "supported_actions": Array<"issue" | "void" | (string & {})>;
-            /**
-             * The credit note's VAT stated in the currency of the country that charges it, frozen
-             * at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-             * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT
-             * and taxable amount converted the same way. Always [] on drafts and when the invoice
-             * froze no conversion. The credit note PDF prints the same figures. [] (Value): {@link
-             * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-             * country whose VAT is charged.
-             */
-            "tax_currency_conversions": Array<TaxCurrencyConversion>;
-            /**
-             * The face value of the credit note, the sum of its lines. Monetary amount represented
-             * as integer minor units plus an ISO 4217 currency code.
-             */
-            "total_money": MoneyValue;
-            /**
-             * When the credit note last changed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "updated_at": string;
-            /**
-             * Current credit note version. Send this as expected_version when updating the draft.
-             * Format: int64. minimum: 1.
-             */
-            "version": number;
-            /**
-             * When the credit note was voided. Absent unless its status is voided. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "voided_at"?: string;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. allocated_money (Optional): {@link MoneyValue}
-         * or null. Credit applied to the invoice, net of reversed allocations.
-         * allocated_money.anyOf[1] (Value): {@link MoneyValue}. Credit applied to the invoice, net
-         * of reversed allocations. allocated_money.anyOf[2] (Value): null. available_money
-         * (Optional): {@link MoneyValue} or null. Credit available to allocate or refund. Zero on
-         * draft and voided notes. On issued notes, total_money equals allocated_money plus
-         * pending_refund_money plus refunded_money plus available_money. available_money.anyOf[1]
-         * (Value): {@link MoneyValue}. Credit available to allocate or refund. Zero on draft and
-         * voided notes. On issued notes, total_money equals allocated_money plus
-         * pending_refund_money plus refunded_money plus available_money. available_money.anyOf[2]
-         * (Value): null. buyer_tax_identity (Optional): {@link TaxIdentity} or null or null.
-         * Identity frozen on the source invoice at issue. Later profile edits do not change this
-         * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-         * deletion preserves identities captured on issued invoices and credit notes.
-         * buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null. Identity frozen on the
-         * source invoice at issue. Later profile edits do not change this document. `null` when no
-         * buyer tax identity was captured on the source invoice. Customer deletion preserves
-         * identities captured on issued invoices and credit notes.
-         * buyer_tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided
-         * legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-         * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax
-         * provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax
-         * IDs are an owned collection in display order; replacing the array requires the parent's
-         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
-         * it, or omit its ID to add one. buyer_tax_identity.anyOf[1].anyOf[2] (Value): null.
-         * buyer_tax_identity.anyOf[2] (Value): null. created_at (Optional): string or null. When
-         * the credit note was created. created_at.anyOf[1] (Value): string. When the credit note
-         * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
-         * (Value): null. credit_note_id (Optional): string or null. Unique identifier of the
-         * credit note. credit_note_id.anyOf[1] (Value): string. Unique identifier of the credit
-         * note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_id.anyOf[2] (Value): null.
-         * credit_note_number (Optional): string or null. Assigned at issue and stable from then
-         * on. Absent while the credit note is a draft. credit_note_number.anyOf[1] (Value):
-         * string. Assigned at issue and stable from then on. Absent while the credit note is a
-         * draft. credit_note_number.anyOf[2] (Value): null. external_reference_id (Optional):
-         * string or null or null. Caller-owned identifier for this resource in an external system.
-         * `null` when unset. external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-         * identifier for this resource in an external system. `null` when unset. minLength: 1.
-         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummary} or null. Summary of the source
-         * invoice. Returned only with expand=invoice. invoice.anyOf[1] (Value): {@link
-         * ExpandedInvoiceSummary}. Summary of the source invoice. Returned only with
-         * expand=invoice. invoice.anyOf[2] (Value): null. invoice_id (Optional): string or null.
-         * The invoice this credit note corrects. invoice_id.anyOf[1] (Value): string. The invoice
-         * this credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. issued_at (Optional): string or null. When the credit
-         * note was issued. Absent on a draft. issued_at.anyOf[1] (Value): string. When the credit
-         * note was issued. Absent on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * issued_at.anyOf[2] (Value): null. latest_refund_status (Optional): string or null.
-         * Status of the most recent refund linked to this credit note. Absent when no refund has
-         * been requested. Value enum: "pending", "succeeded", "partially_succeeded", "failed".
-         * latest_refund_status.anyOf[1] (Value): string. Status of the most recent refund linked
-         * to this credit note. Absent when no refund has been requested. Value enum: "pending",
-         * "succeeded", "partially_succeeded", "failed". latest_refund_status.anyOf[2] (Value):
-         * null. line_items (Optional): Array of {@link CreditNoteLineItem} or null. Itemized
-         * corrections against frozen invoice lines. Amount and quantity corrections share each
-         * source line's remaining value, discount, and tax across issued credit notes that have
-         * not been voided. Drafts reserve no credit. line_items.anyOf[1] (Value): Array of {@link
-         * CreditNoteLineItem}. Itemized corrections against frozen invoice lines. Amount and
-         * quantity corrections share each source line's remaining value, discount, and tax across
-         * issued credit notes that have not been voided. Drafts reserve no credit.
-         * line_items.anyOf[1][] (Value): {@link CreditNoteLineItem}. One correction calculated
-         * from the frozen invoice line's remaining billed value, discount, and tax. The source
-         * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-         * settings do not affect the correction. Stored issued values are never recalculated by a
-         * read. line_items.anyOf[2] (Value): null. memo (Optional): string or null or null. Free
-         * text shown on the credit note, up to 4096 characters. `null` when unset. memo.anyOf[1]
-         * (Value): string or null. Free text shown on the credit note, up to 4096 characters.
-         * `null` when unset. memo.anyOf[2] (Value): null. merchant_id (Optional): string or null.
-         * The merchant that owns the credit note. merchant_id.anyOf[1] (Value): string. The
-         * merchant that owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. pending_refund_money (Optional): {@link MoneyValue}
-         * or null. Credit reserved by linked refunds that have not resolved yet. Released if a
-         * refund fails or is canceled. pending_refund_money.anyOf[1] (Value): {@link MoneyValue}.
-         * Credit reserved by linked refunds that have not resolved yet. Released if a refund fails
-         * or is canceled. pending_refund_money.anyOf[2] (Value): null. reason (Optional): string
-         * or null. Why the invoice is being corrected. Shown on the credit note document. Value
-         * enum: "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
-         * reason.anyOf[1] (Value): string. Why the invoice is being corrected. Shown on the credit
-         * note document. Value enum: "returned_goods", "order_adjustment", "billing_error",
-         * "goodwill", "other". reason.anyOf[2] (Value): null. refunded_money (Optional): {@link
-         * MoneyValue} or null. Credit consumed by linked refunds that succeeded.
-         * refunded_money.anyOf[1] (Value): {@link MoneyValue}. Credit consumed by linked refunds
-         * that succeeded. refunded_money.anyOf[2] (Value): null. seller_tax_identity (Optional):
-         * {@link TaxIdentity} or null or null. Identity frozen on the source invoice at issue.
-         * Later profile edits do not change this document. `null` when no seller tax identity was
-         * captured. seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null. Identity
-         * frozen on the source invoice at issue. Later profile edits do not change this document.
-         * `null` when no seller tax identity was captured. seller_tax_identity.anyOf[1].anyOf[1]
-         * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-         * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID
-         * for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-         * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-         * display order; replacing the array requires the parent's expected_version. Existing
-         * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add
-         * one. seller_tax_identity.anyOf[1].anyOf[2] (Value): null. seller_tax_identity.anyOf[2]
-         * (Value): null. status (Optional): string or null. draft while the credit note is
-         * editable, issued once it is numbered and frozen, voided once withdrawn. Value enum:
-         * "draft", "issued", "voided". status.anyOf[1] (Value): string. draft while the credit
-         * note is editable, issued once it is numbered and frozen, voided once withdrawn. Value
-         * enum: "draft", "issued", "voided". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Lifecycle actions Flint accepts for this resource
-         * now, based on stored state. Independent of the caller's permissions; each action still
-         * requires its route's scope. Always [] when no action is available. [] enum: "issue",
-         * "void". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint
-         * accepts for this resource now, based on stored state. Independent of the caller's
-         * permissions; each action still requires its route's scope. Always [] when no action is
-         * available. [] enum: "issue", "void". supported_actions.anyOf[1][] (Value): string. Value
-         * enum: "issue", "void". supported_actions.anyOf[2] (Value): null.
-         * tax_currency_conversions (Optional): Array of {@link TaxCurrencyConversion} or null. The
-         * credit note's VAT stated in the currency of the country that charges it, frozen at
-         * issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-         * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and
-         * taxable amount converted the same way. Always [] on drafts and when the invoice froze no
-         * conversion. The credit note PDF prints the same figures.
-         * tax_currency_conversions.anyOf[1] (Value): Array of {@link TaxCurrencyConversion}. The
-         * credit note's VAT stated in the currency of the country that charges it, frozen at
-         * issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-         * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and
-         * taxable amount converted the same way. Always [] on drafts and when the invoice froze no
-         * conversion. The credit note PDF prints the same figures.
-         * tax_currency_conversions.anyOf[1][] (Value): {@link TaxCurrencyConversion}. VAT on an
-         * issued document converted into the currency of the country whose VAT is charged.
-         * tax_currency_conversions.anyOf[2] (Value): null. total_money (Optional): {@link
-         * MoneyValue} or null. The face value of the credit note, the sum of its lines.
-         * total_money.anyOf[1] (Value): {@link MoneyValue}. The face value of the credit note, the
-         * sum of its lines. total_money.anyOf[2] (Value): null. updated_at (Optional): string or
-         * null. When the credit note last changed. updated_at.anyOf[1] (Value): string. When the
-         * credit note last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current credit
-         * note version. Send this as expected_version when updating the draft. version.anyOf[1]
-         * (Value): integer. Current credit note version. Send this as expected_version when
-         * updating the draft. Format: int64. minimum: 1. version.anyOf[2] (Value): null. voided_at
-         * (Optional): string or null. When the credit note was voided. Absent unless its status is
-         * voided. voided_at.anyOf[1] (Value): string. When the credit note was voided. Absent
-         * unless its status is voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * voided_at.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Credit applied to the invoice, net of reversed allocations. anyOf[1] (Value): {@link
-             * MoneyValue}. Credit applied to the invoice, net of reversed allocations. anyOf[2]
-             * (Value): null.
-             */
-            "allocated_money"?: ((MoneyValue) | (null));
-            /**
-             * Credit available to allocate or refund. Zero on draft and voided notes. On issued
-             * notes, total_money equals allocated_money plus pending_refund_money plus
-             * refunded_money plus available_money. anyOf[1] (Value): {@link MoneyValue}. Credit
-             * available to allocate or refund. Zero on draft and voided notes. On issued notes,
-             * total_money equals allocated_money plus pending_refund_money plus refunded_money
-             * plus available_money. anyOf[2] (Value): null.
-             */
-            "available_money"?: ((MoneyValue) | (null));
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no buyer tax identity was captured on the source invoice.
-             * Customer deletion preserves identities captured on issued invoices and credit notes.
-             * anyOf[1] (Value): {@link TaxIdentity} or null. Identity frozen on the source invoice
-             * at issue. Later profile edits do not change this document. `null` when no buyer tax
-             * identity was captured on the source invoice. Customer deletion preserves identities
-             * captured on issued invoices and credit notes. anyOf[1].anyOf[1] (Value): {@link
-             * TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit
-             * notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for
-             * an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-             * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-             * display order; replacing the array requires the parent's expected_version. Existing
-             * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to
-             * add one. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "buyer_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            /**
-             * When the credit note was created. anyOf[1] (Value): string. When the credit note was
-             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Unique identifier of the credit note. anyOf[1] (Value): string. Unique identifier of
-             * the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". anyOf[2] (Value): null.
-             */
-            "credit_note_id"?: ((string) | (null));
-            /**
-             * Assigned at issue and stable from then on. Absent while the credit note is a draft.
-             * anyOf[1] (Value): string. Assigned at issue and stable from then on. Absent while
-             * the credit note is a draft. anyOf[2] (Value): null.
-             */
-            "credit_note_number"?: ((string) | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. `null` when unset.
-             * anyOf[1] (Value): string or null. Caller-owned identifier for this resource in an
-             * external system. `null` when unset. minLength: 1. maxLength: 255. Example:
-             * "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * Summary of the source invoice. Returned only with expand=invoice. anyOf[1] (Value):
-             * {@link ExpandedInvoiceSummary}. Summary of the source invoice. Returned only with
-             * expand=invoice. anyOf[2] (Value): null.
-             */
-            "invoice"?: ((ExpandedInvoiceSummary) | (null));
-            /**
-             * The invoice this credit note corrects. anyOf[1] (Value): string. The invoice this
-             * credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value):
-             * null.
-             */
-            "invoice_id"?: ((string) | (null));
-            /**
-             * When the credit note was issued. Absent on a draft. anyOf[1] (Value): string. When
-             * the credit note was issued. Absent on a draft. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "issued_at"?: ((string) | (null));
-            /**
-             * Status of the most recent refund linked to this credit note. Absent when no refund
-             * has been requested. Value enum: "pending", "succeeded", "partially_succeeded",
-             * "failed". anyOf[1] (Value): string. Status of the most recent refund linked to this
-             * credit note. Absent when no refund has been requested. Value enum: "pending",
-             * "succeeded", "partially_succeeded", "failed". anyOf[2] (Value): null.
-             */
-            "latest_refund_status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
-            /**
-             * Itemized corrections against frozen invoice lines. Amount and quantity corrections
-             * share each source line's remaining value, discount, and tax across issued credit
-             * notes that have not been voided. Drafts reserve no credit. anyOf[1] (Value): Array
-             * of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-             * Amount and quantity corrections share each source line's remaining value, discount,
-             * and tax across issued credit notes that have not been voided. Drafts reserve no
-             * credit. anyOf[1][] (Value): {@link CreditNoteLineItem}. One correction calculated
-             * from the frozen invoice line's remaining billed value, discount, and tax. The source
-             * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-             * settings do not affect the correction. Stored issued values are never recalculated
-             * by a read. anyOf[2] (Value): null.
-             */
-            "line_items"?: ((Array<CreditNoteLineItem>) | (null));
-            /**
-             * Free text shown on the credit note, up to 4096 characters. `null` when unset.
-             * anyOf[1] (Value): string or null. Free text shown on the credit note, up to 4096
-             * characters. `null` when unset. anyOf[2] (Value): null.
-             */
-            "memo"?: ((string | null) | (null) | (unknown));
-            /**
-             * The merchant that owns the credit note. anyOf[1] (Value): string. The merchant that
-             * owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value):
-             * null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Credit reserved by linked refunds that have not resolved yet. Released if a refund
-             * fails or is canceled. anyOf[1] (Value): {@link MoneyValue}. Credit reserved by
-             * linked refunds that have not resolved yet. Released if a refund fails or is
-             * canceled. anyOf[2] (Value): null.
-             */
-            "pending_refund_money"?: ((MoneyValue) | (null));
-            /**
-             * Why the invoice is being corrected. Shown on the credit note document. Value enum:
-             * "returned_goods", "order_adjustment", "billing_error", "goodwill", "other". anyOf[1]
-             * (Value): string. Why the invoice is being corrected. Shown on the credit note
-             * document. Value enum: "returned_goods", "order_adjustment", "billing_error",
-             * "goodwill", "other". anyOf[2] (Value): null.
-             */
-            "reason"?: (("returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {}))
-                | (null));
-            /**
-             * Credit consumed by linked refunds that succeeded. anyOf[1] (Value): {@link
-             * MoneyValue}. Credit consumed by linked refunds that succeeded. anyOf[2] (Value):
-             * null.
-             */
-            "refunded_money"?: ((MoneyValue) | (null));
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no seller tax identity was captured. anyOf[1] (Value):
-             * {@link TaxIdentity} or null. Identity frozen on the source invoice at issue. Later
-             * profile edits do not change this document. `null` when no seller tax identity was
-             * captured. anyOf[1].anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-             * identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-             * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its
-             * tax provider, which can apply a reverse charge; other IDs do not change tax
-             * treatment. Tax IDs are an owned collection in display order; replacing the array
-             * requires the parent's expected_version. Existing entries retain their
-             * document_tax_id; omit an entry to remove it, or omit its ID to add one.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "seller_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            /**
-             * draft while the credit note is editable, issued once it is numbered and frozen,
-             * voided once withdrawn. Value enum: "draft", "issued", "voided". anyOf[1] (Value):
-             * string. draft while the credit note is editable, issued once it is numbered and
-             * frozen, voided once withdrawn. Value enum: "draft", "issued", "voided". anyOf[2]
-             * (Value): null.
-             */
-            "status"?: (("draft" | "issued" | "voided" | (string & {})) | (null));
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "issue", "void". anyOf[1]
-             * (Value): Array of string. Lifecycle actions Flint accepts for this resource now,
-             * based on stored state. Independent of the caller's permissions; each action still
-             * requires its route's scope. Always [] when no action is available. [] enum: "issue",
-             * "void". anyOf[1][] (Value): string. Value enum: "issue", "void". anyOf[2] (Value):
-             * null.
-             */
-            "supported_actions"?: ((Array<"issue" | "void" | (string & {})>) | (null));
-            /**
-             * The credit note's VAT stated in the currency of the country that charges it, frozen
-             * at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-             * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT
-             * and taxable amount converted the same way. Always [] on drafts and when the invoice
-             * froze no conversion. The credit note PDF prints the same figures. anyOf[1] (Value):
-             * Array of {@link TaxCurrencyConversion}. The credit note's VAT stated in the currency
-             * of the country that charges it, frozen at issue. Each entry reuses the invoice's
-             * currency, exchange_rate, rate_date, and rate_source from
-             * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-             * converted the same way. Always [] on drafts and when the invoice froze no
-             * conversion. The credit note PDF prints the same figures. anyOf[1][] (Value): {@link
-             * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-             * country whose VAT is charged. anyOf[2] (Value): null.
-             */
-            "tax_currency_conversions"?: ((Array<TaxCurrencyConversion>) | (null));
-            /**
-             * The face value of the credit note, the sum of its lines. anyOf[1] (Value): {@link
-             * MoneyValue}. The face value of the credit note, the sum of its lines. anyOf[2]
-             * (Value): null.
-             */
-            "total_money"?: ((MoneyValue) | (null));
-            /**
-             * When the credit note last changed. anyOf[1] (Value): string. When the credit note
-             * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
-             * null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Current credit note version. Send this as expected_version when updating the draft.
-             * anyOf[1] (Value): integer. Current credit note version. Send this as
-             * expected_version when updating the draft. Format: int64. minimum: 1. anyOf[2]
-             * (Value): null.
-             */
-            "version"?: ((number) | (null));
-            /**
-             * When the credit note was voided. Absent unless its status is voided. anyOf[1]
-             * (Value): string. When the credit note was voided. Absent unless its status is
-             * voided. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "voided_at"?: ((string) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "credit_note.voided". */
-    "event_type"?: "credit_note.voided";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `credit_note.voided` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type CreditNoteVoidedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allocated_money (Required): {@link MoneyValue}. Credit applied to
-     * the invoice, net of reversed allocations. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.available_money (Required): {@link MoneyValue}.
-     * Credit available to allocate or refund. Zero on draft and voided notes. On issued notes,
-     * total_money equals allocated_money plus pending_refund_money plus refunded_money plus
-     * available_money. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.buyer_tax_identity (Required): {@link TaxIdentity} or null. Identity
-     * frozen on the source invoice at issue. Later profile edits do not change this document.
-     * `null` when no buyer tax identity was captured on the source invoice. Customer deletion
-     * preserves identities captured on issued invoices and credit notes.
-     * object.buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. object.buyer_tax_identity.anyOf[2] (Value): null.
-     * object.created_at (Required): string. When the credit note was created. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.credit_note_id (Required): string. Unique identifier
-     * of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". object.credit_note_number
-     * (Optional): string. Assigned at issue and stable from then on. Absent while the credit note
-     * is a draft. object.external_reference_id (Required): string or null. Caller-owned identifier
-     * for this resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842". object.invoice (Optional): {@link ExpandedInvoiceSummary}.
-     * Summary of the source invoice. Returned only with expand=invoice. An invoice's summary
-     * fields, including status, due date, and paid, outstanding, and refunded amounts, returned
-     * when the invoice is expanded. object.invoice_id (Required): string. The invoice this credit
-     * note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.issued_at (Optional):
-     * string. When the credit note was issued. Absent on a draft. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.latest_refund_status (Optional): string. Status of the most
-     * recent refund linked to this credit note. Absent when no refund has been requested. Value
-     * enum: "pending", "succeeded", "partially_succeeded", "failed". object.line_items (Required):
-     * Array of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-     * Amount and quantity corrections share each source line's remaining value, discount, and tax
-     * across issued credit notes that have not been voided. Drafts reserve no credit.
-     * object.line_items[] (Value): {@link CreditNoteLineItem}. One correction calculated from the
-     * frozen invoice line's remaining billed value, discount, and tax. The source line's inclusive
-     * or additive tax mode is preserved. Current catalog prices and tax settings do not affect the
-     * correction. Stored issued values are never recalculated by a read. object.memo (Required):
-     * string or null. Free text shown on the credit note, up to 4096 characters. `null` when
-     * unset. object.merchant_id (Required): string. The merchant that owns the credit note.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.pending_refund_money (Required): {@link
-     * MoneyValue}. Credit reserved by linked refunds that have not resolved yet. Released if a
-     * refund fails or is canceled. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code. object.reason (Required): string. Why the invoice is being corrected.
-     * Shown on the credit note document. Value enum: "returned_goods", "order_adjustment",
-     * "billing_error", "goodwill", "other". object.refunded_money (Required): {@link MoneyValue}.
-     * Credit consumed by linked refunds that succeeded. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. object.seller_tax_identity (Required): {@link
-     * TaxIdentity} or null. Identity frozen on the source invoice at issue. Later profile edits do
-     * not change this document. `null` when no seller tax identity was captured.
-     * object.seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-     * identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer,
-     * automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider,
-     * which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. object.seller_tax_identity.anyOf[2] (Value): null. object.status
-     * (Required): string. draft while the credit note is editable, issued once it is numbered and
-     * frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-     * object.supported_actions (Required): Array of string. Lifecycle actions Flint accepts for
-     * this resource now, based on stored state. Independent of the caller's permissions; each
-     * action still requires its route's scope. Always [] when no action is available. [] enum:
-     * "issue", "void". object.supported_actions[] (Value): string. Value enum: "issue", "void".
-     * object.tax_currency_conversions (Required): Array of {@link TaxCurrencyConversion}. The
-     * credit note's VAT stated in the currency of the country that charges it, frozen at issue.
-     * Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from
-     * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-     * converted the same way. Always [] on drafts and when the invoice froze no conversion. The
-     * credit note PDF prints the same figures. object.tax_currency_conversions[] (Value): {@link
-     * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the country
-     * whose VAT is charged. object.total_money (Required): {@link MoneyValue}. The face value of
-     * the credit note, the sum of its lines. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.updated_at (Required): string. When the credit note
-     * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current credit note version. Send this as expected_version when updating the draft.
-     * Format: int64. minimum: 1. object.voided_at (Optional): string. When the credit note was
-     * voided. Absent unless its status is voided. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous values of changed
-     * top-level fields in data.object, at this delivery's API version. Nested changes include the
-     * whole previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.allocated_money (Optional): {@link MoneyValue} or null. Credit applied
-     * to the invoice, net of reversed allocations. previous_attributes.allocated_money.anyOf[1]
-     * (Value): {@link MoneyValue}. Credit applied to the invoice, net of reversed allocations.
-     * previous_attributes.allocated_money.anyOf[2] (Value): null.
-     * previous_attributes.available_money (Optional): {@link MoneyValue} or null. Credit available
-     * to allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-     * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-     * previous_attributes.available_money.anyOf[1] (Value): {@link MoneyValue}. Credit available
-     * to allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-     * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-     * previous_attributes.available_money.anyOf[2] (Value): null.
-     * previous_attributes.buyer_tax_identity (Optional): {@link TaxIdentity} or null or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-     * deletion preserves identities captured on issued invoices and credit notes.
-     * previous_attributes.buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-     * deletion preserves identities captured on issued invoices and credit notes.
-     * previous_attributes.buyer_tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}.
-     * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not
-     * verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
-     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
-     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
-     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
-     * an entry to remove it, or omit its ID to add one.
-     * previous_attributes.buyer_tax_identity.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.buyer_tax_identity.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. When the credit note was created.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the credit note was created.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
-     * (Value): null. previous_attributes.credit_note_id (Optional): string or null. Unique
-     * identifier of the credit note. previous_attributes.credit_note_id.anyOf[1] (Value): string.
-     * Unique identifier of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-     * previous_attributes.credit_note_id.anyOf[2] (Value): null.
-     * previous_attributes.credit_note_number (Optional): string or null. Assigned at issue and
-     * stable from then on. Absent while the credit note is a draft.
-     * previous_attributes.credit_note_number.anyOf[1] (Value): string. Assigned at issue and
-     * stable from then on. Absent while the credit note is a draft.
-     * previous_attributes.credit_note_number.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null or null. Caller-owned
-     * identifier for this resource in an external system. `null` when unset.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-     * identifier for this resource in an external system. `null` when unset. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.invoice (Optional): {@link ExpandedInvoiceSummary} or null. Summary of
-     * the source invoice. Returned only with expand=invoice. previous_attributes.invoice.anyOf[1]
-     * (Value): {@link ExpandedInvoiceSummary}. Summary of the source invoice. Returned only with
-     * expand=invoice. previous_attributes.invoice.anyOf[2] (Value): null.
-     * previous_attributes.invoice_id (Optional): string or null. The invoice this credit note
-     * corrects. previous_attributes.invoice_id.anyOf[1] (Value): string. The invoice this credit
-     * note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.issued_at
-     * (Optional): string or null. When the credit note was issued. Absent on a draft.
-     * previous_attributes.issued_at.anyOf[1] (Value): string. When the credit note was issued.
-     * Absent on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.issued_at.anyOf[2] (Value): null.
-     * previous_attributes.latest_refund_status (Optional): string or null. Status of the most
-     * recent refund linked to this credit note. Absent when no refund has been requested. Value
-     * enum: "pending", "succeeded", "partially_succeeded", "failed".
-     * previous_attributes.latest_refund_status.anyOf[1] (Value): string. Status of the most recent
-     * refund linked to this credit note. Absent when no refund has been requested. Value enum:
-     * "pending", "succeeded", "partially_succeeded", "failed".
-     * previous_attributes.latest_refund_status.anyOf[2] (Value): null.
-     * previous_attributes.line_items (Optional): Array of {@link CreditNoteLineItem} or null.
-     * Itemized corrections against frozen invoice lines. Amount and quantity corrections share
-     * each source line's remaining value, discount, and tax across issued credit notes that have
-     * not been voided. Drafts reserve no credit. previous_attributes.line_items.anyOf[1] (Value):
-     * Array of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-     * Amount and quantity corrections share each source line's remaining value, discount, and tax
-     * across issued credit notes that have not been voided. Drafts reserve no credit.
-     * previous_attributes.line_items.anyOf[1][] (Value): {@link CreditNoteLineItem}. One
-     * correction calculated from the frozen invoice line's remaining billed value, discount, and
-     * tax. The source line's inclusive or additive tax mode is preserved. Current catalog prices
-     * and tax settings do not affect the correction. Stored issued values are never recalculated
-     * by a read. previous_attributes.line_items.anyOf[2] (Value): null. previous_attributes.memo
-     * (Optional): string or null or null. Free text shown on the credit note, up to 4096
-     * characters. `null` when unset. previous_attributes.memo.anyOf[1] (Value): string or null.
-     * Free text shown on the credit note, up to 4096 characters. `null` when unset.
-     * previous_attributes.memo.anyOf[2] (Value): null. previous_attributes.merchant_id (Optional):
-     * string or null. The merchant that owns the credit note.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. The merchant that owns the credit
-     * note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2]
-     * (Value): null. previous_attributes.pending_refund_money (Optional): {@link MoneyValue} or
-     * null. Credit reserved by linked refunds that have not resolved yet. Released if a refund
-     * fails or is canceled. previous_attributes.pending_refund_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Credit reserved by linked refunds that have not resolved yet. Released if a
-     * refund fails or is canceled. previous_attributes.pending_refund_money.anyOf[2] (Value):
-     * null. previous_attributes.reason (Optional): string or null. Why the invoice is being
-     * corrected. Shown on the credit note document. Value enum: "returned_goods",
-     * "order_adjustment", "billing_error", "goodwill", "other".
-     * previous_attributes.reason.anyOf[1] (Value): string. Why the invoice is being corrected.
-     * Shown on the credit note document. Value enum: "returned_goods", "order_adjustment",
-     * "billing_error", "goodwill", "other". previous_attributes.reason.anyOf[2] (Value): null.
-     * previous_attributes.refunded_money (Optional): {@link MoneyValue} or null. Credit consumed
-     * by linked refunds that succeeded. previous_attributes.refunded_money.anyOf[1] (Value):
-     * {@link MoneyValue}. Credit consumed by linked refunds that succeeded.
-     * previous_attributes.refunded_money.anyOf[2] (Value): null.
-     * previous_attributes.seller_tax_identity (Optional): {@link TaxIdentity} or null or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no seller tax identity was captured.
-     * previous_attributes.seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null.
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no seller tax identity was captured.
-     * previous_attributes.seller_tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}.
-     * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not
-     * verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
-     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
-     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
-     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
-     * an entry to remove it, or omit its ID to add one.
-     * previous_attributes.seller_tax_identity.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.seller_tax_identity.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. draft while the credit note is editable, issued once it is
-     * numbered and frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-     * previous_attributes.status.anyOf[1] (Value): string. draft while the credit note is
-     * editable, issued once it is numbered and frozen, voided once withdrawn. Value enum: "draft",
-     * "issued", "voided". previous_attributes.status.anyOf[2] (Value): null.
-     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
-     * Flint accepts for this resource now, based on stored state. Independent of the caller's
-     * permissions; each action still requires its route's scope. Always [] when no action is
-     * available. [] enum: "issue", "void". previous_attributes.supported_actions.anyOf[1] (Value):
-     * Array of string. Lifecycle actions Flint accepts for this resource now, based on stored
-     * state. Independent of the caller's permissions; each action still requires its route's
-     * scope. Always [] when no action is available. [] enum: "issue", "void".
-     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "issue",
-     * "void". previous_attributes.supported_actions.anyOf[2] (Value): null.
-     * previous_attributes.tax_currency_conversions (Optional): Array of {@link
-     * TaxCurrencyConversion} or null. The credit note's VAT stated in the currency of the country
-     * that charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate,
-     * rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited
-     * VAT and taxable amount converted the same way. Always [] on drafts and when the invoice
-     * froze no conversion. The credit note PDF prints the same figures.
-     * previous_attributes.tax_currency_conversions.anyOf[1] (Value): Array of {@link
-     * TaxCurrencyConversion}. The credit note's VAT stated in the currency of the country that
-     * charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate,
-     * rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited
-     * VAT and taxable amount converted the same way. Always [] on drafts and when the invoice
-     * froze no conversion. The credit note PDF prints the same figures.
-     * previous_attributes.tax_currency_conversions.anyOf[1][] (Value): {@link
-     * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the country
-     * whose VAT is charged. previous_attributes.tax_currency_conversions.anyOf[2] (Value): null.
-     * previous_attributes.total_money (Optional): {@link MoneyValue} or null. The face value of
-     * the credit note, the sum of its lines. previous_attributes.total_money.anyOf[1] (Value):
-     * {@link MoneyValue}. The face value of the credit note, the sum of its lines.
-     * previous_attributes.total_money.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. When the credit note last changed.
-     * previous_attributes.updated_at.anyOf[1] (Value): string. When the credit note last changed.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
-     * (Value): null. previous_attributes.version (Optional): integer or null. Current credit note
-     * version. Send this as expected_version when updating the draft.
-     * previous_attributes.version.anyOf[1] (Value): integer. Current credit note version. Send
-     * this as expected_version when updating the draft. Format: int64. minimum: 1.
-     * previous_attributes.version.anyOf[2] (Value): null. previous_attributes.voided_at
-     * (Optional): string or null. When the credit note was voided. Absent unless its status is
-     * voided. previous_attributes.voided_at.anyOf[1] (Value): string. When the credit note was
-     * voided. Absent unless its status is voided. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allocated_money (Required): {@link MoneyValue}. Credit applied to the invoice, net of
-         * reversed allocations. Monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. available_money (Required): {@link MoneyValue}. Credit available to
-         * allocate or refund. Zero on draft and voided notes. On issued notes, total_money equals
-         * allocated_money plus pending_refund_money plus refunded_money plus available_money.
-         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-         * buyer_tax_identity (Required): {@link TaxIdentity} or null. Identity frozen on the
-         * source invoice at issue. Later profile edits do not change this document. `null` when no
-         * buyer tax identity was captured on the source invoice. Customer deletion preserves
-         * identities captured on issued invoices and credit notes. buyer_tax_identity.anyOf[1]
-         * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-         * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID
-         * for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-         * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-         * display order; replacing the array requires the parent's expected_version. Existing
-         * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add
-         * one. buyer_tax_identity.anyOf[2] (Value): null. created_at (Required): string. When the
-         * credit note was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * credit_note_id (Required): string. Unique identifier of the credit note. Example:
-         * "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_number (Optional): string. Assigned at
-         * issue and stable from then on. Absent while the credit note is a draft.
-         * external_reference_id (Required): string or null. Caller-owned identifier for this
-         * resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
-         * Example: "warehouse-1842". invoice (Optional): {@link ExpandedInvoiceSummary}. Summary
-         * of the source invoice. Returned only with expand=invoice. An invoice's summary fields,
-         * including status, due date, and paid, outstanding, and refunded amounts, returned when
-         * the invoice is expanded. invoice_id (Required): string. The invoice this credit note
-         * corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". issued_at (Optional): string. When
-         * the credit note was issued. Absent on a draft. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". latest_refund_status (Optional): string. Status of the most
-         * recent refund linked to this credit note. Absent when no refund has been requested.
-         * Value enum: "pending", "succeeded", "partially_succeeded", "failed". line_items
-         * (Required): Array of {@link CreditNoteLineItem}. Itemized corrections against frozen
-         * invoice lines. Amount and quantity corrections share each source line's remaining value,
-         * discount, and tax across issued credit notes that have not been voided. Drafts reserve
-         * no credit. line_items[] (Value): {@link CreditNoteLineItem}. One correction calculated
-         * from the frozen invoice line's remaining billed value, discount, and tax. The source
-         * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-         * settings do not affect the correction. Stored issued values are never recalculated by a
-         * read. memo (Required): string or null. Free text shown on the credit note, up to 4096
-         * characters. `null` when unset. merchant_id (Required): string. The merchant that owns
-         * the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". pending_refund_money
-         * (Required): {@link MoneyValue}. Credit reserved by linked refunds that have not resolved
-         * yet. Released if a refund fails or is canceled. Monetary amount represented as integer
-         * minor units plus an ISO 4217 currency code. reason (Required): string. Why the invoice
-         * is being corrected. Shown on the credit note document. Value enum: "returned_goods",
-         * "order_adjustment", "billing_error", "goodwill", "other". refunded_money (Required):
-         * {@link MoneyValue}. Credit consumed by linked refunds that succeeded. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code. seller_tax_identity
-         * (Required): {@link TaxIdentity} or null. Identity frozen on the source invoice at issue.
-         * Later profile edits do not change this document. `null` when no seller tax identity was
-         * captured. seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided
-         * legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-         * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax
-         * provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax
-         * IDs are an owned collection in display order; replacing the array requires the parent's
-         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
-         * it, or omit its ID to add one. seller_tax_identity.anyOf[2] (Value): null. status
-         * (Required): string. draft while the credit note is editable, issued once it is numbered
-         * and frozen, voided once withdrawn. Value enum: "draft", "issued", "voided".
-         * supported_actions (Required): Array of string. Lifecycle actions Flint accepts for this
-         * resource now, based on stored state. Independent of the caller's permissions; each
-         * action still requires its route's scope. Always [] when no action is available. [] enum:
-         * "issue", "void". supported_actions[] (Value): string. Value enum: "issue", "void".
-         * tax_currency_conversions (Required): Array of {@link TaxCurrencyConversion}. The credit
-         * note's VAT stated in the currency of the country that charges it, frozen at issue. Each
-         * entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from
-         * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-         * converted the same way. Always [] on drafts and when the invoice froze no conversion.
-         * The credit note PDF prints the same figures. tax_currency_conversions[] (Value): {@link
-         * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-         * country whose VAT is charged. total_money (Required): {@link MoneyValue}. The face value
-         * of the credit note, the sum of its lines. Monetary amount represented as integer minor
-         * units plus an ISO 4217 currency code. updated_at (Required): string. When the credit
-         * note last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Current credit note version. Send this as expected_version when
-         * updating the draft. Format: int64. minimum: 1. voided_at (Optional): string. When the
-         * credit note was voided. Absent unless its status is voided. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * Credit applied to the invoice, net of reversed allocations. Monetary amount
-             * represented as integer minor units plus an ISO 4217 currency code.
-             */
-            "allocated_money": MoneyValue;
-            /**
-             * Credit available to allocate or refund. Zero on draft and voided notes. On issued
-             * notes, total_money equals allocated_money plus pending_refund_money plus
-             * refunded_money plus available_money. Monetary amount represented as integer minor
-             * units plus an ISO 4217 currency code.
-             */
-            "available_money": MoneyValue;
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no buyer tax identity was captured on the source invoice.
-             * Customer deletion preserves identities captured on issued invoices and credit notes.
-             * anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on
-             * invoices and credit notes. Flint does not verify IDs. On a customer, automatic tax
-             * sends the tax ID for an EU, GB, AU or NZ destination to its tax provider, which can
-             * apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
-             * collection in display order; replacing the array requires the parent's
-             * expected_version. Existing entries retain their document_tax_id; omit an entry to
-             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
-             */
-            "buyer_tax_identity": ((TaxIdentity) | (null));
-            /**
-             * When the credit note was created. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /** Unique identifier of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". */
-            "credit_note_id": string;
-            /**
-             * Assigned at issue and stable from then on. Absent while the credit note is a draft.
-             */
-            "credit_note_number"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. `null` when unset.
-             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-             */
-            "external_reference_id": string | null;
-            /**
-             * Summary of the source invoice. Returned only with expand=invoice. An invoice's
-             * summary fields, including status, due date, and paid, outstanding, and refunded
-             * amounts, returned when the invoice is expanded.
-             */
-            "invoice"?: ExpandedInvoiceSummary;
-            /** The invoice this credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
-            "invoice_id": string;
-            /**
-             * When the credit note was issued. Absent on a draft. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "issued_at"?: string;
-            /**
-             * Status of the most recent refund linked to this credit note. Absent when no refund
-             * has been requested. Value enum: "pending", "succeeded", "partially_succeeded",
-             * "failed".
-             */
-            "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            /**
-             * Itemized corrections against frozen invoice lines. Amount and quantity corrections
-             * share each source line's remaining value, discount, and tax across issued credit
-             * notes that have not been voided. Drafts reserve no credit. [] (Value): {@link
-             * CreditNoteLineItem}. One correction calculated from the frozen invoice line's
-             * remaining billed value, discount, and tax. The source line's inclusive or additive
-             * tax mode is preserved. Current catalog prices and tax settings do not affect the
-             * correction. Stored issued values are never recalculated by a read.
-             */
-            "line_items": Array<CreditNoteLineItem>;
-            /** Free text shown on the credit note, up to 4096 characters. `null` when unset. */
-            "memo": string | null;
-            /**
-             * The merchant that owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Credit reserved by linked refunds that have not resolved yet. Released if a refund
-             * fails or is canceled. Monetary amount represented as integer minor units plus an ISO
-             * 4217 currency code.
-             */
-            "pending_refund_money": MoneyValue;
-            /**
-             * Why the invoice is being corrected. Shown on the credit note document. Value enum:
-             * "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
-             */
-            "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-            /**
-             * Credit consumed by linked refunds that succeeded. Monetary amount represented as
-             * integer minor units plus an ISO 4217 currency code.
-             */
-            "refunded_money": MoneyValue;
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no seller tax identity was captured. anyOf[1] (Value):
-             * {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-             * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax
-             * ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a
-             * reverse charge; other IDs do not change tax treatment. Tax IDs are an owned
-             * collection in display order; replacing the array requires the parent's
-             * expected_version. Existing entries retain their document_tax_id; omit an entry to
-             * remove it, or omit its ID to add one. anyOf[2] (Value): null.
-             */
-            "seller_tax_identity": ((TaxIdentity) | (null));
-            /**
-             * draft while the credit note is editable, issued once it is numbered and frozen,
-             * voided once withdrawn. Value enum: "draft", "issued", "voided".
-             */
-            "status": "draft" | "issued" | "voided" | (string & {});
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "issue", "void". [] (Value):
-             * string. Value enum: "issue", "void".
-             */
-            "supported_actions": Array<"issue" | "void" | (string & {})>;
-            /**
-             * The credit note's VAT stated in the currency of the country that charges it, frozen
-             * at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-             * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT
-             * and taxable amount converted the same way. Always [] on drafts and when the invoice
-             * froze no conversion. The credit note PDF prints the same figures. [] (Value): {@link
-             * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-             * country whose VAT is charged.
-             */
-            "tax_currency_conversions": Array<TaxCurrencyConversion>;
-            /**
-             * The face value of the credit note, the sum of its lines. Monetary amount represented
-             * as integer minor units plus an ISO 4217 currency code.
-             */
-            "total_money": MoneyValue;
-            /**
-             * When the credit note last changed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "updated_at": string;
-            /**
-             * Current credit note version. Send this as expected_version when updating the draft.
-             * Format: int64. minimum: 1.
-             */
-            "version": number;
-            /**
-             * When the credit note was voided. Absent unless its status is voided. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "voided_at"?: string;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. allocated_money (Optional): {@link MoneyValue}
-         * or null. Credit applied to the invoice, net of reversed allocations.
-         * allocated_money.anyOf[1] (Value): {@link MoneyValue}. Credit applied to the invoice, net
-         * of reversed allocations. allocated_money.anyOf[2] (Value): null. available_money
-         * (Optional): {@link MoneyValue} or null. Credit available to allocate or refund. Zero on
-         * draft and voided notes. On issued notes, total_money equals allocated_money plus
-         * pending_refund_money plus refunded_money plus available_money. available_money.anyOf[1]
-         * (Value): {@link MoneyValue}. Credit available to allocate or refund. Zero on draft and
-         * voided notes. On issued notes, total_money equals allocated_money plus
-         * pending_refund_money plus refunded_money plus available_money. available_money.anyOf[2]
-         * (Value): null. buyer_tax_identity (Optional): {@link TaxIdentity} or null or null.
-         * Identity frozen on the source invoice at issue. Later profile edits do not change this
-         * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-         * deletion preserves identities captured on issued invoices and credit notes.
-         * buyer_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null. Identity frozen on the
-         * source invoice at issue. Later profile edits do not change this document. `null` when no
-         * buyer tax identity was captured on the source invoice. Customer deletion preserves
-         * identities captured on issued invoices and credit notes.
-         * buyer_tax_identity.anyOf[1].anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided
-         * legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-         * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax
-         * provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax
-         * IDs are an owned collection in display order; replacing the array requires the parent's
-         * expected_version. Existing entries retain their document_tax_id; omit an entry to remove
-         * it, or omit its ID to add one. buyer_tax_identity.anyOf[1].anyOf[2] (Value): null.
-         * buyer_tax_identity.anyOf[2] (Value): null. created_at (Optional): string or null. When
-         * the credit note was created. created_at.anyOf[1] (Value): string. When the credit note
-         * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
-         * (Value): null. credit_note_id (Optional): string or null. Unique identifier of the
-         * credit note. credit_note_id.anyOf[1] (Value): string. Unique identifier of the credit
-         * note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_id.anyOf[2] (Value): null.
-         * credit_note_number (Optional): string or null. Assigned at issue and stable from then
-         * on. Absent while the credit note is a draft. credit_note_number.anyOf[1] (Value):
-         * string. Assigned at issue and stable from then on. Absent while the credit note is a
-         * draft. credit_note_number.anyOf[2] (Value): null. external_reference_id (Optional):
-         * string or null or null. Caller-owned identifier for this resource in an external system.
-         * `null` when unset. external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-         * identifier for this resource in an external system. `null` when unset. minLength: 1.
-         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
-         * invoice (Optional): {@link ExpandedInvoiceSummary} or null. Summary of the source
-         * invoice. Returned only with expand=invoice. invoice.anyOf[1] (Value): {@link
-         * ExpandedInvoiceSummary}. Summary of the source invoice. Returned only with
-         * expand=invoice. invoice.anyOf[2] (Value): null. invoice_id (Optional): string or null.
-         * The invoice this credit note corrects. invoice_id.anyOf[1] (Value): string. The invoice
-         * this credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-         * invoice_id.anyOf[2] (Value): null. issued_at (Optional): string or null. When the credit
-         * note was issued. Absent on a draft. issued_at.anyOf[1] (Value): string. When the credit
-         * note was issued. Absent on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * issued_at.anyOf[2] (Value): null. latest_refund_status (Optional): string or null.
-         * Status of the most recent refund linked to this credit note. Absent when no refund has
-         * been requested. Value enum: "pending", "succeeded", "partially_succeeded", "failed".
-         * latest_refund_status.anyOf[1] (Value): string. Status of the most recent refund linked
-         * to this credit note. Absent when no refund has been requested. Value enum: "pending",
-         * "succeeded", "partially_succeeded", "failed". latest_refund_status.anyOf[2] (Value):
-         * null. line_items (Optional): Array of {@link CreditNoteLineItem} or null. Itemized
-         * corrections against frozen invoice lines. Amount and quantity corrections share each
-         * source line's remaining value, discount, and tax across issued credit notes that have
-         * not been voided. Drafts reserve no credit. line_items.anyOf[1] (Value): Array of {@link
-         * CreditNoteLineItem}. Itemized corrections against frozen invoice lines. Amount and
-         * quantity corrections share each source line's remaining value, discount, and tax across
-         * issued credit notes that have not been voided. Drafts reserve no credit.
-         * line_items.anyOf[1][] (Value): {@link CreditNoteLineItem}. One correction calculated
-         * from the frozen invoice line's remaining billed value, discount, and tax. The source
-         * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-         * settings do not affect the correction. Stored issued values are never recalculated by a
-         * read. line_items.anyOf[2] (Value): null. memo (Optional): string or null or null. Free
-         * text shown on the credit note, up to 4096 characters. `null` when unset. memo.anyOf[1]
-         * (Value): string or null. Free text shown on the credit note, up to 4096 characters.
-         * `null` when unset. memo.anyOf[2] (Value): null. merchant_id (Optional): string or null.
-         * The merchant that owns the credit note. merchant_id.anyOf[1] (Value): string. The
-         * merchant that owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. pending_refund_money (Optional): {@link MoneyValue}
-         * or null. Credit reserved by linked refunds that have not resolved yet. Released if a
-         * refund fails or is canceled. pending_refund_money.anyOf[1] (Value): {@link MoneyValue}.
-         * Credit reserved by linked refunds that have not resolved yet. Released if a refund fails
-         * or is canceled. pending_refund_money.anyOf[2] (Value): null. reason (Optional): string
-         * or null. Why the invoice is being corrected. Shown on the credit note document. Value
-         * enum: "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
-         * reason.anyOf[1] (Value): string. Why the invoice is being corrected. Shown on the credit
-         * note document. Value enum: "returned_goods", "order_adjustment", "billing_error",
-         * "goodwill", "other". reason.anyOf[2] (Value): null. refunded_money (Optional): {@link
-         * MoneyValue} or null. Credit consumed by linked refunds that succeeded.
-         * refunded_money.anyOf[1] (Value): {@link MoneyValue}. Credit consumed by linked refunds
-         * that succeeded. refunded_money.anyOf[2] (Value): null. seller_tax_identity (Optional):
-         * {@link TaxIdentity} or null or null. Identity frozen on the source invoice at issue.
-         * Later profile edits do not change this document. `null` when no seller tax identity was
-         * captured. seller_tax_identity.anyOf[1] (Value): {@link TaxIdentity} or null. Identity
-         * frozen on the source invoice at issue. Later profile edits do not change this document.
-         * `null` when no seller tax identity was captured. seller_tax_identity.anyOf[1].anyOf[1]
-         * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-         * credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID
-         * for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-         * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-         * display order; replacing the array requires the parent's expected_version. Existing
-         * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add
-         * one. seller_tax_identity.anyOf[1].anyOf[2] (Value): null. seller_tax_identity.anyOf[2]
-         * (Value): null. status (Optional): string or null. draft while the credit note is
-         * editable, issued once it is numbered and frozen, voided once withdrawn. Value enum:
-         * "draft", "issued", "voided". status.anyOf[1] (Value): string. draft while the credit
-         * note is editable, issued once it is numbered and frozen, voided once withdrawn. Value
-         * enum: "draft", "issued", "voided". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Lifecycle actions Flint accepts for this resource
-         * now, based on stored state. Independent of the caller's permissions; each action still
-         * requires its route's scope. Always [] when no action is available. [] enum: "issue",
-         * "void". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint
-         * accepts for this resource now, based on stored state. Independent of the caller's
-         * permissions; each action still requires its route's scope. Always [] when no action is
-         * available. [] enum: "issue", "void". supported_actions.anyOf[1][] (Value): string. Value
-         * enum: "issue", "void". supported_actions.anyOf[2] (Value): null.
-         * tax_currency_conversions (Optional): Array of {@link TaxCurrencyConversion} or null. The
-         * credit note's VAT stated in the currency of the country that charges it, frozen at
-         * issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-         * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and
-         * taxable amount converted the same way. Always [] on drafts and when the invoice froze no
-         * conversion. The credit note PDF prints the same figures.
-         * tax_currency_conversions.anyOf[1] (Value): Array of {@link TaxCurrencyConversion}. The
-         * credit note's VAT stated in the currency of the country that charges it, frozen at
-         * issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-         * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and
-         * taxable amount converted the same way. Always [] on drafts and when the invoice froze no
-         * conversion. The credit note PDF prints the same figures.
-         * tax_currency_conversions.anyOf[1][] (Value): {@link TaxCurrencyConversion}. VAT on an
-         * issued document converted into the currency of the country whose VAT is charged.
-         * tax_currency_conversions.anyOf[2] (Value): null. total_money (Optional): {@link
-         * MoneyValue} or null. The face value of the credit note, the sum of its lines.
-         * total_money.anyOf[1] (Value): {@link MoneyValue}. The face value of the credit note, the
-         * sum of its lines. total_money.anyOf[2] (Value): null. updated_at (Optional): string or
-         * null. When the credit note last changed. updated_at.anyOf[1] (Value): string. When the
-         * credit note last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current credit
-         * note version. Send this as expected_version when updating the draft. version.anyOf[1]
-         * (Value): integer. Current credit note version. Send this as expected_version when
-         * updating the draft. Format: int64. minimum: 1. version.anyOf[2] (Value): null. voided_at
-         * (Optional): string or null. When the credit note was voided. Absent unless its status is
-         * voided. voided_at.anyOf[1] (Value): string. When the credit note was voided. Absent
-         * unless its status is voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * voided_at.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Credit applied to the invoice, net of reversed allocations. anyOf[1] (Value): {@link
-             * MoneyValue}. Credit applied to the invoice, net of reversed allocations. anyOf[2]
-             * (Value): null.
-             */
-            "allocated_money"?: ((MoneyValue) | (null));
-            /**
-             * Credit available to allocate or refund. Zero on draft and voided notes. On issued
-             * notes, total_money equals allocated_money plus pending_refund_money plus
-             * refunded_money plus available_money. anyOf[1] (Value): {@link MoneyValue}. Credit
-             * available to allocate or refund. Zero on draft and voided notes. On issued notes,
-             * total_money equals allocated_money plus pending_refund_money plus refunded_money
-             * plus available_money. anyOf[2] (Value): null.
-             */
-            "available_money"?: ((MoneyValue) | (null));
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no buyer tax identity was captured on the source invoice.
-             * Customer deletion preserves identities captured on issued invoices and credit notes.
-             * anyOf[1] (Value): {@link TaxIdentity} or null. Identity frozen on the source invoice
-             * at issue. Later profile edits do not change this document. `null` when no buyer tax
-             * identity was captured on the source invoice. Customer deletion preserves identities
-             * captured on issued invoices and credit notes. anyOf[1].anyOf[1] (Value): {@link
-             * TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit
-             * notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for
-             * an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse
-             * charge; other IDs do not change tax treatment. Tax IDs are an owned collection in
-             * display order; replacing the array requires the parent's expected_version. Existing
-             * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to
-             * add one. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "buyer_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            /**
-             * When the credit note was created. anyOf[1] (Value): string. When the credit note was
-             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Unique identifier of the credit note. anyOf[1] (Value): string. Unique identifier of
-             * the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". anyOf[2] (Value): null.
-             */
-            "credit_note_id"?: ((string) | (null));
-            /**
-             * Assigned at issue and stable from then on. Absent while the credit note is a draft.
-             * anyOf[1] (Value): string. Assigned at issue and stable from then on. Absent while
-             * the credit note is a draft. anyOf[2] (Value): null.
-             */
-            "credit_note_number"?: ((string) | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. `null` when unset.
-             * anyOf[1] (Value): string or null. Caller-owned identifier for this resource in an
-             * external system. `null` when unset. minLength: 1. maxLength: 255. Example:
-             * "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
-            /**
-             * Summary of the source invoice. Returned only with expand=invoice. anyOf[1] (Value):
-             * {@link ExpandedInvoiceSummary}. Summary of the source invoice. Returned only with
-             * expand=invoice. anyOf[2] (Value): null.
-             */
-            "invoice"?: ((ExpandedInvoiceSummary) | (null));
-            /**
-             * The invoice this credit note corrects. anyOf[1] (Value): string. The invoice this
-             * credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value):
-             * null.
-             */
-            "invoice_id"?: ((string) | (null));
-            /**
-             * When the credit note was issued. Absent on a draft. anyOf[1] (Value): string. When
-             * the credit note was issued. Absent on a draft. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "issued_at"?: ((string) | (null));
-            /**
-             * Status of the most recent refund linked to this credit note. Absent when no refund
-             * has been requested. Value enum: "pending", "succeeded", "partially_succeeded",
-             * "failed". anyOf[1] (Value): string. Status of the most recent refund linked to this
-             * credit note. Absent when no refund has been requested. Value enum: "pending",
-             * "succeeded", "partially_succeeded", "failed". anyOf[2] (Value): null.
-             */
-            "latest_refund_status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
-            /**
-             * Itemized corrections against frozen invoice lines. Amount and quantity corrections
-             * share each source line's remaining value, discount, and tax across issued credit
-             * notes that have not been voided. Drafts reserve no credit. anyOf[1] (Value): Array
-             * of {@link CreditNoteLineItem}. Itemized corrections against frozen invoice lines.
-             * Amount and quantity corrections share each source line's remaining value, discount,
-             * and tax across issued credit notes that have not been voided. Drafts reserve no
-             * credit. anyOf[1][] (Value): {@link CreditNoteLineItem}. One correction calculated
-             * from the frozen invoice line's remaining billed value, discount, and tax. The source
-             * line's inclusive or additive tax mode is preserved. Current catalog prices and tax
-             * settings do not affect the correction. Stored issued values are never recalculated
-             * by a read. anyOf[2] (Value): null.
-             */
-            "line_items"?: ((Array<CreditNoteLineItem>) | (null));
-            /**
-             * Free text shown on the credit note, up to 4096 characters. `null` when unset.
-             * anyOf[1] (Value): string or null. Free text shown on the credit note, up to 4096
-             * characters. `null` when unset. anyOf[2] (Value): null.
-             */
-            "memo"?: ((string | null) | (null) | (unknown));
-            /**
-             * The merchant that owns the credit note. anyOf[1] (Value): string. The merchant that
-             * owns the credit note. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value):
-             * null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Credit reserved by linked refunds that have not resolved yet. Released if a refund
-             * fails or is canceled. anyOf[1] (Value): {@link MoneyValue}. Credit reserved by
-             * linked refunds that have not resolved yet. Released if a refund fails or is
-             * canceled. anyOf[2] (Value): null.
-             */
-            "pending_refund_money"?: ((MoneyValue) | (null));
-            /**
-             * Why the invoice is being corrected. Shown on the credit note document. Value enum:
-             * "returned_goods", "order_adjustment", "billing_error", "goodwill", "other". anyOf[1]
-             * (Value): string. Why the invoice is being corrected. Shown on the credit note
-             * document. Value enum: "returned_goods", "order_adjustment", "billing_error",
-             * "goodwill", "other". anyOf[2] (Value): null.
-             */
-            "reason"?: (("returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {}))
-                | (null));
-            /**
-             * Credit consumed by linked refunds that succeeded. anyOf[1] (Value): {@link
-             * MoneyValue}. Credit consumed by linked refunds that succeeded. anyOf[2] (Value):
-             * null.
-             */
-            "refunded_money"?: ((MoneyValue) | (null));
-            /**
-             * Identity frozen on the source invoice at issue. Later profile edits do not change
-             * this document. `null` when no seller tax identity was captured. anyOf[1] (Value):
-             * {@link TaxIdentity} or null. Identity frozen on the source invoice at issue. Later
-             * profile edits do not change this document. `null` when no seller tax identity was
-             * captured. anyOf[1].anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal
-             * identity displayed on invoices and credit notes. Flint does not verify IDs. On a
-             * customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its
-             * tax provider, which can apply a reverse charge; other IDs do not change tax
-             * treatment. Tax IDs are an owned collection in display order; replacing the array
-             * requires the parent's expected_version. Existing entries retain their
-             * document_tax_id; omit an entry to remove it, or omit its ID to add one.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-             */
-            "seller_tax_identity"?: ((((TaxIdentity) | (null))) | (null) | (unknown));
-            /**
-             * draft while the credit note is editable, issued once it is numbered and frozen,
-             * voided once withdrawn. Value enum: "draft", "issued", "voided". anyOf[1] (Value):
-             * string. draft while the credit note is editable, issued once it is numbered and
-             * frozen, voided once withdrawn. Value enum: "draft", "issued", "voided". anyOf[2]
-             * (Value): null.
-             */
-            "status"?: (("draft" | "issued" | "voided" | (string & {})) | (null));
-            /**
-             * Lifecycle actions Flint accepts for this resource now, based on stored state.
-             * Independent of the caller's permissions; each action still requires its route's
-             * scope. Always [] when no action is available. [] enum: "issue", "void". anyOf[1]
-             * (Value): Array of string. Lifecycle actions Flint accepts for this resource now,
-             * based on stored state. Independent of the caller's permissions; each action still
-             * requires its route's scope. Always [] when no action is available. [] enum: "issue",
-             * "void". anyOf[1][] (Value): string. Value enum: "issue", "void". anyOf[2] (Value):
-             * null.
-             */
-            "supported_actions"?: ((Array<"issue" | "void" | (string & {})>) | (null));
-            /**
-             * The credit note's VAT stated in the currency of the country that charges it, frozen
-             * at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and
-             * rate_source from snapshot.tax_currency_conversions, with this note's credited VAT
-             * and taxable amount converted the same way. Always [] on drafts and when the invoice
-             * froze no conversion. The credit note PDF prints the same figures. anyOf[1] (Value):
-             * Array of {@link TaxCurrencyConversion}. The credit note's VAT stated in the currency
-             * of the country that charges it, frozen at issue. Each entry reuses the invoice's
-             * currency, exchange_rate, rate_date, and rate_source from
-             * snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-             * converted the same way. Always [] on drafts and when the invoice froze no
-             * conversion. The credit note PDF prints the same figures. anyOf[1][] (Value): {@link
-             * TaxCurrencyConversion}. VAT on an issued document converted into the currency of the
-             * country whose VAT is charged. anyOf[2] (Value): null.
-             */
-            "tax_currency_conversions"?: ((Array<TaxCurrencyConversion>) | (null));
-            /**
-             * The face value of the credit note, the sum of its lines. anyOf[1] (Value): {@link
-             * MoneyValue}. The face value of the credit note, the sum of its lines. anyOf[2]
-             * (Value): null.
-             */
-            "total_money"?: ((MoneyValue) | (null));
-            /**
-             * When the credit note last changed. anyOf[1] (Value): string. When the credit note
-             * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
-             * null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Current credit note version. Send this as expected_version when updating the draft.
-             * anyOf[1] (Value): integer. Current credit note version. Send this as
-             * expected_version when updating the draft. Format: int64. minimum: 1. anyOf[2]
-             * (Value): null.
-             */
-            "version"?: ((number) | (null));
-            /**
-             * When the credit note was voided. Absent unless its status is voided. anyOf[1]
-             * (Value): string. When the credit note was voided. Absent unless its status is
-             * voided. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "voided_at"?: ((string) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "credit_note.voided". */
-    "event_type"?: "credit_note.voided";
-});
-export type CreditNotesCreateAllocationParams = (InputValue<CreateCreditNoteAllocationRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type CreditNotesCreateParams = (InputValue<CreateCreditNoteRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type CreditNotesGetAllocationParams = DisputesAcceptParams;

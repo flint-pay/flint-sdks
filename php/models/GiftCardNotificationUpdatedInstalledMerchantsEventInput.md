@@ -41,17 +41,17 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
-| `delivery` | Optional | [GiftCardNotificationDeliveryInput](../models/GiftCardNotificationDeliveryInput.md#giftcardnotificationdeliveryinput) or null | Included on notification retrieval. Contains the most recent sending attempts and delivery events, newest first. A failed attempt describes the send call; use notification.status to determine whether acceptance remains unconfirmed. |
+| `delivery` | Optional | [GiftCardNotificationDeliveryPreviousAttributesInput](../models/GiftCardNotificationDeliveryPreviousAttributesInput.md#giftcardnotificationdeliverypreviousattributesinput) or null | Included on notification retrieval. Contains the most recent sending attempts and delivery events, newest first. A failed attempt describes the send call; use notification.status to determine whether acceptance remains unconfirmed. |
 | `gift_card_id` | Optional | string or null | ID of the gift card the notification is about. `gift_card_id`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEventInput.md#giftcardnotificationupdatedinstalledmerchantseventinputdataprevious_attributesgift_card_id). |
 | `gift_card_notification_id` | Optional | string or null | Unique identifier for this gift card notification, prefixed `gcn_`. `gift_card_notification_id`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEventInput.md#giftcardnotificationupdatedinstalledmerchantseventinputdataprevious_attributesgift_card_notification_id). |
-| `recipient` | Optional | [GiftCardNotificationRecipientInput](../models/GiftCardNotificationRecipientInput.md#giftcardnotificationrecipientinput) or null | Who the notification is sent to. |
+| `recipient` | Optional | [GiftCardNotificationRecipientPreviousAttributesInput](../models/GiftCardNotificationRecipientPreviousAttributesInput.md#giftcardnotificationrecipientpreviousattributesinput) or null | Who the notification is sent to. |
 | `resend_of_notification_id` | Optional | string or null | ID of the earlier notification this one sends again. `resend_of_notification_id`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEventInput.md#giftcardnotificationupdatedinstalledmerchantseventinputdataprevious_attributesresend_of_notification_id). |
 | `sent_at` | Optional | string or null | RFC3339 timestamp. `sent_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
 | `status` | Optional | string or null | Where sending the notification stands. Read `delivery` for the attempts and email events behind it. Values: `"scheduled"`, `"pending"`, `"sent"`, `"failed"`, `"unconfirmed"`, `"canceled"`. `status`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEventInput.md#giftcardnotificationupdatedinstalledmerchantseventinputdataprevious_attributesstatus). |
 | `status_reason` | Optional | string or null or null | Why the notification has its current status. credential_rotated means code rotation canceled an unsent notification for the previous code. Null when no reason applies. Values: `"credential_rotated"`, `null`. `status_reason`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEventInput.md#giftcardnotificationupdatedinstalledmerchantseventinputdataprevious_attributesstatus_reason). |
 | `supported_actions` | Optional | Array of string or null | Lifecycle actions accepted for this notification's stored state, independent of the caller's credentials. Empty when none are available. Items values: `"cancel"`. `supported_actions`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEventInput.md#giftcardnotificationupdatedinstalledmerchantseventinputdataprevious_attributessupported_actions). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
-| `version` | Optional | integer or null | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. `version`: [declared alternatives](../models/GiftCardLoadUpdatedInstalledMerchantsEventInput.md#giftcardloadupdatedinstalledmerchantseventinputdataprevious_attributesversion). |
+| `version` | Optional | integer or null | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. `version`: [declared alternatives](../models/GiftCardFundingDisputePreviousAttributesInput.md#giftcardfundingdisputepreviousattributesinputversion). |
 
 ### GiftCardNotificationUpdatedInstalledMerchantsEventInput.data.previous_attributes.created_at
 
@@ -151,7 +151,7 @@ Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created
 
 ### GiftCardNotificationUpdatedInstalledMerchantsEventInput.data.previous_attributes.version
 
-Declared alternatives: [GiftCardLoadUpdatedInstalledMerchantsEventInput.data.previous_attributes.version](../models/GiftCardLoadUpdatedInstalledMerchantsEventInput.md#giftcardloadupdatedinstalledmerchantseventinputdataprevious_attributesversion).
+Declared alternatives: [GiftCardFundingDisputePreviousAttributesInput.version](../models/GiftCardFundingDisputePreviousAttributesInput.md#giftcardfundingdisputepreviousattributesinputversion).
 
 ### GiftCardNotificationUpdatedInstalledMerchantsEventInput.source
 

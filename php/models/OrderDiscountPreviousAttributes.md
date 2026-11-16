@@ -1,0 +1,143 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## OrderDiscountPreviousAttributes
+
+
+
+Response model.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Discount amount before limits apply, such as 20% of $100 resolving to $20. |
+| `applied_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Amount the discount took off. It is less than `amount_money` when a limit applies, such as a discount that would take the order below zero. |
+| `customer_facing_name` | Optional | string or null | Name the buyer sees for the discount. `customer_facing_name`: [declared alternatives](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributessnapshot-variant-1discounts-variant-1-fields-1customer_facing_name). |
+| `discount_class` | Optional | string or null | Which part of the order the discount reduces. Values: `"order"`, `"line_item"`, `"service_charge"`. `discount_class`: [declared alternatives](../models/OrderDiscountPreviousAttributes.md#orderdiscountpreviousattributesdiscount_class). |
+| `order_charge_ids` | Optional | Array of string or null | IDs of the charges this discount reduces. `order_charge_ids`: [declared alternatives](../models/OrderDiscountPreviousAttributes.md#orderdiscountpreviousattributesorder_charge_ids). |
+| `order_discount_id` | Optional | string or null | Order discount ID. It starts with ad_. Pass it to POST /v1/orders/{order_id}/discounts/remove to remove the discount. `order_discount_id`: [declared alternatives](../models/OrderDiscountPreviousAttributes.md#orderdiscountpreviousattributesorder_discount_id). |
+| `order_id` | Optional | string or null | ID of the order the discount applies to. `order_id`: [declared alternatives](../models/OrderDiscountPreviousAttributes.md#orderdiscountpreviousattributesorder_id). |
+| `order_line_item_ids` | Optional | Array of string or null | IDs of the order line items this discount applies to. `order_line_item_ids`: [declared alternatives](../models/OrderDiscountPreviousAttributes.md#orderdiscountpreviousattributesorder_line_item_ids). |
+| `promotion_code` | Optional | string or null | Promotion code used to create this discount. Present only when source is promotion and a code was used. `promotion_code`: [declared alternatives](../models/OrderDiscountPreviousAttributes.md#orderdiscountpreviousattributespromotion_code). |
+| `promotion_id` | Optional | string or null | Promotion that created this discount. Present only when source is promotion. `promotion_id`: [declared alternatives](../models/OrderDiscountPreviousAttributes.md#orderdiscountpreviousattributespromotion_id). |
+| `source` | Optional | string or null | Where the discount came from. Values: `"manual"`, `"promotion"`, `"plan_change_credit"`, `"proration"`, `"prepaid_delivery"`. `source`: [declared alternatives](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributessnapshot-variant-1discounts-variant-1-fields-1source). |
+| `status` | Optional | string or null | Redemption state of the discount. Values: `"pending"`, `"redeemed"`, `"canceled"`. `status`: [declared alternatives](../models/OrderDiscountPreviousAttributes.md#orderdiscountpreviousattributesstatus). |
+
+### OrderDiscountPreviousAttributes.customer_facing_name
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.snapshot variant 1.discounts variant 1.[] fields 1.customer_facing_name](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributessnapshot-variant-1discounts-variant-1-fields-1customer_facing_name).
+
+### OrderDiscountPreviousAttributes.discount_class
+
+### OrderDiscountPreviousAttributes.discount_class variant 1
+
+anyOf variant 1: Which part of the order the discount reduces..
+
+- Value shape: string. Which part of the order the discount reduces. Values: `"order"`, `"line_item"`, `"service_charge"`.
+
+### OrderDiscountPreviousAttributes.discount_class variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Which part of the order the discount reduces. 
+
+### OrderDiscountPreviousAttributes.order_charge_ids
+
+### OrderDiscountPreviousAttributes.order_charge_ids variant 1
+
+anyOf variant 1: IDs of the charges this discount reduces..
+
+- Value shape: Array of string. IDs of the charges this discount reduces. 
+
+### OrderDiscountPreviousAttributes.order_charge_ids variant 2
+
+anyOf variant 2.
+
+- Value shape: null. IDs of the charges this discount reduces. 
+
+### OrderDiscountPreviousAttributes.order_discount_id
+
+### OrderDiscountPreviousAttributes.order_discount_id variant 1
+
+anyOf variant 1: Order discount ID. It starts with ad_. Pass it to POST /v1/orders/{order_id}/discounts/remove to remove the discount..
+
+- Value shape: string. Order discount ID. It starts with ad_. Pass it to POST /v1/orders/{order_id}/discounts/remove to remove the discount. 
+
+### OrderDiscountPreviousAttributes.order_discount_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Order discount ID. It starts with ad_. Pass it to POST /v1/orders/{order_id}/discounts/remove to remove the discount. 
+
+### OrderDiscountPreviousAttributes.order_id
+
+### OrderDiscountPreviousAttributes.order_id variant 1
+
+anyOf variant 1: ID of the order the discount applies to..
+
+- Value shape: string. ID of the order the discount applies to. 
+
+### OrderDiscountPreviousAttributes.order_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the order the discount applies to. 
+
+### OrderDiscountPreviousAttributes.order_line_item_ids
+
+### OrderDiscountPreviousAttributes.order_line_item_ids variant 1
+
+anyOf variant 1: IDs of the order line items this discount applies to..
+
+- Value shape: Array of string. IDs of the order line items this discount applies to. 
+
+### OrderDiscountPreviousAttributes.order_line_item_ids variant 2
+
+anyOf variant 2.
+
+- Value shape: null. IDs of the order line items this discount applies to. 
+
+### OrderDiscountPreviousAttributes.promotion_code
+
+### OrderDiscountPreviousAttributes.promotion_code variant 1
+
+anyOf variant 1: Promotion code used to create this discount. Present only when source is promotion and a code was used..
+
+- Value shape: string. Promotion code used to create this discount. Present only when source is promotion and a code was used. 
+
+### OrderDiscountPreviousAttributes.promotion_code variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Promotion code used to create this discount. Present only when source is promotion and a code was used. 
+
+### OrderDiscountPreviousAttributes.promotion_id
+
+### OrderDiscountPreviousAttributes.promotion_id variant 1
+
+anyOf variant 1: Promotion that created this discount. Present only when source is promotion..
+
+- Value shape: string. Promotion that created this discount. Present only when source is promotion. 
+
+### OrderDiscountPreviousAttributes.promotion_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Promotion that created this discount. Present only when source is promotion. 
+
+### OrderDiscountPreviousAttributes.source
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.snapshot variant 1.discounts variant 1.[] fields 1.source](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributessnapshot-variant-1discounts-variant-1-fields-1source).
+
+### OrderDiscountPreviousAttributes.status
+
+### OrderDiscountPreviousAttributes.status variant 1
+
+anyOf variant 1: Redemption state of the discount..
+
+- Value shape: string. Redemption state of the discount. Values: `"pending"`, `"redeemed"`, `"canceled"`.
+
+### OrderDiscountPreviousAttributes.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Redemption state of the discount. 
+

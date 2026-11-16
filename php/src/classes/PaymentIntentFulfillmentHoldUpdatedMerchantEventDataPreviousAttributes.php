@@ -2,16 +2,16 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read MoneyValue|null $amount_money
+ * @property-read mixed $amount_money
  * @property-read string|null $authorization_expires_at
  * @property-read string|null $authorized_at
- * @property-read MoneyValue|null $authorized_money
+ * @property-read mixed $authorized_money
  * @property-read string|null $cancellation_reason
- * @property-read MoneyValue|null $capturable_money
+ * @property-read mixed $capturable_money
  * @property-read string|null $capture_method
  * @property-read string|null $captured_at
- * @property-read MoneyValue|null $captured_money
- * @property-read MoneyValue|null $captured_tip_money
+ * @property-read mixed $captured_money
+ * @property-read mixed $captured_tip_money
  * @property-read string|null $checkout_session_id
  * @property-read string|null $created_at
  * @property-read mixed $customer
@@ -19,35 +19,35 @@ namespace Flint;
  * @property-read string|null $customer_presence
  * @property-read string|null $dispute_status
  * @property-read mixed $external_reference_id
- * @property-read PaymentFulfillmentHold|null $fulfillment_hold
+ * @property-read mixed $fulfillment_hold
  * @property-read mixed $invoice
  * @property-read string|null $invoice_id
  * @property-read string|null $invoice_schedule_entry_id
  * @property-read mixed $last_payment_error
  * @property-read mixed $latest_order_payment_attempt_id
  * @property-read string|null $merchant_id
- * @property-read array<array-key, string>|null $metadata
+ * @property-read mixed $metadata
  * @property-read mixed $order
  * @property-read string|null $order_edit_id
  * @property-read string|null $order_id
- * @property-read PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttributesOvercapture|null $overcapture
+ * @property-read mixed $overcapture
  * @property-read string|null $payment_flow
  * @property-read string|null $payment_intent_id
  * @property-read list<string>|null $payment_options
- * @property-read PaymentSourceSummary|null $payment_source
- * @property-read PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttributesPlatformFee|null $platform_fee
+ * @property-read mixed $payment_source
+ * @property-read mixed $platform_fee
  * @property-read string|null $reader_id
  * @property-read mixed $receipt_email
  * @property-read mixed $refund_expires_at
  * @property-read string|null $refund_status
- * @property-read MoneyValue|null $refunded_money
- * @property-read MoneyValue|null $released_money
+ * @property-read mixed $refunded_money
+ * @property-read mixed $released_money
  * @property-read bool|null $request_overcapture
  * @property-read string|null $return_id
  * @property-read string|null $return_resolution_id
  * @property-read mixed $risk
  * @property-read string|null $selected_payment_option
- * @property-read list<PaymentSplit>|null $splits
+ * @property-read list<PaymentSplitPreviousAttributes>|null $splits
  * @property-read mixed $statement_descriptor
  * @property-read string|null $status
  * @property-read string|null $subscription_id
@@ -61,10 +61,10 @@ namespace Flint;
 final class PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttributes extends Model {
     /** @param array{'amount_money'?: mixed, 'authorization_expires_at'?: mixed, 'authorized_at'?: mixed, 'authorized_money'?: mixed, 'cancellation_reason'?: mixed, 'capturable_money'?: mixed, 'capture_method'?: mixed, 'captured_at'?: mixed, 'captured_money'?: mixed, 'captured_tip_money'?: mixed, 'checkout_session_id'?: mixed, 'created_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'customer_presence'?: mixed, 'dispute_status'?: mixed, 'external_reference_id'?: mixed, 'fulfillment_hold'?: mixed, 'invoice'?: mixed, 'invoice_id'?: mixed, 'invoice_schedule_entry_id'?: mixed, 'last_payment_error'?: mixed, 'latest_order_payment_attempt_id'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_edit_id'?: mixed, 'order_id'?: mixed, 'overcapture'?: mixed, 'payment_flow'?: mixed, 'payment_intent_id'?: mixed, 'payment_options'?: mixed, 'payment_source'?: mixed, 'platform_fee'?: mixed, 'reader_id'?: mixed, 'receipt_email'?: mixed, 'refund_expires_at'?: mixed, 'refund_status'?: mixed, 'refunded_money'?: mixed, 'released_money'?: mixed, 'request_overcapture'?: mixed, 'return_id'?: mixed, 'return_resolution_id'?: mixed, 'risk'?: mixed, 'selected_payment_option'?: mixed, 'splits'?: mixed, 'statement_descriptor'?: mixed, 'status'?: mixed, 'subscription_id'?: mixed, 'support_reference'?: mixed, 'supported_actions'?: mixed, 'tip_money'?: mixed, 'transaction_purpose'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttributes')); }
-    /** The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. On a standalone payment intent, PATCH can change it only before the first confirmation attempt. An amount_money or tip_money change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field with minimum_money. anyOf[1] (Value): {@see MoneyValue}. The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. On a standalone payment intent, PATCH can change it only before the first confirmation attempt. An amount_money or tip_money change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field with minimum_money. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. On a standalone payment intent, PATCH can change it only before the first confirmation attempt. An amount_money or tip_money change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field with minimum_money. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getAmountMoney(): MoneyValue|null { return $this->get('amount_money'); }
+    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** Effective Flint deadline to capture a manual-capture hold: the earlier of the provider capture deadline and any order resource guarantee. Order guarantees last at most 24 hours from the payment attempt start and may end earlier. Capture is refused at or after this time, even while status is requires_capture. Omitted until a hold is placed. anyOf[1] (Value): string. Effective Flint deadline to capture a manual-capture hold: the earlier of the provider capture deadline and any order resource guarantee. Order guarantees last at most 24 hours from the payment attempt start and may end earlier. Capture is refused at or after this time, even while status is requires_capture. Omitted until a hold is placed. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -76,20 +76,20 @@ final class PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttribut
      */
     public function getAuthorizedAt(): string|null { return $this->get('authorized_at'); }
     public function hasAuthorizedAt(): bool { return $this->has('authorized_at'); }
-    /** The amount the processor authorized. It always equals amount_money and doesn't change once set, even when a capture collects more. On a payment intent canceled with cancellation_reason payment_returned, it equals the authorization Flint released instead. Absent until the payment is authorized, and on payments canceled before authorization. anyOf[1] (Value): {@see MoneyValue}. The amount the processor authorized. It always equals amount_money and doesn't change once set, even when a capture collects more. On a payment intent canceled with cancellation_reason payment_returned, it equals the authorization Flint released instead. Absent until the payment is authorized, and on payments canceled before authorization. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** The amount the processor authorized. It always equals amount_money and doesn't change once set, even when a capture collects more. On a payment intent canceled with cancellation_reason payment_returned, it equals the authorization Flint released instead. Absent until the payment is authorized, and on payments canceled before authorization. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getAuthorizedMoney(): MoneyValue|null { return $this->get('authorized_money'); }
+    public function getAuthorizedMoney(): mixed { return $this->get('authorized_money'); }
     public function hasAuthorizedMoney(): bool { return $this->has('authorized_money'); }
     /** Flint-normalized reason the payment intent was canceled. Present only while status is canceled. Unknown processor values are returned as payment_canceled. Value enum: "requested_by_customer", "duplicate", "fraudulent", "abandoned", "invoice_payment_failed", "invoice_voided", "order_closed", "payment_canceled", "payment_returned". anyOf[1] (Value): string. Flint-normalized reason the payment intent was canceled. Present only while status is canceled. Unknown processor values are returned as payment_canceled. Value enum: "requested_by_customer", "duplicate", "fraudulent", "abandoned", "invoice_payment_failed", "invoice_voided", "order_closed", "payment_canceled", "payment_returned". anyOf[2] (Value): null.
      * @return string|null
      */
     public function getCancellationReason(): string|null { return $this->get('cancellation_reason'); }
     public function hasCancellationReason(): bool { return $this->has('cancellation_reason'); }
-    /** The part of the authorization you can still capture. Positive only while status is requires_capture, and zero after you capture or cancel or the authorization expires. The authorization lapses at authorization_expires_at, and a capture attempted after that fails even if this is positive. Absent until the payment is authorized. anyOf[1] (Value): {@see MoneyValue}. The part of the authorization you can still capture. Positive only while status is requires_capture, and zero after you capture or cancel or the authorization expires. The authorization lapses at authorization_expires_at, and a capture attempted after that fails even if this is positive. Absent until the payment is authorized. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** The part of the authorization you can still capture. Positive only while status is requires_capture, and zero after you capture or cancel or the authorization expires. The authorization lapses at authorization_expires_at, and a capture attempted after that fails even if this is positive. Absent until the payment is authorized. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getCapturableMoney(): MoneyValue|null { return $this->get('capturable_money'); }
+    public function getCapturableMoney(): mixed { return $this->get('capturable_money'); }
     public function hasCapturableMoney(): bool { return $this->has('capturable_money'); }
     /** When money is collected. Defaults to automatic. Value enum: "automatic", "manual". anyOf[1] (Value): string. When money is collected. Defaults to automatic. Value enum: "automatic", "manual". anyOf[2] (Value): null.
      * @return string|null
@@ -101,15 +101,15 @@ final class PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttribut
      */
     public function getCapturedAt(): string|null { return $this->get('captured_at'); }
     public function hasCapturedAt(): bool { return $this->has('captured_at'); }
-    /** The amount collected from the buyer, including captured_tip_money. Reconcile revenue and print receipts from this amount, not amount_money. Zero while a hold is open, and positive whenever status is succeeded. After an overcapture it is above authorized_money. Also positive on a payment intent canceled with cancellation_reason payment_returned: Flint captured the money and is returning it through a refund with reason payment_returned. processing_fee_money, merchant_net_money, and refunds are based on it. Absent until the payment is authorized. anyOf[1] (Value): {@see MoneyValue}. The amount collected from the buyer, including captured_tip_money. Reconcile revenue and print receipts from this amount, not amount_money. Zero while a hold is open, and positive whenever status is succeeded. After an overcapture it is above authorized_money. Also positive on a payment intent canceled with cancellation_reason payment_returned: Flint captured the money and is returning it through a refund with reason payment_returned. processing_fee_money, merchant_net_money, and refunds are based on it. Absent until the payment is authorized. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** The amount collected from the buyer, including captured_tip_money. Reconcile revenue and print receipts from this amount, not amount_money. Zero while a hold is open, and positive whenever status is succeeded. After an overcapture it is above authorized_money. Also positive on a payment intent canceled with cancellation_reason payment_returned: Flint captured the money and is returning it through a refund with reason payment_returned. processing_fee_money, merchant_net_money, and refunds are based on it. Absent until the payment is authorized. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getCapturedMoney(): MoneyValue|null { return $this->get('captured_money'); }
+    public function getCapturedMoney(): mixed { return $this->get('captured_money'); }
     public function hasCapturedMoney(): bool { return $this->has('captured_money'); }
-    /** The part of captured_money that is a tip: the capture's tip_money when it sent one, otherwise the tip the authorization carried, at most captured_money. tip_money keeps the tip the authorization carried. Refunds return it last. Absent until the payment is captured. anyOf[1] (Value): {@see MoneyValue}. The part of captured_money that is a tip: the capture's tip_money when it sent one, otherwise the tip the authorization carried, at most captured_money. tip_money keeps the tip the authorization carried. Refunds return it last. Absent until the payment is captured. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** The part of captured_money that is a tip: the capture's tip_money when it sent one, otherwise the tip the authorization carried, at most captured_money. tip_money keeps the tip the authorization carried. Refunds return it last. Absent until the payment is captured. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getCapturedTipMoney(): MoneyValue|null { return $this->get('captured_tip_money'); }
+    public function getCapturedTipMoney(): mixed { return $this->get('captured_tip_money'); }
     public function hasCapturedTipMoney(): bool { return $this->has('captured_tip_money'); }
     /** Flint checkout session ID associated with this payment, when present. anyOf[1] (Value): string. Flint checkout session ID associated with this payment, when present. anyOf[2] (Value): null.
      * @return string|null
@@ -121,7 +121,7 @@ final class PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttribut
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** The linked customer. Returned only with expand=customer. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummary} or null. The linked customer. Returned only with expand=customer. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID when the customer is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** The linked customer. Returned only with expand=customer. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): ({@see ExpandedCustomerSummaryPreviousAttributes} or null). The linked customer. Returned only with expand=customer. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getCustomer(): mixed { return $this->get('customer'); }
@@ -146,12 +146,12 @@ final class PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttribut
      */
     public function getExternalReferenceId(): mixed { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Present when a payment provider asked Flint to pause fulfillment for this payment. While its status is active, open fulfillments on the order are on hold with reason payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and when it lifts. anyOf[1] (Value): {@see PaymentFulfillmentHold}. Present when a payment provider asked Flint to pause fulfillment for this payment. While its status is active, open fulfillments on the order are on hold with reason payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and when it lifts. anyOf[2] (Value): null.
-     * @return PaymentFulfillmentHold|null
+    /** Present when a payment provider asked Flint to pause fulfillment for this payment. While its status is active, open fulfillments on the order are on hold with reason payment_review. payment_intent.fulfillment_hold_updated is sent when the hold starts and when it lifts. anyOf[1] (Value): {@see PaymentFulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getFulfillmentHold(): PaymentFulfillmentHold|null { return $this->get('fulfillment_hold'); }
+    public function getFulfillmentHold(): mixed { return $this->get('fulfillment_hold'); }
     public function hasFulfillmentHold(): bool { return $this->has('fulfillment_hold'); }
-    /** The linked invoice. Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1] (Value): {@see ExpandedInvoiceSummary} or null. The linked invoice. Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1].anyOf[1] (Value): {@see ExpandedInvoiceSummary}. An invoice's summary fields, including status, due date, and paid, outstanding, and refunded amounts, returned when the invoice is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** The linked invoice. Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1] (Value): ({@see ExpandedInvoiceSummaryPreviousAttributes} or null). The linked invoice. Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1].anyOf[1] (Value): {@see ExpandedInvoiceSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getInvoice(): mixed { return $this->get('invoice'); }
@@ -166,7 +166,7 @@ final class PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttribut
      */
     public function getInvoiceScheduleEntryId(): string|null { return $this->get('invoice_schedule_entry_id'); }
     public function hasInvoiceScheduleEntryId(): bool { return $this->has('invoice_schedule_entry_id'); }
-    /** Most recent payment error. Null when no payment error is recorded. anyOf[1] (Value): {@see PaymentErrorSummary} or null. Most recent payment error. Null when no payment error is recorded. anyOf[1].anyOf[1] (Value): {@see PaymentErrorSummary}. A summary of why a payment attempt failed, with a normalized error code, a message, the failure time, and remediation. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Most recent payment error. Null when no payment error is recorded. anyOf[1] (Value): ({@see PaymentErrorSummaryPreviousAttributes} or null). Most recent payment error. Null when no payment error is recorded. anyOf[1].anyOf[1] (Value): {@see PaymentErrorSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getLastPaymentError(): mixed { return $this->get('last_payment_error'); }
@@ -181,12 +181,12 @@ final class PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttribut
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Caller-owned metadata. Keys starting with flint_ are reserved for Flint and aren't returned. Always present with merchant credentials. anyOf[1] (Value): {@see MetadataMap}. Caller-owned metadata. Keys starting with flint_ are reserved for Flint and aren't returned. Always present with merchant credentials. anyOf[2] (Value): null.
-     * @return array<array-key, string>|null
+    /** Caller-owned metadata. Keys starting with flint_ are reserved for Flint and aren't returned. Always present with merchant credentials. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getMetadata(): array|null { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** The linked order. Returned only with expand=order. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummary} or null. The linked order. Returned only with expand=order. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummary}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** The linked order. Returned only with expand=order. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): ({@see ExpandedOrderSummaryPreviousAttributes} or null). The linked order. Returned only with expand=order. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getOrder(): mixed { return $this->get('order'); }
@@ -201,10 +201,10 @@ final class PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttribut
      */
     public function getOrderId(): string|null { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Whether one capture can collect more than the authorization, and the most it can collect. Present once a payment with request_overcapture true is authorized. Read it to show the limit; capture enforces it. anyOf[1] (Value): {@see PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttributesOvercapture}. Whether one capture can collect more than the authorization, and the most it can collect. Present once a payment with request_overcapture true is authorized. Read it to show the limit; capture enforces it. anyOf[2] (Value): null.
-     * @return PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttributesOvercapture|null
+    /** Whether one capture can collect more than the authorization, and the most it can collect. Present once a payment with request_overcapture true is authorized. Read it to show the limit; capture enforces it. anyOf[1] (Value): {@see PaymentIntentOvercapturePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getOvercapture(): PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttributesOvercapture|null { return $this->get('overcapture'); }
+    public function getOvercapture(): mixed { return $this->get('overcapture'); }
     public function hasOvercapture(): bool { return $this->has('overcapture'); }
     /** How the payment was started. Fixed when the payment intent is created. Value enum: "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api". anyOf[1] (Value): string. How the payment was started. Fixed when the payment intent is created. Value enum: "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api". anyOf[2] (Value): null.
      * @return string|null
@@ -221,15 +221,15 @@ final class PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttribut
      */
     public function getPaymentOptions(): array|null { return $this->get('payment_options'); }
     public function hasPaymentOptions(): bool { return $this->has('payment_options'); }
-    /** Summary of the card or bank account used for the payment. Absent until a payment source is attached. anyOf[1] (Value): {@see PaymentSourceSummary}. Summary of the card or bank account used for the payment. Absent until a payment source is attached. anyOf[2] (Value): null.
-     * @return PaymentSourceSummary|null
+    /** Summary of the card or bank account used for the payment. Absent until a payment source is attached. anyOf[1] (Value): {@see PaymentSourceSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getPaymentSource(): PaymentSourceSummary|null { return $this->get('payment_source'); }
+    public function getPaymentSource(): mixed { return $this->get('payment_source'); }
     public function hasPaymentSource(): bool { return $this->has('payment_source'); }
-    /** The platform fee a partner app charges on this payment, when it created the payment with an install token and a fee. Absent when the payment carries none. Returned only to merchant credentials; omitted for buyer and checkout credentials. anyOf[1] (Value): {@see PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttributesPlatformFee}. The platform fee a partner app charges on this payment, when it created the payment with an install token and a fee. Absent when the payment carries none. Returned only to merchant credentials; omitted for buyer and checkout credentials. anyOf[2] (Value): null.
-     * @return PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttributesPlatformFee|null
+    /** The platform fee a partner app charges on this payment, when it created the payment with an install token and a fee. Absent when the payment carries none. Returned only to merchant credentials; omitted for buyer and checkout credentials. anyOf[1] (Value): {@see PaymentIntentPlatformFeePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getPlatformFee(): PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttributesPlatformFee|null { return $this->get('platform_fee'); }
+    public function getPlatformFee(): mixed { return $this->get('platform_fee'); }
     public function hasPlatformFee(): bool { return $this->has('platform_fee'); }
     /** The reader the payment is or was last presented on. Set when Flint presents it and kept afterward. While processing or requires_action with a reader_id, the payment is on that reader now. anyOf[1] (Value): string. The reader the payment is or was last presented on. Set when Flint presents it and kept afterward. While processing or requires_action with a reader_id, the payment is on that reader now. anyOf[2] (Value): null.
      * @return string|null
@@ -251,15 +251,15 @@ final class PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttribut
      */
     public function getRefundStatus(): string|null { return $this->get('refund_status'); }
     public function hasRefundStatus(): bool { return $this->has('refund_status'); }
-    /** Total refunded against captured_money, including value issued as store credit and processor refunds still pending. Failed and canceled refunds aren't counted. Zero when nothing has been refunded. anyOf[1] (Value): {@see MoneyValue}. Total refunded against captured_money, including value issued as store credit and processor refunds still pending. Failed and canceled refunds aren't counted. Zero when nothing has been refunded. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** Total refunded against captured_money, including value issued as store credit and processor refunds still pending. Failed and canceled refunds aren't counted. Zero when nothing has been refunded. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getRefundedMoney(): MoneyValue|null { return $this->get('refunded_money'); }
+    public function getRefundedMoney(): mixed { return $this->get('refunded_money'); }
     public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
-    /** The part of the authorization returned to the buyer without being charged: the uncaptured remainder after a partial capture, or the whole authorization after a cancellation or expiry. It was never collected, so it needs no refund and can't be captured later. Zero after a capture at or above the authorization. Absent until the payment is authorized. anyOf[1] (Value): {@see MoneyValue}. The part of the authorization returned to the buyer without being charged: the uncaptured remainder after a partial capture, or the whole authorization after a cancellation or expiry. It was never collected, so it needs no refund and can't be captured later. Zero after a capture at or above the authorization. Absent until the payment is authorized. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** The part of the authorization returned to the buyer without being charged: the uncaptured remainder after a partial capture, or the whole authorization after a cancellation or expiry. It was never collected, so it needs no refund and can't be captured later. Zero after a capture at or above the authorization. Absent until the payment is authorized. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getReleasedMoney(): MoneyValue|null { return $this->get('released_money'); }
+    public function getReleasedMoney(): mixed { return $this->get('released_money'); }
     public function hasReleasedMoney(): bool { return $this->has('released_money'); }
     /** Whether one capture may collect more than the authorization where the card network allows it. Fixed at create. Always present with merchant credentials; omitted with buyer and checkout credentials. anyOf[1] (Value): boolean. Whether one capture may collect more than the authorization where the card network allows it. Fixed at create. Always present with merchant credentials; omitted with buyer and checkout credentials. anyOf[2] (Value): null.
      * @return bool|null
@@ -276,7 +276,7 @@ final class PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttribut
      */
     public function getReturnResolutionId(): string|null { return $this->get('return_resolution_id'); }
     public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
-    /** Risk assessment. Always present with merchant credentials. `null` when the payment intent's latest payment attempt has no completed risk assessment, such as before its first confirmation. Omitted with the checkout credential. anyOf[1] (Value): {@see PaymentRisk} or null. Risk assessment. Always present with merchant credentials. `null` when the payment intent's latest payment attempt has no completed risk assessment, such as before its first confirmation. Omitted with the checkout credential. anyOf[1].anyOf[1] (Value): {@see PaymentRisk}. The risk assessment for a payment intent, with its risk level, score, outcome, and any matched rule or review. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Risk assessment. Always present with merchant credentials. `null` when the payment intent's latest payment attempt has no completed risk assessment, such as before its first confirmation. Omitted with the checkout credential. anyOf[1] (Value): ({@see PaymentRiskPreviousAttributes} or null). Risk assessment. Always present with merchant credentials. `null` when the payment intent's latest payment attempt has no completed risk assessment, such as before its first confirmation. Omitted with the checkout credential. anyOf[1].anyOf[1] (Value): {@see PaymentRiskPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getRisk(): mixed { return $this->get('risk'); }
@@ -286,8 +286,8 @@ final class PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttribut
      */
     public function getSelectedPaymentOption(): string|null { return $this->get('selected_payment_option'); }
     public function hasSelectedPaymentOption(): bool { return $this->has('selected_payment_option'); }
-    /** Top-level PaymentSplit children in their current state, embedded whole. Empty when the payment has no splits. Child changes do not send payment_intent.updated. Omitted for buyer and checkout credentials. anyOf[1] (Value): Array of {@see PaymentSplit}. Top-level PaymentSplit children in their current state, embedded whole. Empty when the payment has no splits. Child changes do not send payment_intent.updated. Omitted for buyer and checkout credentials. anyOf[1][] (Value): {@see PaymentSplit}. A top-level child of a payment intent dividing the collecting merchant's payment funds with one seller. Both parties read this same resource with their own credentials. anyOf[2] (Value): null.
-     * @return list<PaymentSplit>|null
+    /** Top-level PaymentSplit children in their current state, embedded whole. Empty when the payment has no splits. Child changes do not send payment_intent.updated. Omitted for buyer and checkout credentials. anyOf[1] (Value): Array of {@see PaymentSplitPreviousAttributes}. Top-level PaymentSplit children in their current state, embedded whole. Empty when the payment has no splits. Child changes do not send payment_intent.updated. Omitted for buyer and checkout credentials. anyOf[1][] (Value): {@see PaymentSplitPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<PaymentSplitPreviousAttributes>|null
      */
     public function getSplits(): array|null { return $this->get('splits'); }
     public function hasSplits(): bool { return $this->has('splits'); }
@@ -316,7 +316,7 @@ final class PaymentIntentFulfillmentHoldUpdatedMerchantEventDataPreviousAttribut
      */
     public function getSupportedActions(): array|null { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set, and for an order payment until its payment attempt has moved past requires_payment_method and requires_confirmation. An order payment without a tip can return an amount of 0 instead. anyOf[1] (Value): {@see MoneyValue} or null. Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set, and for an order payment until its payment attempt has moved past requires_payment_method and requires_confirmation. An order payment without a tip can return an amount of 0 instead. anyOf[1].anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set, and for an order payment until its payment attempt has moved past requires_payment_method and requires_confirmation. An order payment without a tip can return an amount of 0 instead. anyOf[1] (Value): ({@see MoneyValuePreviousAttributes} or null). Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set, and for an order payment until its payment attempt has moved past requires_payment_method and requires_confirmation. An order payment without a tip can return an amount of 0 instead. anyOf[1].anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getTipMoney(): mixed { return $this->get('tip_money'); }

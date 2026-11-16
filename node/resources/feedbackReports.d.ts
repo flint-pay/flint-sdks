@@ -7,9 +7,9 @@ import type {
     FeedbackReportsCreateParams,
     FeedbackReportsGetParams,
     FeedbackReportsListParams
-} from '../declarations/types-24.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-26.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,10 +35,10 @@ export type {
     FeedbackReportingClient,
     FeedbackReportRating,
     FeedbackReportNarrative
-} from '../declarations/types-24.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { ClientOptions } from '../declarations/types-7.js';
+} from '../declarations/types-26.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { ClientOptions, CheckoutSessionsListCustomerVerificationsParams } from '../declarations/types-7.js';
 export type {
     CreateFeedbackReportRequestInput,
     CreateFeedbackReportRatingInput,
@@ -46,16 +46,12 @@ export type {
 } from '../declarations/types-9.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-39.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { CheckoutSessionsListCustomerVerificationsParams } from '../declarations/types-6.js';
-export {
-    makeCreateFeedbackReportNarrative,
-    makeCreateFeedbackReportRating,
-    makeCreateFeedbackReportRequest
-} from '../declarations/types-72.js';
-export { makeFeedbackReportingClientRequest } from '../declarations/types-77.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
+export type { NextAction, MoneyValue } from '../declarations/types-42.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export { makeCreateFeedbackReportNarrative } from '../declarations/types-79.js';
+export { makeCreateFeedbackReportRating, makeCreateFeedbackReportRequest } from '../declarations/types-80.js';
+export { makeFeedbackReportingClientRequest } from '../declarations/types-84.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export interface FeedbackReportsResource {
     /**
  * Stores one immutable occurrence of Flint feedback. Use one report per root cause and include

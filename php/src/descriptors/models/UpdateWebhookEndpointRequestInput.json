@@ -1,1 +1,1 @@
-{"shared":"UpdateWebhookEndpointRequest","dependencies":["SharedCodec2423","SharedCodec2543","SharedCodec2544","SharedCodec2545","UpdateWebhookEndpointRequest","WebhookSigningMethod"]}
+{"shared":"UpdateWebhookEndpointRequest","dependencies":["SharedCodec3085","SharedCodec3205","SharedCodec3206","SharedCodec3207","UpdateWebhookEndpointRequest","WebhookSigningMethod"]}

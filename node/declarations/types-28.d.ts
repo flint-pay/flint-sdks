@@ -1,203 +1,187 @@
-import type { InputValue } from '../runtime.js';
-import type { DisputesAcceptParams } from './types-23.js';
-import type { LookupGiftCardRequestInput } from './types-35.js';
-import type { RotateGiftCardCodeRequestInput } from './types-59.js';
-import type { UnfreezeGiftCardRequestInput } from './types-66.js';
-import type { UpdateGiftCardRequestInput, UpdateInventoryAllocationPolicyRequestInput } from './types-67.js';
-import type { ResponseMeta } from './types-54.js';
-import type { GiftCardFundingSource, GiftCardFundingSourceRequestInput } from './types-26.js';
-import type { MoneyValue, MoneyValueInput } from './types-39.js';
 import type {
-    MetadataMap,
-    ModifierRequest,
-    MetadataRequestInput,
-    ModifierRequestInput,
-    MerchantWebhookEnvelope
-} from './types-38.js';
-import type { TextModifierConfigRequest, TextModifierConfigRequestInput } from './types-65.js';
-import type { InventorySourceSystem } from './types-30.js';
-import type { InventoryLevel, InventoryCountObservationProvenance } from './types-29.js';
-import type { CreateInventoryAdjustmentRequestInput, CreateInventoryAllocationPolicyRequestInput } from './types-10.js';
-import type { PartnerWebhookEnvelope } from './types-44.js';
-export type GiftCardsGetParams = DisputesAcceptParams;
-export type GiftCardsListParams = {
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
+    Address,
+    AddressPreviousAttributes,
+    AddressRequest,
+    AddressRequestInput,
+    AcceptFulfillmentRequestInput
+} from './types-0.js';
+import type {
+    Fulfillment,
+    FulfillmentChargeLink,
+    FulfillmentChargeLinkPreviousAttributes,
+    FulfillmentHold,
+    FulfillmentHoldPreviousAttributes,
+    FulfillmentLineItem,
+    FulfillmentLineItemPreviousAttributes,
+    FulfillmentOutcome,
+    FulfillmentOutcomePreviousAttributes
+} from './types-27.js';
+import type { ResponseMeta, ReturnDisposition } from './types-60.js';
+import type { CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-11.js';
+import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-41.js';
+import type { PackageCreateRequest, PackageCreateRequestInput } from './types-47.js';
+import type {
+    SinglePackageCreateRequest,
+    SinglePackageCreateRequestInput,
+    ShipmentFulfillmentDetails,
+    ShipmentFulfillmentDetailsPreviousAttributes,
+    StartFulfillmentRequestInput
+} from './types-66.js';
+import type { DeliveryFulfillmentDetails, DeliveryFulfillmentDetailsPreviousAttributes } from './types-19.js';
+import type {
+    DigitalFulfillmentDetails,
+    DigitalFulfillmentDetailsPreviousAttributes,
+    DispatchFulfillmentRequestInput,
+    DisputesAcceptParams
+} from './types-25.js';
+import type {
+    ExpandedOrderSummary,
+    ExpandedOrderSummaryPreviousAttributes,
+    ExpandedPackageSummary,
+    ExpandedPackageSummaryPreviousAttributes,
+    ExpandedShipmentSummary,
+    ExpandedShipmentSummaryPreviousAttributes,
+    FailFulfillmentRequestInput
+} from './types-26.js';
+import type { PartnerWebhookEnvelope } from './types-49.js';
+import type { PickupFulfillmentDetails, PickupFulfillmentDetailsPreviousAttributes } from './types-54.js';
+import type {
+    ServiceFulfillmentDetails,
+    ServiceFulfillmentDetailsPreviousAttributes,
+    ScheduleFulfillmentRequestInput
+} from './types-65.js';
+import type { InputValue } from '../runtime.js';
+import type { CancelFulfillmentRequestInput } from './types-4.js';
+import type { CompleteFulfillmentRequestInput } from './types-7.js';
+import type { CreateFulfillmentRequestInput } from './types-9.js';
+import type { HoldFulfillmentRequestInput, GiftCardRestriction } from './types-30.js';
+import type {
+    MarkFulfillmentNoShowRequestInput,
+    MarkFulfillmentPackedRequestInput,
+    MarkFulfillmentPickedRequestInput,
+    MarkFulfillmentPreparingRequestInput,
+    MarkFulfillmentReadyRequestInput
+} from './types-39.js';
+import type { ReleaseFulfillmentHoldRequestInput } from './types-59.js';
+import type { UpdateFulfillmentRequestInput } from './types-74.js';
+import type { ReturnInspection, ReturnLineItem } from './types-61.js';
+import type { ReturnPolicy, ReturnPolicyRevision, ReturnReason, ReturnReceipt } from './types-62.js';
+import type { ReturnResolution, ReturnResource } from './types-63.js';
+import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-42.js';
+import type { CreateGiftCardFundingDispositionRequestInput } from './types-10.js';
+import type {
+    GiftCardFundingSourceFlintPayment,
+    GiftCardFundingSourceGiftCardPurchaseRefundRecovery,
+    GiftCardFundingSourceGiftCardRefund,
+    GiftCardFundingSourceImport,
+    GiftCardFundingSourceStoreCredit
+} from './types-29.js';
+/** The recipient of a fulfillment, with name, email, phone, address, and handling instructions. */
+export type FulfillmentRecipient = {
     /**
-     * Exact, case-sensitive filter on the customer stored on the gift card. An unknown customer
-     * returns an empty page. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * Postal address where the recipient receives the items. A postal address. Every address has
+     * country. Addresses Flint checked as complete (customer and saved addresses, merchant,
+     * location, invoice, order delivery destination, tax identity, fulfillment recipient and
+     * pickup addresses) always have line1 and city, and US ones always have state and postal_code.
+     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
+     * was provided, such as postal_code and country.
      */
-    "customer_id"?: InputValue<string>;
-    /** Exact, case-sensitive filter. minLength: 1. maxLength: 255. Example: "warehouse-1842". */
-    "external_reference_id"?: InputValue<string>;
+    "address"?: Address;
+    /** Recipient's contact email address. */
+    "email"?: string;
     /**
-     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
-     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
-     * pending resource does not prove that the operation succeeded, and an empty list does not
-     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
-     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     * Instructions for handling the recipient's order. For a pickup that checkout creates, this is
+     * the note the buyer left for the store, such as the car to look for.
      */
-    "idempotency_key"?: InputValue<string>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Exact, case-sensitive filter. Values are trimmed and deduplicated in first-seen order; empty
-     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "active", "closed", "frozen", "pending". Value enum: "active", "closed",
-     * "frozen", "pending". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active",
-     * "closed", "frozen", "pending". anyOf[1][] (Value): string. maxLength: 255. Value enum:
-     * "active", "closed", "frozen", "pending". anyOf[2] (Value): string. maxLength: 255. Value
-     * enum: "active", "closed", "frozen", "pending".
-     */
-    "status"?: InputValue<("active" | "closed" | "frozen" | "pending")
-        | readonly ("active" | "closed" | "frozen" | "pending")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
+    "instructions"?: string;
+    /** Recipient's name for delivery or pickup. */
+    "name"?: string;
+    /** Recipient's contact phone number. */
+    "phone"?: string;
 };
-export type GiftCardsLookupParams = (InputValue<LookupGiftCardRequestInput>)
-    & {
+export type FulfillmentRecipientPreviousAttributes = {
     /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Postal address where the recipient receives the items. anyOf[1] (Value): {@link
+     * AddressPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "Flint-Merchant-Id"?: InputValue<string>;
+    "address"?: ((AddressPreviousAttributes) | (null) | (unknown));
     /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
+     * Recipient's contact email address. anyOf[1] (Value): string. Recipient's contact email
+     * address. anyOf[2] (Value): null.
      */
-    "Flint-Mode"?: InputValue<"test" | "live">;
+    "email"?: ((string) | (null));
     /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Instructions for handling the recipient's order. For a pickup that checkout creates, this is
+     * the note the buyer left for the store, such as the car to look for. anyOf[1] (Value):
+     * string. Instructions for handling the recipient's order. For a pickup that checkout creates,
+     * this is the note the buyer left for the store, such as the car to look for. anyOf[2]
+     * (Value): null.
      */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type GiftCardsRotateCodeParams = (InputValue<RotateGiftCardCodeRequestInput>
-    | {
-    "expected_version"?: never;
-    "notification"?: never;
-})
-    & {
+    "instructions"?: ((string) | (null));
     /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Recipient's name for delivery or pickup. anyOf[1] (Value): string. Recipient's name for
+     * delivery or pickup. anyOf[2] (Value): null.
      */
-    "Flint-Merchant-Id"?: InputValue<string>;
+    "name"?: ((string) | (null));
     /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
+     * Recipient's contact phone number. anyOf[1] (Value): string. Recipient's contact phone
+     * number. anyOf[2] (Value): null.
      */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type GiftCardsUnfreezeParams = (InputValue<UnfreezeGiftCardRequestInput> | {
-    "expected_version"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type GiftCardsUpdateParams = (InputValue<UpdateGiftCardRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
+    "phone"?: ((string) | (null));
 };
 /**
- * Result of linking a guest's purchases to a customer, with the customer, the email, and the
- * number of orders linked.
+ * Recipient details you supply when creating or updating a fulfillment: name, email, phone,
+ * address, and handling instructions.
  */
-export type GuestPurchaseLink = {
+export type FulfillmentRecipientRequest = {
     /**
-     * ID of the customer the guest purchases now belong to. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * Postal address where the recipient receives the items. A complete postal address. State and
+     * postal_code are required for US addresses and optional for other countries. Send null or
+     * omit line2, state, and postal_code when the address has none.
      */
-    "customer_id": string;
-    /** The verified email address whose guest purchases were linked. */
-    "email": string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "linked_at": string;
-    /** Number of guest orders linked to the customer by this request. Format: int64. */
-    "linked_order_count": number;
+    "address"?: AddressRequest;
+    /** Recipient's contact email address. minLength: 1. */
+    "email"?: string;
+    /**
+     * Instructions for handling the recipient's order. For a pickup that checkout creates, this is
+     * the note the buyer left for the store, such as the car to look for. minLength: 1.
+     */
+    "instructions"?: string;
+    /** Recipient's name for delivery or pickup. minLength: 1. */
+    "name"?: string;
+    /** Recipient's contact phone number. minLength: 1. */
+    "phone"?: string;
 };
-/** A response containing `GuestPurchaseLink` data. */
-export type GuestPurchaseLinkResponse = {
+/**
+ * Recipient details you supply when creating or updating a fulfillment: name, email, phone,
+ * address, and handling instructions.
+ */
+export type FulfillmentRecipientRequestInput = {
     /**
-     * Resource, collection, or operation result returned by this request. Result of linking a
-     * guest's purchases to a customer, with the customer, the email, and the number of orders
-     * linked.
+     * Postal address where the recipient receives the items. A complete postal address. State and
+     * postal_code are required for US addresses and optional for other countries. Send null or
+     * omit line2, state, and postal_code when the address has none.
      */
-    "data": GuestPurchaseLink;
+    "address"?: AddressRequestInput;
+    /** Recipient's contact email address. minLength: 1. */
+    "email"?: string;
+    /**
+     * Instructions for handling the recipient's order. For a pickup that checkout creates, this is
+     * the note the buyer left for the store, such as the car to look for. minLength: 1.
+     */
+    "instructions"?: string;
+    /** Recipient's name for delivery or pickup. minLength: 1. */
+    "name"?: string;
+    /** Recipient's contact phone number. minLength: 1. */
+    "phone"?: string;
+};
+/** A response containing `Fulfillment` data. */
+export type FulfillmentResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. Work required to deliver
+     * an order's items.
+     */
+    "data": Fulfillment;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -209,1635 +193,276 @@ export type GuestPurchaseLinkResponse = {
      */
     "request_id": string;
 };
-/** Pauses fulfillment work with a required merchant hold reason. */
-export type HoldFulfillmentRequest = {
-    /**
-     * Whether to send or suppress the buyer notification for this action. Value enum: "send",
-     * "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * When the action occurred, as an RFC 3339 timestamp. On complete, also records completion
-     * evidence. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string;
-    /**
-     * Why fulfillment work is paused or the service appointment was missed. Value enum:
-     * "inventory_issue", "address_issue", "customer_request", "provider_issue",
-     * "scheduling_issue", "fraud_review", "other".
-     */
-    "reason": "inventory_issue"
-        | "address_issue"
-        | "customer_request"
-        | "provider_issue"
-        | "scheduling_issue"
-        | "fraud_review"
-        | "other"
-        | (string & {});
-    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
-    "reason_message"?: string;
-};
-/** Pauses fulfillment work with a required merchant hold reason. */
-export type HoldFulfillmentRequestInput = {
-    /**
-     * Whether to send or suppress the buyer notification for this action. Value enum: "send",
-     * "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * When the action occurred, as an RFC 3339 timestamp. On complete, also records completion
-     * evidence. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Why fulfillment work is paused or the service appointment was missed. Value enum:
-     * "inventory_issue", "address_issue", "customer_request", "provider_issue",
-     * "scheduling_issue", "fraud_review", "other".
-     */
-    "reason": "inventory_issue"
-        | "address_issue"
-        | "customer_request"
-        | "provider_issue"
-        | "scheduling_issue"
-        | "fraud_review"
-        | "other";
-    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
-    "reason_message"?: string;
-};
-/** An image with its URL, size, and alt text. */
-export type Image = {
-    /** Alternative text describing the image for accessibility. */
-    "alt"?: string;
-    /** Image height in pixels, when known. Format: int32. */
-    "height": number;
-    /** URL of the image. */
-    "url": string;
-    /** Image width in pixels, when known. Format: int32. */
-    "width": number;
-};
-/** An image attached to a resource, with its display properties and attachment metadata. */
-export type ImageAttachment = {
-    /** Alternative text describing the image for accessibility. */
-    "alt"?: string;
-    /**
-     * Identifier of the file attached as this image. Example: "file_01KEZF7C00BZ179303GY9R0P03".
-     */
-    "file_id"?: string;
-    /** Image height in pixels, when known. Format: int32. */
-    "height": number;
-    /**
-     * Caller-owned reference identifying this attachment within its gallery. minLength: 1.
-     * maxLength: 255.
-     */
-    "source_reference"?: string;
-    /** URL of the image. */
-    "url": string;
-    /** Image width in pixels, when known. Format: int32. */
-    "width": number;
-};
-/** The `File` variant of `ImageInput`. */
-export type ImageInputFile = ({
-    /** Alternative text describing the image for accessibility. minLength: 1. maxLength: 512. */
-    "alt"?: string;
-    /**
-     * The ID of a ready file uploaded with POST /v1/files. Send exactly one of source_url or
-     * file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "file_01KEZF7C00BZ179303GY9R0P03".
-     */
-    "file_id": string;
-    /**
-     * An opaque reference for this attachment, unique within its gallery. Whitespace and case are
-     * preserved. minLength: 1. maxLength: 255.
-     */
-    "source_reference"?: string;
-    /**
-     * A public image URL for Flint to fetch, or an untransformed canonical image.url returned by
-     * Flint. Send exactly one of source_url or file_id. Canonical Flint URLs attach without
-     * another fetch. Flint doesn't download a source_url again while the image it produced is
-     * still in this field. minLength: 1. maxLength: 8192.
-     */
-    "source_url"?: string;
-});
-/** The `File` variant of `ImageInput`. */
-export type ImageInputFileInput = ({
-    /** Alternative text describing the image for accessibility. minLength: 1. maxLength: 512. */
-    "alt"?: string;
-    /**
-     * The ID of a ready file uploaded with POST /v1/files. Send exactly one of source_url or
-     * file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "file_01KEZF7C00BZ179303GY9R0P03".
-     */
-    "file_id": string;
-    /**
-     * An opaque reference for this attachment, unique within its gallery. Whitespace and case are
-     * preserved. minLength: 1. maxLength: 255.
-     */
-    "source_reference"?: string;
-    /**
-     * A public image URL for Flint to fetch, or an untransformed canonical image.url returned by
-     * Flint. Send exactly one of source_url or file_id. Canonical Flint URLs attach without
-     * another fetch. Flint doesn't download a source_url again while the image it produced is
-     * still in this field. minLength: 1. maxLength: 8192.
-     */
-    "source_url"?: string;
-})
-    & (({
-    "source_url"?: never;
-}));
-/** The `Source URL` variant of `ImageInput`. */
-export type ImageInputSourceURL = ({
-    /** Alternative text describing the image for accessibility. minLength: 1. maxLength: 512. */
-    "alt"?: string;
-    /**
-     * The ID of a ready file uploaded with POST /v1/files. Send exactly one of source_url or
-     * file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "file_01KEZF7C00BZ179303GY9R0P03".
-     */
-    "file_id"?: string;
-    /**
-     * An opaque reference for this attachment, unique within its gallery. Whitespace and case are
-     * preserved. minLength: 1. maxLength: 255.
-     */
-    "source_reference"?: string;
-    /**
-     * A public image URL for Flint to fetch, or an untransformed canonical image.url returned by
-     * Flint. Send exactly one of source_url or file_id. Canonical Flint URLs attach without
-     * another fetch. Flint doesn't download a source_url again while the image it produced is
-     * still in this field. minLength: 1. maxLength: 8192.
-     */
-    "source_url": string;
-});
-/** The `Source URL` variant of `ImageInput`. */
-export type ImageInputSourceURLInput = ({
-    /** Alternative text describing the image for accessibility. minLength: 1. maxLength: 512. */
-    "alt"?: string;
-    /**
-     * The ID of a ready file uploaded with POST /v1/files. Send exactly one of source_url or
-     * file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "file_01KEZF7C00BZ179303GY9R0P03".
-     */
-    "file_id"?: string;
-    /**
-     * An opaque reference for this attachment, unique within its gallery. Whitespace and case are
-     * preserved. minLength: 1. maxLength: 255.
-     */
-    "source_reference"?: string;
-    /**
-     * A public image URL for Flint to fetch, or an untransformed canonical image.url returned by
-     * Flint. Send exactly one of source_url or file_id. Canonical Flint URLs attach without
-     * another fetch. Flint doesn't download a source_url again while the image it produced is
-     * still in this field. minLength: 1. maxLength: 8192.
-     */
-    "source_url": string;
-})
-    & (({
-    "file_id"?: never;
-}));
-/** A reference to an image by `url`, with optional `alt` text, used on an order line item. */
-export type ImageReferenceRequest = {
-    /** Alternative text describing the image for accessibility. minLength: 1. */
-    "alt"?: string;
-    /** URL of the image. minLength: 1. */
-    "url": string;
-};
-/** A reference to an image by `url`, with optional `alt` text, used on an order line item. */
-export type ImageReferenceRequestInput = ImageReferenceRequest;
-/** An image you supply by `source_url`, with optional `alt` text and external reference. */
-export type ImageRequest = ({
-    /** Alternative text describing the image for accessibility. minLength: 1. maxLength: 512. */
-    "alt"?: string;
-    /**
-     * The ID of a ready file uploaded with POST /v1/files. Send exactly one of source_url or
-     * file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "file_01KEZF7C00BZ179303GY9R0P03".
-     */
-    "file_id"?: string;
-    /**
-     * An opaque reference for this attachment, unique within its gallery. Whitespace and case are
-     * preserved. minLength: 1. maxLength: 255.
-     */
-    "source_reference"?: string;
-    /**
-     * A public image URL for Flint to fetch, or an untransformed canonical image.url returned by
-     * Flint. Send exactly one of source_url or file_id. Canonical Flint URLs attach without
-     * another fetch. Flint doesn't download a source_url again while the image it produced is
-     * still in this field. minLength: 1. maxLength: 8192.
-     */
-    "source_url"?: string;
-})
-    & ((Exclude<ImageInputSourceURL & object, readonly unknown[]>)
-    | (Exclude<ImageInputFile & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** An image you supply by `source_url`, with optional `alt` text and external reference. */
-export type ImageRequestInput = ({
-    /** Alternative text describing the image for accessibility. minLength: 1. maxLength: 512. */
-    "alt"?: string;
-    /**
-     * The ID of a ready file uploaded with POST /v1/files. Send exactly one of source_url or
-     * file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "file_01KEZF7C00BZ179303GY9R0P03".
-     */
-    "file_id"?: string;
-    /**
-     * An opaque reference for this attachment, unique within its gallery. Whitespace and case are
-     * preserved. minLength: 1. maxLength: 255.
-     */
-    "source_reference"?: string;
-    /**
-     * A public image URL for Flint to fetch, or an untransformed canonical image.url returned by
-     * Flint. Send exactly one of source_url or file_id. Canonical Flint URLs attach without
-     * another fetch. Flint doesn't download a source_url again while the image it produced is
-     * still in this field. minLength: 1. maxLength: 8192.
-     */
-    "source_url"?: string;
-})
-    & ((Exclude<ImageInputSourceURLInput & object, readonly unknown[]>)
-    | (Exclude<ImageInputFileInput & object, readonly unknown[]>));
 /**
- * The initial funding for a new gift card: the `source` of the value, the `value_money`, and
- * optional consideration and source time.
+ * Merchant fulfillment settings, including whether fulfillments require approval
+ * (`approval_required`).
  */
-export type InitialGiftCardFunding = ({
+export type FulfillmentSettings = {
     /**
-     * What the buyer paid for the value, separate from `value_money`. `null` when no payment
-     * amount is recorded. anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code. anyOf[1].amount (Required): integer
-     * string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
-     * minimum: 0. Amount in the currency's minor unit, such as cents for USD. Use an integer
-     * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-     * anyOf[1].currency (Required): string. ISO 4217 currency code for this amount. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
+     * Whether a new fulfillment must be accepted before it can move into preparation, movement, or
+     * completion. Defaults to false.
      */
-    "consideration_money"?: ((({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 0.
-         */
-        "amount"?: `${bigint}`;
-    })
-        & (Exclude<MoneyValue & object, readonly unknown[]>))
-        | (null)
-        | (unknown));
-    /**
-     * Where the value came from, with your reference for it. Where the value of a gift card load
-     * came from, such as an external payment, a Flint payment, an import, or an adjustment, with
-     * your reference for it. funding_source_type (Required): string. Where the value came from.
-     * Value enum: "external_payment", "flint_payment", "import". customer_id (Optional): string.
-     * ID of the customer the funding is attributed to. Required for `external_payment` and
-     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". external_reference_id (Required): string. Your reference
-     * for the payment or import record that funded this value, such as a POS sale ID. Required; 1
-     * to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842". order_id
-     * (Optional): string. ID of the order that funded the value. Required for
-     * `flint_manual_payment` and `store_credit`; not accepted for `external_payment` or `import`.
-     * minLength: 1. maxLength: 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     * order_manual_payment_id (Optional): string. ID of the manual payment on the order that
-     * funded the value. Required for `flint_manual_payment`. minLength: 1. maxLength: 255.
-     * Example: "omp_01KEZF7C007J18203RBJKB9TYE". payment_intent_id (Optional): string. The
-     * original payment for flint_payment or store_credit value. For standalone paid funding, use a
-     * captured payment intent without an order_id. Order-linked payments fund purchased cards or
-     * store credit through their order. minLength: 1. maxLength: 255. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". refund_id (Optional): string. Refund that issued this
-     * value. Present only when funding_source_type is store_credit. minLength: 1. Example:
-     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". oneOf[1] (Value): {@link
-     * GiftCardFundingSourceExternalPayment}. The `external_payment` variant of
-     * `GiftCardFundingSource`. oneOf[2] (Value): {@link GiftCardFundingSourceFlintPayment}. The
-     * `flint_payment` variant of `GiftCardFundingSource`. oneOf[3] (Value): {@link
-     * GiftCardFundingSourceFlintManualPayment}. The `flint_manual_payment` variant of
-     * `GiftCardFundingSource`. oneOf[4] (Value): {@link GiftCardFundingSourceImport}. The `import`
-     * variant of `GiftCardFundingSource`. oneOf[5] (Value): {@link
-     * GiftCardFundingSourceAdjustment}. The `adjustment` variant of `GiftCardFundingSource`.
-     * oneOf[6] (Value): {@link GiftCardFundingSourceGiftCardRefund}. The `gift_card_refund`
-     * variant of `GiftCardFundingSource`. oneOf[7] (Value): {@link
-     * GiftCardFundingSourceGiftCardPurchaseRefundRecovery}. The
-     * `gift_card_purchase_refund_recovery` variant of `GiftCardFundingSource`. oneOf[8] (Value):
-     * {@link GiftCardFundingSourceStoreCredit}. The `store_credit` variant of
-     * `GiftCardFundingSource`.
-     */
-    "source": ({
-        /** Value enum: "external_payment", "flint_payment", "import". */
-        "funding_source_type"?: unknown;
-    })
-        & (Exclude<GiftCardFundingSource & object, readonly unknown[]>);
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "source_created_at"?: string;
-    /**
-     * The face value the load adds to the card. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. amount (Required): integer string. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the
-     * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     */
-    "value_money": ({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
-         */
-        "amount"?: `${bigint}`;
-    })
-        & (Exclude<MoneyValue & object, readonly unknown[]>);
-});
+    "approval_required"?: boolean;
+};
 /**
- * The initial funding for a new gift card: the `source` of the value, the `value_money`, and
- * optional consideration and source time.
+ * Merchant fulfillment settings, including whether fulfillments require approval
+ * (`approval_required`).
  */
-export type InitialGiftCardFundingInput = ({
+export type FulfillmentSettingsRequestInput = FulfillmentSettings;
+/** The `single_package` variant of `FulfillmentPackagingInput`. */
+export type FulfillmentSinglePackageRequest = ({
     /**
-     * What the buyer paid for the value, separate from `value_money`. `null` when no payment
-     * amount is recorded. anyOf[1] (Value): {@link MoneyValueInput}. Monetary amount represented
-     * as integer minor units plus an ISO 4217 currency code. anyOf[1].amount (Required): integer
-     * string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
-     * minimum: 0. Amount in the currency's minor unit, such as cents for USD. Use an integer
-     * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-     * anyOf[1].currency (Required): string. ISO 4217 currency code for this amount. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
-     */
-    "consideration_money"?: ((({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 0.
-         */
-        "amount"?: `${bigint}` | bigint;
-    })
-        & (Exclude<MoneyValueInput & object, readonly unknown[]>))
-        | (null));
-    /**
-     * Where the value came from, with your reference for it. Where the value of a gift card load
-     * came from, such as an external payment, a Flint payment, an import, or an adjustment, with
-     * your reference for it. funding_source_type (Required): string. Where the value came from.
-     * Value enum: "external_payment", "flint_payment", "import". customer_id (Optional): string.
-     * ID of the customer the funding is attributed to. Required for `external_payment` and
-     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". external_reference_id (Required): string. Your reference
-     * for the payment or import record that funded this value, such as a POS sale ID. Required; 1
-     * to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842". order_id
-     * (Optional): string. ID of the order that funded the value. Required for
-     * `flint_manual_payment` and `store_credit`; not accepted for `external_payment` or `import`.
-     * minLength: 1. maxLength: 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_intent_id
-     * (Optional): string. The original payment for flint_payment or store_credit value. For
-     * standalone paid funding, use a captured payment intent without an order_id. Order-linked
-     * payments fund purchased cards or store credit through their order. minLength: 1. maxLength:
-     * 255. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". oneOf[1] (Value): {@link
-     * GiftCardFundingSourceExternalPaymentRequestInput}. The `external_payment` variant of
-     * `GiftCardFundingSource`. oneOf[2] (Value): {@link
-     * GiftCardFundingSourceFlintPaymentRequestInput}. The `flint_payment` variant of
-     * `GiftCardFundingSource`. oneOf[3] (Value): {@link
-     * GiftCardFundingSourceFlintManualPaymentRequestInput}. The `flint_manual_payment` variant of
-     * `GiftCardFundingSource`. oneOf[4] (Value): {@link GiftCardFundingSourceImportRequestInput}.
-     * The `import` variant of `GiftCardFundingSource`. oneOf[5] (Value): {@link
-     * GiftCardFundingSourceAdjustmentRequestInput}. The `adjustment` variant of
-     * `GiftCardFundingSource`. oneOf[6] (Value): {@link
-     * GiftCardFundingSourceGiftCardRefundRequestInput}. The `gift_card_refund` variant of
-     * `GiftCardFundingSource`. oneOf[7] (Value): {@link
-     * GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequestInput}. The
-     * `gift_card_purchase_refund_recovery` variant of `GiftCardFundingSource`. oneOf[8] (Value):
-     * {@link GiftCardFundingSourceStoreCreditRequestInput}. The `store_credit` variant of
-     * `GiftCardFundingSource`.
-     */
-    "source": ({
-        /** Value enum: "external_payment", "flint_payment", "import". */
-        "funding_source_type"?: "external_payment" | "flint_payment" | "import";
-    })
-        & (Exclude<GiftCardFundingSourceRequestInput & object, readonly unknown[]>)
-        & ({
-        "order_manual_payment_id"?: never;
-    });
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "source_created_at"?: string | globalThis.Date;
-    /**
-     * The face value the load adds to the card. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. amount (Required): integer string. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the
-     * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     */
-    "value_money": ({
-        /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
-         */
-        "amount"?: `${bigint}` | bigint;
-    })
-        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
-});
-/**
- * A modifier group defined inline when setting up a modifier set, with its name, rules for how
- * many options can be selected, and its modifiers.
- */
-export type InlineModifierGroupRequest = {
-    /** Whether buyers can select more than one unit of a list modifier. Default: false. */
-    "allow_quantities"?: boolean;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
      */
     "external_reference_id"?: string;
+    /** Name of the external system that `external_reference_id` belongs to. minLength: 1. */
+    "external_system"?: string;
     /**
-     * Maximum whole-number quantity for each selected list modifier when allow_quantities is true;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "max_quantity"?: number;
-    /**
-     * Maximum number of distinct modifiers buyers can select from a list group. Omit it for no
-     * limit. A modifier set can override this value. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
-     * are not supported. Format: int64.
-     */
-    "max_total_quantity"?: number;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     * Caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
+     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
     /**
-     * Minimum whole-number quantity for each selected list modifier when allow_quantities is true;
-     * fractional quantities are not supported. Format: int64.
+     * The one package that holds every submitted line quantity. The single package created with a
+     * shipment fulfillment. It receives the submitted fulfillment line quantities. Set status to
+     * created or shipped; items and return_line_items are not accepted.
      */
-    "min_quantity"?: number;
+    "package": SinglePackageCreateRequest;
     /**
-     * Minimum number of distinct modifiers buyers must select from a list group. Omit it to
-     * require no selections. A modifier set can override this value. Format: int32.
+     * Packages for an itemized shipment, from 1 to 20, each listing the items it holds. minItems:
+     * 1. maxItems: 20. [] (Value): {@link PackageCreateRequest}. Package to create inline with its
+     * enclosing shipment or fulfillment. Set status to created before handoff, or shipped to
+     * report handoff during creation. [].buyer_notification_behavior (Optional): string. Controls
+     * buyer email handling. Omit or use send to send when recipient, template, and deduplication
+     * rules allow it. Use suppress when another system owns buyer messaging. Value enum: "send",
+     * "suppress". [].carrier (Optional): string. Carrier that handles the package. minLength: 1.
+     * [].dimensions (Optional): {@link Dimensions}. Dimensions of the package. Package or item
+     * dimensions as `length`, `width`, and `height` in the given `unit`. [].expected_delivery_at
+     * (Optional): string or null. When the carrier or merchant expects this package to arrive.
+     * Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates and
+     * transitions. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     * [].external_reference_id (Optional): string. Caller-owned identifier for this resource in an
+     * external system. Requires external_system. External references are not unique. Use
+     * Idempotency-Key for retries. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     * [].external_system (Optional): string. Name of the external system that
+     * external_reference_id belongs to. External references are not unique. Use Idempotency-Key
+     * for retries. minLength: 1. [].items (Required): Array of {@link CreatePackageItemRequest}.
+     * Independent package-item collection. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [].items[] (Value):
+     * {@link CreatePackageItemRequest}. The request body for: Create package item. [].label_url
+     * (Optional): string. HTTPS shipping-label URL supplied by your integration. Non-Flint URLs
+     * require external_system for provenance. Flint does not host the label file. minLength: 1.
+     * [].metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
+     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
+     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
+     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50. [].return_line_items (Optional): Array of {@link
+     * ReturnResolutionLineItemRequest}. Required for a package on a return shipment: allocates
+     * quantities from the shipment's return_line_items to this parcel. Rejected on outbound
+     * shipments. [].return_line_items[] (Value): {@link ReturnResolutionLineItemRequest}. A Return
+     * line and the quantity to place in a return shipment or package. The enclosing Return or
+     * shipment determines its parent. [].service_code (Optional): string. Carrier's code for the
+     * shipping service used. minLength: 1. [].shipped_at (Optional): string. Package handoff time.
+     * Defaults to request time. Only allowed with status shipped. Format: date-time. minLength: 1.
+     * Example: "2026-08-02T16:00:00Z". [].status (Required): string. Outbound packages can start
+     * as created or shipped. Return packages must start as created, omit items, and include
+     * return_line_items. Use mark_shipped after the buyer hands over the return package. Value
+     * enum: "created", "shipped". [].status_reason (Optional): string. Additional explanation of
+     * the package's starting status. minLength: 1. [].tracking_number (Optional): string. Carrier
+     * tracking number for the package. minLength: 1. [].tracking_url (Optional): string. Absolute
+     * HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. [].weight
+     * (Optional): {@link Weight}. Weight of the package. A weight value in grams, kilograms,
+     * ounces, or pounds, used in delivery profile configuration. [].oneOf[1] (Value): {@link
+     * PackageCreateInputCreated}. Package to create inline with its enclosing shipment or
+     * fulfillment. Set status to created before handoff, or shipped to report handoff during
+     * creation. [].oneOf[2] (Value): {@link PackageCreateInputShipped}. Package to create inline
+     * with its enclosing shipment or fulfillment. Set status to created before handoff, or shipped
+     * to report handoff during creation.
      */
-    "min_selected"?: number;
+    "packages"?: Array<({
+        /**
+         * Independent package-item collection. Inline creation uses the child-create shape and
+         * commits atomically; edit items through the package item routes after creation. Each
+         * order line and bundle component pair may appear once. minItems: 1. maxItems: 100. []
+         * (Value): {@link CreatePackageItemRequest}. The request body for: Create package item.
+         */
+        "items": Array<CreatePackageItemRequest>;
+    })
+        & (Exclude<PackageCreateRequest & object, readonly unknown[]>)>;
+    /** How the shipment's packages are described. Value enum: "single_package". */
+    "packaging": "single_package" | (string & {});
+});
+/** The `single_package` variant of `FulfillmentPackagingInput`. */
+export type FulfillmentSinglePackageRequestInput = ({
     /**
-     * Stable identifier of the modifier group. For a group a modifier set owns (`source: inline`),
-     * read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
-     * return it. minLength: 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id"?: string;
-    /**
-     * Whether buyers choose from a list of modifiers or enter text. On create, inferred as text
-     * when text configuration is supplied, otherwise list. Value enum: "list", "text".
-     */
-    "modifier_group_type"?: "list" | "text" | (string & {});
-    /**
-     * Choices in a list group. Only active modifiers whose set override's available is not false
-     * are offered to buyers. Text groups do not have choices. [] (Value): {@link ModifierRequest}.
-     * A modifier you supply when creating or updating a modifier group, such as an add-on with a
-     * price change.
-     */
-    "modifiers"?: Array<ModifierRequest>;
-    /** Name of the modifier group shown to buyers. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Whether selections from this group appear in fulfillment details unless overridden for a
-     * modifier set.
-     */
-    "show_on_fulfillment"?: boolean;
-    /**
-     * Whether selections from this group appear on buyer receipts unless overridden for a modifier
-     * set.
-     */
-    "show_on_receipt"?: boolean;
-    /**
-     * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
-     * archived groups remain readable and cannot be edited. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /**
-     * Text entry rules for a text group. Use text.required to require a value; list groups use
-     * min_selected instead. Settings for a text modifier group when creating or updating one:
-     * required, multiline, and length limits.
-     */
-    "text"?: TextModifierConfigRequest;
-};
-/**
- * A modifier group defined inline when setting up a modifier set, with its name, rules for how
- * many options can be selected, and its modifiers.
- */
-export type InlineModifierGroupRequestInput = {
-    /** Whether buyers can select more than one unit of a list modifier. Default: false. */
-    "allow_quantities"?: boolean;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
      */
     "external_reference_id"?: string;
+    /** Name of the external system that `external_reference_id` belongs to. minLength: 1. */
+    "external_system"?: string;
     /**
-     * Maximum whole-number quantity for each selected list modifier when allow_quantities is true;
-     * fractional quantities are not supported. Format: int64.
+     * Caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
+     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
      */
-    "max_quantity"?: number;
+    "metadata"?: MetadataRequestInput;
     /**
-     * Maximum number of distinct modifiers buyers can select from a list group. Omit it for no
-     * limit. A modifier set can override this value. Format: int32.
+     * The one package that holds every submitted line quantity. The single package created with a
+     * shipment fulfillment. It receives the submitted fulfillment line quantities. Set status to
+     * created or shipped; items and return_line_items are not accepted.
      */
-    "max_selected"?: number;
+    "package": SinglePackageCreateRequestInput;
     /**
-     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
-     * are not supported. Format: int64.
-     */
-    "max_total_quantity"?: number;
-    /**
+     * Packages for an itemized shipment, from 1 to 20, each listing the items it holds. minItems:
+     * 1. maxItems: 20. [] (Value): {@link PackageCreateRequestInput}. Package to create inline
+     * with its enclosing shipment or fulfillment. Set status to created before handoff, or shipped
+     * to report handoff during creation. [].buyer_notification_behavior (Optional): string.
+     * Controls buyer email handling. Omit or use send to send when recipient, template, and
+     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
+     * enum: "send", "suppress". [].carrier (Optional): string. Carrier that handles the package.
+     * minLength: 1. [].dimensions (Optional): {@link DimensionsRequestInput}. Dimensions of the
+     * package. Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     * [].expected_delivery_at (Optional): string or null. When the carrier or merchant expects
+     * this package to arrive. Past dates are allowed. Send null to clear it; omit to leave it
+     * unchanged on updates and transitions. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z". [].external_reference_id (Optional): string. Caller-owned identifier
+     * for this resource in an external system. Requires external_system. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". [].external_system (Optional): string. Name of the external system that
+     * external_reference_id belongs to. External references are not unique. Use Idempotency-Key
+     * for retries. minLength: 1. [].items (Required): Array of {@link
+     * CreatePackageItemRequestInput}. Independent package-item collection. Inline creation uses
+     * the child-create shape and commits atomically; edit items through the package item routes
+     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
+     * maxItems: 100. [].items[] (Value): {@link CreatePackageItemRequestInput}. The request body
+     * for: Create package item. [].label_url (Optional): string. HTTPS shipping-label URL supplied
+     * by your integration. Non-Flint URLs require external_system for provenance. Flint does not
+     * host the label file. minLength: 1. [].metadata (Optional): {@link MetadataRequestInput}.
      * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
      * for Flint, are not returned, and cannot be written through the public API. Caller-owned
      * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
      * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
      * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     * starting with flint_ are reserved for Flint. maxProperties: 50. [].return_line_items
+     * (Optional): Array of {@link ReturnShipmentLineItemAllocationRequestInput}. Required for a
+     * package on a return shipment: allocates quantities from the shipment's return_line_items to
+     * this parcel. Rejected on outbound shipments. [].return_line_items[] (Value): {@link
+     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
+     * return shipment or package. The enclosing Return or shipment determines its parent.
+     * [].service_code (Optional): string. Carrier's code for the shipping service used. minLength:
+     * 1. [].shipped_at (Optional): string. Package handoff time. Defaults to request time. Only
+     * allowed with status shipped. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z". [].status (Required): string. Outbound packages can start as created
+     * or shipped. Return packages must start as created, omit items, and include
+     * return_line_items. Use mark_shipped after the buyer hands over the return package. Value
+     * enum: "created", "shipped". [].status_reason (Optional): string. Additional explanation of
+     * the package's starting status. minLength: 1. [].tracking_number (Optional): string. Carrier
+     * tracking number for the package. minLength: 1. [].tracking_url (Optional): string. Absolute
+     * HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. [].weight
+     * (Optional): {@link WeightRequestInput}. Weight of the package. A weight value in grams,
+     * kilograms, ounces, or pounds, used in delivery profile configuration. [].oneOf[1] (Value):
+     * {@link PackageCreateInputCreatedInput}. Package to create inline with its enclosing shipment
+     * or fulfillment. Set status to created before handoff, or shipped to report handoff during
+     * creation. [].oneOf[2] (Value): {@link PackageCreateInputShippedInput}. Package to create
+     * inline with its enclosing shipment or fulfillment. Set status to created before handoff, or
+     * shipped to report handoff during creation.
      */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Minimum whole-number quantity for each selected list modifier when allow_quantities is true;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "min_quantity"?: number;
-    /**
-     * Minimum number of distinct modifiers buyers must select from a list group. Omit it to
-     * require no selections. A modifier set can override this value. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Stable identifier of the modifier group. For a group a modifier set owns (`source: inline`),
-     * read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
-     * return it. minLength: 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id"?: string;
-    /**
-     * Whether buyers choose from a list of modifiers or enter text. On create, inferred as text
-     * when text configuration is supplied, otherwise list. Value enum: "list", "text".
-     */
-    "modifier_group_type"?: "list" | "text";
-    /**
-     * Choices in a list group. Only active modifiers whose set override's available is not false
-     * are offered to buyers. Text groups do not have choices. [] (Value): {@link
-     * ModifierRequestInput}. A modifier you supply when creating or updating a modifier group,
-     * such as an add-on with a price change.
-     */
-    "modifiers"?: Array<ModifierRequestInput>;
-    /** Name of the modifier group shown to buyers. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Whether selections from this group appear in fulfillment details unless overridden for a
-     * modifier set.
-     */
-    "show_on_fulfillment"?: boolean;
-    /**
-     * Whether selections from this group appear on buyer receipts unless overridden for a modifier
-     * set.
-     */
-    "show_on_receipt"?: boolean;
-    /**
-     * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
-     * archived groups remain readable and cannot be edited. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /**
-     * Text entry rules for a text group. Use text.required to require a value; list groups use
-     * min_selected instead. Settings for a text modifier group when creating or updating one:
-     * required, multiline, and length limits.
-     */
-    "text"?: TextModifierConfigRequestInput;
-};
-/**
- * Says that an inventory reservation needs action, with the `reason` and the reservation lines
- * affected.
- */
-export type InventoryActionRequired = {
-    /**
-     * IDs of the reservation lines that need action. [] (Value): string. Example:
-     * "invrln_01KEZF7C002JCDA729XDSNWGY5".
-     */
-    "inventory_reservation_line_ids": Array<string>;
-    /**
-     * Why the reservation needs action. Value enum: "inventory_shortage", "hold_expired",
-     * "payment_pending", "other".
-     */
-    "reason": "inventory_shortage" | "hold_expired" | "payment_pending" | "other" | (string & {});
-};
-/** A recorded stock change with its reason and the quantity changes Flint computed. */
-export type InventoryAdjustment = {
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
-     */
-    "idempotency_key"?: string;
-    /**
-     * Unique identifier for this inventory adjustment, prefixed `invadj_`. Example:
-     * "invadj_01KEZF7C00HFCAS32T4NVHX75M".
-     */
-    "inventory_adjustment_id": string;
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. [] (Value):
-     * {@link InventoryAdjustmentLine}. One line of an inventory adjustment, with the item,
-     * Location, movement written, and the change in on-hand and each non-sellable quantity.
-     */
-    "lines": Array<InventoryAdjustmentLine>;
-    /** Free-text note explaining the change. Required when `reason` is `correction`. */
-    "note"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at": string;
-    /**
-     * Why the stock changed. It decides which fields each line takes. Value enum: "received",
-     * "returned", "sold", "theft", "loss", "condition_changed", "counted", "correction".
-     */
-    "reason": "received"
-        | "returned"
-        | "sold"
-        | "theft"
-        | "loss"
-        | "condition_changed"
-        | "counted"
-        | "correction"
-        | (string & {});
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. `null` when the
-     * request named no source system. anyOf[1] (Value): {@link InventorySourceSystem}. The system
-     * an inventory event came from, such as manual entry, a point of sale, a warehouse system, or
-     * Flint, with your source identifier when it applies. anyOf[2] (Value): null.
-     */
-    "source_system": ((InventorySourceSystem) | (null));
-};
-/**
- * One line of an inventory condition change: moves a `quantity` of an item at a Location from one
- * condition to another.
- */
-export type InventoryAdjustmentConditionChangeLineRequest = ({
-    /**
-     * Condition the units leave. Defaults to `sellable`. Default: "sellable". Value enum:
-     * "sellable", "quality_control", "damaged", "quarantined".
-     */
-    "from_condition"?: "sellable" | "quality_control" | "damaged" | "quarantined" | (string & {});
-    /**
-     * ID of the inventory item the stock is for. minLength: 1. Example:
-     * "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-     */
-    "inventory_item_id": string;
-    /**
-     * ID of the Location that holds the stock. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id": string;
-    /**
-     * Units this line records. Must be at least 1. Whole-number quantity; fractional quantities
-     * are not supported. Format: int64. minimum: 1.
-     */
-    "quantity": number;
-    /**
-     * Condition the units move to. Must differ from `from_condition`. Value enum: "sellable",
-     * "quality_control", "damaged", "quarantined".
-     */
-    "to_condition": "sellable" | "quality_control" | "damaged" | "quarantined" | (string & {});
-});
-/**
- * One line of an inventory condition change: moves a `quantity` of an item at a Location from one
- * condition to another.
- */
-export type InventoryAdjustmentConditionChangeLineRequestInput = ({
-    /**
-     * Condition the units leave. Defaults to `sellable`. Default: "sellable". Value enum:
-     * "sellable", "quality_control", "damaged", "quarantined".
-     */
-    "from_condition"?: "sellable" | "quality_control" | "damaged" | "quarantined";
-    /**
-     * ID of the inventory item the stock is for. minLength: 1. Example:
-     * "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-     */
-    "inventory_item_id": string;
-    /**
-     * ID of the Location that holds the stock. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id": string;
-    /**
-     * Units this line records. Must be at least 1. Whole-number quantity; fractional quantities
-     * are not supported. Format: int64. minimum: 1.
-     */
-    "quantity": number;
-    /**
-     * Condition the units move to. Must differ from `from_condition`. Value enum: "sellable",
-     * "quality_control", "damaged", "quarantined".
-     */
-    "to_condition": "sellable" | "quality_control" | "damaged" | "quarantined";
-})
-    & ((unknown) & (unknown) & (unknown) & (unknown));
-/**
- * One line of an inventory adjustment, with the item, Location, movement written, and the change
- * in on-hand and each non-sellable quantity.
- */
-export type InventoryAdjustmentLine = {
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "damaged_quantity_delta": number;
-    /** ID of the inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY". */
-    "inventory_item_id": string;
-    /**
-     * Movement this line wrote. `null` when the line changed nothing. Example:
-     * "invm_01KEZF7C00DYPFT9PS0NZY805Z".
-     */
-    "inventory_movement_id": string | null;
-    /** ID of the Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-    "location_id": string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "on_hand_quantity_delta": number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quality_control_quantity_delta": number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quarantined_quantity_delta": number;
-};
-/** A page of `InventoryAdjustment` objects. */
-export type InventoryAdjustmentListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * InventoryAdjustment}. A recorded stock change with its reason and the quantity changes Flint
-     * computed.
-     */
-    "data": Array<InventoryAdjustment>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * One line of an inventory quantity adjustment: a `quantity` of an item at a Location, in the
- * given `condition`.
- */
-export type InventoryAdjustmentQuantityLineRequest = {
-    /**
-     * Condition of the units. Defaults to `sellable`. Default: "sellable". Value enum: "sellable",
-     * "quality_control", "damaged", "quarantined".
-     */
-    "condition"?: "sellable" | "quality_control" | "damaged" | "quarantined" | (string & {});
-    /**
-     * ID of the inventory item the stock is for. minLength: 1. Example:
-     * "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-     */
-    "inventory_item_id": string;
-    /**
-     * ID of the Location that holds the stock. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id": string;
-    /**
-     * Units this line records. Must be at least 1. Whole-number quantity; fractional quantities
-     * are not supported. Format: int64. minimum: 1.
-     */
-    "quantity": number;
-};
-/**
- * One line of an inventory quantity adjustment: a `quantity` of an item at a Location, in the
- * given `condition`.
- */
-export type InventoryAdjustmentQuantityLineRequestInput = {
-    /**
-     * Condition of the units. Defaults to `sellable`. Default: "sellable". Value enum: "sellable",
-     * "quality_control", "damaged", "quarantined".
-     */
-    "condition"?: "sellable" | "quality_control" | "damaged" | "quarantined";
-    /**
-     * ID of the inventory item the stock is for. minLength: 1. Example:
-     * "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-     */
-    "inventory_item_id": string;
-    /**
-     * ID of the Location that holds the stock. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id": string;
-    /**
-     * Units this line records. Must be at least 1. Whole-number quantity; fractional quantities
-     * are not supported. Format: int64. minimum: 1.
-     */
-    "quantity": number;
-};
-/** A response containing `InventoryAdjustment` data. */
-export type InventoryAdjustmentResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A recorded stock change
-     * with its reason and the quantity changes Flint computed.
-     */
-    "data": InventoryAdjustment;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Inventory adjustment and the levels it changed. inventory_adjustment is the primary resource and
- * expected_version target.
- */
-export type InventoryAdjustmentResult = {
-    /**
-     * The recorded adjustment. A recorded stock change with its reason and the quantity changes
-     * Flint computed.
-     */
-    "inventory_adjustment": InventoryAdjustment;
-    /**
-     * Post-commit state of every level this command touched, one entry per level. A replay returns
-     * the levels the original command produced. Empty when no levels changed. [] (Value): {@link
-     * InventoryLevel}. The quantity state of one inventory item at one Location.
-     */
-    "inventory_levels": Array<InventoryLevel>;
-};
-/** A response containing `InventoryAdjustmentResult` data. */
-export type InventoryAdjustmentResultResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. Inventory adjustment and
-     * the levels it changed. inventory_adjustment is the primary resource and expected_version
-     * target.
-     */
-    "data": InventoryAdjustmentResult;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * One line of an inventory adjustment that sets absolute quantities for an item at a Location.
- * Omitted quantities stay unchanged.
- */
-export type InventoryAdjustmentSetLineRequest = ({
-    /**
-     * Absolute damaged quantity to record. Omit to leave it unchanged. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. minimum: 0.
-     */
-    "damaged_quantity"?: number;
-    /**
-     * Refuse the line unless the level's `physical_version` still equals this value. A level that
-     * doesn't exist yet has physical version 0. Holds and commitments do not change it. Format:
-     * int64. minimum: 0.
-     */
-    "expected_physical_version"?: number;
-    /**
-     * ID of the inventory item the stock is for. minLength: 1. Example:
-     * "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-     */
-    "inventory_item_id": string;
-    /**
-     * ID of the Location that holds the stock. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id": string;
-    /**
-     * Absolute on-hand quantity to record. Omit to leave it unchanged. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. minimum: 0.
-     */
-    "on_hand_quantity"?: number;
-    /**
-     * Absolute quality-control quantity to record. Omit to leave it unchanged. Whole-number
-     * quantity; fractional quantities are not supported. Format: int64. minimum: 0.
-     */
-    "quality_control_quantity"?: number;
-    /**
-     * Absolute quarantined quantity to record. Omit to leave it unchanged. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. minimum: 0.
-     */
-    "quarantined_quantity"?: number;
-    /**
-     * Monotonic sequence of this observation in the source system. Flint refuses a value that is
-     * not greater than the last accepted one for the same source, item, and Location. Format:
-     * int64. minimum: 1.
-     */
-    "source_observation_sequence"?: number;
+    "packages"?: Array<({
+        /**
+         * Independent package-item collection. Inline creation uses the child-create shape and
+         * commits atomically; edit items through the package item routes after creation. Each
+         * order line and bundle component pair may appear once. minItems: 1. maxItems: 100. []
+         * (Value): {@link CreatePackageItemRequestInput}. The request body for: Create package
+         * item.
+         */
+        "items": Array<CreatePackageItemRequestInput>;
+    })
+        & (Exclude<PackageCreateRequestInput & object, readonly unknown[]>)>;
+    /** How the shipment's packages are described. Value enum: "single_package". */
+    "packaging": "single_package";
 })
     & (({
-    /**
-     * Absolute on-hand quantity to record. Omit to leave it unchanged. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. minimum: 0.
-     */
-    "on_hand_quantity": number;
-})
-    | ({
-    /**
-     * Absolute quality-control quantity to record. Omit to leave it unchanged. Whole-number
-     * quantity; fractional quantities are not supported. Format: int64. minimum: 0.
-     */
-    "quality_control_quantity": number;
-})
-    | ({
-    /**
-     * Absolute damaged quantity to record. Omit to leave it unchanged. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. minimum: 0.
-     */
-    "damaged_quantity": number;
-})
-    | ({
-    /**
-     * Absolute quarantined quantity to record. Omit to leave it unchanged. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. minimum: 0.
-     */
-    "quarantined_quantity": number;
-})
-    | (Record<string, unknown>));
-/**
- * One line of an inventory adjustment that sets absolute quantities for an item at a Location.
- * Omitted quantities stay unchanged.
- */
-export type InventoryAdjustmentSetLineRequestInput = ({
-    /**
-     * Absolute damaged quantity to record. Omit to leave it unchanged. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. minimum: 0.
-     */
-    "damaged_quantity"?: number;
-    /**
-     * Refuse the line unless the level's `physical_version` still equals this value. A level that
-     * doesn't exist yet has physical version 0. Holds and commitments do not change it. Format:
-     * int64. minimum: 0.
-     */
-    "expected_physical_version"?: number;
-    /**
-     * ID of the inventory item the stock is for. minLength: 1. Example:
-     * "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-     */
-    "inventory_item_id": string;
-    /**
-     * ID of the Location that holds the stock. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id": string;
-    /**
-     * Absolute on-hand quantity to record. Omit to leave it unchanged. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. minimum: 0.
-     */
-    "on_hand_quantity"?: number;
-    /**
-     * Absolute quality-control quantity to record. Omit to leave it unchanged. Whole-number
-     * quantity; fractional quantities are not supported. Format: int64. minimum: 0.
-     */
-    "quality_control_quantity"?: number;
-    /**
-     * Absolute quarantined quantity to record. Omit to leave it unchanged. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. minimum: 0.
-     */
-    "quarantined_quantity"?: number;
-    /**
-     * Monotonic sequence of this observation in the source system. Flint refuses a value that is
-     * not greater than the last accepted one for the same source, item, and Location. Format:
-     * int64. minimum: 1.
-     */
-    "source_observation_sequence"?: number;
-})
-    & (({
-    /**
-     * Absolute on-hand quantity to record. Omit to leave it unchanged. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. minimum: 0.
-     */
-    "on_hand_quantity": number;
-})
-    | ({
-    /**
-     * Absolute quality-control quantity to record. Omit to leave it unchanged. Whole-number
-     * quantity; fractional quantities are not supported. Format: int64. minimum: 0.
-     */
-    "quality_control_quantity": number;
-})
-    | ({
-    /**
-     * Absolute damaged quantity to record. Omit to leave it unchanged. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. minimum: 0.
-     */
-    "damaged_quantity": number;
-})
-    | ({
-    /**
-     * Absolute quarantined quantity to record. Omit to leave it unchanged. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. minimum: 0.
-     */
-    "quarantined_quantity": number;
+    "packages"?: never;
 }));
-export type InventoryAdjustmentsCreateParams = (CreateInventoryAdjustmentRequestInput)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type InventoryAdjustmentsGetParams = DisputesAcceptParams;
-export type InventoryAdjustmentsListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by inventory item. pattern: ^invi_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-     */
-    "inventory_item_id"?: InputValue<string>;
-    /**
-     * Filter by Location. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: InputValue<string>;
-    /**
-     * Filter by adjustment reason. Values are trimmed and deduplicated in first-seen order; empty
-     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "received", "returned", "sold", "theft", "loss", "condition_changed",
-     * "counted", "correction". Value enum: "received", "returned", "sold", "theft", "loss",
-     * "condition_changed", "counted", "correction". anyOf[1] (Value): Array of string. minItems:
-     * 1. [] enum: "received", "returned", "sold", "theft", "loss", "condition_changed", "counted",
-     * "correction". anyOf[1][] (Value): string. Value enum: "received", "returned", "sold",
-     * "theft", "loss", "condition_changed", "counted", "correction". anyOf[2] (Value): string.
-     * Value enum: "received", "returned", "sold", "theft", "loss", "condition_changed", "counted",
-     * "correction".
-     */
-    "reason"?: InputValue<("received" | "returned" | "sold" | "theft" | "loss" | "condition_changed" | "counted" | "correction")
-        | readonly ("received" | "returned" | "sold" | "theft" | "loss" | "condition_changed" | "counted" | "correction")[]>;
-    /**
-     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
-     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
-     * pending resource does not prove that the operation succeeded, and an empty list does not
-     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
-     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
-     */
-    "idempotency_key"?: InputValue<string>;
-    /**
-     * Filter by source-system type. Values are trimmed and deduplicated in first-seen order; empty
-     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "manual", "pos", "wms", "erp", "flint", "other". Value enum: "manual",
-     * "pos", "wms", "erp", "flint", "other". anyOf[1] (Value): Array of string. minItems: 1. []
-     * enum: "manual", "pos", "wms", "erp", "flint", "other". anyOf[1][] (Value): string. Value
-     * enum: "manual", "pos", "wms", "erp", "flint", "other". anyOf[2] (Value): string. Value enum:
-     * "manual", "pos", "wms", "erp", "flint", "other".
-     */
-    "source_system_type"?: InputValue<("manual" | "pos" | "wms" | "erp" | "flint" | "other")
-        | readonly ("manual" | "pos" | "wms" | "erp" | "flint" | "other")[]>;
-    /** Filter by external source ID. Example: "warehouse-1842". */
-    "external_source_id"?: InputValue<string>;
-    /** Filter by external actor ID. Example: "warehouse-1842". */
-    "external_actor_id"?: InputValue<string>;
-    /** Inclusive lower bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "occurred_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "occurred_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/**
- * Routing rules for an inventory allocation policy: ranked groups of Locations, whether demand can
- * be split, and how many Locations one assignment may use.
- */
-export type InventoryAllocationConfigurationValue = {
-    /**
-     * Locations ranked into priority groups. Routing prefers the lowest group priority, then the
-     * lowest location ID. minItems: 1. maxItems: 25. [] (Value): {@link
-     * InventoryAllocationPolicyLocation}. A Location in an inventory allocation policy and the
-     * priority group it belongs to.
-     */
-    "location_groups": Array<InventoryAllocationPolicyLocation>;
-    /**
-     * Upper bound on how many Locations one assignment may use. Defaults to 1 for single_location
-     * and 10 for split_when_required. single_location requires 1 when sent. Format: int32.
-     * minimum: 1. maximum: 10.
-     */
-    "maximum_locations_per_assignment"?: number;
-    /**
-     * single_location fails rather than splitting demand across Locations; split_when_required
-     * allows a split when no single Location can serve the whole request. Value enum:
-     * "single_location", "split_when_required".
-     */
-    "splitting_behavior": "single_location" | "split_when_required" | (string & {});
-    /**
-     * Tie-break inside a priority group. Ascending location ID keeps assignments reproducible.
-     * Default: "location_id_ascending". Value enum: "location_id_ascending".
-     */
-    "within_group_order"?: "location_id_ascending" | (string & {});
-};
-export type InventoryAllocationPoliciesCreateParams = (InputValue<CreateInventoryAllocationPolicyRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type InventoryAllocationPoliciesDeleteParams = {
-    /** Current resource version used as a concurrency fence. Format: uint64. minimum: 1. */
-    "expected_version"?: InputValue<number>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type InventoryAllocationPoliciesGetParams = DisputesAcceptParams;
-export type InventoryAllocationPoliciesGetRevisionParams = DisputesAcceptParams;
-export type InventoryAllocationPoliciesListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
-     * "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value):
-     * Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value):
-     * string. Value enum: "active", "inactive", "archived". anyOf[2] (Value): string. Value enum:
-     * "active", "inactive", "archived".
-     */
-    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
-    /**
-     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842".
-     */
-    "external_reference_id"?: InputValue<string>;
-    /** Search allocation policy ID, external reference ID, or name. maxLength: 255. */
-    "query"?: InputValue<string>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type InventoryAllocationPoliciesListRevisionsParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type InventoryAllocationPoliciesUpdateParams = (InputValue<UpdateInventoryAllocationPolicyRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/** Named, version-fenced rules that decide which Locations serve demand and in what order. */
-export type InventoryAllocationPolicy = {
-    /**
-     * Routing rules: ranked groups of Locations, whether demand can be split, and the most
-     * Locations one assignment may use. location_groups (Required): Array of {@link
-     * InventoryAllocationPolicyLocation}. Locations ranked into priority groups. Routing prefers
-     * the lowest group priority, then the lowest location ID. minItems: 1. maxItems: 25.
-     * location_groups[] (Value): {@link InventoryAllocationPolicyLocation}. A Location in an
-     * inventory allocation policy and the priority group it belongs to.
-     * maximum_locations_per_assignment (Required): integer. Upper bound on how many Locations one
-     * assignment may use. Defaults to 1 for single_location and 10 for split_when_required.
-     * single_location requires 1 when sent. Format: int32. minimum: 1. maximum: 10.
-     * splitting_behavior (Required): string. single_location fails rather than splitting demand
-     * across Locations; split_when_required allows a split when no single Location can serve the
-     * whole request. Value enum: "single_location", "split_when_required". within_group_order
-     * (Required): string. Tie-break inside a priority group. Ascending location ID keeps
-     * assignments reproducible. Value enum: "location_id_ascending".
-     */
-    "configuration": {
-        /**
-         * Locations ranked into priority groups. Routing prefers the lowest group priority, then
-         * the lowest location ID. minItems: 1. maxItems: 25. [] (Value): {@link
-         * InventoryAllocationPolicyLocation}. A Location in an inventory allocation policy and the
-         * priority group it belongs to.
-         */
-        "location_groups": Array<InventoryAllocationPolicyLocation>;
-        /**
-         * Upper bound on how many Locations one assignment may use. Defaults to 1 for
-         * single_location and 10 for split_when_required. single_location requires 1 when sent.
-         * Format: int32. minimum: 1. maximum: 10.
-         */
-        "maximum_locations_per_assignment": number;
-        /**
-         * single_location fails rather than splitting demand across Locations; split_when_required
-         * allows a split when no single Location can serve the whole request. Value enum:
-         * "single_location", "split_when_required".
-         */
-        "splitting_behavior": "single_location" | "split_when_required" | (string & {});
-        /**
-         * Tie-break inside a priority group. Ascending location ID keeps assignments reproducible.
-         * Value enum: "location_id_ascending".
-         */
-        "within_group_order": "location_id_ascending" | (string & {});
-    };
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * The immutable revision containing this policy's current routing configuration. Replacing
-     * configuration publishes a new revision; other policy edits keep this ID. Example:
-     * "invpv_01KEZF7C00JSFTTBKC1JY614JJ".
-     */
-    "current_inventory_allocation_policy_revision_id": string;
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /** ID of the policy this revision belongs to. Example: "invp_01KEZF7C0076BZX855WAGC5SQK". */
-    "inventory_allocation_policy_id": string;
-    /**
-     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata": MetadataMap;
-    /** Merchant-facing policy name. */
-    "name": string;
-    /** Current allocation policy status. Value enum: "active", "inactive", "archived". */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Current version of this resource's owned state. Send it as `expected_version` when changing
-     * the resource to reject a stale write. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
-/**
- * Routing rules for an inventory allocation policy: ranked groups of Locations, whether demand can
- * be split, and how many Locations one assignment may use.
- */
-export type InventoryAllocationPolicyConfigurationRequestInput = {
-    /**
-     * Locations ranked into priority groups. Routing prefers the lowest group priority, then the
-     * lowest location ID. minItems: 1. maxItems: 25. [] (Value): {@link
-     * InventoryAllocationPolicyLocationInput}. A Location in an inventory allocation policy and
-     * the priority group it belongs to.
-     */
-    "location_groups": Array<InventoryAllocationPolicyLocationInput>;
-    /**
-     * Upper bound on how many Locations one assignment may use. Defaults to 1 for single_location
-     * and 10 for split_when_required. single_location requires 1 when sent. Format: int32.
-     * minimum: 1. maximum: 10.
-     */
-    "maximum_locations_per_assignment"?: number;
-    /**
-     * single_location fails rather than splitting demand across Locations; split_when_required
-     * allows a split when no single Location can serve the whole request. Value enum:
-     * "single_location", "split_when_required".
-     */
-    "splitting_behavior": "single_location" | "split_when_required";
-    /**
-     * Tie-break inside a priority group. Ascending location ID keeps assignments reproducible.
-     * Default: "location_id_ascending". Value enum: "location_id_ascending".
-     */
-    "within_group_order"?: "location_id_ascending";
-};
-/** A page of `InventoryAllocationPolicy` objects. */
-export type InventoryAllocationPolicyListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * InventoryAllocationPolicy}. Named, version-fenced rules that decide which Locations serve
-     * demand and in what order.
-     */
-    "data": Array<InventoryAllocationPolicy>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A Location in an inventory allocation policy and the priority group it belongs to. */
-export type InventoryAllocationPolicyLocation = {
-    /**
-     * Priority of the group this Location belongs to. Routing prefers the lowest number. Format:
-     * int32. minimum: 1.
-     */
-    "group_priority": number;
-    /**
-     * ID of a Location in this priority group. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id": string;
-};
-/** A Location in an inventory allocation policy and the priority group it belongs to. */
-export type InventoryAllocationPolicyLocationInput = InventoryAllocationPolicyLocation;
-/** A response containing `InventoryAllocationPolicy` data. */
-export type InventoryAllocationPolicyResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. Named, version-fenced
-     * rules that decide which Locations serve demand and in what order.
-     */
-    "data": InventoryAllocationPolicy;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * An immutable routing configuration published when an allocation policy is created or its
- * configuration is replaced. Revisions remain readable after later policy edits.
- */
-export type InventoryAllocationPolicyRevision = {
-    /**
-     * Routing rules: ranked groups of Locations, whether demand can be split, and the most
-     * Locations one assignment may use. Routing rules for an inventory allocation policy: ranked
-     * groups of Locations, whether demand can be split, and how many Locations one assignment may
-     * use.
-     */
-    "configuration": InventoryAllocationConfigurationValue;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /** ID of the policy this revision belongs to. Example: "invp_01KEZF7C0076BZX855WAGC5SQK". */
-    "inventory_allocation_policy_id": string;
-    /**
-     * Unique identifier for this inventory allocation policy revision, prefixed `invpv_`. Example:
-     * "invpv_01KEZF7C00JSFTTBKC1JY614JJ".
-     */
-    "inventory_allocation_policy_revision_id": string;
-};
-/** A page of `InventoryAllocationPolicyRevision` objects. */
-export type InventoryAllocationPolicyRevisionListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * InventoryAllocationPolicyRevision}. An immutable routing configuration published when an
-     * allocation policy is created or its configuration is replaced. Revisions remain readable
-     * after later policy edits.
-     */
-    "data": Array<InventoryAllocationPolicyRevision>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `InventoryAllocationPolicyRevision` data. */
-export type InventoryAllocationPolicyRevisionResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. An immutable routing
-     * configuration published when an allocation policy is created or its configuration is
-     * replaced. Revisions remain readable after later policy edits.
-     */
-    "data": InventoryAllocationPolicyRevision;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** Patch object: fields you send are applied, fields you omit are unchanged. minProperties: 1. */
-export type InventoryBackorderPolicyRequest = {
-    /** Whether this inventory item allows backorders. */
-    "enabled"?: boolean;
-    /**
-     * Expected shipping date. Send null to clear it. Format: date. minLength: 1. pattern:
-     * ^[0-9]{4}-[0-9]{2}-[0-9]{2}$. Example: "2026-08-02".
-     */
-    "expected_ship_date"?: string | null;
-    /**
-     * Maximum units on backorder across the item's levels. Send null for no cap. Format: int64.
-     * minimum: 1. maximum: 9007199254740991.
-     */
-    "limit_quantity"?: number | null;
-};
-/** Patch object: fields you send are applied, fields you omit are unchanged. minProperties: 1. */
-export type InventoryBackorderPolicyRequestInput = InventoryBackorderPolicyRequest;
-/** A physical count used to reconcile stock. */
-export type InventoryCount = {
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "applied_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
-     */
-    "idempotency_key"?: string;
-    /**
-     * Unique identifier for this inventory count, prefixed `invc_`. Example:
-     * "invc_01KEZF7C00B47NXRE3ET37QQ59".
-     */
-    "inventory_count_id": string;
-    /**
-     * Count lines, one for each inventory item being counted. [] (Value): {@link
-     * InventoryCountLine}. One item's line in an inventory count, with the quantities Flint
-     * expected, the quantities counted, and the variance applied.
-     */
-    "lines": Array<InventoryCountLine>;
-    /** ID of the Location whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-    "location_id": string;
-    /**
-     * Source system, actor, and time reported with the count's observations. Where an inventory
-     * count came from: the source system, an external actor ID, and when the event occurred.
-     */
-    "observation_provenance"?: InventoryCountObservationProvenance;
-    /**
-     * Whether the count is still open. Applying or canceling a `draft` count ends it. Value enum:
-     * "draft", "applied", "canceled".
-     */
-    "status": "draft" | "applied" | "canceled" | (string & {});
-    /**
-     * Actions that can change this count now. A draft can be canceled, and applied once every line
-     * has an observation. Empty after the count is applied or canceled. [] enum: "apply",
-     * "cancel". [] (Value): string. Value enum: "apply", "cancel".
-     */
-    "supported_actions": Array<"apply" | "cancel" | (string & {})>;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Current version of this resource's owned state. Send it as `expected_version` when changing
-     * the resource to reject a stale write. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
-export type InventoryCountAppliedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type FulfillmentUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
         "object": {
-            "applied_at"?: string;
+            "active_hold"?: FulfillmentHold;
+            "charges"?: Array<FulfillmentChargeLink>;
+            "completed_at"?: string;
             "created_at": string;
-            "idempotency_key"?: string;
-            "inventory_count_id": string;
-            "lines": Array<InventoryCountLine>;
-            "location_id": string;
-            "observation_provenance"?: InventoryCountObservationProvenance;
-            "status": "draft" | "applied" | "canceled" | (string & {});
-            "supported_actions": Array<"apply" | "cancel" | (string & {})>;
+            "customer_id"?: string;
+            "delivery_choice_group_id"?: string | null;
+            "delivery_execution_leg_id"?: string | null;
+            "delivery_method_id"?: string | null;
+            "delivery_selection_id"?: string | null;
+            "device_id"?: string;
+            "digital_details"?: DigitalFulfillmentDetails;
+            "dispatched_at"?: string;
+            "external_reference_id"?: string;
+            "fulfillment_id": string;
+            "line_items": Array<FulfillmentLineItem>;
+            "local_delivery_details"?: DeliveryFulfillmentDetails;
+            "location_id"?: string;
+            "metadata"?: MetadataMap;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string;
+            "order_number"?: string;
+            "outcome"?: FulfillmentOutcome;
+            "packages"?: Array<ExpandedPackageSummary>;
+            "packed_at"?: string;
+            "picked_at"?: string;
+            "pickup_details"?: PickupFulfillmentDetails;
+            "recipient"?: FulfillmentRecipient;
+            "scheduled_start_at": string | null;
+            "service_details"?: ServiceFulfillmentDetails;
+            "shipment_details"?: ShipmentFulfillmentDetails;
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            "status": "pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {});
+            "supported_actions"?: Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>;
+            "terminal_at"?: string;
+            "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {});
             "updated_at": string;
             "version": number;
         };
@@ -1845,35 +470,146 @@ export type InventoryCountAppliedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             [key: string]: unknown;
         })
             & ({
-            "applied_at"?: ((string) | (null));
+            "active_hold"?: ((FulfillmentHoldPreviousAttributes) | (null) | (unknown));
+            "charges"?: ((Array<FulfillmentChargeLinkPreviousAttributes>) | (null));
+            "completed_at"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "idempotency_key"?: ((string) | (null));
-            "inventory_count_id"?: ((string) | (null));
-            "lines"?: ((Array<InventoryCountLine>) | (null));
+            "customer_id"?: ((string) | (null));
+            "delivery_choice_group_id"?: ((string | null) | (null) | (unknown));
+            "delivery_execution_leg_id"?: ((string | null) | (null) | (unknown));
+            "delivery_method_id"?: ((string | null) | (null) | (unknown));
+            "delivery_selection_id"?: ((string | null) | (null) | (unknown));
+            "device_id"?: ((string) | (null));
+            "digital_details"?: ((DigitalFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "dispatched_at"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "fulfillment_id"?: ((string) | (null));
+            "line_items"?: ((Array<FulfillmentLineItemPreviousAttributes>) | (null));
+            "local_delivery_details"?: ((DeliveryFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
             "location_id"?: ((string) | (null));
-            "observation_provenance"?: ((InventoryCountObservationProvenance) | (null));
-            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
+            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
+            "order_number"?: ((string) | (null));
+            "outcome"?: ((FulfillmentOutcomePreviousAttributes) | (null) | (unknown));
+            "packages"?: ((Array<ExpandedPackageSummaryPreviousAttributes>) | (null));
+            "packed_at"?: ((string) | (null));
+            "picked_at"?: ((string) | (null));
+            "pickup_details"?: ((PickupFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "recipient"?: ((FulfillmentRecipientPreviousAttributes) | (null) | (unknown));
+            "scheduled_start_at"?: ((string | null) | (null) | (unknown));
+            "service_details"?: ((ServiceFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "shipment_details"?: ((ShipmentFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "shipments"?: ((Array<ExpandedShipmentSummaryPreviousAttributes>) | (null));
+            "status"?: (("pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {}))
+                | (null));
+            "supported_actions"?: ((Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>)
+                | (null));
+            "terminal_at"?: ((string) | (null));
+            "type"?: (("shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {}))
+                | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
         });
     };
     "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "inventory_count.applied";
+    "event_type"?: "fulfillment.updated";
 }))
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
         "object": {
-            "applied_at"?: string;
+            "active_hold"?: FulfillmentHold;
+            "charges"?: Array<FulfillmentChargeLink>;
+            "completed_at"?: string;
             "created_at": string;
-            "idempotency_key"?: string;
-            "inventory_count_id": string;
-            "lines": Array<InventoryCountLine>;
-            "location_id": string;
-            "observation_provenance"?: InventoryCountObservationProvenance;
-            "status": "draft" | "applied" | "canceled" | (string & {});
-            "supported_actions": Array<"apply" | "cancel" | (string & {})>;
+            "customer_id"?: string;
+            "delivery_choice_group_id"?: string | null;
+            "delivery_execution_leg_id"?: string | null;
+            "delivery_method_id"?: string | null;
+            "delivery_selection_id"?: string | null;
+            "device_id"?: string;
+            "digital_details"?: DigitalFulfillmentDetails;
+            "dispatched_at"?: string;
+            "external_reference_id"?: string;
+            "fulfillment_id": string;
+            "line_items": Array<FulfillmentLineItem>;
+            "local_delivery_details"?: DeliveryFulfillmentDetails;
+            "location_id"?: string;
+            "metadata"?: MetadataMap;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string;
+            "order_number"?: string;
+            "outcome"?: FulfillmentOutcome;
+            "packages"?: Array<ExpandedPackageSummary>;
+            "packed_at"?: string;
+            "picked_at"?: string;
+            "pickup_details"?: PickupFulfillmentDetails;
+            "recipient"?: FulfillmentRecipient;
+            "scheduled_start_at": string | null;
+            "service_details"?: ServiceFulfillmentDetails;
+            "shipment_details"?: ShipmentFulfillmentDetails;
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            "status": "pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {});
+            "supported_actions"?: Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>;
+            "terminal_at"?: string;
+            "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {});
             "updated_at": string;
             "version": number;
         };
@@ -1881,21 +617,78 @@ export type InventoryCountAppliedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             [key: string]: unknown;
         })
             & ({
-            "applied_at"?: ((string) | (null));
+            "active_hold"?: ((FulfillmentHoldPreviousAttributes) | (null) | (unknown));
+            "charges"?: ((Array<FulfillmentChargeLinkPreviousAttributes>) | (null));
+            "completed_at"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "idempotency_key"?: ((string) | (null));
-            "inventory_count_id"?: ((string) | (null));
-            "lines"?: ((Array<InventoryCountLine>) | (null));
+            "customer_id"?: ((string) | (null));
+            "delivery_choice_group_id"?: ((string | null) | (null) | (unknown));
+            "delivery_execution_leg_id"?: ((string | null) | (null) | (unknown));
+            "delivery_method_id"?: ((string | null) | (null) | (unknown));
+            "delivery_selection_id"?: ((string | null) | (null) | (unknown));
+            "device_id"?: ((string) | (null));
+            "digital_details"?: ((DigitalFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "dispatched_at"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "fulfillment_id"?: ((string) | (null));
+            "line_items"?: ((Array<FulfillmentLineItemPreviousAttributes>) | (null));
+            "local_delivery_details"?: ((DeliveryFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
             "location_id"?: ((string) | (null));
-            "observation_provenance"?: ((InventoryCountObservationProvenance) | (null));
-            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
+            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
+            "order_number"?: ((string) | (null));
+            "outcome"?: ((FulfillmentOutcomePreviousAttributes) | (null) | (unknown));
+            "packages"?: ((Array<ExpandedPackageSummaryPreviousAttributes>) | (null));
+            "packed_at"?: ((string) | (null));
+            "picked_at"?: ((string) | (null));
+            "pickup_details"?: ((PickupFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "recipient"?: ((FulfillmentRecipientPreviousAttributes) | (null) | (unknown));
+            "scheduled_start_at"?: ((string | null) | (null) | (unknown));
+            "service_details"?: ((ServiceFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "shipment_details"?: ((ShipmentFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "shipments"?: ((Array<ExpandedShipmentSummaryPreviousAttributes>) | (null));
+            "status"?: (("pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {}))
+                | (null));
+            "supported_actions"?: ((Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>)
+                | (null));
+            "terminal_at"?: ((string) | (null));
+            "type"?: (("shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {}))
+                | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
         });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "inventory_count.applied";
+    "event_type"?: "fulfillment.updated";
     "source"?: ({
         "environment_grant_id": string;
         "merchant_id": string;
@@ -1905,172 +698,762 @@ export type InventoryCountAppliedEvent = ((((Exclude<MerchantWebhookEnvelope & o
     });
 })))
     & {
-    "event_type": "inventory_count.applied";
+    "event_type": "fulfillment.updated";
 });
 /**
- * The `inventory_count.applied` webhook payload for the `installed_merchants` event source. Fields
+ * The `fulfillment.updated` webhook payload for the `installed_merchants` event source. Fields
  * shared by partner webhook payloads.
  */
-export type InventoryCountAppliedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type FulfillmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.applied_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
-     * object.inventory_count_id (Required): string. Unique identifier for this inventory count,
-     * prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59". object.lines (Required): Array
-     * of {@link InventoryCountLine}. Count lines, one for each inventory item being counted.
-     * object.lines[] (Value): {@link InventoryCountLine}. One item's line in an inventory count,
-     * with the quantities Flint expected, the quantities counted, and the variance applied.
-     * object.location_id (Required): string. ID of the Location whose stock is counted. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.observation_provenance (Optional): {@link
-     * InventoryCountObservationProvenance}. Source system, actor, and time reported with the
-     * count's observations. Where an inventory count came from: the source system, an external
-     * actor ID, and when the event occurred. object.status (Required): string. Whether the count
-     * is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
-     * "applied", "canceled". object.supported_actions (Required): Array of string. Actions that
-     * can change this count now. A draft can be canceled, and applied once every line has an
-     * observation. Empty after the count is applied or canceled. [] enum: "apply", "cancel".
-     * object.supported_actions[] (Value): string. Value enum: "apply", "cancel". object.updated_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.applied_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.applied_at.anyOf[2] (Value):
-     * null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
-     * the request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
-     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
-     * previous_attributes.inventory_count_id (Optional): string or null. Unique identifier for
-     * this inventory count, prefixed `invc_`. previous_attributes.inventory_count_id.anyOf[1]
-     * (Value): string. Unique identifier for this inventory count, prefixed `invc_`. Example:
-     * "invc_01KEZF7C00B47NXRE3ET37QQ59". previous_attributes.inventory_count_id.anyOf[2] (Value):
-     * null. previous_attributes.lines (Optional): Array of {@link InventoryCountLine} or null.
-     * Count lines, one for each inventory item being counted. previous_attributes.lines.anyOf[1]
-     * (Value): Array of {@link InventoryCountLine}. Count lines, one for each inventory item being
-     * counted. previous_attributes.lines.anyOf[1][] (Value): {@link InventoryCountLine}. One
-     * item's line in an inventory count, with the quantities Flint expected, the quantities
-     * counted, and the variance applied. previous_attributes.lines.anyOf[2] (Value): null.
-     * previous_attributes.location_id (Optional): string or null. ID of the Location whose stock
-     * is counted. previous_attributes.location_id.anyOf[1] (Value): string. ID of the Location
-     * whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * previous_attributes.location_id.anyOf[2] (Value): null.
-     * previous_attributes.observation_provenance (Optional): {@link
-     * InventoryCountObservationProvenance} or null. Source system, actor, and time reported with
-     * the count's observations. previous_attributes.observation_provenance.anyOf[1] (Value):
-     * {@link InventoryCountObservationProvenance}. Source system, actor, and time reported with
-     * the count's observations. previous_attributes.observation_provenance.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Whether the count is still open.
-     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
-     * previous_attributes.status.anyOf[1] (Value): string. Whether the count is still open.
-     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
+     * additional fields. object.active_hold (Optional): {@link FulfillmentHold}. Current hold
+     * details. Present exactly when status is on_hold. A hold on a fulfillment, with its reason,
+     * who placed it, and when it became active. object.charges (Optional): Array of {@link
+     * FulfillmentChargeLink}. Order charges associated with this fulfillment. object.charges[]
+     * (Value): {@link FulfillmentChargeLink}. Links a fulfillment to an order charge by
+     * `order_charge_id`. object.completed_at (Optional): string. When the fulfillment was
+     * completed. Mirrors the completion time for its type: delivered_at for shipment, local
+     * delivery, and digital fulfillments, picked_up_at for pickup, and
+     * service_details.completed_at for service fulfillments. Omitted until a completion time is
+     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required):
+     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.customer_id (Optional): string. Customer receiving this
+     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * object.delivery_choice_group_id (Optional): string or null. Delivery choice group that
+     * created this fulfillment. `null` when the merchant created the fulfillment or checkout
+     * created it without a delivery quote. Always present with merchant credentials. Example:
+     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". object.delivery_execution_leg_id (Optional): string or
+     * null. Execution leg of the selected delivery option that created this fulfillment. `null`
+     * when the merchant created the fulfillment or checkout created it without a delivery quote.
+     * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
+     * object.delivery_method_id (Optional): string or null. Delivery method chosen for this
+     * fulfillment. `null` when the merchant created the fulfillment or checkout created it without
+     * a delivery quote. Also `null` when it was created before this field was added. Always
+     * present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * object.delivery_selection_id (Optional): string or null. Delivery selection that created
+     * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
+     * without a delivery quote. Always present with merchant credentials. Example:
+     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". object.device_id (Optional): string. Device associated
+     * with the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+     * object.digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
+     * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
+     * delivered (`delivered_at`) and its `delivery_url`. object.dispatched_at (Optional): string.
+     * First time this fulfillment reached dispatched. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
+     * identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842". object.fulfillment_id (Required): string. Stable identifier of the
+     * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.line_items (Required): Array
+     * of {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
+     * object.line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
+     * included in a fulfillment, with the modifiers applied to it. object.local_delivery_details
+     * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
+     * details for a local delivery fulfillment. Details of a local delivery fulfillment: courier,
+     * timing window, instructions, and tracking. Some fields are omitted for credentials that
+     * don't act for the verified customer. object.location_id (Optional): string. Merchant
+     * location responsible for this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * object.metadata (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated
+     * with the fulfillment. Caller-owned key-value data stored on a resource. Keys starting with
+     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
+     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     * object.order (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when
+     * the order relationship is expanded. Present only when `expand` includes `order`; `null` when
+     * expanded and there is no related order. object.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
+     * this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number
+     * (Optional): string. Human-readable number of the order this fulfillment belongs to. Omitted
+     * when the order has no number. object.outcome (Optional): {@link FulfillmentOutcome}.
+     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
+     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
+     * object.packages (Optional): Array of {@link ExpandedPackageSummary}. Packages associated
+     * with this fulfillment. object.packages[] (Value): {@link ExpandedPackageSummary}. A
+     * package's summary fields, including carrier, tracking, status, and supported actions,
+     * returned when the package is expanded. object.packed_at (Optional): string. First time this
+     * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.picked_at (Optional): string. First time this fulfillment reached picked. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link
+     * PickupFulfillmentDetails}. Pickup window, pickup mode, and handoff times for a pickup
+     * fulfillment. Pickup details. For a pickup that checkout creates, location_name, address, and
+     * instructions name the store the buyer chose and the delivery method's pickup instructions.
+     * The note the buyer left for the store is in recipient.instructions. object.recipient
+     * (Optional): {@link FulfillmentRecipient}. Omitted for a checkout session credential that
+     * doesn't act for the customer the buyer verified. The recipient of a fulfillment, with name,
+     * email, phone, address, and handling instructions. object.scheduled_start_at (Required):
+     * string or null. Derived start of the service schedule or pickup, local delivery, or shipment
+     * window. Null when no schedule is booked, including digital fulfillments. Details remain the
+     * authoritative schedule inputs. Nulls sort first ascending and last descending, then by
+     * fulfillment_id in the same direction. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.service_details (Optional): {@link ServiceFulfillmentDetails}. Schedule and
+     * completion details for a service fulfillment. Details of a service fulfillment: the
+     * scheduled start and end, timezone, completion time, and notes. object.shipment_details
+     * (Optional): {@link ShipmentFulfillmentDetails}. Shipping schedule and ship time for a
+     * shipment fulfillment. Present only on shipment fulfillments with at least one value. Details
+     * of a shipment fulfillment: the shipping window, timezone, and when the shipment was handed
+     * to the carrier. object.shipments (Optional): Array of {@link ExpandedShipmentSummary}.
+     * Shipments associated with this fulfillment. object.shipments[] (Value): {@link
+     * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
+     * package count, returned when the shipment is expanded. object.status (Required): string.
+     * Current fulfillment lifecycle status. Read supported_actions for available transitions. -
+     * `pending`: Work has not started and has not been accepted. Approval may be required before
+     * work can begin. - `accepted`: The provider accepted the fulfillment; work has not started. -
+     * `on_hold`: Work is paused. Release the hold to restore active_hold.previous_status, or use a
+     * supported forward action. - `in_progress`: Work has started and is not yet ready or
+     * complete. - `ready`: The fulfillment is ready for pickup, handoff, or completion. -
+     * `completed`: All fulfillment work completed successfully. - `canceled`: The fulfillment was
+     * intentionally canceled and will not continue. - `failed`: The fulfillment could not be
+     * completed. Resolve the recorded reason before creating replacement work. - `scheduled`: The
+     * fulfillment is scheduled for its recorded service window. - `preparing`: Warehouse or
+     * provider preparation is underway. - `picked`: The assigned items have been picked. -
+     * `packed`: The assigned items have been packed. - `dispatched`: The fulfillment left its
+     * origin for delivery or handoff. - `no_show`: A service appointment was missed. Read outcome
+     * for the recorded reason. Value enum: "pending", "accepted", "on_hold", "in_progress",
+     * "ready", "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+     * "dispatched", "no_show". object.supported_actions (Optional): Array of string. Read-only
+     * lifecycle actions accepted now, based on the fulfillment, its order payment status, holds,
+     * and shipment progress. Empty when none are available. Values name the verb route with
+     * hyphens replaced by underscores. Always present with merchant credentials. [] enum:
+     * "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed",
+     * "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start".
+     * object.supported_actions[] (Value): string. Value enum: "accept", "cancel", "complete",
+     * "dispatch", "fail", "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+     * "mark_ready", "release_hold", "schedule", "start". object.terminal_at (Optional): string.
+     * When the fulfillment entered a terminal state: completed, canceled, failed, or no_show. This
+     * records the state transition; completed_at records completion evidence supplied for the
+     * fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z". object.type (Required):
+     * string. How the items are delivered: shipment, pickup, local delivery, digital delivery, or
+     * service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+     * "handover". object.updated_at (Required): string. When the fulfillment was last updated, in
+     * RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
+     * (Required): integer. Monotonic fulfillment version for expected_version checks. Format:
+     * uint64. minimum: 1. previous_attributes (Optional): object and {@link
+     * FulfillmentPreviousAttributes}. Previous values of changed top-level fields in data.object,
+     * at this delivery's API version. Nested changes include the whole previous top-level value. A
+     * value is null when the field was absent before the change. Omitted when Flint did not record
+     * the previous state, including synthetic test events. previous_attributes.active_hold
+     * (Optional): {@link FulfillmentHoldPreviousAttributes} or null. Current hold details. Present
+     * exactly when status is on_hold. previous_attributes.active_hold.anyOf[1] (Value): {@link
+     * FulfillmentHoldPreviousAttributes}. previous_attributes.active_hold.anyOf[2] (Value): null.
+     * previous_attributes.charges (Optional): Array of {@link
+     * FulfillmentChargeLinkPreviousAttributes} or null. Order charges associated with this
+     * fulfillment. previous_attributes.charges.anyOf[1] (Value): Array of {@link
+     * FulfillmentChargeLinkPreviousAttributes}. Order charges associated with this fulfillment.
+     * previous_attributes.charges.anyOf[1][] (Value): {@link
+     * FulfillmentChargeLinkPreviousAttributes}. previous_attributes.charges.anyOf[2] (Value):
+     * null. previous_attributes.completed_at (Optional): string or null. When the fulfillment was
+     * completed. Mirrors the completion time for its type: delivered_at for shipment, local
+     * delivery, and digital fulfillments, picked_up_at for pickup, and
+     * service_details.completed_at for service fulfillments. Omitted until a completion time is
+     * recorded. previous_attributes.completed_at.anyOf[1] (Value): string. When the fulfillment
+     * was completed. Mirrors the completion time for its type: delivered_at for shipment, local
+     * delivery, and digital fulfillments, picked_up_at for pickup, and
+     * service_details.completed_at for service fulfillments. Omitted until a completion time is
+     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.completed_at.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. When the fulfillment was created, in RFC3339 format.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When the fulfillment was created,
+     * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. Customer receiving this fulfillment, when one is set.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. Customer receiving this
+     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_choice_group_id (Optional): string or null or null. Delivery
+     * choice group that created this fulfillment. `null` when the merchant created the fulfillment
+     * or checkout created it without a delivery quote. Always present with merchant credentials.
+     * previous_attributes.delivery_choice_group_id.anyOf[1] (Value): string or null. Delivery
+     * choice group that created this fulfillment. `null` when the merchant created the fulfillment
+     * or checkout created it without a delivery quote. Always present with merchant credentials.
+     * Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     * previous_attributes.delivery_choice_group_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_execution_leg_id (Optional): string or null or null. Execution
+     * leg of the selected delivery option that created this fulfillment. `null` when the merchant
+     * created the fulfillment or checkout created it without a delivery quote. Always present with
+     * merchant credentials. previous_attributes.delivery_execution_leg_id.anyOf[1] (Value): string
+     * or null. Execution leg of the selected delivery option that created this fulfillment. `null`
+     * when the merchant created the fulfillment or checkout created it without a delivery quote.
+     * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
+     * previous_attributes.delivery_execution_leg_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_method_id (Optional): string or null or null. Delivery method
+     * chosen for this fulfillment. `null` when the merchant created the fulfillment or checkout
+     * created it without a delivery quote. Also `null` when it was created before this field was
+     * added. Always present with merchant credentials.
+     * previous_attributes.delivery_method_id.anyOf[1] (Value): string or null. Delivery method
+     * chosen for this fulfillment. `null` when the merchant created the fulfillment or checkout
+     * created it without a delivery quote. Also `null` when it was created before this field was
+     * added. Always present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_selection_id (Optional): string or null or null. Delivery
+     * selection that created this fulfillment. `null` when the merchant created the fulfillment or
+     * checkout created it without a delivery quote. Always present with merchant credentials.
+     * previous_attributes.delivery_selection_id.anyOf[1] (Value): string or null. Delivery
+     * selection that created this fulfillment. `null` when the merchant created the fulfillment or
+     * checkout created it without a delivery quote. Always present with merchant credentials.
+     * Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     * previous_attributes.delivery_selection_id.anyOf[2] (Value): null.
+     * previous_attributes.device_id (Optional): string or null. Device associated with the
+     * fulfillment, when one is recorded. previous_attributes.device_id.anyOf[1] (Value): string.
+     * Device associated with the fulfillment, when one is recorded. Example:
+     * "dev_01KEZF7C0051ZP8MZSGHP989F6". previous_attributes.device_id.anyOf[2] (Value): null.
+     * previous_attributes.digital_details (Optional): {@link
+     * DigitalFulfillmentDetailsPreviousAttributes} or null. Delivery URL and completion time for a
+     * digital fulfillment. previous_attributes.digital_details.anyOf[1] (Value): {@link
+     * DigitalFulfillmentDetailsPreviousAttributes}. previous_attributes.digital_details.anyOf[2]
+     * (Value): null. previous_attributes.dispatched_at (Optional): string or null. First time this
+     * fulfillment reached dispatched. previous_attributes.dispatched_at.anyOf[1] (Value): string.
+     * First time this fulfillment reached dispatched. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.dispatched_at.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.fulfillment_id (Optional): string or null. Stable identifier of the
+     * fulfillment. previous_attributes.fulfillment_id.anyOf[1] (Value): string. Stable identifier
+     * of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     * previous_attributes.fulfillment_id.anyOf[2] (Value): null. previous_attributes.line_items
+     * (Optional): Array of {@link FulfillmentLineItemPreviousAttributes} or null. Order lines and
+     * quantities allocated to this fulfillment. previous_attributes.line_items.anyOf[1] (Value):
+     * Array of {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated
+     * to this fulfillment. previous_attributes.line_items.anyOf[1][] (Value): {@link
+     * FulfillmentLineItemPreviousAttributes}. previous_attributes.line_items.anyOf[2] (Value):
+     * null. previous_attributes.local_delivery_details (Optional): {@link
+     * DeliveryFulfillmentDetailsPreviousAttributes} or null. Courier, delivery window, and handoff
+     * details for a local delivery fulfillment.
+     * previous_attributes.local_delivery_details.anyOf[1] (Value): {@link
+     * DeliveryFulfillmentDetailsPreviousAttributes}.
+     * previous_attributes.local_delivery_details.anyOf[2] (Value): null.
+     * previous_attributes.location_id (Optional): string or null. Merchant location responsible
+     * for this fulfillment. previous_attributes.location_id.anyOf[1] (Value): string. Merchant
+     * location responsible for this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.location_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned key-value metadata associated with the
+     * fulfillment. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
+     * ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. Order summary returned
+     * when the order relationship is expanded. Present only when `expand` includes `order`; `null`
+     * when expanded and there is no related order. previous_attributes.order.anyOf[1] (Value):
+     * ({@link ExpandedOrderSummaryPreviousAttributes} or null). Order summary returned when the
+     * order relationship is expanded. Present only when `expand` includes `order`; `null` when
+     * expanded and there is no related order. previous_attributes.order.anyOf[1].anyOf[1] (Value):
+     * {@link ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
+     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order_id (Optional): string or null. Order whose items this fulfillment
+     * delivers. previous_attributes.order_id.anyOf[1] (Value): string. Order whose items this
+     * fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * previous_attributes.order_id.anyOf[2] (Value): null. previous_attributes.order_number
+     * (Optional): string or null. Human-readable number of the order this fulfillment belongs to.
+     * Omitted when the order has no number. previous_attributes.order_number.anyOf[1] (Value):
+     * string. Human-readable number of the order this fulfillment belongs to. Omitted when the
+     * order has no number. previous_attributes.order_number.anyOf[2] (Value): null.
+     * previous_attributes.outcome (Optional): {@link FulfillmentOutcomePreviousAttributes} or
+     * null. Terminal outcome details. Present exactly when status is no_show.
+     * previous_attributes.outcome.anyOf[1] (Value): {@link FulfillmentOutcomePreviousAttributes}.
+     * previous_attributes.outcome.anyOf[2] (Value): null. previous_attributes.packages (Optional):
+     * Array of {@link ExpandedPackageSummaryPreviousAttributes} or null. Packages associated with
+     * this fulfillment. previous_attributes.packages.anyOf[1] (Value): Array of {@link
+     * ExpandedPackageSummaryPreviousAttributes}. Packages associated with this fulfillment.
+     * previous_attributes.packages.anyOf[1][] (Value): {@link
+     * ExpandedPackageSummaryPreviousAttributes}. previous_attributes.packages.anyOf[2] (Value):
+     * null. previous_attributes.packed_at (Optional): string or null. First time this fulfillment
+     * reached packed. previous_attributes.packed_at.anyOf[1] (Value): string. First time this
+     * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.packed_at.anyOf[2] (Value): null. previous_attributes.picked_at
+     * (Optional): string or null. First time this fulfillment reached picked.
+     * previous_attributes.picked_at.anyOf[1] (Value): string. First time this fulfillment reached
+     * picked. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.picked_at.anyOf[2] (Value): null. previous_attributes.pickup_details
+     * (Optional): {@link PickupFulfillmentDetailsPreviousAttributes} or null. Pickup window,
+     * pickup mode, and handoff times for a pickup fulfillment.
+     * previous_attributes.pickup_details.anyOf[1] (Value): {@link
+     * PickupFulfillmentDetailsPreviousAttributes}. previous_attributes.pickup_details.anyOf[2]
+     * (Value): null. previous_attributes.recipient (Optional): {@link
+     * FulfillmentRecipientPreviousAttributes} or null. Omitted for a checkout session credential
+     * that doesn't act for the customer the buyer verified. previous_attributes.recipient.anyOf[1]
+     * (Value): {@link FulfillmentRecipientPreviousAttributes}.
+     * previous_attributes.recipient.anyOf[2] (Value): null. previous_attributes.scheduled_start_at
+     * (Optional): string or null or null. Derived start of the service schedule or pickup, local
+     * delivery, or shipment window. Null when no schedule is booked, including digital
+     * fulfillments. Details remain the authoritative schedule inputs. Nulls sort first ascending
+     * and last descending, then by fulfillment_id in the same direction.
+     * previous_attributes.scheduled_start_at.anyOf[1] (Value): string or null. Derived start of
+     * the service schedule or pickup, local delivery, or shipment window. Null when no schedule is
+     * booked, including digital fulfillments. Details remain the authoritative schedule inputs.
+     * Nulls sort first ascending and last descending, then by fulfillment_id in the same
+     * direction. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.scheduled_start_at.anyOf[2] (Value): null.
+     * previous_attributes.service_details (Optional): {@link
+     * ServiceFulfillmentDetailsPreviousAttributes} or null. Schedule and completion details for a
+     * service fulfillment. previous_attributes.service_details.anyOf[1] (Value): {@link
+     * ServiceFulfillmentDetailsPreviousAttributes}. previous_attributes.service_details.anyOf[2]
+     * (Value): null. previous_attributes.shipment_details (Optional): {@link
+     * ShipmentFulfillmentDetailsPreviousAttributes} or null. Shipping schedule and ship time for a
+     * shipment fulfillment. Present only on shipment fulfillments with at least one value.
+     * previous_attributes.shipment_details.anyOf[1] (Value): {@link
+     * ShipmentFulfillmentDetailsPreviousAttributes}. previous_attributes.shipment_details.anyOf[2]
+     * (Value): null. previous_attributes.shipments (Optional): Array of {@link
+     * ExpandedShipmentSummaryPreviousAttributes} or null. Shipments associated with this
+     * fulfillment. previous_attributes.shipments.anyOf[1] (Value): Array of {@link
+     * ExpandedShipmentSummaryPreviousAttributes}. Shipments associated with this fulfillment.
+     * previous_attributes.shipments.anyOf[1][] (Value): {@link
+     * ExpandedShipmentSummaryPreviousAttributes}. previous_attributes.shipments.anyOf[2] (Value):
+     * null. previous_attributes.status (Optional): string or null. Current fulfillment lifecycle
+     * status. Read supported_actions for available transitions. - `pending`: Work has not started
+     * and has not been accepted. Approval may be required before work can begin. - `accepted`: The
+     * provider accepted the fulfillment; work has not started. - `on_hold`: Work is paused.
+     * Release the hold to restore active_hold.previous_status, or use a supported forward action.
+     * - `in_progress`: Work has started and is not yet ready or complete. - `ready`: The
+     * fulfillment is ready for pickup, handoff, or completion. - `completed`: All fulfillment work
+     * completed successfully. - `canceled`: The fulfillment was intentionally canceled and will
+     * not continue. - `failed`: The fulfillment could not be completed. Resolve the recorded
+     * reason before creating replacement work. - `scheduled`: The fulfillment is scheduled for its
+     * recorded service window. - `preparing`: Warehouse or provider preparation is underway. -
+     * `picked`: The assigned items have been picked. - `packed`: The assigned items have been
+     * packed. - `dispatched`: The fulfillment left its origin for delivery or handoff. -
+     * `no_show`: A service appointment was missed. Read outcome for the recorded reason. Value
+     * enum: "pending", "accepted", "on_hold", "in_progress", "ready", "completed", "canceled",
+     * "failed", "scheduled", "preparing", "picked", "packed", "dispatched", "no_show".
+     * previous_attributes.status.anyOf[1] (Value): string. Current fulfillment lifecycle status.
+     * Read supported_actions for available transitions. - `pending`: Work has not started and has
+     * not been accepted. Approval may be required before work can begin. - `accepted`: The
+     * provider accepted the fulfillment; work has not started. - `on_hold`: Work is paused.
+     * Release the hold to restore active_hold.previous_status, or use a supported forward action.
+     * - `in_progress`: Work has started and is not yet ready or complete. - `ready`: The
+     * fulfillment is ready for pickup, handoff, or completion. - `completed`: All fulfillment work
+     * completed successfully. - `canceled`: The fulfillment was intentionally canceled and will
+     * not continue. - `failed`: The fulfillment could not be completed. Resolve the recorded
+     * reason before creating replacement work. - `scheduled`: The fulfillment is scheduled for its
+     * recorded service window. - `preparing`: Warehouse or provider preparation is underway. -
+     * `picked`: The assigned items have been picked. - `packed`: The assigned items have been
+     * packed. - `dispatched`: The fulfillment left its origin for delivery or handoff. -
+     * `no_show`: A service appointment was missed. Read outcome for the recorded reason. Value
+     * enum: "pending", "accepted", "on_hold", "in_progress", "ready", "completed", "canceled",
+     * "failed", "scheduled", "preparing", "picked", "packed", "dispatched", "no_show".
      * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
-     * (Optional): Array of string or null. Actions that can change this count now. A draft can be
-     * canceled, and applied once every line has an observation. Empty after the count is applied
-     * or canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Actions that can change this count now. A draft can be canceled,
-     * and applied once every line has an observation. Empty after the count is applied or
-     * canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1][]
-     * (Value): string. Value enum: "apply", "cancel".
-     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Current version of this resource's owned state. Send it as
-     * `expected_version` when changing the resource to reject a stale write.
-     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
-     * owned state. Send it as `expected_version` when changing the resource to reject a stale
-     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
+     * (Optional): Array of string or null. Read-only lifecycle actions accepted now, based on the
+     * fulfillment, its order payment status, holds, and shipment progress. Empty when none are
+     * available. Values name the verb route with hyphens replaced by underscores. Always present
+     * with merchant credentials. [] enum: "accept", "cancel", "complete", "dispatch", "fail",
+     * "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
+     * "release_hold", "schedule", "start". previous_attributes.supported_actions.anyOf[1] (Value):
+     * Array of string. Read-only lifecycle actions accepted now, based on the fulfillment, its
+     * order payment status, holds, and shipment progress. Empty when none are available. Values
+     * name the verb route with hyphens replaced by underscores. Always present with merchant
+     * credentials. [] enum: "accept", "cancel", "complete", "dispatch", "fail", "hold",
+     * "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
+     * "release_hold", "schedule", "start". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "accept", "cancel", "complete", "dispatch", "fail", "hold",
+     * "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
+     * "release_hold", "schedule", "start". previous_attributes.supported_actions.anyOf[2] (Value):
+     * null. previous_attributes.terminal_at (Optional): string or null. When the fulfillment
+     * entered a terminal state: completed, canceled, failed, or no_show. This records the state
+     * transition; completed_at records completion evidence supplied for the fulfillment.
+     * previous_attributes.terminal_at.anyOf[1] (Value): string. When the fulfillment entered a
+     * terminal state: completed, canceled, failed, or no_show. This records the state transition;
+     * completed_at records completion evidence supplied for the fulfillment. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.terminal_at.anyOf[2] (Value): null.
+     * previous_attributes.type (Optional): string or null. How the items are delivered: shipment,
+     * pickup, local delivery, digital delivery, or service. Value enum: "shipment", "pickup",
+     * "local_delivery", "digital", "service", "handover". previous_attributes.type.anyOf[1]
+     * (Value): string. How the items are delivered: shipment, pickup, local delivery, digital
+     * delivery, or service. Value enum: "shipment", "pickup", "local_delivery", "digital",
+     * "service", "handover". previous_attributes.type.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. When the fulfillment was last
+     * updated, in RFC3339 format. previous_attributes.updated_at.anyOf[1] (Value): string. When
+     * the fulfillment was last updated, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Monotonic fulfillment version for
+     * expected_version checks. previous_attributes.version.anyOf[1] (Value): integer. Monotonic
+     * fulfillment version for expected_version checks. Format: uint64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * applied_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_count_id (Required):
-         * string. Unique identifier for this inventory count, prefixed `invc_`. Example:
-         * "invc_01KEZF7C00B47NXRE3ET37QQ59". lines (Required): Array of {@link
-         * InventoryCountLine}. Count lines, one for each inventory item being counted. lines[]
-         * (Value): {@link InventoryCountLine}. One item's line in an inventory count, with the
-         * quantities Flint expected, the quantities counted, and the variance applied. location_id
-         * (Required): string. ID of the Location whose stock is counted. Example:
-         * "loc_01KEZF7C00CMHRRYA3MV996JB2". observation_provenance (Optional): {@link
-         * InventoryCountObservationProvenance}. Source system, actor, and time reported with the
-         * count's observations. Where an inventory count came from: the source system, an external
-         * actor ID, and when the event occurred. status (Required): string. Whether the count is
-         * still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
-         * "applied", "canceled". supported_actions (Required): Array of string. Actions that can
-         * change this count now. A draft can be canceled, and applied once every line has an
-         * observation. Empty after the count is applied or canceled. [] enum: "apply", "cancel".
-         * supported_actions[] (Value): string. Value enum: "apply", "cancel". updated_at
-         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
-         * owned state. Send it as `expected_version` when changing the resource to reject a stale
-         * write. Format: uint64. minimum: 1.
+         * active_hold (Optional): {@link FulfillmentHold}. Current hold details. Present exactly
+         * when status is on_hold. A hold on a fulfillment, with its reason, who placed it, and
+         * when it became active. charges (Optional): Array of {@link FulfillmentChargeLink}. Order
+         * charges associated with this fulfillment. charges[] (Value): {@link
+         * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
+         * completed_at (Optional): string. When the fulfillment was completed. Mirrors the
+         * completion time for its type: delivered_at for shipment, local delivery, and digital
+         * fulfillments, picked_up_at for pickup, and service_details.completed_at for service
+         * fulfillments. Omitted until a completion time is recorded. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When the fulfillment was created,
+         * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id
+         * (Optional): string. Customer receiving this fulfillment, when one is set. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery_choice_group_id (Optional): string or null.
+         * Delivery choice group that created this fulfillment. `null` when the merchant created
+         * the fulfillment or checkout created it without a delivery quote. Always present with
+         * merchant credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+         * delivery_execution_leg_id (Optional): string or null. Execution leg of the selected
+         * delivery option that created this fulfillment. `null` when the merchant created the
+         * fulfillment or checkout created it without a delivery quote. Always present with
+         * merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M". delivery_method_id
+         * (Optional): string or null. Delivery method chosen for this fulfillment. `null` when the
+         * merchant created the fulfillment or checkout created it without a delivery quote. Also
+         * `null` when it was created before this field was added. Always present with merchant
+         * credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_selection_id
+         * (Optional): string or null. Delivery selection that created this fulfillment. `null`
+         * when the merchant created the fulfillment or checkout created it without a delivery
+         * quote. Always present with merchant credentials. Example:
+         * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". device_id (Optional): string. Device associated with
+         * the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+         * digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
+         * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
+         * delivered (`delivered_at`) and its `delivery_url`. dispatched_at (Optional): string.
+         * First time this fulfillment reached dispatched. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
+         * identifier for this resource in an external system. maxLength: 255. Example:
+         * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". line_items (Required): Array of
+         * {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
+         * line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
+         * included in a fulfillment, with the modifiers applied to it. local_delivery_details
+         * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
+         * details for a local delivery fulfillment. Details of a local delivery fulfillment:
+         * courier, timing window, instructions, and tracking. Some fields are omitted for
+         * credentials that don't act for the verified customer. location_id (Optional): string.
+         * Merchant location responsible for this fulfillment. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". metadata (Optional): {@link MetadataMap}. Caller-owned
+         * key-value metadata associated with the fulfillment. Caller-owned key-value data stored
+         * on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+         * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before
+         * those limits may not satisfy them. order (Optional): {@link ExpandedOrderSummary} or
+         * null. Order summary returned when the order relationship is expanded. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+         * including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
+         * string. Order whose items this fulfillment delivers. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_number (Optional): string. Human-readable number
+         * of the order this fulfillment belongs to. Omitted when the order has no number. outcome
+         * (Optional): {@link FulfillmentOutcome}. Terminal outcome details. Present exactly when
+         * status is no_show. The terminal outcome recorded for a fulfillment, such as a no-show,
+         * with its reason, notes, and when it occurred. packages (Optional): Array of {@link
+         * ExpandedPackageSummary}. Packages associated with this fulfillment. packages[] (Value):
+         * {@link ExpandedPackageSummary}. A package's summary fields, including carrier, tracking,
+         * status, and supported actions, returned when the package is expanded. packed_at
+         * (Optional): string. First time this fulfillment reached packed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". picked_at (Optional): string. First time this
+         * fulfillment reached picked. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * pickup_details (Optional): {@link PickupFulfillmentDetails}. Pickup window, pickup mode,
+         * and handoff times for a pickup fulfillment. Pickup details. For a pickup that checkout
+         * creates, location_name, address, and instructions name the store the buyer chose and the
+         * delivery method's pickup instructions. The note the buyer left for the store is in
+         * recipient.instructions. recipient (Optional): {@link FulfillmentRecipient}. Omitted for
+         * a checkout session credential that doesn't act for the customer the buyer verified. The
+         * recipient of a fulfillment, with name, email, phone, address, and handling instructions.
+         * scheduled_start_at (Required): string or null. Derived start of the service schedule or
+         * pickup, local delivery, or shipment window. Null when no schedule is booked, including
+         * digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort first
+         * ascending and last descending, then by fulfillment_id in the same direction. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". service_details (Optional): {@link
+         * ServiceFulfillmentDetails}. Schedule and completion details for a service fulfillment.
+         * Details of a service fulfillment: the scheduled start and end, timezone, completion
+         * time, and notes. shipment_details (Optional): {@link ShipmentFulfillmentDetails}.
+         * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+         * fulfillments with at least one value. Details of a shipment fulfillment: the shipping
+         * window, timezone, and when the shipment was handed to the carrier. shipments (Optional):
+         * Array of {@link ExpandedShipmentSummary}. Shipments associated with this fulfillment.
+         * shipments[] (Value): {@link ExpandedShipmentSummary}. A shipment's summary fields,
+         * including direction, status, and package count, returned when the shipment is expanded.
+         * status (Required): string. Current fulfillment lifecycle status. Read supported_actions
+         * for available transitions. - `pending`: Work has not started and has not been accepted.
+         * Approval may be required before work can begin. - `accepted`: The provider accepted the
+         * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+         * restore active_hold.previous_status, or use a supported forward action. - `in_progress`:
+         * Work has started and is not yet ready or complete. - `ready`: The fulfillment is ready
+         * for pickup, handoff, or completion. - `completed`: All fulfillment work completed
+         * successfully. - `canceled`: The fulfillment was intentionally canceled and will not
+         * continue. - `failed`: The fulfillment could not be completed. Resolve the recorded
+         * reason before creating replacement work. - `scheduled`: The fulfillment is scheduled for
+         * its recorded service window. - `preparing`: Warehouse or provider preparation is
+         * underway. - `picked`: The assigned items have been picked. - `packed`: The assigned
+         * items have been packed. - `dispatched`: The fulfillment left its origin for delivery or
+         * handoff. - `no_show`: A service appointment was missed. Read outcome for the recorded
+         * reason. Value enum: "pending", "accepted", "on_hold", "in_progress", "ready",
+         * "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+         * "dispatched", "no_show". supported_actions (Optional): Array of string. Read-only
+         * lifecycle actions accepted now, based on the fulfillment, its order payment status,
+         * holds, and shipment progress. Empty when none are available. Values name the verb route
+         * with hyphens replaced by underscores. Always present with merchant credentials. [] enum:
+         * "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show",
+         * "mark_packed", "mark_picked", "mark_preparing", "mark_ready", "release_hold",
+         * "schedule", "start". supported_actions[] (Value): string. Value enum: "accept",
+         * "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed",
+         * "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start".
+         * terminal_at (Optional): string. When the fulfillment entered a terminal state:
+         * completed, canceled, failed, or no_show. This records the state transition; completed_at
+         * records completion evidence supplied for the fulfillment. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". type (Required): string. How the items are delivered: shipment,
+         * pickup, local delivery, digital delivery, or service. Value enum: "shipment", "pickup",
+         * "local_delivery", "digital", "service", "handover". updated_at (Required): string. When
+         * the fulfillment was last updated, in RFC3339 format. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Monotonic fulfillment version for
+         * expected_version checks. Format: uint64. minimum: 1.
          */
         "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "applied_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            /**
+             * Current hold details. Present exactly when status is on_hold. A hold on a
+             * fulfillment, with its reason, who placed it, and when it became active.
+             */
+            "active_hold"?: FulfillmentHold;
+            /**
+             * Order charges associated with this fulfillment. [] (Value): {@link
+             * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
+             */
+            "charges"?: Array<FulfillmentChargeLink>;
+            /**
+             * When the fulfillment was completed. Mirrors the completion time for its type:
+             * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
+             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
+             * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "completed_at"?: string;
+            /**
+             * When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
             "created_at": string;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * Customer receiving this fulfillment, when one is set. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
              */
-            "idempotency_key"?: string;
+            "customer_id"?: string;
             /**
-             * Unique identifier for this inventory count, prefixed `invc_`. Example:
-             * "invc_01KEZF7C00B47NXRE3ET37QQ59".
+             * Delivery choice group that created this fulfillment. `null` when the merchant
+             * created the fulfillment or checkout created it without a delivery quote. Always
+             * present with merchant credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
              */
-            "inventory_count_id": string;
+            "delivery_choice_group_id"?: string | null;
             /**
-             * Count lines, one for each inventory item being counted. [] (Value): {@link
-             * InventoryCountLine}. One item's line in an inventory count, with the quantities
-             * Flint expected, the quantities counted, and the variance applied.
+             * Execution leg of the selected delivery option that created this fulfillment. `null`
+             * when the merchant created the fulfillment or checkout created it without a delivery
+             * quote. Always present with merchant credentials. Example:
+             * "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
              */
-            "lines": Array<InventoryCountLine>;
+            "delivery_execution_leg_id"?: string | null;
             /**
-             * ID of the Location whose stock is counted. Example:
+             * Delivery method chosen for this fulfillment. `null` when the merchant created the
+             * fulfillment or checkout created it without a delivery quote. Also `null` when it was
+             * created before this field was added. Always present with merchant credentials.
+             * Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+             */
+            "delivery_method_id"?: string | null;
+            /**
+             * Delivery selection that created this fulfillment. `null` when the merchant created
+             * the fulfillment or checkout created it without a delivery quote. Always present with
+             * merchant credentials. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+             */
+            "delivery_selection_id"?: string | null;
+            /**
+             * Device associated with the fulfillment, when one is recorded. Example:
+             * "dev_01KEZF7C0051ZP8MZSGHP989F6".
+             */
+            "device_id"?: string;
+            /**
+             * Delivery URL and completion time for a digital fulfillment. Details of a digital
+             * fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`.
+             */
+            "digital_details"?: DigitalFulfillmentDetails;
+            /**
+             * First time this fulfillment reached dispatched. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "dispatched_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
+            "fulfillment_id": string;
+            /**
+             * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
+             * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
+             * with the modifiers applied to it.
+             */
+            "line_items": Array<FulfillmentLineItem>;
+            /**
+             * Courier, delivery window, and handoff details for a local delivery fulfillment.
+             * Details of a local delivery fulfillment: courier, timing window, instructions, and
+             * tracking. Some fields are omitted for credentials that don't act for the verified
+             * customer.
+             */
+            "local_delivery_details"?: DeliveryFulfillmentDetails;
+            /**
+             * Merchant location responsible for this fulfillment. Example:
              * "loc_01KEZF7C00CMHRRYA3MV996JB2".
              */
-            "location_id": string;
+            "location_id"?: string;
             /**
-             * Source system, actor, and time reported with the count's observations. Where an
-             * inventory count came from: the source system, an external actor ID, and when the
-             * event occurred.
+             * Caller-owned key-value metadata associated with the fulfillment. Caller-owned
+             * key-value data stored on a resource. Keys starting with flint_ are reserved for
+             * Flint and are not returned. Writes follow the limits on MetadataInput and
+             * MetadataPatchInput; maps written before those limits may not satisfy them.
              */
-            "observation_provenance"?: InventoryCountObservationProvenance;
+            "metadata"?: MetadataMap;
             /**
-             * Whether the count is still open. Applying or canceling a `draft` count ends it.
-             * Value enum: "draft", "applied", "canceled".
+             * Order summary returned when the order relationship is expanded. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
+             * status, payment and refund status, and pricing and settlement amounts, returned when
+             * the order is expanded. anyOf[2] (Value): null.
              */
-            "status": "draft" | "applied" | "canceled" | (string & {});
+            "order"?: ((ExpandedOrderSummary) | (null));
             /**
-             * Actions that can change this count now. A draft can be canceled, and applied once
-             * every line has an observation. Empty after the count is applied or canceled. []
-             * enum: "apply", "cancel". [] (Value): string. Value enum: "apply", "cancel".
+             * Order whose items this fulfillment delivers. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A".
              */
-            "supported_actions": Array<"apply" | "cancel" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "order_id": string;
+            /**
+             * Human-readable number of the order this fulfillment belongs to. Omitted when the
+             * order has no number.
+             */
+            "order_number"?: string;
+            /**
+             * Terminal outcome details. Present exactly when status is no_show. The terminal
+             * outcome recorded for a fulfillment, such as a no-show, with its reason, notes, and
+             * when it occurred.
+             */
+            "outcome"?: FulfillmentOutcome;
+            /**
+             * Packages associated with this fulfillment. [] (Value): {@link
+             * ExpandedPackageSummary}. A package's summary fields, including carrier, tracking,
+             * status, and supported actions, returned when the package is expanded.
+             */
+            "packages"?: Array<ExpandedPackageSummary>;
+            /**
+             * First time this fulfillment reached packed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "packed_at"?: string;
+            /**
+             * First time this fulfillment reached picked. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "picked_at"?: string;
+            /**
+             * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup
+             * details. For a pickup that checkout creates, location_name, address, and
+             * instructions name the store the buyer chose and the delivery method's pickup
+             * instructions. The note the buyer left for the store is in recipient.instructions.
+             */
+            "pickup_details"?: PickupFulfillmentDetails;
+            /**
+             * Omitted for a checkout session credential that doesn't act for the customer the
+             * buyer verified. The recipient of a fulfillment, with name, email, phone, address,
+             * and handling instructions.
+             */
+            "recipient"?: FulfillmentRecipient;
+            /**
+             * Derived start of the service schedule or pickup, local delivery, or shipment window.
+             * Null when no schedule is booked, including digital fulfillments. Details remain the
+             * authoritative schedule inputs. Nulls sort first ascending and last descending, then
+             * by fulfillment_id in the same direction. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "scheduled_start_at": string | null;
+            /**
+             * Schedule and completion details for a service fulfillment. Details of a service
+             * fulfillment: the scheduled start and end, timezone, completion time, and notes.
+             */
+            "service_details"?: ServiceFulfillmentDetails;
+            /**
+             * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+             * fulfillments with at least one value. Details of a shipment fulfillment: the
+             * shipping window, timezone, and when the shipment was handed to the carrier.
+             */
+            "shipment_details"?: ShipmentFulfillmentDetails;
+            /**
+             * Shipments associated with this fulfillment. [] (Value): {@link
+             * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status,
+             * and package count, returned when the shipment is expanded.
+             */
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            /**
+             * Current fulfillment lifecycle status. Read supported_actions for available
+             * transitions. - `pending`: Work has not started and has not been accepted. Approval
+             * may be required before work can begin. - `accepted`: The provider accepted the
+             * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+             * restore active_hold.previous_status, or use a supported forward action. -
+             * `in_progress`: Work has started and is not yet ready or complete. - `ready`: The
+             * fulfillment is ready for pickup, handoff, or completion. - `completed`: All
+             * fulfillment work completed successfully. - `canceled`: The fulfillment was
+             * intentionally canceled and will not continue. - `failed`: The fulfillment could not
+             * be completed. Resolve the recorded reason before creating replacement work. -
+             * `scheduled`: The fulfillment is scheduled for its recorded service window. -
+             * `preparing`: Warehouse or provider preparation is underway. - `picked`: The assigned
+             * items have been picked. - `packed`: The assigned items have been packed. -
+             * `dispatched`: The fulfillment left its origin for delivery or handoff. - `no_show`:
+             * A service appointment was missed. Read outcome for the recorded reason. Value enum:
+             * "pending", "accepted", "on_hold", "in_progress", "ready", "completed", "canceled",
+             * "failed", "scheduled", "preparing", "picked", "packed", "dispatched", "no_show".
+             */
+            "status": "pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {});
+            /**
+             * Read-only lifecycle actions accepted now, based on the fulfillment, its order
+             * payment status, holds, and shipment progress. Empty when none are available. Values
+             * name the verb route with hyphens replaced by underscores. Always present with
+             * merchant credentials. [] enum: "accept", "cancel", "complete", "dispatch", "fail",
+             * "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+             * "mark_ready", "release_hold", "schedule", "start". [] (Value): string. Value enum:
+             * "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show",
+             * "mark_packed", "mark_picked", "mark_preparing", "mark_ready", "release_hold",
+             * "schedule", "start".
+             */
+            "supported_actions"?: Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>;
+            /**
+             * When the fulfillment entered a terminal state: completed, canceled, failed, or
+             * no_show. This records the state transition; completed_at records completion evidence
+             * supplied for the fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "terminal_at"?: string;
+            /**
+             * How the items are delivered: shipment, pickup, local delivery, digital delivery, or
+             * service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+             * "handover".
+             */
+            "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {});
+            /**
+             * When the fulfillment was last updated, in RFC3339 format. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
             "updated_at": string;
             /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
+             * Monotonic fulfillment version for expected_version checks. Format: uint64. minimum:
+             * 1.
              */
             "version": number;
         };
@@ -2078,137 +1461,558 @@ export type InventoryCountAppliedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. applied_at (Optional): string or null. RFC3339
-         * timestamp. applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". applied_at.anyOf[2] (Value): null. created_at
-         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
-         * string. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[2] (Value): null. inventory_count_id (Optional): string or null.
-         * Unique identifier for this inventory count, prefixed `invc_`.
-         * inventory_count_id.anyOf[1] (Value): string. Unique identifier for this inventory count,
-         * prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59".
-         * inventory_count_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
-         * InventoryCountLine} or null. Count lines, one for each inventory item being counted.
-         * lines.anyOf[1] (Value): Array of {@link InventoryCountLine}. Count lines, one for each
-         * inventory item being counted. lines.anyOf[1][] (Value): {@link InventoryCountLine}. One
-         * item's line in an inventory count, with the quantities Flint expected, the quantities
-         * counted, and the variance applied. lines.anyOf[2] (Value): null. location_id (Optional):
-         * string or null. ID of the Location whose stock is counted. location_id.anyOf[1] (Value):
-         * string. ID of the Location whose stock is counted. Example:
-         * "loc_01KEZF7C00CMHRRYA3MV996JB2". location_id.anyOf[2] (Value): null.
-         * observation_provenance (Optional): {@link InventoryCountObservationProvenance} or null.
-         * Source system, actor, and time reported with the count's observations.
-         * observation_provenance.anyOf[1] (Value): {@link InventoryCountObservationProvenance}.
-         * Source system, actor, and time reported with the count's observations.
-         * observation_provenance.anyOf[2] (Value): null. status (Optional): string or null.
-         * Whether the count is still open. Applying or canceling a `draft` count ends it. Value
-         * enum: "draft", "applied", "canceled". status.anyOf[1] (Value): string. Whether the count
-         * is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
-         * "applied", "canceled". status.anyOf[2] (Value): null. supported_actions (Optional):
-         * Array of string or null. Actions that can change this count now. A draft can be
-         * canceled, and applied once every line has an observation. Empty after the count is
-         * applied or canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1] (Value):
-         * Array of string. Actions that can change this count now. A draft can be canceled, and
-         * applied once every line has an observation. Empty after the count is applied or
-         * canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1][] (Value): string.
-         * Value enum: "apply", "cancel". supported_actions.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
-         * of this resource's owned state. Send it as `expected_version` when changing the resource
-         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
-         * resource's owned state. Send it as `expected_version` when changing the resource to
-         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
+         * state, including synthetic test events. active_hold (Optional): {@link
+         * FulfillmentHoldPreviousAttributes} or null. Current hold details. Present exactly when
+         * status is on_hold. active_hold.anyOf[1] (Value): {@link
+         * FulfillmentHoldPreviousAttributes}. active_hold.anyOf[2] (Value): null. charges
+         * (Optional): Array of {@link FulfillmentChargeLinkPreviousAttributes} or null. Order
+         * charges associated with this fulfillment. charges.anyOf[1] (Value): Array of {@link
+         * FulfillmentChargeLinkPreviousAttributes}. Order charges associated with this
+         * fulfillment. charges.anyOf[1][] (Value): {@link
+         * FulfillmentChargeLinkPreviousAttributes}. charges.anyOf[2] (Value): null. completed_at
+         * (Optional): string or null. When the fulfillment was completed. Mirrors the completion
+         * time for its type: delivered_at for shipment, local delivery, and digital fulfillments,
+         * picked_up_at for pickup, and service_details.completed_at for service fulfillments.
+         * Omitted until a completion time is recorded. completed_at.anyOf[1] (Value): string. When
+         * the fulfillment was completed. Mirrors the completion time for its type: delivered_at
+         * for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and
+         * service_details.completed_at for service fulfillments. Omitted until a completion time
+         * is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". completed_at.anyOf[2]
+         * (Value): null. created_at (Optional): string or null. When the fulfillment was created,
+         * in RFC3339 format. created_at.anyOf[1] (Value): string. When the fulfillment was
+         * created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer
+         * receiving this fulfillment, when one is set. customer_id.anyOf[1] (Value): string.
+         * Customer receiving this fulfillment, when one is set. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * delivery_choice_group_id (Optional): string or null or null. Delivery choice group that
+         * created this fulfillment. `null` when the merchant created the fulfillment or checkout
+         * created it without a delivery quote. Always present with merchant credentials.
+         * delivery_choice_group_id.anyOf[1] (Value): string or null. Delivery choice group that
+         * created this fulfillment. `null` when the merchant created the fulfillment or checkout
+         * created it without a delivery quote. Always present with merchant credentials. Example:
+         * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". delivery_choice_group_id.anyOf[2] (Value): null.
+         * delivery_execution_leg_id (Optional): string or null or null. Execution leg of the
+         * selected delivery option that created this fulfillment. `null` when the merchant created
+         * the fulfillment or checkout created it without a delivery quote. Always present with
+         * merchant credentials. delivery_execution_leg_id.anyOf[1] (Value): string or null.
+         * Execution leg of the selected delivery option that created this fulfillment. `null` when
+         * the merchant created the fulfillment or checkout created it without a delivery quote.
+         * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
+         * delivery_execution_leg_id.anyOf[2] (Value): null. delivery_method_id (Optional): string
+         * or null or null. Delivery method chosen for this fulfillment. `null` when the merchant
+         * created the fulfillment or checkout created it without a delivery quote. Also `null`
+         * when it was created before this field was added. Always present with merchant
+         * credentials. delivery_method_id.anyOf[1] (Value): string or null. Delivery method chosen
+         * for this fulfillment. `null` when the merchant created the fulfillment or checkout
+         * created it without a delivery quote. Also `null` when it was created before this field
+         * was added. Always present with merchant credentials. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
+         * delivery_selection_id (Optional): string or null or null. Delivery selection that
+         * created this fulfillment. `null` when the merchant created the fulfillment or checkout
+         * created it without a delivery quote. Always present with merchant credentials.
+         * delivery_selection_id.anyOf[1] (Value): string or null. Delivery selection that created
+         * this fulfillment. `null` when the merchant created the fulfillment or checkout created
+         * it without a delivery quote. Always present with merchant credentials. Example:
+         * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". delivery_selection_id.anyOf[2] (Value): null.
+         * device_id (Optional): string or null. Device associated with the fulfillment, when one
+         * is recorded. device_id.anyOf[1] (Value): string. Device associated with the fulfillment,
+         * when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". device_id.anyOf[2]
+         * (Value): null. digital_details (Optional): {@link
+         * DigitalFulfillmentDetailsPreviousAttributes} or null. Delivery URL and completion time
+         * for a digital fulfillment. digital_details.anyOf[1] (Value): {@link
+         * DigitalFulfillmentDetailsPreviousAttributes}. digital_details.anyOf[2] (Value): null.
+         * dispatched_at (Optional): string or null. First time this fulfillment reached
+         * dispatched. dispatched_at.anyOf[1] (Value): string. First time this fulfillment reached
+         * dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z". dispatched_at.anyOf[2]
+         * (Value): null. external_reference_id (Optional): string or null. Caller-owned identifier
+         * for this resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. fulfillment_id
+         * (Optional): string or null. Stable identifier of the fulfillment.
+         * fulfillment_id.anyOf[1] (Value): string. Stable identifier of the fulfillment. Example:
+         * "ful_01KEZF7C00F24WVSTTWR1FQX5T". fulfillment_id.anyOf[2] (Value): null. line_items
+         * (Optional): Array of {@link FulfillmentLineItemPreviousAttributes} or null. Order lines
+         * and quantities allocated to this fulfillment. line_items.anyOf[1] (Value): Array of
+         * {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated to
+         * this fulfillment. line_items.anyOf[1][] (Value): {@link
+         * FulfillmentLineItemPreviousAttributes}. line_items.anyOf[2] (Value): null.
+         * local_delivery_details (Optional): {@link DeliveryFulfillmentDetailsPreviousAttributes}
+         * or null. Courier, delivery window, and handoff details for a local delivery fulfillment.
+         * local_delivery_details.anyOf[1] (Value): {@link
+         * DeliveryFulfillmentDetailsPreviousAttributes}. local_delivery_details.anyOf[2] (Value):
+         * null. location_id (Optional): string or null. Merchant location responsible for this
+         * fulfillment. location_id.anyOf[1] (Value): string. Merchant location responsible for
+         * this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". location_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned key-value
+         * metadata associated with the fulfillment. metadata.anyOf[1] (Value): {@link
+         * MetadataMap}. metadata.anyOf[2] (Value): null. order (Optional): ({@link
+         * ExpandedOrderSummaryPreviousAttributes} or null) or null. Order summary returned when
+         * the order relationship is expanded. Present only when `expand` includes `order`; `null`
+         * when expanded and there is no related order. order.anyOf[1] (Value): ({@link
+         * ExpandedOrderSummaryPreviousAttributes} or null). Order summary returned when the order
+         * relationship is expanded. Present only when `expand` includes `order`; `null` when
+         * expanded and there is no related order. order.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[1].anyOf[2] (Value): null.
+         * order.anyOf[2] (Value): null. order_id (Optional): string or null. Order whose items
+         * this fulfillment delivers. order_id.anyOf[1] (Value): string. Order whose items this
+         * fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2]
+         * (Value): null. order_number (Optional): string or null. Human-readable number of the
+         * order this fulfillment belongs to. Omitted when the order has no number.
+         * order_number.anyOf[1] (Value): string. Human-readable number of the order this
+         * fulfillment belongs to. Omitted when the order has no number. order_number.anyOf[2]
+         * (Value): null. outcome (Optional): {@link FulfillmentOutcomePreviousAttributes} or null.
+         * Terminal outcome details. Present exactly when status is no_show. outcome.anyOf[1]
+         * (Value): {@link FulfillmentOutcomePreviousAttributes}. outcome.anyOf[2] (Value): null.
+         * packages (Optional): Array of {@link ExpandedPackageSummaryPreviousAttributes} or null.
+         * Packages associated with this fulfillment. packages.anyOf[1] (Value): Array of {@link
+         * ExpandedPackageSummaryPreviousAttributes}. Packages associated with this fulfillment.
+         * packages.anyOf[1][] (Value): {@link ExpandedPackageSummaryPreviousAttributes}.
+         * packages.anyOf[2] (Value): null. packed_at (Optional): string or null. First time this
+         * fulfillment reached packed. packed_at.anyOf[1] (Value): string. First time this
+         * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * packed_at.anyOf[2] (Value): null. picked_at (Optional): string or null. First time this
+         * fulfillment reached picked. picked_at.anyOf[1] (Value): string. First time this
+         * fulfillment reached picked. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * picked_at.anyOf[2] (Value): null. pickup_details (Optional): {@link
+         * PickupFulfillmentDetailsPreviousAttributes} or null. Pickup window, pickup mode, and
+         * handoff times for a pickup fulfillment. pickup_details.anyOf[1] (Value): {@link
+         * PickupFulfillmentDetailsPreviousAttributes}. pickup_details.anyOf[2] (Value): null.
+         * recipient (Optional): {@link FulfillmentRecipientPreviousAttributes} or null. Omitted
+         * for a checkout session credential that doesn't act for the customer the buyer verified.
+         * recipient.anyOf[1] (Value): {@link FulfillmentRecipientPreviousAttributes}.
+         * recipient.anyOf[2] (Value): null. scheduled_start_at (Optional): string or null or null.
+         * Derived start of the service schedule or pickup, local delivery, or shipment window.
+         * Null when no schedule is booked, including digital fulfillments. Details remain the
+         * authoritative schedule inputs. Nulls sort first ascending and last descending, then by
+         * fulfillment_id in the same direction. scheduled_start_at.anyOf[1] (Value): string or
+         * null. Derived start of the service schedule or pickup, local delivery, or shipment
+         * window. Null when no schedule is booked, including digital fulfillments. Details remain
+         * the authoritative schedule inputs. Nulls sort first ascending and last descending, then
+         * by fulfillment_id in the same direction. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". scheduled_start_at.anyOf[2] (Value): null. service_details
+         * (Optional): {@link ServiceFulfillmentDetailsPreviousAttributes} or null. Schedule and
+         * completion details for a service fulfillment. service_details.anyOf[1] (Value): {@link
+         * ServiceFulfillmentDetailsPreviousAttributes}. service_details.anyOf[2] (Value): null.
+         * shipment_details (Optional): {@link ShipmentFulfillmentDetailsPreviousAttributes} or
+         * null. Shipping schedule and ship time for a shipment fulfillment. Present only on
+         * shipment fulfillments with at least one value. shipment_details.anyOf[1] (Value): {@link
+         * ShipmentFulfillmentDetailsPreviousAttributes}. shipment_details.anyOf[2] (Value): null.
+         * shipments (Optional): Array of {@link ExpandedShipmentSummaryPreviousAttributes} or
+         * null. Shipments associated with this fulfillment. shipments.anyOf[1] (Value): Array of
+         * {@link ExpandedShipmentSummaryPreviousAttributes}. Shipments associated with this
+         * fulfillment. shipments.anyOf[1][] (Value): {@link
+         * ExpandedShipmentSummaryPreviousAttributes}. shipments.anyOf[2] (Value): null. status
+         * (Optional): string or null. Current fulfillment lifecycle status. Read supported_actions
+         * for available transitions. - `pending`: Work has not started and has not been accepted.
+         * Approval may be required before work can begin. - `accepted`: The provider accepted the
+         * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+         * restore active_hold.previous_status, or use a supported forward action. - `in_progress`:
+         * Work has started and is not yet ready or complete. - `ready`: The fulfillment is ready
+         * for pickup, handoff, or completion. - `completed`: All fulfillment work completed
+         * successfully. - `canceled`: The fulfillment was intentionally canceled and will not
+         * continue. - `failed`: The fulfillment could not be completed. Resolve the recorded
+         * reason before creating replacement work. - `scheduled`: The fulfillment is scheduled for
+         * its recorded service window. - `preparing`: Warehouse or provider preparation is
+         * underway. - `picked`: The assigned items have been picked. - `packed`: The assigned
+         * items have been packed. - `dispatched`: The fulfillment left its origin for delivery or
+         * handoff. - `no_show`: A service appointment was missed. Read outcome for the recorded
+         * reason. Value enum: "pending", "accepted", "on_hold", "in_progress", "ready",
+         * "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+         * "dispatched", "no_show". status.anyOf[1] (Value): string. Current fulfillment lifecycle
+         * status. Read supported_actions for available transitions. - `pending`: Work has not
+         * started and has not been accepted. Approval may be required before work can begin. -
+         * `accepted`: The provider accepted the fulfillment; work has not started. - `on_hold`:
+         * Work is paused. Release the hold to restore active_hold.previous_status, or use a
+         * supported forward action. - `in_progress`: Work has started and is not yet ready or
+         * complete. - `ready`: The fulfillment is ready for pickup, handoff, or completion. -
+         * `completed`: All fulfillment work completed successfully. - `canceled`: The fulfillment
+         * was intentionally canceled and will not continue. - `failed`: The fulfillment could not
+         * be completed. Resolve the recorded reason before creating replacement work. -
+         * `scheduled`: The fulfillment is scheduled for its recorded service window. -
+         * `preparing`: Warehouse or provider preparation is underway. - `picked`: The assigned
+         * items have been picked. - `packed`: The assigned items have been packed. - `dispatched`:
+         * The fulfillment left its origin for delivery or handoff. - `no_show`: A service
+         * appointment was missed. Read outcome for the recorded reason. Value enum: "pending",
+         * "accepted", "on_hold", "in_progress", "ready", "completed", "canceled", "failed",
+         * "scheduled", "preparing", "picked", "packed", "dispatched", "no_show". status.anyOf[2]
+         * (Value): null. supported_actions (Optional): Array of string or null. Read-only
+         * lifecycle actions accepted now, based on the fulfillment, its order payment status,
+         * holds, and shipment progress. Empty when none are available. Values name the verb route
+         * with hyphens replaced by underscores. Always present with merchant credentials. [] enum:
+         * "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show",
+         * "mark_packed", "mark_picked", "mark_preparing", "mark_ready", "release_hold",
+         * "schedule", "start". supported_actions.anyOf[1] (Value): Array of string. Read-only
+         * lifecycle actions accepted now, based on the fulfillment, its order payment status,
+         * holds, and shipment progress. Empty when none are available. Values name the verb route
+         * with hyphens replaced by underscores. Always present with merchant credentials. [] enum:
+         * "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show",
+         * "mark_packed", "mark_picked", "mark_preparing", "mark_ready", "release_hold",
+         * "schedule", "start". supported_actions.anyOf[1][] (Value): string. Value enum: "accept",
+         * "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed",
+         * "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start".
+         * supported_actions.anyOf[2] (Value): null. terminal_at (Optional): string or null. When
+         * the fulfillment entered a terminal state: completed, canceled, failed, or no_show. This
+         * records the state transition; completed_at records completion evidence supplied for the
+         * fulfillment. terminal_at.anyOf[1] (Value): string. When the fulfillment entered a
+         * terminal state: completed, canceled, failed, or no_show. This records the state
+         * transition; completed_at records completion evidence supplied for the fulfillment.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". terminal_at.anyOf[2] (Value): null.
+         * type (Optional): string or null. How the items are delivered: shipment, pickup, local
+         * delivery, digital delivery, or service. Value enum: "shipment", "pickup",
+         * "local_delivery", "digital", "service", "handover". type.anyOf[1] (Value): string. How
+         * the items are delivered: shipment, pickup, local delivery, digital delivery, or service.
+         * Value enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
+         * type.anyOf[2] (Value): null. updated_at (Optional): string or null. When the fulfillment
+         * was last updated, in RFC3339 format. updated_at.anyOf[1] (Value): string. When the
+         * fulfillment was last updated, in RFC3339 format. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Monotonic fulfillment version for expected_version checks. version.anyOf[1]
+         * (Value): integer. Monotonic fulfillment version for expected_version checks. Format:
+         * uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
         })
             & ({
             /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * Current hold details. Present exactly when status is on_hold. anyOf[1] (Value):
+             * {@link FulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "applied_at"?: ((string) | (null));
+            "active_hold"?: ((FulfillmentHoldPreviousAttributes) | (null) | (unknown));
             /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * Order charges associated with this fulfillment. anyOf[1] (Value): Array of {@link
+             * FulfillmentChargeLinkPreviousAttributes}. Order charges associated with this
+             * fulfillment. anyOf[1][] (Value): {@link FulfillmentChargeLinkPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "charges"?: ((Array<FulfillmentChargeLinkPreviousAttributes>) | (null));
+            /**
+             * When the fulfillment was completed. Mirrors the completion time for its type:
+             * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
+             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
+             * a completion time is recorded. anyOf[1] (Value): string. When the fulfillment was
+             * completed. Mirrors the completion time for its type: delivered_at for shipment,
+             * local delivery, and digital fulfillments, picked_up_at for pickup, and
+             * service_details.completed_at for service fulfillments. Omitted until a completion
+             * time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
+             * (Value): null.
+             */
+            "completed_at"?: ((string) | (null));
+            /**
+             * When the fulfillment was created, in RFC3339 format. anyOf[1] (Value): string. When
+             * the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "created_at"?: ((string) | (null));
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
-             * string. The Idempotency-Key of the request that created this resource; on a
-             * movement, of the command that wrote it. Omitted when that request had no key.
+             * Customer receiving this fulfillment, when one is set. anyOf[1] (Value): string.
+             * Customer receiving this fulfillment, when one is set. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * Delivery choice group that created this fulfillment. `null` when the merchant
+             * created the fulfillment or checkout created it without a delivery quote. Always
+             * present with merchant credentials. anyOf[1] (Value): string or null. Delivery choice
+             * group that created this fulfillment. `null` when the merchant created the
+             * fulfillment or checkout created it without a delivery quote. Always present with
+             * merchant credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". anyOf[2] (Value):
+             * null.
+             */
+            "delivery_choice_group_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Execution leg of the selected delivery option that created this fulfillment. `null`
+             * when the merchant created the fulfillment or checkout created it without a delivery
+             * quote. Always present with merchant credentials. anyOf[1] (Value): string or null.
+             * Execution leg of the selected delivery option that created this fulfillment. `null`
+             * when the merchant created the fulfillment or checkout created it without a delivery
+             * quote. Always present with merchant credentials. Example:
+             * "dleg_01KEZF7C00VB59BKTRC8W4KR4M". anyOf[2] (Value): null.
+             */
+            "delivery_execution_leg_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Delivery method chosen for this fulfillment. `null` when the merchant created the
+             * fulfillment or checkout created it without a delivery quote. Also `null` when it was
+             * created before this field was added. Always present with merchant credentials.
+             * anyOf[1] (Value): string or null. Delivery method chosen for this fulfillment.
+             * `null` when the merchant created the fulfillment or checkout created it without a
+             * delivery quote. Also `null` when it was created before this field was added. Always
+             * present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
              * anyOf[2] (Value): null.
              */
-            "idempotency_key"?: ((string) | (null));
+            "delivery_method_id"?: ((string | null) | (null) | (unknown));
             /**
-             * Unique identifier for this inventory count, prefixed `invc_`. anyOf[1] (Value):
-             * string. Unique identifier for this inventory count, prefixed `invc_`. Example:
-             * "invc_01KEZF7C00B47NXRE3ET37QQ59". anyOf[2] (Value): null.
+             * Delivery selection that created this fulfillment. `null` when the merchant created
+             * the fulfillment or checkout created it without a delivery quote. Always present with
+             * merchant credentials. anyOf[1] (Value): string or null. Delivery selection that
+             * created this fulfillment. `null` when the merchant created the fulfillment or
+             * checkout created it without a delivery quote. Always present with merchant
+             * credentials. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2] (Value): null.
              */
-            "inventory_count_id"?: ((string) | (null));
+            "delivery_selection_id"?: ((string | null) | (null) | (unknown));
             /**
-             * Count lines, one for each inventory item being counted. anyOf[1] (Value): Array of
-             * {@link InventoryCountLine}. Count lines, one for each inventory item being counted.
-             * anyOf[1][] (Value): {@link InventoryCountLine}. One item's line in an inventory
-             * count, with the quantities Flint expected, the quantities counted, and the variance
-             * applied. anyOf[2] (Value): null.
+             * Device associated with the fulfillment, when one is recorded. anyOf[1] (Value):
+             * string. Device associated with the fulfillment, when one is recorded. Example:
+             * "dev_01KEZF7C0051ZP8MZSGHP989F6". anyOf[2] (Value): null.
              */
-            "lines"?: ((Array<InventoryCountLine>) | (null));
+            "device_id"?: ((string) | (null));
             /**
-             * ID of the Location whose stock is counted. anyOf[1] (Value): string. ID of the
-             * Location whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2]
+             * Delivery URL and completion time for a digital fulfillment. anyOf[1] (Value): {@link
+             * DigitalFulfillmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "digital_details"?: ((DigitalFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            /**
+             * First time this fulfillment reached dispatched. anyOf[1] (Value): string. First time
+             * this fulfillment reached dispatched. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "dispatched_at"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Stable identifier of the fulfillment. anyOf[1] (Value): string. Stable identifier of
+             * the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". anyOf[2] (Value): null.
+             */
+            "fulfillment_id"?: ((string) | (null));
+            /**
+             * Order lines and quantities allocated to this fulfillment. anyOf[1] (Value): Array of
+             * {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated
+             * to this fulfillment. anyOf[1][] (Value): {@link
+             * FulfillmentLineItemPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<FulfillmentLineItemPreviousAttributes>) | (null));
+            /**
+             * Courier, delivery window, and handoff details for a local delivery fulfillment.
+             * anyOf[1] (Value): {@link DeliveryFulfillmentDetailsPreviousAttributes}. anyOf[2]
              * (Value): null.
+             */
+            "local_delivery_details"?: ((DeliveryFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            /**
+             * Merchant location responsible for this fulfillment. anyOf[1] (Value): string.
+             * Merchant location responsible for this fulfillment. Example:
+             * "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
              */
             "location_id"?: ((string) | (null));
             /**
-             * Source system, actor, and time reported with the count's observations. anyOf[1]
-             * (Value): {@link InventoryCountObservationProvenance}. Source system, actor, and time
-             * reported with the count's observations. anyOf[2] (Value): null.
+             * Caller-owned key-value metadata associated with the fulfillment. anyOf[1] (Value):
+             * {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "observation_provenance"?: ((InventoryCountObservationProvenance) | (null));
+            "metadata"?: ((MetadataMap) | (null) | (unknown));
             /**
-             * Whether the count is still open. Applying or canceling a `draft` count ends it.
-             * Value enum: "draft", "applied", "canceled". anyOf[1] (Value): string. Whether the
-             * count is still open. Applying or canceling a `draft` count ends it. Value enum:
-             * "draft", "applied", "canceled". anyOf[2] (Value): null.
+             * Order summary returned when the order relationship is expanded. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). Order
+             * summary returned when the order relationship is expanded. Present only when `expand`
+             * includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
              */
-            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
+            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
             /**
-             * Actions that can change this count now. A draft can be canceled, and applied once
-             * every line has an observation. Empty after the count is applied or canceled. []
-             * enum: "apply", "cancel". anyOf[1] (Value): Array of string. Actions that can change
-             * this count now. A draft can be canceled, and applied once every line has an
-             * observation. Empty after the count is applied or canceled. [] enum: "apply",
-             * "cancel". anyOf[1][] (Value): string. Value enum: "apply", "cancel". anyOf[2]
+             * Order whose items this fulfillment delivers. anyOf[1] (Value): string. Order whose
+             * items this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2]
              * (Value): null.
              */
-            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
+            "order_id"?: ((string) | (null));
             /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Human-readable number of the order this fulfillment belongs to. Omitted when the
+             * order has no number. anyOf[1] (Value): string. Human-readable number of the order
+             * this fulfillment belongs to. Omitted when the order has no number. anyOf[2] (Value):
+             * null.
+             */
+            "order_number"?: ((string) | (null));
+            /**
+             * Terminal outcome details. Present exactly when status is no_show. anyOf[1] (Value):
+             * {@link FulfillmentOutcomePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "outcome"?: ((FulfillmentOutcomePreviousAttributes) | (null) | (unknown));
+            /**
+             * Packages associated with this fulfillment. anyOf[1] (Value): Array of {@link
+             * ExpandedPackageSummaryPreviousAttributes}. Packages associated with this
+             * fulfillment. anyOf[1][] (Value): {@link ExpandedPackageSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "packages"?: ((Array<ExpandedPackageSummaryPreviousAttributes>) | (null));
+            /**
+             * First time this fulfillment reached packed. anyOf[1] (Value): string. First time
+             * this fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "packed_at"?: ((string) | (null));
+            /**
+             * First time this fulfillment reached picked. anyOf[1] (Value): string. First time
+             * this fulfillment reached picked. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "picked_at"?: ((string) | (null));
+            /**
+             * Pickup window, pickup mode, and handoff times for a pickup fulfillment. anyOf[1]
+             * (Value): {@link PickupFulfillmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "pickup_details"?: ((PickupFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            /**
+             * Omitted for a checkout session credential that doesn't act for the customer the
+             * buyer verified. anyOf[1] (Value): {@link FulfillmentRecipientPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "recipient"?: ((FulfillmentRecipientPreviousAttributes) | (null) | (unknown));
+            /**
+             * Derived start of the service schedule or pickup, local delivery, or shipment window.
+             * Null when no schedule is booked, including digital fulfillments. Details remain the
+             * authoritative schedule inputs. Nulls sort first ascending and last descending, then
+             * by fulfillment_id in the same direction. anyOf[1] (Value): string or null. Derived
+             * start of the service schedule or pickup, local delivery, or shipment window. Null
+             * when no schedule is booked, including digital fulfillments. Details remain the
+             * authoritative schedule inputs. Nulls sort first ascending and last descending, then
+             * by fulfillment_id in the same direction. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "scheduled_start_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * Schedule and completion details for a service fulfillment. anyOf[1] (Value): {@link
+             * ServiceFulfillmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "service_details"?: ((ServiceFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            /**
+             * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+             * fulfillments with at least one value. anyOf[1] (Value): {@link
+             * ShipmentFulfillmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "shipment_details"?: ((ShipmentFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            /**
+             * Shipments associated with this fulfillment. anyOf[1] (Value): Array of {@link
+             * ExpandedShipmentSummaryPreviousAttributes}. Shipments associated with this
+             * fulfillment. anyOf[1][] (Value): {@link ExpandedShipmentSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "shipments"?: ((Array<ExpandedShipmentSummaryPreviousAttributes>) | (null));
+            /**
+             * Current fulfillment lifecycle status. Read supported_actions for available
+             * transitions. - `pending`: Work has not started and has not been accepted. Approval
+             * may be required before work can begin. - `accepted`: The provider accepted the
+             * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+             * restore active_hold.previous_status, or use a supported forward action. -
+             * `in_progress`: Work has started and is not yet ready or complete. - `ready`: The
+             * fulfillment is ready for pickup, handoff, or completion. - `completed`: All
+             * fulfillment work completed successfully. - `canceled`: The fulfillment was
+             * intentionally canceled and will not continue. - `failed`: The fulfillment could not
+             * be completed. Resolve the recorded reason before creating replacement work. -
+             * `scheduled`: The fulfillment is scheduled for its recorded service window. -
+             * `preparing`: Warehouse or provider preparation is underway. - `picked`: The assigned
+             * items have been picked. - `packed`: The assigned items have been packed. -
+             * `dispatched`: The fulfillment left its origin for delivery or handoff. - `no_show`:
+             * A service appointment was missed. Read outcome for the recorded reason. Value enum:
+             * "pending", "accepted", "on_hold", "in_progress", "ready", "completed", "canceled",
+             * "failed", "scheduled", "preparing", "picked", "packed", "dispatched", "no_show".
+             * anyOf[1] (Value): string. Current fulfillment lifecycle status. Read
+             * supported_actions for available transitions. - `pending`: Work has not started and
+             * has not been accepted. Approval may be required before work can begin. - `accepted`:
+             * The provider accepted the fulfillment; work has not started. - `on_hold`: Work is
+             * paused. Release the hold to restore active_hold.previous_status, or use a supported
+             * forward action. - `in_progress`: Work has started and is not yet ready or complete.
+             * - `ready`: The fulfillment is ready for pickup, handoff, or completion. -
+             * `completed`: All fulfillment work completed successfully. - `canceled`: The
+             * fulfillment was intentionally canceled and will not continue. - `failed`: The
+             * fulfillment could not be completed. Resolve the recorded reason before creating
+             * replacement work. - `scheduled`: The fulfillment is scheduled for its recorded
+             * service window. - `preparing`: Warehouse or provider preparation is underway. -
+             * `picked`: The assigned items have been picked. - `packed`: The assigned items have
+             * been packed. - `dispatched`: The fulfillment left its origin for delivery or
+             * handoff. - `no_show`: A service appointment was missed. Read outcome for the
+             * recorded reason. Value enum: "pending", "accepted", "on_hold", "in_progress",
+             * "ready", "completed", "canceled", "failed", "scheduled", "preparing", "picked",
+             * "packed", "dispatched", "no_show". anyOf[2] (Value): null.
+             */
+            "status"?: (("pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {}))
+                | (null));
+            /**
+             * Read-only lifecycle actions accepted now, based on the fulfillment, its order
+             * payment status, holds, and shipment progress. Empty when none are available. Values
+             * name the verb route with hyphens replaced by underscores. Always present with
+             * merchant credentials. [] enum: "accept", "cancel", "complete", "dispatch", "fail",
+             * "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+             * "mark_ready", "release_hold", "schedule", "start". anyOf[1] (Value): Array of
+             * string. Read-only lifecycle actions accepted now, based on the fulfillment, its
+             * order payment status, holds, and shipment progress. Empty when none are available.
+             * Values name the verb route with hyphens replaced by underscores. Always present with
+             * merchant credentials. [] enum: "accept", "cancel", "complete", "dispatch", "fail",
+             * "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+             * "mark_ready", "release_hold", "schedule", "start". anyOf[1][] (Value): string. Value
+             * enum: "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show",
+             * "mark_packed", "mark_picked", "mark_preparing", "mark_ready", "release_hold",
+             * "schedule", "start". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>)
+                | (null));
+            /**
+             * When the fulfillment entered a terminal state: completed, canceled, failed, or
+             * no_show. This records the state transition; completed_at records completion evidence
+             * supplied for the fulfillment. anyOf[1] (Value): string. When the fulfillment entered
+             * a terminal state: completed, canceled, failed, or no_show. This records the state
+             * transition; completed_at records completion evidence supplied for the fulfillment.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "terminal_at"?: ((string) | (null));
+            /**
+             * How the items are delivered: shipment, pickup, local delivery, digital delivery, or
+             * service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+             * "handover". anyOf[1] (Value): string. How the items are delivered: shipment, pickup,
+             * local delivery, digital delivery, or service. Value enum: "shipment", "pickup",
+             * "local_delivery", "digital", "service", "handover". anyOf[2] (Value): null.
+             */
+            "type"?: (("shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {}))
+                | (null));
+            /**
+             * When the fulfillment was last updated, in RFC3339 format. anyOf[1] (Value): string.
+             * When the fulfillment was last updated, in RFC3339 format. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "updated_at"?: ((string) | (null));
             /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
-             * version of this resource's owned state. Send it as `expected_version` when changing
-             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
-             * null.
+             * Monotonic fulfillment version for expected_version checks. anyOf[1] (Value):
+             * integer. Monotonic fulfillment version for expected_version checks. Format: uint64.
+             * minimum: 1. anyOf[2] (Value): null.
              */
             "version"?: ((number) | (null));
         });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "inventory_count.applied". */
-    "event_type"?: "inventory_count.applied";
+    /** Value enum: "fulfillment.updated". */
+    "event_type"?: "fulfillment.updated";
     /**
      *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
      * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
@@ -2245,169 +2049,759 @@ export type InventoryCountAppliedInstalledMerchantsEvent = (Exclude<PartnerWebho
     });
 });
 /**
- * The `inventory_count.applied` webhook payload for the `merchant` event source. Fields shared by
+ * The `fulfillment.updated` webhook payload for the `merchant` event source. Fields shared by
  * merchant webhook payloads.
  */
-export type InventoryCountAppliedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type FulfillmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.applied_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
-     * object.inventory_count_id (Required): string. Unique identifier for this inventory count,
-     * prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59". object.lines (Required): Array
-     * of {@link InventoryCountLine}. Count lines, one for each inventory item being counted.
-     * object.lines[] (Value): {@link InventoryCountLine}. One item's line in an inventory count,
-     * with the quantities Flint expected, the quantities counted, and the variance applied.
-     * object.location_id (Required): string. ID of the Location whose stock is counted. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.observation_provenance (Optional): {@link
-     * InventoryCountObservationProvenance}. Source system, actor, and time reported with the
-     * count's observations. Where an inventory count came from: the source system, an external
-     * actor ID, and when the event occurred. object.status (Required): string. Whether the count
-     * is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
-     * "applied", "canceled". object.supported_actions (Required): Array of string. Actions that
-     * can change this count now. A draft can be canceled, and applied once every line has an
-     * observation. Empty after the count is applied or canceled. [] enum: "apply", "cancel".
-     * object.supported_actions[] (Value): string. Value enum: "apply", "cancel". object.updated_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.applied_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.applied_at.anyOf[2] (Value):
-     * null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
-     * the request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
-     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
-     * previous_attributes.inventory_count_id (Optional): string or null. Unique identifier for
-     * this inventory count, prefixed `invc_`. previous_attributes.inventory_count_id.anyOf[1]
-     * (Value): string. Unique identifier for this inventory count, prefixed `invc_`. Example:
-     * "invc_01KEZF7C00B47NXRE3ET37QQ59". previous_attributes.inventory_count_id.anyOf[2] (Value):
-     * null. previous_attributes.lines (Optional): Array of {@link InventoryCountLine} or null.
-     * Count lines, one for each inventory item being counted. previous_attributes.lines.anyOf[1]
-     * (Value): Array of {@link InventoryCountLine}. Count lines, one for each inventory item being
-     * counted. previous_attributes.lines.anyOf[1][] (Value): {@link InventoryCountLine}. One
-     * item's line in an inventory count, with the quantities Flint expected, the quantities
-     * counted, and the variance applied. previous_attributes.lines.anyOf[2] (Value): null.
-     * previous_attributes.location_id (Optional): string or null. ID of the Location whose stock
-     * is counted. previous_attributes.location_id.anyOf[1] (Value): string. ID of the Location
-     * whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * previous_attributes.location_id.anyOf[2] (Value): null.
-     * previous_attributes.observation_provenance (Optional): {@link
-     * InventoryCountObservationProvenance} or null. Source system, actor, and time reported with
-     * the count's observations. previous_attributes.observation_provenance.anyOf[1] (Value):
-     * {@link InventoryCountObservationProvenance}. Source system, actor, and time reported with
-     * the count's observations. previous_attributes.observation_provenance.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Whether the count is still open.
-     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
-     * previous_attributes.status.anyOf[1] (Value): string. Whether the count is still open.
-     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
+     * additional fields. object.active_hold (Optional): {@link FulfillmentHold}. Current hold
+     * details. Present exactly when status is on_hold. A hold on a fulfillment, with its reason,
+     * who placed it, and when it became active. object.charges (Optional): Array of {@link
+     * FulfillmentChargeLink}. Order charges associated with this fulfillment. object.charges[]
+     * (Value): {@link FulfillmentChargeLink}. Links a fulfillment to an order charge by
+     * `order_charge_id`. object.completed_at (Optional): string. When the fulfillment was
+     * completed. Mirrors the completion time for its type: delivered_at for shipment, local
+     * delivery, and digital fulfillments, picked_up_at for pickup, and
+     * service_details.completed_at for service fulfillments. Omitted until a completion time is
+     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required):
+     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.customer_id (Optional): string. Customer receiving this
+     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * object.delivery_choice_group_id (Optional): string or null. Delivery choice group that
+     * created this fulfillment. `null` when the merchant created the fulfillment or checkout
+     * created it without a delivery quote. Always present with merchant credentials. Example:
+     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". object.delivery_execution_leg_id (Optional): string or
+     * null. Execution leg of the selected delivery option that created this fulfillment. `null`
+     * when the merchant created the fulfillment or checkout created it without a delivery quote.
+     * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
+     * object.delivery_method_id (Optional): string or null. Delivery method chosen for this
+     * fulfillment. `null` when the merchant created the fulfillment or checkout created it without
+     * a delivery quote. Also `null` when it was created before this field was added. Always
+     * present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * object.delivery_selection_id (Optional): string or null. Delivery selection that created
+     * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
+     * without a delivery quote. Always present with merchant credentials. Example:
+     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". object.device_id (Optional): string. Device associated
+     * with the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+     * object.digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
+     * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
+     * delivered (`delivered_at`) and its `delivery_url`. object.dispatched_at (Optional): string.
+     * First time this fulfillment reached dispatched. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
+     * identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842". object.fulfillment_id (Required): string. Stable identifier of the
+     * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.line_items (Required): Array
+     * of {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
+     * object.line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
+     * included in a fulfillment, with the modifiers applied to it. object.local_delivery_details
+     * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
+     * details for a local delivery fulfillment. Details of a local delivery fulfillment: courier,
+     * timing window, instructions, and tracking. Some fields are omitted for credentials that
+     * don't act for the verified customer. object.location_id (Optional): string. Merchant
+     * location responsible for this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * object.metadata (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated
+     * with the fulfillment. Caller-owned key-value data stored on a resource. Keys starting with
+     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
+     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     * object.order (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when
+     * the order relationship is expanded. Present only when `expand` includes `order`; `null` when
+     * expanded and there is no related order. object.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
+     * this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number
+     * (Optional): string. Human-readable number of the order this fulfillment belongs to. Omitted
+     * when the order has no number. object.outcome (Optional): {@link FulfillmentOutcome}.
+     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
+     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
+     * object.packages (Optional): Array of {@link ExpandedPackageSummary}. Packages associated
+     * with this fulfillment. object.packages[] (Value): {@link ExpandedPackageSummary}. A
+     * package's summary fields, including carrier, tracking, status, and supported actions,
+     * returned when the package is expanded. object.packed_at (Optional): string. First time this
+     * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.picked_at (Optional): string. First time this fulfillment reached picked. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link
+     * PickupFulfillmentDetails}. Pickup window, pickup mode, and handoff times for a pickup
+     * fulfillment. Pickup details. For a pickup that checkout creates, location_name, address, and
+     * instructions name the store the buyer chose and the delivery method's pickup instructions.
+     * The note the buyer left for the store is in recipient.instructions. object.recipient
+     * (Optional): {@link FulfillmentRecipient}. Omitted for a checkout session credential that
+     * doesn't act for the customer the buyer verified. The recipient of a fulfillment, with name,
+     * email, phone, address, and handling instructions. object.scheduled_start_at (Required):
+     * string or null. Derived start of the service schedule or pickup, local delivery, or shipment
+     * window. Null when no schedule is booked, including digital fulfillments. Details remain the
+     * authoritative schedule inputs. Nulls sort first ascending and last descending, then by
+     * fulfillment_id in the same direction. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.service_details (Optional): {@link ServiceFulfillmentDetails}. Schedule and
+     * completion details for a service fulfillment. Details of a service fulfillment: the
+     * scheduled start and end, timezone, completion time, and notes. object.shipment_details
+     * (Optional): {@link ShipmentFulfillmentDetails}. Shipping schedule and ship time for a
+     * shipment fulfillment. Present only on shipment fulfillments with at least one value. Details
+     * of a shipment fulfillment: the shipping window, timezone, and when the shipment was handed
+     * to the carrier. object.shipments (Optional): Array of {@link ExpandedShipmentSummary}.
+     * Shipments associated with this fulfillment. object.shipments[] (Value): {@link
+     * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
+     * package count, returned when the shipment is expanded. object.status (Required): string.
+     * Current fulfillment lifecycle status. Read supported_actions for available transitions. -
+     * `pending`: Work has not started and has not been accepted. Approval may be required before
+     * work can begin. - `accepted`: The provider accepted the fulfillment; work has not started. -
+     * `on_hold`: Work is paused. Release the hold to restore active_hold.previous_status, or use a
+     * supported forward action. - `in_progress`: Work has started and is not yet ready or
+     * complete. - `ready`: The fulfillment is ready for pickup, handoff, or completion. -
+     * `completed`: All fulfillment work completed successfully. - `canceled`: The fulfillment was
+     * intentionally canceled and will not continue. - `failed`: The fulfillment could not be
+     * completed. Resolve the recorded reason before creating replacement work. - `scheduled`: The
+     * fulfillment is scheduled for its recorded service window. - `preparing`: Warehouse or
+     * provider preparation is underway. - `picked`: The assigned items have been picked. -
+     * `packed`: The assigned items have been packed. - `dispatched`: The fulfillment left its
+     * origin for delivery or handoff. - `no_show`: A service appointment was missed. Read outcome
+     * for the recorded reason. Value enum: "pending", "accepted", "on_hold", "in_progress",
+     * "ready", "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+     * "dispatched", "no_show". object.supported_actions (Optional): Array of string. Read-only
+     * lifecycle actions accepted now, based on the fulfillment, its order payment status, holds,
+     * and shipment progress. Empty when none are available. Values name the verb route with
+     * hyphens replaced by underscores. Always present with merchant credentials. [] enum:
+     * "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed",
+     * "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start".
+     * object.supported_actions[] (Value): string. Value enum: "accept", "cancel", "complete",
+     * "dispatch", "fail", "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+     * "mark_ready", "release_hold", "schedule", "start". object.terminal_at (Optional): string.
+     * When the fulfillment entered a terminal state: completed, canceled, failed, or no_show. This
+     * records the state transition; completed_at records completion evidence supplied for the
+     * fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z". object.type (Required):
+     * string. How the items are delivered: shipment, pickup, local delivery, digital delivery, or
+     * service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+     * "handover". object.updated_at (Required): string. When the fulfillment was last updated, in
+     * RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
+     * (Required): integer. Monotonic fulfillment version for expected_version checks. Format:
+     * uint64. minimum: 1. previous_attributes (Optional): object and {@link
+     * FulfillmentPreviousAttributes}. Previous values of changed top-level fields in data.object,
+     * at this delivery's API version. Nested changes include the whole previous top-level value. A
+     * value is null when the field was absent before the change. Omitted when Flint did not record
+     * the previous state, including synthetic test events. previous_attributes.active_hold
+     * (Optional): {@link FulfillmentHoldPreviousAttributes} or null. Current hold details. Present
+     * exactly when status is on_hold. previous_attributes.active_hold.anyOf[1] (Value): {@link
+     * FulfillmentHoldPreviousAttributes}. previous_attributes.active_hold.anyOf[2] (Value): null.
+     * previous_attributes.charges (Optional): Array of {@link
+     * FulfillmentChargeLinkPreviousAttributes} or null. Order charges associated with this
+     * fulfillment. previous_attributes.charges.anyOf[1] (Value): Array of {@link
+     * FulfillmentChargeLinkPreviousAttributes}. Order charges associated with this fulfillment.
+     * previous_attributes.charges.anyOf[1][] (Value): {@link
+     * FulfillmentChargeLinkPreviousAttributes}. previous_attributes.charges.anyOf[2] (Value):
+     * null. previous_attributes.completed_at (Optional): string or null. When the fulfillment was
+     * completed. Mirrors the completion time for its type: delivered_at for shipment, local
+     * delivery, and digital fulfillments, picked_up_at for pickup, and
+     * service_details.completed_at for service fulfillments. Omitted until a completion time is
+     * recorded. previous_attributes.completed_at.anyOf[1] (Value): string. When the fulfillment
+     * was completed. Mirrors the completion time for its type: delivered_at for shipment, local
+     * delivery, and digital fulfillments, picked_up_at for pickup, and
+     * service_details.completed_at for service fulfillments. Omitted until a completion time is
+     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.completed_at.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. When the fulfillment was created, in RFC3339 format.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When the fulfillment was created,
+     * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. Customer receiving this fulfillment, when one is set.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. Customer receiving this
+     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_choice_group_id (Optional): string or null or null. Delivery
+     * choice group that created this fulfillment. `null` when the merchant created the fulfillment
+     * or checkout created it without a delivery quote. Always present with merchant credentials.
+     * previous_attributes.delivery_choice_group_id.anyOf[1] (Value): string or null. Delivery
+     * choice group that created this fulfillment. `null` when the merchant created the fulfillment
+     * or checkout created it without a delivery quote. Always present with merchant credentials.
+     * Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     * previous_attributes.delivery_choice_group_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_execution_leg_id (Optional): string or null or null. Execution
+     * leg of the selected delivery option that created this fulfillment. `null` when the merchant
+     * created the fulfillment or checkout created it without a delivery quote. Always present with
+     * merchant credentials. previous_attributes.delivery_execution_leg_id.anyOf[1] (Value): string
+     * or null. Execution leg of the selected delivery option that created this fulfillment. `null`
+     * when the merchant created the fulfillment or checkout created it without a delivery quote.
+     * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
+     * previous_attributes.delivery_execution_leg_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_method_id (Optional): string or null or null. Delivery method
+     * chosen for this fulfillment. `null` when the merchant created the fulfillment or checkout
+     * created it without a delivery quote. Also `null` when it was created before this field was
+     * added. Always present with merchant credentials.
+     * previous_attributes.delivery_method_id.anyOf[1] (Value): string or null. Delivery method
+     * chosen for this fulfillment. `null` when the merchant created the fulfillment or checkout
+     * created it without a delivery quote. Also `null` when it was created before this field was
+     * added. Always present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_selection_id (Optional): string or null or null. Delivery
+     * selection that created this fulfillment. `null` when the merchant created the fulfillment or
+     * checkout created it without a delivery quote. Always present with merchant credentials.
+     * previous_attributes.delivery_selection_id.anyOf[1] (Value): string or null. Delivery
+     * selection that created this fulfillment. `null` when the merchant created the fulfillment or
+     * checkout created it without a delivery quote. Always present with merchant credentials.
+     * Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     * previous_attributes.delivery_selection_id.anyOf[2] (Value): null.
+     * previous_attributes.device_id (Optional): string or null. Device associated with the
+     * fulfillment, when one is recorded. previous_attributes.device_id.anyOf[1] (Value): string.
+     * Device associated with the fulfillment, when one is recorded. Example:
+     * "dev_01KEZF7C0051ZP8MZSGHP989F6". previous_attributes.device_id.anyOf[2] (Value): null.
+     * previous_attributes.digital_details (Optional): {@link
+     * DigitalFulfillmentDetailsPreviousAttributes} or null. Delivery URL and completion time for a
+     * digital fulfillment. previous_attributes.digital_details.anyOf[1] (Value): {@link
+     * DigitalFulfillmentDetailsPreviousAttributes}. previous_attributes.digital_details.anyOf[2]
+     * (Value): null. previous_attributes.dispatched_at (Optional): string or null. First time this
+     * fulfillment reached dispatched. previous_attributes.dispatched_at.anyOf[1] (Value): string.
+     * First time this fulfillment reached dispatched. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.dispatched_at.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.fulfillment_id (Optional): string or null. Stable identifier of the
+     * fulfillment. previous_attributes.fulfillment_id.anyOf[1] (Value): string. Stable identifier
+     * of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     * previous_attributes.fulfillment_id.anyOf[2] (Value): null. previous_attributes.line_items
+     * (Optional): Array of {@link FulfillmentLineItemPreviousAttributes} or null. Order lines and
+     * quantities allocated to this fulfillment. previous_attributes.line_items.anyOf[1] (Value):
+     * Array of {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated
+     * to this fulfillment. previous_attributes.line_items.anyOf[1][] (Value): {@link
+     * FulfillmentLineItemPreviousAttributes}. previous_attributes.line_items.anyOf[2] (Value):
+     * null. previous_attributes.local_delivery_details (Optional): {@link
+     * DeliveryFulfillmentDetailsPreviousAttributes} or null. Courier, delivery window, and handoff
+     * details for a local delivery fulfillment.
+     * previous_attributes.local_delivery_details.anyOf[1] (Value): {@link
+     * DeliveryFulfillmentDetailsPreviousAttributes}.
+     * previous_attributes.local_delivery_details.anyOf[2] (Value): null.
+     * previous_attributes.location_id (Optional): string or null. Merchant location responsible
+     * for this fulfillment. previous_attributes.location_id.anyOf[1] (Value): string. Merchant
+     * location responsible for this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.location_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned key-value metadata associated with the
+     * fulfillment. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
+     * ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. Order summary returned
+     * when the order relationship is expanded. Present only when `expand` includes `order`; `null`
+     * when expanded and there is no related order. previous_attributes.order.anyOf[1] (Value):
+     * ({@link ExpandedOrderSummaryPreviousAttributes} or null). Order summary returned when the
+     * order relationship is expanded. Present only when `expand` includes `order`; `null` when
+     * expanded and there is no related order. previous_attributes.order.anyOf[1].anyOf[1] (Value):
+     * {@link ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
+     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order_id (Optional): string or null. Order whose items this fulfillment
+     * delivers. previous_attributes.order_id.anyOf[1] (Value): string. Order whose items this
+     * fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * previous_attributes.order_id.anyOf[2] (Value): null. previous_attributes.order_number
+     * (Optional): string or null. Human-readable number of the order this fulfillment belongs to.
+     * Omitted when the order has no number. previous_attributes.order_number.anyOf[1] (Value):
+     * string. Human-readable number of the order this fulfillment belongs to. Omitted when the
+     * order has no number. previous_attributes.order_number.anyOf[2] (Value): null.
+     * previous_attributes.outcome (Optional): {@link FulfillmentOutcomePreviousAttributes} or
+     * null. Terminal outcome details. Present exactly when status is no_show.
+     * previous_attributes.outcome.anyOf[1] (Value): {@link FulfillmentOutcomePreviousAttributes}.
+     * previous_attributes.outcome.anyOf[2] (Value): null. previous_attributes.packages (Optional):
+     * Array of {@link ExpandedPackageSummaryPreviousAttributes} or null. Packages associated with
+     * this fulfillment. previous_attributes.packages.anyOf[1] (Value): Array of {@link
+     * ExpandedPackageSummaryPreviousAttributes}. Packages associated with this fulfillment.
+     * previous_attributes.packages.anyOf[1][] (Value): {@link
+     * ExpandedPackageSummaryPreviousAttributes}. previous_attributes.packages.anyOf[2] (Value):
+     * null. previous_attributes.packed_at (Optional): string or null. First time this fulfillment
+     * reached packed. previous_attributes.packed_at.anyOf[1] (Value): string. First time this
+     * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.packed_at.anyOf[2] (Value): null. previous_attributes.picked_at
+     * (Optional): string or null. First time this fulfillment reached picked.
+     * previous_attributes.picked_at.anyOf[1] (Value): string. First time this fulfillment reached
+     * picked. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.picked_at.anyOf[2] (Value): null. previous_attributes.pickup_details
+     * (Optional): {@link PickupFulfillmentDetailsPreviousAttributes} or null. Pickup window,
+     * pickup mode, and handoff times for a pickup fulfillment.
+     * previous_attributes.pickup_details.anyOf[1] (Value): {@link
+     * PickupFulfillmentDetailsPreviousAttributes}. previous_attributes.pickup_details.anyOf[2]
+     * (Value): null. previous_attributes.recipient (Optional): {@link
+     * FulfillmentRecipientPreviousAttributes} or null. Omitted for a checkout session credential
+     * that doesn't act for the customer the buyer verified. previous_attributes.recipient.anyOf[1]
+     * (Value): {@link FulfillmentRecipientPreviousAttributes}.
+     * previous_attributes.recipient.anyOf[2] (Value): null. previous_attributes.scheduled_start_at
+     * (Optional): string or null or null. Derived start of the service schedule or pickup, local
+     * delivery, or shipment window. Null when no schedule is booked, including digital
+     * fulfillments. Details remain the authoritative schedule inputs. Nulls sort first ascending
+     * and last descending, then by fulfillment_id in the same direction.
+     * previous_attributes.scheduled_start_at.anyOf[1] (Value): string or null. Derived start of
+     * the service schedule or pickup, local delivery, or shipment window. Null when no schedule is
+     * booked, including digital fulfillments. Details remain the authoritative schedule inputs.
+     * Nulls sort first ascending and last descending, then by fulfillment_id in the same
+     * direction. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.scheduled_start_at.anyOf[2] (Value): null.
+     * previous_attributes.service_details (Optional): {@link
+     * ServiceFulfillmentDetailsPreviousAttributes} or null. Schedule and completion details for a
+     * service fulfillment. previous_attributes.service_details.anyOf[1] (Value): {@link
+     * ServiceFulfillmentDetailsPreviousAttributes}. previous_attributes.service_details.anyOf[2]
+     * (Value): null. previous_attributes.shipment_details (Optional): {@link
+     * ShipmentFulfillmentDetailsPreviousAttributes} or null. Shipping schedule and ship time for a
+     * shipment fulfillment. Present only on shipment fulfillments with at least one value.
+     * previous_attributes.shipment_details.anyOf[1] (Value): {@link
+     * ShipmentFulfillmentDetailsPreviousAttributes}. previous_attributes.shipment_details.anyOf[2]
+     * (Value): null. previous_attributes.shipments (Optional): Array of {@link
+     * ExpandedShipmentSummaryPreviousAttributes} or null. Shipments associated with this
+     * fulfillment. previous_attributes.shipments.anyOf[1] (Value): Array of {@link
+     * ExpandedShipmentSummaryPreviousAttributes}. Shipments associated with this fulfillment.
+     * previous_attributes.shipments.anyOf[1][] (Value): {@link
+     * ExpandedShipmentSummaryPreviousAttributes}. previous_attributes.shipments.anyOf[2] (Value):
+     * null. previous_attributes.status (Optional): string or null. Current fulfillment lifecycle
+     * status. Read supported_actions for available transitions. - `pending`: Work has not started
+     * and has not been accepted. Approval may be required before work can begin. - `accepted`: The
+     * provider accepted the fulfillment; work has not started. - `on_hold`: Work is paused.
+     * Release the hold to restore active_hold.previous_status, or use a supported forward action.
+     * - `in_progress`: Work has started and is not yet ready or complete. - `ready`: The
+     * fulfillment is ready for pickup, handoff, or completion. - `completed`: All fulfillment work
+     * completed successfully. - `canceled`: The fulfillment was intentionally canceled and will
+     * not continue. - `failed`: The fulfillment could not be completed. Resolve the recorded
+     * reason before creating replacement work. - `scheduled`: The fulfillment is scheduled for its
+     * recorded service window. - `preparing`: Warehouse or provider preparation is underway. -
+     * `picked`: The assigned items have been picked. - `packed`: The assigned items have been
+     * packed. - `dispatched`: The fulfillment left its origin for delivery or handoff. -
+     * `no_show`: A service appointment was missed. Read outcome for the recorded reason. Value
+     * enum: "pending", "accepted", "on_hold", "in_progress", "ready", "completed", "canceled",
+     * "failed", "scheduled", "preparing", "picked", "packed", "dispatched", "no_show".
+     * previous_attributes.status.anyOf[1] (Value): string. Current fulfillment lifecycle status.
+     * Read supported_actions for available transitions. - `pending`: Work has not started and has
+     * not been accepted. Approval may be required before work can begin. - `accepted`: The
+     * provider accepted the fulfillment; work has not started. - `on_hold`: Work is paused.
+     * Release the hold to restore active_hold.previous_status, or use a supported forward action.
+     * - `in_progress`: Work has started and is not yet ready or complete. - `ready`: The
+     * fulfillment is ready for pickup, handoff, or completion. - `completed`: All fulfillment work
+     * completed successfully. - `canceled`: The fulfillment was intentionally canceled and will
+     * not continue. - `failed`: The fulfillment could not be completed. Resolve the recorded
+     * reason before creating replacement work. - `scheduled`: The fulfillment is scheduled for its
+     * recorded service window. - `preparing`: Warehouse or provider preparation is underway. -
+     * `picked`: The assigned items have been picked. - `packed`: The assigned items have been
+     * packed. - `dispatched`: The fulfillment left its origin for delivery or handoff. -
+     * `no_show`: A service appointment was missed. Read outcome for the recorded reason. Value
+     * enum: "pending", "accepted", "on_hold", "in_progress", "ready", "completed", "canceled",
+     * "failed", "scheduled", "preparing", "picked", "packed", "dispatched", "no_show".
      * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
-     * (Optional): Array of string or null. Actions that can change this count now. A draft can be
-     * canceled, and applied once every line has an observation. Empty after the count is applied
-     * or canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1]
-     * (Value): Array of string. Actions that can change this count now. A draft can be canceled,
-     * and applied once every line has an observation. Empty after the count is applied or
-     * canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1][]
-     * (Value): string. Value enum: "apply", "cancel".
-     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
-     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
-     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Current version of this resource's owned state. Send it as
-     * `expected_version` when changing the resource to reject a stale write.
-     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
-     * owned state. Send it as `expected_version` when changing the resource to reject a stale
-     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
+     * (Optional): Array of string or null. Read-only lifecycle actions accepted now, based on the
+     * fulfillment, its order payment status, holds, and shipment progress. Empty when none are
+     * available. Values name the verb route with hyphens replaced by underscores. Always present
+     * with merchant credentials. [] enum: "accept", "cancel", "complete", "dispatch", "fail",
+     * "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
+     * "release_hold", "schedule", "start". previous_attributes.supported_actions.anyOf[1] (Value):
+     * Array of string. Read-only lifecycle actions accepted now, based on the fulfillment, its
+     * order payment status, holds, and shipment progress. Empty when none are available. Values
+     * name the verb route with hyphens replaced by underscores. Always present with merchant
+     * credentials. [] enum: "accept", "cancel", "complete", "dispatch", "fail", "hold",
+     * "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
+     * "release_hold", "schedule", "start". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "accept", "cancel", "complete", "dispatch", "fail", "hold",
+     * "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
+     * "release_hold", "schedule", "start". previous_attributes.supported_actions.anyOf[2] (Value):
+     * null. previous_attributes.terminal_at (Optional): string or null. When the fulfillment
+     * entered a terminal state: completed, canceled, failed, or no_show. This records the state
+     * transition; completed_at records completion evidence supplied for the fulfillment.
+     * previous_attributes.terminal_at.anyOf[1] (Value): string. When the fulfillment entered a
+     * terminal state: completed, canceled, failed, or no_show. This records the state transition;
+     * completed_at records completion evidence supplied for the fulfillment. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.terminal_at.anyOf[2] (Value): null.
+     * previous_attributes.type (Optional): string or null. How the items are delivered: shipment,
+     * pickup, local delivery, digital delivery, or service. Value enum: "shipment", "pickup",
+     * "local_delivery", "digital", "service", "handover". previous_attributes.type.anyOf[1]
+     * (Value): string. How the items are delivered: shipment, pickup, local delivery, digital
+     * delivery, or service. Value enum: "shipment", "pickup", "local_delivery", "digital",
+     * "service", "handover". previous_attributes.type.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. When the fulfillment was last
+     * updated, in RFC3339 format. previous_attributes.updated_at.anyOf[1] (Value): string. When
+     * the fulfillment was last updated, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Monotonic fulfillment version for
+     * expected_version checks. previous_attributes.version.anyOf[1] (Value): integer. Monotonic
+     * fulfillment version for expected_version checks. Format: uint64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * applied_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_count_id (Required):
-         * string. Unique identifier for this inventory count, prefixed `invc_`. Example:
-         * "invc_01KEZF7C00B47NXRE3ET37QQ59". lines (Required): Array of {@link
-         * InventoryCountLine}. Count lines, one for each inventory item being counted. lines[]
-         * (Value): {@link InventoryCountLine}. One item's line in an inventory count, with the
-         * quantities Flint expected, the quantities counted, and the variance applied. location_id
-         * (Required): string. ID of the Location whose stock is counted. Example:
-         * "loc_01KEZF7C00CMHRRYA3MV996JB2". observation_provenance (Optional): {@link
-         * InventoryCountObservationProvenance}. Source system, actor, and time reported with the
-         * count's observations. Where an inventory count came from: the source system, an external
-         * actor ID, and when the event occurred. status (Required): string. Whether the count is
-         * still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
-         * "applied", "canceled". supported_actions (Required): Array of string. Actions that can
-         * change this count now. A draft can be canceled, and applied once every line has an
-         * observation. Empty after the count is applied or canceled. [] enum: "apply", "cancel".
-         * supported_actions[] (Value): string. Value enum: "apply", "cancel". updated_at
-         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
-         * owned state. Send it as `expected_version` when changing the resource to reject a stale
-         * write. Format: uint64. minimum: 1.
+         * active_hold (Optional): {@link FulfillmentHold}. Current hold details. Present exactly
+         * when status is on_hold. A hold on a fulfillment, with its reason, who placed it, and
+         * when it became active. charges (Optional): Array of {@link FulfillmentChargeLink}. Order
+         * charges associated with this fulfillment. charges[] (Value): {@link
+         * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
+         * completed_at (Optional): string. When the fulfillment was completed. Mirrors the
+         * completion time for its type: delivered_at for shipment, local delivery, and digital
+         * fulfillments, picked_up_at for pickup, and service_details.completed_at for service
+         * fulfillments. Omitted until a completion time is recorded. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When the fulfillment was created,
+         * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id
+         * (Optional): string. Customer receiving this fulfillment, when one is set. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery_choice_group_id (Optional): string or null.
+         * Delivery choice group that created this fulfillment. `null` when the merchant created
+         * the fulfillment or checkout created it without a delivery quote. Always present with
+         * merchant credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+         * delivery_execution_leg_id (Optional): string or null. Execution leg of the selected
+         * delivery option that created this fulfillment. `null` when the merchant created the
+         * fulfillment or checkout created it without a delivery quote. Always present with
+         * merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M". delivery_method_id
+         * (Optional): string or null. Delivery method chosen for this fulfillment. `null` when the
+         * merchant created the fulfillment or checkout created it without a delivery quote. Also
+         * `null` when it was created before this field was added. Always present with merchant
+         * credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_selection_id
+         * (Optional): string or null. Delivery selection that created this fulfillment. `null`
+         * when the merchant created the fulfillment or checkout created it without a delivery
+         * quote. Always present with merchant credentials. Example:
+         * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". device_id (Optional): string. Device associated with
+         * the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+         * digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
+         * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
+         * delivered (`delivered_at`) and its `delivery_url`. dispatched_at (Optional): string.
+         * First time this fulfillment reached dispatched. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
+         * identifier for this resource in an external system. maxLength: 255. Example:
+         * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". line_items (Required): Array of
+         * {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
+         * line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
+         * included in a fulfillment, with the modifiers applied to it. local_delivery_details
+         * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
+         * details for a local delivery fulfillment. Details of a local delivery fulfillment:
+         * courier, timing window, instructions, and tracking. Some fields are omitted for
+         * credentials that don't act for the verified customer. location_id (Optional): string.
+         * Merchant location responsible for this fulfillment. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". metadata (Optional): {@link MetadataMap}. Caller-owned
+         * key-value metadata associated with the fulfillment. Caller-owned key-value data stored
+         * on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+         * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before
+         * those limits may not satisfy them. order (Optional): {@link ExpandedOrderSummary} or
+         * null. Order summary returned when the order relationship is expanded. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+         * including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
+         * string. Order whose items this fulfillment delivers. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_number (Optional): string. Human-readable number
+         * of the order this fulfillment belongs to. Omitted when the order has no number. outcome
+         * (Optional): {@link FulfillmentOutcome}. Terminal outcome details. Present exactly when
+         * status is no_show. The terminal outcome recorded for a fulfillment, such as a no-show,
+         * with its reason, notes, and when it occurred. packages (Optional): Array of {@link
+         * ExpandedPackageSummary}. Packages associated with this fulfillment. packages[] (Value):
+         * {@link ExpandedPackageSummary}. A package's summary fields, including carrier, tracking,
+         * status, and supported actions, returned when the package is expanded. packed_at
+         * (Optional): string. First time this fulfillment reached packed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". picked_at (Optional): string. First time this
+         * fulfillment reached picked. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * pickup_details (Optional): {@link PickupFulfillmentDetails}. Pickup window, pickup mode,
+         * and handoff times for a pickup fulfillment. Pickup details. For a pickup that checkout
+         * creates, location_name, address, and instructions name the store the buyer chose and the
+         * delivery method's pickup instructions. The note the buyer left for the store is in
+         * recipient.instructions. recipient (Optional): {@link FulfillmentRecipient}. Omitted for
+         * a checkout session credential that doesn't act for the customer the buyer verified. The
+         * recipient of a fulfillment, with name, email, phone, address, and handling instructions.
+         * scheduled_start_at (Required): string or null. Derived start of the service schedule or
+         * pickup, local delivery, or shipment window. Null when no schedule is booked, including
+         * digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort first
+         * ascending and last descending, then by fulfillment_id in the same direction. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". service_details (Optional): {@link
+         * ServiceFulfillmentDetails}. Schedule and completion details for a service fulfillment.
+         * Details of a service fulfillment: the scheduled start and end, timezone, completion
+         * time, and notes. shipment_details (Optional): {@link ShipmentFulfillmentDetails}.
+         * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+         * fulfillments with at least one value. Details of a shipment fulfillment: the shipping
+         * window, timezone, and when the shipment was handed to the carrier. shipments (Optional):
+         * Array of {@link ExpandedShipmentSummary}. Shipments associated with this fulfillment.
+         * shipments[] (Value): {@link ExpandedShipmentSummary}. A shipment's summary fields,
+         * including direction, status, and package count, returned when the shipment is expanded.
+         * status (Required): string. Current fulfillment lifecycle status. Read supported_actions
+         * for available transitions. - `pending`: Work has not started and has not been accepted.
+         * Approval may be required before work can begin. - `accepted`: The provider accepted the
+         * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+         * restore active_hold.previous_status, or use a supported forward action. - `in_progress`:
+         * Work has started and is not yet ready or complete. - `ready`: The fulfillment is ready
+         * for pickup, handoff, or completion. - `completed`: All fulfillment work completed
+         * successfully. - `canceled`: The fulfillment was intentionally canceled and will not
+         * continue. - `failed`: The fulfillment could not be completed. Resolve the recorded
+         * reason before creating replacement work. - `scheduled`: The fulfillment is scheduled for
+         * its recorded service window. - `preparing`: Warehouse or provider preparation is
+         * underway. - `picked`: The assigned items have been picked. - `packed`: The assigned
+         * items have been packed. - `dispatched`: The fulfillment left its origin for delivery or
+         * handoff. - `no_show`: A service appointment was missed. Read outcome for the recorded
+         * reason. Value enum: "pending", "accepted", "on_hold", "in_progress", "ready",
+         * "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+         * "dispatched", "no_show". supported_actions (Optional): Array of string. Read-only
+         * lifecycle actions accepted now, based on the fulfillment, its order payment status,
+         * holds, and shipment progress. Empty when none are available. Values name the verb route
+         * with hyphens replaced by underscores. Always present with merchant credentials. [] enum:
+         * "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show",
+         * "mark_packed", "mark_picked", "mark_preparing", "mark_ready", "release_hold",
+         * "schedule", "start". supported_actions[] (Value): string. Value enum: "accept",
+         * "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed",
+         * "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start".
+         * terminal_at (Optional): string. When the fulfillment entered a terminal state:
+         * completed, canceled, failed, or no_show. This records the state transition; completed_at
+         * records completion evidence supplied for the fulfillment. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". type (Required): string. How the items are delivered: shipment,
+         * pickup, local delivery, digital delivery, or service. Value enum: "shipment", "pickup",
+         * "local_delivery", "digital", "service", "handover". updated_at (Required): string. When
+         * the fulfillment was last updated, in RFC3339 format. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Monotonic fulfillment version for
+         * expected_version checks. Format: uint64. minimum: 1.
          */
         "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "applied_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            /**
+             * Current hold details. Present exactly when status is on_hold. A hold on a
+             * fulfillment, with its reason, who placed it, and when it became active.
+             */
+            "active_hold"?: FulfillmentHold;
+            /**
+             * Order charges associated with this fulfillment. [] (Value): {@link
+             * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
+             */
+            "charges"?: Array<FulfillmentChargeLink>;
+            /**
+             * When the fulfillment was completed. Mirrors the completion time for its type:
+             * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
+             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
+             * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "completed_at"?: string;
+            /**
+             * When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
             "created_at": string;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * Customer receiving this fulfillment, when one is set. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
              */
-            "idempotency_key"?: string;
+            "customer_id"?: string;
             /**
-             * Unique identifier for this inventory count, prefixed `invc_`. Example:
-             * "invc_01KEZF7C00B47NXRE3ET37QQ59".
+             * Delivery choice group that created this fulfillment. `null` when the merchant
+             * created the fulfillment or checkout created it without a delivery quote. Always
+             * present with merchant credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
              */
-            "inventory_count_id": string;
+            "delivery_choice_group_id"?: string | null;
             /**
-             * Count lines, one for each inventory item being counted. [] (Value): {@link
-             * InventoryCountLine}. One item's line in an inventory count, with the quantities
-             * Flint expected, the quantities counted, and the variance applied.
+             * Execution leg of the selected delivery option that created this fulfillment. `null`
+             * when the merchant created the fulfillment or checkout created it without a delivery
+             * quote. Always present with merchant credentials. Example:
+             * "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
              */
-            "lines": Array<InventoryCountLine>;
+            "delivery_execution_leg_id"?: string | null;
             /**
-             * ID of the Location whose stock is counted. Example:
+             * Delivery method chosen for this fulfillment. `null` when the merchant created the
+             * fulfillment or checkout created it without a delivery quote. Also `null` when it was
+             * created before this field was added. Always present with merchant credentials.
+             * Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+             */
+            "delivery_method_id"?: string | null;
+            /**
+             * Delivery selection that created this fulfillment. `null` when the merchant created
+             * the fulfillment or checkout created it without a delivery quote. Always present with
+             * merchant credentials. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+             */
+            "delivery_selection_id"?: string | null;
+            /**
+             * Device associated with the fulfillment, when one is recorded. Example:
+             * "dev_01KEZF7C0051ZP8MZSGHP989F6".
+             */
+            "device_id"?: string;
+            /**
+             * Delivery URL and completion time for a digital fulfillment. Details of a digital
+             * fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`.
+             */
+            "digital_details"?: DigitalFulfillmentDetails;
+            /**
+             * First time this fulfillment reached dispatched. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "dispatched_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
+            "fulfillment_id": string;
+            /**
+             * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
+             * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
+             * with the modifiers applied to it.
+             */
+            "line_items": Array<FulfillmentLineItem>;
+            /**
+             * Courier, delivery window, and handoff details for a local delivery fulfillment.
+             * Details of a local delivery fulfillment: courier, timing window, instructions, and
+             * tracking. Some fields are omitted for credentials that don't act for the verified
+             * customer.
+             */
+            "local_delivery_details"?: DeliveryFulfillmentDetails;
+            /**
+             * Merchant location responsible for this fulfillment. Example:
              * "loc_01KEZF7C00CMHRRYA3MV996JB2".
              */
-            "location_id": string;
+            "location_id"?: string;
             /**
-             * Source system, actor, and time reported with the count's observations. Where an
-             * inventory count came from: the source system, an external actor ID, and when the
-             * event occurred.
+             * Caller-owned key-value metadata associated with the fulfillment. Caller-owned
+             * key-value data stored on a resource. Keys starting with flint_ are reserved for
+             * Flint and are not returned. Writes follow the limits on MetadataInput and
+             * MetadataPatchInput; maps written before those limits may not satisfy them.
              */
-            "observation_provenance"?: InventoryCountObservationProvenance;
+            "metadata"?: MetadataMap;
             /**
-             * Whether the count is still open. Applying or canceling a `draft` count ends it.
-             * Value enum: "draft", "applied", "canceled".
+             * Order summary returned when the order relationship is expanded. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
+             * status, payment and refund status, and pricing and settlement amounts, returned when
+             * the order is expanded. anyOf[2] (Value): null.
              */
-            "status": "draft" | "applied" | "canceled" | (string & {});
+            "order"?: ((ExpandedOrderSummary) | (null));
             /**
-             * Actions that can change this count now. A draft can be canceled, and applied once
-             * every line has an observation. Empty after the count is applied or canceled. []
-             * enum: "apply", "cancel". [] (Value): string. Value enum: "apply", "cancel".
+             * Order whose items this fulfillment delivers. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A".
              */
-            "supported_actions": Array<"apply" | "cancel" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "order_id": string;
+            /**
+             * Human-readable number of the order this fulfillment belongs to. Omitted when the
+             * order has no number.
+             */
+            "order_number"?: string;
+            /**
+             * Terminal outcome details. Present exactly when status is no_show. The terminal
+             * outcome recorded for a fulfillment, such as a no-show, with its reason, notes, and
+             * when it occurred.
+             */
+            "outcome"?: FulfillmentOutcome;
+            /**
+             * Packages associated with this fulfillment. [] (Value): {@link
+             * ExpandedPackageSummary}. A package's summary fields, including carrier, tracking,
+             * status, and supported actions, returned when the package is expanded.
+             */
+            "packages"?: Array<ExpandedPackageSummary>;
+            /**
+             * First time this fulfillment reached packed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "packed_at"?: string;
+            /**
+             * First time this fulfillment reached picked. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "picked_at"?: string;
+            /**
+             * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup
+             * details. For a pickup that checkout creates, location_name, address, and
+             * instructions name the store the buyer chose and the delivery method's pickup
+             * instructions. The note the buyer left for the store is in recipient.instructions.
+             */
+            "pickup_details"?: PickupFulfillmentDetails;
+            /**
+             * Omitted for a checkout session credential that doesn't act for the customer the
+             * buyer verified. The recipient of a fulfillment, with name, email, phone, address,
+             * and handling instructions.
+             */
+            "recipient"?: FulfillmentRecipient;
+            /**
+             * Derived start of the service schedule or pickup, local delivery, or shipment window.
+             * Null when no schedule is booked, including digital fulfillments. Details remain the
+             * authoritative schedule inputs. Nulls sort first ascending and last descending, then
+             * by fulfillment_id in the same direction. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "scheduled_start_at": string | null;
+            /**
+             * Schedule and completion details for a service fulfillment. Details of a service
+             * fulfillment: the scheduled start and end, timezone, completion time, and notes.
+             */
+            "service_details"?: ServiceFulfillmentDetails;
+            /**
+             * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+             * fulfillments with at least one value. Details of a shipment fulfillment: the
+             * shipping window, timezone, and when the shipment was handed to the carrier.
+             */
+            "shipment_details"?: ShipmentFulfillmentDetails;
+            /**
+             * Shipments associated with this fulfillment. [] (Value): {@link
+             * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status,
+             * and package count, returned when the shipment is expanded.
+             */
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            /**
+             * Current fulfillment lifecycle status. Read supported_actions for available
+             * transitions. - `pending`: Work has not started and has not been accepted. Approval
+             * may be required before work can begin. - `accepted`: The provider accepted the
+             * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+             * restore active_hold.previous_status, or use a supported forward action. -
+             * `in_progress`: Work has started and is not yet ready or complete. - `ready`: The
+             * fulfillment is ready for pickup, handoff, or completion. - `completed`: All
+             * fulfillment work completed successfully. - `canceled`: The fulfillment was
+             * intentionally canceled and will not continue. - `failed`: The fulfillment could not
+             * be completed. Resolve the recorded reason before creating replacement work. -
+             * `scheduled`: The fulfillment is scheduled for its recorded service window. -
+             * `preparing`: Warehouse or provider preparation is underway. - `picked`: The assigned
+             * items have been picked. - `packed`: The assigned items have been packed. -
+             * `dispatched`: The fulfillment left its origin for delivery or handoff. - `no_show`:
+             * A service appointment was missed. Read outcome for the recorded reason. Value enum:
+             * "pending", "accepted", "on_hold", "in_progress", "ready", "completed", "canceled",
+             * "failed", "scheduled", "preparing", "picked", "packed", "dispatched", "no_show".
+             */
+            "status": "pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {});
+            /**
+             * Read-only lifecycle actions accepted now, based on the fulfillment, its order
+             * payment status, holds, and shipment progress. Empty when none are available. Values
+             * name the verb route with hyphens replaced by underscores. Always present with
+             * merchant credentials. [] enum: "accept", "cancel", "complete", "dispatch", "fail",
+             * "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+             * "mark_ready", "release_hold", "schedule", "start". [] (Value): string. Value enum:
+             * "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show",
+             * "mark_packed", "mark_picked", "mark_preparing", "mark_ready", "release_hold",
+             * "schedule", "start".
+             */
+            "supported_actions"?: Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>;
+            /**
+             * When the fulfillment entered a terminal state: completed, canceled, failed, or
+             * no_show. This records the state transition; completed_at records completion evidence
+             * supplied for the fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "terminal_at"?: string;
+            /**
+             * How the items are delivered: shipment, pickup, local delivery, digital delivery, or
+             * service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+             * "handover".
+             */
+            "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {});
+            /**
+             * When the fulfillment was last updated, in RFC3339 format. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
             "updated_at": string;
             /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
+             * Monotonic fulfillment version for expected_version checks. Format: uint64. minimum:
+             * 1.
              */
             "version": number;
         };
@@ -2415,227 +2809,2642 @@ export type InventoryCountAppliedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. applied_at (Optional): string or null. RFC3339
-         * timestamp. applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". applied_at.anyOf[2] (Value): null. created_at
-         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
-         * string. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[2] (Value): null. inventory_count_id (Optional): string or null.
-         * Unique identifier for this inventory count, prefixed `invc_`.
-         * inventory_count_id.anyOf[1] (Value): string. Unique identifier for this inventory count,
-         * prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59".
-         * inventory_count_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
-         * InventoryCountLine} or null. Count lines, one for each inventory item being counted.
-         * lines.anyOf[1] (Value): Array of {@link InventoryCountLine}. Count lines, one for each
-         * inventory item being counted. lines.anyOf[1][] (Value): {@link InventoryCountLine}. One
-         * item's line in an inventory count, with the quantities Flint expected, the quantities
-         * counted, and the variance applied. lines.anyOf[2] (Value): null. location_id (Optional):
-         * string or null. ID of the Location whose stock is counted. location_id.anyOf[1] (Value):
-         * string. ID of the Location whose stock is counted. Example:
-         * "loc_01KEZF7C00CMHRRYA3MV996JB2". location_id.anyOf[2] (Value): null.
-         * observation_provenance (Optional): {@link InventoryCountObservationProvenance} or null.
-         * Source system, actor, and time reported with the count's observations.
-         * observation_provenance.anyOf[1] (Value): {@link InventoryCountObservationProvenance}.
-         * Source system, actor, and time reported with the count's observations.
-         * observation_provenance.anyOf[2] (Value): null. status (Optional): string or null.
-         * Whether the count is still open. Applying or canceling a `draft` count ends it. Value
-         * enum: "draft", "applied", "canceled". status.anyOf[1] (Value): string. Whether the count
-         * is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
-         * "applied", "canceled". status.anyOf[2] (Value): null. supported_actions (Optional):
-         * Array of string or null. Actions that can change this count now. A draft can be
-         * canceled, and applied once every line has an observation. Empty after the count is
-         * applied or canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1] (Value):
-         * Array of string. Actions that can change this count now. A draft can be canceled, and
-         * applied once every line has an observation. Empty after the count is applied or
-         * canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1][] (Value): string.
-         * Value enum: "apply", "cancel". supported_actions.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
-         * of this resource's owned state. Send it as `expected_version` when changing the resource
-         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
-         * resource's owned state. Send it as `expected_version` when changing the resource to
-         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
+         * state, including synthetic test events. active_hold (Optional): {@link
+         * FulfillmentHoldPreviousAttributes} or null. Current hold details. Present exactly when
+         * status is on_hold. active_hold.anyOf[1] (Value): {@link
+         * FulfillmentHoldPreviousAttributes}. active_hold.anyOf[2] (Value): null. charges
+         * (Optional): Array of {@link FulfillmentChargeLinkPreviousAttributes} or null. Order
+         * charges associated with this fulfillment. charges.anyOf[1] (Value): Array of {@link
+         * FulfillmentChargeLinkPreviousAttributes}. Order charges associated with this
+         * fulfillment. charges.anyOf[1][] (Value): {@link
+         * FulfillmentChargeLinkPreviousAttributes}. charges.anyOf[2] (Value): null. completed_at
+         * (Optional): string or null. When the fulfillment was completed. Mirrors the completion
+         * time for its type: delivered_at for shipment, local delivery, and digital fulfillments,
+         * picked_up_at for pickup, and service_details.completed_at for service fulfillments.
+         * Omitted until a completion time is recorded. completed_at.anyOf[1] (Value): string. When
+         * the fulfillment was completed. Mirrors the completion time for its type: delivered_at
+         * for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and
+         * service_details.completed_at for service fulfillments. Omitted until a completion time
+         * is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". completed_at.anyOf[2]
+         * (Value): null. created_at (Optional): string or null. When the fulfillment was created,
+         * in RFC3339 format. created_at.anyOf[1] (Value): string. When the fulfillment was
+         * created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer
+         * receiving this fulfillment, when one is set. customer_id.anyOf[1] (Value): string.
+         * Customer receiving this fulfillment, when one is set. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * delivery_choice_group_id (Optional): string or null or null. Delivery choice group that
+         * created this fulfillment. `null` when the merchant created the fulfillment or checkout
+         * created it without a delivery quote. Always present with merchant credentials.
+         * delivery_choice_group_id.anyOf[1] (Value): string or null. Delivery choice group that
+         * created this fulfillment. `null` when the merchant created the fulfillment or checkout
+         * created it without a delivery quote. Always present with merchant credentials. Example:
+         * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". delivery_choice_group_id.anyOf[2] (Value): null.
+         * delivery_execution_leg_id (Optional): string or null or null. Execution leg of the
+         * selected delivery option that created this fulfillment. `null` when the merchant created
+         * the fulfillment or checkout created it without a delivery quote. Always present with
+         * merchant credentials. delivery_execution_leg_id.anyOf[1] (Value): string or null.
+         * Execution leg of the selected delivery option that created this fulfillment. `null` when
+         * the merchant created the fulfillment or checkout created it without a delivery quote.
+         * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
+         * delivery_execution_leg_id.anyOf[2] (Value): null. delivery_method_id (Optional): string
+         * or null or null. Delivery method chosen for this fulfillment. `null` when the merchant
+         * created the fulfillment or checkout created it without a delivery quote. Also `null`
+         * when it was created before this field was added. Always present with merchant
+         * credentials. delivery_method_id.anyOf[1] (Value): string or null. Delivery method chosen
+         * for this fulfillment. `null` when the merchant created the fulfillment or checkout
+         * created it without a delivery quote. Also `null` when it was created before this field
+         * was added. Always present with merchant credentials. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
+         * delivery_selection_id (Optional): string or null or null. Delivery selection that
+         * created this fulfillment. `null` when the merchant created the fulfillment or checkout
+         * created it without a delivery quote. Always present with merchant credentials.
+         * delivery_selection_id.anyOf[1] (Value): string or null. Delivery selection that created
+         * this fulfillment. `null` when the merchant created the fulfillment or checkout created
+         * it without a delivery quote. Always present with merchant credentials. Example:
+         * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". delivery_selection_id.anyOf[2] (Value): null.
+         * device_id (Optional): string or null. Device associated with the fulfillment, when one
+         * is recorded. device_id.anyOf[1] (Value): string. Device associated with the fulfillment,
+         * when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". device_id.anyOf[2]
+         * (Value): null. digital_details (Optional): {@link
+         * DigitalFulfillmentDetailsPreviousAttributes} or null. Delivery URL and completion time
+         * for a digital fulfillment. digital_details.anyOf[1] (Value): {@link
+         * DigitalFulfillmentDetailsPreviousAttributes}. digital_details.anyOf[2] (Value): null.
+         * dispatched_at (Optional): string or null. First time this fulfillment reached
+         * dispatched. dispatched_at.anyOf[1] (Value): string. First time this fulfillment reached
+         * dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z". dispatched_at.anyOf[2]
+         * (Value): null. external_reference_id (Optional): string or null. Caller-owned identifier
+         * for this resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. fulfillment_id
+         * (Optional): string or null. Stable identifier of the fulfillment.
+         * fulfillment_id.anyOf[1] (Value): string. Stable identifier of the fulfillment. Example:
+         * "ful_01KEZF7C00F24WVSTTWR1FQX5T". fulfillment_id.anyOf[2] (Value): null. line_items
+         * (Optional): Array of {@link FulfillmentLineItemPreviousAttributes} or null. Order lines
+         * and quantities allocated to this fulfillment. line_items.anyOf[1] (Value): Array of
+         * {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated to
+         * this fulfillment. line_items.anyOf[1][] (Value): {@link
+         * FulfillmentLineItemPreviousAttributes}. line_items.anyOf[2] (Value): null.
+         * local_delivery_details (Optional): {@link DeliveryFulfillmentDetailsPreviousAttributes}
+         * or null. Courier, delivery window, and handoff details for a local delivery fulfillment.
+         * local_delivery_details.anyOf[1] (Value): {@link
+         * DeliveryFulfillmentDetailsPreviousAttributes}. local_delivery_details.anyOf[2] (Value):
+         * null. location_id (Optional): string or null. Merchant location responsible for this
+         * fulfillment. location_id.anyOf[1] (Value): string. Merchant location responsible for
+         * this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". location_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned key-value
+         * metadata associated with the fulfillment. metadata.anyOf[1] (Value): {@link
+         * MetadataMap}. metadata.anyOf[2] (Value): null. order (Optional): ({@link
+         * ExpandedOrderSummaryPreviousAttributes} or null) or null. Order summary returned when
+         * the order relationship is expanded. Present only when `expand` includes `order`; `null`
+         * when expanded and there is no related order. order.anyOf[1] (Value): ({@link
+         * ExpandedOrderSummaryPreviousAttributes} or null). Order summary returned when the order
+         * relationship is expanded. Present only when `expand` includes `order`; `null` when
+         * expanded and there is no related order. order.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[1].anyOf[2] (Value): null.
+         * order.anyOf[2] (Value): null. order_id (Optional): string or null. Order whose items
+         * this fulfillment delivers. order_id.anyOf[1] (Value): string. Order whose items this
+         * fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2]
+         * (Value): null. order_number (Optional): string or null. Human-readable number of the
+         * order this fulfillment belongs to. Omitted when the order has no number.
+         * order_number.anyOf[1] (Value): string. Human-readable number of the order this
+         * fulfillment belongs to. Omitted when the order has no number. order_number.anyOf[2]
+         * (Value): null. outcome (Optional): {@link FulfillmentOutcomePreviousAttributes} or null.
+         * Terminal outcome details. Present exactly when status is no_show. outcome.anyOf[1]
+         * (Value): {@link FulfillmentOutcomePreviousAttributes}. outcome.anyOf[2] (Value): null.
+         * packages (Optional): Array of {@link ExpandedPackageSummaryPreviousAttributes} or null.
+         * Packages associated with this fulfillment. packages.anyOf[1] (Value): Array of {@link
+         * ExpandedPackageSummaryPreviousAttributes}. Packages associated with this fulfillment.
+         * packages.anyOf[1][] (Value): {@link ExpandedPackageSummaryPreviousAttributes}.
+         * packages.anyOf[2] (Value): null. packed_at (Optional): string or null. First time this
+         * fulfillment reached packed. packed_at.anyOf[1] (Value): string. First time this
+         * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * packed_at.anyOf[2] (Value): null. picked_at (Optional): string or null. First time this
+         * fulfillment reached picked. picked_at.anyOf[1] (Value): string. First time this
+         * fulfillment reached picked. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * picked_at.anyOf[2] (Value): null. pickup_details (Optional): {@link
+         * PickupFulfillmentDetailsPreviousAttributes} or null. Pickup window, pickup mode, and
+         * handoff times for a pickup fulfillment. pickup_details.anyOf[1] (Value): {@link
+         * PickupFulfillmentDetailsPreviousAttributes}. pickup_details.anyOf[2] (Value): null.
+         * recipient (Optional): {@link FulfillmentRecipientPreviousAttributes} or null. Omitted
+         * for a checkout session credential that doesn't act for the customer the buyer verified.
+         * recipient.anyOf[1] (Value): {@link FulfillmentRecipientPreviousAttributes}.
+         * recipient.anyOf[2] (Value): null. scheduled_start_at (Optional): string or null or null.
+         * Derived start of the service schedule or pickup, local delivery, or shipment window.
+         * Null when no schedule is booked, including digital fulfillments. Details remain the
+         * authoritative schedule inputs. Nulls sort first ascending and last descending, then by
+         * fulfillment_id in the same direction. scheduled_start_at.anyOf[1] (Value): string or
+         * null. Derived start of the service schedule or pickup, local delivery, or shipment
+         * window. Null when no schedule is booked, including digital fulfillments. Details remain
+         * the authoritative schedule inputs. Nulls sort first ascending and last descending, then
+         * by fulfillment_id in the same direction. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". scheduled_start_at.anyOf[2] (Value): null. service_details
+         * (Optional): {@link ServiceFulfillmentDetailsPreviousAttributes} or null. Schedule and
+         * completion details for a service fulfillment. service_details.anyOf[1] (Value): {@link
+         * ServiceFulfillmentDetailsPreviousAttributes}. service_details.anyOf[2] (Value): null.
+         * shipment_details (Optional): {@link ShipmentFulfillmentDetailsPreviousAttributes} or
+         * null. Shipping schedule and ship time for a shipment fulfillment. Present only on
+         * shipment fulfillments with at least one value. shipment_details.anyOf[1] (Value): {@link
+         * ShipmentFulfillmentDetailsPreviousAttributes}. shipment_details.anyOf[2] (Value): null.
+         * shipments (Optional): Array of {@link ExpandedShipmentSummaryPreviousAttributes} or
+         * null. Shipments associated with this fulfillment. shipments.anyOf[1] (Value): Array of
+         * {@link ExpandedShipmentSummaryPreviousAttributes}. Shipments associated with this
+         * fulfillment. shipments.anyOf[1][] (Value): {@link
+         * ExpandedShipmentSummaryPreviousAttributes}. shipments.anyOf[2] (Value): null. status
+         * (Optional): string or null. Current fulfillment lifecycle status. Read supported_actions
+         * for available transitions. - `pending`: Work has not started and has not been accepted.
+         * Approval may be required before work can begin. - `accepted`: The provider accepted the
+         * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+         * restore active_hold.previous_status, or use a supported forward action. - `in_progress`:
+         * Work has started and is not yet ready or complete. - `ready`: The fulfillment is ready
+         * for pickup, handoff, or completion. - `completed`: All fulfillment work completed
+         * successfully. - `canceled`: The fulfillment was intentionally canceled and will not
+         * continue. - `failed`: The fulfillment could not be completed. Resolve the recorded
+         * reason before creating replacement work. - `scheduled`: The fulfillment is scheduled for
+         * its recorded service window. - `preparing`: Warehouse or provider preparation is
+         * underway. - `picked`: The assigned items have been picked. - `packed`: The assigned
+         * items have been packed. - `dispatched`: The fulfillment left its origin for delivery or
+         * handoff. - `no_show`: A service appointment was missed. Read outcome for the recorded
+         * reason. Value enum: "pending", "accepted", "on_hold", "in_progress", "ready",
+         * "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+         * "dispatched", "no_show". status.anyOf[1] (Value): string. Current fulfillment lifecycle
+         * status. Read supported_actions for available transitions. - `pending`: Work has not
+         * started and has not been accepted. Approval may be required before work can begin. -
+         * `accepted`: The provider accepted the fulfillment; work has not started. - `on_hold`:
+         * Work is paused. Release the hold to restore active_hold.previous_status, or use a
+         * supported forward action. - `in_progress`: Work has started and is not yet ready or
+         * complete. - `ready`: The fulfillment is ready for pickup, handoff, or completion. -
+         * `completed`: All fulfillment work completed successfully. - `canceled`: The fulfillment
+         * was intentionally canceled and will not continue. - `failed`: The fulfillment could not
+         * be completed. Resolve the recorded reason before creating replacement work. -
+         * `scheduled`: The fulfillment is scheduled for its recorded service window. -
+         * `preparing`: Warehouse or provider preparation is underway. - `picked`: The assigned
+         * items have been picked. - `packed`: The assigned items have been packed. - `dispatched`:
+         * The fulfillment left its origin for delivery or handoff. - `no_show`: A service
+         * appointment was missed. Read outcome for the recorded reason. Value enum: "pending",
+         * "accepted", "on_hold", "in_progress", "ready", "completed", "canceled", "failed",
+         * "scheduled", "preparing", "picked", "packed", "dispatched", "no_show". status.anyOf[2]
+         * (Value): null. supported_actions (Optional): Array of string or null. Read-only
+         * lifecycle actions accepted now, based on the fulfillment, its order payment status,
+         * holds, and shipment progress. Empty when none are available. Values name the verb route
+         * with hyphens replaced by underscores. Always present with merchant credentials. [] enum:
+         * "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show",
+         * "mark_packed", "mark_picked", "mark_preparing", "mark_ready", "release_hold",
+         * "schedule", "start". supported_actions.anyOf[1] (Value): Array of string. Read-only
+         * lifecycle actions accepted now, based on the fulfillment, its order payment status,
+         * holds, and shipment progress. Empty when none are available. Values name the verb route
+         * with hyphens replaced by underscores. Always present with merchant credentials. [] enum:
+         * "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show",
+         * "mark_packed", "mark_picked", "mark_preparing", "mark_ready", "release_hold",
+         * "schedule", "start". supported_actions.anyOf[1][] (Value): string. Value enum: "accept",
+         * "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed",
+         * "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start".
+         * supported_actions.anyOf[2] (Value): null. terminal_at (Optional): string or null. When
+         * the fulfillment entered a terminal state: completed, canceled, failed, or no_show. This
+         * records the state transition; completed_at records completion evidence supplied for the
+         * fulfillment. terminal_at.anyOf[1] (Value): string. When the fulfillment entered a
+         * terminal state: completed, canceled, failed, or no_show. This records the state
+         * transition; completed_at records completion evidence supplied for the fulfillment.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". terminal_at.anyOf[2] (Value): null.
+         * type (Optional): string or null. How the items are delivered: shipment, pickup, local
+         * delivery, digital delivery, or service. Value enum: "shipment", "pickup",
+         * "local_delivery", "digital", "service", "handover". type.anyOf[1] (Value): string. How
+         * the items are delivered: shipment, pickup, local delivery, digital delivery, or service.
+         * Value enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
+         * type.anyOf[2] (Value): null. updated_at (Optional): string or null. When the fulfillment
+         * was last updated, in RFC3339 format. updated_at.anyOf[1] (Value): string. When the
+         * fulfillment was last updated, in RFC3339 format. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Monotonic fulfillment version for expected_version checks. version.anyOf[1]
+         * (Value): integer. Monotonic fulfillment version for expected_version checks. Format:
+         * uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
         })
             & ({
             /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * Current hold details. Present exactly when status is on_hold. anyOf[1] (Value):
+             * {@link FulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "applied_at"?: ((string) | (null));
+            "active_hold"?: ((FulfillmentHoldPreviousAttributes) | (null) | (unknown));
             /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * Order charges associated with this fulfillment. anyOf[1] (Value): Array of {@link
+             * FulfillmentChargeLinkPreviousAttributes}. Order charges associated with this
+             * fulfillment. anyOf[1][] (Value): {@link FulfillmentChargeLinkPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "charges"?: ((Array<FulfillmentChargeLinkPreviousAttributes>) | (null));
+            /**
+             * When the fulfillment was completed. Mirrors the completion time for its type:
+             * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
+             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
+             * a completion time is recorded. anyOf[1] (Value): string. When the fulfillment was
+             * completed. Mirrors the completion time for its type: delivered_at for shipment,
+             * local delivery, and digital fulfillments, picked_up_at for pickup, and
+             * service_details.completed_at for service fulfillments. Omitted until a completion
+             * time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
+             * (Value): null.
+             */
+            "completed_at"?: ((string) | (null));
+            /**
+             * When the fulfillment was created, in RFC3339 format. anyOf[1] (Value): string. When
+             * the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "created_at"?: ((string) | (null));
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
-             * string. The Idempotency-Key of the request that created this resource; on a
-             * movement, of the command that wrote it. Omitted when that request had no key.
+             * Customer receiving this fulfillment, when one is set. anyOf[1] (Value): string.
+             * Customer receiving this fulfillment, when one is set. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * Delivery choice group that created this fulfillment. `null` when the merchant
+             * created the fulfillment or checkout created it without a delivery quote. Always
+             * present with merchant credentials. anyOf[1] (Value): string or null. Delivery choice
+             * group that created this fulfillment. `null` when the merchant created the
+             * fulfillment or checkout created it without a delivery quote. Always present with
+             * merchant credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". anyOf[2] (Value):
+             * null.
+             */
+            "delivery_choice_group_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Execution leg of the selected delivery option that created this fulfillment. `null`
+             * when the merchant created the fulfillment or checkout created it without a delivery
+             * quote. Always present with merchant credentials. anyOf[1] (Value): string or null.
+             * Execution leg of the selected delivery option that created this fulfillment. `null`
+             * when the merchant created the fulfillment or checkout created it without a delivery
+             * quote. Always present with merchant credentials. Example:
+             * "dleg_01KEZF7C00VB59BKTRC8W4KR4M". anyOf[2] (Value): null.
+             */
+            "delivery_execution_leg_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Delivery method chosen for this fulfillment. `null` when the merchant created the
+             * fulfillment or checkout created it without a delivery quote. Also `null` when it was
+             * created before this field was added. Always present with merchant credentials.
+             * anyOf[1] (Value): string or null. Delivery method chosen for this fulfillment.
+             * `null` when the merchant created the fulfillment or checkout created it without a
+             * delivery quote. Also `null` when it was created before this field was added. Always
+             * present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
              * anyOf[2] (Value): null.
              */
-            "idempotency_key"?: ((string) | (null));
+            "delivery_method_id"?: ((string | null) | (null) | (unknown));
             /**
-             * Unique identifier for this inventory count, prefixed `invc_`. anyOf[1] (Value):
-             * string. Unique identifier for this inventory count, prefixed `invc_`. Example:
-             * "invc_01KEZF7C00B47NXRE3ET37QQ59". anyOf[2] (Value): null.
+             * Delivery selection that created this fulfillment. `null` when the merchant created
+             * the fulfillment or checkout created it without a delivery quote. Always present with
+             * merchant credentials. anyOf[1] (Value): string or null. Delivery selection that
+             * created this fulfillment. `null` when the merchant created the fulfillment or
+             * checkout created it without a delivery quote. Always present with merchant
+             * credentials. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2] (Value): null.
              */
-            "inventory_count_id"?: ((string) | (null));
+            "delivery_selection_id"?: ((string | null) | (null) | (unknown));
             /**
-             * Count lines, one for each inventory item being counted. anyOf[1] (Value): Array of
-             * {@link InventoryCountLine}. Count lines, one for each inventory item being counted.
-             * anyOf[1][] (Value): {@link InventoryCountLine}. One item's line in an inventory
-             * count, with the quantities Flint expected, the quantities counted, and the variance
-             * applied. anyOf[2] (Value): null.
+             * Device associated with the fulfillment, when one is recorded. anyOf[1] (Value):
+             * string. Device associated with the fulfillment, when one is recorded. Example:
+             * "dev_01KEZF7C0051ZP8MZSGHP989F6". anyOf[2] (Value): null.
              */
-            "lines"?: ((Array<InventoryCountLine>) | (null));
+            "device_id"?: ((string) | (null));
             /**
-             * ID of the Location whose stock is counted. anyOf[1] (Value): string. ID of the
-             * Location whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2]
+             * Delivery URL and completion time for a digital fulfillment. anyOf[1] (Value): {@link
+             * DigitalFulfillmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "digital_details"?: ((DigitalFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            /**
+             * First time this fulfillment reached dispatched. anyOf[1] (Value): string. First time
+             * this fulfillment reached dispatched. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "dispatched_at"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Stable identifier of the fulfillment. anyOf[1] (Value): string. Stable identifier of
+             * the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". anyOf[2] (Value): null.
+             */
+            "fulfillment_id"?: ((string) | (null));
+            /**
+             * Order lines and quantities allocated to this fulfillment. anyOf[1] (Value): Array of
+             * {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated
+             * to this fulfillment. anyOf[1][] (Value): {@link
+             * FulfillmentLineItemPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<FulfillmentLineItemPreviousAttributes>) | (null));
+            /**
+             * Courier, delivery window, and handoff details for a local delivery fulfillment.
+             * anyOf[1] (Value): {@link DeliveryFulfillmentDetailsPreviousAttributes}. anyOf[2]
              * (Value): null.
+             */
+            "local_delivery_details"?: ((DeliveryFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            /**
+             * Merchant location responsible for this fulfillment. anyOf[1] (Value): string.
+             * Merchant location responsible for this fulfillment. Example:
+             * "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
              */
             "location_id"?: ((string) | (null));
             /**
-             * Source system, actor, and time reported with the count's observations. anyOf[1]
-             * (Value): {@link InventoryCountObservationProvenance}. Source system, actor, and time
-             * reported with the count's observations. anyOf[2] (Value): null.
+             * Caller-owned key-value metadata associated with the fulfillment. anyOf[1] (Value):
+             * {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "observation_provenance"?: ((InventoryCountObservationProvenance) | (null));
+            "metadata"?: ((MetadataMap) | (null) | (unknown));
             /**
-             * Whether the count is still open. Applying or canceling a `draft` count ends it.
-             * Value enum: "draft", "applied", "canceled". anyOf[1] (Value): string. Whether the
-             * count is still open. Applying or canceling a `draft` count ends it. Value enum:
-             * "draft", "applied", "canceled". anyOf[2] (Value): null.
+             * Order summary returned when the order relationship is expanded. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). Order
+             * summary returned when the order relationship is expanded. Present only when `expand`
+             * includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
              */
-            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
+            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
             /**
-             * Actions that can change this count now. A draft can be canceled, and applied once
-             * every line has an observation. Empty after the count is applied or canceled. []
-             * enum: "apply", "cancel". anyOf[1] (Value): Array of string. Actions that can change
-             * this count now. A draft can be canceled, and applied once every line has an
-             * observation. Empty after the count is applied or canceled. [] enum: "apply",
-             * "cancel". anyOf[1][] (Value): string. Value enum: "apply", "cancel". anyOf[2]
+             * Order whose items this fulfillment delivers. anyOf[1] (Value): string. Order whose
+             * items this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2]
              * (Value): null.
              */
-            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
+            "order_id"?: ((string) | (null));
             /**
-             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Human-readable number of the order this fulfillment belongs to. Omitted when the
+             * order has no number. anyOf[1] (Value): string. Human-readable number of the order
+             * this fulfillment belongs to. Omitted when the order has no number. anyOf[2] (Value):
+             * null.
+             */
+            "order_number"?: ((string) | (null));
+            /**
+             * Terminal outcome details. Present exactly when status is no_show. anyOf[1] (Value):
+             * {@link FulfillmentOutcomePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "outcome"?: ((FulfillmentOutcomePreviousAttributes) | (null) | (unknown));
+            /**
+             * Packages associated with this fulfillment. anyOf[1] (Value): Array of {@link
+             * ExpandedPackageSummaryPreviousAttributes}. Packages associated with this
+             * fulfillment. anyOf[1][] (Value): {@link ExpandedPackageSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "packages"?: ((Array<ExpandedPackageSummaryPreviousAttributes>) | (null));
+            /**
+             * First time this fulfillment reached packed. anyOf[1] (Value): string. First time
+             * this fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "packed_at"?: ((string) | (null));
+            /**
+             * First time this fulfillment reached picked. anyOf[1] (Value): string. First time
+             * this fulfillment reached picked. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "picked_at"?: ((string) | (null));
+            /**
+             * Pickup window, pickup mode, and handoff times for a pickup fulfillment. anyOf[1]
+             * (Value): {@link PickupFulfillmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "pickup_details"?: ((PickupFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            /**
+             * Omitted for a checkout session credential that doesn't act for the customer the
+             * buyer verified. anyOf[1] (Value): {@link FulfillmentRecipientPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "recipient"?: ((FulfillmentRecipientPreviousAttributes) | (null) | (unknown));
+            /**
+             * Derived start of the service schedule or pickup, local delivery, or shipment window.
+             * Null when no schedule is booked, including digital fulfillments. Details remain the
+             * authoritative schedule inputs. Nulls sort first ascending and last descending, then
+             * by fulfillment_id in the same direction. anyOf[1] (Value): string or null. Derived
+             * start of the service schedule or pickup, local delivery, or shipment window. Null
+             * when no schedule is booked, including digital fulfillments. Details remain the
+             * authoritative schedule inputs. Nulls sort first ascending and last descending, then
+             * by fulfillment_id in the same direction. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "scheduled_start_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * Schedule and completion details for a service fulfillment. anyOf[1] (Value): {@link
+             * ServiceFulfillmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "service_details"?: ((ServiceFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            /**
+             * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+             * fulfillments with at least one value. anyOf[1] (Value): {@link
+             * ShipmentFulfillmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "shipment_details"?: ((ShipmentFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            /**
+             * Shipments associated with this fulfillment. anyOf[1] (Value): Array of {@link
+             * ExpandedShipmentSummaryPreviousAttributes}. Shipments associated with this
+             * fulfillment. anyOf[1][] (Value): {@link ExpandedShipmentSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "shipments"?: ((Array<ExpandedShipmentSummaryPreviousAttributes>) | (null));
+            /**
+             * Current fulfillment lifecycle status. Read supported_actions for available
+             * transitions. - `pending`: Work has not started and has not been accepted. Approval
+             * may be required before work can begin. - `accepted`: The provider accepted the
+             * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+             * restore active_hold.previous_status, or use a supported forward action. -
+             * `in_progress`: Work has started and is not yet ready or complete. - `ready`: The
+             * fulfillment is ready for pickup, handoff, or completion. - `completed`: All
+             * fulfillment work completed successfully. - `canceled`: The fulfillment was
+             * intentionally canceled and will not continue. - `failed`: The fulfillment could not
+             * be completed. Resolve the recorded reason before creating replacement work. -
+             * `scheduled`: The fulfillment is scheduled for its recorded service window. -
+             * `preparing`: Warehouse or provider preparation is underway. - `picked`: The assigned
+             * items have been picked. - `packed`: The assigned items have been packed. -
+             * `dispatched`: The fulfillment left its origin for delivery or handoff. - `no_show`:
+             * A service appointment was missed. Read outcome for the recorded reason. Value enum:
+             * "pending", "accepted", "on_hold", "in_progress", "ready", "completed", "canceled",
+             * "failed", "scheduled", "preparing", "picked", "packed", "dispatched", "no_show".
+             * anyOf[1] (Value): string. Current fulfillment lifecycle status. Read
+             * supported_actions for available transitions. - `pending`: Work has not started and
+             * has not been accepted. Approval may be required before work can begin. - `accepted`:
+             * The provider accepted the fulfillment; work has not started. - `on_hold`: Work is
+             * paused. Release the hold to restore active_hold.previous_status, or use a supported
+             * forward action. - `in_progress`: Work has started and is not yet ready or complete.
+             * - `ready`: The fulfillment is ready for pickup, handoff, or completion. -
+             * `completed`: All fulfillment work completed successfully. - `canceled`: The
+             * fulfillment was intentionally canceled and will not continue. - `failed`: The
+             * fulfillment could not be completed. Resolve the recorded reason before creating
+             * replacement work. - `scheduled`: The fulfillment is scheduled for its recorded
+             * service window. - `preparing`: Warehouse or provider preparation is underway. -
+             * `picked`: The assigned items have been picked. - `packed`: The assigned items have
+             * been packed. - `dispatched`: The fulfillment left its origin for delivery or
+             * handoff. - `no_show`: A service appointment was missed. Read outcome for the
+             * recorded reason. Value enum: "pending", "accepted", "on_hold", "in_progress",
+             * "ready", "completed", "canceled", "failed", "scheduled", "preparing", "picked",
+             * "packed", "dispatched", "no_show". anyOf[2] (Value): null.
+             */
+            "status"?: (("pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {}))
+                | (null));
+            /**
+             * Read-only lifecycle actions accepted now, based on the fulfillment, its order
+             * payment status, holds, and shipment progress. Empty when none are available. Values
+             * name the verb route with hyphens replaced by underscores. Always present with
+             * merchant credentials. [] enum: "accept", "cancel", "complete", "dispatch", "fail",
+             * "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+             * "mark_ready", "release_hold", "schedule", "start". anyOf[1] (Value): Array of
+             * string. Read-only lifecycle actions accepted now, based on the fulfillment, its
+             * order payment status, holds, and shipment progress. Empty when none are available.
+             * Values name the verb route with hyphens replaced by underscores. Always present with
+             * merchant credentials. [] enum: "accept", "cancel", "complete", "dispatch", "fail",
+             * "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+             * "mark_ready", "release_hold", "schedule", "start". anyOf[1][] (Value): string. Value
+             * enum: "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show",
+             * "mark_packed", "mark_picked", "mark_preparing", "mark_ready", "release_hold",
+             * "schedule", "start". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>)
+                | (null));
+            /**
+             * When the fulfillment entered a terminal state: completed, canceled, failed, or
+             * no_show. This records the state transition; completed_at records completion evidence
+             * supplied for the fulfillment. anyOf[1] (Value): string. When the fulfillment entered
+             * a terminal state: completed, canceled, failed, or no_show. This records the state
+             * transition; completed_at records completion evidence supplied for the fulfillment.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "terminal_at"?: ((string) | (null));
+            /**
+             * How the items are delivered: shipment, pickup, local delivery, digital delivery, or
+             * service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+             * "handover". anyOf[1] (Value): string. How the items are delivered: shipment, pickup,
+             * local delivery, digital delivery, or service. Value enum: "shipment", "pickup",
+             * "local_delivery", "digital", "service", "handover". anyOf[2] (Value): null.
+             */
+            "type"?: (("shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {}))
+                | (null));
+            /**
+             * When the fulfillment was last updated, in RFC3339 format. anyOf[1] (Value): string.
+             * When the fulfillment was last updated, in RFC3339 format. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "updated_at"?: ((string) | (null));
             /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
-             * version of this resource's owned state. Send it as `expected_version` when changing
-             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
-             * null.
+             * Monotonic fulfillment version for expected_version checks. anyOf[1] (Value):
+             * integer. Monotonic fulfillment version for expected_version checks. Format: uint64.
+             * minimum: 1. anyOf[2] (Value): null.
              */
             "version"?: ((number) | (null));
         });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
-    /** Value enum: "inventory_count.applied". */
-    "event_type"?: "inventory_count.applied";
+    /** Value enum: "fulfillment.updated". */
+    "event_type"?: "fulfillment.updated";
+});
+export type FulfillmentsAcceptParams = (InputValue<AcceptFulfillmentRequestInput>
+    | {
+    "buyer_notification_behavior"?: never;
+    "expected_version"?: never;
+    "occurred_at"?: never;
+    "reason_message"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FulfillmentsCancelParams = (InputValue<CancelFulfillmentRequestInput>
+    | {
+    "buyer_notification_behavior"?: never;
+    "expected_version"?: never;
+    "occurred_at"?: never;
+    "reason_message"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FulfillmentsCompleteParams = (InputValue<CompleteFulfillmentRequestInput>
+    | {
+    "buyer_notification_behavior"?: never;
+    "expected_version"?: never;
+    "occurred_at"?: never;
+    "reason_message"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FulfillmentsCreateParams = (CreateFulfillmentRequestInput)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FulfillmentsDispatchParams = (InputValue<DispatchFulfillmentRequestInput>
+    | {
+    "buyer_notification_behavior"?: never;
+    "expected_version"?: never;
+    "occurred_at"?: never;
+    "reason_message"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FulfillmentsFailParams = (InputValue<FailFulfillmentRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FulfillmentsGetParams = {
+    /**
+     * Include related objects in the response. Supported expansions: order, packages, shipments.
+     * Expansion requires commerce.orders.read. Limits: at most 10 unique expand paths per request.
+     * To-many expansions are capped at 20 related objects per path. [] enum: "order", "packages",
+     * "shipments". Value enum: "order", "packages", "shipments". anyOf[1] (Value): Array of
+     * string. [] enum: "order", "packages", "shipments". anyOf[1][] (Value): string. Value enum:
+     * "order", "packages", "shipments". anyOf[2] (Value): string. Value enum: "order", "packages",
+     * "shipments".
+     */
+    "expand"?: InputValue<("order" | "packages" | "shipments") | readonly ("order" | "packages" | "shipments")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FulfillmentsHoldParams = (InputValue<HoldFulfillmentRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FulfillmentsListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Include related objects in the response. Supported expansions: order. Expansion requires
+     * commerce.orders.read. Limits: at most 10 unique expand paths per request. [] enum: "order".
+     * Value enum: "order". anyOf[1] (Value): Array of string. [] enum: "order". anyOf[1][]
+     * (Value): string. Value enum: "order". anyOf[2] (Value): string. Value enum: "order".
+     */
+    "expand"?: InputValue<("order") | readonly ("order")[]>;
+    /**
+     * Filter by order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: InputValue<string>;
+    /**
+     * Exact match on customer_id. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: InputValue<string>;
+    /**
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842".
+     */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
+     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
+     * pending resource does not prove that the operation succeeded, and an empty list does not
+     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
+     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     */
+    "idempotency_key"?: InputValue<string>;
+    /**
+     * Search across fulfillment_id and external_reference_id. Also matches an exact order number.
+     * Text fields match any part of the value, and %, _ and \ are ordinary characters, not
+     * wildcards. IDs match from the start and need the type prefix, such as ful_01.
+     */
+    "query"?: InputValue<string>;
+    /**
+     * Filter by exact fulfillment status. Values within this filter are ORed; combined with other
+     * filters using AND. Values are trimmed and deduplicated in first-seen order; empty or unknown
+     * entries are rejected. Values within this filter are ORed; separate filters are ANDed. []
+     * enum: "pending", "on_hold", "in_progress", "ready", "completed", "canceled", "failed",
+     * "scheduled", "accepted", "preparing", "picked", "packed", "dispatched", "no_show". Value
+     * enum: "pending", "on_hold", "in_progress", "ready", "completed", "canceled", "failed",
+     * "scheduled", "accepted", "preparing", "picked", "packed", "dispatched", "no_show". anyOf[1]
+     * (Value): Array of string. minItems: 1. [] enum: "pending", "on_hold", "in_progress",
+     * "ready", "completed", "canceled", "failed", "scheduled", "accepted", "preparing", "picked",
+     * "packed", "dispatched", "no_show". anyOf[1][] (Value): string. Value enum: "pending",
+     * "on_hold", "in_progress", "ready", "completed", "canceled", "failed", "scheduled",
+     * "accepted", "preparing", "picked", "packed", "dispatched", "no_show". anyOf[2] (Value):
+     * string. Value enum: "pending", "on_hold", "in_progress", "ready", "completed", "canceled",
+     * "failed", "scheduled", "accepted", "preparing", "picked", "packed", "dispatched", "no_show".
+     */
+    "status"?: InputValue<("pending"
+        | "on_hold"
+        | "in_progress"
+        | "ready"
+        | "completed"
+        | "canceled"
+        | "failed"
+        | "scheduled"
+        | "accepted"
+        | "preparing"
+        | "picked"
+        | "packed"
+        | "dispatched"
+        | "no_show")
+        | readonly ("pending"
+        | "on_hold"
+        | "in_progress"
+        | "ready"
+        | "completed"
+        | "canceled"
+        | "failed"
+        | "scheduled"
+        | "accepted"
+        | "preparing"
+        | "picked"
+        | "packed"
+        | "dispatched"
+        | "no_show")[]>;
+    /**
+     * Filter by fulfillment type. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
+     * Value enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "shipment", "pickup",
+     * "local_delivery", "digital", "service", "handover". anyOf[1][] (Value): string. Value enum:
+     * "shipment", "pickup", "local_delivery", "digital", "service", "handover". anyOf[2] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+     * "handover".
+     */
+    "type"?: InputValue<("shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover")
+        | readonly ("shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover")[]>;
+    /**
+     * Filter by assigned Location ID. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: InputValue<string>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by fulfillment_id. Default:
+     * "created_at". Value enum: "created_at", "scheduled_start_at", "terminal_at".
+     */
+    "sort_by"?: InputValue<"created_at" | "scheduled_start_at" | "terminal_at">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FulfillmentsMarkNoShowParams = (InputValue<MarkFulfillmentNoShowRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FulfillmentsMarkPackedParams = (InputValue<MarkFulfillmentPackedRequestInput>
+    | {
+    "buyer_notification_behavior"?: never;
+    "expected_version"?: never;
+    "occurred_at"?: never;
+    "reason_message"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FulfillmentsMarkPickedParams = (InputValue<MarkFulfillmentPickedRequestInput>
+    | {
+    "buyer_notification_behavior"?: never;
+    "expected_version"?: never;
+    "occurred_at"?: never;
+    "reason_message"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FulfillmentsMarkPreparingParams = (InputValue<MarkFulfillmentPreparingRequestInput>
+    | {
+    "buyer_notification_behavior"?: never;
+    "expected_version"?: never;
+    "occurred_at"?: never;
+    "reason_message"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FulfillmentsMarkReadyParams = (InputValue<MarkFulfillmentReadyRequestInput>
+    | {
+    "buyer_notification_behavior"?: never;
+    "expected_version"?: never;
+    "occurred_at"?: never;
+    "reason_message"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FulfillmentsReleaseHoldParams = (InputValue<ReleaseFulfillmentHoldRequestInput>
+    | {
+    "expected_version"?: never;
+    "occurred_at"?: never;
+    "reason_message"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FulfillmentsScheduleParams = (InputValue<ScheduleFulfillmentRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FulfillmentsStartParams = (InputValue<StartFulfillmentRequestInput>
+    | {
+    "buyer_notification_behavior"?: never;
+    "expected_version"?: never;
+    "occurred_at"?: never;
+    "reason_message"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FulfillmentsUpdateParams = (InputValue<UpdateFulfillmentRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** A response containing `ReturnDisposition` data. */
+export type GetReturnDispositionResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A decision about how
+     * returned merchandise will be handled.
+     */
+    "data": ReturnDisposition;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `ReturnInspection` data. */
+export type GetReturnInspectionResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. An assessment of the
+     * condition of returned items.
+     */
+    "data": ReturnInspection;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `ReturnLineItem` data. */
+export type GetReturnLineItemResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. An item included in a
+     * return request.
+     */
+    "data": ReturnLineItem;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `ReturnPolicy` data. */
+export type GetReturnPolicyResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. Rules governing whether
+     * and how purchased items can be returned.
+     */
+    "data": ReturnPolicy;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `ReturnPolicyRevision` data. */
+export type GetReturnPolicyRevisionResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A saved revision of a
+     * return policy.
+     */
+    "data": ReturnPolicyRevision;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `ReturnReason` data. */
+export type GetReturnReasonResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A reason customers can
+     * select when requesting a return.
+     */
+    "data": ReturnReason;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `ReturnReceipt` data. */
+export type GetReturnReceiptResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A record of returned
+     * items arriving at a location.
+     */
+    "data": ReturnReceipt;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `ReturnResolution` data. */
+export type GetReturnResolutionResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The refund, exchange, or
+     * other outcome of a return.
+     */
+    "data": ReturnResolution;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `Return` data. */
+export type GetReturnResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A request to send
+     * purchased items back.
+     */
+    "data": ReturnResource;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Merchant-issued purchased gift card. Posted balance includes reserved value; available value is
+ * balance minus reservations. Frozen value remains part of outstanding liability. Gift cards are
+ * independent resources and cannot be transferred across merchants or currencies.
+ */
+export type GiftCard = {
+    /**
+     * The balance minus reserved value: what can be spent now. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "available_money": MoneyValue;
+    /**
+     * The posted balance, including value reserved for redemptions in progress. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "balance_money": MoneyValue;
+    /**
+     * Origin of the current code: generated means Flint issued a random code; imported means the
+     * merchant supplied an existing code during import. Rotating the code resets this to
+     * generated. Value enum: "generated", "imported".
+     */
+    "code_source": "generated" | "imported" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * Value enum: "USD".
+     */
+    "currency": "USD" | (string & {});
+    /**
+     * ID of the customer associated with the card. `null` when no customer is associated. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. `null` when none is set.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string | null;
+    /**
+     * Unique identifier for this gift card, prefixed `gc_`. Example:
+     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     */
+    "gift_card_id": string;
+    /**
+     * RFC3339 timestamp. `null` when no value has been loaded onto the card. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "last_loaded_at": string | null;
+    /**
+     * RFC3339 timestamp. `null` when the card has never been redeemed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "last_redeemed_at": string | null;
+    /** Last four characters of the card's current code. minLength: 4. maxLength: 4. */
+    "last4": string;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /**
+     * Value held for redemptions in progress. It isn't available to other payments until the
+     * redemption succeeds or is released. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "reserved_money": MoneyValue;
+    /**
+     * The restrictions that keep the card frozen. unfreeze is supported only when every
+     * restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a gift card
+     * funding disposition. [] (Value): {@link GiftCardRestriction}. A restriction on a gift card,
+     * either a merchant freeze or a funding dispute, with its reason or dispute details.
+     */
+    "restrictions": Array<GiftCardRestriction>;
+    /**
+     * Where the card is in its lifecycle. Only an `active` card can be spent. Value enum:
+     * "pending", "active", "frozen", "closed".
+     */
+    "status": "pending" | "active" | "frozen" | "closed" | (string & {});
+    /**
+     * Lifecycle actions accepted for the stored card state, independent of the caller's
+     * credentials. Empty when no action is available. [] enum: "adjust_balance", "cash_out",
+     * "close", "freeze", "unfreeze". [] (Value): string. Value enum: "adjust_balance", "cash_out",
+     * "close", "freeze", "unfreeze".
+     */
+    "supported_actions": Array<"adjust_balance" | "cash_out" | "close" | "freeze" | "unfreeze" | (string & {})>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64.
+     */
+    "version": number;
+};
+export type GiftCardCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "available_money": MoneyValue;
+            "balance_money": MoneyValue;
+            "code_source": "generated" | "imported" | (string & {});
+            "created_at": string;
+            "currency": "USD" | (string & {});
+            "customer_id": string | null;
+            "external_reference_id": string | null;
+            "gift_card_id": string;
+            "last_loaded_at": string | null;
+            "last_redeemed_at": string | null;
+            "last4": string;
+            "merchant_id": string;
+            "reserved_money": MoneyValue;
+            "restrictions": Array<GiftCardRestriction>;
+            "status": "pending" | "active" | "frozen" | "closed" | (string & {});
+            "supported_actions": Array<"adjust_balance" | "cash_out" | "close" | "freeze" | "unfreeze" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "gift_card.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "available_money": MoneyValue;
+            "balance_money": MoneyValue;
+            "code_source": "generated" | "imported" | (string & {});
+            "created_at": string;
+            "currency": "USD" | (string & {});
+            "customer_id": string | null;
+            "external_reference_id": string | null;
+            "gift_card_id": string;
+            "last_loaded_at": string | null;
+            "last_redeemed_at": string | null;
+            "last4": string;
+            "merchant_id": string;
+            "reserved_money": MoneyValue;
+            "restrictions": Array<GiftCardRestriction>;
+            "status": "pending" | "active" | "frozen" | "closed" | (string & {});
+            "supported_actions": Array<"adjust_balance" | "cash_out" | "close" | "freeze" | "unfreeze" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "gift_card.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "gift_card.created";
 });
 /**
- * One item's line in an inventory count, with the quantities Flint expected, the quantities
- * counted, and the variance applied.
+ * The `gift_card.created` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
  */
-export type InventoryCountLine = {
+export type GiftCardCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Physical version accepted with the latest saved observation. Meaningful once
-     * counted_on_hand_quantity is present. Applying the count requires the same physical version.
-     * Format: int64. minimum: 0.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.available_money (Required): {@link MoneyValue}. The balance minus
+     * reserved value: what can be spent now. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code. object.balance_money (Required): {@link MoneyValue}. The
+     * posted balance, including value reserved for redemptions in progress. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code. object.code_source
+     * (Required): string. Origin of the current code: generated means Flint issued a random code;
+     * imported means the merchant supplied an existing code during import. Rotating the code
+     * resets this to generated. Value enum: "generated", "imported". object.created_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.currency (Required): string. ISO 4217 currency code. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD". Value enum: "USD". object.customer_id (Required):
+     * string or null. ID of the customer associated with the card. `null` when no customer is
+     * associated. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.external_reference_id
+     * (Required): string or null. Caller-owned identifier for this resource in an external system.
+     * `null` when none is set. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     * object.gift_card_id (Required): string. Unique identifier for this gift card, prefixed
+     * `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.last_loaded_at (Required): string or
+     * null. RFC3339 timestamp. `null` when no value has been loaded onto the card. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.last_redeemed_at (Required): string or
+     * null. RFC3339 timestamp. `null` when the card has never been redeemed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.last4 (Required): string. Last four characters of
+     * the card's current code. minLength: 4. maxLength: 4. object.merchant_id (Required): string.
+     * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.reserved_money (Required): {@link MoneyValue}. Value held for redemptions in
+     * progress. It isn't available to other payments until the redemption succeeds or is released.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.restrictions (Required): Array of {@link GiftCardRestriction}. The restrictions that
+     * keep the card frozen. unfreeze is supported only when every restriction is merchant_freeze.
+     * A funding_dispute with dispute_status lost needs a gift card funding disposition.
+     * object.restrictions[] (Value): {@link GiftCardRestriction}. A restriction on a gift card,
+     * either a merchant freeze or a funding dispute, with its reason or dispute details.
+     * object.status (Required): string. Where the card is in its lifecycle. Only an `active` card
+     * can be spent. Value enum: "pending", "active", "frozen", "closed". object.supported_actions
+     * (Required): Array of string. Lifecycle actions accepted for the stored card state,
+     * independent of the caller's credentials. Empty when no action is available. [] enum:
+     * "adjust_balance", "cash_out", "close", "freeze", "unfreeze". object.supported_actions[]
+     * (Value): string. Value enum: "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
+     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.version (Required): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64.
      */
-    "captured_physical_version": number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "counted_damaged_quantity"?: number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "counted_on_hand_quantity"?: number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "counted_quality_control_quantity"?: number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "counted_quarantined_quantity"?: number;
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * available_money (Required): {@link MoneyValue}. The balance minus reserved value: what
+         * can be spent now. Monetary amount represented as integer minor units plus an ISO 4217
+         * currency code. balance_money (Required): {@link MoneyValue}. The posted balance,
+         * including value reserved for redemptions in progress. Monetary amount represented as
+         * integer minor units plus an ISO 4217 currency code. code_source (Required): string.
+         * Origin of the current code: generated means Flint issued a random code; imported means
+         * the merchant supplied an existing code during import. Rotating the code resets this to
+         * generated. Value enum: "generated", "imported". created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". currency (Required):
+         * string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD". Value enum: "USD". customer_id (Required): string or null. ID of the
+         * customer associated with the card. `null` when no customer is associated. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". external_reference_id (Required): string or null.
+         * Caller-owned identifier for this resource in an external system. `null` when none is
+         * set. minLength: 1. maxLength: 255. Example: "warehouse-1842". gift_card_id (Required):
+         * string. Unique identifier for this gift card, prefixed `gc_`. Example:
+         * "gc_01KEZF7C00RT1618WYBM1Y94CG". last_loaded_at (Required): string or null. RFC3339
+         * timestamp. `null` when no value has been loaded onto the card. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". last_redeemed_at (Required): string or null. RFC3339
+         * timestamp. `null` when the card has never been redeemed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". last4 (Required): string. Last four characters of the card's
+         * current code. minLength: 4. maxLength: 4. merchant_id (Required): string. ID of the
+         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * reserved_money (Required): {@link MoneyValue}. Value held for redemptions in progress.
+         * It isn't available to other payments until the redemption succeeds or is released.
+         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+         * restrictions (Required): Array of {@link GiftCardRestriction}. The restrictions that
+         * keep the card frozen. unfreeze is supported only when every restriction is
+         * merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding
+         * disposition. restrictions[] (Value): {@link GiftCardRestriction}. A restriction on a
+         * gift card, either a merchant freeze or a funding dispute, with its reason or dispute
+         * details. status (Required): string. Where the card is in its lifecycle. Only an `active`
+         * card can be spent. Value enum: "pending", "active", "frozen", "closed".
+         * supported_actions (Required): Array of string. Lifecycle actions accepted for the stored
+         * card state, independent of the caller's credentials. Empty when no action is available.
+         * [] enum: "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
+         * supported_actions[] (Value): string. Value enum: "adjust_balance", "cash_out", "close",
+         * "freeze", "unfreeze". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. Format: int64.
+         */
+        "object": {
+            /**
+             * The balance minus reserved value: what can be spent now. Monetary amount represented
+             * as integer minor units plus an ISO 4217 currency code.
+             */
+            "available_money": MoneyValue;
+            /**
+             * The posted balance, including value reserved for redemptions in progress. Monetary
+             * amount represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "balance_money": MoneyValue;
+            /**
+             * Origin of the current code: generated means Flint issued a random code; imported
+             * means the merchant supplied an existing code during import. Rotating the code resets
+             * this to generated. Value enum: "generated", "imported".
+             */
+            "code_source": "generated" | "imported" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+             * "USD". Value enum: "USD".
+             */
+            "currency": "USD" | (string & {});
+            /**
+             * ID of the customer associated with the card. `null` when no customer is associated.
+             * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string | null;
+            /**
+             * Caller-owned identifier for this resource in an external system. `null` when none is
+             * set. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_reference_id": string | null;
+            /**
+             * Unique identifier for this gift card, prefixed `gc_`. Example:
+             * "gc_01KEZF7C00RT1618WYBM1Y94CG".
+             */
+            "gift_card_id": string;
+            /**
+             * RFC3339 timestamp. `null` when no value has been loaded onto the card. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "last_loaded_at": string | null;
+            /**
+             * RFC3339 timestamp. `null` when the card has never been redeemed. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "last_redeemed_at": string | null;
+            /** Last four characters of the card's current code. minLength: 4. maxLength: 4. */
+            "last4": string;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Value held for redemptions in progress. It isn't available to other payments until
+             * the redemption succeeds or is released. Monetary amount represented as integer minor
+             * units plus an ISO 4217 currency code.
+             */
+            "reserved_money": MoneyValue;
+            /**
+             * The restrictions that keep the card frozen. unfreeze is supported only when every
+             * restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a
+             * gift card funding disposition. [] (Value): {@link GiftCardRestriction}. A
+             * restriction on a gift card, either a merchant freeze or a funding dispute, with its
+             * reason or dispute details.
+             */
+            "restrictions": Array<GiftCardRestriction>;
+            /**
+             * Where the card is in its lifecycle. Only an `active` card can be spent. Value enum:
+             * "pending", "active", "frozen", "closed".
+             */
+            "status": "pending" | "active" | "frozen" | "closed" | (string & {});
+            /**
+             * Lifecycle actions accepted for the stored card state, independent of the caller's
+             * credentials. Empty when no action is available. [] enum: "adjust_balance",
+             * "cash_out", "close", "freeze", "unfreeze". [] (Value): string. Value enum:
+             * "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
+             */
+            "supported_actions": Array<"adjust_balance" | "cash_out" | "close" | "freeze" | "unfreeze" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "gift_card.created". */
+    "event_type"?: "gift_card.created";
     /**
-     * The difference this line applied to the damaged quantity. Present once the count is applied.
-     * A draft or canceled count omits it. Format: int64.
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
      */
-    "damaged_variance"?: number;
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `gift_card.created` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type GiftCardCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * The damaged quantity Flint holds for this item at this location right now. Present while the
-     * count is unapplied, on every line whether or not it has been counted. Applying the count
-     * sets the level to the counted quantities, and the apply is rejected if the level changed
-     * since the line was captured. An applied or canceled count omits it. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.available_money (Required): {@link MoneyValue}. The balance minus
+     * reserved value: what can be spent now. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code. object.balance_money (Required): {@link MoneyValue}. The
+     * posted balance, including value reserved for redemptions in progress. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code. object.code_source
+     * (Required): string. Origin of the current code: generated means Flint issued a random code;
+     * imported means the merchant supplied an existing code during import. Rotating the code
+     * resets this to generated. Value enum: "generated", "imported". object.created_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.currency (Required): string. ISO 4217 currency code. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD". Value enum: "USD". object.customer_id (Required):
+     * string or null. ID of the customer associated with the card. `null` when no customer is
+     * associated. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.external_reference_id
+     * (Required): string or null. Caller-owned identifier for this resource in an external system.
+     * `null` when none is set. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     * object.gift_card_id (Required): string. Unique identifier for this gift card, prefixed
+     * `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.last_loaded_at (Required): string or
+     * null. RFC3339 timestamp. `null` when no value has been loaded onto the card. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.last_redeemed_at (Required): string or
+     * null. RFC3339 timestamp. `null` when the card has never been redeemed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.last4 (Required): string. Last four characters of
+     * the card's current code. minLength: 4. maxLength: 4. object.merchant_id (Required): string.
+     * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.reserved_money (Required): {@link MoneyValue}. Value held for redemptions in
+     * progress. It isn't available to other payments until the redemption succeeds or is released.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.restrictions (Required): Array of {@link GiftCardRestriction}. The restrictions that
+     * keep the card frozen. unfreeze is supported only when every restriction is merchant_freeze.
+     * A funding_dispute with dispute_status lost needs a gift card funding disposition.
+     * object.restrictions[] (Value): {@link GiftCardRestriction}. A restriction on a gift card,
+     * either a merchant freeze or a funding dispute, with its reason or dispute details.
+     * object.status (Required): string. Where the card is in its lifecycle. Only an `active` card
+     * can be spent. Value enum: "pending", "active", "frozen", "closed". object.supported_actions
+     * (Required): Array of string. Lifecycle actions accepted for the stored card state,
+     * independent of the caller's credentials. Empty when no action is available. [] enum:
+     * "adjust_balance", "cash_out", "close", "freeze", "unfreeze". object.supported_actions[]
+     * (Value): string. Value enum: "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
+     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.version (Required): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64.
      */
-    "expected_damaged_quantity"?: number;
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * available_money (Required): {@link MoneyValue}. The balance minus reserved value: what
+         * can be spent now. Monetary amount represented as integer minor units plus an ISO 4217
+         * currency code. balance_money (Required): {@link MoneyValue}. The posted balance,
+         * including value reserved for redemptions in progress. Monetary amount represented as
+         * integer minor units plus an ISO 4217 currency code. code_source (Required): string.
+         * Origin of the current code: generated means Flint issued a random code; imported means
+         * the merchant supplied an existing code during import. Rotating the code resets this to
+         * generated. Value enum: "generated", "imported". created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". currency (Required):
+         * string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD". Value enum: "USD". customer_id (Required): string or null. ID of the
+         * customer associated with the card. `null` when no customer is associated. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". external_reference_id (Required): string or null.
+         * Caller-owned identifier for this resource in an external system. `null` when none is
+         * set. minLength: 1. maxLength: 255. Example: "warehouse-1842". gift_card_id (Required):
+         * string. Unique identifier for this gift card, prefixed `gc_`. Example:
+         * "gc_01KEZF7C00RT1618WYBM1Y94CG". last_loaded_at (Required): string or null. RFC3339
+         * timestamp. `null` when no value has been loaded onto the card. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". last_redeemed_at (Required): string or null. RFC3339
+         * timestamp. `null` when the card has never been redeemed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". last4 (Required): string. Last four characters of the card's
+         * current code. minLength: 4. maxLength: 4. merchant_id (Required): string. ID of the
+         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * reserved_money (Required): {@link MoneyValue}. Value held for redemptions in progress.
+         * It isn't available to other payments until the redemption succeeds or is released.
+         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+         * restrictions (Required): Array of {@link GiftCardRestriction}. The restrictions that
+         * keep the card frozen. unfreeze is supported only when every restriction is
+         * merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding
+         * disposition. restrictions[] (Value): {@link GiftCardRestriction}. A restriction on a
+         * gift card, either a merchant freeze or a funding dispute, with its reason or dispute
+         * details. status (Required): string. Where the card is in its lifecycle. Only an `active`
+         * card can be spent. Value enum: "pending", "active", "frozen", "closed".
+         * supported_actions (Required): Array of string. Lifecycle actions accepted for the stored
+         * card state, independent of the caller's credentials. Empty when no action is available.
+         * [] enum: "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
+         * supported_actions[] (Value): string. Value enum: "adjust_balance", "cash_out", "close",
+         * "freeze", "unfreeze". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. Format: int64.
+         */
+        "object": {
+            /**
+             * The balance minus reserved value: what can be spent now. Monetary amount represented
+             * as integer minor units plus an ISO 4217 currency code.
+             */
+            "available_money": MoneyValue;
+            /**
+             * The posted balance, including value reserved for redemptions in progress. Monetary
+             * amount represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "balance_money": MoneyValue;
+            /**
+             * Origin of the current code: generated means Flint issued a random code; imported
+             * means the merchant supplied an existing code during import. Rotating the code resets
+             * this to generated. Value enum: "generated", "imported".
+             */
+            "code_source": "generated" | "imported" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+             * "USD". Value enum: "USD".
+             */
+            "currency": "USD" | (string & {});
+            /**
+             * ID of the customer associated with the card. `null` when no customer is associated.
+             * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string | null;
+            /**
+             * Caller-owned identifier for this resource in an external system. `null` when none is
+             * set. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_reference_id": string | null;
+            /**
+             * Unique identifier for this gift card, prefixed `gc_`. Example:
+             * "gc_01KEZF7C00RT1618WYBM1Y94CG".
+             */
+            "gift_card_id": string;
+            /**
+             * RFC3339 timestamp. `null` when no value has been loaded onto the card. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "last_loaded_at": string | null;
+            /**
+             * RFC3339 timestamp. `null` when the card has never been redeemed. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "last_redeemed_at": string | null;
+            /** Last four characters of the card's current code. minLength: 4. maxLength: 4. */
+            "last4": string;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Value held for redemptions in progress. It isn't available to other payments until
+             * the redemption succeeds or is released. Monetary amount represented as integer minor
+             * units plus an ISO 4217 currency code.
+             */
+            "reserved_money": MoneyValue;
+            /**
+             * The restrictions that keep the card frozen. unfreeze is supported only when every
+             * restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a
+             * gift card funding disposition. [] (Value): {@link GiftCardRestriction}. A
+             * restriction on a gift card, either a merchant freeze or a funding dispute, with its
+             * reason or dispute details.
+             */
+            "restrictions": Array<GiftCardRestriction>;
+            /**
+             * Where the card is in its lifecycle. Only an `active` card can be spent. Value enum:
+             * "pending", "active", "frozen", "closed".
+             */
+            "status": "pending" | "active" | "frozen" | "closed" | (string & {});
+            /**
+             * Lifecycle actions accepted for the stored card state, independent of the caller's
+             * credentials. Empty when no action is available. [] enum: "adjust_balance",
+             * "cash_out", "close", "freeze", "unfreeze". [] (Value): string. Value enum:
+             * "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
+             */
+            "supported_actions": Array<"adjust_balance" | "cash_out" | "close" | "freeze" | "unfreeze" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "gift_card.created". */
+    "event_type"?: "gift_card.created";
+});
+/**
+ * The minimum and maximum amounts a buyer can choose when buying a gift card with a custom amount.
+ */
+export type GiftCardCustomAmountBounds = {
     /**
-     * The on-hand quantity Flint holds for this item at this location right now. Present while the
-     * count is unapplied, on every line whether or not it has been counted. Applying the count
-     * sets the level to the counted quantities, and the apply is rejected if the level changed
-     * since the line was captured. An applied or canceled count omits it. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64.
+     * Largest gift card value buyers can choose, in the face value currency. Currency must be USD.
+     * Amount must be between 1 and 200000 minor units, inclusive. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
      */
-    "expected_on_hand_quantity"?: number;
+    "maximum_money": MoneyValue;
     /**
-     * The quality-control quantity Flint holds for this item at this location right now. Present
-     * while the count is unapplied, on every line whether or not it has been counted. Applying the
-     * count sets the level to the counted quantities, and the apply is rejected if the level
-     * changed since the line was captured. An applied or canceled count omits it. Whole-number
-     * quantity; fractional quantities are not supported. Format: int64.
+     * Smallest gift card value buyers can choose, in the face value currency. Currency must be
+     * USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code.
      */
-    "expected_quality_control_quantity"?: number;
-    /**
-     * The quarantined quantity Flint holds for this item at this location right now. Present while
-     * the count is unapplied, on every line whether or not it has been counted. Applying the count
-     * sets the level to the counted quantities, and the apply is rejected if the level changed
-     * since the line was captured. An applied or canceled count omits it. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "expected_quarantined_quantity"?: number;
-    /**
-     * Unique identifier for this inventory count line, prefixed `invcln_`. Example:
-     * "invcln_01KEZF7C00BJK1S36219KK040Q".
-     */
-    "inventory_count_line_id": string;
-    /** ID of the inventory item counted. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY". */
-    "inventory_item_id": string;
-    /**
-     * Movement this line wrote when the count was applied. Absent on a draft or canceled count.
-     * Example: "invm_01KEZF7C00DYPFT9PS0NZY805Z".
-     */
-    "inventory_movement_id"?: string;
-    /**
-     * The difference this line applied to the on-hand quantity. Present once the count is applied.
-     * A draft or canceled count omits it. Format: int64.
-     */
-    "on_hand_variance"?: number;
-    /**
-     * Live physical version of the level, read alongside expected quantities on draft lines.
-     * Evidence of current stock, not a fence captured at count creation. `null` when the count is
-     * applied or canceled. Format: uint64. minimum: 0. maximum: 9007199254740991.
-     */
-    "physical_version": number | null;
-    /**
-     * The difference this line applied to the quality-control quantity. Present once the count is
-     * applied. A draft or canceled count omits it. Format: int64.
-     */
-    "quality_control_variance"?: number;
-    /**
-     * The difference this line applied to the quarantined quantity. Present once the count is
-     * applied. A draft or canceled count omits it. Format: int64.
-     */
-    "quarantined_variance"?: number;
-    /** Format: int64. minimum: 0. */
-    "source_observation_sequence"?: number;
+    "minimum_money": MoneyValue;
 };
+export type GiftCardCustomAmountBoundsPreviousAttributes = {
+    /**
+     * Largest gift card value buyers can choose, in the face value currency. Currency must be USD.
+     * Amount must be between 1 and 200000 minor units, inclusive. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "maximum_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    /**
+     * Smallest gift card value buyers can choose, in the face value currency. Currency must be
+     * USD. Amount must be between 1 and 200000 minor units, inclusive. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "minimum_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+};
+/**
+ * The minimum and maximum amounts a buyer can choose when buying a gift card with a custom amount.
+ */
+export type GiftCardCustomAmountBoundsRequestInput = {
+    /**
+     * Largest gift card value buyers can choose, in the face value currency. Currency must be USD.
+     * Amount must be between 1 and 200000 minor units, inclusive. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "maximum_money": MoneyValueInput;
+    /**
+     * Smallest gift card value buyers can choose, in the face value currency. Currency must be
+     * USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code.
+     */
+    "minimum_money": MoneyValueInput;
+};
+/** A merchant decision to honor gift card value after its funding payment lost a dispute. */
+export type GiftCardFundingDisposition = {
+    /** When the disposition was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * How Flint handles the lost funding. honor_value keeps the affected cards' unspent value
+     * spendable and removes the freeze this dispute placed on them. Value enum: "honor_value".
+     */
+    "disposition": "honor_value" | (string & {});
+    /**
+     * The whole disputed payment amount, which can include consideration for other purchases. It
+     * is separate from the original gift card consideration and honored face value. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "dispute_amount_money": MoneyValue;
+    /** The lost dispute this disposition resolves. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". */
+    "dispute_id": string;
+    /** Stable identifier of the disposition. Example: "gfd_01KEZF7C0077Q8RK3Q4FD2DTW8". */
+    "gift_card_funding_disposition_id": string;
+    /**
+     * Gift cards whose value this disposition honors, including replacement cards that received
+     * value from the disputed funding. [] (Value): string. Example:
+     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     */
+    "gift_card_ids": Array<string>;
+    /**
+     * Unspent value that stays spendable under this disposition, summed across the affected cards,
+     * including replacement cards that received value from the disputed funding. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "honored_value_money": MoneyValue;
+    /** The Idempotency-Key sent with the request that created this disposition. */
+    "idempotency_key": string;
+    /**
+     * What the buyer paid for the gift card value the disputed payment funded, summed across its
+     * funding loads. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "original_gift_card_consideration_money": MoneyValue;
+    /**
+     * The disputed payment that funded the gift card value. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string;
+    /**
+     * Part of honored_value_money that pending redemptions held when the disposition was created.
+     * It stays reserved for them. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "preserved_reserved_value_money": MoneyValue;
+    /** Your reason for honoring the value, from the create request. */
+    "reason_message": string;
+};
+/** A page of `GiftCardFundingDisposition` objects. */
+export type GiftCardFundingDispositionListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * GiftCardFundingDisposition}. A merchant decision to honor gift card value after its funding
+     * payment lost a dispute.
+     */
+    "data": Array<GiftCardFundingDisposition>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `GiftCardFundingDisposition` data. */
+export type GiftCardFundingDispositionResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A merchant decision to
+     * honor gift card value after its funding payment lost a dispute.
+     */
+    "data": GiftCardFundingDisposition;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type GiftCardFundingDispositionsCreateParams = (InputValue<CreateGiftCardFundingDispositionRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type GiftCardFundingDispositionsGetParams = DisputesAcceptParams;
+export type GiftCardFundingDispositionsListParams = {
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Exact, case-sensitive filter. maxLength: 255. pattern: ^du_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "du_01KEZF7C00DEJSF1KTXRT4BBQD".
+     */
+    "dispute_id"?: InputValue<string>;
+    /**
+     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
+     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
+     * pending resource does not prove that the operation succeeded, and an empty list does not
+     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
+     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     */
+    "idempotency_key"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/**
+ * A dispute on the payment that funded a gift card load, with its status and any loss resolution.
+ */
+export type GiftCardFundingDispute = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The dispute on the payment that funded this load. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
+     */
+    "dispute_id": string;
+    /**
+     * true when the dispute is lost and no funding disposition exists for it yet. Create one with
+     * POST /v1/gift-card-funding-dispositions.
+     */
+    "requires_resolution": boolean;
+    /**
+     * The funding disposition recorded for this lost dispute. `null` when you have not created one
+     * yet. anyOf[1] (Value): {@link GiftCardFundingLossResolution}. How a lost funding dispute was
+     * resolved for a gift card load, such as honoring the card's value, with a reason message.
+     * anyOf[2] (Value): null.
+     */
+    "resolution": ((GiftCardFundingLossResolution) | (null));
+    /**
+     * Where the dispute on the funding payment stands. Spending of the value it funded stays
+     * restricted while it is `open` or `lost`. Value enum: "open", "won", "lost".
+     */
+    "status": "open" | "won" | "lost" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64.
+     */
+    "version": number;
+};
+export type GiftCardFundingDisputePreviousAttributes = {
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * The dispute on the payment that funded this load. anyOf[1] (Value): string. The dispute on
+     * the payment that funded this load. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". anyOf[2]
+     * (Value): null.
+     */
+    "dispute_id"?: ((string) | (null));
+    /**
+     * true when the dispute is lost and no funding disposition exists for it yet. Create one with
+     * POST /v1/gift-card-funding-dispositions. anyOf[1] (Value): boolean. true when the dispute is
+     * lost and no funding disposition exists for it yet. Create one with POST
+     * /v1/gift-card-funding-dispositions. anyOf[2] (Value): null.
+     */
+    "requires_resolution"?: ((boolean) | (null));
+    /**
+     * The funding disposition recorded for this lost dispute. `null` when you have not created one
+     * yet. anyOf[1] (Value): ({@link GiftCardFundingLossResolutionPreviousAttributes} or null).
+     * The funding disposition recorded for this lost dispute. `null` when you have not created one
+     * yet. anyOf[1].anyOf[1] (Value): {@link GiftCardFundingLossResolutionPreviousAttributes}.
+     * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+     */
+    "resolution"?: (((((GiftCardFundingLossResolutionPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+    /**
+     * Where the dispute on the funding payment stands. Spending of the value it funded stays
+     * restricted while it is `open` or `lost`. Value enum: "open", "won", "lost". anyOf[1]
+     * (Value): string. Where the dispute on the funding payment stands. Spending of the value it
+     * funded stays restricted while it is `open` or `lost`. Value enum: "open", "won", "lost".
+     * anyOf[2] (Value): null.
+     */
+    "status"?: (("open" | "won" | "lost" | (string & {})) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "updated_at"?: ((string) | (null));
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. anyOf[1] (Value): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. anyOf[2] (Value): null.
+     */
+    "version"?: ((number) | (null));
+};
+/**
+ * How a lost funding dispute was resolved for a gift card load, such as honoring the card's value,
+ * with a reason message.
+ */
+export type GiftCardFundingLossResolution = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * What the merchant decided about the card's value after the funding payment lost a dispute.
+     * Value enum: "honor_value".
+     */
+    "disposition": "honor_value" | (string & {});
+    /**
+     * ID of the funding disposition recorded for the lost dispute. Example:
+     * "gfd_01KEZF7C0077Q8RK3Q4FD2DTW8".
+     */
+    "gift_card_funding_disposition_id": string;
+    /** The note you gave when you created the disposition. */
+    "reason_message": string;
+};
+export type GiftCardFundingLossResolutionPreviousAttributes = {
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * What the merchant decided about the card's value after the funding payment lost a dispute.
+     * Value enum: "honor_value". anyOf[1] (Value): string. What the merchant decided about the
+     * card's value after the funding payment lost a dispute. Value enum: "honor_value". anyOf[2]
+     * (Value): null.
+     */
+    "disposition"?: (("honor_value" | (string & {})) | (null));
+    /**
+     * ID of the funding disposition recorded for the lost dispute. anyOf[1] (Value): string. ID of
+     * the funding disposition recorded for the lost dispute. Example:
+     * "gfd_01KEZF7C0077Q8RK3Q4FD2DTW8". anyOf[2] (Value): null.
+     */
+    "gift_card_funding_disposition_id"?: ((string) | (null));
+    /**
+     * The note you gave when you created the disposition. anyOf[1] (Value): string. The note you
+     * gave when you created the disposition. anyOf[2] (Value): null.
+     */
+    "reason_message"?: ((string) | (null));
+};
+/**
+ * Where the value of a gift card load came from, such as an external payment, a Flint payment, an
+ * import, or an adjustment, with your reference for it.
+ */
+export type GiftCardFundingSource = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /**
+     * Where the value came from. Value enum: "external_payment", "flint_payment",
+     * "flint_manual_payment", "import", "adjustment", "gift_card_refund",
+     * "gift_card_purchase_refund_recovery", "store_credit".
+     */
+    "funding_source_type": "external_payment"
+        | "flint_payment"
+        | "flint_manual_payment"
+        | "import"
+        | "adjustment"
+        | "gift_card_refund"
+        | "gift_card_purchase_refund_recovery"
+        | "store_credit"
+        | (string & {});
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: string;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: string;
+})
+    & ((Exclude<GiftCardFundingSourceExternalPayment & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceFlintPayment & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceFlintManualPayment & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceImport & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceAdjustment & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceGiftCardRefund & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceGiftCardPurchaseRefundRecovery & object, readonly unknown[]>)
+    | (Exclude<GiftCardFundingSourceStoreCredit & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `adjustment` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceAdjustment = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "adjustment". */
+    "funding_source_type": "adjustment" | (string & {});
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: string;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: string;
+})
+    & ({
+    /** Where the value came from. Value enum: "adjustment". */
+    "funding_source_type"?: unknown;
+});
+export type GiftCardFundingSourceAdjustmentPreviousAttributes = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. anyOf[1] (Value): string. ID of the customer
+     * the funding is attributed to. Required for `external_payment` and `flint_manual_payment`;
+     * optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+     */
+    "customer_id"?: ((string) | (null));
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. anyOf[1] (Value): string. Your reference for the payment
+     * or import record that funded this value, such as a POS sale ID. Required; 1 to 255
+     * characters. minLength: 1. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_reference_id"?: ((string) | (null));
+    /**
+     * Where the value came from. Value enum: "adjustment". anyOf[1] (Value): string. Where the
+     * value came from. Value enum: "adjustment". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: (("adjustment" | (string & {})) | (null));
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. anyOf[1] (Value): string.
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. anyOf[1] (Value): string. ID of the manual payment on the order that
+     * funded the value. Required for `flint_manual_payment`. minLength: 1. maxLength: 255.
+     * Example: "omp_01KEZF7C007J18203RBJKB9TYE". anyOf[2] (Value): null.
+     */
+    "order_manual_payment_id"?: ((string) | (null));
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. anyOf[1] (Value): string. The original payment
+     * for flint_payment or store_credit value. For standalone paid funding, use a captured payment
+     * intent without an order_id. Order-linked payments fund purchased cards or store credit
+     * through their order. minLength: 1. maxLength: 255. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * anyOf[2] (Value): null.
+     */
+    "payment_intent_id"?: ((string) | (null));
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * anyOf[1] (Value): string. Refund that issued this value. Present only when
+     * funding_source_type is store_credit. minLength: 1. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+     */
+    "refund_id"?: ((string) | (null));
+})
+    & ({
+    /**
+     * Where the value came from. Value enum: "adjustment". anyOf[1] (Value): any. Where the value
+     * came from. Value enum: "adjustment". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: ((unknown) | (null) | (unknown));
+});
+/** The `adjustment` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceAdjustmentRequestInput = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "adjustment". */
+    "funding_source_type": "adjustment";
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: never;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: never;
+})
+    & ({
+    /** Where the value came from. Value enum: "adjustment". */
+    "funding_source_type"?: ("adjustment") & ("adjustment");
+});
+/** The `external_payment` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceExternalPayment = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "external_payment". */
+    "funding_source_type": "external_payment" | (string & {});
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: string;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: string;
+})
+    & (({
+    /** Where the value came from. Value enum: "external_payment". */
+    "funding_source_type"?: unknown;
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+}));
+export type GiftCardFundingSourceExternalPaymentPreviousAttributes = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. anyOf[1] (Value): string. ID of the customer
+     * the funding is attributed to. Required for `external_payment` and `flint_manual_payment`;
+     * optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+     */
+    "customer_id"?: ((string) | (null));
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. anyOf[1] (Value): string. Your reference for the payment
+     * or import record that funded this value, such as a POS sale ID. Required; 1 to 255
+     * characters. minLength: 1. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_reference_id"?: ((string) | (null));
+    /**
+     * Where the value came from. Value enum: "external_payment". anyOf[1] (Value): string. Where
+     * the value came from. Value enum: "external_payment". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: (("external_payment" | (string & {})) | (null));
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. anyOf[1] (Value): string.
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. anyOf[1] (Value): string. ID of the manual payment on the order that
+     * funded the value. Required for `flint_manual_payment`. minLength: 1. maxLength: 255.
+     * Example: "omp_01KEZF7C007J18203RBJKB9TYE". anyOf[2] (Value): null.
+     */
+    "order_manual_payment_id"?: ((string) | (null));
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. anyOf[1] (Value): string. The original payment
+     * for flint_payment or store_credit value. For standalone paid funding, use a captured payment
+     * intent without an order_id. Order-linked payments fund purchased cards or store credit
+     * through their order. minLength: 1. maxLength: 255. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * anyOf[2] (Value): null.
+     */
+    "payment_intent_id"?: ((string) | (null));
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * anyOf[1] (Value): string. Refund that issued this value. Present only when
+     * funding_source_type is store_credit. minLength: 1. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+     */
+    "refund_id"?: ((string) | (null));
+})
+    & ({
+    /**
+     * Where the value came from. Value enum: "external_payment". anyOf[1] (Value): any. Where the
+     * value came from. Value enum: "external_payment". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: ((unknown) | (null) | (unknown));
+});
+/** The `external_payment` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceExternalPaymentRequestInput = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "external_payment". */
+    "funding_source_type": "external_payment";
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id"?: never;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: never;
+})
+    & (({
+    /** Where the value came from. Value enum: "external_payment". */
+    "funding_source_type"?: ("external_payment") & ("external_payment");
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+})
+    & (({
+    "payment_intent_id"?: never;
+}) & ({
+    "order_id"?: never;
+})));
+/** The `flint_manual_payment` variant of `GiftCardFundingSource`. */
+export type GiftCardFundingSourceFlintManualPayment = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string;
+    /** Where the value came from. Value enum: "flint_manual_payment". */
+    "funding_source_type": "flint_manual_payment" | (string & {});
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id": string;
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. minLength: 1. maxLength: 255. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * minLength: 1. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id"?: string;
+})
+    & (({
+    /** Where the value came from. Value enum: "flint_manual_payment". */
+    "funding_source_type"?: unknown;
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. minLength: 1. maxLength: 255. Example:
+     * "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "order_manual_payment_id": string;
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+}));

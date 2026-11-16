@@ -52,7 +52,7 @@ Declared alternatives: [CategoryUpdatedMerchantEventDataPreviousAttributes.assig
 
 ### CategoryUpdatedMerchantEvent.data fields 1.previous_attributes.category_id
 
-Declared alternatives: [CategoryUpdatedMerchantEventDataPreviousAttributes.category_id](../models/CategoryUpdatedMerchantEventDataPreviousAttributes.md#categoryupdatedmerchanteventdatapreviousattributescategory_id).
+Declared alternatives: [CategoryReferencePreviousAttributes.category_id](../models/CategoryReferencePreviousAttributes.md#categoryreferencepreviousattributescategory_id).
 
 ### CategoryUpdatedMerchantEvent.data fields 1.previous_attributes.created_at
 

@@ -29,7 +29,7 @@ final class PublicResolvedBundleComponentInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** Summary of the component's variant. A summary of a bundle component's variant, with its name, SKU, selected options, and whether it is available for sale.
+    /** Summary of the component's variant. A summary of a bundle component's variant, with its product name, variant name, SKU, selected options, and whether it is available for sale.
      * @return PublicResolvedBundleVariantSummaryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When variant is omitted; use hasVariant() or valueOrDefault().
      */

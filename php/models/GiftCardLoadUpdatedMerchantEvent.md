@@ -70,6 +70,14 @@ Declared alternatives: [GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.p
 
 Declared alternatives: [GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.purchase_refunds](../models/GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.md#giftcardloadupdatedmerchanteventdatapreviousattributespurchase_refunds).
 
+### GiftCardLoadUpdatedMerchantEvent.data fields 1.previous_attributes.purchase_restoration
+
+Declared alternatives: [GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.purchase_restoration](../models/GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.md#giftcardloadupdatedmerchanteventdatapreviousattributespurchase_restoration).
+
+### GiftCardLoadUpdatedMerchantEvent.data fields 1.previous_attributes.refund_provenance
+
+Declared alternatives: [GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.refund_provenance](../models/GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.md#giftcardloadupdatedmerchanteventdatapreviousattributesrefund_provenance).
+
 ### GiftCardLoadUpdatedMerchantEvent.data fields 1.previous_attributes.source
 
 Declared alternatives: [GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.source](../models/GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.md#giftcardloadupdatedmerchanteventdatapreviousattributessource).

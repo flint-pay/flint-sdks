@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read MoneyValue|null $amount_money
+ * @property-read mixed $amount_money
  * @property-read bool|null $can_respond_with_evidence
  * @property-read string|null $case_type
  * @property-read string|null $created_at
@@ -25,7 +25,7 @@ namespace Flint;
  * @property-read string|null $reason
  * @property-read list<string>|null $recommended_evidence_types
  * @property-read string|null $response_unavailable_reason
- * @property-read list<SplitReversalReference>|null $split_reversals
+ * @property-read list<SplitReversalReferencePreviousAttributes>|null $split_reversals
  * @property-read string|null $status
  * @property-read string|null $status_changed_at
  * @property-read list<string>|null $supported_actions
@@ -34,10 +34,10 @@ namespace Flint;
 final class DisputeInquiryClosedMerchantEventDataPreviousAttributes extends Model {
     /** @param array{'amount_money'?: mixed, 'can_respond_with_evidence'?: mixed, 'case_type'?: mixed, 'created_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'dispute_id'?: mixed, 'evidence_due_at'?: mixed, 'evidence_submission_count'?: mixed, 'fraud_warning_id'?: mixed, 'has_evidence'?: mixed, 'is_action_required'?: mixed, 'is_evidence_deadline_passed'?: mixed, 'merchant_id'?: mixed, 'network_reason_code'?: mixed, 'order'?: mixed, 'order_id'?: mixed, 'payment_intent'?: mixed, 'payment_intent_id'?: mixed, 'payment_option'?: mixed, 'reason'?: mixed, 'recommended_evidence_types'?: mixed, 'response_unavailable_reason'?: mixed, 'split_reversals'?: mixed, 'status'?: mixed, 'status_changed_at'?: mixed, 'supported_actions'?: mixed, 'updated_at'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DisputeInquiryClosedMerchantEventDataPreviousAttributes')); }
-    /** Amount in dispute. For a chargeback, this amount left your balance when the case opened; an inquiry moves no money. anyOf[1] (Value): {@see MoneyValue}. Amount in dispute. For a chargeback, this amount left your balance when the case opened; an inquiry moves no money. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** Amount in dispute. For a chargeback, this amount left your balance when the case opened; an inquiry moves no money. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getAmountMoney(): MoneyValue|null { return $this->get('amount_money'); }
+    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** Whether this dispute has an evidence response window. It stays true after the window closes or a decision is made. Use is_action_required to know whether a response is needed now. anyOf[1] (Value): boolean. Whether this dispute has an evidence response window. It stays true after the window closes or a decision is made. Use is_action_required to know whether a response is needed now. anyOf[2] (Value): null.
      * @return bool|null
@@ -54,7 +54,7 @@ final class DisputeInquiryClosedMerchantEventDataPreviousAttributes extends Mode
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID when the customer is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): ({@see ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getCustomer(): mixed { return $this->get('customer'); }
@@ -109,7 +109,7 @@ final class DisputeInquiryClosedMerchantEventDataPreviousAttributes extends Mode
      */
     public function getNetworkReasonCode(): mixed { return $this->get('network_reason_code'); }
     public function hasNetworkReasonCode(): bool { return $this->has('network_reason_code'); }
-    /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummary} or null. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummary}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): ({@see ExpandedOrderSummaryPreviousAttributes} or null). Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getOrder(): mixed { return $this->get('order'); }
@@ -119,7 +119,7 @@ final class DisputeInquiryClosedMerchantEventDataPreviousAttributes extends Mode
      */
     public function getOrderId(): string|null { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1] (Value): {@see ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@see ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status, and capture method, returned when the payment intent is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1] (Value): ({@see ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@see ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getPaymentIntent(): mixed { return $this->get('payment_intent'); }
@@ -149,8 +149,8 @@ final class DisputeInquiryClosedMerchantEventDataPreviousAttributes extends Mode
      */
     public function getResponseUnavailableReason(): string|null { return $this->get('response_unavailable_reason'); }
     public function hasResponseUnavailableReason(): bool { return $this->has('response_unavailable_reason'); }
-    /** Fixed seller allocations on the payment, each naming its payment split and reversal. Present only when the payment has splits; an empty array means no seller share was allocated. Read PaymentSplit.reversals for status, shortfall, and reinstated amounts. anyOf[1] (Value): Array of {@see SplitReversalReference}. Fixed seller allocations on the payment, each naming its payment split and reversal. Present only when the payment has splits; an empty array means no seller share was allocated. Read PaymentSplit.reversals for status, shortfall, and reinstated amounts. anyOf[1][] (Value): {@see SplitReversalReference}. A fixed allocation referencing a read-only reversal nested in a payment split. This reference has no independent lifecycle or write routes. anyOf[2] (Value): null.
-     * @return list<SplitReversalReference>|null
+    /** Fixed seller allocations on the payment, each naming its payment split and reversal. Present only when the payment has splits; an empty array means no seller share was allocated. Read PaymentSplit.reversals for status, shortfall, and reinstated amounts. anyOf[1] (Value): Array of {@see SplitReversalReferencePreviousAttributes}. Fixed seller allocations on the payment, each naming its payment split and reversal. Present only when the payment has splits; an empty array means no seller share was allocated. Read PaymentSplit.reversals for status, shortfall, and reinstated amounts. anyOf[1][] (Value): {@see SplitReversalReferencePreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<SplitReversalReferencePreviousAttributes>|null
      */
     public function getSplitReversals(): array|null { return $this->get('split_reversals'); }
     public function hasSplitReversals(): bool { return $this->has('split_reversals'); }

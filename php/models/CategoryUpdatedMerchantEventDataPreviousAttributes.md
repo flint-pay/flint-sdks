@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `assigned_bundle_count` | Optional | integer or null | Number of bundles currently assigned to the category. `assigned_bundle_count`: [declared alternatives](../models/CategoryUpdatedMerchantEventDataPreviousAttributes.md#categoryupdatedmerchanteventdatapreviousattributesassigned_bundle_count). |
 | `assigned_product_count` | Optional | integer or null | Number of products currently assigned to the category. `assigned_product_count`: [declared alternatives](../models/CategoryUpdatedMerchantEventDataPreviousAttributes.md#categoryupdatedmerchanteventdatapreviousattributesassigned_product_count). |
-| `category_id` | Optional | string or null | Stable identifier of the category. `category_id`: [declared alternatives](../models/CategoryUpdatedMerchantEventDataPreviousAttributes.md#categoryupdatedmerchanteventdatapreviousattributescategory_id). |
+| `category_id` | Optional | string or null | Stable identifier of the category. `category_id`: [declared alternatives](../models/CategoryReferencePreviousAttributes.md#categoryreferencepreviousattributescategory_id). |
 | `created_at` | Optional | string or null | When this resource was created, as an RFC3339 timestamp. `created_at`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributescreated_at). |
 | `description` | Optional | string or null | Description of the category. `description`: [declared alternatives](../models/CategoryUpdatedMerchantEventDataPreviousAttributes.md#categoryupdatedmerchanteventdatapreviousattributesdescription). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id). |
@@ -53,17 +53,7 @@ anyOf variant 2.
 
 ### CategoryUpdatedMerchantEventDataPreviousAttributes.category_id
 
-### CategoryUpdatedMerchantEventDataPreviousAttributes.category_id variant 1
-
-anyOf variant 1: Stable identifier of the category..
-
-- Value shape: string. Stable identifier of the category. 
-
-### CategoryUpdatedMerchantEventDataPreviousAttributes.category_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Stable identifier of the category. 
+Declared alternatives: [CategoryReferencePreviousAttributes.category_id](../models/CategoryReferencePreviousAttributes.md#categoryreferencepreviousattributescategory_id).
 
 ### CategoryUpdatedMerchantEventDataPreviousAttributes.created_at
 

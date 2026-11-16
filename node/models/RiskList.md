@@ -27,7 +27,7 @@ A collection of values used in payment risk rules.
 
 The credential that created this list. Null when Flint created it, as for Flint's default lists. The reference may name an API key in the other mode.
 
-Field definitions: [shared fields](ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_by).
+Field definitions: [shared fields](GiftCardTransaction.md#giftcardtransactionsource).
 
 ### RiskList.created_by variant 1
 

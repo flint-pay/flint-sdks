@@ -2,12 +2,12 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read ReaderConnectivity|null $connectivity
+ * @property-read mixed $connectivity
  * @property-read string|null $created_at
  * @property-read string|null $device_id
  * @property-read bool|null $is_simulated
  * @property-read string|null $location_id
- * @property-read array<array-key, string>|null $metadata
+ * @property-read mixed $metadata
  * @property-read string|null $model
  * @property-read string|null $name
  * @property-read string|null $reader_id
@@ -20,10 +20,10 @@ namespace Flint;
 final class ReaderArchivedInstalledMerchantsEventDataPreviousAttributes extends Model {
     /** @param array{'connectivity'?: mixed, 'created_at'?: mixed, 'device_id'?: mixed, 'is_simulated'?: mixed, 'location_id'?: mixed, 'metadata'?: mixed, 'model'?: mixed, 'name'?: mixed, 'reader_id'?: mixed, 'serial_number'?: mixed, 'status'?: mixed, 'type'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReaderArchivedInstalledMerchantsEventDataPreviousAttributes')); }
-    /** Smart readers only, and omitted once the reader is archived. Observed reader state: it changes without a write, doesn't advance `version`, and sends no event. Don't gate a sale on it: Flint checks the reader itself before it sends a payment. anyOf[1] (Value): {@see ReaderConnectivity}. Smart readers only, and omitted once the reader is archived. Observed reader state: it changes without a write, doesn't advance `version`, and sends no event. Don't gate a sale on it: Flint checks the reader itself before it sends a payment. anyOf[2] (Value): null.
-     * @return ReaderConnectivity|null
+    /** Smart readers only, and omitted once the reader is archived. Observed reader state: it changes without a write, doesn't advance `version`, and sends no event. Don't gate a sale on it: Flint checks the reader itself before it sends a payment. anyOf[1] (Value): {@see ReaderConnectivityPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getConnectivity(): ReaderConnectivity|null { return $this->get('connectivity'); }
+    public function getConnectivity(): mixed { return $this->get('connectivity'); }
     public function hasConnectivity(): bool { return $this->has('connectivity'); }
     /** When the reader was registered. anyOf[1] (Value): string. When the reader was registered. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -45,10 +45,10 @@ final class ReaderArchivedInstalledMerchantsEventDataPreviousAttributes extends 
      */
     public function getLocationId(): string|null { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** Your key-value pairs for the reader. anyOf[1] (Value): {@see MetadataMap}. Your key-value pairs for the reader. anyOf[2] (Value): null.
-     * @return array<array-key, string>|null
+    /** Your key-value pairs for the reader. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getMetadata(): array|null { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** The smart reader's model, read from the reader at registration. Smart readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710", "other". anyOf[1] (Value): string. The smart reader's model, read from the reader at registration. Smart readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710", "other". anyOf[2] (Value): null.
      * @return string|null

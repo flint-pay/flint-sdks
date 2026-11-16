@@ -2,11 +2,10 @@ import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { CancelReturnResolutionResponse } from '../declarations/types-5.js';
 import type { ClientOptions, ConfirmReturnResolutionResponse } from '../declarations/types-7.js';
 import type { CreateReturnResolutionResponse } from '../declarations/types-13.js';
-import type { GetReturnResolutionResponse } from '../declarations/types-26.js';
-import type { ListReturnResolutionsResponse } from '../declarations/types-35.js';
-import type { ReleaseReturnResolutionResponse } from '../declarations/types-53.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { RetryReturnResolutionResponse } from '../declarations/types-55.js';
+import type { GetReturnResolutionResponse } from '../declarations/types-28.js';
+import type { ListReturnResolutionsResponse } from '../declarations/types-39.js';
+import type { ReleaseReturnResolutionResponse } from '../declarations/types-59.js';
+import type { RequestOptions, RetryReturnResolutionResponse } from '../declarations/types-60.js';
 import type {
     ReturnResolution,
     ReturnResolutionsCancelParams,
@@ -17,9 +16,9 @@ import type {
     ReturnResolutionsReleaseParams,
     ReturnResolutionsRetryParams,
     ReturnResolutionsUpdateParams
-} from '../declarations/types-57.js';
-import type { UpdateReturnResolutionResponse } from '../declarations/types-68.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-63.js';
+import type { UpdateReturnResolutionResponse } from '../declarations/types-75.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -55,14 +54,16 @@ export type {
     ReturnReplacementLineItemInputBundleInput,
     ReturnReplacementLineItemInputCustomInput,
     ReturnResolutionLineItemRequest
-} from '../declarations/types-57.js';
+} from '../declarations/types-63.js';
 export type {
     RequestOptions,
+    RetryReturnResolutionResponse,
+    ReturnActor,
     ResourceReference,
     ResponseMeta,
     ResponseWarning,
     RetryReturnResolutionRequestInput
-} from '../declarations/types-54.js';
+} from '../declarations/types-60.js';
 export type {
     CancelReturnResolutionResponse,
     CancelReturnResolutionRequestInput,
@@ -77,27 +78,16 @@ export type {
     CreateReturnResolutionRequestStandardInput,
     CreateReturnResolutionRequestCorrectionInput
 } from '../declarations/types-13.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { GetReturnResolutionResponse } from '../declarations/types-26.js';
-export type {
-    ListReturnResolutionsResponse,
-    LineItemFulfillmentRequestModelInput,
-    LineItemFulfillmentOriginRequestModelInput
-} from '../declarations/types-35.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { GetReturnResolutionResponse } from '../declarations/types-28.js';
+export type { ListReturnResolutionsResponse } from '../declarations/types-39.js';
 export type {
     ReleaseReturnResolutionResponse,
-    RefundLineItemAllocation,
-    RefundLineItemAdjustmentRefund,
-    RefundLineItemAdjustment,
-    RefundAdjustmentReason,
-    RefundLineItemAutomaticRefund,
-    RefundLineItemModifierAllocation,
     RefundTaxBreakdownRefund,
     RefundTenderAllocation,
     RefundUnissuedGiftCardRecovery,
     ReleaseReturnResolutionRequestInput
-} from '../declarations/types-53.js';
-export type { RetryReturnResolutionResponse, ReturnActor } from '../declarations/types-55.js';
+} from '../declarations/types-59.js';
 export type {
     UpdateReturnResolutionResponse,
     UpdateReturnResolutionRequestInput,
@@ -108,41 +98,50 @@ export type {
     UpdateReturnReplacementLineItemInputBundleInput,
     UpdateReturnReplacementLineItemInputCustomInput,
     UpdateReturnResolutionLineItemRequest
-} from '../declarations/types-68.js';
+} from '../declarations/types-75.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { MoneyValue, MoneyValueInput, NextAction } from '../declarations/types-39.js';
-export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-38.js';
-export type { ExpandedPaymentIntentSummary, ExpandedCustomerSummary, ExpandedOrderSummary } from '../declarations/types-24.js';
+export type { MoneyValue, MoneyValueInput, NextAction } from '../declarations/types-42.js';
+export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { ExpandedPaymentIntentSummary, ExpandedCustomerSummary, ExpandedOrderSummary } from '../declarations/types-26.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
     PaymentSourceCardSummary,
     PaymentSourceCardPresentDetails,
     PaymentRefund
-} from '../declarations/types-47.js';
-export type { Refund, ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { SelectedProductOption, SettlementAmounts } from '../declarations/types-59.js';
-export type { DeferredPromotion } from '../declarations/types-16.js';
-export type { PricingAmounts } from '../declarations/types-50.js';
-export type { OrderSettlementAmounts } from '../declarations/types-41.js';
-export type { SplitReversalReference } from '../declarations/types-60.js';
-export type { OrderGiftCardAllocation } from '../declarations/types-40.js';
-export { makeCancelReturnRequest, makeCancelReturnResolutionRequest } from '../declarations/types-71.js';
-export { makeConfirmReturnResolutionRequest } from '../declarations/types-72.js';
+} from '../declarations/types-52.js';
+export type {
+    Refund,
+    RefundLineItemAllocation,
+    RefundLineItemAdjustmentRefund,
+    RefundLineItemAdjustment,
+    RefundAdjustmentReason,
+    RefundLineItemAutomaticRefund,
+    RefundLineItemModifierAllocation,
+    ReadinessMerchantAccountSession
+} from '../declarations/types-58.js';
+export type { SelectedProductOption } from '../declarations/types-65.js';
+export type { DeferredPromotion } from '../declarations/types-17.js';
+export type { PricingAmounts } from '../declarations/types-55.js';
+export type { OrderSettlementAmounts } from '../declarations/types-45.js';
+export type { SettlementAmounts, SplitReversalReference } from '../declarations/types-66.js';
+export type { OrderGiftCardAllocation } from '../declarations/types-44.js';
+export type { LineItemFulfillmentRequestModelInput, LineItemFulfillmentOriginRequestModelInput } from '../declarations/types-38.js';
+export { makeCancelReturnRequest, makeCancelReturnResolutionRequest } from '../declarations/types-78.js';
+export { makeConfirmReturnResolutionRequest } from '../declarations/types-79.js';
 export {
     makeCreateReturnResolutionRequest,
     makeCreateReturnResolutionRequestCorrection,
     makeCreateReturnResolutionRequestStandard
-} from '../declarations/types-74.js';
+} from '../declarations/types-81.js';
 export {
     makeLineItemFulfillmentOriginRequestModel,
     makeLineItemFulfillmentRequestModel,
-    makeMetadataPatchRequest,
-    makeMetadataRequest
-} from '../declarations/types-78.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
-export { makeReleaseReturnResolutionRequest, makeRetryReturnResolutionRequest } from '../declarations/types-81.js';
+    makeMetadataPatchRequest
+} from '../declarations/types-85.js';
+export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeReleaseReturnResolutionRequest, makeRetryReturnResolutionRequest } from '../declarations/types-88.js';
 export {
     makeReturnReplacementLineItemInputBundle,
     makeReturnReplacementLineItemInputCustom,
@@ -150,7 +149,7 @@ export {
     makeReturnReplacementLineItemRequest,
     makeReturnResolutionAdjustmentRequest,
     makeReturnResolutionLineItemRequest
-} from '../declarations/types-82.js';
+} from '../declarations/types-89.js';
 export {
     makeUpdateReturnReplacementLineItemInputBundle,
     makeUpdateReturnReplacementLineItemInputCustom,
@@ -159,7 +158,7 @@ export {
     makeUpdateReturnResolutionAdjustmentRequest,
     makeUpdateReturnResolutionLineItemRequest,
     makeUpdateReturnResolutionRequest
-} from '../declarations/types-84.js';
+} from '../declarations/types-91.js';
 export interface ReturnResolutionsResource {
     /**
  * Cancel a resolution and release the line value it reserved. A failed resolution can be canceled

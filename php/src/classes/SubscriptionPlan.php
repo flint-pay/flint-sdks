@@ -115,7 +115,7 @@ final class SubscriptionPlan extends Model {
      */
     public function getImages(): array { return $this->get('images'); }
     public function hasImages(): bool { return $this->has('images'); }
-    /** Where tracked demand from this plan is routed. New subscriptions and payment links for the plan copy it. Absent when the plan has no source. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
+    /** Where tracked demand from this plan is routed. New subscriptions and payment links for the plan copy it. Absent when the plan has no stored source, including when its demand uses the implicit single-Location fallback. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
      * @return ?InventoryRoutingSource
      */
     public function getInventoryRoutingSource(): ?InventoryRoutingSource { return $this->get('inventory_routing_source'); }

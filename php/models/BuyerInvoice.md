@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `active_payment_attempt` | Optional | [BuyerInvoicePaymentAttempt](../models/BuyerInvoicePaymentAttempt.md#buyerinvoicepaymentattempt) | The payment attempt in progress for this invoice, such as a bank debit still processing. Omitted when none is open. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. An attempt to collect payment for an invoice. `active_payment_attempt`: [field definitions](../models/BuyerInvoiceResponse.md#buyerinvoiceresponsedataactive_payment_attempt). |
 | `balance_rows` | Optional | Array of [InvoiceDocumentRow](../models/InvoiceDocumentRow.md#invoicedocumentrow) | What changed after the invoice was issued, in display order, such as late fees, payments, credit notes, and write-offs. When present, rows where `is_informational` is `false` sum to `settlement_amounts.outstanding_money`. The opening `total` row contributes to the sum; the closing `amount_due` row is informational and states it. `[]` when nothing changed or the invoice is voided. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. `balance_rows[]`: [field definitions](../models/BuyerInvoiceResponse.md#buyerinvoiceresponsedatabalance_rows). |
-| `buyer_actions` | Required | Array of [BuyerAction](../models/BuyerAction.md#buyeraction) | What the buyer can do with the invoice: pay. pay is available when a checkout session can take a payment now, and then required. Its due_at deadline is the end of the invoice or installment due_date in the invoice timezone (UTC when absent). `buyer_actions[]`: [field definitions](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actions). |
+| `buyer_actions` | Required | Array of [BuyerAction](../models/BuyerAction.md#buyeraction) | What the buyer can do with the invoice: pay. pay is available when a checkout session can take a payment now, and then required. Its due_at deadline is the end of the invoice or installment due_date in the invoice timezone (UTC when absent). `buyer_actions[]`: [field definitions](../models/OrderResponse.md#orderresponsedatabuyer_actions). |
 | `cc_emails` | Required | Array of string | Additional recipients copied on the invoice email and every reminder. |
 | `closed_at` | Optional | string | When the current closed interval began. Cleared when status returns to open or partially_paid. A direct move between closed statuses preserves this timestamp. Format: `date-time`. |
 | `collection_block_status` | Required | string | Whether collection is blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Values: `"none"`, `"inventory_blocked"`, `"resolved"`. |
@@ -66,7 +66,7 @@ Field definitions: [BuyerInvoiceResponse.data.balance_rows[]](../models/BuyerInv
 
 ### BuyerInvoice.buyer_actions[]
 
-Field definitions: [BuyerReturnResponse.data.buyer_actions[]](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actions).
+Field definitions: [OrderResponse.data.buyer_actions[]](../models/OrderResponse.md#orderresponsedatabuyer_actions).
 
 ### BuyerInvoice.issue_rows[]
 

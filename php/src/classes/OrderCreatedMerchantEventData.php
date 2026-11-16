@@ -8,7 +8,7 @@ namespace Flint;
 final class OrderCreatedMerchantEventData extends Model {
     /** @param array{'object': \stdClass, 'previous_attributes'?: \stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderCreatedMerchantEventData')); }
-    /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `active_payment_attempt`, `payment_collection`, `setup_collection`.
+    /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `buyer_actions`, `active_payment_attempt`, `payment_collection`, `setup_collection`.
      * @return OrderCreatedMerchantEventDataObject
      */
     public function getObject(): OrderCreatedMerchantEventDataObject { return $this->get('object'); }

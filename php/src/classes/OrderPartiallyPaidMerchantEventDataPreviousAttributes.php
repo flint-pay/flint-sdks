@@ -3,59 +3,59 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read mixed $active_payment_review_id
- * @property-read OrderAuthorizationAmounts|null $authorization_amounts
- * @property-read CheckoutBuyerContact|null $buyer_contact
+ * @property-read mixed $authorization_amounts
+ * @property-read mixed $buyer_contact
  * @property-read string|null $buyer_note
- * @property-read list<OrderCharge>|null $charges
+ * @property-read list<OrderChargePreviousAttributes>|null $charges
  * @property-read list<string>|null $checkout_session_ids
  * @property-read mixed $client_reference
  * @property-read string|null $closed_at
  * @property-read string|null $closed_reason
  * @property-read string|null $closed_reason_message
  * @property-read string|null $created_at
- * @property-read list<OrderPartiallyPaidMerchantEventDataPreviousAttributesCustomFieldAnswersItemText|OrderPartiallyPaidMerchantEventDataPreviousAttributesCustomFieldAnswersItemTextarea|OrderPartiallyPaidMerchantEventDataPreviousAttributesCustomFieldAnswersItemDropdown|OrderPartiallyPaidMerchantEventDataPreviousAttributesCustomFieldAnswersItemCheckbox|\stdClass>|null $custom_field_answers
+ * @property-read list<\stdClass>|null $custom_field_answers
  * @property-read mixed $customer
  * @property-read string|null $customer_id
- * @property-read list<DeferredPromotion>|null $deferred_promotions
- * @property-read OrderDeliverySummary|null $delivery
- * @property-read OrderDeliveryDestination|null $delivery_destination
- * @property-read list<OrderDiscount>|null $discounts
+ * @property-read list<DeferredPromotionPreviousAttributes>|null $deferred_promotions
+ * @property-read mixed $delivery
+ * @property-read mixed $delivery_destination
+ * @property-read list<OrderDiscountPreviousAttributes>|null $discounts
  * @property-read string|null $dispute_status
  * @property-read string|null $external_reference_id
  * @property-read string|null $fulfillment_status
- * @property-read list<Fulfillment>|null $fulfillments
- * @property-read OrderGiftCardEstimate|null $gift_card_estimate
- * @property-read list<OrderGiftCardSettlement>|null $gift_card_settlements
+ * @property-read list<FulfillmentPreviousAttributes>|null $fulfillments
+ * @property-read mixed $gift_card_estimate
+ * @property-read list<OrderGiftCardSettlementPreviousAttributes>|null $gift_card_settlements
  * @property-read bool|null $gift_card_tender_enabled
- * @property-read list<OrderGiftCardSelection>|null $gift_cards
+ * @property-read list<OrderGiftCardSelectionPreviousAttributes>|null $gift_cards
  * @property-read mixed $governing_delivery_selection_id
- * @property-read OrderPartiallyPaidMerchantEventDataPreviousAttributesHandover|null $handover
+ * @property-read mixed $handover
  * @property-read string|null $internal_note
  * @property-read string|null $inventory_exception_reason
  * @property-read string|null $inventory_exception_resolution_message
  * @property-read string|null $inventory_exception_status
  * @property-read string|null $inventory_reservation_id
- * @property-read OrderPartiallyPaidMerchantEventDataPreviousAttributesInventoryRoutingSource|null $inventory_routing_source
+ * @property-read mixed $inventory_routing_source
  * @property-read mixed $invoice_id
- * @property-read list<OrderLineItem>|null $line_items
+ * @property-read list<OrderLineItemPreviousAttributes>|null $line_items
  * @property-read string|null $merchant_id
- * @property-read array<array-key, string>|null $metadata
+ * @property-read mixed $metadata
  * @property-read string|null $order_id
  * @property-read string|null $order_number
  * @property-read string|null $origin
  * @property-read mixed $paid_at
  * @property-read list<string>|null $payment_intent_ids
- * @property-read list<ExpandedPaymentIntentSummary>|null $payment_intents
+ * @property-read list<ExpandedPaymentIntentSummaryPreviousAttributes>|null $payment_intents
  * @property-read string|null $payment_link_id
  * @property-read string|null $payment_status
  * @property-read mixed $pending_order_edit_id
  * @property-read mixed $prepayment_order_id
- * @property-read PricingAmounts|null $pricing_amounts
+ * @property-read mixed $pricing_amounts
  * @property-read list<string>|null $refund_ids
  * @property-read string|null $refund_status
- * @property-read list<OrderReturnCreditSettlement>|null $return_credit_settlements
+ * @property-read list<OrderReturnCreditSettlementPreviousAttributes>|null $return_credit_settlements
  * @property-read string|null $return_resolution_id
- * @property-read OrderSettlementAmounts|null $settlement_amounts
+ * @property-read mixed $settlement_amounts
  * @property-read string|null $status
  * @property-read mixed $subscription
  * @property-read int|null $subscription_cycle
@@ -65,9 +65,9 @@ namespace Flint;
  * @property-read mixed $subscription_plan
  * @property-read string|null $subscription_plan_id
  * @property-read list<string>|null $supported_actions
- * @property-read OrderTax|null $tax
- * @property-read TicketedEvent|null $ticketed_event
- * @property-read list<Tip>|null $tips
+ * @property-read mixed $tax
+ * @property-read mixed $ticketed_event
+ * @property-read list<TipPreviousAttributes>|null $tips
  * @property-read string|null $updated_at
  * @property-read int|null $version
  * Presence-aware response; omitted optional fields return null. */
@@ -79,23 +79,23 @@ final class OrderPartiallyPaidMerchantEventDataPreviousAttributes extends Model 
      */
     public function getActivePaymentReviewId(): mixed { return $this->get('active_payment_review_id'); }
     public function hasActivePaymentReviewId(): bool { return $this->has('active_payment_review_id'); }
-    /** The amounts authorized and still capturable on the order's payments. anyOf[1] (Value): {@see OrderAuthorizationAmounts}. The amounts authorized and still capturable on the order's payments. anyOf[2] (Value): null.
-     * @return OrderAuthorizationAmounts|null
+    /** The amounts authorized and still capturable on the order's payments. anyOf[1] (Value): {@see OrderAuthorizationAmountsPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getAuthorizationAmounts(): OrderAuthorizationAmounts|null { return $this->get('authorization_amounts'); }
+    public function getAuthorizationAmounts(): mixed { return $this->get('authorization_amounts'); }
     public function hasAuthorizationAmounts(): bool { return $this->has('authorization_amounts'); }
-    /** Email and phone saved when payment started, from the pay request's buyer_contact or the paying checkout session's saved contact. It does not change the linked customer. anyOf[1] (Value): {@see CheckoutBuyerContact}. Email and phone saved when payment started, from the pay request's buyer_contact or the paying checkout session's saved contact. It does not change the linked customer. anyOf[2] (Value): null.
-     * @return CheckoutBuyerContact|null
+    /** Email and phone saved when payment started, from the pay request's buyer_contact or the paying checkout session's saved contact. It does not change the linked customer. anyOf[1] (Value): {@see CheckoutBuyerContactPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getBuyerContact(): CheckoutBuyerContact|null { return $this->get('buyer_contact'); }
+    public function getBuyerContact(): mixed { return $this->get('buyer_contact'); }
     public function hasBuyerContact(): bool { return $this->has('buyer_contact'); }
     /** A note to the buyer. anyOf[1] (Value): string. A note to the buyer. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getBuyerNote(): string|null { return $this->get('buyer_note'); }
     public function hasBuyerNote(): bool { return $this->has('buyer_note'); }
-    /** Charges added to the order, such as delivery or service fees, each with its applied amount, tax, and refunded amount. anyOf[1] (Value): Array of {@see OrderCharge}. Charges added to the order, such as delivery or service fees, each with its applied amount, tax, and refunded amount. anyOf[1][] (Value): {@see OrderCharge}. An additional charge applied to an order. anyOf[2] (Value): null.
-     * @return list<OrderCharge>|null
+    /** Charges added to the order, such as delivery or service fees, each with its applied amount, tax, and refunded amount. anyOf[1] (Value): Array of {@see OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service fees, each with its applied amount, tax, and refunded amount. anyOf[1][] (Value): {@see OrderChargePreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<OrderChargePreviousAttributes>|null
      */
     public function getCharges(): array|null { return $this->get('charges'); }
     public function hasCharges(): bool { return $this->has('charges'); }
@@ -129,12 +129,12 @@ final class OrderPartiallyPaidMerchantEventDataPreviousAttributes extends Model 
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** The buyer's answers to the payment link's custom fields, recorded when checkout started, in the order the link showed the fields. Each answer keeps the field's key, label, and type from that moment, so later changes to the link don't change it. Optional fields the buyer left blank are left out. Read-only. Empty when the order didn't come from a payment link, the link had no custom fields, or the buyer answered none. Orders created before Flint recorded answers here also return an empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting the customer removes the answers. Returned only to merchant credentials; omitted for buyer credentials. Always present with merchant credentials. anyOf[1] (Value): Array of {@see CustomFieldAnswer}. The buyer's answers to the payment link's custom fields, recorded when checkout started, in the order the link showed the fields. Each answer keeps the field's key, label, and type from that moment, so later changes to the link don't change it. Optional fields the buyer left blank are left out. Read-only. Empty when the order didn't come from a payment link, the link had no custom fields, or the buyer answered none. Orders created before Flint recorded answers here also return an empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting the customer removes the answers. Returned only to merchant credentials; omitted for buyer credentials. Always present with merchant credentials. maxItems: 20. anyOf[1][] (Value): {@see CustomFieldAnswer}. One answer to a payment link custom field, with the field as it was when checkout started. `custom_field_type` determines the type of `value`. anyOf[2] (Value): null.
-     * @return list<OrderPartiallyPaidMerchantEventDataPreviousAttributesCustomFieldAnswersItemText|OrderPartiallyPaidMerchantEventDataPreviousAttributesCustomFieldAnswersItemTextarea|OrderPartiallyPaidMerchantEventDataPreviousAttributesCustomFieldAnswersItemDropdown|OrderPartiallyPaidMerchantEventDataPreviousAttributesCustomFieldAnswersItemCheckbox|\stdClass>|null
+    /** The buyer's answers to the payment link's custom fields, recorded when checkout started, in the order the link showed the fields. Each answer keeps the field's key, label, and type from that moment, so later changes to the link don't change it. Optional fields the buyer left blank are left out. Read-only. Empty when the order didn't come from a payment link, the link had no custom fields, or the buyer answered none. Orders created before Flint recorded answers here also return an empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting the customer removes the answers. Returned only to merchant credentials; omitted for buyer credentials. Always present with merchant credentials. anyOf[1] (Value): Array of {@see CustomFieldAnswerPreviousAttributes}. The buyer's answers to the payment link's custom fields, recorded when checkout started, in the order the link showed the fields. Each answer keeps the field's key, label, and type from that moment, so later changes to the link don't change it. Optional fields the buyer left blank are left out. Read-only. Empty when the order didn't come from a payment link, the link had no custom fields, or the buyer answered none. Orders created before Flint recorded answers here also return an empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting the customer removes the answers. Returned only to merchant credentials; omitted for buyer credentials. Always present with merchant credentials. maxItems: 20. anyOf[1][] (Value): {@see CustomFieldAnswerPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<\stdClass>|null
      */
     public function getCustomFieldAnswers(): array|null { return $this->get('custom_field_answers'); }
     public function hasCustomFieldAnswers(): bool { return $this->has('custom_field_answers'); }
-    /** Customer summary included when `expand` names `customer`; `null` when expanded and no customer is linked. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummary} or null. Customer summary included when `expand` names `customer`; `null` when expanded and no customer is linked. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID when the customer is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Customer summary included when `expand` names `customer`; `null` when expanded and no customer is linked. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): ({@see ExpandedCustomerSummaryPreviousAttributes} or null). Customer summary included when `expand` names `customer`; `null` when expanded and no customer is linked. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getCustomer(): mixed { return $this->get('customer'); }
@@ -144,23 +144,23 @@ final class OrderPartiallyPaidMerchantEventDataPreviousAttributes extends Model 
      */
     public function getCustomerId(): string|null { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Promotions accepted at subscription signup. They attach when the subscription is provisioned and first discount its first charged cycle. They do not discount this order and are separate from discounts and order totals. Always present; empty when no promotions are deferred. anyOf[1] (Value): Array of {@see DeferredPromotion}. Promotions accepted at subscription signup. They attach when the subscription is provisioned and first discount its first charged cycle. They do not discount this order and are separate from discounts and order totals. Always present; empty when no promotions are deferred. anyOf[1][] (Value): {@see DeferredPromotion}. A promotion accepted at subscription signup for the subscription's first charged cycle. It does not discount the signup order. anyOf[2] (Value): null.
-     * @return list<DeferredPromotion>|null
+    /** Promotions accepted at subscription signup. They attach when the subscription is provisioned and first discount its first charged cycle. They do not discount this order and are separate from discounts and order totals. Always present; empty when no promotions are deferred. anyOf[1] (Value): Array of {@see DeferredPromotionPreviousAttributes}. Promotions accepted at subscription signup. They attach when the subscription is provisioned and first discount its first charged cycle. They do not discount this order and are separate from discounts and order totals. Always present; empty when no promotions are deferred. anyOf[1][] (Value): {@see DeferredPromotionPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<DeferredPromotionPreviousAttributes>|null
      */
     public function getDeferredPromotions(): array|null { return $this->get('deferred_promotions'); }
     public function hasDeferredPromotions(): bool { return $this->has('deferred_promotions'); }
-    /** Method, type and recipient of governing_delivery_selection_id. The address remains in delivery_destination. Omitted when no shipment or local-delivery selection governs the order. anyOf[1] (Value): {@see OrderDeliverySummary}. Method, type and recipient of governing_delivery_selection_id. The address remains in delivery_destination. Omitted when no shipment or local-delivery selection governs the order. anyOf[2] (Value): null.
-     * @return OrderDeliverySummary|null
+    /** Method, type and recipient of governing_delivery_selection_id. The address remains in delivery_destination. Omitted when no shipment or local-delivery selection governs the order. anyOf[1] (Value): {@see OrderDeliverySummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getDelivery(): OrderDeliverySummary|null { return $this->get('delivery'); }
+    public function getDelivery(): mixed { return $this->get('delivery'); }
     public function hasDelivery(): bool { return $this->has('delivery'); }
-    /** The shipment or local-delivery destination committed for this order. Payment freezes this value; fulfillment recipient changes do not replace it. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. anyOf[1] (Value): {@see OrderDeliveryDestination}. The shipment or local-delivery destination committed for this order. Payment freezes this value; fulfillment recipient changes do not replace it. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. anyOf[2] (Value): null.
-     * @return OrderDeliveryDestination|null
+    /** The shipment or local-delivery destination committed for this order. Payment freezes this value; fulfillment recipient changes do not replace it. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. anyOf[1] (Value): {@see OrderDeliveryDestinationPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getDeliveryDestination(): OrderDeliveryDestination|null { return $this->get('delivery_destination'); }
+    public function getDeliveryDestination(): mixed { return $this->get('delivery_destination'); }
     public function hasDeliveryDestination(): bool { return $this->has('delivery_destination'); }
-    /** Discounts applied to the order, each with its amount, status, and the line items and charges it covers. anyOf[1] (Value): Array of {@see OrderDiscount}. Discounts applied to the order, each with its amount, status, and the line items and charges it covers. anyOf[1][] (Value): {@see OrderDiscount}. A discount applied to an order, with its amount, status, and the line items and charges it covers. It comes from a manual discount or a promotion. anyOf[2] (Value): null.
-     * @return list<OrderDiscount>|null
+    /** Discounts applied to the order, each with its amount, status, and the line items and charges it covers. anyOf[1] (Value): Array of {@see OrderDiscountPreviousAttributes}. Discounts applied to the order, each with its amount, status, and the line items and charges it covers. anyOf[1][] (Value): {@see OrderDiscountPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<OrderDiscountPreviousAttributes>|null
      */
     public function getDiscounts(): array|null { return $this->get('discounts'); }
     public function hasDiscounts(): bool { return $this->has('discounts'); }
@@ -179,28 +179,28 @@ final class OrderPartiallyPaidMerchantEventDataPreviousAttributes extends Model 
      */
     public function getFulfillmentStatus(): string|null { return $this->get('fulfillment_status'); }
     public function hasFulfillmentStatus(): bool { return $this->has('fulfillment_status'); }
-    /** Fulfillments created for the order, each covering a set of its line items. anyOf[1] (Value): Array of {@see Fulfillment}. Fulfillments created for the order, each covering a set of its line items. anyOf[1][] (Value): {@see Fulfillment}. Work required to deliver an order's items. anyOf[2] (Value): null.
-     * @return list<Fulfillment>|null
+    /** Fulfillments created for the order, each covering a set of its line items. anyOf[1] (Value): Array of {@see FulfillmentPreviousAttributes}. Fulfillments created for the order, each covering a set of its line items. anyOf[1][] (Value): {@see FulfillmentPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<FulfillmentPreviousAttributes>|null
      */
     public function getFulfillments(): array|null { return $this->get('fulfillments'); }
     public function hasFulfillments(): bool { return $this->has('fulfillments'); }
-    /** An estimate of how the order balance splits between gift cards and the payment processor. anyOf[1] (Value): {@see OrderGiftCardEstimate}. An estimate of how the order balance splits between gift cards and the payment processor. anyOf[2] (Value): null.
-     * @return OrderGiftCardEstimate|null
+    /** An estimate of how the order balance splits between gift cards and the payment processor. anyOf[1] (Value): {@see OrderGiftCardEstimatePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getGiftCardEstimate(): OrderGiftCardEstimate|null { return $this->get('gift_card_estimate'); }
+    public function getGiftCardEstimate(): mixed { return $this->get('gift_card_estimate'); }
     public function hasGiftCardEstimate(): bool { return $this->has('gift_card_estimate'); }
-    /** The gift card redemptions applied to the order's payments. anyOf[1] (Value): Array of {@see OrderGiftCardSettlement}. The gift card redemptions applied to the order's payments. anyOf[1][] (Value): {@see OrderGiftCardSettlement}. A gift card redemption applied to an order payment, with the amount, tip, and gift card. anyOf[2] (Value): null.
-     * @return list<OrderGiftCardSettlement>|null
+    /** The gift card redemptions applied to the order's payments. anyOf[1] (Value): Array of {@see OrderGiftCardSettlementPreviousAttributes}. The gift card redemptions applied to the order's payments. anyOf[1][] (Value): {@see OrderGiftCardSettlementPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<OrderGiftCardSettlementPreviousAttributes>|null
      */
     public function getGiftCardSettlements(): array|null { return $this->get('gift_card_settlements'); }
     public function hasGiftCardSettlements(): bool { return $this->has('gift_card_settlements'); }
-    /** Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes, are not subscription purchases, and whose merchant has at least one gift card that is not closed in this environment. Recomputed on each read; a spent but open card still counts. anyOf[1] (Value): boolean. Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes, are not subscription purchases, and whose merchant has at least one gift card that is not closed in this environment. Recomputed on each read; a spent but open card still counts. anyOf[2] (Value): null.
+    /** Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes, are not subscription purchases, and whose merchant has at least one gift card that is not closed in this environment. Gift cards cannot fund gift card purchases; this is false when those purchases leave no amount eligible for gift card tender. Recomputed on each read; a spent but open card still counts. anyOf[1] (Value): boolean. Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes, are not subscription purchases, and whose merchant has at least one gift card that is not closed in this environment. Gift cards cannot fund gift card purchases; this is false when those purchases leave no amount eligible for gift card tender. Recomputed on each read; a spent but open card still counts. anyOf[2] (Value): null.
      * @return bool|null
      */
     public function getGiftCardTenderEnabled(): bool|null { return $this->get('gift_card_tender_enabled'); }
     public function hasGiftCardTenderEnabled(): bool { return $this->has('gift_card_tender_enabled'); }
-    /** Gift cards available to pay the order, with each card's available balance. anyOf[1] (Value): Array of {@see OrderGiftCardSelection}. Gift cards available to pay the order, with each card's available balance. anyOf[1][] (Value): {@see OrderGiftCardSelection}. A gift card available to pay an order, with its available balance and the last four characters of its code. anyOf[2] (Value): null.
-     * @return list<OrderGiftCardSelection>|null
+    /** Gift cards available to pay the order, with each card's available balance. anyOf[1] (Value): Array of {@see OrderGiftCardSelectionPreviousAttributes}. Gift cards available to pay the order, with each card's available balance. anyOf[1][] (Value): {@see OrderGiftCardSelectionPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<OrderGiftCardSelectionPreviousAttributes>|null
      */
     public function getGiftCards(): array|null { return $this->get('gift_cards'); }
     public function hasGiftCards(): bool { return $this->has('gift_cards'); }
@@ -209,10 +209,10 @@ final class OrderPartiallyPaidMerchantEventDataPreviousAttributes extends Model 
      */
     public function getGoverningDeliverySelectionId(): mixed { return $this->get('governing_delivery_selection_id'); }
     public function hasGoverningDeliverySelectionId(): bool { return $this->has('governing_delivery_selection_id'); }
-    /** Carry-out handover: every physical item is handed to the buyer at this location when the order is paid, in place of a delivery selection. Payment then creates one completed `handover` fulfillment. Absent without a handover. anyOf[1] (Value): {@see OrderPartiallyPaidMerchantEventDataPreviousAttributesHandover}. Carry-out handover: every physical item is handed to the buyer at this location when the order is paid, in place of a delivery selection. Payment then creates one completed `handover` fulfillment. Absent without a handover. anyOf[2] (Value): null.
-     * @return OrderPartiallyPaidMerchantEventDataPreviousAttributesHandover|null
+    /** Carry-out handover: every physical item is handed to the buyer at this location when the order is paid, in place of a delivery selection. Payment then creates one completed `handover` fulfillment. Absent without a handover. anyOf[1] (Value): {@see OrderHandoverPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getHandover(): OrderPartiallyPaidMerchantEventDataPreviousAttributesHandover|null { return $this->get('handover'); }
+    public function getHandover(): mixed { return $this->get('handover'); }
     public function hasHandover(): bool { return $this->has('handover'); }
     /** A note for your team. Buyer reads leave it out. anyOf[1] (Value): string. A note for your team. Buyer reads leave it out. anyOf[2] (Value): null.
      * @return string|null
@@ -239,18 +239,18 @@ final class OrderPartiallyPaidMerchantEventDataPreviousAttributes extends Model 
      */
     public function getInventoryReservationId(): string|null { return $this->get('inventory_reservation_id'); }
     public function hasInventoryReservationId(): bool { return $this->has('inventory_reservation_id'); }
-    /** Where this order's tracked demand is routed. Required before an order containing tracked variants can hold stock. anyOf[1] (Value): {@see OrderPartiallyPaidMerchantEventDataPreviousAttributesInventoryRoutingSource}. Where this order's tracked demand is routed. Required before an order containing tracked variants can hold stock. anyOf[2] (Value): null.
-     * @return OrderPartiallyPaidMerchantEventDataPreviousAttributesInventoryRoutingSource|null
+    /** Where this order's tracked demand is routed. Required before an order containing tracked variants can hold stock. anyOf[1] (Value): {@see InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getInventoryRoutingSource(): OrderPartiallyPaidMerchantEventDataPreviousAttributesInventoryRoutingSource|null { return $this->get('inventory_routing_source'); }
+    public function getInventoryRoutingSource(): mixed { return $this->get('inventory_routing_source'); }
     public function hasInventoryRoutingSource(): bool { return $this->has('inventory_routing_source'); }
     /** The invoice associated with this order. Null when the order has no invoice. A replacement invoice replaces this ID; voiding an invoice preserves it. anyOf[1] (Value): string or null. The invoice associated with this order. Null when the order has no invoice. A replacement invoice replaces this ID; voiding an invoice preserves it. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getInvoiceId(): mixed { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** Items the order sells, each with its pricing, tax, and fulfillment quantities. anyOf[1] (Value): Array of {@see OrderLineItem}. Items the order sells, each with its pricing, tax, and fulfillment quantities. anyOf[1][] (Value): {@see OrderLineItem}. An item purchased in an order. anyOf[2] (Value): null.
-     * @return list<OrderLineItem>|null
+    /** Items the order sells, each with its pricing, tax, and fulfillment quantities. anyOf[1] (Value): Array of {@see OrderLineItemPreviousAttributes}. Items the order sells, each with its pricing, tax, and fulfillment quantities. anyOf[1][] (Value): {@see OrderLineItemPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<OrderLineItemPreviousAttributes>|null
      */
     public function getLineItems(): array|null { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
@@ -259,10 +259,10 @@ final class OrderPartiallyPaidMerchantEventDataPreviousAttributes extends Model 
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
-     * @return array<array-key, string>|null
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getMetadata(): array|null { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Unique identifier for this order, prefixed `ord_`. anyOf[1] (Value): string. Unique identifier for this order, prefixed `ord_`. anyOf[2] (Value): null.
      * @return string|null
@@ -289,8 +289,8 @@ final class OrderPartiallyPaidMerchantEventDataPreviousAttributes extends Model 
      */
     public function getPaymentIntentIds(): array|null { return $this->get('payment_intent_ids'); }
     public function hasPaymentIntentIds(): bool { return $this->has('payment_intent_ids'); }
-    /** Payment intents included when `expand` names `payment_intents`. anyOf[1] (Value): Array of {@see ExpandedPaymentIntentSummary}. Payment intents included when `expand` names `payment_intents`. anyOf[1][] (Value): {@see ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status, and capture method, returned when the payment intent is expanded. anyOf[2] (Value): null.
-     * @return list<ExpandedPaymentIntentSummary>|null
+    /** Payment intents included when `expand` names `payment_intents`. anyOf[1] (Value): Array of {@see ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents included when `expand` names `payment_intents`. anyOf[1][] (Value): {@see ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ExpandedPaymentIntentSummaryPreviousAttributes>|null
      */
     public function getPaymentIntents(): array|null { return $this->get('payment_intents'); }
     public function hasPaymentIntents(): bool { return $this->has('payment_intents'); }
@@ -314,10 +314,10 @@ final class OrderPartiallyPaidMerchantEventDataPreviousAttributes extends Model 
      */
     public function getPrepaymentOrderId(): mixed { return $this->get('prepayment_order_id'); }
     public function hasPrepaymentOrderId(): bool { return $this->has('prepayment_order_id'); }
-    /** The order's money totals: subtotal, discounts, charges, tax, requested tip, and total. anyOf[1] (Value): {@see PricingAmounts}. The order's money totals: subtotal, discounts, charges, tax, requested tip, and total. anyOf[2] (Value): null.
-     * @return PricingAmounts|null
+    /** The order's money totals: subtotal, discounts, charges, tax, requested tip, and total. anyOf[1] (Value): {@see PricingAmountsPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getPricingAmounts(): PricingAmounts|null { return $this->get('pricing_amounts'); }
+    public function getPricingAmounts(): mixed { return $this->get('pricing_amounts'); }
     public function hasPricingAmounts(): bool { return $this->has('pricing_amounts'); }
     /** IDs of the refunds that name this order. This includes refunds Flint makes to return a payment it couldn't accept (`reason` `payment_returned`), which never count toward `refund_status` or the order's refunded amounts. anyOf[1] (Value): Array of string. IDs of the refunds that name this order. This includes refunds Flint makes to return a payment it couldn't accept (`reason` `payment_returned`), which never count toward `refund_status` or the order's refunded amounts. anyOf[1][] (Value): string. anyOf[2] (Value): null.
      * @return list<string>|null
@@ -329,8 +329,8 @@ final class OrderPartiallyPaidMerchantEventDataPreviousAttributes extends Model 
      */
     public function getRefundStatus(): string|null { return $this->get('refund_status'); }
     public function hasRefundStatus(): bool { return $this->has('refund_status'); }
-    /** Value applied to this order from items the buyer returned, such as an exchange's replacement order. Included in settlement_amounts.paid_money. anyOf[1] (Value): Array of {@see OrderReturnCreditSettlement}. Value applied to this order from items the buyer returned, such as an exchange's replacement order. Included in settlement_amounts.paid_money. anyOf[1][] (Value): {@see OrderReturnCreditSettlement}. A return credit applied to an order payment, with the amount and the return and resolution it came from. anyOf[2] (Value): null.
-     * @return list<OrderReturnCreditSettlement>|null
+    /** Value applied to this order from items the buyer returned, such as an exchange's replacement order. Included in settlement_amounts.paid_money. anyOf[1] (Value): Array of {@see OrderReturnCreditSettlementPreviousAttributes}. Value applied to this order from items the buyer returned, such as an exchange's replacement order. Included in settlement_amounts.paid_money. anyOf[1][] (Value): {@see OrderReturnCreditSettlementPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<OrderReturnCreditSettlementPreviousAttributes>|null
      */
     public function getReturnCreditSettlements(): array|null { return $this->get('return_credit_settlements'); }
     public function hasReturnCreditSettlements(): bool { return $this->has('return_credit_settlements'); }
@@ -339,17 +339,17 @@ final class OrderPartiallyPaidMerchantEventDataPreviousAttributes extends Model 
      */
     public function getReturnResolutionId(): string|null { return $this->get('return_resolution_id'); }
     public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
-    /** How much of the order has been paid, refunded, credited, written off, and settled as tips, and what is still outstanding. anyOf[1] (Value): {@see OrderSettlementAmounts}. How much of the order has been paid, refunded, credited, written off, and settled as tips, and what is still outstanding. Money collected, returned, waived, and still owed on a bill. anyOf[2] (Value): null.
-     * @return OrderSettlementAmounts|null
+    /** How much of the order has been paid, refunded, credited, written off, and settled as tips, and what is still outstanding. anyOf[1] (Value): {@see OrderSettlementAmountsPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getSettlementAmounts(): OrderSettlementAmounts|null { return $this->get('settlement_amounts'); }
+    public function getSettlementAmounts(): mixed { return $this->get('settlement_amounts'); }
     public function hasSettlementAmounts(): bool { return $this->has('settlement_amounts'); }
     /** Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Value enum: "open", "closed". anyOf[1] (Value): string. Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Value enum: "open", "closed". anyOf[2] (Value): null.
      * @return string|null
      */
     public function getStatus(): string|null { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Subscription summary included when `expand` names `subscription`; `null` when expanded and this order does not bill a subscription. Present only when `expand` includes `subscription`; `null` when expanded and there is no related subscription. anyOf[1] (Value): {@see ExpandedSubscriptionSummary} or null. Subscription summary included when `expand` names `subscription`; `null` when expanded and this order does not bill a subscription. Present only when `expand` includes `subscription`; `null` when expanded and there is no related subscription. anyOf[1].anyOf[1] (Value): {@see ExpandedSubscriptionSummary}. A subscription's summary fields, including status, billing period, and next billing time, returned when the subscription is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Subscription summary included when `expand` names `subscription`; `null` when expanded and this order does not bill a subscription. Present only when `expand` includes `subscription`; `null` when expanded and there is no related subscription. anyOf[1] (Value): ({@see ExpandedSubscriptionSummaryPreviousAttributes} or null). Subscription summary included when `expand` names `subscription`; `null` when expanded and this order does not bill a subscription. Present only when `expand` includes `subscription`; `null` when expanded and there is no related subscription. anyOf[1].anyOf[1] (Value): {@see ExpandedSubscriptionSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getSubscription(): mixed { return $this->get('subscription'); }
@@ -374,7 +374,7 @@ final class OrderPartiallyPaidMerchantEventDataPreviousAttributes extends Model 
      */
     public function getSubscriptionId(): string|null { return $this->get('subscription_id'); }
     public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
-    /** Plan summary included when `expand` names `subscription_plan`; `null` when expanded and this order does not bill a subscription plan. Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. anyOf[1] (Value): {@see ExpandedSubscriptionPlanSummary} or null. Plan summary included when `expand` names `subscription_plan`; `null` when expanded and this order does not bill a subscription plan. Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. anyOf[1].anyOf[1] (Value): {@see ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including name, billing interval, currency, and status, returned when the plan is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** Plan summary included when `expand` names `subscription_plan`; `null` when expanded and this order does not bill a subscription plan. Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. anyOf[1] (Value): ({@see ExpandedSubscriptionPlanSummaryPreviousAttributes} or null). Plan summary included when `expand` names `subscription_plan`; `null` when expanded and this order does not bill a subscription plan. Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. anyOf[1].anyOf[1] (Value): {@see ExpandedSubscriptionPlanSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getSubscriptionPlan(): mixed { return $this->get('subscription_plan'); }
@@ -389,18 +389,18 @@ final class OrderPartiallyPaidMerchantEventDataPreviousAttributes extends Model 
      */
     public function getSupportedActions(): array|null { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** The order's tax state: whether tax is enabled, its status, location, exemption, and per-jurisdiction rows. anyOf[1] (Value): {@see OrderTax}. The order's tax state: whether tax is enabled, its status, location, exemption, and per-jurisdiction rows. anyOf[2] (Value): null.
-     * @return OrderTax|null
+    /** The order's tax state: whether tax is enabled, its status, location, exemption, and per-jurisdiction rows. anyOf[1] (Value): {@see OrderTaxPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getTax(): OrderTax|null { return $this->get('tax'); }
+    public function getTax(): mixed { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
-    /** Event and tickets this order sold through an event payment link. Absent on other orders. anyOf[1] (Value): {@see TicketedEvent}. Event and tickets this order sold through an event payment link. Absent on other orders. anyOf[2] (Value): null.
-     * @return TicketedEvent|null
+    /** Event and tickets this order sold through an event payment link. Absent on other orders. anyOf[1] (Value): {@see TicketedEventPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getTicketedEvent(): TicketedEvent|null { return $this->get('ticketed_event'); }
+    public function getTicketedEvent(): mixed { return $this->get('ticketed_event'); }
     public function hasTicketedEvent(): bool { return $this->has('ticketed_event'); }
-    /** Tips on the order, each with its requested, settled, and refunded amounts. A tip cleared before payment stays listed as canceled. anyOf[1] (Value): Array of {@see Tip}. Tips on the order, each with its requested, settled, and refunded amounts. A tip cleared before payment stays listed as canceled. anyOf[1][] (Value): {@see Tip}. A tip on an order, with its requested, settled, and refunded amounts, status, and how it was paid. anyOf[2] (Value): null.
-     * @return list<Tip>|null
+    /** Tips on the order, each with its requested, settled, and refunded amounts. A tip cleared before payment stays listed as canceled. anyOf[1] (Value): Array of {@see TipPreviousAttributes}. Tips on the order, each with its requested, settled, and refunded amounts. A tip cleared before payment stays listed as canceled. anyOf[1][] (Value): {@see TipPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<TipPreviousAttributes>|null
      */
     public function getTips(): array|null { return $this->get('tips'); }
     public function hasTips(): bool { return $this->has('tips'); }

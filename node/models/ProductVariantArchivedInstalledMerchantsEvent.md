@@ -119,10 +119,10 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `delivery_configuration_reason` | Optional | string or null | Reason the variant's delivery configuration needs attention. Values: `"delivery_profile_missing"`, `"delivery_profile_inactive"`. `delivery_configuration_reason`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesdelivery_configuration_reason). |
 | `delivery_configuration_status` | Optional | string or null | Whether the variant's delivery configuration is ready, needs attention, or does not apply. Values: `"configured"`, `"action_required"`, `"not_applicable"`. `delivery_configuration_status`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesdelivery_configuration_status). |
 | `delivery_profile_id` | Optional | string or null | Identifier of the assigned delivery profile. Digital and service variants opt in to manual delivery with a required manual profile whose allowed_types is exactly [digital] or [service], matching the product type. Without a profile, delivery does not apply. `delivery_profile_id`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesdelivery_profile_id). |
-| `effective_images` | Optional | Array of [ImageAttachment](../models/ImageAttachment.md#imageattachment) or null | Images shown for the variant: its own gallery when nonempty, otherwise the product's gallery. `effective_images`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributeseffective_images). |
+| `effective_images` | Optional | Array of [ImageAttachmentPreviousAttributes](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributes) or null | Images shown for the variant: its own gallery when nonempty, otherwise the product's gallery. `effective_images`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributeseffective_images). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesexternal_reference_id). |
-| `gift_card_configuration` | Optional | [GiftCardProductConfiguration](../models/GiftCardProductConfiguration.md#giftcardproductconfiguration) or null | Gift card issuance terms. face_value_money is the reference denomination; unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent with ties up. `gift_card_configuration`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesgift_card_configuration). |
-| `images` | Optional | Array of [ImageAttachment](../models/ImageAttachment.md#imageattachment) or null | The variant's own images in display order. An empty gallery inherits the product's images. `images`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesimages). |
+| `gift_card_configuration` | Optional | [GiftCardProductConfigurationPreviousAttributes](../models/GiftCardProductConfigurationPreviousAttributes.md#giftcardproductconfigurationpreviousattributes) or null | Gift card issuance terms. face_value_money is the reference denomination; unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent with ties up. |
+| `images` | Optional | Array of [ImageAttachmentPreviousAttributes](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributes) or null | The variant's own images in display order. An empty gallery inherits the product's images. `images`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesimages). |
 | `inventory_item_id` | Optional | string or null | The inventory item this variant consumes. Present exactly when inventory_tracking is tracked. Several variants may share one inventory item. `inventory_item_id`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesinventory_item_id). |
 | `inventory_tracking` | Optional | string or null | Whether sales of this variant consume an inventory item. Values: `"not_tracked"`, `"tracked"`. `inventory_tracking`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesinventory_tracking). |
 | `is_available_for_sale` | Optional | boolean or null | Whether the variant and its product are both active. Stock isn't considered; `inventory_availability` reports it on reads. `is_available_for_sale`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesis_available_for_sale). |
@@ -134,15 +134,15 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `name` | Optional | string or null | Variant name that distinguishes it from the product's other variants. `name`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesname). |
 | `position` | Optional | integer or null | Display order among the product's variants, starting at zero. `position`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesposition). |
 | `product_id` | Optional | string or null | Identifier of the product this variant belongs to. `product_id`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesproduct_id). |
-| `quantity_price_breaks` | Optional | Array of [QuantityPriceBreak](../models/QuantityPriceBreak.md#quantitypricebreak) or null | Net unit prices in ascending minimum_quantity order. The largest minimum not above the line quantity applies; otherwise the base unit price applies. Empty when no breaks are configured. Gift card variants have no breaks. `quantity_price_breaks`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesquantity_price_breaks). |
+| `quantity_price_breaks` | Optional | Array of [QuantityPriceBreakPreviousAttributes](../models/QuantityPriceBreakPreviousAttributes.md#quantitypricebreakpreviousattributes) or null | Net unit prices in ascending minimum_quantity order. The largest minimum not above the line quantity applies; otherwise the base unit price applies. Empty when no breaks are configured. Gift card variants have no breaks. `quantity_price_breaks`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesquantity_price_breaks). |
 | `release_date` | Optional | string or null or null | Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date is after today in the merchant timezone are pre-orders. Existing order lines keep their release date. `release_date`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesrelease_date). |
-| `selected_options` | Optional | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) or null | Always present. Empty collections are returned as []. `selected_options`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesselected_options). |
+| `selected_options` | Optional | Array of [SelectedProductOptionPreviousAttributes](../models/SelectedProductOptionPreviousAttributes.md#selectedproductoptionpreviousattributes) or null | Always present. Empty collections are returned as []. `selected_options`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesselected_options). |
 | `sku` | Optional | string or null | Stock keeping unit assigned to this sellable item. `sku`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributessku). |
 | `status` | Optional | string or null | Variant lifecycle status. Archived variants remain readable and cannot be edited. Values: `"active"`, `"inactive"`, `"archived"`. `status`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesstatus). |
 | `taxable` | Optional | boolean or null | Whether this item is subject to tax. `taxable`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributestaxable). |
-| `unit_dimensions` | Optional | [Dimensions](../models/Dimensions.md#dimensions) or null | Per-unit measurement. Omitted when unknown. `unit_dimensions`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesunit_dimensions). |
-| `unit_price_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Base unit price before quantity price breaks, in the currency's smallest unit. `unit_price_money`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesunit_price_money). |
-| `unit_weight` | Optional | [Weight](../models/Weight.md#weight) or null | Per-unit measurement. Omitted when unknown. `unit_weight`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesunit_weight). |
+| `unit_dimensions` | Optional | [DimensionsPreviousAttributes](../models/DimensionsPreviousAttributes.md#dimensionspreviousattributes) or null | Per-unit measurement. Omitted when unknown. |
+| `unit_price_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Base unit price before quantity price breaks, in the currency's smallest unit. `unit_price_money`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesunit_price_money). |
+| `unit_weight` | Optional | [WeightPreviousAttributes](../models/WeightPreviousAttributes.md#weightpreviousattributes) or null | Per-unit measurement. Omitted when unknown. |
 | `updated_at` | Optional | string or null | When this resource last changed, as an RFC3339 timestamp. `updated_at`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesupdated_at). |
 | `variant_id` | Optional | string or null | Stable identifier of the product variant. `variant_id`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesvariant_id). |
 | `version` | Optional | integer or null | Current resource version. Send it as expected_version to reject a write if the resource has changed. `version`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesversion). |
@@ -218,7 +218,7 @@ anyOf variant 2.
 
 anyOf variant 1: Images shown for the variant: its own gallery when nonempty, otherwise the product's gallery..
 
-- Value shape: Array of [ImageAttachment](../models/ImageAttachment.md#imageattachment). Images shown for the variant: its own gallery when nonempty, otherwise the product's gallery. 
+- Value shape: Array of [ImageAttachmentPreviousAttributes](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributes). Images shown for the variant: its own gallery when nonempty, otherwise the product's gallery. 
 
 ### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.effective_images variant 2
 
@@ -230,45 +230,13 @@ anyOf variant 2.
 
 Declared alternatives: [BundleArchivedInstalledMerchantsEvent.data.previous_attributes.external_reference_id](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesexternal_reference_id).
 
-### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.gift_card_configuration
-
-Gift card issuance terms. face_value_money is the reference denomination; unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent with ties up.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `custom_amount_bounds` | Conditional | [GiftCardCustomAmountBounds](../models/GiftCardCustomAmountBounds.md#giftcardcustomamountbounds) | Minimum and maximum gift card values buyers can choose. Omit for a fixed denomination. The minimum and maximum amounts a buyer can choose when buying a gift card with a custom amount. `custom_amount_bounds`: [field definitions](../models/GiftCardProductConfiguration.md#giftcardproductconfiguration-variant-1custom_amount_bounds). |
-| `face_value_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Gift card value issued for one unit of this variant, in the same currency as its unit price. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `face_value_money`: [field definitions](../models/GiftCardProductConfiguration.md#giftcardproductconfigurationface_value_money). |
-| `price_mode` | Conditional | string | Whether the gift card is sold at its face value or at a discounted price. Values: `"face_value"`, `"discounted"`. |
-
-### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.gift_card_configuration variant 1
-
-anyOf GiftCardProductConfiguration: Gift card issuance terms. face_value_money is the reference denomination; unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent with ties up..
-
-- Required: `face_value_money`, `price_mode`.
-- Optional: `custom_amount_bounds`.
-
-### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.gift_card_configuration variant 2
-
-anyOf variant 2.
-
-- Undeclared: `custom_amount_bounds`, `face_value_money`, `price_mode`.
-- Value shape: null. Gift card issuance terms. face_value_money is the reference denomination; unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent with ties up. 
-
-### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.gift_card_configuration variant 1.custom_amount_bounds
-
-Field definitions: [GiftCardProductConfiguration variant 1.custom_amount_bounds](../models/GiftCardProductConfiguration.md#giftcardproductconfiguration-variant-1custom_amount_bounds).
-
-### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.gift_card_configuration variant 1.face_value_money
-
-Field definitions: [GiftCardProductConfiguration.face_value_money](../models/GiftCardProductConfiguration.md#giftcardproductconfigurationface_value_money).
-
 ### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.images
 
 ### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.images variant 1
 
 anyOf variant 1: The variant's own images in display order. An empty gallery inherits the product's images..
 
-- Value shape: Array of [ImageAttachment](../models/ImageAttachment.md#imageattachment). The variant's own images in display order. An empty gallery inherits the product's images. 
+- Value shape: Array of [ImageAttachmentPreviousAttributes](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributes). The variant's own images in display order. An empty gallery inherits the product's images. 
 
 ### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.images variant 2
 
@@ -416,17 +384,13 @@ anyOf variant 2.
 
 anyOf variant 1: Net unit prices in ascending minimum_quantity order. The largest minimum not above the line quantity applies; otherwise the base unit price applies. Empty when no breaks are configured. Gift card variants have no breaks..
 
-- Value shape: Array of [QuantityPriceBreak](../models/QuantityPriceBreak.md#quantitypricebreak). Net unit prices in ascending minimum_quantity order. The largest minimum not above the line quantity applies; otherwise the base unit price applies. Empty when no breaks are configured. Gift card variants have no breaks. Net unit prices in ascending minimum_quantity order. The largest minimum not above the line quantity applies; otherwise the base unit price applies. Empty when no breaks are configured. Gift card variants have no breaks. maxItems: `10`. 
+- Value shape: Array of [QuantityPriceBreakPreviousAttributes](../models/QuantityPriceBreakPreviousAttributes.md#quantitypricebreakpreviousattributes). Net unit prices in ascending minimum_quantity order. The largest minimum not above the line quantity applies; otherwise the base unit price applies. Empty when no breaks are configured. Gift card variants have no breaks. Net unit prices in ascending minimum_quantity order. The largest minimum not above the line quantity applies; otherwise the base unit price applies. Empty when no breaks are configured. Gift card variants have no breaks. maxItems: `10`. 
 
 ### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.quantity_price_breaks variant 2
 
 anyOf variant 2.
 
 - Value shape: null. Net unit prices in ascending minimum_quantity order. The largest minimum not above the line quantity applies; otherwise the base unit price applies. Empty when no breaks are configured. Gift card variants have no breaks. 
-
-### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.quantity_price_breaks variant 1.[] fields 1
-
-Field definitions: [PaymentLinkAvailableVariant.quantity_price_breaks[]](../models/PaymentLinkAvailableVariant.md#paymentlinkavailablevariantquantity_price_breaks).
 
 ### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.release_date
 
@@ -448,7 +412,7 @@ anyOf variant 2.
 
 anyOf variant 1: Always present. Empty collections are returned as []..
 
-- Value shape: Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption). Always present. Empty collections are returned as []. 
+- Value shape: Array of [SelectedProductOptionPreviousAttributes](../models/SelectedProductOptionPreviousAttributes.md#selectedproductoptionpreviousattributes). Always present. Empty collections are returned as []. 
 
 ### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.selected_options variant 2
 
@@ -488,36 +452,17 @@ anyOf variant 2.
 
 - Value shape: null. Whether this item is subject to tax. 
 
-### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_dimensions
-
-Per-unit measurement. Omitted when unknown.
-
-Field definitions: [shared fields](PackageUpdatedInstalledMerchantsEvent.md#packageupdatedinstalledmerchantseventdataprevious_attributesdimensions).
-
-### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_dimensions variant 1
-
-anyOf Dimensions: Per-unit measurement. Omitted when unknown..
-
-- Required: `height`, `length`, `unit`, `width`.
-
-### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_dimensions variant 2
-
-anyOf variant 2.
-
-- Undeclared: `height`, `length`, `unit`, `width`.
-- Value shape: null. Per-unit measurement. Omitted when unknown. 
-
 ### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_price_money
 
 Base unit price before quantity price breaks, in the currency's smallest unit.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_price_money variant 1
 
-anyOf MoneyValue: Base unit price before quantity price breaks, in the currency's smallest unit..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_price_money variant 2
 
@@ -526,24 +471,13 @@ anyOf variant 2.
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Base unit price before quantity price breaks, in the currency's smallest unit. 
 
-### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_weight
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_price_money variant 1.amount
 
-Per-unit measurement. Omitted when unknown.
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
 
-Field definitions: [shared fields](PackageUpdatedInstalledMerchantsEvent.md#packageupdatedinstalledmerchantseventdataprevious_attributesweight).
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_price_money variant 1.currency
 
-### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_weight variant 1
-
-anyOf Weight: Per-unit measurement. Omitted when unknown..
-
-- Required: `unit`, `value`.
-
-### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_weight variant 2
-
-anyOf variant 2.
-
-- Undeclared: `unit`, `value`.
-- Value shape: null. Per-unit measurement. Omitted when unknown. 
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.updated_at
 

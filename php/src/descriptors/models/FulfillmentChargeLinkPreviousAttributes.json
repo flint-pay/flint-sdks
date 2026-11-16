@@ -1,0 +1,1 @@
+{"shared":"FulfillmentChargeLinkPreviousAttributes","phpRepresentation":{"kind":"record","fields":{"order_charge_id":{"kind":"nullable","value":{"kind":"value","type":"string"}},"order_id":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["FulfillmentChargeLinkPreviousAttributes","SharedCodec0"]}

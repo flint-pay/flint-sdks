@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read DeliveryMethodConfiguration|null $configuration
+ * @property-read mixed $configuration
  * @property-read string|null $created_at
  * @property-read string|null $current_delivery_method_revision_id
  * @property-read string|null $delivery_method_id
@@ -10,11 +10,11 @@ namespace Flint;
  * @property-read string|null $description
  * @property-read int|null $display_position
  * @property-read string|null $external_reference_id
- * @property-read array<array-key, string>|null $metadata
+ * @property-read mixed $metadata
  * @property-read string|null $name
  * @property-read int|null $recommendation_priority
  * @property-read string|null $status
- * @property-read SubscriptionCounts|null $subscription_counts
+ * @property-read mixed $subscription_counts
  * @property-read string|null $type
  * @property-read string|null $updated_at
  * @property-read int|null $version
@@ -22,10 +22,10 @@ namespace Flint;
 final class DeliveryMethodUpdatedMerchantEventDataPreviousAttributes extends Model {
     /** @param array{'configuration'?: mixed, 'created_at'?: mixed, 'current_delivery_method_revision_id'?: mixed, 'delivery_method_id'?: mixed, 'delivery_revocation_id'?: mixed, 'description'?: mixed, 'display_position'?: mixed, 'external_reference_id'?: mixed, 'metadata'?: mixed, 'name'?: mixed, 'recommendation_priority'?: mixed, 'status'?: mixed, 'subscription_counts'?: mixed, 'type'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodUpdatedMerchantEventDataPreviousAttributes')); }
-    /** Current eligibility, pricing, origin, estimate, and tax configuration. anyOf[1] (Value): {@see DeliveryMethodConfiguration}. Current eligibility, pricing, origin, estimate, and tax configuration. anyOf[2] (Value): null.
-     * @return DeliveryMethodConfiguration|null
+    /** Current eligibility, pricing, origin, estimate, and tax configuration. anyOf[1] (Value): {@see DeliveryMethodConfigurationPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getConfiguration(): DeliveryMethodConfiguration|null { return $this->get('configuration'); }
+    public function getConfiguration(): mixed { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
     /** Time the method was created. anyOf[1] (Value): string. Time the method was created. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -62,10 +62,10 @@ final class DeliveryMethodUpdatedMerchantEventDataPreviousAttributes extends Mod
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Caller-owned metadata. anyOf[1] (Value): {@see MetadataMap}. Caller-owned metadata. anyOf[2] (Value): null.
-     * @return array<array-key, string>|null
+    /** Caller-owned metadata. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getMetadata(): array|null { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Merchant-facing method name. anyOf[1] (Value): string. Merchant-facing method name. anyOf[2] (Value): null.
      * @return string|null
@@ -82,10 +82,10 @@ final class DeliveryMethodUpdatedMerchantEventDataPreviousAttributes extends Mod
      */
     public function getStatus(): string|null { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** How many subscriptions use this method, by status. anyOf[1] (Value): {@see SubscriptionCounts}. How many subscriptions use this method, by status. anyOf[2] (Value): null.
-     * @return SubscriptionCounts|null
+    /** How many subscriptions use this method, by status. anyOf[1] (Value): {@see SubscriptionCountsPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getSubscriptionCounts(): SubscriptionCounts|null { return $this->get('subscription_counts'); }
+    public function getSubscriptionCounts(): mixed { return $this->get('subscription_counts'); }
     public function hasSubscriptionCounts(): bool { return $this->has('subscription_counts'); }
     /** Delivery mode this method offers. Value enum: "shipment", "local_delivery", "pickup". anyOf[1] (Value): string. Delivery mode this method offers. Value enum: "shipment", "local_delivery", "pickup". anyOf[2] (Value): null.
      * @return string|null

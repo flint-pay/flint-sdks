@@ -6,159 +6,59 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 Response model.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `action_reason` | Optional | string or null | Why a requires_action resolution is waiting. buyer_payment means the buyer must pay the exchange balance; manual_release means the merchant must release the resolution. Values: `"buyer_payment"`, `"manual_release"`. `action_reason`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributesaction_reason). |
-| `action_required_by` | Optional | string or null | Who has to act while the resolution's status is `requires_action`. Values: `"buyer"`, `"merchant"`. `action_required_by`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributesaction_required_by). |
-| `adjustments` | Optional | Array of [ReturnResolutionAdjustment](../models/ReturnResolutionAdjustment.md#returnresolutionadjustment) or null | Fees and credits applied to the resolution's amounts. `adjustments`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributesadjustments). |
-| `buyer_payment_amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Amount the buyer owes when deduction_money and replacement_total_money exceed returned_total_money plus credit_adjustment_money. Zero when the buyer is owed a refund and for no_monetary_action. |
-| `buyer_refund_amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Value returned to the buyer: returned_total_money plus credit_adjustment_money, minus deduction_money and replacement_total_money, when that balance is zero or more. For store_credit, the value issued on new gift cards. Zero for no_monetary_action. |
-| `canceled_at` | Optional | string or null | RFC3339 timestamp. `canceled_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
-| `canceled_by` | Optional | [ReturnResolutionUpdatedMerchantEventDataPreviousAttributesCanceledBy](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributesCanceledBy.md#returnresolutionupdatedmerchanteventdatapreviousattributescanceledby) or null | Who canceled the resolution. Merchant reads only. |
-| `cancellation_reason` | Optional | string or null | Why the resolution was canceled. Values: `"buyer_request"`, `"merchant_request"`, `"duplicate"`, `"expired"`, `"created_in_error"`, `"other"`. `cancellation_reason`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributescancellation_reason). |
-| `cancellation_reason_message` | Optional | string or null | Detail sent with the cancellation. Merchant reads only. `cancellation_reason_message`: [declared alternatives](../models/ReturnCanceledMerchantEventDataPreviousAttributes.md#returncanceledmerchanteventdatapreviousattributescancellation_reason_message). |
-| `confirmed_at` | Optional | string or null | RFC3339 timestamp. `confirmed_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
-| `confirmed_by` | Optional | [ReturnResolutionUpdatedMerchantEventDataPreviousAttributesConfirmedBy](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributesConfirmedBy.md#returnresolutionupdatedmerchanteventdatapreviousattributesconfirmedby) or null | Who confirmed the resolution. |
-| `corrects_return_resolution_id` | Optional | string or null | ID of the settled resolution this correction adjusts. Present only when `resolution_type` is `correction`. `corrects_return_resolution_id`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributescorrects_return_resolution_id). |
-| `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
-| `created_by` | Optional | [ReturnResolutionUpdatedMerchantEventDataPreviousAttributesCreatedBy](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributesCreatedBy.md#returnresolutionupdatedmerchanteventdatapreviousattributescreatedby) or null | Who created the resolution. |
-| `credit_adjustment_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Credits added by the resolution's adjustments. |
-| `deduction_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Deductions taken by the resolution's adjustments, such as a restocking fee. |
-| `execution_blockers` | Optional | Array of [ReturnResolutionExecutionBlocker](../models/ReturnResolutionExecutionBlocker.md#returnresolutionexecutionblocker) or null | What a confirmed resolution is still waiting for. Empty when nothing is. `execution_blockers`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributesexecution_blockers). |
-| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id). |
-| `failure_code` | Optional | string or null | Reason code for a failed Return resolution, when available. refund_line_value_unavailable means another refund already returned part of an order line, so retrying cannot succeed; cancel the resolution and resolve the line for fewer units or without a refund. replacement_fulfillment_canceled means the replacement Order's fulfillment was canceled, so it won't be sent. gift_card_refund_destination_required means the original gift card cannot accept the refund; retry with gift_card_refund_destination set to new_gift_card. store_credit_unavailable means the original payment cannot fund store credit; cancel the resolution and create a refund resolution. Values: [10 declared values](BuyerReturnResolutionInput.md#buyerreturnresolutioninput-failure_code-values). `failure_code`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributesfailure_code). |
-| `failure_message` | Optional | string or null | Explanation of a failed Return resolution, when available. `failure_message`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributesfailure_message). |
-| `fulfilled_at` | Optional | string or null | When the resolution completed. `fulfilled_at`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributesfulfilled_at). |
-| `gift_card_refund_destination` | Optional | string or null | Where the gift-card-paid portion is refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination and conflicting_fields naming resolution_type. Store credit and its corrections always issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen destination before starting the new attempt. Values: `"original"`, `"new_gift_card"`. `gift_card_refund_destination`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributesgift_card_refund_destination). |
-| `line_items` | Optional | Array of [ReturnResolutionLineItem](../models/ReturnResolutionLineItem.md#returnresolutionlineitem) or null | Return lines and quantities the resolution covers. Absent on a correction. `line_items`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributesline_items). |
-| `metadata` | Optional | Map of string or null | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. `metadata`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesmetadata). |
-| `payment_intent_ids` | Optional | Array of string or null | IDs of the payment intents that collect the buyer's balance for this resolution, in the order Flint linked them. Empty until a payment exists. `payment_intent_ids`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributespayment_intent_ids). |
-| `payment_intents` | Optional | Array of [ExpandedPaymentIntentSummary](../models/ExpandedPaymentIntentSummary.md#expandedpaymentintentsummary) or null | Present only when `expand` includes `payment_intents`. Summaries of the payment intents in `payment_intent_ids`, in the same order. `payment_intents`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributespayment_intents). |
-| `pricing_basis` | Optional | string or null | How replacement lines are priced. Present on exchanges and replacements. Values: `"original_price"`, `"current_price"`, `"merchant_agreed_price"`. `pricing_basis`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributespricing_basis). |
-| `refund_ids` | Optional | Array of string or null | IDs of the Refunds that pay the buyer for this resolution, in the order Flint linked them. Empty until a Refund exists. `refund_ids`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributesrefund_ids). |
-| `refunds` | Optional | Array of [Refund](../models/Refund.md#refund) or null | Present only when `expand` includes `refunds`. The refunds in `refund_ids`, in the same order. `refunds`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributesrefunds). |
-| `replacement_line_items` | Optional | Array of [ReturnReplacementLineItem](../models/ReturnReplacementLineItem.md#returnreplacementlineitem) or null | Merchandise the buyer receives instead, for an exchange or replacement. `replacement_line_items`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributesreplacement_line_items). |
-| `replacement_order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null or null | Present only when `expand` includes `replacement_order`; `null` when expanded and there is no related order. |
-| `replacement_order_id` | Optional | string or null | ID of the replacement Order Flint created for an exchange or replacement. Absent until it exists. `replacement_order_id`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributesreplacement_order_id). |
-| `replacement_total_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Total of the replacement items the buyer receives. |
-| `resolution_type` | Optional | string or null | What the buyer gets for the approved quantity. Values: `"refund"`, `"exchange"`, `"replacement"`, `"store_credit"`, `"no_monetary_action"`, `"correction"`. `resolution_type`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributesresolution_type). |
-| `return_id` | Optional | string or null | ID of the Return the resolution belongs to. `return_id`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributesreturn_id). |
-| `return_policy_id` | Optional | string or null or null | Policy that owns return_policy_revision_id. `null` when return_policy_revision_id is null. `return_policy_id`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributesreturn_policy_id). |
-| `return_policy_revision_id` | Optional | string or null | ID of the return policy revision that judged the lines. Set only when Flint created the resolution itself and no merchant decision overrode the policy. Absent otherwise, including on resolutions you create and on corrections. `return_policy_revision_id`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributesreturn_policy_revision_id). |
-| `return_resolution_id` | Optional | string or null | Unique identifier for this return resolution, prefixed `retres_`. `return_resolution_id`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributesreturn_resolution_id). |
-| `returned_total_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Value of the returned units this resolution covers. |
-| `status` | Optional | string or null | completed means the buyer has the value: every linked Refund succeeded, any balance was collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable. Values: `"proposed"`, `"pending"`, `"requires_action"`, `"completed"`, `"failed"`, `"canceled"`. `status`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributesstatus). |
-| `supported_actions` | Optional | Array of string or null | Actions that can succeed now. Empty unless the parent Return is open. A failed resolution lists retry while it has a failed effect and its failure code permits retry. It lists cancel when it never created a Refund, PaymentIntent, or Order. Items values: `"cancel"`, `"confirm"`, `"release"`, `"retry"`. `supported_actions`: [declared alternatives](../models/ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.md#returnresolutionupdatedmerchanteventdatapreviousattributessupported_actions). |
-| `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
-| `version` | Optional | integer or null | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. `version`: [declared alternatives](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesversion). |
+Field definitions: [shared fields](ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributes).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.action_reason
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.action_reason variant 1
-
-anyOf variant 1: Why a requires_action resolution is waiting. buyer_payment means the buyer must pay the exchange balance; manual_release means the merchant must release the resolution..
-
-- Value shape: string. Why a requires_action resolution is waiting. buyer_payment means the buyer must pay the exchange balance; manual_release means the merchant must release the resolution. Values: `"buyer_payment"`, `"manual_release"`.
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.action_reason variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Why a requires_action resolution is waiting. buyer_payment means the buyer must pay the exchange balance; manual_release means the merchant must release the resolution. 
+Declared alternatives: [ReturnResolutionPreviousAttributes.action_reason](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesaction_reason).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.action_required_by
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.action_required_by variant 1
-
-anyOf variant 1: Who has to act while the resolution's status is `requires_action`..
-
-- Value shape: string. Who has to act while the resolution's status is `requires_action`. Values: `"buyer"`, `"merchant"`.
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.action_required_by variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Who has to act while the resolution's status is `requires_action`. 
+Declared alternatives: [ReturnResolutionPreviousAttributes.action_required_by](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesaction_required_by).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.adjustments
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.adjustments variant 1
-
-anyOf variant 1: Fees and credits applied to the resolution's amounts..
-
-- Value shape: Array of [ReturnResolutionAdjustment](../models/ReturnResolutionAdjustment.md#returnresolutionadjustment). Fees and credits applied to the resolution's amounts. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.adjustments variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Fees and credits applied to the resolution's amounts. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.adjustments variant 1.[] fields 1
-
-Field definitions: [CancelReturnResponse.data.return_resolutions[].adjustments[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsadjustments).
+Declared alternatives: [ReturnResolutionPreviousAttributes.adjustments](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesadjustments).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.canceled_at
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
 
+### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.canceled_by
+
+Declared alternatives: [ReturnResolutionPreviousAttributes.canceled_by](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributescanceled_by).
+
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.cancellation_reason
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.cancellation_reason variant 1
-
-anyOf variant 1: Why the resolution was canceled..
-
-- Value shape: string. Why the resolution was canceled. Values: `"buyer_request"`, `"merchant_request"`, `"duplicate"`, `"expired"`, `"created_in_error"`, `"other"`.
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.cancellation_reason variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Why the resolution was canceled. 
+Declared alternatives: [ReturnResolutionPreviousAttributes.cancellation_reason](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributescancellation_reason).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.cancellation_reason_message
 
-Declared alternatives: [ReturnCanceledMerchantEventDataPreviousAttributes.cancellation_reason_message](../models/ReturnCanceledMerchantEventDataPreviousAttributes.md#returncanceledmerchanteventdatapreviousattributescancellation_reason_message).
+Declared alternatives: [ReturnDispositionPreviousAttributes.cancellation_reason_message](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributescancellation_reason_message).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.confirmed_at
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
 
+### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.confirmed_by
+
+Declared alternatives: [ReturnResolutionPreviousAttributes.confirmed_by](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesconfirmed_by).
+
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.corrects_return_resolution_id
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.corrects_return_resolution_id variant 1
-
-anyOf variant 1: ID of the settled resolution this correction adjusts. Present only when `resolution_type` is `correction`..
-
-- Value shape: string. ID of the settled resolution this correction adjusts. Present only when `resolution_type` is `correction`. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.corrects_return_resolution_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. ID of the settled resolution this correction adjusts. Present only when `resolution_type` is `correction`. 
+Declared alternatives: [ReturnResolutionPreviousAttributes.corrects_return_resolution_id](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributescorrects_return_resolution_id).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.created_at
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
 
+### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.created_by
+
+Declared alternatives: [ReturnResolutionPreviousAttributes.created_by](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributescreated_by).
+
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.execution_blockers
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.execution_blockers variant 1
-
-anyOf variant 1: What a confirmed resolution is still waiting for. Empty when nothing is..
-
-- Value shape: Array of [ReturnResolutionExecutionBlocker](../models/ReturnResolutionExecutionBlocker.md#returnresolutionexecutionblocker). What a confirmed resolution is still waiting for. Empty when nothing is. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.execution_blockers variant 2
-
-anyOf variant 2.
-
-- Value shape: null. What a confirmed resolution is still waiting for. Empty when nothing is. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.execution_blockers variant 1.[] fields 1
-
-Field definitions: [CancelReturnResponse.data.return_resolutions[].execution_blockers[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsexecution_blockers).
+Declared alternatives: [ReturnResolutionPreviousAttributes.execution_blockers](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesexecution_blockers).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.external_reference_id
 
@@ -166,77 +66,23 @@ Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previ
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.failure_code
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.failure_code variant 1
-
-anyOf variant 1: Reason code for a failed Return resolution, when available. refund_line_value_unavailable means another refund already returned part of an order line, so retrying cannot succeed; cancel the resolution and resolve the line for fewer units or without a refund. replacement_fulfillment_canceled means the replacement Order's fulfillment was canceled, so it won't be sent. gift_card_refund_destination_required means the original gift card cannot accept the refund; retry with gift_card_refund_destination set to new_gift_card. store_credit_unavailable means the original payment cannot fund store credit; cancel the resolution and create a refund resolution..
-
-- Value shape: string. Reason code for a failed Return resolution, when available. refund_line_value_unavailable means another refund already returned part of an order line, so retrying cannot succeed; cancel the resolution and resolve the line for fewer units or without a refund. replacement_fulfillment_canceled means the replacement Order's fulfillment was canceled, so it won't be sent. gift_card_refund_destination_required means the original gift card cannot accept the refund; retry with gift_card_refund_destination set to new_gift_card. store_credit_unavailable means the original payment cannot fund store credit; cancel the resolution and create a refund resolution. Values: `"gift_card_refund_destination_required"`, `"store_credit_unavailable"`, `"refund_creation_failed"`, `"refund_failed"`, `"refund_line_value_unavailable"`, `"payment_intent_creation_failed"`, `"payment_failed"`, `"replacement_order_creation_failed"`, `"replacement_fulfillment_canceled"`, `"resolution_effect_failed"`.
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.failure_code variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Reason code for a failed Return resolution, when available. refund_line_value_unavailable means another refund already returned part of an order line, so retrying cannot succeed; cancel the resolution and resolve the line for fewer units or without a refund. replacement_fulfillment_canceled means the replacement Order's fulfillment was canceled, so it won't be sent. gift_card_refund_destination_required means the original gift card cannot accept the refund; retry with gift_card_refund_destination set to new_gift_card. store_credit_unavailable means the original payment cannot fund store credit; cancel the resolution and create a refund resolution. 
+Declared alternatives: [ReturnResolutionPreviousAttributes.failure_code](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesfailure_code).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.failure_message
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.failure_message variant 1
-
-anyOf variant 1: Explanation of a failed Return resolution, when available..
-
-- Value shape: string. Explanation of a failed Return resolution, when available. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.failure_message variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Explanation of a failed Return resolution, when available. 
+Declared alternatives: [ReturnResolutionPreviousAttributes.failure_message](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesfailure_message).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.fulfilled_at
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.fulfilled_at variant 1
-
-anyOf variant 1: When the resolution completed..
-
-- Value shape: string. When the resolution completed. When the resolution completed. Format: `date-time`. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.fulfilled_at variant 2
-
-anyOf variant 2.
-
-- Value shape: null. When the resolution completed. 
+Declared alternatives: [ReturnResolutionPreviousAttributes.fulfilled_at](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesfulfilled_at).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.gift_card_refund_destination
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.gift_card_refund_destination variant 1
-
-anyOf variant 1: Where the gift-card-paid portion is refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination and conflicting_fields naming resolution_type. Store credit and its corrections always issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen destination before starting the new attempt..
-
-- Value shape: string. Where the gift-card-paid portion is refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination and conflicting_fields naming resolution_type. Store credit and its corrections always issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen destination before starting the new attempt. Where the gift-card-paid portion is refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination and conflicting_fields naming resolution_type. Store credit and its corrections always issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen destination before starting the new attempt. Default: `"original"`. Values: `"original"`, `"new_gift_card"`.
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.gift_card_refund_destination variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Where the gift-card-paid portion is refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination and conflicting_fields naming resolution_type. Store credit and its corrections always issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen destination before starting the new attempt. 
+Declared alternatives: [ReturnResolutionPreviousAttributes.gift_card_refund_destination](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesgift_card_refund_destination).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.line_items
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.line_items variant 1
-
-anyOf variant 1: Return lines and quantities the resolution covers. Absent on a correction..
-
-- Value shape: Array of [ReturnResolutionLineItem](../models/ReturnResolutionLineItem.md#returnresolutionlineitem). Return lines and quantities the resolution covers. Absent on a correction. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.line_items variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Return lines and quantities the resolution covers. Absent on a correction. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1
-
-Field definitions: [CancelReturnResponse.data.return_resolutions[].line_items[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsline_items).
+Declared alternatives: [ReturnResolutionPreviousAttributes.line_items](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesline_items).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.metadata
 
@@ -244,211 +90,63 @@ Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.payment_intent_ids
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.payment_intent_ids variant 1
-
-anyOf variant 1: IDs of the payment intents that collect the buyer's balance for this resolution, in the order Flint linked them. Empty until a payment exists..
-
-- Value shape: Array of string. IDs of the payment intents that collect the buyer's balance for this resolution, in the order Flint linked them. Empty until a payment exists. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.payment_intent_ids variant 2
-
-anyOf variant 2.
-
-- Value shape: null. IDs of the payment intents that collect the buyer's balance for this resolution, in the order Flint linked them. Empty until a payment exists. 
+Declared alternatives: [ReturnResolutionPreviousAttributes.payment_intent_ids](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributespayment_intent_ids).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.payment_intents
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.payment_intents variant 1
-
-anyOf variant 1: Present only when `expand` includes `payment_intents`. Summaries of the payment intents in `payment_intent_ids`, in the same order..
-
-- Value shape: Array of [ExpandedPaymentIntentSummary](../models/ExpandedPaymentIntentSummary.md#expandedpaymentintentsummary). Present only when `expand` includes `payment_intents`. Summaries of the payment intents in `payment_intent_ids`, in the same order. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.payment_intents variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Present only when `expand` includes `payment_intents`. Summaries of the payment intents in `payment_intent_ids`, in the same order. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.payment_intents variant 1.[] fields 1
-
-Field definitions: [OrderResponse.data.payment_intents[]](../models/OrderResponse.md#orderresponsedatapayment_intents).
+Declared alternatives: [ReturnResolutionPreviousAttributes.payment_intents](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributespayment_intents).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.pricing_basis
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.pricing_basis variant 1
-
-anyOf variant 1: How replacement lines are priced. Present on exchanges and replacements..
-
-- Value shape: string. How replacement lines are priced. Present on exchanges and replacements. Values: `"original_price"`, `"current_price"`, `"merchant_agreed_price"`.
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.pricing_basis variant 2
-
-anyOf variant 2.
-
-- Value shape: null. How replacement lines are priced. Present on exchanges and replacements. 
+Declared alternatives: [ReturnResolutionPreviousAttributes.pricing_basis](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributespricing_basis).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.refund_ids
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.refund_ids variant 1
-
-anyOf variant 1: IDs of the Refunds that pay the buyer for this resolution, in the order Flint linked them. Empty until a Refund exists..
-
-- Value shape: Array of string. IDs of the Refunds that pay the buyer for this resolution, in the order Flint linked them. Empty until a Refund exists. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.refund_ids variant 2
-
-anyOf variant 2.
-
-- Value shape: null. IDs of the Refunds that pay the buyer for this resolution, in the order Flint linked them. Empty until a Refund exists. 
+Declared alternatives: [ReturnResolutionPreviousAttributes.refund_ids](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesrefund_ids).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.refunds
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.refunds variant 1
-
-anyOf variant 1: Present only when `expand` includes `refunds`. The refunds in `refund_ids`, in the same order..
-
-- Value shape: Array of [Refund](../models/Refund.md#refund). Present only when `expand` includes `refunds`. The refunds in `refund_ids`, in the same order. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.refunds variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Present only when `expand` includes `refunds`. The refunds in `refund_ids`, in the same order. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.refunds variant 1.[] fields 1
-
-Field definitions: [CancelReturnResponse.data.return_resolutions[].refunds[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsrefunds).
+Declared alternatives: [ReturnResolutionPreviousAttributes.refunds](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesrefunds).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.replacement_line_items
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.replacement_line_items variant 1
+Declared alternatives: [ReturnResolutionPreviousAttributes.replacement_line_items](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesreplacement_line_items).
 
-anyOf variant 1: Merchandise the buyer receives instead, for an exchange or replacement..
+### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.replacement_order
 
-- Value shape: Array of [ReturnReplacementLineItem](../models/ReturnReplacementLineItem.md#returnreplacementlineitem). Merchandise the buyer receives instead, for an exchange or replacement. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.replacement_line_items variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Merchandise the buyer receives instead, for an exchange or replacement. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.replacement_line_items variant 1.[] fields 1
-
-Field definitions: [CancelReturnResponse.data.return_resolutions[].replacement_line_items[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsreplacement_line_items).
+Declared alternatives: [ReturnResolutionPreviousAttributes.replacement_order](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesreplacement_order).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.replacement_order_id
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.replacement_order_id variant 1
-
-anyOf variant 1: ID of the replacement Order Flint created for an exchange or replacement. Absent until it exists..
-
-- Value shape: string. ID of the replacement Order Flint created for an exchange or replacement. Absent until it exists. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.replacement_order_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. ID of the replacement Order Flint created for an exchange or replacement. Absent until it exists. 
+Declared alternatives: [ReturnResolutionPreviousAttributes.replacement_order_id](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesreplacement_order_id).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.resolution_type
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.resolution_type variant 1
-
-anyOf variant 1: What the buyer gets for the approved quantity..
-
-- Value shape: string. What the buyer gets for the approved quantity. Values: `"refund"`, `"exchange"`, `"replacement"`, `"store_credit"`, `"no_monetary_action"`, `"correction"`.
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.resolution_type variant 2
-
-anyOf variant 2.
-
-- Value shape: null. What the buyer gets for the approved quantity. 
+Declared alternatives: [ReturnResolutionPreviousAttributes.resolution_type](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesresolution_type).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.return_id
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.return_id variant 1
-
-anyOf variant 1: ID of the Return the resolution belongs to..
-
-- Value shape: string. ID of the Return the resolution belongs to. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.return_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. ID of the Return the resolution belongs to. 
+Declared alternatives: [ReturnResolutionPreviousAttributes.return_id](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesreturn_id).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.return_policy_id
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.return_policy_id variant 1
-
-anyOf variant 1: Policy that owns return_policy_revision_id. `null` when return_policy_revision_id is null..
-
-- Value shape: (string or null). Policy that owns return_policy_revision_id. `null` when return_policy_revision_id is null. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.return_policy_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Policy that owns return_policy_revision_id. `null` when return_policy_revision_id is null. 
+Declared alternatives: [ReturnResolutionAdjustmentPreviousAttributes.return_policy_id](../models/ReturnResolutionAdjustmentPreviousAttributes.md#returnresolutionadjustmentpreviousattributesreturn_policy_id).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.return_policy_revision_id
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.return_policy_revision_id variant 1
-
-anyOf variant 1: ID of the return policy revision that judged the lines. Set only when Flint created the resolution itself and no merchant decision overrode the policy. Absent otherwise, including on resolutions you create and on corrections..
-
-- Value shape: string. ID of the return policy revision that judged the lines. Set only when Flint created the resolution itself and no merchant decision overrode the policy. Absent otherwise, including on resolutions you create and on corrections. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.return_policy_revision_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. ID of the return policy revision that judged the lines. Set only when Flint created the resolution itself and no merchant decision overrode the policy. Absent otherwise, including on resolutions you create and on corrections. 
+Declared alternatives: [ReturnResolutionPreviousAttributes.return_policy_revision_id](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesreturn_policy_revision_id).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.return_resolution_id
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.return_resolution_id variant 1
-
-anyOf variant 1: Unique identifier for this return resolution, prefixed `retres_`..
-
-- Value shape: string. Unique identifier for this return resolution, prefixed `retres_`. 
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.return_resolution_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Unique identifier for this return resolution, prefixed `retres_`. 
+Declared alternatives: [ReturnResolutionPreviousAttributes.return_resolution_id](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesreturn_resolution_id).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.status
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.status variant 1
-
-anyOf variant 1: completed means the buyer has the value: every linked Refund succeeded, any balance was collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable..
-
-- Value shape: string. completed means the buyer has the value: every linked Refund succeeded, any balance was collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable. Values: `"proposed"`, `"pending"`, `"requires_action"`, `"completed"`, `"failed"`, `"canceled"`.
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.status variant 2
-
-anyOf variant 2.
-
-- Value shape: null. completed means the buyer has the value: every linked Refund succeeded, any balance was collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable. 
+Declared alternatives: [ReturnResolutionPreviousAttributes.status](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributesstatus).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.supported_actions
 
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.supported_actions variant 1
-
-anyOf variant 1: Actions that can succeed now. Empty unless the parent Return is open. A failed resolution lists retry while it has a failed effect and its failure code permits retry. It lists cancel when it never created a Refund, PaymentIntent, or Order..
-
-- Value shape: Array of string. Actions that can succeed now. Empty unless the parent Return is open. A failed resolution lists retry while it has a failed effect and its failure code permits retry. It lists cancel when it never created a Refund, PaymentIntent, or Order. Items values: `"cancel"`, `"confirm"`, `"release"`, `"retry"`.
-
-### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.supported_actions variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Actions that can succeed now. Empty unless the parent Return is open. A failed resolution lists retry while it has a failed effect and its failure code permits retry. It lists cancel when it never created a Refund, PaymentIntent, or Order. 
+Declared alternatives: [ReturnResolutionPreviousAttributes.supported_actions](../models/ReturnResolutionPreviousAttributes.md#returnresolutionpreviousattributessupported_actions).
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.updated_at
 
@@ -456,5 +154,5 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 ### ReturnResolutionUpdatedMerchantEventDataPreviousAttributes.version
 
-Declared alternatives: [ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.version](../models/ReturnDispositionUpdatedMerchantEventDataPreviousAttributes.md#returndispositionupdatedmerchanteventdatapreviousattributesversion).
+Declared alternatives: [ReturnDispositionPreviousAttributes.version](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesversion).
 

@@ -66,25 +66,25 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `available_by_source_type` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Signed available amounts grouped by balance source type. Keys are an open set; US accounts use card and bank_account. When supplied as a complete breakdown, entries sum to available_money. Active payout holds reduce both available_money and one source entry by the same amount. A payout with no recorded source type uses card. A hold whose source is absent from the map uses the largest source amount, with ties broken by source name. `available_by_source_type`: [declared alternatives](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesavailable_by_source_type). |
-| `available_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Signed amount available for payouts after active payout holds are deducted. Separate from pending_money, reserve_money, and held_money. `available_money`: [declared alternatives](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesavailable_money). |
+| `available_by_source_type` | Optional | Map of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Signed available amounts grouped by balance source type. Keys are an open set; US accounts use card and bank_account. When supplied as a complete breakdown, entries sum to available_money. Active payout holds reduce both available_money and one source entry by the same amount. A payout with no recorded source type uses card. A hold whose source is absent from the map uses the largest source amount, with ties broken by source name. `available_by_source_type`: [declared alternatives](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesavailable_by_source_type). |
+| `available_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Signed amount available for payouts after active payout holds are deducted. Separate from pending_money, reserve_money, and held_money. `available_money`: [declared alternatives](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesavailable_money). |
 | `balance_id` | Optional | string or null | Stable identifier of this currency's balance. `balance_id`: [declared alternatives](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesbalance_id). |
 | `currency` | Optional | string or null | ISO 4217 currency code. `currency`: [declared alternatives](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributescurrency). |
-| `held_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Funds set aside for payouts you created that haven't been debited from your balance yet. They aren't payable and aren't included in `available_money`. `held_money`: [declared alternatives](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money). |
+| `held_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Funds set aside for payouts you created that haven't been debited from your balance yet. They aren't payable and aren't included in `available_money`. `held_money`: [declared alternatives](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money). |
 | `merchant_id` | Optional | string or null | Merchant whose balance this is. `merchant_id`: [declared alternatives](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesmerchant_id). |
 | `observed_at` | Optional | string or null | When Flint observed these amounts, as an RFC 3339 UTC instant at second precision. Stored balances retain their observation time; a fresh provider read uses the time of that read. `observed_at`: [declared alternatives](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesobserved_at). |
 | `payouts_enabled` | Optional | boolean or null | Whether payouts are ready for this balance currency, including an active default payout destination and account readiness. While it is false, payments can still succeed, and their funds wait in your balance. `payouts_enabled`: [declared alternatives](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributespayouts_enabled). |
-| `pending_by_source_type` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Signed pending amounts grouped by balance source type. Keys are an open set; US accounts use card and bank_account. When supplied as a complete breakdown, entries sum to pending_money. These amounts are separate from available_by_source_type. `pending_by_source_type`: [declared alternatives](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributespending_by_source_type). |
-| `pending_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Signed amount awaiting availability. Separate from available_money; pending_by_source_type breaks down this amount when source details are supplied. `pending_money`: [declared alternatives](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributespending_money). |
-| `reserve_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Amount held in reserve. It doesn't overlap available_money or held_money. `reserve_money`: [declared alternatives](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesreserve_money). |
+| `pending_by_source_type` | Optional | Map of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Signed pending amounts grouped by balance source type. Keys are an open set; US accounts use card and bank_account. When supplied as a complete breakdown, entries sum to pending_money. These amounts are separate from available_by_source_type. `pending_by_source_type`: [declared alternatives](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributespending_by_source_type). |
+| `pending_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Signed amount awaiting availability. Separate from available_money; pending_by_source_type breaks down this amount when source details are supplied. `pending_money`: [declared alternatives](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributespending_money). |
+| `reserve_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Amount held in reserve. It doesn't overlap available_money or held_money. `reserve_money`: [declared alternatives](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesreserve_money). |
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.available_by_source_type
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.available_by_source_type variant 1
 
-anyOf variant 1: Signed available amounts grouped by balance source type. Keys are an open set; US accounts use card and bank_account. When supplied as a complete breakdown, entries sum to available_money. Active payout holds reduce both available_money and one source entry by the same amount. A payout with no recorded source type uses card. A hold whose source is absent from the map uses the largest source amount, with ties broken by source name..
+anyOf variant 1.
 
-- Value shape: Map of [MoneyValue](../models/MoneyValue.md#moneyvalue). Signed available amounts grouped by balance source type. Keys are an open set; US accounts use card and bank_account. When supplied as a complete breakdown, entries sum to available_money. Active payout holds reduce both available_money and one source entry by the same amount. A payout with no recorded source type uses card. A hold whose source is absent from the map uses the largest source amount, with ties broken by source name. 
+- Value shape: Map of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes). Signed available amounts grouped by balance source type. Keys are an open set; US accounts use card and bank_account. When supplied as a complete breakdown, entries sum to available_money. Active payout holds reduce both available_money and one source entry by the same amount. A payout with no recorded source type uses card. A hold whose source is absent from the map uses the largest source amount, with ties broken by source name. 
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.available_by_source_type variant 2
 
@@ -94,7 +94,18 @@ anyOf variant 2.
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.available_by_source_type variant 1.{} fields 1
 
-Field definitions: [Balance.available_by_source_type{}](../models/Balance.md#balanceavailable_by_source_type).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount` | Optional | integer string or null | Signed amount in the currency's minor unit, such as cents for USD. `amount`: [declared alternatives](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1amount). |
+| `currency` | Optional | string or null | ISO 4217 currency code for this amount. `currency`: [declared alternatives](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency). |
+
+### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.available_by_source_type variant 1.{} fields 1.amount
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.amount](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1amount).
+
+### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.available_by_source_type variant 1.{} fields 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.available_money
 
@@ -104,9 +115,9 @@ Field definitions: [shared fields](BalanceTransactionUpdatedInstalledMerchantsEv
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.available_money variant 1
 
-anyOf SignedMoney: Signed amount available for payouts after active payout holds are deducted. Separate from pending_money, reserve_money, and held_money..
+anyOf SignedMoneyPreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.available_money variant 2
 
@@ -114,6 +125,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Signed amount available for payouts after active payout holds are deducted. Separate from pending_money, reserve_money, and held_money. 
+
+### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.available_money variant 1.amount
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.amount](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1amount).
+
+### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.available_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.balance_id
 
@@ -137,13 +156,13 @@ Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.pr
 
 Funds set aside for payouts you created that haven't been debited from your balance yet. They aren't payable and aren't included in `available_money`.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1
 
-anyOf MoneyValue: Funds set aside for payouts you created that haven't been debited from your balance yet. They aren't payable and aren't included in `available_money`..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 2
 
@@ -151,6 +170,24 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Funds set aside for payouts you created that haven't been debited from your balance yet. They aren't payable and aren't included in `available_money`. 
+
+### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount
+
+### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount variant 1
+
+anyOf variant 1: Amount in the currency's minor unit, such as cents for USD..
+
+- Value shape: integer string. Amount in the currency's minor unit, such as cents for USD. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. 
+
+### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Amount in the currency's minor unit, such as cents for USD. 
+
+### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.merchant_id
 
@@ -198,9 +235,9 @@ anyOf variant 2.
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.pending_by_source_type variant 1
 
-anyOf variant 1: Signed pending amounts grouped by balance source type. Keys are an open set; US accounts use card and bank_account. When supplied as a complete breakdown, entries sum to pending_money. These amounts are separate from available_by_source_type..
+anyOf variant 1.
 
-- Value shape: Map of [MoneyValue](../models/MoneyValue.md#moneyvalue). Signed pending amounts grouped by balance source type. Keys are an open set; US accounts use card and bank_account. When supplied as a complete breakdown, entries sum to pending_money. These amounts are separate from available_by_source_type. 
+- Value shape: Map of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes). Signed pending amounts grouped by balance source type. Keys are an open set; US accounts use card and bank_account. When supplied as a complete breakdown, entries sum to pending_money. These amounts are separate from available_by_source_type. 
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.pending_by_source_type variant 2
 
@@ -210,7 +247,7 @@ anyOf variant 2.
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.pending_by_source_type variant 1.{} fields 1
 
-Field definitions: [Balance.available_by_source_type{}](../models/Balance.md#balanceavailable_by_source_type).
+Field definitions: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.available_by_source_type variant 1.{} fields 1](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesavailable_by_source_type-variant-1-fields-1).
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.pending_money
 
@@ -220,9 +257,9 @@ Field definitions: [shared fields](BalanceTransactionUpdatedInstalledMerchantsEv
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.pending_money variant 1
 
-anyOf SignedMoney: Signed amount awaiting availability. Separate from available_money; pending_by_source_type breaks down this amount when source details are supplied..
+anyOf SignedMoneyPreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.pending_money variant 2
 
@@ -231,17 +268,25 @@ anyOf variant 2.
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Signed amount awaiting availability. Separate from available_money; pending_by_source_type breaks down this amount when source details are supplied. 
 
+### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.pending_money variant 1.amount
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.amount](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1amount).
+
+### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.pending_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.reserve_money
 
 Amount held in reserve. It doesn't overlap available_money or held_money.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.reserve_money variant 1
 
-anyOf MoneyValue: Amount held in reserve. It doesn't overlap available_money or held_money..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.reserve_money variant 2
 
@@ -249,6 +294,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Amount held in reserve. It doesn't overlap available_money or held_money. 
+
+### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.reserve_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.reserve_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### BalanceUpdatedInstalledMerchantsEvent.source
 

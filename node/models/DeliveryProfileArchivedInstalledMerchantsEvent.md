@@ -46,7 +46,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | [DeliveryProfileConfiguration](../models/DeliveryProfileConfiguration.md#deliveryprofileconfiguration) or null | Current delivery requirement and grouping policy. |
+| `configuration` | Optional | [DeliveryProfileConfigurationPreviousAttributes](../models/DeliveryProfileConfigurationPreviousAttributes.md#deliveryprofileconfigurationpreviousattributes) or null | Current delivery requirement and grouping policy. |
 | `created_at` | Optional | string or null | Time the profile was created. `created_at`: [declared alternatives](../models/DeliveryProfileArchivedInstalledMerchantsEvent.md#deliveryprofilearchivedinstalledmerchantseventdataprevious_attributescreated_at). |
 | `current_delivery_profile_revision_id` | Optional | string or null | Immutable revision used for new line-item snapshots. `current_delivery_profile_revision_id`: [declared alternatives](../models/DeliveryProfileArchivedInstalledMerchantsEvent.md#deliveryprofilearchivedinstalledmerchantseventdataprevious_attributescurrent_delivery_profile_revision_id). |
 | `delivery_profile_id` | Optional | string or null | Stable delivery profile ID. `delivery_profile_id`: [declared alternatives](../models/DeliveryProfileArchivedInstalledMerchantsEvent.md#deliveryprofilearchivedinstalledmerchantseventdataprevious_attributesdelivery_profile_id). |

@@ -40,8 +40,8 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `available_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | The balance minus reserved value: what can be spent now. `available_money`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributesavailable_money). |
-| `balance_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | The posted balance, including value reserved for redemptions in progress. `balance_money`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributesbalance_money). |
+| `available_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The balance minus reserved value: what can be spent now. `available_money`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributesavailable_money). |
+| `balance_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The posted balance, including value reserved for redemptions in progress. `balance_money`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributesbalance_money). |
 | `code_source` | Optional | string or null | Origin of the current code: generated means Flint issued a random code; imported means the merchant supplied an existing code during import. Rotating the code resets this to generated. Values: `"generated"`, `"imported"`. `code_source`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributescode_source). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `currency` | Optional | string or null | ISO 4217 currency code. Values: `"USD"`. `currency`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributescurrency). |
@@ -52,24 +52,24 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `last_redeemed_at` | Optional | string or null or null | RFC3339 timestamp. `null` when the card has never been redeemed. `last_redeemed_at`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributeslast_redeemed_at). |
 | `last4` | Optional | string or null | Last four characters of the card's current code. `last4`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributeslast4). |
 | `merchant_id` | Optional | string or null | ID of the merchant this resource belongs to. `merchant_id`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributesmerchant_id). |
-| `reserved_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Value held for redemptions in progress. It isn't available to other payments until the redemption succeeds or is released. `reserved_money`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributesreserved_money). |
-| `restrictions` | Optional | Array of [GiftCardRestriction](../models/GiftCardRestriction.md#giftcardrestriction) or null | The restrictions that keep the card frozen. unfreeze is supported only when every restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding disposition. `restrictions`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributesrestrictions). |
+| `reserved_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Value held for redemptions in progress. It isn't available to other payments until the redemption succeeds or is released. `reserved_money`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributesreserved_money). |
+| `restrictions` | Optional | Array of [GiftCardRestrictionPreviousAttributes](../models/GiftCardRestrictionPreviousAttributes.md#giftcardrestrictionpreviousattributes) or null | The restrictions that keep the card frozen. unfreeze is supported only when every restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding disposition. `restrictions`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributesrestrictions). |
 | `status` | Optional | string or null | Where the card is in its lifecycle. Only an `active` card can be spent. Values: `"pending"`, `"active"`, `"frozen"`, `"closed"`. `status`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributesstatus). |
 | `supported_actions` | Optional | Array of string or null | Lifecycle actions accepted for the stored card state, independent of the caller's credentials. Empty when no action is available. Items values: `"adjust_balance"`, `"cash_out"`, `"close"`, `"freeze"`, `"unfreeze"`. `supported_actions`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributessupported_actions). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
-| `version` | Optional | integer or null | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. `version`: [declared alternatives](../models/GiftCardLoadUpdatedInstalledMerchantsEvent.md#giftcardloadupdatedinstalledmerchantseventdataprevious_attributesversion). |
+| `version` | Optional | integer or null | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. `version`: [declared alternatives](../models/GiftCardFundingDisputePreviousAttributes.md#giftcardfundingdisputepreviousattributesversion). |
 
 ### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.available_money
 
 The balance minus reserved value: what can be spent now.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.available_money variant 1
 
-anyOf MoneyValue: The balance minus reserved value: what can be spent now..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.available_money variant 2
 
@@ -78,17 +78,25 @@ anyOf variant 2.
 - Undeclared: `amount`, `currency`.
 - Value shape: null. The balance minus reserved value: what can be spent now. 
 
+### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.available_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.available_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+
 ### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.balance_money
 
 The posted balance, including value reserved for redemptions in progress.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.balance_money variant 1
 
-anyOf MoneyValue: The posted balance, including value reserved for redemptions in progress..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.balance_money variant 2
 
@@ -96,6 +104,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. The posted balance, including value reserved for redemptions in progress. 
+
+### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.balance_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.balance_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.code_source
 
@@ -221,13 +237,13 @@ Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.merchant_id]
 
 Value held for redemptions in progress. It isn't available to other payments until the redemption succeeds or is released.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.reserved_money variant 1
 
-anyOf MoneyValue: Value held for redemptions in progress. It isn't available to other payments until the redemption succeeds or is released..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.reserved_money variant 2
 
@@ -236,13 +252,21 @@ anyOf variant 2.
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Value held for redemptions in progress. It isn't available to other payments until the redemption succeeds or is released. 
 
+### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.reserved_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.reserved_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+
 ### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.restrictions
 
 ### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.restrictions variant 1
 
 anyOf variant 1: The restrictions that keep the card frozen. unfreeze is supported only when every restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding disposition..
 
-- Value shape: Array of [GiftCardRestriction](../models/GiftCardRestriction.md#giftcardrestriction). The restrictions that keep the card frozen. unfreeze is supported only when every restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding disposition. 
+- Value shape: Array of [GiftCardRestrictionPreviousAttributes](../models/GiftCardRestrictionPreviousAttributes.md#giftcardrestrictionpreviousattributes). The restrictions that keep the card frozen. unfreeze is supported only when every restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding disposition. 
 
 ### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.restrictions variant 2
 
@@ -284,7 +308,7 @@ Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](
 
 ### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.version
 
-Declared alternatives: [GiftCardLoadUpdatedInstalledMerchantsEvent.data.previous_attributes.version](../models/GiftCardLoadUpdatedInstalledMerchantsEvent.md#giftcardloadupdatedinstalledmerchantseventdataprevious_attributesversion).
+Declared alternatives: [GiftCardFundingDisputePreviousAttributes.version](../models/GiftCardFundingDisputePreviousAttributes.md#giftcardfundingdisputepreviousattributesversion).
 
 ### GiftCardUpdatedInstalledMerchantsEvent.source
 

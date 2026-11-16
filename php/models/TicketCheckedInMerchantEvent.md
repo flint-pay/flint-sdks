@@ -76,6 +76,10 @@ Declared alternatives: [TicketCheckedInMerchantEventDataPreviousAttributes.check
 
 Declared alternatives: [TicketCheckedInMerchantEventDataPreviousAttributes.created_at](../models/TicketCheckedInMerchantEventDataPreviousAttributes.md#ticketcheckedinmerchanteventdatapreviousattributescreated_at).
 
+### TicketCheckedInMerchantEvent.data fields 1.previous_attributes.order
+
+Declared alternatives: [TicketCheckedInMerchantEventDataPreviousAttributes.order](../models/TicketCheckedInMerchantEventDataPreviousAttributes.md#ticketcheckedinmerchanteventdatapreviousattributesorder).
+
 ### TicketCheckedInMerchantEvent.data fields 1.previous_attributes.order_id
 
 Declared alternatives: [TicketCheckedInMerchantEventDataPreviousAttributes.order_id](../models/TicketCheckedInMerchantEventDataPreviousAttributes.md#ticketcheckedinmerchanteventdatapreviousattributesorder_id).

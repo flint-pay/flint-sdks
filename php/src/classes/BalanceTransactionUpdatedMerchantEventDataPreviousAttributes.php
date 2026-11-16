@@ -2,30 +2,30 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read SignedMoney|null $amount_money
+ * @property-read mixed $amount_money
  * @property-read string|null $available_at
  * @property-read string|null $balance_transaction_id
  * @property-read string|null $currency
  * @property-read string|null $description
- * @property-read SignedMoney|null $fee_money
+ * @property-read mixed $fee_money
  * @property-read string|null $merchant_id
- * @property-read SignedMoney|null $net_money
+ * @property-read mixed $net_money
  * @property-read string|null $occurred_at
  * @property-read mixed $order
  * @property-read string|null $order_id
  * @property-read string|null $payout_id
  * @property-read list<string>|null $related_balance_transaction_ids
- * @property-read ResourceReference|null $related_resource
+ * @property-read mixed $related_resource
  * @property-read string|null $status
  * @property-read string|null $type
  * Presence-aware response; omitted optional fields return null. */
 final class BalanceTransactionUpdatedMerchantEventDataPreviousAttributes extends Model {
     /** @param array{'amount_money'?: mixed, 'available_at'?: mixed, 'balance_transaction_id'?: mixed, 'currency'?: mixed, 'description'?: mixed, 'fee_money'?: mixed, 'merchant_id'?: mixed, 'net_money'?: mixed, 'occurred_at'?: mixed, 'order'?: mixed, 'order_id'?: mixed, 'payout_id'?: mixed, 'related_balance_transaction_ids'?: mixed, 'related_resource'?: mixed, 'status'?: mixed, 'type'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BalanceTransactionUpdatedMerchantEventDataPreviousAttributes')); }
-    /** Signed gross amount of this balance movement, before any fee. anyOf[1] (Value): {@see SignedMoney}. Signed gross amount of this balance movement, before any fee. anyOf[2] (Value): null.
-     * @return SignedMoney|null
+    /** Signed gross amount of this balance movement, before any fee. anyOf[1] (Value): {@see SignedMoneyPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getAmountMoney(): SignedMoney|null { return $this->get('amount_money'); }
+    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** When the funds become, or became, available to pay out. Present on pending transactions as the expected time; status says whether they are available now. anyOf[1] (Value): string. When the funds become, or became, available to pay out. Present on pending transactions as the expected time; status says whether they are available now. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -47,27 +47,27 @@ final class BalanceTransactionUpdatedMerchantEventDataPreviousAttributes extends
      */
     public function getDescription(): string|null { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Fee deducted from this balance movement. On payments, this is processing_fee_money plus every add-on fee in add_on_fees plus platform_fee.amount_money when a partner app charged a platform fee; the payment intent carries the breakdown. On disputes and dispute reversals, this includes the processor's dispute fee charged to your balance or actually returned to it. Charges are positive; returned fees are negative. A dispute of -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by itself return the fee. anyOf[1] (Value): {@see SignedMoney}. Fee deducted from this balance movement. On payments, this is processing_fee_money plus every add-on fee in add_on_fees plus platform_fee.amount_money when a partner app charged a platform fee; the payment intent carries the breakdown. On disputes and dispute reversals, this includes the processor's dispute fee charged to your balance or actually returned to it. Charges are positive; returned fees are negative. A dispute of -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by itself return the fee. anyOf[2] (Value): null.
-     * @return SignedMoney|null
+    /** Fee deducted from this balance movement. On payments, this is processing_fee_money plus every add-on fee in add_on_fees plus platform_fee.amount_money when a partner app charged a platform fee; the payment intent carries the breakdown. On disputes and dispute reversals, this includes the processor's dispute fee charged to your balance or actually returned to it. Charges are positive; returned fees are negative. A dispute of -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by itself return the fee. anyOf[1] (Value): {@see SignedMoneyPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getFeeMoney(): SignedMoney|null { return $this->get('fee_money'); }
+    public function getFeeMoney(): mixed { return $this->get('fee_money'); }
     public function hasFeeMoney(): bool { return $this->has('fee_money'); }
     /** Merchant whose balance this transaction moved. anyOf[1] (Value): string. Merchant whose balance this transaction moved. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Signed net effect on your Flint balance: amount_money minus fee_money in the same currency. anyOf[1] (Value): {@see SignedMoney}. Signed net effect on your Flint balance: amount_money minus fee_money in the same currency. anyOf[2] (Value): null.
-     * @return SignedMoney|null
+    /** Signed net effect on your Flint balance: amount_money minus fee_money in the same currency. anyOf[1] (Value): {@see SignedMoneyPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getNetMoney(): SignedMoney|null { return $this->get('net_money'); }
+    public function getNetMoney(): mixed { return $this->get('net_money'); }
     public function hasNetMoney(): bool { return $this->has('net_money'); }
     /** When the balance movement happened. anyOf[1] (Value): string. When the balance movement happened. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getOccurredAt(): string|null { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** The order, inlined when you request expand=order. null when expanded and the transaction has no order_id. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummary} or null. The order, inlined when you request expand=order. null when expanded and the transaction has no order_id. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummary}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** The order, inlined when you request expand=order. null when expanded and the transaction has no order_id. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): ({@see ExpandedOrderSummaryPreviousAttributes} or null). The order, inlined when you request expand=order. null when expanded and the transaction has no order_id. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getOrder(): mixed { return $this->get('order'); }
@@ -87,10 +87,10 @@ final class BalanceTransactionUpdatedMerchantEventDataPreviousAttributes extends
      */
     public function getRelatedBalanceTransactionIds(): array|null { return $this->get('related_balance_transaction_ids'); }
     public function hasRelatedBalanceTransactionIds(): bool { return $this->has('related_balance_transaction_ids'); }
-    /** The Flint resource behind this movement: a payment_intent, payment_split, refund, dispute, payout, payout_destination, merchant_billing_invoice, or platform_fee_payout. Absent when the movement has none. anyOf[1] (Value): {@see ResourceReference}. The Flint resource behind this movement: a payment_intent, payment_split, refund, dispute, payout, payout_destination, merchant_billing_invoice, or platform_fee_payout. Absent when the movement has none. anyOf[2] (Value): null.
-     * @return ResourceReference|null
+    /** The Flint resource behind this movement: a payment_intent, payment_split, refund, dispute, payout, payout_destination, merchant_billing_invoice, or platform_fee_payout. Absent when the movement has none. anyOf[1] (Value): {@see ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getRelatedResource(): ResourceReference|null { return $this->get('related_resource'); }
+    public function getRelatedResource(): mixed { return $this->get('related_resource'); }
     public function hasRelatedResource(): bool { return $this->has('related_resource'); }
     /** Whether the funds can be paid out yet: pending until they become available, then available. Only these two values appear, and the change to available sends balance_transaction.updated. Value enum: "pending", "available". anyOf[1] (Value): string. Whether the funds can be paid out yet: pending until they become available, then available. Only these two values appear, and the change to available sends balance_transaction.updated. Value enum: "pending", "available". anyOf[2] (Value): null.
      * @return string|null

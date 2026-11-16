@@ -1,1 +1,1 @@
-{"shared":"FulfillmentNotification","dependencies":["CheckoutBuyerContact","DeferredPromotion","FulfillmentNotification","MetadataMap","MoneyValue","OrderSettlementAmounts","PricingAmounts","SharedCodec1180","SharedCodec37","SharedCodec38"]}
+{"shared":"FulfillmentNotification","dependencies":["CheckoutBuyerContact","DeferredPromotion","FulfillmentNotification","MetadataMap","MoneyValue","OrderSettlementAmounts","PricingAmounts","SharedCodec1743","SharedCodec40","SharedCodec41"]}

@@ -16,7 +16,7 @@ Response model.
 | `damaged_quantity` | Optional | integer or null | On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported. `damaged_quantity`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesdamaged_quantity). |
 | `held_quantity` | Optional | integer or null | Units claimed by an open reservation that has not been committed. Whole-number quantity; fractional quantities are not supported. `held_quantity`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesheld_quantity). |
 | `incoming_quantity` | Optional | integer or null | Units recorded as inbound but not yet on hand. Does not count toward availability. Whole-number quantity; fractional quantities are not supported. `incoming_quantity`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesincoming_quantity). |
-| `inventory_item` | Optional | [InventoryItem](../models/InventoryItem.md#inventoryitem) or null | The inventory item this level belongs to. Present only when the list request asked for expand=inventory_item. |
+| `inventory_item` | Optional | Alternative shapes (see declared variants) | The inventory item this level belongs to. Present only when the list request asked for expand=inventory_item. `inventory_item`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_item). |
 | `inventory_item_id` | Optional | string or null | ID of the inventory item the stock is for. `inventory_item_id`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_item_id). |
 | `inventory_level_id` | Optional | string or null | Unique identifier for this inventory level, prefixed `invl_`. `inventory_level_id`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_level_id). |
 | `location_id` | Optional | string or null | ID of the Location that holds the stock. `location_id`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributeslocation_id). |
@@ -131,6 +131,232 @@ anyOf variant 1: Units recorded as inbound but not yet on hand. Does not count t
 anyOf variant 2.
 
 - Value shape: null. Units recorded as inbound but not yet on hand. Does not count toward availability. Whole-number quantity; fractional quantities are not supported. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item
+
+The inventory item this level belongs to. Present only when the list request asked for expand=inventory_item.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `backorder` | Conditional | Alternative shapes (see declared variants) | Backorder settings shared by every variant using this inventory item. `backorder`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_item-variant-1backorder). |
+| `barcode` | Conditional | string or null | Optional searchable barcode. `barcode`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_item-variant-1barcode). |
+| `created_at` | Conditional | string or null | Time the inventory item was created. `created_at`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_item-variant-1created_at). |
+| `external_reference_id` | Conditional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_item-variant-1external_reference_id). |
+| `inventory_item_id` | Conditional | string or null | Stable inventory item ID. `inventory_item_id`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_item-variant-1inventory_item_id). |
+| `metadata` | Conditional | Map of string or null | Caller-owned metadata. `metadata`: [declared alternatives](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributesmetadata). |
+| `name` | Conditional | string or null | Merchant-facing inventory item name. `name`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_item-variant-1name). |
+| `sku` | Conditional | string or null | Optional searchable stock-keeping unit. `sku`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_item-variant-1sku). |
+| `status` | Conditional | string or null | Current inventory item lifecycle status. Values: `"active"`, `"inactive"`, `"archived"`. `status`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_item-variant-1status). |
+| `updated_at` | Conditional | string or null | Time the inventory item last changed. `updated_at`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_item-variant-1updated_at). |
+| `version` | Conditional | integer or null | Optimistic-concurrency version for item writes. `version`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_item-variant-1version). |
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1
+
+anyOf InventoryItemPreviousAttributes.
+
+- Optional: `backorder`, `barcode`, `created_at`, `external_reference_id`, `inventory_item_id`, `metadata`, `name`, `sku`, `status`, `updated_at`, `version`.
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 2
+
+anyOf variant 2.
+
+- Undeclared: `backorder`, `barcode`, `created_at`, `external_reference_id`, `inventory_item_id`, `metadata`, `name`, `sku`, `status`, `updated_at`, `version`.
+- Value shape: null. The inventory item this level belongs to. Present only when the list request asked for expand=inventory_item. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.backorder
+
+Backorder settings shared by every variant using this inventory item.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `enabled` | Conditional | boolean or null | Whether this inventory item allows backorders. `enabled`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_item-variant-1backorder-variant-1enabled). |
+| `expected_ship_date` | Conditional | string or null or null | Expected shipping date. Null when unknown. `expected_ship_date`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_item-variant-1backorder-variant-1expected_ship_date). |
+| `limit_quantity` | Conditional | integer or null or null | Maximum units on backorder across the item's levels. Null when there is no cap. `limit_quantity`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_item-variant-1backorder-variant-1limit_quantity). |
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.backorder variant 1
+
+anyOf BackorderPolicyPreviousAttributes.
+
+- Optional: `enabled`, `expected_ship_date`, `limit_quantity`.
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.backorder variant 2
+
+anyOf variant 2.
+
+- Undeclared: `enabled`, `expected_ship_date`, `limit_quantity`.
+- Value shape: null. Backorder settings shared by every variant using this inventory item. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.backorder variant 1.enabled
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.backorder variant 1.enabled variant 1
+
+anyOf variant 1: Whether this inventory item allows backorders..
+
+- Value shape: boolean. Whether this inventory item allows backorders. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.backorder variant 1.enabled variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether this inventory item allows backorders. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.backorder variant 1.expected_ship_date
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.backorder variant 1.expected_ship_date variant 1
+
+anyOf variant 1: Expected shipping date. Null when unknown..
+
+- Value shape: (string or null). Expected shipping date. Null when unknown. Expected shipping date. Null when unknown. Format: `date`. Example: `"2026-08-02"`. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.backorder variant 1.expected_ship_date variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Expected shipping date. Null when unknown. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.backorder variant 1.limit_quantity
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.backorder variant 1.limit_quantity variant 1
+
+anyOf variant 1: Maximum units on backorder across the item's levels. Null when there is no cap..
+
+- Value shape: (integer or null). Maximum units on backorder across the item's levels. Null when there is no cap. Maximum units on backorder across the item's levels. Null when there is no cap. Format: `int64`. minimum: `1`. maximum: `9007199254740991`. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.backorder variant 1.limit_quantity variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Maximum units on backorder across the item's levels. Null when there is no cap. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.barcode
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.barcode variant 1
+
+anyOf variant 1: Optional searchable barcode..
+
+- Value shape: string. Optional searchable barcode. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.barcode variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Optional searchable barcode. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.created_at
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.created_at variant 1
+
+anyOf variant 1: Time the inventory item was created..
+
+- Value shape: string. Time the inventory item was created. Time the inventory item was created. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.created_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Time the inventory item was created. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.external_reference_id
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.external_reference_id variant 1
+
+anyOf variant 1: Caller-owned identifier for this resource in an external system..
+
+- Value shape: string. Caller-owned identifier for this resource in an external system. Caller-owned identifier for this resource in an external system. maxLength: `255`. Example: `"warehouse-1842"`. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.external_reference_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Caller-owned identifier for this resource in an external system. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.inventory_item_id
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.inventory_item_id variant 1
+
+anyOf variant 1: Stable inventory item ID..
+
+- Value shape: string. Stable inventory item ID. Stable inventory item ID. Example: `"invi_01KEZF7C00A6YEM25MTHW2MPZY"`. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.inventory_item_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Stable inventory item ID. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.metadata
+
+Declared alternatives: [DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.metadata](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributesmetadata).
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.name
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.name variant 1
+
+anyOf variant 1: Merchant-facing inventory item name..
+
+- Value shape: string. Merchant-facing inventory item name. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.name variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Merchant-facing inventory item name. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.sku
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.sku variant 1
+
+anyOf variant 1: Optional searchable stock-keeping unit..
+
+- Value shape: string. Optional searchable stock-keeping unit. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.sku variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Optional searchable stock-keeping unit. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.status
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.status variant 1
+
+anyOf variant 1: Current inventory item lifecycle status..
+
+- Value shape: string. Current inventory item lifecycle status. Values: `"active"`, `"inactive"`, `"archived"`.
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Current inventory item lifecycle status. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.updated_at
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.updated_at variant 1
+
+anyOf variant 1: Time the inventory item last changed..
+
+- Value shape: string. Time the inventory item last changed. Time the inventory item last changed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.updated_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Time the inventory item last changed. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.version
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.version variant 1
+
+anyOf variant 1: Optimistic-concurrency version for item writes..
+
+- Value shape: integer. Optimistic-concurrency version for item writes. Optimistic-concurrency version for item writes. Format: `uint64`. minimum: `1`. 
+
+### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item variant 1.version variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Optimistic-concurrency version for item writes. 
 
 ### InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item_id
 

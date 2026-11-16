@@ -7,8 +7,8 @@ namespace Flint;
  * @property-read string|null $created_at
  * @property-read string|null $external_actor_id
  * @property-read string|null $external_reference_id
- * @property-read list<ReturnDisposition>|null $generated_dispositions
- * @property-read list<ReturnReceiptLineItem>|null $line_items
+ * @property-read list<ReturnDispositionPreviousAttributes>|null $generated_dispositions
+ * @property-read list<ReturnReceiptLineItemPreviousAttributes>|null $line_items
  * @property-read string|null $received_at
  * @property-read string|null $receiving_location_id
  * @property-read string|null $return_id
@@ -50,13 +50,13 @@ final class ReturnReceiptSupersededMerchantEventDataPreviousAttributes extends M
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. anyOf[1] (Value): Array of {@see ReturnDisposition}. Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. anyOf[1][] (Value): {@see ReturnDisposition}. A decision about how returned merchandise will be handled. anyOf[2] (Value): null.
-     * @return list<ReturnDisposition>|null
+    /** Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. anyOf[1] (Value): Array of {@see ReturnDispositionPreviousAttributes}. Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. anyOf[1][] (Value): {@see ReturnDispositionPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ReturnDispositionPreviousAttributes>|null
      */
     public function getGeneratedDispositions(): array|null { return $this->get('generated_dispositions'); }
     public function hasGeneratedDispositions(): bool { return $this->has('generated_dispositions'); }
-    /** The lines recorded. anyOf[1] (Value): Array of {@see ReturnReceiptLineItem}. The lines recorded. anyOf[1][] (Value): {@see ReturnReceiptLineItem}. A returned item recorded as received. anyOf[2] (Value): null.
-     * @return list<ReturnReceiptLineItem>|null
+    /** The lines recorded. anyOf[1] (Value): Array of {@see ReturnReceiptLineItemPreviousAttributes}. The lines recorded. anyOf[1][] (Value): {@see ReturnReceiptLineItemPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ReturnReceiptLineItemPreviousAttributes>|null
      */
     public function getLineItems(): array|null { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
@@ -85,7 +85,7 @@ final class ReturnReceiptSupersededMerchantEventDataPreviousAttributes extends M
      */
     public function getShipmentId(): string|null { return $this->get('shipment_id'); }
     public function hasShipmentId(): bool { return $this->has('shipment_id'); }
-    /** System that recorded the observation. `null` when no source system was recorded. anyOf[1] (Value): {@see ReturnSourceSystem} or null. System that recorded the observation. `null` when no source system was recorded. anyOf[1].anyOf[1] (Value): {@see ReturnSourceSystem}. The system a return event came from, such as a point of sale or warehouse system, with its own identifier. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+    /** System that recorded the observation. `null` when no source system was recorded. anyOf[1] (Value): ({@see ReturnSourceSystemPreviousAttributes} or null). System that recorded the observation. `null` when no source system was recorded. anyOf[1].anyOf[1] (Value): {@see ReturnSourceSystemPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getSourceSystem(): mixed { return $this->get('source_system'); }

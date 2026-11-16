@@ -42,6 +42,10 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 Field definitions: [shared fields](CreditNoteIssuedMerchantEventDataPreviousAttributes.md#creditnoteissuedmerchanteventdatapreviousattributes).
 
+### CreditNoteIssuedMerchantEvent.data fields 1.previous_attributes.buyer_tax_identity
+
+Declared alternatives: [CreditNoteIssuedMerchantEventDataPreviousAttributes.buyer_tax_identity](../models/CreditNoteIssuedMerchantEventDataPreviousAttributes.md#creditnoteissuedmerchanteventdatapreviousattributesbuyer_tax_identity).
+
 ### CreditNoteIssuedMerchantEvent.data fields 1.previous_attributes.created_at
 
 Declared alternatives: [CreditNoteIssuedMerchantEventDataPreviousAttributes.created_at](../models/CreditNoteIssuedMerchantEventDataPreviousAttributes.md#creditnoteissuedmerchanteventdatapreviousattributescreated_at).
@@ -57,6 +61,10 @@ Declared alternatives: [CreditNoteIssuedMerchantEventDataPreviousAttributes.cred
 ### CreditNoteIssuedMerchantEvent.data fields 1.previous_attributes.external_reference_id
 
 Declared alternatives: [CreditNoteIssuedMerchantEventDataPreviousAttributes.external_reference_id](../models/CreditNoteIssuedMerchantEventDataPreviousAttributes.md#creditnoteissuedmerchanteventdatapreviousattributesexternal_reference_id).
+
+### CreditNoteIssuedMerchantEvent.data fields 1.previous_attributes.invoice
+
+Declared alternatives: [CreditNoteIssuedMerchantEventDataPreviousAttributes.invoice](../models/CreditNoteIssuedMerchantEventDataPreviousAttributes.md#creditnoteissuedmerchanteventdatapreviousattributesinvoice).
 
 ### CreditNoteIssuedMerchantEvent.data fields 1.previous_attributes.invoice_id
 
@@ -85,6 +93,10 @@ Declared alternatives: [CreditNoteIssuedMerchantEventDataPreviousAttributes.merc
 ### CreditNoteIssuedMerchantEvent.data fields 1.previous_attributes.reason
 
 Declared alternatives: [CreditNoteIssuedMerchantEventDataPreviousAttributes.reason](../models/CreditNoteIssuedMerchantEventDataPreviousAttributes.md#creditnoteissuedmerchanteventdatapreviousattributesreason).
+
+### CreditNoteIssuedMerchantEvent.data fields 1.previous_attributes.seller_tax_identity
+
+Declared alternatives: [CreditNoteIssuedMerchantEventDataPreviousAttributes.seller_tax_identity](../models/CreditNoteIssuedMerchantEventDataPreviousAttributes.md#creditnoteissuedmerchanteventdatapreviousattributesseller_tax_identity).
 
 ### CreditNoteIssuedMerchantEvent.data fields 1.previous_attributes.status
 

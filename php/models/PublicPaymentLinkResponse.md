@@ -21,7 +21,7 @@ Resource, collection, or operation result returned by this request. The result o
 | `checkout_start_due_at` | Required | string | Start a new checkout before this instant. At or after it, read the public payment link again for a new resolution_context; its credential expiry is resolution_context_expires_at. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `checkout_theme` | Optional | [CheckoutTheme](../models/CheckoutTheme.md#checkouttheme) | The theme a checkout opened from this link uses: your checkout branding settings, with the link's own `theme` over them. Use it to style a page that leads to the checkout. `payment_link.theme` is the link's own theme alone. Omitted when neither sets a value. It includes the branding settings' `background_color`, `text_color`, `font_family`, and `corner_radius`. Colors, corner radius, font family, and title that style a checkout, taken from the session or link theme or the merchant's branding settings. |
 | `is_past_sales_end` | Required | boolean | True when the link's sales end has passed: payment_link.sales_end_at, or event_config.event_at for an event link without sales_end_at. Resolve then fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. |
-| `is_sold_out` | Required | boolean | True for an event with no tickets remaining. For other active links with inventory_routing_source, true when any catalog line cannot be bought at its minimum quantity from that source. Untracked and ad hoc lines do not count. A choice line counts only when every offered variant is sold out. Fixed locations use available stock; policies use their allocatable locations. Stock is not reserved by this read. |
+| `is_sold_out` | Required | boolean | True for an event with no tickets remaining. For other active links with tracked demand, true when any catalog line cannot be bought at its minimum quantity from the effective routing source, including the single-Location fallback. Untracked and ad hoc lines do not count. A choice line counts only when every offered variant is sold out. Fixed locations use available stock; policies use their allocatable locations. Stock is not reserved by this read. |
 | `merchant_icon` | Optional | [Image](../models/Image.md#image) | The merchant's icon. An image with its URL, size, and alt text. |
 | `merchant_logo` | Optional | [Image](../models/Image.md#image) | The merchant's logo. An image with its URL, size, and alt text. |
 | `merchant_name` | Optional | string | The merchant's name. |
@@ -193,18 +193,19 @@ One component of a bundle on a resolved payment link line item, with its variant
 | `position` | Required | integer | Position of the component within the bundle. Format: `int32`. |
 | `product_id` | Optional | string | ID of the product the component's variant belongs to. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
-| `variant` | Optional | [PublicResolvedBundleVariantSummary](../models/PublicResolvedBundleVariantSummary.md#publicresolvedbundlevariantsummary) | Summary of the component's variant. A summary of a bundle component's variant, with its name, SKU, selected options, and whether it is available for sale. `variant`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_itemsbundle_componentsvariant). |
+| `variant` | Optional | [PublicResolvedBundleVariantSummary](../models/PublicResolvedBundleVariantSummary.md#publicresolvedbundlevariantsummary) | Summary of the component's variant. A summary of a bundle component's variant, with its product name, variant name, SKU, selected options, and whether it is available for sale. `variant`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_itemsbundle_componentsvariant). |
 | `variant_id` | Required | string | ID of the component's variant. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
 
 ### PublicPaymentLinkResponse.data.resolved_line_items[].bundle_components[].variant
 
-Summary of the component's variant. A summary of a bundle component's variant, with its name, SKU, selected options, and whether it is available for sale.
+Summary of the component's variant. A summary of a bundle component's variant, with its product name, variant name, SKU, selected options, and whether it is available for sale.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `is_available_for_sale` | Required | boolean | Whether the variant can be sold now. |
 | `name` | Optional | string | Name of the variant. |
 | `product_id` | Required | string | Identifier of the product this resolved bundle component variant belongs to. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |
+| `product_name` | Optional | string | Name of the product the component’s variant belongs to. |
 | `selected_options` | Optional | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) | The product options the variant selects, such as size or color. `selected_options[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_componentsvariantselected_options). |
 | `sku` | Optional | string | SKU of the variant. |
 | `variant_id` | Required | string | ID of the variant. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |

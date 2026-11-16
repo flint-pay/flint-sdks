@@ -12,15 +12,15 @@ namespace Flint;
  * @property-read mixed $client_secret_last_used_at
  * @property-read string|null $created_at
  * @property-read list<string>|null $default_requested_permissions
- * @property-read PartnerAppMerchantActionRouting|null $merchant_action_routing
+ * @property-read mixed $merchant_action_routing
  * @property-read string|null $merchant_action_url
  * @property-read string|null $name
  * @property-read string|null $partner_app_id
- * @property-read PartnerAppPaymentSplits|null $payment_splits
- * @property-read list<PartnerAppPermissionManifestEntry>|null $permission_manifest
- * @property-read PartnerAppPlatform|null $platform
- * @property-read PlatformFeeCap|null $platform_fee_cap
- * @property-read PartnerAppPlatformProfile|null $platform_profile
+ * @property-read mixed $payment_splits
+ * @property-read list<PartnerAppPermissionManifestEntryPreviousAttributes>|null $permission_manifest
+ * @property-read mixed $platform
+ * @property-read mixed $platform_fee_cap
+ * @property-read mixed $platform_profile
  * @property-read string|null $previous_secret_expires_at
  * @property-read list<string>|null $redirect_uris
  * @property-read string|null $status
@@ -81,10 +81,10 @@ final class PartnerAppPlatformLimitedEventDataPreviousAttributes extends Model {
      */
     public function getDefaultRequestedPermissions(): array|null { return $this->get('default_requested_permissions'); }
     public function hasDefaultRequestedPermissions(): bool { return $this->has('default_requested_permissions'); }
-    /** Present only while a change to merchant_action_url or platform_profile.website_url is waiting to move routing to another registrable domain; omitted otherwise. url is the previous destination emails still use, and expires_at is when routing switches to the current merchant_action_url. While the app had no merchant action URL before the change, this is Flint's own page. anyOf[1] (Value): {@see PartnerAppMerchantActionRouting}. Present only while a change to merchant_action_url or platform_profile.website_url is waiting to move routing to another registrable domain; omitted otherwise. url is the previous destination emails still use, and expires_at is when routing switches to the current merchant_action_url. While the app had no merchant action URL before the change, this is Flint's own page. anyOf[2] (Value): null.
-     * @return PartnerAppMerchantActionRouting|null
+    /** Present only while a change to merchant_action_url or platform_profile.website_url is waiting to move routing to another registrable domain; omitted otherwise. url is the previous destination emails still use, and expires_at is when routing switches to the current merchant_action_url. While the app had no merchant action URL before the change, this is Flint's own page. anyOf[1] (Value): {@see PartnerAppMerchantActionRoutingPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getMerchantActionRouting(): PartnerAppMerchantActionRouting|null { return $this->get('merchant_action_routing'); }
+    public function getMerchantActionRouting(): mixed { return $this->get('merchant_action_routing'); }
     public function hasMerchantActionRouting(): bool { return $this->has('merchant_action_routing'); }
     /** Where Flint sends an owner of a merchant this app created through a merchant signup when an email asks them to act, such as to finish verification. Flint adds `flint_*` query parameters. Setting it requests the `create_merchants` platform capability, which merchant signups need. Absent until set. anyOf[1] (Value): string. Where Flint sends an owner of a merchant this app created through a merchant signup when an email asks them to act, such as to finish verification. Flint adds `flint_*` query parameters. Setting it requests the `create_merchants` platform capability, which merchant signups need. Absent until set. Format: uri. minLength: 1. maxLength: 2048. pattern: ^https://. anyOf[2] (Value): null.
      * @return string|null
@@ -101,30 +101,30 @@ final class PartnerAppPlatformLimitedEventDataPreviousAttributes extends Model {
      */
     public function getPartnerAppId(): string|null { return $this->get('partner_app_id'); }
     public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
-    /** The app's declaration that its owner sends splits of the payments it collects to sellers that install the app. Every authorization of the app asks the merchant to approve receiving split funds under these seller terms, and the environment grant records the approval. Declaring it requests the payment_splits platform capability, which live splits need. Absent when the app sends no splits. anyOf[1] (Value): {@see PartnerAppPaymentSplits}. The app's declaration that its owner sends splits of the payments it collects to sellers that install the app. Every authorization of the app asks the merchant to approve receiving split funds under these seller terms, and the environment grant records the approval. Declaring it requests the payment_splits platform capability, which live splits need. Absent when the app sends no splits. anyOf[2] (Value): null.
-     * @return PartnerAppPaymentSplits|null
+    /** The app's declaration that its owner sends splits of the payments it collects to sellers that install the app. Every authorization of the app asks the merchant to approve receiving split funds under these seller terms, and the environment grant records the approval. Declaring it requests the payment_splits platform capability, which live splits need. Absent when the app sends no splits. anyOf[1] (Value): {@see PartnerAppPaymentSplitsPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getPaymentSplits(): PartnerAppPaymentSplits|null { return $this->get('payment_splits'); }
+    public function getPaymentSplits(): mixed { return $this->get('payment_splits'); }
     public function hasPaymentSplits(): bool { return $this->has('payment_splits'); }
-    /** Permissions the app can request from merchants. Each lists the Flint scopes it grants. anyOf[1] (Value): Array of {@see PartnerAppPermissionManifestEntry}. Permissions the app can request from merchants. Each lists the Flint scopes it grants. anyOf[1][] (Value): {@see PartnerAppPermissionManifestEntry}. One permission a partner app can request, with a title, a description, and the Flint scopes it grants. anyOf[2] (Value): null.
-     * @return list<PartnerAppPermissionManifestEntry>|null
+    /** Permissions the app can request from merchants. Each lists the Flint scopes it grants. anyOf[1] (Value): Array of {@see PartnerAppPermissionManifestEntryPreviousAttributes}. Permissions the app can request from merchants. Each lists the Flint scopes it grants. anyOf[1][] (Value): {@see PartnerAppPermissionManifestEntryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<PartnerAppPermissionManifestEntryPreviousAttributes>|null
      */
     public function getPermissionManifest(): array|null { return $this->get('permission_manifest'); }
     public function hasPermissionManifest(): bool { return $this->has('permission_manifest'); }
-    /** The app's platform onboarding: status, outstanding requirements, platform capabilities, terms acceptance, and once Flint approves or limits it, the platform's limits and reserve. anyOf[1] (Value): {@see PartnerAppPlatform}. The app's platform onboarding: status, outstanding requirements, platform capabilities, terms acceptance, and once Flint approves or limits it, the platform's limits and reserve. anyOf[2] (Value): null.
-     * @return PartnerAppPlatform|null
+    /** The app's platform onboarding: status, outstanding requirements, platform capabilities, terms acceptance, and once Flint approves or limits it, the platform's limits and reserve. anyOf[1] (Value): {@see PartnerAppPlatformPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getPlatform(): PartnerAppPlatform|null { return $this->get('platform'); }
+    public function getPlatform(): mixed { return $this->get('platform'); }
     public function hasPlatform(): bool { return $this->has('platform'); }
-    /** The most a platform fee can take from one payment the app creates with a partner app token. Merchants see it on the consent screen and approve it for each mode they install. Absent when the app charges no platform fees. anyOf[1] (Value): {@see PlatformFeeCap}. The most a platform fee can take from one payment the app creates with a partner app token. Merchants see it on the consent screen and approve it for each mode they install. Absent when the app charges no platform fees. anyOf[2] (Value): null.
-     * @return PlatformFeeCap|null
+    /** The most a platform fee can take from one payment the app creates with a partner app token. Merchants see it on the consent screen and approve it for each mode they install. Absent when the app charges no platform fees. anyOf[1] (Value): {@see PlatformFeeCapPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getPlatformFeeCap(): PlatformFeeCap|null { return $this->get('platform_fee_cap'); }
+    public function getPlatformFeeCap(): mixed { return $this->get('platform_fee_cap'); }
     public function hasPlatformFeeCap(): bool { return $this->has('platform_fee_cap'); }
-    /** What the app told Flint for its platform review. Absent until set. anyOf[1] (Value): {@see PartnerAppPlatformProfile}. What the app told Flint for its platform review. Absent until set. anyOf[2] (Value): null.
-     * @return PartnerAppPlatformProfile|null
+    /** What the app told Flint for its platform review. Absent until set. anyOf[1] (Value): {@see PartnerAppPlatformProfilePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getPlatformProfile(): PartnerAppPlatformProfile|null { return $this->get('platform_profile'); }
+    public function getPlatformProfile(): mixed { return $this->get('platform_profile'); }
     public function hasPlatformProfile(): bool { return $this->has('platform_profile'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

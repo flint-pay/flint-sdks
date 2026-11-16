@@ -1,0 +1,30 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string|\DateTimeInterface|null $expires_at
+ * @property-read string|null $report_download_id
+ * @property-read string|null $url
+ * Presence-aware input; omitted fields throw when accessed. */
+final class PublicDownloadPreviousAttributesInput extends Model {
+    /** @param array{'expires_at'?: string|\DateTimeInterface|null, 'report_download_id'?: string|null, 'url'?: string|null, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicDownloadPreviousAttributesInput')); }
+    /** When the download stops working: 24 hours after the report succeeded. The report keeps status succeeded and this download object afterward; create a new report to get the file again. anyOf[1] (Value): string. When the download stops working: 24 hours after the report succeeded. The report keeps status succeeded and this download object afterward; create a new report to get the file again. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * @return string|\DateTimeInterface|null
+     * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
+     */
+    public function getExpiresAt(): mixed { return $this->get('expires_at'); }
+    public function hasExpiresAt(): bool { return $this->has('expires_at'); }
+    /** Identifier of this download, the last segment of url. anyOf[1] (Value): string. Identifier of this download, the last segment of url. pattern: ^rdl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "rdl_01KEZF7C003GGGDW1N5QT46JDZ". anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When report_download_id is omitted; use hasReportDownloadId() or valueOrDefault().
+     */
+    public function getReportDownloadId(): mixed { return $this->get('report_download_id'); }
+    public function hasReportDownloadId(): bool { return $this->has('report_download_id'); }
+    /** Flint API URL for the file, not the file itself. Call it with the same API key; Flint answers 307 with a redirect to a private file URL that works for a few minutes. Request url again each time you need the file. anyOf[1] (Value): string. Flint API URL for the file, not the file itself. Call it with the same API key; Flint answers 307 with a redirect to a private file URL that works for a few minutes. Request url again each time you need the file. anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
+     */
+    public function getUrl(): mixed { return $this->get('url'); }
+    public function hasUrl(): bool { return $this->has('url'); }
+}

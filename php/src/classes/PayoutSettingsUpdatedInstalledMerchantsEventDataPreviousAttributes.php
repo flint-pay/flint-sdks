@@ -2,16 +2,16 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read list<MoneyMovementBlockedReason>|null $blocked_reasons
+ * @property-read list<MoneyMovementBlockedReasonPreviousAttributes>|null $blocked_reasons
  * @property-read mixed $created_at
  * @property-read array<array-key, string>|null $default_payout_destinations
  * @property-read int|null $delay_days
  * @property-read int|null $delay_days_override
  * @property-read string|null $interval
  * @property-read string|null $merchant_id
- * @property-read array<array-key, MoneyValue>|null $minimum_balance_currency_options
+ * @property-read array<array-key, MoneyValuePreviousAttributes>|null $minimum_balance_currency_options
  * @property-read list<int>|null $monthly_payout_days
- * @property-read list<NextAction>|null $next_actions
+ * @property-read list<NextActionPreviousAttributes>|null $next_actions
  * @property-read string|null $payout_settings_id
  * @property-read string|null $statement_descriptor
  * @property-read string|null $status
@@ -22,8 +22,8 @@ namespace Flint;
 final class PayoutSettingsUpdatedInstalledMerchantsEventDataPreviousAttributes extends Model {
     /** @param array{'blocked_reasons'?: mixed, 'created_at'?: mixed, 'default_payout_destinations'?: mixed, 'delay_days'?: mixed, 'delay_days_override'?: mixed, 'interval'?: mixed, 'merchant_id'?: mixed, 'minimum_balance_currency_options'?: mixed, 'monthly_payout_days'?: mixed, 'next_actions'?: mixed, 'payout_settings_id'?: mixed, 'statement_descriptor'?: mixed, 'status'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, 'weekly_payout_days'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutSettingsUpdatedInstalledMerchantsEventDataPreviousAttributes')); }
-    /** Why payouts can't run. Empty when nothing blocks them. anyOf[1] (Value): Array of {@see MoneyMovementBlockedReason}. Why payouts can't run. Empty when nothing blocks them. anyOf[1][] (Value): {@see MoneyMovementBlockedReason}. Why a money movement action is blocked, with an error code, a message, next steps, and who can resolve it. anyOf[2] (Value): null.
-     * @return list<MoneyMovementBlockedReason>|null
+    /** Why payouts can't run. Empty when nothing blocks them. anyOf[1] (Value): Array of {@see MoneyMovementBlockedReasonPreviousAttributes}. Why payouts can't run. Empty when nothing blocks them. anyOf[1][] (Value): {@see MoneyMovementBlockedReasonPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<MoneyMovementBlockedReasonPreviousAttributes>|null
      */
     public function getBlockedReasons(): array|null { return $this->get('blocked_reasons'); }
     public function hasBlockedReasons(): bool { return $this->has('blocked_reasons'); }
@@ -32,7 +32,7 @@ final class PayoutSettingsUpdatedInstalledMerchantsEventDataPreviousAttributes e
      */
     public function getCreatedAt(): mixed { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Default payout destination for each currency, as a map from currency code to payout_destination_id. Empty when no defaults are configured. Change a currency's default with `default_payout_destinations` on PATCH /v1/payout-settings, or in the payouts embedded component. anyOf[1] (Value): Map of string. Default payout destination for each currency, as a map from currency code to payout_destination_id. Empty when no defaults are configured. Change a currency's default with `default_payout_destinations` on PATCH /v1/payout-settings, or in the payouts embedded component. anyOf[1].* (Value): string. anyOf[2] (Value): null.
+    /** Default payout destination for each currency, as a map from currency code to payout_destination_id. Empty when no defaults are configured. Change a currency's default with `default_payout_destinations` on PATCH /v1/payout-settings, or in the payouts embedded component. anyOf[1] (Value): Map of string. anyOf[1].* (Value): string. anyOf[2] (Value): null.
      * @return array<array-key, string>|null
      */
     public function getDefaultPayoutDestinations(): array|null { return $this->get('default_payout_destinations'); }
@@ -57,8 +57,8 @@ final class PayoutSettingsUpdatedInstalledMerchantsEventDataPreviousAttributes e
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Amount kept in your balance instead of paid out, keyed by currency code. Absent when no minimum is set. anyOf[1] (Value): Map of {@see MoneyValue}. Amount kept in your balance instead of paid out, keyed by currency code. Absent when no minimum is set. anyOf[1].* (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
-     * @return array<array-key, MoneyValue>|null
+    /** Amount kept in your balance instead of paid out, keyed by currency code. Absent when no minimum is set. anyOf[1] (Value): Map of {@see MoneyValuePreviousAttributes}. anyOf[1].* (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return array<array-key, MoneyValuePreviousAttributes>|null
      */
     public function getMinimumBalanceCurrencyOptions(): array|null { return $this->get('minimum_balance_currency_options'); }
     public function hasMinimumBalanceCurrencyOptions(): bool { return $this->has('minimum_balance_currency_options'); }
@@ -67,8 +67,8 @@ final class PayoutSettingsUpdatedInstalledMerchantsEventDataPreviousAttributes e
      */
     public function getMonthlyPayoutDays(): array|null { return $this->get('monthly_payout_days'); }
     public function hasMonthlyPayoutDays(): bool { return $this->has('monthly_payout_days'); }
-    /** Steps that would let payouts run, when Flint has one to suggest. Empty otherwise. anyOf[1] (Value): Array of {@see NextAction}. Steps that would let payouts run, when Flint has one to suggest. Empty otherwise. anyOf[1][] (Value): {@see NextAction}. A follow-up action. When target_resource is present, send its resource_id in the target request field named {resource_type}_id. anyOf[2] (Value): null.
-     * @return list<NextAction>|null
+    /** Steps that would let payouts run, when Flint has one to suggest. Empty otherwise. anyOf[1] (Value): Array of {@see NextActionPreviousAttributes}. Steps that would let payouts run, when Flint has one to suggest. Empty otherwise. anyOf[1][] (Value): {@see NextActionPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<NextActionPreviousAttributes>|null
      */
     public function getNextActions(): array|null { return $this->get('next_actions'); }
     public function hasNextActions(): bool { return $this->has('next_actions'); }

@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string|null $completed_at
  * @property-read string|null $created_at
  * @property-read string|null $idempotency_key
- * @property-read PaymentErrorSummary|null $last_payment_error
+ * @property-read mixed $last_payment_error
  * @property-read string|null $order_id
  * @property-read string|null $payment_intent_id
  * @property-read string|null $started_at
@@ -32,10 +32,10 @@ final class SubscriptionPaymentRetrySucceededInstalledMerchantsEventDataPrevious
      */
     public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** Why the payment failed. Present only when the retry's status is `failed` and a payment attempt was made. anyOf[1] (Value): {@see PaymentErrorSummary}. Why the payment failed. Present only when the retry's status is `failed` and a payment attempt was made. anyOf[2] (Value): null.
-     * @return PaymentErrorSummary|null
+    /** Why the payment failed. Present only when the retry's status is `failed` and a payment attempt was made. anyOf[1] (Value): {@see PaymentErrorSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getLastPaymentError(): PaymentErrorSummary|null { return $this->get('last_payment_error'); }
+    public function getLastPaymentError(): mixed { return $this->get('last_payment_error'); }
     public function hasLastPaymentError(): bool { return $this->has('last_payment_error'); }
     /** ID of the renewal order the retry collects. Omitted until Flint records it, which can be after processing starts. anyOf[1] (Value): string. ID of the renewal order the retry collects. Omitted until Flint records it, which can be after processing starts. anyOf[2] (Value): null.
      * @return string|null

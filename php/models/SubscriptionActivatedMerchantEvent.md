@@ -124,6 +124,10 @@ Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
 
+### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.cancellation_details
+
+Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.cancellation_details](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributescancellation_details).
+
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.cancellation_reason
 
 Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.cancellation_reason](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributescancellation_reason).
@@ -152,21 +156,33 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
 
+### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.customer
+
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.customer](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributescustomer).
+
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.customer_id
 
 Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.customer_id](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributescustomer_id).
 
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.deliveries_per_period
 
-Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.deliveries_per_period](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesdeliveries_per_period).
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.subscription_terms variant 1.deliveries_per_period](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributessubscription_terms-variant-1deliveries_per_period).
+
+### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.delivery
+
+Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.delivery](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesdelivery).
+
+### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.delivery_hold
+
+Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.delivery_hold](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesdelivery_hold).
 
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.delivery_interval
 
-Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.delivery_interval](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesdelivery_interval).
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.subscription_terms variant 1.delivery_interval](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributessubscription_terms-variant-1delivery_interval).
 
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.delivery_interval_count
 
-Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.delivery_interval_count](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesdelivery_interval_count).
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.subscription_terms variant 1.delivery_interval_count](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributessubscription_terms-variant-1delivery_interval_count).
 
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.end_after
 
@@ -180,9 +196,21 @@ Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes
 
 Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.external_reference_id](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id).
 
+### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.gift_recipient
+
+Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.gift_recipient](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesgift_recipient).
+
+### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.inventory_wait
+
+Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.inventory_wait](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesinventory_wait).
+
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.is_awaiting_billing_schedule
 
 Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.is_awaiting_billing_schedule](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesis_awaiting_billing_schedule).
+
+### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.last_payment_error
+
+Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.last_payment_error](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributeslast_payment_error).
 
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.line_items
 
@@ -224,6 +252,10 @@ Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
 
+### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.payment_method
+
+Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.payment_method](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributespayment_method).
+
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.payment_method_due_at
 
 Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.payment_method_due_at](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributespayment_method_due_at).
@@ -256,6 +288,10 @@ Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes
 
 Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.scheduled_cancel_at](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesscheduled_cancel_at).
 
+### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.scheduled_plan_change
+
+Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.scheduled_plan_change](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesscheduled_plan_change).
+
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.scheduled_promotions
 
 Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.scheduled_promotions](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesscheduled_promotions).
@@ -264,17 +300,25 @@ Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes
 
 Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.scheduled_resume_at](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesscheduled_resume_at).
 
+### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.service_location
+
+Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.service_location](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesservice_location).
+
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.starts_at
 
 Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.starts_at](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesstarts_at).
 
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.status
 
-Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.status](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesstatus).
+Declared alternatives: [OrderClosedMerchantEventDataPreviousAttributes.subscription variant 1.status](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributessubscription-variant-1status).
 
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.subscription_id
 
 Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.subscription_id](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributessubscription_id).
+
+### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.subscription_plan
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessubscription_plan).
 
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.subscription_plan_id
 
@@ -284,9 +328,13 @@ Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes
 
 Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.supported_actions](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributessupported_actions).
 
+### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.tax
+
+Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.tax](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributestax).
+
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.terms_type
 
-Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.terms_type](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesterms_type).
+Declared alternatives: [OrderClosedMerchantEventDataPreviousAttributes.subscription variant 1.terms_type](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributessubscription-variant-1terms_type).
 
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.test_clock_id
 
@@ -295,6 +343,10 @@ Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.trial_end_at
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.upcoming_delivery_hold
+
+Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.upcoming_delivery_hold](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesupcoming_delivery_hold).
 
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.updated_at
 

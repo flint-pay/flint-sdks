@@ -15,6 +15,16 @@ What changed, most common first:
 - [Credentials](#credentials): a credential option passed empty throws instead of falling back to the environment.
 - [Type names](#type-names), [examples](#examples-and-the-default-host), [packaging](#packaging) and [API contract changes](#api-contract-changes-in-800).
 
+## Changes in 8.0.0-beta.6
+
+Previous webhook attributes may omit fields inside nested objects and arrays, including `line_items` on `order.updated`, `order.partially_refunded` and `order.refunded`. Check nested prior fields for omission or null before reading them. Supplied exact money amounts remain strings. Current resource fields keep their requiredness.
+
+PHP nested previous values now use shared partial model classes, such as `OrderLineItemPreviousAttributes`, instead of the previous event-specific nested classes. Use their field getters and presence checks. In TypeScript, replace the removed response aliases `DeliverySelectionOrder` and `PublicResolvedBundleVariantSummary` with `Order` and `BundleComponentVariantSummary`.
+
+The current API contract reports recoverable order payment-attempt outcomes as `processing`. Wait for the order result and inspect supported actions. Order buyer actions and the new onboarding business/support and bundle product-name fields are optional.
+
+Compatibility review against reconstructed published beta.5: 709 breaking, 1,748 review and 485 additive findings (2,942 total). The partial PHP model representations and class replacements, payment-attempt enum changes and removed response aliases account for the breaking findings.
+
 ## Changes in 8.0.0-beta.3
 
 The `8.0.0-beta.3` prerelease pins Flint `main` at `323766dba32c7945254bbcc0ff23b160f4076b18` (API date still `2026-09-07`). The API changes below already apply to every supported API version, so upgrade your calls with the SDK. Field-level request and response changes are listed in the [API changelog](https://developers.withflintpay.com/changelog).

@@ -1,6 +1,26 @@
-import type { MetadataRequestInput, MetadataMap } from './types-38.js';
-import type { ReturnLineItemRequestInput } from './types-56.js';
+import type { MetadataRequestInput, MetadataMap } from './types-41.js';
 import type {
+    GetReturnDispositionResponse,
+    GetReturnInspectionResponse,
+    GetReturnPolicyResponse,
+    GetReturnReasonResponse,
+    GetReturnReceiptResponse,
+    GetReturnResolutionResponse,
+    GetReturnResponse
+} from './types-28.js';
+import type {
+    ReturnEligibilitySelection,
+    ReturnEligibilitySelectionRequestInput,
+    ReturnInspectionLineItemRequest,
+    ReturnInspectionLineItemRequestInput,
+    ReturnEligibilityPreview,
+    ReturnLineItemRequest,
+    ReturnLineItemRequestInput
+} from './types-61.js';
+import type {
+    ReturnSourceSystemRequest,
+    ReturnSourceSystemRequestInput,
+    ReturnResolutionPreview,
     ReturnReplacementLineItemRequest,
     ReturnResolutionAdjustmentRequest,
     ReturnResolutionLineItemRequest,
@@ -8,42 +28,1038 @@ import type {
     ReturnReplacementLineItemRequestInput,
     ReturnResolutionLineItemRequestInput,
     ReturnShipmentLineItemAllocationRequestInput
-} from './types-57.js';
-import type { GetReturnResolutionResponse, GetReturnResponse } from './types-26.js';
-import type { RiskPredicateNodeRequest, RiskPredicateNodeRequestInput } from './types-58.js';
-import type { PackageCreateRequest, PackageCreateRequestInput } from './types-43.js';
-import type {
-    SubscriptionIntervalOption,
-    SubscriptionIntervalOptionRequestInput,
-    SubscriptionPlanChangeOption,
-    SubscriptionPlanChangeOptionRequestInput,
-    SubscriptionPlanChangeLineItemRequest,
-    SubscriptionPlanChangeLineItemRequestInput
-} from './types-62.js';
-import type { ImageRequest, ImageRequestInput } from './types-28.js';
-import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-30.js';
-import type { MoneyValue, MoneyValueInput } from './types-39.js';
-import type {
-    SubscriptionEndAfterCycles,
-    SubscriptionEndAfterCyclesRequestInput,
-    SubscriptionDeliveryDestinationRequestInput,
-    SubscriptionDeliveryRequest,
-    SubscriptionDeliveryRequestInput
-} from './types-61.js';
-import type {
-    SubscriptionPlanLineItemRequest,
-    SubscriptionPlanLineItemRequestInput,
-    SubscriptionServiceLocationRequest
 } from './types-63.js';
 import type {
-    CreateSubscriptionPreviewRequestQuantityChange,
-    CreateSubscriptionRequest,
-    CreateSubscriptionRequestInput,
-    CreateSubscriptionPreviewRequestPromotionApplyInput,
-    CreateSubscriptionPreviewRequestQuantityChangeInput
-} from './types-14.js';
-import type { UpdateDeliveryMethodRequest, UpdateDeliveryMethodRequestInput } from './types-66.js';
-import type { PromotionRefRequest } from './types-51.js';
+    ReturnPolicyRevisionRequest,
+    ReturnPolicyRevisionRequestInput,
+    ReturnReceiptLineItemRequest,
+    ReturnReceiptLineItemRequestInput
+} from './types-62.js';
+import type { ResponseMeta } from './types-60.js';
+import type { RiskPredicateNodeRequest, RiskPredicateNodeRequestInput } from './types-65.js';
+import type { CreateShipmentRequestReturn, CreateShipmentRequestReturnInput } from './types-14.js';
+import type { PackageCreateRequest, PackageCreateRequestInput } from './types-47.js';
+/** The request body for: Create return disposition. */
+export type CreateReturnDispositionRequestInput = ({
+    /**
+     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
+     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
+     * "lost".
+     */
+    "disposition_type": "sellable"
+        | "quality_control"
+        | "damaged"
+        | "quarantined"
+        | "repair"
+        | "refurbish"
+        | "liquidate"
+        | "donate"
+        | "discard"
+        | "return_to_buyer"
+        | "lost";
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * ID of the Location whose stock the disposition changes. Required for `sellable`,
+     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
+     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "inventory_location_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "occurred_at": string | globalThis.Date;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * Why the disposition was made. Value enum: "inspection_result", "return_policy",
+     * "warehouse_override", "safety_requirement", "other".
+     */
+    "reason": "inspection_result" | "return_policy" | "warehouse_override" | "safety_requirement" | "other";
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
+    "reason_message"?: string;
+    /**
+     * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
+     * disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     */
+    "replaces_return_disposition_id"?: string;
+    /**
+     * ID of the Return the disposition belongs to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
+     * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
+     * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
+     */
+    "return_inspection_line_item_id"?: string;
+    /**
+     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
+     * minLength: 1. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
+     */
+    "return_receipt_line_item_id"?: string;
+})
+    & ((Exclude<CreateReturnDispositionRequestReceiptLineInput & object, readonly unknown[]>)
+    | (Exclude<CreateReturnDispositionRequestInspectionLineInput & object, readonly unknown[]>));
+/** The `Inspection line` variant of `CreateReturnDispositionRequest`. */
+export type CreateReturnDispositionRequestInspectionLine = ({
+    /**
+     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
+     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
+     * "lost".
+     */
+    "disposition_type": "sellable"
+        | "quality_control"
+        | "damaged"
+        | "quarantined"
+        | "repair"
+        | "refurbish"
+        | "liquidate"
+        | "donate"
+        | "discard"
+        | "return_to_buyer"
+        | "lost"
+        | (string & {});
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * ID of the Location whose stock the disposition changes. Required for `sellable`,
+     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
+     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "inventory_location_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "occurred_at": string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * Why the disposition was made. Value enum: "inspection_result", "return_policy",
+     * "warehouse_override", "safety_requirement", "other".
+     */
+    "reason": "inspection_result"
+        | "return_policy"
+        | "warehouse_override"
+        | "safety_requirement"
+        | "other"
+        | (string & {});
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
+    "reason_message"?: string;
+    /**
+     * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
+     * disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     */
+    "replaces_return_disposition_id"?: string;
+    /**
+     * ID of the Return the disposition belongs to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
+     * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
+     * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
+     */
+    "return_inspection_line_item_id": string;
+    /**
+     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
+     * minLength: 1. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
+     */
+    "return_receipt_line_item_id"?: string;
+});
+/** The `Inspection line` variant of `CreateReturnDispositionRequest`. */
+export type CreateReturnDispositionRequestInspectionLineInput = ({
+    /**
+     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
+     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
+     * "lost".
+     */
+    "disposition_type": "sellable"
+        | "quality_control"
+        | "damaged"
+        | "quarantined"
+        | "repair"
+        | "refurbish"
+        | "liquidate"
+        | "donate"
+        | "discard"
+        | "return_to_buyer"
+        | "lost";
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * ID of the Location whose stock the disposition changes. Required for `sellable`,
+     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
+     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "inventory_location_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "occurred_at": string | globalThis.Date;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * Why the disposition was made. Value enum: "inspection_result", "return_policy",
+     * "warehouse_override", "safety_requirement", "other".
+     */
+    "reason": "inspection_result" | "return_policy" | "warehouse_override" | "safety_requirement" | "other";
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
+    "reason_message"?: string;
+    /**
+     * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
+     * disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     */
+    "replaces_return_disposition_id"?: string;
+    /**
+     * ID of the Return the disposition belongs to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
+     * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
+     * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
+     */
+    "return_inspection_line_item_id": string;
+    /**
+     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
+     * minLength: 1. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
+     */
+    "return_receipt_line_item_id"?: string;
+})
+    & ({
+    "return_receipt_line_item_id"?: never;
+});
+/** The `Receipt line` variant of `CreateReturnDispositionRequest`. */
+export type CreateReturnDispositionRequestReceiptLine = ({
+    /**
+     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
+     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
+     * "lost".
+     */
+    "disposition_type": "sellable"
+        | "quality_control"
+        | "damaged"
+        | "quarantined"
+        | "repair"
+        | "refurbish"
+        | "liquidate"
+        | "donate"
+        | "discard"
+        | "return_to_buyer"
+        | "lost"
+        | (string & {});
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * ID of the Location whose stock the disposition changes. Required for `sellable`,
+     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
+     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "inventory_location_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "occurred_at": string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * Why the disposition was made. Value enum: "inspection_result", "return_policy",
+     * "warehouse_override", "safety_requirement", "other".
+     */
+    "reason": "inspection_result"
+        | "return_policy"
+        | "warehouse_override"
+        | "safety_requirement"
+        | "other"
+        | (string & {});
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
+    "reason_message"?: string;
+    /**
+     * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
+     * disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     */
+    "replaces_return_disposition_id"?: string;
+    /**
+     * ID of the Return the disposition belongs to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
+     * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
+     * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
+     */
+    "return_inspection_line_item_id"?: string;
+    /**
+     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
+     * minLength: 1. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
+     */
+    "return_receipt_line_item_id": string;
+});
+/** The `Receipt line` variant of `CreateReturnDispositionRequest`. */
+export type CreateReturnDispositionRequestReceiptLineInput = ({
+    /**
+     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
+     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
+     * "lost".
+     */
+    "disposition_type": "sellable"
+        | "quality_control"
+        | "damaged"
+        | "quarantined"
+        | "repair"
+        | "refurbish"
+        | "liquidate"
+        | "donate"
+        | "discard"
+        | "return_to_buyer"
+        | "lost";
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * ID of the Location whose stock the disposition changes. Required for `sellable`,
+     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
+     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "inventory_location_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "occurred_at": string | globalThis.Date;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * Why the disposition was made. Value enum: "inspection_result", "return_policy",
+     * "warehouse_override", "safety_requirement", "other".
+     */
+    "reason": "inspection_result" | "return_policy" | "warehouse_override" | "safety_requirement" | "other";
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
+    "reason_message"?: string;
+    /**
+     * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
+     * disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     */
+    "replaces_return_disposition_id"?: string;
+    /**
+     * ID of the Return the disposition belongs to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
+     * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
+     * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
+     */
+    "return_inspection_line_item_id"?: string;
+    /**
+     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
+     * minLength: 1. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
+     */
+    "return_receipt_line_item_id": string;
+})
+    & ({
+    "return_inspection_line_item_id"?: never;
+});
+export type CreateReturnDispositionResponse = GetReturnDispositionResponse;
+/** A request to preview which items of an order can be returned, given an order and a selection. */
+export type CreateReturnEligibilityPreviewRequest = {
+    /**
+     * ID of the Order to return items from. minLength: 1. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * Which fulfilled units to check. Which order lines to check for return eligibility: all
+     * remaining fulfilled lines, or a specific list of lines.
+     */
+    "selection": ReturnEligibilitySelection;
+};
+/** A request to preview which items of an order can be returned, given an order and a selection. */
+export type CreateReturnEligibilityPreviewRequestInput = {
+    /**
+     * ID of the Order to return items from. minLength: 1. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * Which fulfilled units to check. Which order lines to check for return eligibility: all
+     * remaining fulfilled lines, or a specific list of lines.
+     */
+    "selection": ReturnEligibilitySelectionRequestInput;
+};
+/** The request body for: Create return inspection. */
+export type CreateReturnInspectionRequest = {
+    /**
+     * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     */
+    "correction_reason"?: "entry_error"
+        | "duplicate_observation"
+        | "source_correction"
+        | "reconciliation_correction"
+        | "other"
+        | (string & {});
+    /** Detail about `correction_reason`. minLength: 1. */
+    "correction_reason_message"?: string;
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * When the event occurred, at most 5 minutes in the future. Format: date-time. minLength: 1.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "inspected_at": string;
+    /**
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "inspection_location_id": string;
+    /**
+     * The lines recorded. minItems: 1. [] (Value): {@link ReturnInspectionLineItemRequest}. The
+     * inspection result for one received return line: acceptance status, condition, and findings.
+     */
+    "line_items": Array<ReturnInspectionLineItemRequest>;
+    /**
+     * ID of the Return the goods belong to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
+     * ID of the receipt being inspected. minLength: 1. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     */
+    "return_receipt_id": string;
+    /**
+     * System that recorded the observation. `null` when no source system was recorded. The system
+     * a return event came from, such as a point of sale or warehouse system, with its own
+     * identifier.
+     */
+    "source_system"?: ReturnSourceSystemRequest;
+    /**
+     * ID of the inspection this one corrects. minLength: 1. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     */
+    "supersedes_return_inspection_id"?: string;
+};
+/** The request body for: Create return inspection. */
+export type CreateReturnInspectionRequestInput = {
+    /**
+     * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     */
+    "correction_reason"?: "entry_error"
+        | "duplicate_observation"
+        | "source_correction"
+        | "reconciliation_correction"
+        | "other";
+    /** Detail about `correction_reason`. minLength: 1. */
+    "correction_reason_message"?: string;
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * When the event occurred, at most 5 minutes in the future. Format: date-time. minLength: 1.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "inspected_at": string | globalThis.Date;
+    /**
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "inspection_location_id": string;
+    /**
+     * The lines recorded. minItems: 1. [] (Value): {@link ReturnInspectionLineItemRequestInput}.
+     * The inspection result for one received return line: acceptance status, condition, and
+     * findings.
+     */
+    "line_items": Array<ReturnInspectionLineItemRequestInput>;
+    /**
+     * ID of the Return the goods belong to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
+     * ID of the receipt being inspected. minLength: 1. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     */
+    "return_receipt_id": string;
+    /**
+     * System that recorded the observation. `null` when no source system was recorded. The system
+     * a return event came from, such as a point of sale or warehouse system, with its own
+     * identifier.
+     */
+    "source_system"?: ReturnSourceSystemRequestInput;
+    /**
+     * ID of the inspection this one corrects. minLength: 1. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     */
+    "supersedes_return_inspection_id"?: string;
+};
+export type CreateReturnInspectionResponse = GetReturnInspectionResponse;
+/** The request body for: Create return policy. */
+export type CreateReturnPolicyRequest = {
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Name of the policy, limited to 1 through 255 bytes after trimming surrounding whitespace.
+     * minLength: 1.
+     */
+    "name": string;
+    /**
+     * The revision with the complete rules. A field you leave out doesn't carry over from the
+     * previous revision. The rules for a return policy revision: scope, eligibility, return
+     * window, approval and resolution modes, shipping, and restocking fee.
+     */
+    "revision": ReturnPolicyRevisionRequest;
+    /**
+     * Whether the policy applies to new Returns. Defaults to inactive. Creating an active policy
+     * checks for overlapping active policies and a usable receiving location, just like activation
+     * through PATCH. Default: "inactive". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+};
+/** The request body for: Create return policy. */
+export type CreateReturnPolicyRequestInput = {
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Name of the policy, limited to 1 through 255 bytes after trimming surrounding whitespace.
+     * minLength: 1.
+     */
+    "name": string;
+    /**
+     * The revision with the complete rules. A field you leave out doesn't carry over from the
+     * previous revision. The rules for a return policy revision: scope, eligibility, return
+     * window, approval and resolution modes, shipping, and restocking fee.
+     */
+    "revision": ReturnPolicyRevisionRequestInput;
+    /**
+     * Whether the policy applies to new Returns. Defaults to inactive. Creating an active policy
+     * checks for overlapping active policies and a usable receiving location, just like activation
+     * through PATCH. Default: "inactive". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+};
+export type CreateReturnPolicyResponse = GetReturnPolicyResponse;
+/**
+ * A return preview, selected by `mode`: either the eligibility of the selected items or the
+ * amounts of a resolution.
+ */
+export type CreateReturnPreviewData = ({
+    /**
+     * The eligibility check. Present when `mode` is `eligibility`. The result of checking whether
+     * an order's items can be returned: overall status, per-line eligibility, and the policy
+     * evaluation.
+     */
+    "eligibility"?: ReturnEligibilityPreview;
+    /** Which preview to run. Value enum: "eligibility", "resolution". */
+    "mode": "eligibility" | "resolution" | (string & {});
+    /**
+     * The priced resolution. Present when `mode` is `resolution`. A preview of a return resolution
+     * before it is created: returned and replacement totals, adjustments, and amounts due to or
+     * from the buyer.
+     */
+    "resolution"?: ReturnResolutionPreview;
+})
+    & ((Exclude<CreateReturnPreviewDataEligibility & object, readonly unknown[]>)
+    | (Exclude<CreateReturnPreviewDataResolution & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `eligibility` variant of `CreateReturnPreviewData`. */
+export type CreateReturnPreviewDataEligibility = ({
+    /**
+     * The eligibility check. Present when `mode` is `eligibility`. The result of checking whether
+     * an order's items can be returned: overall status, per-line eligibility, and the policy
+     * evaluation.
+     */
+    "eligibility": ReturnEligibilityPreview;
+    /** Which preview to run. Value enum: "eligibility". */
+    "mode": "eligibility" | (string & {});
+    /**
+     * The priced resolution. Present when `mode` is `resolution`. A preview of a return resolution
+     * before it is created: returned and replacement totals, adjustments, and amounts due to or
+     * from the buyer.
+     */
+    "resolution"?: ReturnResolutionPreview;
+})
+    & (({
+    /** Which preview to run. Value enum: "eligibility". */
+    "mode": unknown;
+    /**
+     * The eligibility check. Present when `mode` is `eligibility`. The result of checking whether
+     * an order's items can be returned: overall status, per-line eligibility, and the policy
+     * evaluation.
+     */
+    "eligibility": ReturnEligibilityPreview;
+}));
+/** The `resolution` variant of `CreateReturnPreviewData`. */
+export type CreateReturnPreviewDataResolution = ({
+    /**
+     * The eligibility check. Present when `mode` is `eligibility`. The result of checking whether
+     * an order's items can be returned: overall status, per-line eligibility, and the policy
+     * evaluation.
+     */
+    "eligibility"?: ReturnEligibilityPreview;
+    /** Which preview to run. Value enum: "resolution". */
+    "mode": "resolution" | (string & {});
+    /**
+     * The priced resolution. Present when `mode` is `resolution`. A preview of a return resolution
+     * before it is created: returned and replacement totals, adjustments, and amounts due to or
+     * from the buyer.
+     */
+    "resolution": ReturnResolutionPreview;
+})
+    & (({
+    /** Which preview to run. Value enum: "resolution". */
+    "mode": unknown;
+    /**
+     * The priced resolution. Present when `mode` is `resolution`. A preview of a return resolution
+     * before it is created: returned and replacement totals, adjustments, and amounts due to or
+     * from the buyer.
+     */
+    "resolution": ReturnResolutionPreview;
+}));
+/** The request body for: Create return preview. */
+export type CreateReturnPreviewRequest = ({
+    /**
+     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
+     * items of an order can be returned, given an order and a selection.
+     */
+    "eligibility"?: CreateReturnEligibilityPreviewRequest;
+    /** Which preview to run. Value enum: "eligibility", "resolution". */
+    "mode": "eligibility" | "resolution" | (string & {});
+    /**
+     * The priced resolution. Present when `mode` is `resolution`. A request to preview the amounts
+     * of a return resolution for a return, selected by `resolution_type`: refund, exchange,
+     * replacement, no monetary action, or correction.
+     */
+    "resolution"?: CreateReturnResolutionPreviewRequest;
+})
+    & ((Exclude<CreateReturnPreviewRequestEligibility & object, readonly unknown[]>)
+    | (Exclude<CreateReturnPreviewRequestResolution & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `eligibility` variant of `CreateReturnPreviewRequest`. */
+export type CreateReturnPreviewRequestEligibility = ({
+    /**
+     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
+     * items of an order can be returned, given an order and a selection.
+     */
+    "eligibility": CreateReturnEligibilityPreviewRequest;
+    /** Which preview to run. Value enum: "eligibility". */
+    "mode": "eligibility" | (string & {});
+    /**
+     * The priced resolution. Present when `mode` is `resolution`. A request to preview the amounts
+     * of a return resolution for a return, selected by `resolution_type`: refund, exchange,
+     * replacement, no monetary action, or correction.
+     */
+    "resolution"?: CreateReturnResolutionPreviewRequest;
+})
+    & (({
+    /** Which preview to run. Value enum: "eligibility". */
+    "mode": unknown;
+    /**
+     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
+     * items of an order can be returned, given an order and a selection.
+     */
+    "eligibility": CreateReturnEligibilityPreviewRequest;
+}));
+/** The `eligibility` variant of `CreateReturnPreviewRequest`. */
+export type CreateReturnPreviewRequestEligibilityInput = ({
+    /**
+     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
+     * items of an order can be returned, given an order and a selection.
+     */
+    "eligibility": CreateReturnEligibilityPreviewRequestInput;
+    /** Which preview to run. Value enum: "eligibility". */
+    "mode": "eligibility";
+    /**
+     * The priced resolution. Present when `mode` is `resolution`. A request to preview the amounts
+     * of a return resolution for a return, selected by `resolution_type`: refund, exchange,
+     * replacement, no monetary action, or correction.
+     */
+    "resolution"?: CreateReturnResolutionPreviewRequestInput;
+})
+    & (({
+    /** Which preview to run. Value enum: "eligibility". */
+    "mode": "eligibility";
+    /**
+     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
+     * items of an order can be returned, given an order and a selection.
+     */
+    "eligibility": CreateReturnEligibilityPreviewRequestInput;
+})
+    & ({
+    "resolution"?: never;
+}));
+/** The request body for: Create return preview. */
+export type CreateReturnPreviewRequestInput = ({
+    /**
+     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
+     * items of an order can be returned, given an order and a selection.
+     */
+    "eligibility"?: CreateReturnEligibilityPreviewRequestInput;
+    /** Which preview to run. Value enum: "eligibility", "resolution". */
+    "mode": "eligibility" | "resolution";
+    /**
+     * The priced resolution. Present when `mode` is `resolution`. A request to preview the amounts
+     * of a return resolution for a return, selected by `resolution_type`: refund, exchange,
+     * replacement, no monetary action, or correction.
+     */
+    "resolution"?: CreateReturnResolutionPreviewRequestInput;
+})
+    & ((Exclude<CreateReturnPreviewRequestEligibilityInput & object, readonly unknown[]>)
+    | (Exclude<CreateReturnPreviewRequestResolutionInput & object, readonly unknown[]>));
+/** The `resolution` variant of `CreateReturnPreviewRequest`. */
+export type CreateReturnPreviewRequestResolution = ({
+    /**
+     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
+     * items of an order can be returned, given an order and a selection.
+     */
+    "eligibility"?: CreateReturnEligibilityPreviewRequest;
+    /** Which preview to run. Value enum: "resolution". */
+    "mode": "resolution" | (string & {});
+    /**
+     * The priced resolution. Present when `mode` is `resolution`. A request to preview the amounts
+     * of a return resolution for a return, selected by `resolution_type`: refund, exchange,
+     * replacement, no monetary action, or correction.
+     */
+    "resolution": CreateReturnResolutionPreviewRequest;
+})
+    & (({
+    /** Which preview to run. Value enum: "resolution". */
+    "mode": unknown;
+    /**
+     * The priced resolution. Present when `mode` is `resolution`. A request to preview the amounts
+     * of a return resolution for a return, selected by `resolution_type`: refund, exchange,
+     * replacement, no monetary action, or correction.
+     */
+    "resolution": CreateReturnResolutionPreviewRequest;
+}));
+/** The `resolution` variant of `CreateReturnPreviewRequest`. */
+export type CreateReturnPreviewRequestResolutionInput = ({
+    /**
+     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
+     * items of an order can be returned, given an order and a selection.
+     */
+    "eligibility"?: CreateReturnEligibilityPreviewRequestInput;
+    /** Which preview to run. Value enum: "resolution". */
+    "mode": "resolution";
+    /**
+     * The priced resolution. Present when `mode` is `resolution`. A request to preview the amounts
+     * of a return resolution for a return, selected by `resolution_type`: refund, exchange,
+     * replacement, no monetary action, or correction.
+     */
+    "resolution": CreateReturnResolutionPreviewRequestInput;
+})
+    & (({
+    /** Which preview to run. Value enum: "resolution". */
+    "mode": "resolution";
+    /**
+     * The priced resolution. Present when `mode` is `resolution`. A request to preview the amounts
+     * of a return resolution for a return, selected by `resolution_type`: refund, exchange,
+     * replacement, no monetary action, or correction.
+     */
+    "resolution": CreateReturnResolutionPreviewRequestInput;
+})
+    & ({
+    "eligibility"?: never;
+}));
+/** A response containing `CreateReturnPreviewData` data. */
+export type CreateReturnPreviewResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A return preview,
+     * selected by `mode`: either the eligibility of the selected items or the amounts of a
+     * resolution.
+     */
+    "data": CreateReturnPreviewData;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** The request body for: Create return reason. */
+export type CreateReturnReasonRequest = {
+    /**
+     * Catalog category handles this reason applies to. A reason with categories is suggested, and
+     * accepted from a customer session, only for order lines whose product is in one of them. A
+     * reason with no categories applies to every line. Not product types or tags: use handles from
+     * GET /v1/categories. Repeated handles are dropped. maxItems: 100. [] (Value): string.
+     * minLength: 1.
+     */
+    "category_handles"?: Array<string>;
+    /** Description, limited to 2048 bytes after trimming surrounding whitespace. minLength: 1. */
+    "description"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Stable lower_snake_case identifier. After trimming surrounding whitespace, it must start
+     * with a lowercase letter and contain only lowercase letters, digits, and underscores, with 1
+     * through 100 characters. minLength: 1.
+     */
+    "handle": string;
+    /**
+     * Whether a Return line with this reason needs a buyer_note. Defaults to false. Default:
+     * false.
+     */
+    "is_note_required"?: boolean;
+    /**
+     * Display name, limited to 1 through 255 bytes after trimming surrounding whitespace.
+     * minLength: 1.
+     */
+    "name": string;
+};
+/** The request body for: Create return reason. */
+export type CreateReturnReasonRequestInput = CreateReturnReasonRequest;
+export type CreateReturnReasonResponse = GetReturnReasonResponse;
+/** The request body for: Create return receipt. */
+export type CreateReturnReceiptRequest = {
+    /**
+     * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     */
+    "correction_reason"?: "entry_error"
+        | "duplicate_observation"
+        | "source_correction"
+        | "reconciliation_correction"
+        | "other"
+        | (string & {});
+    /** Detail about `correction_reason`. minLength: 1. */
+    "correction_reason_message"?: string;
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * The lines recorded. minItems: 1. [] (Value): {@link ReturnReceiptLineItemRequest}. One line
+     * of received merchandise: a matched return line, excess quantity, or an unverified item.
+     */
+    "line_items": Array<ReturnReceiptLineItemRequest>;
+    /**
+     * When the event occurred, at most 5 minutes in the future. Format: date-time. minLength: 1.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "received_at": string;
+    /**
+     * ID of the Location that received the goods. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "receiving_location_id": string;
+    /**
+     * ID of the Return the goods belong to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
+     * ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a
+     * shipment. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+     */
+    "shipment_id"?: string;
+    /**
+     * System that recorded the observation. `null` when no source system was recorded. The system
+     * a return event came from, such as a point of sale or warehouse system, with its own
+     * identifier.
+     */
+    "source_system"?: ReturnSourceSystemRequest;
+    /**
+     * ID of the receipt this one corrects. minLength: 1. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     */
+    "supersedes_return_receipt_id"?: string;
+};
+/** The request body for: Create return receipt. */
+export type CreateReturnReceiptRequestInput = {
+    /**
+     * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     */
+    "correction_reason"?: "entry_error"
+        | "duplicate_observation"
+        | "source_correction"
+        | "reconciliation_correction"
+        | "other";
+    /** Detail about `correction_reason`. minLength: 1. */
+    "correction_reason_message"?: string;
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * The lines recorded. minItems: 1. [] (Value): {@link ReturnReceiptLineItemRequestInput}. One
+     * line of received merchandise: a matched return line, excess quantity, or an unverified item.
+     */
+    "line_items": Array<ReturnReceiptLineItemRequestInput>;
+    /**
+     * When the event occurred, at most 5 minutes in the future. Format: date-time. minLength: 1.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "received_at": string | globalThis.Date;
+    /**
+     * ID of the Location that received the goods. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "receiving_location_id": string;
+    /**
+     * ID of the Return the goods belong to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
+     * ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a
+     * shipment. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+     */
+    "shipment_id"?: string;
+    /**
+     * System that recorded the observation. `null` when no source system was recorded. The system
+     * a return event came from, such as a point of sale or warehouse system, with its own
+     * identifier.
+     */
+    "source_system"?: ReturnSourceSystemRequestInput;
+    /**
+     * ID of the receipt this one corrects. minLength: 1. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     */
+    "supersedes_return_receipt_id"?: string;
+};
+export type CreateReturnReceiptResponse = GetReturnReceiptResponse;
+/** The request body for: Create return. */
+export type CreateReturnRequest = {
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * The lines to check or return, each naming an order line item. minItems: 1. [] (Value):
+     * {@link ReturnLineItemRequest}. An order line item to return, with the quantity, return
+     * reason, and optionally a note and the resolution the buyer wants.
+     */
+    "line_items": Array<ReturnLineItemRequest>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * ID of the Order to return items from. minLength: 1. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+};
 /** The request body for: Create return. */
 export type CreateReturnRequestInput = {
     /**
@@ -2306,1089 +3322,3 @@ export type CreateShipmentRequestOutboundInput = ({
     & (({
     "return_line_items"?: never;
 }));
-/** The `return` variant of `CreateShipmentRequest`. */
-export type CreateShipmentRequestReturn = ({
-    /**
-     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
-     * "return".
-     */
-    "direction": "return" | (string & {});
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shipment fulfillment that owns an outbound shipment. Required when direction is outbound;
-     * forbidden when direction is return. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Creates packages atomically with an outbound shipment. Items are optional per package.
-     * Created packages are included in the response. minItems: 1. maxItems: 20. [] (Value): {@link
-     * PackageCreateRequest}. Package to create inline with its enclosing shipment or fulfillment.
-     * Set status to created before handoff, or shipped to report handoff during creation.
-     */
-    "packages"?: Array<PackageCreateRequest>;
-    /**
-     * Return associated with this shipment, when its direction is return. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-    /**
-     * Return lines and quantities the shipment carries. minItems: 1. [] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
-     * shipment or package. The enclosing Return or shipment determines its parent.
-     */
-    "return_line_items": Array<ReturnResolutionLineItemRequest>;
-});
-/** The `return` variant of `CreateShipmentRequest`. */
-export type CreateShipmentRequestReturnInput = ({
-    /**
-     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
-     * "return".
-     */
-    "direction": "return";
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shipment fulfillment that owns an outbound shipment. Required when direction is outbound;
-     * forbidden when direction is return. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Creates packages atomically with an outbound shipment. Items are optional per package.
-     * Created packages are included in the response. minItems: 1. maxItems: 20. [] (Value): {@link
-     * PackageCreateRequestInput}. Package to create inline with its enclosing shipment or
-     * fulfillment. Set status to created before handoff, or shipped to report handoff during
-     * creation.
-     */
-    "packages"?: Array<PackageCreateRequestInput>;
-    /**
-     * Return associated with this shipment, when its direction is return. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-    /**
-     * Return lines and quantities the shipment carries. minItems: 1. [] (Value): {@link
-     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
-     * return shipment or package. The enclosing Return or shipment determines its parent.
-     */
-    "return_line_items": Array<ReturnShipmentLineItemAllocationRequestInput>;
-})
-    & (({
-    "packages"?: never;
-}))
-    & (({
-    "fulfillment_id"?: never;
-}));
-/** Registers a countertop reader with the pairing code it shows under Settings. */
-export type CreateSmartReaderRequest = {
-    /**
-     * The register, kiosk or phone the reader takes payments for. Needs `accounts.devices.read` as
-     * well. When the device has a location, it must be the reader's. A device holds at most one
-     * active Tap to Pay reader. minLength: 1. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     */
-    "device_id"?: string;
-    /**
-     * An active location with a complete US address (`line1`, `city`, `state`, `postal_code`,
-     * `country: US`). Stripe requires every reader to have one. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id": string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Your label for the reader. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * The pairing code the reader shows under Settings. In a sandbox, `simulated-s700` registers a
-     * simulated Stripe Reader S700. Never returned. A code works once, so send an
-     * `Idempotency-Key` and retry with it. minLength: 1. maxLength: 255.
-     */
-    "registration_code": string;
-    /** `smart_reader`. Value enum: "smart_reader". */
-    "type": "smart_reader" | (string & {});
-};
-/** Registers a countertop reader with the pairing code it shows under Settings. */
-export type CreateSmartReaderRequestInput = {
-    /**
-     * The register, kiosk or phone the reader takes payments for. Needs `accounts.devices.read` as
-     * well. When the device has a location, it must be the reader's. A device holds at most one
-     * active Tap to Pay reader. minLength: 1. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     */
-    "device_id"?: string;
-    /**
-     * An active location with a complete US address (`line1`, `city`, `state`, `postal_code`,
-     * `country: US`). Stripe requires every reader to have one. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id": string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Your label for the reader. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * The pairing code the reader shows under Settings. In a sandbox, `simulated-s700` registers a
-     * simulated Stripe Reader S700. Never returned. A code works once, so send an
-     * `Idempotency-Key` and retry with it. minLength: 1. maxLength: 255.
-     */
-    "registration_code": string;
-    /** `smart_reader`. Value enum: "smart_reader". */
-    "type": "smart_reader";
-};
-/**
- * The access a subscription link gives its buyer. Omit the body or purpose for read-only access.
- */
-export type CreateSubscriptionAccessLinkRequest = {
-    /**
-     * subscription_view opens the subscription read-only. subscription_manage also lets the buyer
-     * cancel, pause, or undo a scheduled cancellation, subject to your store's policy and the
-     * subscription's state; it requires commerce.subscriptions.write. Both work for 14 days or 5
-     * opens. Default: "subscription_view". Value enum: "subscription_view", "subscription_manage".
-     */
-    "purpose"?: "subscription_view" | "subscription_manage" | (string & {});
-    /**
-     * Where the buyer can return to on your site. Kept for the browser session this link starts,
-     * until sign-out or session end. Absolute HTTPS URL without credentials; test mode also
-     * accepts HTTP loopback URLs. Up to 2,048 characters. Query strings and fragments are allowed.
-     * Omit it for no return destination. Format: uri. minLength: 1. maxLength: 2048. Example:
-     * "https://example.com/receipt".
-     */
-    "return_url"?: string;
-};
-/**
- * The access a subscription link gives its buyer. Omit the body or purpose for read-only access.
- */
-export type CreateSubscriptionAccessLinkRequestInput = {
-    /**
-     * subscription_view opens the subscription read-only. subscription_manage also lets the buyer
-     * cancel, pause, or undo a scheduled cancellation, subject to your store's policy and the
-     * subscription's state; it requires commerce.subscriptions.write. Both work for 14 days or 5
-     * opens. Default: "subscription_view". Value enum: "subscription_view", "subscription_manage".
-     */
-    "purpose"?: "subscription_view" | "subscription_manage";
-    /**
-     * Where the buyer can return to on your site. Kept for the browser session this link starts,
-     * until sign-out or session end. Absolute HTTPS URL without credentials; test mode also
-     * accepts HTTP loopback URLs. Up to 2,048 characters. Query strings and fragments are allowed.
-     * Omit it for no return destination. Format: uri. minLength: 1. maxLength: 2048. Example:
-     * "https://example.com/receipt".
-     */
-    "return_url"?: string;
-};
-/** The request body for: Move subscribers to another delivery method. */
-export type CreateSubscriptionDeliveryMigrationRequest = {
-    /**
-     * ID of the delivery method whose subscriptions to move. One migration can run for a method at
-     * a time. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "from_delivery_method_id": string;
-    /**
-     * Limit the migration to this plan's live subscriptions. minLength: 1. Example:
-     * "plan_01KEZF7C004CY5ZR33XST2AASV".
-     */
-    "subscription_plan_id"?: string;
-    /**
-     * ID of the active delivery method to move them to. A subscription the new method can't serve
-     * is reported as a failure and keeps its current method. minLength: 1. Example:
-     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "to_delivery_method_id": string;
-};
-/** The request body for: Move subscribers to another delivery method. */
-export type CreateSubscriptionDeliveryMigrationRequestInput = CreateSubscriptionDeliveryMigrationRequest;
-/** The request body for: Add subscription line item. */
-export type CreateSubscriptionLineItemRequest = ({
-    /**
-     * ID of the catalog bundle to add. Required when `type` is `bundle`; not accepted when it is
-     * `variant`. The line is priced from the bundle's catalog price for the subscription's
-     * customer when it is added. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
-     */
-    "bundle_id"?: string;
-    /**
-     * Subscription version last read. A stale version returns VERSION_CONFLICT. Format: uint64.
-     * minimum: 1.
-     */
-    "expected_subscription_version"?: number;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 9999.
-     */
-    "quantity": number;
-    /** The catalog source of the new line: variant or bundle. Value enum: "variant", "bundle". */
-    "type": "variant" | "bundle" | (string & {});
-    /**
-     * ID of the catalog variant to add. Required when `type` is `variant`; not accepted when it is
-     * `bundle`. The line is priced from the variant's catalog price for the subscription's
-     * customer when it is added. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id"?: string;
-})
-    & ((Exclude<CreateSubscriptionLineItemRequestVariant & object, readonly unknown[]>)
-    | (Exclude<CreateSubscriptionLineItemRequestBundle & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The `bundle` variant of `CreateSubscriptionLineItemRequest`. */
-export type CreateSubscriptionLineItemRequestBundle = ({
-    /**
-     * ID of the catalog bundle to add. Required when `type` is `bundle`; not accepted when it is
-     * `variant`. The line is priced from the bundle's catalog price for the subscription's
-     * customer when it is added. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
-     */
-    "bundle_id": string;
-    /**
-     * Subscription version last read. A stale version returns VERSION_CONFLICT. Format: uint64.
-     * minimum: 1.
-     */
-    "expected_subscription_version"?: number;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 9999.
-     */
-    "quantity": number;
-    /** The catalog source of the new line: variant or bundle. Value enum: "bundle". */
-    "type": "bundle" | (string & {});
-    /**
-     * ID of the catalog variant to add. Required when `type` is `variant`; not accepted when it is
-     * `bundle`. The line is priced from the variant's catalog price for the subscription's
-     * customer when it is added. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id"?: string;
-});
-/** The `bundle` variant of `CreateSubscriptionLineItemRequest`. */
-export type CreateSubscriptionLineItemRequestBundleInput = ({
-    /**
-     * ID of the catalog bundle to add. Required when `type` is `bundle`; not accepted when it is
-     * `variant`. The line is priced from the bundle's catalog price for the subscription's
-     * customer when it is added. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
-     */
-    "bundle_id": string;
-    /**
-     * Subscription version last read. A stale version returns VERSION_CONFLICT. Format: uint64.
-     * minimum: 1.
-     */
-    "expected_subscription_version"?: number;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 9999.
-     */
-    "quantity": number;
-    /** The catalog source of the new line: variant or bundle. Value enum: "bundle". */
-    "type": "bundle";
-    /**
-     * ID of the catalog variant to add. Required when `type` is `variant`; not accepted when it is
-     * `bundle`. The line is priced from the variant's catalog price for the subscription's
-     * customer when it is added. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id"?: string;
-})
-    & (({
-    "variant_id"?: never;
-}));
-/** The request body for: Add subscription line item. */
-export type CreateSubscriptionLineItemRequestInput = ({
-    /**
-     * ID of the catalog bundle to add. Required when `type` is `bundle`; not accepted when it is
-     * `variant`. The line is priced from the bundle's catalog price for the subscription's
-     * customer when it is added. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
-     */
-    "bundle_id"?: string;
-    /**
-     * Subscription version last read. A stale version returns VERSION_CONFLICT. Format: uint64.
-     * minimum: 1.
-     */
-    "expected_subscription_version"?: number;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 9999.
-     */
-    "quantity": number;
-    /** The catalog source of the new line: variant or bundle. Value enum: "variant", "bundle". */
-    "type": "variant" | "bundle";
-    /**
-     * ID of the catalog variant to add. Required when `type` is `variant`; not accepted when it is
-     * `bundle`. The line is priced from the variant's catalog price for the subscription's
-     * customer when it is added. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id"?: string;
-})
-    & ((Exclude<CreateSubscriptionLineItemRequestVariantInput & object, readonly unknown[]>)
-    | (Exclude<CreateSubscriptionLineItemRequestBundleInput & object, readonly unknown[]>));
-/** The `variant` variant of `CreateSubscriptionLineItemRequest`. */
-export type CreateSubscriptionLineItemRequestVariant = ({
-    /**
-     * ID of the catalog bundle to add. Required when `type` is `bundle`; not accepted when it is
-     * `variant`. The line is priced from the bundle's catalog price for the subscription's
-     * customer when it is added. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
-     */
-    "bundle_id"?: string;
-    /**
-     * Subscription version last read. A stale version returns VERSION_CONFLICT. Format: uint64.
-     * minimum: 1.
-     */
-    "expected_subscription_version"?: number;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 9999.
-     */
-    "quantity": number;
-    /** The catalog source of the new line: variant or bundle. Value enum: "variant". */
-    "type": "variant" | (string & {});
-    /**
-     * ID of the catalog variant to add. Required when `type` is `variant`; not accepted when it is
-     * `bundle`. The line is priced from the variant's catalog price for the subscription's
-     * customer when it is added. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id": string;
-});
-/** The `variant` variant of `CreateSubscriptionLineItemRequest`. */
-export type CreateSubscriptionLineItemRequestVariantInput = ({
-    /**
-     * ID of the catalog bundle to add. Required when `type` is `bundle`; not accepted when it is
-     * `variant`. The line is priced from the bundle's catalog price for the subscription's
-     * customer when it is added. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
-     */
-    "bundle_id"?: string;
-    /**
-     * Subscription version last read. A stale version returns VERSION_CONFLICT. Format: uint64.
-     * minimum: 1.
-     */
-    "expected_subscription_version"?: number;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 9999.
-     */
-    "quantity": number;
-    /** The catalog source of the new line: variant or bundle. Value enum: "variant". */
-    "type": "variant";
-    /**
-     * ID of the catalog variant to add. Required when `type` is `variant`; not accepted when it is
-     * `bundle`. The line is priced from the variant's catalog price for the subscription's
-     * customer when it is added. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id": string;
-})
-    & (({
-    "bundle_id"?: never;
-}));
-/** The request body for: Create subscription offer. */
-export type CreateSubscriptionOfferRequest = {
-    /**
-     * Offered billing interval and count pairs. Every option bills the same catalog line prices
-     * once per period; changing cadence does not scale prices. minItems: 1. maxItems: 12.
-     * uniqueItems: true. [] (Value): {@link SubscriptionIntervalOption}. A billing interval, such
-     * as every 2 months, that a plan, offer, or subscription lets buyers choose. Prices of lines
-     * that ship are per delivery, and each option charges for all deliveries in its period.
-     * Without a delivery cadence there is one delivery per period, so every option bills the same
-     * line prices once per period. With a delivery cadence, a longer period bills more deliveries
-     * of the lines that ship; other lines bill once per period. For a different price per interval
-     * with no delivery cadence, create separate plans.
-     */
-    "billing_interval_options": Array<SubscriptionIntervalOption>;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Name of the offer. Buyers see it on the order lines it covers, so write it for them.
-     * minLength: 1. maxLength: 255.
-     */
-    "name": string;
-    /**
-     * Products whose active variants the offer covers, including variants added later. At most
-     * 100. Send at least one product or variant. Each product must be active and physical,
-     * digital, or a service. A variant can be in only one active offer; an overlap returns `409
-     * ALREADY_EXISTS` naming the other offer. maxItems: 100. uniqueItems: true. [] (Value):
-     * string. minLength: 1. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
-     */
-    "product_ids"?: Array<string>;
-    /**
-     * An active promotion with forever recurrence. On PATCH, null removes the discount for new
-     * signups; omission keeps it. minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id"?: string | null;
-    /** Use active or inactive. Archive the offer with DELETE. Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive" | (string & {});
-    /**
-     * Delivery methods offered at signup. An empty array uses the store's checkout defaults.
-     * Existing subscriptions keep their selected method. maxItems: 25. uniqueItems: true. []
-     * (Value): string. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "subscription_delivery_method_ids"?: Array<string>;
-    /**
-     * Individual variants the offer covers. At most 100. Send at least one product or variant. A
-     * variant can be in only one active offer; an overlap returns `409 ALREADY_EXISTS` naming the
-     * other offer. maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_ids"?: Array<string>;
-};
-/** The request body for: Create subscription offer. */
-export type CreateSubscriptionOfferRequestInput = {
-    /**
-     * Offered billing interval and count pairs. Every option bills the same catalog line prices
-     * once per period; changing cadence does not scale prices. minItems: 1. maxItems: 12.
-     * uniqueItems: true. [] (Value): {@link SubscriptionIntervalOptionRequestInput}. A billing
-     * interval, such as every 2 months, that a plan, offer, or subscription lets buyers choose.
-     * Prices of lines that ship are per delivery, and each option charges for all deliveries in
-     * its period. Without a delivery cadence there is one delivery per period, so every option
-     * bills the same line prices once per period. With a delivery cadence, a longer period bills
-     * more deliveries of the lines that ship; other lines bill once per period. For a different
-     * price per interval with no delivery cadence, create separate plans.
-     */
-    "billing_interval_options": Array<SubscriptionIntervalOptionRequestInput>;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Name of the offer. Buyers see it on the order lines it covers, so write it for them.
-     * minLength: 1. maxLength: 255.
-     */
-    "name": string;
-    /**
-     * Products whose active variants the offer covers, including variants added later. At most
-     * 100. Send at least one product or variant. Each product must be active and physical,
-     * digital, or a service. A variant can be in only one active offer; an overlap returns `409
-     * ALREADY_EXISTS` naming the other offer. maxItems: 100. uniqueItems: true. [] (Value):
-     * string. minLength: 1. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
-     */
-    "product_ids"?: Array<string>;
-    /**
-     * An active promotion with forever recurrence. On PATCH, null removes the discount for new
-     * signups; omission keeps it. minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id"?: string | null;
-    /** Use active or inactive. Archive the offer with DELETE. Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive";
-    /**
-     * Delivery methods offered at signup. An empty array uses the store's checkout defaults.
-     * Existing subscriptions keep their selected method. maxItems: 25. uniqueItems: true. []
-     * (Value): string. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "subscription_delivery_method_ids"?: Array<string>;
-    /**
-     * Individual variants the offer covers. At most 100. Send at least one product or variant. A
-     * variant can be in only one active offer; an overlap returns `409 ALREADY_EXISTS` naming the
-     * other offer. maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_ids"?: Array<string>;
-};
-/** The request body for: Create subscription plan. */
-export type CreateSubscriptionPlanRequest = {
-    /**
-     * Unit of the plan's default billing period. Read with `billing_interval_count`: monthly with
-     * a count of 3 bills every three months. Add other choices with `billing_interval_options`.
-     * Value enum: "daily", "weekly", "monthly", "yearly".
-     */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /**
-     * Number of `billing_interval` units between charges on the plan's default pair, up to 365.
-     * Format: int32.
-     */
-    "billing_interval_count": number;
-    /**
-     * Offered billing interval and count pairs, including the plan's default pair. Prices of lines
-     * that ship are per delivery. Each option charges for all deliveries in its period. Use
-     * separate plans or promotions for different prices per interval. maxItems: 12. uniqueItems:
-     * true. [] (Value): {@link SubscriptionIntervalOption}. A billing interval, such as every 2
-     * months, that a plan, offer, or subscription lets buyers choose. Prices of lines that ship
-     * are per delivery, and each option charges for all deliveries in its period. Without a
-     * delivery cadence there is one delivery per period, so every option bills the same line
-     * prices once per period. With a delivery cadence, a longer period bills more deliveries of
-     * the lines that ship; other lines bill once per period. For a different price per interval
-     * with no delivery cadence, create separate plans.
-     */
-    "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-    /**
-     * A commitment period you agree with the buyer, 1 to 120 months. Flint shows it at checkout
-     * and records it on each new subscription (contract_start_at, contract_end_at). Flint does not
-     * stop the buyer from canceling earlier. Format: int32. minimum: 1. maximum: 120.
-     */
-    "contract_term_months"?: number;
-    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
-    "currency": string;
-    /**
-     * Delivery cadence, set together with delivery_interval_count. Null when no separate delivery
-     * cadence is set; one delivery is made per billing period. Each billing option must be a whole
-     * multiple in the same unit family (days/weeks or months/years), with 1 to 24 deliveries per
-     * period. Existing subscriptions keep their frozen cadence. Omit both fields on PATCH to keep
-     * the cadence; send both as null to clear it. Value enum: "daily", "weekly", "monthly",
-     * "yearly", null.
-     */
-    "delivery_interval"?: "daily" | "weekly" | "monthly" | "yearly" | null | (string & {}) | null;
-    /**
-     * Positive number of delivery intervals between deliveries. Set or clear together with
-     * delivery_interval. Null when no separate delivery cadence is set; one delivery is made per
-     * billing period. Format: int32. minimum: 1.
-     */
-    "delivery_interval_count"?: number | null;
-    /** Description of the plan, up to 2,048 characters. Omit for none. minLength: 1. */
-    "description"?: string;
-    /**
-     * A fee you agree the buyer owes for canceling before the contract term ends. Flint shows it
-     * at checkout and records it on each new subscription, but never charges it. To collect it,
-     * charge the buyer yourself, for example with an order on their saved payment method. Requires
-     * contract_term_months. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "early_termination_fee_money"?: MoneyValue;
-    /**
-     * Default automatic end for new subscriptions. Counts charged billing cycles, from 1 to 1200.
-     * Send null for no automatic end. Existing subscriptions keep their recorded condition. Null
-     * when no default automatic end is set. anyOf[1] (Value): {@link SubscriptionEndAfterCycles}.
-     * A subscription automatic end measured by the total number of charged billing cycles.
-     * anyOf[2] (Value): null.
-     */
-    "end_after"?: ((SubscriptionEndAfterCycles) | (null));
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Whether checkout buyers can name a gift recipient. Checkout sessions freeze it when they are
-     * created. Defaults to false. You can set gift_recipient on a subscription through the API
-     * either way.
-     */
-    "gifts_enabled"?: boolean;
-    /**
-     * The complete desired gallery in display order. The first image is primary. Send [] to clear
-     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequest}. An image you supply
-     * by `source_url`, with optional `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequest>;
-    /**
-     * Where tracked demand from this plan is routed: a fixed Location, an allocation policy, or an
-     * immutable policy revision. Required when any line item tracks inventory. New subscriptions
-     * and payment links for the plan copy it, unless the payment link sends its own. Where you
-     * want inventory routed from: a fixed Location, an inventory allocation policy, or one policy
-     * revision, selected by `type`.
-     */
-    "inventory_routing_source"?: InventoryRoutingSourceRequest;
-    /**
-     * The lines a subscription on this plan bills each period. At least one. Each line sells a
-     * catalog variant, a catalog bundle, or a custom item you price yourself. minItems: 1. []
-     * (Value): {@link SubscriptionPlanLineItemRequest}. A line item to put on a new subscription
-     * plan, from a variant, a bundle, or a custom name and price.
-     */
-    "line_items": Array<SubscriptionPlanLineItemRequest>;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Name of the plan. Buyers see it at checkout and on their subscription. Required, and can't
-     * be empty. minLength: 1.
-     */
-    "name": string;
-    /**
-     * Plans subscribers may switch to, in display order, with the billing timing for each target.
-     * Empty means plan changes are off. Omission on PATCH keeps the options; an array replaces
-     * them and requires expected_version. Send [] to clear. Null is invalid. maxItems: 25. []
-     * (Value): {@link SubscriptionPlanChangeOption}. A target plan subscribers may switch to and
-     * the billing timing for that change.
-     */
-    "plan_change_options"?: Array<SubscriptionPlanChangeOption>;
-    /**
-     * One-time fee charged with the first payment of a new subscription, except one that continues
-     * an imported paid period. Must be above zero and in the plan's currency. Omit for no setup
-     * fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "setup_fee_money"?: MoneyValue;
-    /**
-     * Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED
-     * while existing subscriptions keep renewing. Archived plans are read-only and their status is
-     * set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Default: "active". Value
-     * enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /**
-     * IDs of the delivery methods a subscriber can choose for this plan's lines that ship. Omit to
-     * use the delivery methods in your checkout settings. [] (Value): string. minLength: 1.
-     * Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "subscription_delivery_method_ids"?: Array<string>;
-    /**
-     * Days of free trial before the first charge, from 0 to 365; 0 means no trial. Not allowed on
-     * plans with lines that ship. Format: int32. minimum: 0. maximum: 365.
-     */
-    "trial_period_days"?: number;
-};
-/** The request body for: Create subscription plan. */
-export type CreateSubscriptionPlanRequestInput = {
-    /**
-     * Unit of the plan's default billing period. Read with `billing_interval_count`: monthly with
-     * a count of 3 bills every three months. Add other choices with `billing_interval_options`.
-     * Value enum: "daily", "weekly", "monthly", "yearly".
-     */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly";
-    /**
-     * Number of `billing_interval` units between charges on the plan's default pair, up to 365.
-     * Format: int32.
-     */
-    "billing_interval_count": number;
-    /**
-     * Offered billing interval and count pairs, including the plan's default pair. Prices of lines
-     * that ship are per delivery. Each option charges for all deliveries in its period. Use
-     * separate plans or promotions for different prices per interval. maxItems: 12. uniqueItems:
-     * true. [] (Value): {@link SubscriptionIntervalOptionRequestInput}. A billing interval, such
-     * as every 2 months, that a plan, offer, or subscription lets buyers choose. Prices of lines
-     * that ship are per delivery, and each option charges for all deliveries in its period.
-     * Without a delivery cadence there is one delivery per period, so every option bills the same
-     * line prices once per period. With a delivery cadence, a longer period bills more deliveries
-     * of the lines that ship; other lines bill once per period. For a different price per interval
-     * with no delivery cadence, create separate plans.
-     */
-    "billing_interval_options"?: Array<SubscriptionIntervalOptionRequestInput>;
-    /**
-     * A commitment period you agree with the buyer, 1 to 120 months. Flint shows it at checkout
-     * and records it on each new subscription (contract_start_at, contract_end_at). Flint does not
-     * stop the buyer from canceling earlier. Format: int32. minimum: 1. maximum: 120.
-     */
-    "contract_term_months"?: number;
-    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
-    "currency": string;
-    /**
-     * Delivery cadence, set together with delivery_interval_count. Null when no separate delivery
-     * cadence is set; one delivery is made per billing period. Each billing option must be a whole
-     * multiple in the same unit family (days/weeks or months/years), with 1 to 24 deliveries per
-     * period. Existing subscriptions keep their frozen cadence. Omit both fields on PATCH to keep
-     * the cadence; send both as null to clear it. Value enum: "daily", "weekly", "monthly",
-     * "yearly", null.
-     */
-    "delivery_interval"?: "daily" | "weekly" | "monthly" | "yearly" | null;
-    /**
-     * Positive number of delivery intervals between deliveries. Set or clear together with
-     * delivery_interval. Null when no separate delivery cadence is set; one delivery is made per
-     * billing period. Format: int32. minimum: 1.
-     */
-    "delivery_interval_count"?: number | null;
-    /** Description of the plan, up to 2,048 characters. Omit for none. minLength: 1. */
-    "description"?: string;
-    /**
-     * A fee you agree the buyer owes for canceling before the contract term ends. Flint shows it
-     * at checkout and records it on each new subscription, but never charges it. To collect it,
-     * charge the buyer yourself, for example with an order on their saved payment method. Requires
-     * contract_term_months. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "early_termination_fee_money"?: MoneyValueInput;
-    /**
-     * Default automatic end for new subscriptions. Counts charged billing cycles, from 1 to 1200.
-     * Send null for no automatic end. Existing subscriptions keep their recorded condition. Null
-     * when no default automatic end is set. anyOf[1] (Value): {@link
-     * SubscriptionEndAfterCyclesRequestInput}. A subscription automatic end measured by the total
-     * number of charged billing cycles. anyOf[2] (Value): null.
-     */
-    "end_after"?: ((SubscriptionEndAfterCyclesRequestInput) | (null));
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Whether checkout buyers can name a gift recipient. Checkout sessions freeze it when they are
-     * created. Defaults to false. You can set gift_recipient on a subscription through the API
-     * either way.
-     */
-    "gifts_enabled"?: boolean;
-    /**
-     * The complete desired gallery in display order. The first image is primary. Send [] to clear
-     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequestInput}. An image you
-     * supply by `source_url`, with optional `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequestInput>;
-    /**
-     * Where tracked demand from this plan is routed: a fixed Location, an allocation policy, or an
-     * immutable policy revision. Required when any line item tracks inventory. New subscriptions
-     * and payment links for the plan copy it, unless the payment link sends its own. Where you
-     * want inventory routed from: a fixed Location, an inventory allocation policy, or one policy
-     * revision, selected by `type`.
-     */
-    "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
-    /**
-     * The lines a subscription on this plan bills each period. At least one. Each line sells a
-     * catalog variant, a catalog bundle, or a custom item you price yourself. minItems: 1. []
-     * (Value): {@link SubscriptionPlanLineItemRequestInput}. A line item to put on a new
-     * subscription plan, from a variant, a bundle, or a custom name and price.
-     */
-    "line_items": Array<SubscriptionPlanLineItemRequestInput>;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Name of the plan. Buyers see it at checkout and on their subscription. Required, and can't
-     * be empty. minLength: 1.
-     */
-    "name": string;
-    /**
-     * Plans subscribers may switch to, in display order, with the billing timing for each target.
-     * Empty means plan changes are off. Omission on PATCH keeps the options; an array replaces
-     * them and requires expected_version. Send [] to clear. Null is invalid. maxItems: 25. []
-     * (Value): {@link SubscriptionPlanChangeOptionRequestInput}. A target plan subscribers may
-     * switch to and the billing timing for that change.
-     */
-    "plan_change_options"?: Array<SubscriptionPlanChangeOptionRequestInput>;
-    /**
-     * One-time fee charged with the first payment of a new subscription, except one that continues
-     * an imported paid period. Must be above zero and in the plan's currency. Omit for no setup
-     * fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "setup_fee_money"?: MoneyValueInput;
-    /**
-     * Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED
-     * while existing subscriptions keep renewing. Archived plans are read-only and their status is
-     * set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Default: "active". Value
-     * enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /**
-     * IDs of the delivery methods a subscriber can choose for this plan's lines that ship. Omit to
-     * use the delivery methods in your checkout settings. [] (Value): string. minLength: 1.
-     * Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "subscription_delivery_method_ids"?: Array<string>;
-    /**
-     * Days of free trial before the first charge, from 0 to 365; 0 means no trial. Not allowed on
-     * plans with lines that ship. Format: int32. minimum: 0. maximum: 365.
-     */
-    "trial_period_days"?: number;
-};
-/** The request body for: Preview subscription. */
-export type CreateSubscriptionPreviewRequest = ((CreateSubscriptionPreviewRequestDeliveryOptions)
-    | (CreateSubscriptionPreviewRequestCreate)
-    | (CreateSubscriptionPreviewRequestDeliveryMethodUpdate)
-    | (CreateSubscriptionPreviewRequestNextRenewal)
-    | (CreateSubscriptionPreviewRequestPlanChange)
-    | (CreateSubscriptionPreviewRequestQuantityChange)
-    | (CreateSubscriptionPreviewRequestPromotionApply)
-    | (Record<string, unknown>));
-/** The `create` variant of `CreateSubscriptionPreviewRequest`. */
-export type CreateSubscriptionPreviewRequestCreate = {
-    /** Selects the create preview. Value enum: "create". */
-    "mode": "create" | (string & {});
-    /**
-     * The subscription to validate and price, in the same shape as the body of Create
-     * subscription. The request body for: Create subscription.
-     */
-    "subscription": CreateSubscriptionRequest;
-};
-/** The `create` variant of `CreateSubscriptionPreviewRequest`. */
-export type CreateSubscriptionPreviewRequestCreateInput = {
-    /** Selects the create preview. Value enum: "create". */
-    "mode": "create";
-    /**
-     * The subscription to validate and price, in the same shape as the body of Create
-     * subscription. The request body for: Create subscription.
-     */
-    "subscription": CreateSubscriptionRequestInput;
-};
-/** The `delivery_method_update` variant of `CreateSubscriptionPreviewRequest`. */
-export type CreateSubscriptionPreviewRequestDeliveryMethodUpdate = {
-    /**
-     * The edit to preview, in the same shape as an update to the delivery method. Flint saves
-     * nothing. The request body for: Update delivery method. minProperties: 1.
-     */
-    "delivery_method": UpdateDeliveryMethodRequest;
-    /**
-     * ID of the delivery method whose edit to preview. minLength: 1. pattern:
-     * ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "delivery_method_id": string;
-    /** Selects the delivery method update preview. Value enum: "delivery_method_update". */
-    "mode": "delivery_method_update" | (string & {});
-};
-/** The `delivery_method_update` variant of `CreateSubscriptionPreviewRequest`. */
-export type CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput = {
-    /**
-     * The edit to preview, in the same shape as an update to the delivery method. Flint saves
-     * nothing. The request body for: Update delivery method. minProperties: 1.
-     */
-    "delivery_method": UpdateDeliveryMethodRequestInput;
-    /**
-     * ID of the delivery method whose edit to preview. minLength: 1. pattern:
-     * ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "delivery_method_id": string;
-    /** Selects the delivery method update preview. Value enum: "delivery_method_update". */
-    "mode": "delivery_method_update";
-};
-/** The `delivery_options` variant of `CreateSubscriptionPreviewRequest`. */
-export type CreateSubscriptionPreviewRequestDeliveryOptions = {
-    /**
-     * Address to evaluate each method against: one of the customer's saved addresses or a new
-     * address. Where to deliver a subscription: a saved customer address by ID, or a new address.
-     */
-    "destination": SubscriptionServiceLocationRequest;
-    /** Selects the delivery options preview. Value enum: "delivery_options". */
-    "mode": "delivery_options" | (string & {});
-    /**
-     * ID of the subscription to list delivery methods for. minLength: 1. pattern:
-     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-};
-/** The `delivery_options` variant of `CreateSubscriptionPreviewRequest`. */
-export type CreateSubscriptionPreviewRequestDeliveryOptionsInput = {
-    /**
-     * Address to evaluate each method against: one of the customer's saved addresses or a new
-     * address. Where to deliver a subscription: a saved customer address by ID, or a new address.
-     */
-    "destination": SubscriptionDeliveryDestinationRequestInput;
-    /** Selects the delivery options preview. Value enum: "delivery_options". */
-    "mode": "delivery_options";
-    /**
-     * ID of the subscription to list delivery methods for. minLength: 1. pattern:
-     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-};
-/** The request body for: Preview subscription. */
-export type CreateSubscriptionPreviewRequestInput = ((CreateSubscriptionPreviewRequestDeliveryOptionsInput)
-    | (CreateSubscriptionPreviewRequestCreateInput)
-    | (CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput)
-    | (CreateSubscriptionPreviewRequestNextRenewalInput)
-    | (CreateSubscriptionPreviewRequestPlanChangeInput)
-    | (CreateSubscriptionPreviewRequestQuantityChangeInput)
-    | (CreateSubscriptionPreviewRequestPromotionApplyInput));
-/** The `next_renewal` variant of `CreateSubscriptionPreviewRequest`. */
-export type CreateSubscriptionPreviewRequestNextRenewal = {
-    /**
-     * Proposed complete delivery preference, as accepted by subscription PATCH. Prices the next
-     * paid renewal as if this delivery were saved. A held delivery with
-     * remaining_prepaid_deliveries greater than zero is already paid: fixing it charges nothing,
-     * while this preview still prices the next paid cycle. Nothing is saved, no stock is reserved,
-     * and no rate is guaranteed. Refusals match PATCH. The delivery preference to set on a
-     * subscription: delivery method, type, destination, and recipient.
-     */
-    "delivery"?: SubscriptionDeliveryRequest;
-    /** Selects the next renewal preview. Value enum: "next_renewal". */
-    "mode": "next_renewal" | (string & {});
-    /**
-     * ID of the subscription to preview the next renewal for. minLength: 1. pattern:
-     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-};
-/** The `next_renewal` variant of `CreateSubscriptionPreviewRequest`. */
-export type CreateSubscriptionPreviewRequestNextRenewalInput = {
-    /**
-     * Proposed complete delivery preference, as accepted by subscription PATCH. Prices the next
-     * paid renewal as if this delivery were saved. A held delivery with
-     * remaining_prepaid_deliveries greater than zero is already paid: fixing it charges nothing,
-     * while this preview still prices the next paid cycle. Nothing is saved, no stock is reserved,
-     * and no rate is guaranteed. Refusals match PATCH. The delivery preference to set on a
-     * subscription: delivery method, type, destination, and recipient.
-     */
-    "delivery"?: SubscriptionDeliveryRequestInput;
-    /** Selects the next renewal preview. Value enum: "next_renewal". */
-    "mode": "next_renewal";
-    /**
-     * ID of the subscription to preview the next renewal for. minLength: 1. pattern:
-     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-};
-/** The `plan_change` variant of `CreateSubscriptionPreviewRequest`. */
-export type CreateSubscriptionPreviewRequestPlanChange = ({
-    /**
-     * Send with billing_interval_count to choose a target plan option. Omit both to keep the
-     * current interval if the target offers that pair, otherwise use the target plan's default
-     * interval and count. Value enum: "daily", "weekly", "monthly", "yearly".
-     */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /**
-     * Required when billing_interval is sent; billing_interval is required when this field is
-     * sent. minimum: 1. maximum: 365.
-     */
-    "billing_interval_count"?: number;
-    /**
-     * now bills a new period with credit for unused paid item time. next_renewal changes the plan
-     * immediately and keeps the current paid period and next billing date. period_end keeps the
-     * current plan until the next charged renewal, then applies and bills the scheduled terms.
-     * prorated_now charges the new terms for the rest of the current period, less unused paid item
-     * credit, and keeps the billing period and anchor. Value enum: "now", "next_renewal",
-     * "period_end", "prorated_now".
-     */
-    "billing_starts": "now" | "next_renewal" | "period_end" | "prorated_now" | (string & {});
-    /**
-     * Optional quantities for target plan lines, with no duplicate IDs. Omitted lines carry their
-     * paired current line's quantity, or use the target line's quantity when unpaired. If an
-     * adjusted current quantity cannot be paired, send a quantity for every target line. []
-     * (Value): {@link SubscriptionPlanChangeLineItemRequest}. Quantity override for a line in the
-     * target subscription plan.
-     */
-    "line_items"?: Array<SubscriptionPlanChangeLineItemRequest>;
-    /** Selects the plan change preview. Value enum: "plan_change". */
-    "mode": "plan_change" | (string & {});
-    /**
-     * ID of the subscription to preview a plan change for. minLength: 1. pattern:
-     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-    /**
-     * The target subscription plan. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "plan_01KEZF7C004CY5ZR33XST2AASV".
-     */
-    "subscription_plan_id": string;
-});
-/** The `plan_change` variant of `CreateSubscriptionPreviewRequest`. */
-export type CreateSubscriptionPreviewRequestPlanChangeInput = ({
-    /**
-     * Send with billing_interval_count to choose a target plan option. Omit both to keep the
-     * current interval if the target offers that pair, otherwise use the target plan's default
-     * interval and count. Value enum: "daily", "weekly", "monthly", "yearly".
-     */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly";
-    /**
-     * Required when billing_interval is sent; billing_interval is required when this field is
-     * sent. minimum: 1. maximum: 365.
-     */
-    "billing_interval_count"?: number;
-    /**
-     * now bills a new period with credit for unused paid item time. next_renewal changes the plan
-     * immediately and keeps the current paid period and next billing date. period_end keeps the
-     * current plan until the next charged renewal, then applies and bills the scheduled terms.
-     * prorated_now charges the new terms for the rest of the current period, less unused paid item
-     * credit, and keeps the billing period and anchor. Value enum: "now", "next_renewal",
-     * "period_end", "prorated_now".
-     */
-    "billing_starts": "now" | "next_renewal" | "period_end" | "prorated_now";
-    /**
-     * Optional quantities for target plan lines, with no duplicate IDs. Omitted lines carry their
-     * paired current line's quantity, or use the target line's quantity when unpaired. If an
-     * adjusted current quantity cannot be paired, send a quantity for every target line. []
-     * (Value): {@link SubscriptionPlanChangeLineItemRequestInput}. Quantity override for a line in
-     * the target subscription plan.
-     */
-    "line_items"?: Array<SubscriptionPlanChangeLineItemRequestInput>;
-    /** Selects the plan change preview. Value enum: "plan_change". */
-    "mode": "plan_change";
-    /**
-     * ID of the subscription to preview a plan change for. minLength: 1. pattern:
-     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-    /**
-     * The target subscription plan. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "plan_01KEZF7C004CY5ZR33XST2AASV".
-     */
-    "subscription_plan_id": string;
-});
-/** The `promotion_apply` variant of `CreateSubscriptionPreviewRequest`. */
-export type CreateSubscriptionPreviewRequestPromotionApply = {
-    /**
-     * First charged cycle eligible for this promotion. Defaults to the next cycle without a
-     * renewal order, which is also the minimum: completed_cycles + 1, or completed_cycles + 2
-     * while past_due. The maximum is completed_cycles + 120. The unpaid past_due order keeps its
-     * price. Format: uint64. minimum: 1.
-     */
-    "first_cycle"?: number;
-    /**
-     * Preview applying a promotion to an existing subscription without saving changes. Value enum:
-     * "promotion_apply".
-     */
-    "mode": "promotion_apply" | (string & {});
-    /**
-     * Promotion to attach. Reattaching a removed promotion freezes its current terms and keeps its
-     * consumed cycles. Identifies the promotion to apply, by promotion code or by promotion ID.
-     */
-    "promotion": PromotionRefRequest;
-    /**
-     * Active or scheduled promotion to replace. It stops applying from first_cycle and continues
-     * to apply to earlier cycles. Must differ from the new promotion. An offer's own promotion
-     * cannot be replaced. minLength: 1. pattern: ^promo_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "replace_promotion_id"?: string;
-    /**
-     * ID of the subscription to preview. minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$.
-     * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-};

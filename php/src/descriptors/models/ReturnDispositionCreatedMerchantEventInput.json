@@ -1,1 +1,1 @@
-{"shared":"ReturnDispositionCreatedMerchantEvent","dependencies":["MetadataMap","ReturnActor","ReturnDisposition","ReturnDispositionCreatedMerchantEvent","SharedCodec10","SharedCodec2067","SharedCodec2068","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9"]}
+{"shared":"ReturnDispositionCreatedMerchantEvent","dependencies":["MetadataMap","ReturnActor","ReturnDisposition","ReturnDispositionCreatedMerchantEvent","SharedCodec10","SharedCodec11","SharedCodec12","SharedCodec2638","SharedCodec2639","SharedCodec8","SharedCodec9"]}

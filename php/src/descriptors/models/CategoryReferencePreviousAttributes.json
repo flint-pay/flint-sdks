@@ -1,0 +1,1 @@
+{"shared":"CategoryReferencePreviousAttributes","phpRepresentation":{"kind":"record","fields":{"category_id":{"kind":"nullable","value":{"kind":"value","type":"string"}},"handle":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["CategoryReferencePreviousAttributes","SharedCodec0"]}

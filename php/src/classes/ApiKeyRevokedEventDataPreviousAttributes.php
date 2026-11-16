@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string|null $access
  * @property-read string|null $api_key_id
  * @property-read string|null $created_at
- * @property-read ResourceReference|null $created_by
+ * @property-read mixed $created_by
  * @property-read string|null $expires_at
  * @property-read string|null $key_prefix
  * @property-read string|null $last_used_at
@@ -38,10 +38,10 @@ final class ApiKeyRevokedEventDataPreviousAttributes extends Model {
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Who created this key: the API key or workload identity whose credential made the request, or else the user, including through the Dashboard, a CLI login, or an onboarding session. An API key creator can belong to another mode, such as a live key that creates a sandbox key. Keys a workload token created before Flint recorded workload identity creators name the user who set up that workload identity. Filter the list with `created_by_type` and `created_by_id`. Absent when the creator is unavailable. anyOf[1] (Value): {@see ResourceReference}. Who created this key: the API key or workload identity whose credential made the request, or else the user, including through the Dashboard, a CLI login, or an onboarding session. An API key creator can belong to another mode, such as a live key that creates a sandbox key. Keys a workload token created before Flint recorded workload identity creators name the user who set up that workload identity. Filter the list with `created_by_type` and `created_by_id`. Absent when the creator is unavailable. anyOf[2] (Value): null.
-     * @return ResourceReference|null
+    /** Who created this key: the API key or workload identity whose credential made the request, or else the user, including through the Dashboard, a CLI login, or an onboarding session. An API key creator can belong to another mode, such as a live key that creates a sandbox key. Keys a workload token created before Flint recorded workload identity creators name the user who set up that workload identity. Filter the list with `created_by_type` and `created_by_id`. Absent when the creator is unavailable. anyOf[1] (Value): {@see ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getCreatedBy(): ResourceReference|null { return $this->get('created_by'); }
+    public function getCreatedBy(): mixed { return $this->get('created_by'); }
     public function hasCreatedBy(): bool { return $this->has('created_by'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

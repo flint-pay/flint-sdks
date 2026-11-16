@@ -2,8 +2,8 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read MoneyValue|null $available_money
- * @property-read MoneyValue|null $balance_money
+ * @property-read mixed $available_money
+ * @property-read mixed $balance_money
  * @property-read string|null $code_source
  * @property-read string|null $created_at
  * @property-read string|null $currency
@@ -14,8 +14,8 @@ namespace Flint;
  * @property-read mixed $last_redeemed_at
  * @property-read string|null $last4
  * @property-read string|null $merchant_id
- * @property-read MoneyValue|null $reserved_money
- * @property-read list<GiftCardRestriction>|null $restrictions
+ * @property-read mixed $reserved_money
+ * @property-read list<GiftCardRestrictionPreviousAttributes>|null $restrictions
  * @property-read string|null $status
  * @property-read list<string>|null $supported_actions
  * @property-read string|null $updated_at
@@ -24,15 +24,15 @@ namespace Flint;
 final class GiftCardUpdatedInstalledMerchantsEventDataPreviousAttributes extends Model {
     /** @param array{'available_money'?: mixed, 'balance_money'?: mixed, 'code_source'?: mixed, 'created_at'?: mixed, 'currency'?: mixed, 'customer_id'?: mixed, 'external_reference_id'?: mixed, 'gift_card_id'?: mixed, 'last_loaded_at'?: mixed, 'last_redeemed_at'?: mixed, 'last4'?: mixed, 'merchant_id'?: mixed, 'reserved_money'?: mixed, 'restrictions'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardUpdatedInstalledMerchantsEventDataPreviousAttributes')); }
-    /** The balance minus reserved value: what can be spent now. anyOf[1] (Value): {@see MoneyValue}. The balance minus reserved value: what can be spent now. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** The balance minus reserved value: what can be spent now. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getAvailableMoney(): MoneyValue|null { return $this->get('available_money'); }
+    public function getAvailableMoney(): mixed { return $this->get('available_money'); }
     public function hasAvailableMoney(): bool { return $this->has('available_money'); }
-    /** The posted balance, including value reserved for redemptions in progress. anyOf[1] (Value): {@see MoneyValue}. The posted balance, including value reserved for redemptions in progress. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** The posted balance, including value reserved for redemptions in progress. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getBalanceMoney(): MoneyValue|null { return $this->get('balance_money'); }
+    public function getBalanceMoney(): mixed { return $this->get('balance_money'); }
     public function hasBalanceMoney(): bool { return $this->has('balance_money'); }
     /** Origin of the current code: generated means Flint issued a random code; imported means the merchant supplied an existing code during import. Rotating the code resets this to generated. Value enum: "generated", "imported". anyOf[1] (Value): string. Origin of the current code: generated means Flint issued a random code; imported means the merchant supplied an existing code during import. Rotating the code resets this to generated. Value enum: "generated", "imported". anyOf[2] (Value): null.
      * @return string|null
@@ -84,13 +84,13 @@ final class GiftCardUpdatedInstalledMerchantsEventDataPreviousAttributes extends
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Value held for redemptions in progress. It isn't available to other payments until the redemption succeeds or is released. anyOf[1] (Value): {@see MoneyValue}. Value held for redemptions in progress. It isn't available to other payments until the redemption succeeds or is released. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** Value held for redemptions in progress. It isn't available to other payments until the redemption succeeds or is released. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getReservedMoney(): MoneyValue|null { return $this->get('reserved_money'); }
+    public function getReservedMoney(): mixed { return $this->get('reserved_money'); }
     public function hasReservedMoney(): bool { return $this->has('reserved_money'); }
-    /** The restrictions that keep the card frozen. unfreeze is supported only when every restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding disposition. anyOf[1] (Value): Array of {@see GiftCardRestriction}. The restrictions that keep the card frozen. unfreeze is supported only when every restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding disposition. anyOf[1][] (Value): {@see GiftCardRestriction}. A restriction on a gift card, either a merchant freeze or a funding dispute, with its reason or dispute details. anyOf[2] (Value): null.
-     * @return list<GiftCardRestriction>|null
+    /** The restrictions that keep the card frozen. unfreeze is supported only when every restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding disposition. anyOf[1] (Value): Array of {@see GiftCardRestrictionPreviousAttributes}. The restrictions that keep the card frozen. unfreeze is supported only when every restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding disposition. anyOf[1][] (Value): {@see GiftCardRestrictionPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<GiftCardRestrictionPreviousAttributes>|null
      */
     public function getRestrictions(): array|null { return $this->get('restrictions'); }
     public function hasRestrictions(): bool { return $this->has('restrictions'); }

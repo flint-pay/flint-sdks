@@ -1,62 +1,149 @@
-import type { ReturnLineItemRequestInput } from './types-56.js';
+import type { BuyerCreateReturnPreviewRequestEligibilityInput, BuyerAction, BundleComponent } from './types-1.js';
+import type { CreateReturnEligibilityPreviewRequestInput, CreateReturnEligibilityPreviewRequest } from './types-13.js';
+import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-61.js';
 import type {
     BuyerReturnReplacementLineItemRequest,
     BuyerReturnReplacementLineItemRequestInput,
     BuyerPaymentErrorSummary,
     BuyerPaymentCollection,
     BuyerSetupCollection,
-    BuyerPaymentAttemptPaymentIntent
+    BuyerPaymentAttemptPaymentIntent,
+    BuyerOrderTaxLocation
 } from './types-3.js';
-import type { ReturnResolutionLineItemRequest, ReturnResolutionLineItemRequestInput } from './types-57.js';
-import type { CreditNoteLineItem } from './types-14.js';
-import type { MoneyValue, OrderAuthorizationAmounts, OrderCalculatedChargeTax, OrderCalculatedLineItemTax } from './types-39.js';
-import type { TaxCurrencyConversion, TaxIdentity, TaxReverseCharge, TextModifierRequest } from './types-65.js';
-import type { ResponseMeta } from './types-54.js';
+import type { ReturnResolutionLineItemRequest, ReturnResolutionLineItemRequestInput } from './types-63.js';
+import type { CreditNoteLineItem } from './types-15.js';
+import type { MoneyValue, MoneyValuePreviousAttributes } from './types-42.js';
+import type { TaxCurrencyConversion, TaxIdentity, TaxReverseCharge, TextModifierRequest } from './types-72.js';
+import type { ResponseMeta } from './types-60.js';
 import type { Address } from './types-0.js';
-import type { ErrorResourceReference } from './types-24.js';
-import type { DeferredPromotion, CustomerTaxExemptionCoverage } from './types-16.js';
+import type { ErrorResourceReference } from './types-26.js';
+import type { DeferredPromotion, DeferredPromotionPreviousAttributes } from './types-17.js';
 import type {
     OrderSettlementAmounts,
-    OrderGiftCardSettlement,
+    OrderSettlementAmountsPreviousAttributes,
     OrderReturnCreditSettlement,
     OrderLineItemFulfillmentQuantities,
     OrderLineItemFulfillmentRequirements,
     OrderLineSubscriptionOfferSummary,
     OrderPaymentAttemptPaymentMethodSave
-} from './types-41.js';
-import type { PricingAmounts } from './types-50.js';
-import type { PaymentSourceSummary } from './types-47.js';
+} from './types-45.js';
+import type { PricingAmounts, PricingAmountsPreviousAttributes } from './types-55.js';
+import type { PaymentSourceSummary, PaymentSourceSummaryPreviousAttributes } from './types-52.js';
 import type { BuyerSubscriptionPlanLineItem, BuyerTip } from './types-4.js';
-import type { SubscriptionIntervalOption } from './types-62.js';
-import type { CardDetails, CheckoutMerchantSupport, CheckoutBuyerContact, CategoryReference } from './types-5.js';
-import type { StripeClientSetup, SubscribedLine } from './types-60.js';
-import type { FulfillmentChargeLink, FulfillmentRecipient } from './types-25.js';
-import type { PickupFulfillmentDetails, PendingPaymentAction } from './types-49.js';
-import type { ServiceFulfillmentDetails, ShipmentFulfillmentDetails, SelectedProductOption } from './types-59.js';
-import type { BuyerAction, BundleComponent } from './types-1.js';
-import type { CheckoutTheme } from './types-6.js';
-import type { Image } from './types-28.js';
-import type { InvoiceDocumentRow, InvoiceLateFeePolicy, InvoiceDiscount, InvoiceLineItem } from './types-32.js';
-import type { InvoicePaymentOptionCostComparison, InvoicePaymentTermsSnapshot } from './types-33.js';
-import type { InvoiceScheduleEntry, InvoiceSettlementAmounts, InvoiceTip } from './types-34.js';
+import type { SubscriptionIntervalOption } from './types-68.js';
+import type { CardDetails, CheckoutBuyerContact, CategoryReference } from './types-5.js';
+import type { StripeClientSetup, ShipmentFulfillmentDetails, SubscribedLine } from './types-66.js';
+import type { FulfillmentChargeLink } from './types-27.js';
+import type { FulfillmentRecipient } from './types-28.js';
+import type { PickupFulfillmentDetails } from './types-54.js';
+import type { ServiceFulfillmentDetails, SelectedProductOption } from './types-65.js';
+import type { CheckoutMerchantSupport } from './types-6.js';
+import type { CheckoutTheme } from './types-7.js';
+import type { Image, GiftCardPurchaseSnapshot } from './types-30.js';
+import type { InvoiceDocumentRow, InvoiceLateFeePolicy, InvoiceDiscount, InvoiceLineItem } from './types-35.js';
+import type { InvoicePaymentOptionCostComparison } from './types-36.js';
+import type { InvoicePaymentTermsSnapshot, InvoiceScheduleEntry } from './types-37.js';
+import type { InvoiceSettlementAmounts, InvoiceTip, LineItemInventorySnapshot } from './types-38.js';
+import type { OrderCharge, OrderAuthorizationAmounts, OrderCalculatedChargeTax, OrderCalculatedLineItemTax } from './types-43.js';
+import type { TaxBreakdown } from './types-71.js';
 import type {
-    OrderCharge,
     OrderDeliveryDestination,
     OrderDeliverySummary,
     OrderDiscount,
     OrderGiftCardEstimate,
-    OrderGiftCardSelection
-} from './types-40.js';
-import type { TaxBreakdown } from './types-64.js';
-import type { TicketedEvent } from './types-66.js';
-import type { Dimensions } from './types-23.js';
-import type { GiftCardPurchaseSnapshot } from './types-27.js';
-import type { LineItemInventorySnapshot } from './types-35.js';
-import type { PurchasedGiftCard } from './types-52.js';
-import type { Weight } from './types-70.js';
-import type { PaymentAttemptGiftCardRedemption } from './types-44.js';
-import type { DeliveryChargeTaxCalculationRequest } from './types-17.js';
-import type { ReturnHandoffRequirementLineItem } from './types-55.js';
+    OrderGiftCardSelection,
+    OrderGiftCardSettlement
+} from './types-44.js';
+import type { TicketedEvent } from './types-73.js';
+import type { Dimensions } from './types-25.js';
+import type { PurchasedGiftCard } from './types-57.js';
+import type { Weight } from './types-77.js';
+import type { PaymentAttemptGiftCardRedemption } from './types-49.js';
+import type { PendingPaymentAction } from './types-53.js';
+import type { DeliveryChargeTaxCalculationRequest } from './types-18.js';
+import type { CustomerTaxExemptionCoverage } from './types-16.js';
+/** The request body for: Preview Return eligibility or resolution amounts for the current buyer. */
+export type BuyerCreateReturnPreviewRequestInput = ({
+    /**
+     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
+     * items of an order can be returned, given an order and a selection.
+     */
+    "eligibility"?: CreateReturnEligibilityPreviewRequestInput;
+    /** Which preview to run. Value enum: "eligibility", "resolution". */
+    "mode": "eligibility" | "resolution";
+    /**
+     * The priced resolution. Present when `mode` is `resolution`. The buyer's proposed resolution
+     * type, returned quantities, and replacement items to preview for a Return.
+     */
+    "resolution"?: BuyerCreateReturnResolutionPreviewRequestInput;
+})
+    & ((Exclude<BuyerCreateReturnPreviewRequestEligibilityInput & object, readonly unknown[]>)
+    | (Exclude<BuyerCreateReturnPreviewRequestResolutionInput & object, readonly unknown[]>));
+/** The `resolution` variant of `BuyerCreateReturnPreviewRequest`. */
+export type BuyerCreateReturnPreviewRequestResolution = ({
+    /**
+     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
+     * items of an order can be returned, given an order and a selection.
+     */
+    "eligibility"?: CreateReturnEligibilityPreviewRequest;
+    /** Which preview to run. Value enum: "resolution". */
+    "mode": "resolution" | (string & {});
+    /**
+     * The priced resolution. Present when `mode` is `resolution`. The buyer's proposed resolution
+     * type, returned quantities, and replacement items to preview for a Return.
+     */
+    "resolution": BuyerCreateReturnResolutionPreviewRequest;
+})
+    & (({
+    /** Which preview to run. Value enum: "resolution". */
+    "mode": unknown;
+    /**
+     * The priced resolution. Present when `mode` is `resolution`. The buyer's proposed resolution
+     * type, returned quantities, and replacement items to preview for a Return.
+     */
+    "resolution": BuyerCreateReturnResolutionPreviewRequest;
+}));
+/** The `resolution` variant of `BuyerCreateReturnPreviewRequest`. */
+export type BuyerCreateReturnPreviewRequestResolutionInput = ({
+    /**
+     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
+     * items of an order can be returned, given an order and a selection.
+     */
+    "eligibility"?: CreateReturnEligibilityPreviewRequestInput;
+    /** Which preview to run. Value enum: "resolution". */
+    "mode": "resolution";
+    /**
+     * The priced resolution. Present when `mode` is `resolution`. The buyer's proposed resolution
+     * type, returned quantities, and replacement items to preview for a Return.
+     */
+    "resolution": BuyerCreateReturnResolutionPreviewRequestInput;
+})
+    & (({
+    /** Which preview to run. Value enum: "resolution". */
+    "mode": "resolution";
+    /**
+     * The priced resolution. Present when `mode` is `resolution`. The buyer's proposed resolution
+     * type, returned quantities, and replacement items to preview for a Return.
+     */
+    "resolution": BuyerCreateReturnResolutionPreviewRequestInput;
+})
+    & ({
+    "eligibility"?: never;
+}));
+/** The request body for: Create a Return for the current buyer. */
+export type BuyerCreateReturnRequest = {
+    /**
+     * The lines to check or return, each naming an order line item. minItems: 1. maxItems: 100. []
+     * (Value): {@link ReturnLineItemRequest}. An order line item to return, with the quantity,
+     * return reason, and optionally a note and the resolution the buyer wants.
+     */
+    "line_items": Array<ReturnLineItemRequest>;
+    /**
+     * ID of the Order to return items from. minLength: 1. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+};
 /** The request body for: Create a Return for the current buyer. */
 export type BuyerCreateReturnRequestInput = {
     /**
@@ -852,6 +939,146 @@ export type BuyerExpandedOrderSummary = {
      */
     "updated_at"?: string;
 };
+export type BuyerExpandedOrderSummaryPreviousAttributes = {
+    /**
+     * When the order closed. Present exactly when status is closed. Set once at the transition and
+     * never changed. anyOf[1] (Value): string. When the order closed. Present exactly when status
+     * is closed. Set once at the transition and never changed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "closed_at"?: ((string) | (null));
+    /**
+     * Why the order closed. Present exactly when status is closed. Set once at closure.
+     * Unrecognized reasons are returned as other; new values may be added. Value enum:
+     * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
+     * "superseded", "return_resolution_canceled", "other". anyOf[1] (Value): string. Why the order
+     * closed. Present exactly when status is closed. Set once at closure. Unrecognized reasons are
+     * returned as other; new values may be added. Value enum: "invoice_voided", "paid",
+     * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+     * "return_resolution_canceled", "other". anyOf[2] (Value): null.
+     */
+    "closed_reason"?: (("invoice_voided"
+        | "paid"
+        | "closed_by_merchant"
+        | "checkout_expired"
+        | "written_off"
+        | "superseded"
+        | "return_resolution_canceled"
+        | "other"
+        | (string & {}))
+        | (null));
+    /**
+     * When the order was created, in RFC3339 format. anyOf[1] (Value): string. When the order was
+     * created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
+     * (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * Customer associated with the order, when one is set. anyOf[1] (Value): string. Customer
+     * associated with the order, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * anyOf[2] (Value): null.
+     */
+    "customer_id"?: ((string) | (null));
+    /**
+     * Promotions accepted at subscription signup. They attach when the subscription is provisioned
+     * and first discount its first charged cycle. They do not discount this order and are separate
+     * from discounts and order totals. Always present; empty when no promotions are deferred.
+     * anyOf[1] (Value): Array of {@link DeferredPromotionPreviousAttributes}. Promotions accepted
+     * at subscription signup. They attach when the subscription is provisioned and first discount
+     * its first charged cycle. They do not discount this order and are separate from discounts and
+     * order totals. Always present; empty when no promotions are deferred. anyOf[1][] (Value):
+     * {@link DeferredPromotionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "deferred_promotions"?: ((Array<DeferredPromotionPreviousAttributes>) | (null));
+    /**
+     * Aggregate progress across the order's fulfillment quantities. Value enum: "not_fulfilled",
+     * "partially_fulfilled", "fulfilled", "canceled", "not_applicable", "closed". anyOf[1]
+     * (Value): string. Aggregate progress across the order's fulfillment quantities. Value enum:
+     * "not_fulfilled", "partially_fulfilled", "fulfilled", "canceled", "not_applicable", "closed".
+     * anyOf[2] (Value): null.
+     */
+    "fulfillment_status"?: (("not_fulfilled"
+        | "partially_fulfilled"
+        | "fulfilled"
+        | "canceled"
+        | "not_applicable"
+        | "closed"
+        | (string & {}))
+        | (null));
+    /**
+     * ID of the delivery selection that governs this order. Null when no selection governs the
+     * order. anyOf[1] (Value): string or null. ID of the delivery selection that governs this
+     * order. Null when no selection governs the order. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     * anyOf[2] (Value): null.
+     */
+    "governing_delivery_selection_id"?: ((string | null) | (null) | (unknown));
+    /**
+     * Stable identifier of the expanded order. anyOf[1] (Value): string. Stable identifier of the
+     * expanded order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * Human-readable order number for receipts and merchant reference. anyOf[1] (Value): string.
+     * Human-readable order number for receipts and merchant reference. anyOf[2] (Value): null.
+     */
+    "order_number"?: ((string) | (null));
+    /**
+     * When `payment_status` became `paid`, including a final capture that releases the remaining
+     * balance. Set once and never changed, including after refunds. `null` when `payment_status`
+     * isn't `paid`, including an order whose balance was written off without being paid. anyOf[1]
+     * (Value): string or null. When `payment_status` became `paid`, including a final capture that
+     * releases the remaining balance. Set once and never changed, including after refunds. `null`
+     * when `payment_status` isn't `paid`, including an order whose balance was written off without
+     * being paid. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "paid_at"?: ((string | null) | (null) | (unknown));
+    /**
+     * Payment intents associated with the order. anyOf[1] (Value): Array of string. Payment
+     * intents associated with the order. anyOf[1][] (Value): string. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+     */
+    "payment_intent_ids"?: ((Array<string>) | (null));
+    /**
+     * Collection progress. An invoice write-off also completes collection without receiving the
+     * written-off amount. Value enum: "unpaid", "partially_paid", "paid". anyOf[1] (Value):
+     * string. Collection progress. An invoice write-off also completes collection without
+     * receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid". anyOf[2]
+     * (Value): null.
+     */
+    "payment_status"?: (("unpaid" | "partially_paid" | "paid" | (string & {})) | (null));
+    /**
+     * Order totals before accounting for collected payments and refunds. anyOf[1] (Value): {@link
+     * PricingAmountsPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null) | (unknown));
+    /**
+     * Refund progress for collected money. Refunds with `reason` `payment_returned` return money
+     * the order never received and don't count. Value enum: "none", "partially_refunded",
+     * "refunded". anyOf[1] (Value): string. Refund progress for collected money. Refunds with
+     * `reason` `payment_returned` return money the order never received and don't count. Value
+     * enum: "none", "partially_refunded", "refunded". anyOf[2] (Value): null.
+     */
+    "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+    /**
+     * Payments, refunds, credits, and amounts still owed for the order. anyOf[1] (Value): {@link
+     * OrderSettlementAmountsPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "settlement_amounts"?: ((OrderSettlementAmountsPreviousAttributes) | (null) | (unknown));
+    /**
+     * Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes,
+     * returns, and metadata or note edits continue on a closed order. Value enum: "open",
+     * "closed". anyOf[1] (Value): string. Whether the order still accepts changes and new
+     * payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a
+     * closed order. Value enum: "open", "closed". anyOf[2] (Value): null.
+     */
+    "status"?: (("open" | "closed" | (string & {})) | (null));
+    /**
+     * When the order was last updated, in RFC3339 format. anyOf[1] (Value): string. When the order
+     * was last updated, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * anyOf[2] (Value): null.
+     */
+    "updated_at"?: ((string) | (null));
+};
 /**
  * A package on a buyer's fulfillment, with its carrier, status, tracking details, and timestamps.
  * Buyer credentials get no supported actions.
@@ -1012,6 +1239,122 @@ export type BuyerExpandedPaymentIntentSummary = {
      * observations can change independently. Format: uint64. minimum: 1.
      */
     "version": number;
+};
+export type BuyerExpandedPaymentIntentSummaryPreviousAttributes = {
+    /**
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money. anyOf[1] (Value):
+     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    /**
+     * When money is collected. Defaults to automatic. Value enum: "automatic", "manual". anyOf[1]
+     * (Value): string. When money is collected. Defaults to automatic. Value enum: "automatic",
+     * "manual". anyOf[2] (Value): null.
+     */
+    "capture_method"?: (("automatic" | "manual" | (string & {})) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * Customer linked to this payment intent. anyOf[1] (Value): string. Customer linked to this
+     * payment intent. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+     */
+    "customer_id"?: ((string) | (null));
+    /**
+     * Dispute state of this payment. none means no dispute or inquiry is open or recorded. The
+     * inquiry_ values track an issuer inquiry or early warning that isn't a chargeback. Read the
+     * dispute with GET /v1/disputes for its deadline and evidence. Value enum: "none",
+     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
+     * "under_review", "won", "lost", "prevented", "other". anyOf[1] (Value): string. Dispute state
+     * of this payment. none means no dispute or inquiry is open or recorded. The inquiry_ values
+     * track an issuer inquiry or early warning that isn't a chargeback. Read the dispute with GET
+     * /v1/disputes for its deadline and evidence. Value enum: "none", "inquiry_needs_response",
+     * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost",
+     * "prevented", "other". anyOf[2] (Value): null.
+     */
+    "dispute_status"?: (("none"
+        | "inquiry_needs_response"
+        | "inquiry_under_review"
+        | "inquiry_closed"
+        | "needs_response"
+        | "under_review"
+        | "won"
+        | "lost"
+        | "prevented"
+        | "other"
+        | (string & {}))
+        | (null));
+    /**
+     * Order this payment intent belongs to. Create it through the order and confirm it with POST
+     * /v1/orders/{order_id}/pay. Capture and cancel use POST
+     * /v1/payment-intents/{payment_intent_id}/capture or /cancel for every payment intent.
+     * Order-owned intents accept PATCH for metadata and external_reference_id. anyOf[1] (Value):
+     * string. Order this payment intent belongs to. Create it through the order and confirm it
+     * with POST /v1/orders/{order_id}/pay. Capture and cancel use POST
+     * /v1/payment-intents/{payment_intent_id}/capture or /cancel for every payment intent.
+     * Order-owned intents accept PATCH for metadata and external_reference_id. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * Flint payment intent ID. anyOf[1] (Value): string. Flint payment intent ID. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+     */
+    "payment_intent_id"?: ((string) | (null));
+    /**
+     * Summary of the card or bank account used for the payment. Absent until a payment source is
+     * attached. anyOf[1] (Value): {@link PaymentSourceSummaryPreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "payment_source"?: ((PaymentSourceSummaryPreviousAttributes) | (null) | (unknown));
+    /**
+     * How much of captured_money has been refunded, including value issued as store credit, based
+     * on refunded_money. Value enum: "none", "partially_refunded", "refunded". anyOf[1] (Value):
+     * string. How much of captured_money has been refunded, including value issued as store
+     * credit, based on refunded_money. Value enum: "none", "partially_refunded", "refunded".
+     * anyOf[2] (Value): null.
+     */
+    "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+    /**
+     * Lifecycle status. requires_payment_method covers both a new payment intent and one whose
+     * last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired
+     * are final. Refunds and disputes never change status. Value enum: "requires_payment_method",
+     * "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled",
+     * "succeeded", "expired". anyOf[1] (Value): string. Lifecycle status. requires_payment_method
+     * covers both a new payment intent and one whose last attempt failed, so read
+     * last_payment_error with it. succeeded, canceled, and expired are final. Refunds and disputes
+     * never change status. Value enum: "requires_payment_method", "requires_confirmation",
+     * "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired".
+     * anyOf[2] (Value): null.
+     */
+    "status"?: (("requires_payment_method"
+        | "requires_confirmation"
+        | "requires_action"
+        | "processing"
+        | "requires_capture"
+        | "canceled"
+        | "succeeded"
+        | "expired"
+        | (string & {}))
+        | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "updated_at"?: ((string) | (null));
+    /**
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. anyOf[1] (Value): integer. Persisted version of this
+     * resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+     */
+    "version"?: ((number) | (null));
 };
 /** A buyer-visible shipment summary, with its direction, status, and package count. */
 export type BuyerExpandedShipmentSummary = {
@@ -1817,6 +2160,33 @@ export type BuyerInstructionsConfig = {
      */
     "required": boolean;
 };
+export type BuyerInstructionsConfigPreviousAttributes = {
+    /**
+     * Whether checkout collects buyer instructions. anyOf[1] (Value): boolean. Whether checkout
+     * collects buyer instructions. anyOf[2] (Value): null.
+     */
+    "enabled"?: ((boolean) | (null));
+    /**
+     * Checkout field label, without leading or trailing whitespace. Clients use a delivery-type
+     * default when omitted. anyOf[1] (Value): string. Checkout field label, without leading or
+     * trailing whitespace. Clients use a delivery-type default when omitted. minLength: 1.
+     * maxLength: 255. anyOf[2] (Value): null.
+     */
+    "label"?: ((string) | (null));
+    /**
+     * Checkout field placeholder, without leading or trailing whitespace. Clients use a
+     * delivery-type default when omitted. anyOf[1] (Value): string. Checkout field placeholder,
+     * without leading or trailing whitespace. Clients use a delivery-type default when omitted.
+     * minLength: 1. maxLength: 500. anyOf[2] (Value): null.
+     */
+    "placeholder"?: ((string) | (null));
+    /**
+     * Whether the buyer must enter instructions before selecting the option. Requires
+     * enabled=true. anyOf[1] (Value): boolean. Whether the buyer must enter instructions before
+     * selecting the option. Requires enabled=true. anyOf[2] (Value): null.
+     */
+    "required"?: ((boolean) | (null));
+};
 /**
  * Controls buyer instructions for a delivery option. Omit it from a method configuration to
  * disable instruction collection.
@@ -2410,13 +2780,14 @@ export type BuyerOrder = {
     "authorization_amounts"?: OrderAuthorizationAmounts;
     /**
      * What the buyer can do with the order, in this order: start_return, then resend_receipt. A
-     * buyer's read through a customer session on /v1/me, or in Flint's buyer account, lists both
-     * every time. Merchant order responses omit this field. A list of orders leaves start_return
-     * out, since only a read of one order checks return eligibility. start_return is due when the
-     * last open return window ends. Example: []. [] (Value): {@link BuyerAction}. One thing a
-     * buyer can do with an order, subscription, invoice or return they read through /v1/me. Show
-     * the actions with is_required as what needs the buyer's attention, and the first available
-     * action as the primary action on the resource's page in your account.
+     * buyer's read through a customer session on /v1/me, a checkout credential on GET
+     * /v1/orders/{order_id}, or Flint's buyer account lists both every time. Merchant order
+     * responses omit this field. A list of orders leaves start_return out, since only a read of
+     * one order checks return eligibility. start_return is due when the last open return window
+     * ends. Example: []. [] (Value): {@link BuyerAction}. One thing a buyer can do with an order,
+     * subscription, invoice or return they read through /v1/me. Show the actions with is_required
+     * as what needs the buyer's attention, and the first available action as the primary action on
+     * the resource's page in your account.
      */
     "buyer_actions": Array<BuyerAction>;
     /**
@@ -2522,8 +2893,9 @@ export type BuyerOrder = {
     /**
      * Whether gift cards can pay for this order now. Gift cards pay only USD orders that still
      * accept changes, are not subscription purchases, and whose merchant has at least one gift
-     * card that is not closed in this environment. Recomputed on each read; a spent but open card
-     * still counts.
+     * card that is not closed in this environment. Gift cards cannot fund gift card purchases;
+     * this is false when those purchases leave no amount eligible for gift card tender. Recomputed
+     * on each read; a spent but open card still counts.
      */
     "gift_card_tender_enabled": boolean;
     /**
@@ -3176,14 +3548,12 @@ export type BuyerOrderPaymentAttempt = {
      * Where the attempt is in collecting payment or saving a payment method.
      * `partially_succeeded`, `succeeded`, `failed`, `canceled`, and `expired` are final. Value
      * enum: "processing", "requires_action", "requires_capture", "partially_succeeded",
-     * "requires_retry", "finalizing", "succeeded", "failed", "expired", "canceled".
+     * "succeeded", "failed", "expired", "canceled".
      */
     "status": "processing"
         | "requires_action"
         | "requires_capture"
         | "partially_succeeded"
-        | "requires_retry"
-        | "finalizing"
         | "succeeded"
         | "failed"
         | "expired"
@@ -3411,199 +3781,3 @@ export type BuyerOrderTaxExemption = {
      */
     "tax_exempt": boolean;
 };
-/** The location used to calculate tax on a buyer's order, and where its address came from. */
-export type BuyerOrderTaxLocation = {
-    /**
-     * Omitted for a checkout session credential that doesn't act for the customer the buyer
-     * verified. A postal address. Every address has country. Addresses Flint checked as complete
-     * (customer and saved addresses, merchant, location, invoice, order delivery destination, tax
-     * identity, fulfillment recipient and pickup addresses) always have line1 and city, and US
-     * ones always have state and postal_code. Delivery quote destinations, buyer locations and
-     * postal-code tax locations hold only what was provided, such as postal_code and country.
-     */
-    "address"?: Address;
-    /**
-     * Where the tax address came from. Value enum: "provided", "fulfillment", "customer",
-     * "location", "merchant".
-     */
-    "address_source": "provided" | "fulfillment" | "customer" | "location" | "merchant" | (string & {});
-    /**
-     * The kind of address Flint used to calculate tax. Value enum: "postal_code", "tax_address",
-     * "billing_address", "shipping_address", "business_address".
-     */
-    "address_type": "postal_code"
-        | "tax_address"
-        | "billing_address"
-        | "shipping_address"
-        | "business_address"
-        | (string & {});
-    /**
-     * ID of the customer whose saved address Flint used, when `address_source` is `customer`.
-     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * ID of the fulfillment whose shipping address Flint used. Absent when the address is the
-     * order's `delivery_destination`. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: string;
-};
-/** A package within a shipment. */
-export type BuyerPackage = {
-    /** Carrier transporting the package. */
-    "carrier"?: string;
-    /** Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /** Package delivery timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "delivered_at"?: string;
-    /**
-     * Physical length, width, and height of the package. Package or item dimensions as `length`,
-     * `width`, and `height` in the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * When the carrier or merchant expects this package to arrive. Null when no estimate is set.
-     * Retained after delivery as history. This estimate is separate from the fulfillment's
-     * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | null;
-    /** Fulfillment whose items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
-    "fulfillment_id": string;
-    /**
-     * Return-label URL supplied by the merchant's integration. Included for return packages;
-     * omitted for outbound packages. Omitted for a checkout session credential that doesn't act
-     * for the customer the buyer verified.
-     */
-    "label_url"?: string;
-    /** Order whose items are in the package. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
-    "order_id": string;
-    /** Stable identifier of the package. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". */
-    "package_id": string;
-    /**
-     * Return this package belongs to. Present only on packages of return shipments. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id"?: string;
-    /**
-     * Return line quantities allocated to this parcel. Present only on packages of return
-     * shipments. [] (Value): {@link ReturnHandoffRequirementLineItem}. A return line and the
-     * quantity placed in a return shipment or package.
-     */
-    "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-    /** Carrier service used for the package. */
-    "service_code"?: string;
-    /** Shipment carrying this package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
-    "shipment_id": string;
-    /** Package handoff timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "shipped_at"?: string;
-    /**
-     * Current package lifecycle state. Package states are the source used to derive shipment
-     * status. - `created`: The package record exists but has not been packed or handed off. -
-     * `packed`: The package is packed and awaiting carrier handoff. - `shipped`: The package was
-     * handed to the carrier. - `in_transit`: The carrier is moving the package through its
-     * network. - `out_for_delivery`: The package is on its final delivery route. - `delivered`:
-     * The carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
-     * delivery but did not complete it. Follow the carrier instructions before retrying delivery.
-     * - `exception`: A carrier exception is blocking normal progress. Resolve the carrier-reported
-     * issue. - `returned`: The package was returned toward or to its origin. - `voided`: The
-     * package was voided and will not continue through delivery. Value enum: "created", "packed",
-     * "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided".
-     */
-    "status": "created"
-        | "packed"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "exception"
-        | "returned"
-        | "voided"
-        | (string & {});
-    /**
-     * Omitted for a checkout session credential that doesn't act for the customer the buyer
-     * verified.
-     */
-    "tracking_number"?: string;
-    /**
-     * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a
-     * checkout session credential that doesn't act for the customer the buyer verified.
-     */
-    "tracking_url"?: string;
-    /** Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /** Monotonic package version for expected_version checks. Format: uint64. minimum: 1. */
-    "version": number;
-    /**
-     * Physical weight of the package. A weight value in grams, kilograms, ounces, or pounds, used
-     * in delivery profile configuration.
-     */
-    "weight"?: Weight;
-};
-/** A page of `BuyerPackage` objects. */
-export type BuyerPackageListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * BuyerPackage}. A package within a shipment.
-     */
-    "data": Array<BuyerPackage>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `BuyerPackage` data. */
-export type BuyerPackageResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A package within a
-     * shipment.
-     */
-    "data": BuyerPackage;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The pause lengths this subscription accepts from its buyer. */
-export type BuyerPauseActionOptions = {
-    /**
-     * When present, pause_duration_cycles is required and must be between 1 and this value. When
-     * absent, omit pause_duration_cycles to pause until the buyer resumes. Format: int32. minimum:
-     * 1. maximum: 12.
-     */
-    "max_pause_duration_cycles"?: number;
-};
-/** Whether buyers may pause their own subscriptions. Send at least one field. minProperties: 1. */
-export type BuyerPauseCapability = {
-    /**
-     * Whether buyers may pause. When false, a buyer's pause returns 409 ACTION_NOT_ALLOWED with
-     * reason not_offered. Default: true.
-     */
-    "enabled"?: boolean;
-    /**
-     * The longest pause a buyer may choose, in billing periods. When set, a buyer's pause must
-     * send pause_duration_cycles from 1 to this value. Omit it for no limit, which also lets a
-     * buyer pause until they resume. Format: int32. minimum: 1. maximum: 12.
-     */
-    "max_cycles"?: number;
-};
-/** Whether buyers may pause their own subscriptions. Send at least one field. minProperties: 1. */
-export type BuyerPauseCapabilityInput = BuyerPauseCapability;

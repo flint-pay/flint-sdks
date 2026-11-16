@@ -71,7 +71,7 @@ Field definitions: [PriceListPriceRequest.quantity_price_breaks[]](../models/Pri
 
 Replaces the complete object. Send null to clear it.
 
-Field definitions: [shared fields](PackageUpdatedInstalledMerchantsEvent.md#packageupdatedinstalledmerchantseventdataprevious_attributesdimensions).
+Field definitions: [shared fields](UpdatePackageRequest.md#updatepackagerequestdimensions).
 
 ### UpdateProductVariantRequest.unit_dimensions variant 1
 
@@ -94,7 +94,7 @@ Field definitions: [ProductVariantRequest.unit_price_money](../models/ProductVar
 
 Replaces the complete object. Send null to clear it.
 
-Field definitions: [shared fields](PackageUpdatedInstalledMerchantsEvent.md#packageupdatedinstalledmerchantseventdataprevious_attributesweight).
+Field definitions: [shared fields](UpdatePackageRequest.md#updatepackagerequestweight).
 
 ### UpdateProductVariantRequest.unit_weight variant 1
 

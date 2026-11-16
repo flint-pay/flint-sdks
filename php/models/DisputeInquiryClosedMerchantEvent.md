@@ -54,6 +54,10 @@ Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
 
+### DisputeInquiryClosedMerchantEvent.data fields 1.previous_attributes.customer
+
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.customer](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributescustomer).
+
 ### DisputeInquiryClosedMerchantEvent.data fields 1.previous_attributes.customer_id
 
 Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.customer_id](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributescustomer_id).
@@ -94,9 +98,17 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.mer
 
 Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.network_reason_code](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesnetwork_reason_code).
 
+### DisputeInquiryClosedMerchantEvent.data fields 1.previous_attributes.order
+
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.order](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesorder).
+
 ### DisputeInquiryClosedMerchantEvent.data fields 1.previous_attributes.order_id
 
 Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.order_id](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesorder_id).
+
+### DisputeInquiryClosedMerchantEvent.data fields 1.previous_attributes.payment_intent
+
+Declared alternatives: [DisputeInquiryClosedMerchantEventDataPreviousAttributes.payment_intent](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributespayment_intent).
 
 ### DisputeInquiryClosedMerchantEvent.data fields 1.previous_attributes.payment_intent_id
 

@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | The amount transferred to your merchant balance. |
+| `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The amount transferred to your merchant balance. |
 | `balance_transaction_id` | Optional | string or null | The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version. `balance_transaction_id`: [declared alternatives](../models/PlatformFeePayoutFailedEvent.md#platformfeepayoutfailedeventdata-fields-1previous_attributesbalance_transaction_id). |
 | `created_at` | Optional | string or null | When Flint prepared the payout. `created_at`: [declared alternatives](../models/PlatformFeePayoutFailedEvent.md#platformfeepayoutfailedeventdata-fields-1previous_attributescreated_at). |
 | `failure_reason` | Optional | string or null | Why the payout failed. Present only when status is failed. Can gain values; treat unknown values as payout_failed. Values: `"merchant_cannot_receive"`, `"payout_failed"`. `failure_reason`: [declared alternatives](../models/PlatformFeePayoutFailedEvent.md#platformfeepayoutfailedeventdata-fields-1previous_attributesfailure_reason). |

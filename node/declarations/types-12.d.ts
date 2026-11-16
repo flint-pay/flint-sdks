@@ -1,69 +1,1877 @@
-import type { MetadataRequestInput, MetadataMap } from './types-38.js';
-import type { ImageRequest, ImageRequestInput } from './types-28.js';
+import type { CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-11.js';
+import type { Dimensions, DimensionsRequestInput } from './types-25.js';
+import type { MetadataMap, MetadataRequestInput } from './types-41.js';
+import type { ReturnResolutionLineItemRequest, ReturnShipmentLineItemAllocationRequestInput } from './types-63.js';
+import type { Weight, WeightRequestInput } from './types-77.js';
 import type {
-    ProductVariantRequest,
-    ProductVariantRequestInput,
-    PromotionApplicationMethodRequest,
-    PromotionApplicationMethodRequestInput
+    CheckoutGiftCardChallenge,
+    CheckoutCustomTextConfig,
+    CheckoutPaymentConfig,
+    CheckoutPromotionConfig,
+    CheckoutRedirects,
+    CheckoutBuyerFieldsRequestInput,
+    CheckoutPromotionConfigRequestInput,
+    CheckoutRedirectsRequestInput
+} from './types-6.js';
+import type {
+    PartnerAppCredentialJWKSURLRequestInput,
+    PartnerAppCredentialPublicKeyRequest,
+    PartnerAppCredentialPublicKeyRequestInput,
+    PartnerAppCredentialWorkloadIdentityRequest,
+    PartnerAppCredentialWorkloadIdentityRequestInput
+} from './types-47.js';
+import type {
+    PartnerAppPaymentSplits,
+    PartnerAppPermissionManifestEntry,
+    PartnerAppPlatformProfile,
+    PartnerAppPaymentSplitsRequestInput,
+    PartnerAppPermissionManifestEntryRequestInput,
+    PartnerAppPlatformProfileRequestInput
+} from './types-48.js';
+import type {
+    PlatformFeeCap,
+    PlatformFeeCapRequestInput,
+    PlatformFeeRequest,
+    PlatformFeeRequestInput,
+    PriceListPriceRequest,
+    PriceListPriceRequestInput,
+    PriceList,
+    PriceListPriceAddition
+} from './types-54.js';
+import type { MoneyValue, MoneyValueInput } from './types-42.js';
+import type { OrderPaymentSourceSelection, OrderPaymentSourceSelectionInput } from './types-45.js';
+import type { PaymentSplitRequest, PaymentSplitRequestInput } from './types-52.js';
+import type { CheckoutBuyerFields } from './types-5.js';
+import type {
+    CheckoutTaxConfig,
+    CheckoutTipConfig,
+    CheckoutTaxConfigRequestInput,
+    CheckoutTipConfigRequestInput
+} from './types-7.js';
+import type { ImageRequest, ImageRequestInput } from './types-31.js';
+import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-33.js';
+import type { LegalSettings } from './types-38.js';
+import type {
+    PaymentLinkCustomFieldRequest,
+    PaymentLinkEventConfig,
+    PaymentLinkCustomFieldRequestInput,
+    PaymentLinkCustomTextConfigInput,
+    PaymentLinkEventConfigRequestInput,
+    PaymentLinkLegalConfigInput
 } from './types-50.js';
 import type {
+    PaymentLinkLineItemRequest,
+    PaymentLinkLineItemRequestInput,
+    PaymentLinkPaymentConfigInput,
+    PaymentLinkThemeConfigInput
+} from './types-51.js';
+import type { ThemeConfig } from './types-72.js';
+import type { AddressRequest, AddressRequestInput } from './types-0.js';
+import type { ResponseMeta } from './types-60.js';
+import type { ProductVariantRequest, ProductVariantRequestInput } from './types-55.js';
+import type {
+    PromotionApplicationMethodRequest,
     PromotionCodeRequest,
     PromotionCombinesWithPatch,
     PromotionExclusivityRequest,
-    PromotionRuleGroupRequest,
-    PromotionSchedule,
+    PromotionApplicationMethodRequestInput,
     PromotionCodeRequestInput,
     PromotionCombinesWithRequestInput,
-    PromotionExclusivityRequestInput,
-    PromotionRuleGroupRequestInput
-} from './types-51.js';
-import type { PromotionScheduleRequestInput } from './types-52.js';
+    PromotionExclusivityRequestInput
+} from './types-56.js';
+import type {
+    PromotionRuleGroupRequest,
+    PromotionSchedule,
+    PromotionRuleGroupRequestInput,
+    PromotionScheduleRequestInput
+} from './types-57.js';
 import type {
     CreateSmartReaderRequest,
+    CreateTapToPayReaderRequest,
     CreateSmartReaderRequestInput,
-    CreateReturnResolutionPreviewRequest,
-    CreateReturnResolutionPreviewRequestInput
-} from './types-13.js';
-import type { CreateTapToPayReaderRequest, CreateTapToPayReaderRequestInput } from './types-14.js';
-import type { MoneyValue, MoneyValueInput } from './types-39.js';
+    CreateTapToPayReaderRequestInput
+} from './types-14.js';
 import type {
     RefundCharge,
     RefundDestinations,
     RefundLineItem,
-    RefundTaxBreakdownRefundIn,
-    RefundTenderAllocationRequest,
     RefundChargeInput,
     RefundDestinationsInput,
-    RefundLineItemInput,
+    RefundLineItemInput
+} from './types-58.js';
+import type {
+    RefundTaxBreakdownRefundIn,
+    RefundTenderAllocationRequest,
     RefundTaxBreakdownRefundInInput,
     RefundTenderAllocationRequestInput,
     RefundWithGiftCardCodes
-} from './types-53.js';
-import type { SplitReversalRequest, SplitReversalRequestInput } from './types-60.js';
-import type { ResponseMeta } from './types-54.js';
-import type { CreateIntervalReportRequest, CreateIntervalReportRequestInput } from './types-9.js';
-import type {
-    GetReturnDispositionResponse,
-    GetReturnInspectionResponse,
-    GetReturnPolicyResponse,
-    GetReturnReasonResponse,
-    GetReturnReceiptResponse
-} from './types-26.js';
-import type {
-    ReturnEligibilitySelection,
-    ReturnEligibilitySelectionRequestInput,
-    ReturnInspectionLineItemRequest,
-    ReturnInspectionLineItemRequestInput,
-    ReturnEligibilityPreview
-} from './types-55.js';
-import type { ReturnSourceSystemRequest, ReturnSourceSystemRequestInput, ReturnResolutionPreview } from './types-57.js';
-import type {
-    ReturnPolicyRevisionRequest,
-    ReturnPolicyRevisionRequestInput,
-    ReturnReceiptLineItemRequest,
-    ReturnReceiptLineItemRequestInput,
-    ReturnLineItemRequest
-} from './types-56.js';
+} from './types-59.js';
+import type { SplitReversalRequest, SplitReversalRequestInput } from './types-66.js';
+import type { CreateIntervalReportRequest, CreateIntervalReportRequestInput } from './types-10.js';
+import type { CreateReturnDispositionRequestInspectionLine, CreateReturnDispositionRequestReceiptLine } from './types-13.js';
+/**
+ * Creates one package belonging to shipment_id. Inline packages omit shipment_id because their
+ * enclosing create supplies the shipment.
+ */
+export type CreatePackageRequest = ({
+    /**
+     * Controls buyer email handling. Omit or use send to send when recipient, template, and
+     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
+     * enum: "send", "suppress".
+     */
+    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+    /** Carrier that handles the package. minLength: 1. */
+    "carrier"?: string;
+    /**
+     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
+     * the given `unit`.
+     */
+    "dimensions"?: Dimensions;
+    /**
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expected_delivery_at"?: string | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     */
+    "external_system"?: string;
+    /**
+     * Independent package-item collection. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequest}. The request body for: Create package item.
+     */
+    "items"?: Array<CreatePackageItemRequest>;
+    /**
+     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
+     * external_system for provenance. Flint does not host the label file. minLength: 1.
+     */
+    "label_url"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Required for a package on a return shipment: allocates quantities from the shipment's
+     * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
+     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
+     * shipment or package. The enclosing Return or shipment determines its parent.
+     */
+    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+    /** Carrier's code for the shipping service used. minLength: 1. */
+    "service_code"?: string;
+    /** Shipment that owns this package. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
+    "shipment_id": string;
+    /**
+     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "shipped_at"?: string;
+    /**
+     * Outbound packages can start as created or shipped. Return packages must start as created,
+     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
+     * return package. Value enum: "created", "shipped".
+     */
+    "status": "created" | "shipped" | (string & {});
+    /** Additional explanation of the package's starting status. minLength: 1. */
+    "status_reason"?: string;
+    /** Carrier tracking number for the package. minLength: 1. */
+    "tracking_number"?: string;
+    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
+    "tracking_url"?: string;
+    /**
+     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
+     * delivery profile configuration.
+     */
+    "weight"?: Weight;
+})
+    & ((Exclude<CreatePackageRequestCreated & object, readonly unknown[]>)
+    | (Exclude<CreatePackageRequestShipped & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * Creates one package belonging to shipment_id. Inline packages omit shipment_id because their
+ * enclosing create supplies the shipment.
+ */
+export type CreatePackageRequestCreated = ({
+    /**
+     * Controls buyer email handling. Omit or use send to send when recipient, template, and
+     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
+     * enum: "send", "suppress".
+     */
+    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+    /** Carrier that handles the package. minLength: 1. */
+    "carrier"?: string;
+    /**
+     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
+     * the given `unit`.
+     */
+    "dimensions"?: Dimensions;
+    /**
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expected_delivery_at"?: string | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     */
+    "external_system"?: string;
+    /**
+     * Independent package-item collection. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequest}. The request body for: Create package item.
+     */
+    "items"?: Array<CreatePackageItemRequest>;
+    /**
+     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
+     * external_system for provenance. Flint does not host the label file. minLength: 1.
+     */
+    "label_url"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Required for a package on a return shipment: allocates quantities from the shipment's
+     * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
+     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
+     * shipment or package. The enclosing Return or shipment determines its parent.
+     */
+    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+    /** Carrier's code for the shipping service used. minLength: 1. */
+    "service_code"?: string;
+    /** Shipment that owns this package. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
+    "shipment_id": string;
+    /**
+     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "shipped_at"?: string;
+    /**
+     * Outbound packages can start as created or shipped. Return packages must start as created,
+     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
+     * return package. Value enum: "created".
+     */
+    "status": "created" | (string & {});
+    /** Additional explanation of the package's starting status. minLength: 1. */
+    "status_reason"?: string;
+    /** Carrier tracking number for the package. minLength: 1. */
+    "tracking_number"?: string;
+    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
+    "tracking_url"?: string;
+    /**
+     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
+     * delivery profile configuration.
+     */
+    "weight"?: Weight;
+});
+/**
+ * Creates one package belonging to shipment_id. Inline packages omit shipment_id because their
+ * enclosing create supplies the shipment.
+ */
+export type CreatePackageRequestCreatedInput = ({
+    /**
+     * Controls buyer email handling. Omit or use send to send when recipient, template, and
+     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
+     * enum: "send", "suppress".
+     */
+    "buyer_notification_behavior"?: "send" | "suppress";
+    /** Carrier that handles the package. minLength: 1. */
+    "carrier"?: string;
+    /**
+     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
+     * the given `unit`.
+     */
+    "dimensions"?: DimensionsRequestInput;
+    /**
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expected_delivery_at"?: string | globalThis.Date | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     */
+    "external_system"?: string;
+    /**
+     * Independent package-item collection. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequestInput}. The request body for: Create package item.
+     */
+    "items"?: Array<CreatePackageItemRequestInput>;
+    /**
+     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
+     * external_system for provenance. Flint does not host the label file. minLength: 1.
+     */
+    "label_url"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Required for a package on a return shipment: allocates quantities from the shipment's
+     * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
+     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
+     * return shipment or package. The enclosing Return or shipment determines its parent.
+     */
+    "return_line_items"?: Array<ReturnShipmentLineItemAllocationRequestInput>;
+    /** Carrier's code for the shipping service used. minLength: 1. */
+    "service_code"?: string;
+    /** Shipment that owns this package. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
+    "shipment_id": string;
+    /**
+     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "shipped_at"?: string | globalThis.Date;
+    /**
+     * Outbound packages can start as created or shipped. Return packages must start as created,
+     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
+     * return package. Value enum: "created".
+     */
+    "status": "created";
+    /** Additional explanation of the package's starting status. minLength: 1. */
+    "status_reason"?: string;
+    /** Carrier tracking number for the package. minLength: 1. */
+    "tracking_number"?: string;
+    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
+    "tracking_url"?: string;
+    /**
+     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
+     * delivery profile configuration.
+     */
+    "weight"?: WeightRequestInput;
+})
+    & (({
+    "shipped_at"?: never;
+}))
+    & (({
+    "buyer_notification_behavior"?: never;
+}));
+/**
+ * Creates one package belonging to shipment_id. Inline packages omit shipment_id because their
+ * enclosing create supplies the shipment.
+ */
+export type CreatePackageRequestInput = ({
+    /**
+     * Controls buyer email handling. Omit or use send to send when recipient, template, and
+     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
+     * enum: "send", "suppress".
+     */
+    "buyer_notification_behavior"?: "send" | "suppress";
+    /** Carrier that handles the package. minLength: 1. */
+    "carrier"?: string;
+    /**
+     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
+     * the given `unit`.
+     */
+    "dimensions"?: DimensionsRequestInput;
+    /**
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expected_delivery_at"?: string | globalThis.Date | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     */
+    "external_system"?: string;
+    /**
+     * Independent package-item collection. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequestInput}. The request body for: Create package item.
+     */
+    "items"?: Array<CreatePackageItemRequestInput>;
+    /**
+     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
+     * external_system for provenance. Flint does not host the label file. minLength: 1.
+     */
+    "label_url"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Required for a package on a return shipment: allocates quantities from the shipment's
+     * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
+     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
+     * return shipment or package. The enclosing Return or shipment determines its parent.
+     */
+    "return_line_items"?: Array<ReturnShipmentLineItemAllocationRequestInput>;
+    /** Carrier's code for the shipping service used. minLength: 1. */
+    "service_code"?: string;
+    /** Shipment that owns this package. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
+    "shipment_id": string;
+    /**
+     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "shipped_at"?: string | globalThis.Date;
+    /**
+     * Outbound packages can start as created or shipped. Return packages must start as created,
+     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
+     * return package. Value enum: "created", "shipped".
+     */
+    "status": "created" | "shipped";
+    /** Additional explanation of the package's starting status. minLength: 1. */
+    "status_reason"?: string;
+    /** Carrier tracking number for the package. minLength: 1. */
+    "tracking_number"?: string;
+    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
+    "tracking_url"?: string;
+    /**
+     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
+     * delivery profile configuration.
+     */
+    "weight"?: WeightRequestInput;
+})
+    & ((Exclude<CreatePackageRequestCreatedInput & object, readonly unknown[]>)
+    | (Exclude<CreatePackageRequestShippedInput & object, readonly unknown[]>));
+/**
+ * Creates one package belonging to shipment_id. Inline packages omit shipment_id because their
+ * enclosing create supplies the shipment.
+ */
+export type CreatePackageRequestShipped = ({
+    /**
+     * Controls buyer email handling. Omit or use send to send when recipient, template, and
+     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
+     * enum: "send", "suppress".
+     */
+    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+    /** Carrier that handles the package. minLength: 1. */
+    "carrier"?: string;
+    /**
+     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
+     * the given `unit`.
+     */
+    "dimensions"?: Dimensions;
+    /**
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expected_delivery_at"?: string | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     */
+    "external_system"?: string;
+    /**
+     * Independent package-item collection. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequest}. The request body for: Create package item.
+     */
+    "items"?: Array<CreatePackageItemRequest>;
+    /**
+     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
+     * external_system for provenance. Flint does not host the label file. minLength: 1.
+     */
+    "label_url"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Required for a package on a return shipment: allocates quantities from the shipment's
+     * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
+     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
+     * shipment or package. The enclosing Return or shipment determines its parent.
+     */
+    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+    /** Carrier's code for the shipping service used. minLength: 1. */
+    "service_code"?: string;
+    /** Shipment that owns this package. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
+    "shipment_id": string;
+    /**
+     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "shipped_at"?: string;
+    /**
+     * Outbound packages can start as created or shipped. Return packages must start as created,
+     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
+     * return package. Value enum: "shipped".
+     */
+    "status": "shipped" | (string & {});
+    /** Additional explanation of the package's starting status. minLength: 1. */
+    "status_reason"?: string;
+    /** Carrier tracking number for the package. minLength: 1. */
+    "tracking_number"?: string;
+    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
+    "tracking_url"?: string;
+    /**
+     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
+     * delivery profile configuration.
+     */
+    "weight"?: Weight;
+});
+/**
+ * Creates one package belonging to shipment_id. Inline packages omit shipment_id because their
+ * enclosing create supplies the shipment.
+ */
+export type CreatePackageRequestShippedInput = ({
+    /**
+     * Controls buyer email handling. Omit or use send to send when recipient, template, and
+     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
+     * enum: "send", "suppress".
+     */
+    "buyer_notification_behavior"?: "send" | "suppress";
+    /** Carrier that handles the package. minLength: 1. */
+    "carrier"?: string;
+    /**
+     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
+     * the given `unit`.
+     */
+    "dimensions"?: DimensionsRequestInput;
+    /**
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expected_delivery_at"?: string | globalThis.Date | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     */
+    "external_system"?: string;
+    /**
+     * Independent package-item collection. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequestInput}. The request body for: Create package item.
+     */
+    "items"?: Array<CreatePackageItemRequestInput>;
+    /**
+     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
+     * external_system for provenance. Flint does not host the label file. minLength: 1.
+     */
+    "label_url"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Required for a package on a return shipment: allocates quantities from the shipment's
+     * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
+     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
+     * return shipment or package. The enclosing Return or shipment determines its parent.
+     */
+    "return_line_items"?: Array<ReturnShipmentLineItemAllocationRequestInput>;
+    /** Carrier's code for the shipping service used. minLength: 1. */
+    "service_code"?: string;
+    /** Shipment that owns this package. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
+    "shipment_id": string;
+    /**
+     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "shipped_at"?: string | globalThis.Date;
+    /**
+     * Outbound packages can start as created or shipped. Return packages must start as created,
+     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
+     * return package. Value enum: "shipped".
+     */
+    "status": "shipped";
+    /** Additional explanation of the package's starting status. minLength: 1. */
+    "status_reason"?: string;
+    /** Carrier tracking number for the package. minLength: 1. */
+    "tracking_number"?: string;
+    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
+    "tracking_url"?: string;
+    /**
+     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
+     * delivery profile configuration.
+     */
+    "weight"?: WeightRequestInput;
+})
+    & (({
+    "return_line_items"?: never;
+}));
+/** The `jwks_url` variant of `CreatePartnerAppCredentialRequest`. */
+export type CreatePartnerAppCredentialJWKSURLRequest = {
+    /**
+     * The JSON Web Key Set URL to register. Required when type is jwks_url and not accepted
+     * otherwise. A public HTTPS JSON Web Key Set URL. Flint validates and fetches it before
+     * registering the credential.
+     */
+    "jwks_url": CheckoutGiftCardChallenge;
+    /**
+     * Modes this credential can mint partner app tokens for, with grant_type=client_credentials or
+     * an authorization code exchange. Defaults to ["live", "test"]. Send ["test"] for a staging or
+     * CI deployment so its key can't mint live tokens. A mint for another mode returns 400
+     * unauthorized_client. Can't be changed after creation. minItems: 1. maxItems: 2. uniqueItems:
+     * true. [] enum: "live", "test". [] (Value): string. Value enum: "live", "test".
+     */
+    "modes"?: Array<"live" | "test" | (string & {})>;
+    /** Optional name to identify this credential. minLength: 1. maxLength: 100. */
+    "name"?: string;
+    /** Credential type. Value enum: "jwks_url". */
+    "type": "jwks_url" | (string & {});
+};
+/** The `jwks_url` variant of `CreatePartnerAppCredentialRequest`. */
+export type CreatePartnerAppCredentialJWKSURLRequestInput = {
+    /**
+     * The JSON Web Key Set URL to register. Required when type is jwks_url and not accepted
+     * otherwise. A public HTTPS JSON Web Key Set URL. Flint validates and fetches it before
+     * registering the credential.
+     */
+    "jwks_url": PartnerAppCredentialJWKSURLRequestInput;
+    /**
+     * Modes this credential can mint partner app tokens for, with grant_type=client_credentials or
+     * an authorization code exchange. Defaults to ["live", "test"]. Send ["test"] for a staging or
+     * CI deployment so its key can't mint live tokens. A mint for another mode returns 400
+     * unauthorized_client. Can't be changed after creation. minItems: 1. maxItems: 2. uniqueItems:
+     * true. [] enum: "live", "test". [] (Value): string. Value enum: "live", "test".
+     */
+    "modes"?: Array<"live" | "test">;
+    /** Optional name to identify this credential. minLength: 1. maxLength: 100. */
+    "name"?: string;
+    /** Credential type. Value enum: "jwks_url". */
+    "type": "jwks_url";
+};
+/** The `public_key` variant of `CreatePartnerAppCredentialRequest`. */
+export type CreatePartnerAppCredentialPublicKeyRequest = {
+    /**
+     * Modes this credential can mint partner app tokens for, with grant_type=client_credentials or
+     * an authorization code exchange. Defaults to ["live", "test"]. Send ["test"] for a staging or
+     * CI deployment so its key can't mint live tokens. A mint for another mode returns 400
+     * unauthorized_client. Can't be changed after creation. minItems: 1. maxItems: 2. uniqueItems:
+     * true. [] enum: "live", "test". [] (Value): string. Value enum: "live", "test".
+     */
+    "modes"?: Array<"live" | "test" | (string & {})>;
+    /** Optional name to identify this credential. minLength: 1. maxLength: 100. */
+    "name"?: string;
+    /**
+     * The public JSON Web Key to register. Required when type is public_key and not accepted
+     * otherwise. The public JSON Web Key to register for client authentication.
+     */
+    "public_key": PartnerAppCredentialPublicKeyRequest;
+    /** Credential type. Value enum: "public_key". */
+    "type": "public_key" | (string & {});
+};
+/** The `public_key` variant of `CreatePartnerAppCredentialRequest`. */
+export type CreatePartnerAppCredentialPublicKeyRequestInput = {
+    /**
+     * Modes this credential can mint partner app tokens for, with grant_type=client_credentials or
+     * an authorization code exchange. Defaults to ["live", "test"]. Send ["test"] for a staging or
+     * CI deployment so its key can't mint live tokens. A mint for another mode returns 400
+     * unauthorized_client. Can't be changed after creation. minItems: 1. maxItems: 2. uniqueItems:
+     * true. [] enum: "live", "test". [] (Value): string. Value enum: "live", "test".
+     */
+    "modes"?: Array<"live" | "test">;
+    /** Optional name to identify this credential. minLength: 1. maxLength: 100. */
+    "name"?: string;
+    /**
+     * The public JSON Web Key to register. Required when type is public_key and not accepted
+     * otherwise. The public JSON Web Key to register for client authentication.
+     */
+    "public_key": PartnerAppCredentialPublicKeyRequestInput;
+    /** Credential type. Value enum: "public_key". */
+    "type": "public_key";
+};
+/**
+ * An immutable public key, JWKS URL, or workload identity credential for partner app client
+ * authentication.
+ */
+export type CreatePartnerAppCredentialRequest = ((CreatePartnerAppCredentialPublicKeyRequest)
+    | (CreatePartnerAppCredentialJWKSURLRequest)
+    | (CreatePartnerAppCredentialWorkloadIdentityRequest)
+    | (Record<string, unknown>));
+/**
+ * An immutable public key, JWKS URL, or workload identity credential for partner app client
+ * authentication.
+ */
+export type CreatePartnerAppCredentialRequestInput = ((CreatePartnerAppCredentialPublicKeyRequestInput)
+    | (CreatePartnerAppCredentialJWKSURLRequestInput)
+    | (CreatePartnerAppCredentialWorkloadIdentityRequestInput));
+/** The `workload_identity` variant of `CreatePartnerAppCredentialRequest`. */
+export type CreatePartnerAppCredentialWorkloadIdentityRequest = {
+    /**
+     * Modes this credential can mint partner app tokens for, with grant_type=client_credentials or
+     * an authorization code exchange. Defaults to ["live", "test"]. Send ["test"] for a staging or
+     * CI deployment so its key can't mint live tokens. A mint for another mode returns 400
+     * unauthorized_client. Can't be changed after creation. minItems: 1. maxItems: 2. uniqueItems:
+     * true. [] enum: "live", "test". [] (Value): string. Value enum: "live", "test".
+     */
+    "modes"?: Array<"live" | "test" | (string & {})>;
+    /** Optional name to identify this credential. minLength: 1. maxLength: 100. */
+    "name"?: string;
+    /** Credential type. Value enum: "workload_identity". */
+    "type": "workload_identity" | (string & {});
+    /**
+     * The external OIDC identity to register. Required when type is workload_identity and not
+     * accepted otherwise. An external OIDC identity whose subject and claim conditions must match
+     * exactly the registered policy.
+     */
+    "workload_identity": PartnerAppCredentialWorkloadIdentityRequest;
+};
+/** The `workload_identity` variant of `CreatePartnerAppCredentialRequest`. */
+export type CreatePartnerAppCredentialWorkloadIdentityRequestInput = {
+    /**
+     * Modes this credential can mint partner app tokens for, with grant_type=client_credentials or
+     * an authorization code exchange. Defaults to ["live", "test"]. Send ["test"] for a staging or
+     * CI deployment so its key can't mint live tokens. A mint for another mode returns 400
+     * unauthorized_client. Can't be changed after creation. minItems: 1. maxItems: 2. uniqueItems:
+     * true. [] enum: "live", "test". [] (Value): string. Value enum: "live", "test".
+     */
+    "modes"?: Array<"live" | "test">;
+    /** Optional name to identify this credential. minLength: 1. maxLength: 100. */
+    "name"?: string;
+    /** Credential type. Value enum: "workload_identity". */
+    "type": "workload_identity";
+    /**
+     * The external OIDC identity to register. Required when type is workload_identity and not
+     * accepted otherwise. An external OIDC identity whose subject and claim conditions must match
+     * exactly the registered policy.
+     */
+    "workload_identity": PartnerAppCredentialWorkloadIdentityRequestInput;
+};
+/** The request body for: Create partner app. */
+export type CreatePartnerAppRequest = {
+    /**
+     * API version for requests the app makes with its install tokens that send no Flint-Version
+     * header. Defaults to the version of this request and can't be newer than it. minLength: 1.
+     */
+    "api_version"?: string;
+    /**
+     * Defaults to false: no client secret is generated. Register a public key, JWKS URL, or
+     * workload identity to authenticate with a client assertion. Set true explicitly to issue a
+     * client secret at creation. Default: false.
+     */
+    "client_secret_enabled"?: boolean;
+    /**
+     * IDs of the permissions requested when an authorization request sends no scope. Each must be
+     * in permission_manifest. Defaults to every permission that isn't optional. [] (Value):
+     * string. minLength: 1.
+     */
+    "default_requested_permissions"?: Array<string>;
+    /**
+     * Where Flint sends an owner of a merchant this app created through a merchant signup when an
+     * email asks them to act, such as to finish verification. An absolute `https` URL of at most
+     * 2,048 characters, without userinfo or a fragment. It may have a query: Flint adds `flint_*`
+     * query parameters and replaces any it already has. Once the app has a `platform_profile`, its
+     * registrable domain must equal that of `platform_profile.website_url`, or the write fails
+     * with 400 `INVALID_VALUE` at the field written. Setting it requests the `create_merchants`
+     * platform capability. After Flint first approves or limits the platform, a change to another
+     * registrable domain routes after 72 hours, and every change is emailed to the owning
+     * merchant's owners and admins. Optional; set it now or later with PATCH. Format: uri.
+     * minLength: 1. maxLength: 2048. pattern: ^https://. Example: "https://example.com/receipt".
+     */
+    "merchant_action_url"?: string;
+    /**
+     * The app's name, shown to merchants on the consent screen and in Flint's emails, at most 100
+     * characters, without links or email addresses. minLength: 1. maxLength: 100.
+     */
+    "name": string;
+    /**
+     * Declares that the app's owner sends splits of the payments it collects to sellers that
+     * install the app, with the seller terms sellers approve on the consent screen. Optional.
+     * Setting it doesn't need platform approval, so test installs can use it right away; it
+     * requests the payment_splits platform capability, which live splits need. The whole
+     * payment_splits declaration. Every field is required, and a write replaces the declaration
+     * whole.
+     */
+    "payment_splits"?: PartnerAppPaymentSplits;
+    /**
+     * Permissions the app can request from merchants. At least one is required. Each lists the
+     * Flint scopes it grants. [] (Value): {@link PartnerAppPermissionManifestEntry}. One
+     * permission a partner app can request, with a title, a description, and the Flint scopes it
+     * grants.
+     */
+    "permission_manifest": Array<PartnerAppPermissionManifestEntry>;
+    /**
+     * The most a platform fee can take from one payment the app creates with a partner app token.
+     * Merchants see it on the consent screen and approve it when they install the app. Optional.
+     * Setting it doesn't need platform approval, so test installs can use it right away. The whole
+     * platform fee cap. The largest platform fee on a payment is percent of the amount it
+     * collects, rounded half up to the minor unit, plus the currency's fixed part if it has one,
+     * and never more than the currency's maximum: a cap of 1% + 0.30 USD with a 5.00 USD maximum
+     * allows up to 1.30 USD on a 100.00 USD payment. percent and maximum_fee_currency_options are
+     * required. A write replaces the cap whole, so a cap sent without fixed_fee_currency_options
+     * has no fixed part.
+     */
+    "platform_fee_cap"?: PlatformFeeCap;
+    /**
+     * The platform profile Flint reviews before it approves the app as a platform. Optional; set
+     * it now or later with PATCH. The whole platform profile. Every field is required except
+     * support_phone, and a write replaces the profile whole.
+     */
+    "platform_profile"?: PartnerAppPlatformProfile;
+    /**
+     * Redirect URIs the app can use after authorization. Each must be an absolute HTTPS URL, or
+     * HTTP on localhost or a loopback address, with no fragment. At least one is required. []
+     * (Value): string. minLength: 1.
+     */
+    "redirect_uris": Array<string>;
+};
+/** The request body for: Create partner app. */
+export type CreatePartnerAppRequestInput = {
+    /**
+     * API version for requests the app makes with its install tokens that send no Flint-Version
+     * header. Defaults to the version of this request and can't be newer than it. minLength: 1.
+     */
+    "api_version"?: string;
+    /**
+     * Defaults to false: no client secret is generated. Register a public key, JWKS URL, or
+     * workload identity to authenticate with a client assertion. Set true explicitly to issue a
+     * client secret at creation. Default: false.
+     */
+    "client_secret_enabled"?: boolean;
+    /**
+     * IDs of the permissions requested when an authorization request sends no scope. Each must be
+     * in permission_manifest. Defaults to every permission that isn't optional. [] (Value):
+     * string. minLength: 1.
+     */
+    "default_requested_permissions"?: Array<string>;
+    /**
+     * Where Flint sends an owner of a merchant this app created through a merchant signup when an
+     * email asks them to act, such as to finish verification. An absolute `https` URL of at most
+     * 2,048 characters, without userinfo or a fragment. It may have a query: Flint adds `flint_*`
+     * query parameters and replaces any it already has. Once the app has a `platform_profile`, its
+     * registrable domain must equal that of `platform_profile.website_url`, or the write fails
+     * with 400 `INVALID_VALUE` at the field written. Setting it requests the `create_merchants`
+     * platform capability. After Flint first approves or limits the platform, a change to another
+     * registrable domain routes after 72 hours, and every change is emailed to the owning
+     * merchant's owners and admins. Optional; set it now or later with PATCH. Format: uri.
+     * minLength: 1. maxLength: 2048. pattern: ^https://. Example: "https://example.com/receipt".
+     */
+    "merchant_action_url"?: string;
+    /**
+     * The app's name, shown to merchants on the consent screen and in Flint's emails, at most 100
+     * characters, without links or email addresses. minLength: 1. maxLength: 100.
+     */
+    "name": string;
+    /**
+     * Declares that the app's owner sends splits of the payments it collects to sellers that
+     * install the app, with the seller terms sellers approve on the consent screen. Optional.
+     * Setting it doesn't need platform approval, so test installs can use it right away; it
+     * requests the payment_splits platform capability, which live splits need. The whole
+     * payment_splits declaration. Every field is required, and a write replaces the declaration
+     * whole.
+     */
+    "payment_splits"?: PartnerAppPaymentSplitsRequestInput;
+    /**
+     * Permissions the app can request from merchants. At least one is required. Each lists the
+     * Flint scopes it grants. [] (Value): {@link PartnerAppPermissionManifestEntryRequestInput}.
+     * One permission a partner app can request, with a title, a description, and the Flint scopes
+     * it grants.
+     */
+    "permission_manifest": Array<PartnerAppPermissionManifestEntryRequestInput>;
+    /**
+     * The most a platform fee can take from one payment the app creates with a partner app token.
+     * Merchants see it on the consent screen and approve it when they install the app. Optional.
+     * Setting it doesn't need platform approval, so test installs can use it right away. The whole
+     * platform fee cap. The largest platform fee on a payment is percent of the amount it
+     * collects, rounded half up to the minor unit, plus the currency's fixed part if it has one,
+     * and never more than the currency's maximum: a cap of 1% + 0.30 USD with a 5.00 USD maximum
+     * allows up to 1.30 USD on a 100.00 USD payment. percent and maximum_fee_currency_options are
+     * required. A write replaces the cap whole, so a cap sent without fixed_fee_currency_options
+     * has no fixed part.
+     */
+    "platform_fee_cap"?: PlatformFeeCapRequestInput;
+    /**
+     * The platform profile Flint reviews before it approves the app as a platform. Optional; set
+     * it now or later with PATCH. The whole platform profile. Every field is required except
+     * support_phone, and a write replaces the profile whole.
+     */
+    "platform_profile"?: PartnerAppPlatformProfileRequestInput;
+    /**
+     * Redirect URIs the app can use after authorization. Each must be an absolute HTTPS URL, or
+     * HTTP on localhost or a loopback address, with no fragment. At least one is required. []
+     * (Value): string. minLength: 1.
+     */
+    "redirect_uris": Array<string>;
+};
+/** The request body for: Create payment intent. */
+export type CreatePaymentIntentRequest = ({
+    /**
+     * Amount to request from the buyer, including any standalone tip_money. Required for
+     * standalone payments. On an order, uses the order currency and defaults to its remaining
+     * balance; the amount cannot exceed 99999999 minor units, and existing automatic tax rules
+     * apply. With capture_method manual, this is the hold amount, and you can capture less later.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /**
+     * automatic collects the payment when it is confirmed. manual places a hold at confirmation
+     * that you capture or cancel later. Defaults to automatic. Default: "automatic". Value enum:
+     * "automatic", "manual".
+     */
+    "capture_method"?: "automatic" | "manual" | (string & {});
+    /**
+     * Customer to link to this payment intent. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Optional order version from the last order read. Accepted only with order_id; the create
+     * fails with VERSION_CONFLICT if the order changed. Format: int64. minimum: 1.
+     */
+    "expected_order_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Order that owns this immutable payment leg. Omit it to create a standalone payment. With
+     * order_id, the order supplies customer, receipt, tip and bank-debit purpose; those standalone
+     * fields are not accepted. minLength: 1. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * Payment options the buyer can use. Required for a standalone payment. On an order, omission
+     * uses the order source defaults. Name at least one when supplied. card_present must be the
+     * only option; confirm it with a reader credential. payment_return_url is not accepted with
+     * card_present. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit",
+     * "card_present". [] (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit", "card_present".
+     */
+    "payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | "card_present" | (string & {})>;
+    /**
+     * Where Flint sends the buyer after a redirect or authentication step, adding only
+     * payment_intent_id for a payment, or payment_method_id for a setup. The completion message
+     * uses type flint.payment_action.completed and exactly that one subject key. Without it, the
+     * step ends on a Flint page that tells the parent or opener the step completed. Accepts an
+     * absolute HTTPS URL or an app return URL with a custom scheme other than http, javascript,
+     * data, file, blob, or about. Cannot contain credentials, a query, or a fragment. Query
+     * strings are deliberately excluded so credentials and provider state cannot cross Flint's
+     * payment relay. Put merchant identifiers in the URL path, such as
+     * https://shop.example/return/sub_123. Test mode also accepts HTTP loopback URLs. With a
+     * checkout credential on order pay, omit payment_return_url; checkout sessions use their own
+     * configured return URL. Required when payment_options includes affirm and no checkout session
+     * collects the payment. Not accepted with card_present. minLength: 1. pattern: \S.
+     */
+    "payment_return_url"?: string;
+    /**
+     * Card and wallet selection for an order-owned payment leg. Accepted only with order_id and
+     * cannot be combined with nonempty payment_options. The payment source options you choose when
+     * creating an order payment intent.
+     */
+    "payment_source_selection"?: OrderPaymentSourceSelection;
+    /**
+     * A platform fee your partner app charges on this payment, checked against amount_money. Only
+     * a partner app install token can send it; from any other credential it is INVALID_REQUEST
+     * with NOT_ALLOWED on platform_fee. A subscription_plan checkout session, or an order whose
+     * payment starts or renews a subscription, refuses it with INVALID_REQUEST and NOT_ALLOWED on
+     * platform_fee, because Flint's billing creates the renewals. amount_money must be above zero,
+     * in the payment's currency, at most the platform fee cap the merchant approved for this
+     * amount, and below the amount; otherwise INVALID_REQUEST with INVALID_VALUE on
+     * platform_fee.amount_money, with maximum_money when the cap or the amount bounds it. Without
+     * an approved cap in this currency it is ACTION_NOT_ALLOWED with reason
+     * platform_fee_consent_required. In live mode the partner app's platform_fees capability must
+     * be active; otherwise ACTION_NOT_ALLOWED with capability platform_fees and the reason the
+     * app's platform status gives. Test mode never checks the capability. Flint lowers the fee, or
+     * cancels it, when the cap or Flint's own fees leave less at confirm or capture, so the
+     * payment never fails because of it. Part of the request fingerprint. See [Platform
+     * fees](/docs/guides/platform-fees). A platform fee the partner app charges on the payment,
+     * beside Flint's fees. The installed merchant pays it, and Flint takes no share of it.
+     */
+    "platform_fee"?: PlatformFeeRequest;
+    /**
+     * Email address for this payment's receipt. When omitted, Flint uses the customer's email.
+     * Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
+     */
+    "receipt_email"?: string;
+    /**
+     * Let one capture collect more than the authorization where the card network allows it, for
+     * example a final bill plus a tip. Needs capture_method manual and payment_options limited to
+     * card, apple_pay, google_pay or card_present; otherwise INVALID_REQUEST with NOT_ALLOWED on
+     * request_overcapture. Card networks allow overcapture only where the final amount isn't known
+     * at authorization, such as tips and services, and you're responsible for following their
+     * rules. overcapture reports what the processor allows once the payment is authorized.
+     * Default: false.
+     */
+    "request_overcapture"?: boolean;
+    /**
+     * Divide this payment's funds between the collecting merchant and sellers; this is separate
+     * from split tender, where a buyer uses several payment methods. Only the collecting
+     * merchant's own credentials can send splits. Each install must belong to the same app owned
+     * by the collecting merchant, with the seller's approval in this mode and readiness to receive
+     * payouts. Test mode needs no platform review; live mode requires the app's active
+     * payment_splits capability and Flint support for the collecting account. Can't be combined
+     * with platform_fee or saved payment credentials. The total must fit after the largest Flint
+     * fee for the offered payment options, leaving one minor unit for the collecting merchant;
+     * otherwise INVALID_REQUEST with INVALID_VALUE on splits and maximum_money. Fixed after
+     * create, except capture's final amounts. Part of the idempotency fingerprint. minItems: 1.
+     * maxItems: 25. [] (Value): {@link PaymentSplitRequest}. A seller's fixed share of one
+     * payment, created with that payment. This divides the payment's funds; split tender divides
+     * how the buyer pays.
+     */
+    "splits"?: Array<PaymentSplitRequest>;
+    /**
+     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
+     * amount_money. Not accepted on order-linked payment intents. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "tip_money"?: MoneyValue;
+    /**
+     * Why the bank debit is taken. Required when payment_options includes ach_debit, and rejected
+     * with INVALID_REQUEST and NOT_ALLOWED on transaction_purpose otherwise. Value enum: "goods",
+     * "services", "other".
+     */
+    "transaction_purpose"?: "goods" | "services" | "other" | (string & {});
+});
+/** The request body for: Create payment intent. */
+export type CreatePaymentIntentRequestInput = ({
+    /**
+     * Amount to request from the buyer, including any standalone tip_money. Required for
+     * standalone payments. On an order, uses the order currency and defaults to its remaining
+     * balance; the amount cannot exceed 99999999 minor units, and existing automatic tax rules
+     * apply. With capture_method manual, this is the hold amount, and you can capture less later.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValueInput;
+    /**
+     * automatic collects the payment when it is confirmed. manual places a hold at confirmation
+     * that you capture or cancel later. Defaults to automatic. Default: "automatic". Value enum:
+     * "automatic", "manual".
+     */
+    "capture_method"?: "automatic" | "manual";
+    /**
+     * Customer to link to this payment intent. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Optional order version from the last order read. Accepted only with order_id; the create
+     * fails with VERSION_CONFLICT if the order changed. Format: int64. minimum: 1.
+     */
+    "expected_order_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Order that owns this immutable payment leg. Omit it to create a standalone payment. With
+     * order_id, the order supplies customer, receipt, tip and bank-debit purpose; those standalone
+     * fields are not accepted. minLength: 1. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * Payment options the buyer can use. Required for a standalone payment. On an order, omission
+     * uses the order source defaults. Name at least one when supplied. card_present must be the
+     * only option; confirm it with a reader credential. payment_return_url is not accepted with
+     * card_present. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit",
+     * "card_present". [] (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit", "card_present".
+     */
+    "payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | "card_present">;
+    /**
+     * Where Flint sends the buyer after a redirect or authentication step, adding only
+     * payment_intent_id for a payment, or payment_method_id for a setup. The completion message
+     * uses type flint.payment_action.completed and exactly that one subject key. Without it, the
+     * step ends on a Flint page that tells the parent or opener the step completed. Accepts an
+     * absolute HTTPS URL or an app return URL with a custom scheme other than http, javascript,
+     * data, file, blob, or about. Cannot contain credentials, a query, or a fragment. Query
+     * strings are deliberately excluded so credentials and provider state cannot cross Flint's
+     * payment relay. Put merchant identifiers in the URL path, such as
+     * https://shop.example/return/sub_123. Test mode also accepts HTTP loopback URLs. With a
+     * checkout credential on order pay, omit payment_return_url; checkout sessions use their own
+     * configured return URL. Required when payment_options includes affirm and no checkout session
+     * collects the payment. Not accepted with card_present. minLength: 1. pattern: \S.
+     */
+    "payment_return_url"?: string;
+    /**
+     * Card and wallet selection for an order-owned payment leg. Accepted only with order_id and
+     * cannot be combined with nonempty payment_options. The payment source options you choose when
+     * creating an order payment intent.
+     */
+    "payment_source_selection"?: OrderPaymentSourceSelectionInput;
+    /**
+     * A platform fee your partner app charges on this payment, checked against amount_money. Only
+     * a partner app install token can send it; from any other credential it is INVALID_REQUEST
+     * with NOT_ALLOWED on platform_fee. A subscription_plan checkout session, or an order whose
+     * payment starts or renews a subscription, refuses it with INVALID_REQUEST and NOT_ALLOWED on
+     * platform_fee, because Flint's billing creates the renewals. amount_money must be above zero,
+     * in the payment's currency, at most the platform fee cap the merchant approved for this
+     * amount, and below the amount; otherwise INVALID_REQUEST with INVALID_VALUE on
+     * platform_fee.amount_money, with maximum_money when the cap or the amount bounds it. Without
+     * an approved cap in this currency it is ACTION_NOT_ALLOWED with reason
+     * platform_fee_consent_required. In live mode the partner app's platform_fees capability must
+     * be active; otherwise ACTION_NOT_ALLOWED with capability platform_fees and the reason the
+     * app's platform status gives. Test mode never checks the capability. Flint lowers the fee, or
+     * cancels it, when the cap or Flint's own fees leave less at confirm or capture, so the
+     * payment never fails because of it. Part of the request fingerprint. See [Platform
+     * fees](/docs/guides/platform-fees). A platform fee the partner app charges on the payment,
+     * beside Flint's fees. The installed merchant pays it, and Flint takes no share of it.
+     */
+    "platform_fee"?: PlatformFeeRequestInput;
+    /**
+     * Email address for this payment's receipt. When omitted, Flint uses the customer's email.
+     * Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
+     */
+    "receipt_email"?: string;
+    /**
+     * Let one capture collect more than the authorization where the card network allows it, for
+     * example a final bill plus a tip. Needs capture_method manual and payment_options limited to
+     * card, apple_pay, google_pay or card_present; otherwise INVALID_REQUEST with NOT_ALLOWED on
+     * request_overcapture. Card networks allow overcapture only where the final amount isn't known
+     * at authorization, such as tips and services, and you're responsible for following their
+     * rules. overcapture reports what the processor allows once the payment is authorized.
+     * Default: false.
+     */
+    "request_overcapture"?: boolean;
+    /**
+     * Divide this payment's funds between the collecting merchant and sellers; this is separate
+     * from split tender, where a buyer uses several payment methods. Only the collecting
+     * merchant's own credentials can send splits. Each install must belong to the same app owned
+     * by the collecting merchant, with the seller's approval in this mode and readiness to receive
+     * payouts. Test mode needs no platform review; live mode requires the app's active
+     * payment_splits capability and Flint support for the collecting account. Can't be combined
+     * with platform_fee or saved payment credentials. The total must fit after the largest Flint
+     * fee for the offered payment options, leaving one minor unit for the collecting merchant;
+     * otherwise INVALID_REQUEST with INVALID_VALUE on splits and maximum_money. Fixed after
+     * create, except capture's final amounts. Part of the idempotency fingerprint. minItems: 1.
+     * maxItems: 25. [] (Value): {@link PaymentSplitRequestInput}. A seller's fixed share of one
+     * payment, created with that payment. This divides the payment's funds; split tender divides
+     * how the buyer pays.
+     */
+    "splits"?: Array<PaymentSplitRequestInput>;
+    /**
+     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
+     * amount_money. Not accepted on order-linked payment intents. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "tip_money"?: MoneyValueInput;
+    /**
+     * Why the bank debit is taken. Required when payment_options includes ach_debit, and rejected
+     * with INVALID_REQUEST and NOT_ALLOWED on transaction_purpose otherwise. Value enum: "goods",
+     * "services", "other".
+     */
+    "transaction_purpose"?: "goods" | "services" | "other";
+})
+    & (({
+    "splits"?: never;
+} | {
+    "platform_fee"?: never;
+}));
+/** The request body for: Create payment link. */
+export type CreatePaymentLinkRequest = {
+    /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
+    "buyer_fields"?: CheckoutBuyerFields;
+    /**
+     * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it to use
+     * your checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that.
+     * Format: int64. minimum: 60. maximum: 86400.
+     */
+    "checkout_session_expires_in_seconds"?: number;
+    /**
+     * Questions buyers answer before paying. Answers are recorded on the order and checkout
+     * session in `custom_field_answers`. maxItems: 20. [] (Value): {@link
+     * PaymentLinkCustomFieldRequest}. A custom field you add to a payment link when creating it.
+     */
+    "custom_fields"?: Array<PaymentLinkCustomFieldRequest>;
+    /**
+     * Custom text for checkouts started from this link. Custom text shown on a payment link's
+     * checkout, such as the order summary message and shipping address label.
+     */
+    "custom_text"?: CheckoutCustomTextConfig;
+    /**
+     * Complete delivery method selection for the link. A link without delivery methods offers
+     * settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an
+     * empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null
+     * and duplicate IDs are not accepted. Create, activation, and edits to items, delivery
+     * methods, or inventory routing require explicit methods or checkout defaults to cover the
+     * items' delivery profiles; otherwise ACTION_NOT_ALLOWED with reason configuration_required is
+     * returned. maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_ids"?: Array<string>;
+    /**
+     * Text about what the link sells, returned to buyers when they open it. minLength: 1.
+     * maxLength: 2048.
+     */
+    "description"?: string;
+    /**
+     * Largest amount a buyer can give on a donation link. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "donation_max_amount_money"?: MoneyValue;
+    /**
+     * Smallest amount a buyer can give on a donation link. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "donation_min_amount_money"?: MoneyValue;
+    /**
+     * Amounts a donation link offers as one-tap choices. [] (Value): {@link MoneyValue}. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+    /**
+     * Event details for an `event` link: when and where it takes place and how many tickets it
+     * sells. Event settings you supply when creating an event payment link.
+     */
+    "event_config"?: PaymentLinkEventConfig;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Image shown to buyers with the link. An image you supply by `source_url`, with optional
+     * `alt` text and external reference.
+     */
+    "image"?: ImageRequest;
+    /** Message to show the buyer when the link is inactive. minLength: 1. maxLength: 500. */
+    "inactive_message"?: string;
+    /**
+     * Routing source for tracked demand. When omitted, Flint stores
+     * settings.inventory.default_routing_source if set. Otherwise, exactly one active Location
+     * with inventory_allocation_enabled in the current environment supplies the demand; this
+     * implicit source is not stored and is resolved again on use. Zero or multiple eligible
+     * Locations require an explicit source or merchant default. Create, activation, and
+     * sellability edits require at least one active routing location with
+     * inventory_allocation_enabled; temporary stock shortages do not prevent these writes. Where
+     * you want inventory routed from: a fixed Location, an inventory allocation policy, or one
+     * policy revision, selected by `type`.
+     */
+    "inventory_routing_source"?: InventoryRoutingSourceRequest;
+    /**
+     * The terms and policy links checkouts started from this link show the buyer. Legal links on a
+     * payment link: contract, refund policy, shipping policy, and terms of service URLs, and
+     * whether buyers must accept the terms.
+     */
+    "legal"?: LegalSettings;
+    /**
+     * What the link sells. [] (Value): {@link PaymentLinkLineItemRequest}. A line item you add to
+     * a payment link when creating it, from a catalog variant, a bundle, or an ad hoc name and
+     * price.
+     */
+    "line_items"?: Array<PaymentLinkLineItemRequest>;
+    /**
+     * Most payments the link accepts, counted by `completed_count`. Absent means no limit. Once
+     * the limit is reached, resolving the link fails with a request error. It can't be set below
+     * `completed_count`. Format: int32.
+     */
+    "max_completions"?: number;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. At most 44 pairs,
+     * because Flint reserves 6 of the order's 50 metadata pairs. Metadata keys and values plus
+     * Flint's metadata must fit within 32768 UTF-8 bytes. Custom fields don't count toward either
+     * limit. These limits apply to standard and plan links and are checked against the merged
+     * configuration on update. maxProperties: 44. Caller-owned key-value data for a new or
+     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
+     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
+     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
+     * for Flint. maxProperties: 50. * (Value): string. minLength: 1. maxLength: 4096.
+     */
+    "metadata"?: (Exclude<MetadataMap & object, readonly unknown[]>);
+    /** Name of the payment link. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Payment link type. Omit to use standard. Explicit values must be standard, donation, or
+     * event; empty or padded values are invalid. Default: "standard". Value enum: "standard",
+     * "donation", "event".
+     */
+    "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+    /**
+     * Payment options for checkouts started from this link. Payment settings on a payment link:
+     * the enabled payment options and a note shown with payment.
+     */
+    "payments"?: CheckoutPaymentConfig;
+    /**
+     * Whether automatic promotions apply to checkouts started from this link and whether buyers
+     * can enter promotion codes. Promotion settings for a checkout: whether automatic promotions
+     * apply and whether the buyer can apply promotion codes.
+     */
+    "promotion_config"?: CheckoutPromotionConfig;
+    /**
+     * Where checkout sessions started from this payment link send the buyer after payment,
+     * cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface
+     * is headless; use payment_return_url.
+     */
+    "redirects"?: CheckoutRedirects;
+    /**
+     * RFC3339 timestamp after which the link stops starting checkouts and resolve fails with
+     * `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own,
+     * except that an event link without sales_end_at stops selling at event_config.event_at. A
+     * checkout opened before the end can still start payment for up to 15 minutes after it.
+     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "sales_end_at"?: string;
+    /**
+     * ID of the subscription plan the link sells. The plan must be active. Omit it for a link that
+     * doesn't sell a subscription. It can't be changed after the link is created. minLength: 1.
+     * Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+     */
+    "subscription_plan_id"?: string;
+    /**
+     * Tax settings for checkouts started from this link. Whether tax is collected for a checkout
+     * session or payment link.
+     */
+    "tax"?: CheckoutTaxConfig;
+    /**
+     * The title and colors for checkouts started from this link, over your branding settings.
+     * Theme settings for a payment link's checkout: accent color, primary color, and title.
+     */
+    "theme"?: ThemeConfig;
+    /**
+     * Tip options for checkouts started from this link. Tip settings for a checkout: whether tips
+     * are enabled, the percent or fixed amount options, the default tip, and custom tips.
+     */
+    "tip"?: CheckoutTipConfig;
+};
+/** The request body for: Create payment link. */
+export type CreatePaymentLinkRequestInput = {
+    /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
+    "buyer_fields"?: CheckoutBuyerFieldsRequestInput;
+    /**
+     * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it to use
+     * your checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that.
+     * Format: int64. minimum: 60. maximum: 86400.
+     */
+    "checkout_session_expires_in_seconds"?: number;
+    /**
+     * Questions buyers answer before paying. Answers are recorded on the order and checkout
+     * session in `custom_field_answers`. maxItems: 20. [] (Value): {@link
+     * PaymentLinkCustomFieldRequestInput}. A custom field you add to a payment link when creating
+     * it.
+     */
+    "custom_fields"?: Array<PaymentLinkCustomFieldRequestInput>;
+    /**
+     * Custom text for checkouts started from this link. Custom text shown on a payment link's
+     * checkout, such as the order summary message and shipping address label.
+     */
+    "custom_text"?: PaymentLinkCustomTextConfigInput;
+    /**
+     * Complete delivery method selection for the link. A link without delivery methods offers
+     * settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an
+     * empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null
+     * and duplicate IDs are not accepted. Create, activation, and edits to items, delivery
+     * methods, or inventory routing require explicit methods or checkout defaults to cover the
+     * items' delivery profiles; otherwise ACTION_NOT_ALLOWED with reason configuration_required is
+     * returned. maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_ids"?: Array<string>;
+    /**
+     * Text about what the link sells, returned to buyers when they open it. minLength: 1.
+     * maxLength: 2048.
+     */
+    "description"?: string;
+    /**
+     * Largest amount a buyer can give on a donation link. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "donation_max_amount_money"?: MoneyValueInput;
+    /**
+     * Smallest amount a buyer can give on a donation link. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "donation_min_amount_money"?: MoneyValueInput;
+    /**
+     * Amounts a donation link offers as one-tap choices. [] (Value): {@link MoneyValueInput}.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "donation_suggested_amount_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Event details for an `event` link: when and where it takes place and how many tickets it
+     * sells. Event settings you supply when creating an event payment link.
+     */
+    "event_config"?: PaymentLinkEventConfigRequestInput;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Image shown to buyers with the link. An image you supply by `source_url`, with optional
+     * `alt` text and external reference.
+     */
+    "image"?: ImageRequestInput;
+    /** Message to show the buyer when the link is inactive. minLength: 1. maxLength: 500. */
+    "inactive_message"?: string;
+    /**
+     * Routing source for tracked demand. When omitted, Flint stores
+     * settings.inventory.default_routing_source if set. Otherwise, exactly one active Location
+     * with inventory_allocation_enabled in the current environment supplies the demand; this
+     * implicit source is not stored and is resolved again on use. Zero or multiple eligible
+     * Locations require an explicit source or merchant default. Create, activation, and
+     * sellability edits require at least one active routing location with
+     * inventory_allocation_enabled; temporary stock shortages do not prevent these writes. Where
+     * you want inventory routed from: a fixed Location, an inventory allocation policy, or one
+     * policy revision, selected by `type`.
+     */
+    "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
+    /**
+     * The terms and policy links checkouts started from this link show the buyer. Legal links on a
+     * payment link: contract, refund policy, shipping policy, and terms of service URLs, and
+     * whether buyers must accept the terms.
+     */
+    "legal"?: PaymentLinkLegalConfigInput;
+    /**
+     * What the link sells. [] (Value): {@link PaymentLinkLineItemRequestInput}. A line item you
+     * add to a payment link when creating it, from a catalog variant, a bundle, or an ad hoc name
+     * and price.
+     */
+    "line_items"?: Array<PaymentLinkLineItemRequestInput>;
+    /**
+     * Most payments the link accepts, counted by `completed_count`. Absent means no limit. Once
+     * the limit is reached, resolving the link fails with a request error. It can't be set below
+     * `completed_count`. Format: int32.
+     */
+    "max_completions"?: number;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. At most 44 pairs,
+     * because Flint reserves 6 of the order's 50 metadata pairs. Metadata keys and values plus
+     * Flint's metadata must fit within 32768 UTF-8 bytes. Custom fields don't count toward either
+     * limit. These limits apply to standard and plan links and are checked against the merged
+     * configuration on update. maxProperties: 44. Caller-owned key-value data for a new or
+     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
+     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
+     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
+     * for Flint. maxProperties: 50. * (Value): string. minLength: 1. maxLength: 4096.
+     */
+    "metadata"?: (Exclude<MetadataRequestInput & object, readonly unknown[]>);
+    /** Name of the payment link. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Payment link type. Omit to use standard. Explicit values must be standard, donation, or
+     * event; empty or padded values are invalid. Default: "standard". Value enum: "standard",
+     * "donation", "event".
+     */
+    "payment_link_type"?: "standard" | "donation" | "event";
+    /**
+     * Payment options for checkouts started from this link. Payment settings on a payment link:
+     * the enabled payment options and a note shown with payment.
+     */
+    "payments"?: PaymentLinkPaymentConfigInput;
+    /**
+     * Whether automatic promotions apply to checkouts started from this link and whether buyers
+     * can enter promotion codes. Promotion settings for a checkout: whether automatic promotions
+     * apply and whether the buyer can apply promotion codes.
+     */
+    "promotion_config"?: CheckoutPromotionConfigRequestInput;
+    /**
+     * Where checkout sessions started from this payment link send the buyer after payment,
+     * cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface
+     * is headless; use payment_return_url.
+     */
+    "redirects"?: CheckoutRedirectsRequestInput;
+    /**
+     * RFC3339 timestamp after which the link stops starting checkouts and resolve fails with
+     * `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own,
+     * except that an event link without sales_end_at stops selling at event_config.event_at. A
+     * checkout opened before the end can still start payment for up to 15 minutes after it.
+     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "sales_end_at"?: string | globalThis.Date;
+    /**
+     * ID of the subscription plan the link sells. The plan must be active. Omit it for a link that
+     * doesn't sell a subscription. It can't be changed after the link is created. minLength: 1.
+     * Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+     */
+    "subscription_plan_id"?: string;
+    /**
+     * Tax settings for checkouts started from this link. Whether tax is collected for a checkout
+     * session or payment link.
+     */
+    "tax"?: CheckoutTaxConfigRequestInput;
+    /**
+     * The title and colors for checkouts started from this link, over your branding settings.
+     * Theme settings for a payment link's checkout: accent color, primary color, and title.
+     */
+    "theme"?: PaymentLinkThemeConfigInput;
+    /**
+     * Tip options for checkouts started from this link. Tip settings for a checkout: whether tips
+     * are enabled, the percent or fixed amount options, the default tip, and custom tips.
+     */
+    "tip"?: CheckoutTipConfigRequestInput;
+};
+/** The request body for: Register payment method domain. */
+export type CreatePaymentMethodDomainRequest = {
+    /**
+     * Exact fully-qualified hostname to register. Limited to 253 characters (Unicode code points)
+     * before trimming whitespace and lowercasing. The resulting hostname uses ASCII characters
+     * only. Do not include a scheme, path, port, IP address, or wildcard. minLength: 1. maxLength:
+     * 253. pattern: ^[\t\n\v\f\r
+     * ]*(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?[\t\n\v\f\r
+     * ]*$.
+     */
+    "domain_name": (string);
+};
+/** The request body for: Register payment method domain. */
+export type CreatePaymentMethodDomainRequestInput = CreatePaymentMethodDomainRequest;
+/** The request body for: Create a payout. */
+export type CreatePayoutRequest = {
+    /**
+     * Amount to send, above zero. It can't exceed what one balance source has in
+     * available_by_source_type. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Balance source this payout draws from. Flint chooses the source when omitted. Value enum:
+     * "card", "bank_account".
+     */
+    "balance_source_type"?: "card" | "bank_account" | (string & {});
+    /** Your description of the payout, returned on the payout. minLength: 1. */
+    "description"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Only `standard`. Flint doesn't offer instant payouts. Value enum: "standard". */
+    "method"?: "standard" | (string & {});
+    /**
+     * Destination to pay. It must be active and in the payout's currency. Omit it to pay the
+     * currency's default destination. minLength: 1. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
+     */
+    "payout_destination_id"?: string;
+    /** Text shown on your bank statement for this deposit, 22 characters or fewer. minLength: 1. */
+    "statement_descriptor"?: string;
+};
+/** The request body for: Create a payout. */
+export type CreatePayoutRequestInput = {
+    /**
+     * Amount to send, above zero. It can't exceed what one balance source has in
+     * available_by_source_type. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "amount_money": MoneyValueInput;
+    /**
+     * Balance source this payout draws from. Flint chooses the source when omitted. Value enum:
+     * "card", "bank_account".
+     */
+    "balance_source_type"?: "card" | "bank_account";
+    /** Your description of the payout, returned on the payout. minLength: 1. */
+    "description"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Only `standard`. Flint doesn't offer instant payouts. Value enum: "standard". */
+    "method"?: "standard";
+    /**
+     * Destination to pay. It must be active and in the payout's currency. Omit it to pay the
+     * currency's default destination. minLength: 1. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
+     */
+    "payout_destination_id"?: string;
+    /** Text shown on your bank statement for this deposit, 22 characters or fewer. minLength: 1. */
+    "statement_descriptor"?: string;
+};
+/**
+ * Pickup details you supply when creating a fulfillment: the pickup address, location, window,
+ * instructions, and curbside details.
+ */
+export type CreatePickupFulfillmentDetails = {
+    /**
+     * Address where the buyer collects the order. A complete postal address. State and postal_code
+     * are required for US addresses and optional for other countries. Send null or omit line2,
+     * state, and postal_code when the address has none.
+     */
+    "address"?: AddressRequest;
+    /** Instructions specific to curbside handoff. minLength: 1. maxLength: 2048. */
+    "curbside_instructions"?: string;
+    /**
+     * Buyer-reported arrival time for curbside or counter pickup. Format: date-time. minLength: 1.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "customer_arrived_at"?: string;
+    /** Pickup instructions for the buyer, such as where to go on arrival. minLength: 1. */
+    "instructions"?: string;
+    /** Name of the store or place where the buyer collects the order. minLength: 1. */
+    "location_name"?: string;
+    /**
+     * Time by which the buyer should collect the order. Passing it does not change status or emit
+     * an event automatically; the merchant decides how to follow up. Format: date-time. minLength:
+     * 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "pickup_due_at"?: string;
+    /**
+     * Width of the promised pickup window, from 0 to 86400 seconds. Format: int64. minimum: 0.
+     * maximum: 86400.
+     */
+    "pickup_window_duration_seconds"?: number;
+    /**
+     * Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds.
+     * Format: int64. minimum: 0. maximum: 86400.
+     */
+    "prep_time_duration_seconds"?: number;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "ready_at"?: string;
+    /** Uses an IANA time zone name. minLength: 1. */
+    "timezone"?: string;
+    /** Buyer vehicle description used for curbside handoff. minLength: 1. maxLength: 500. */
+    "vehicle_description"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_end_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_start_at"?: string;
+};
+/**
+ * Pickup details you supply when creating a fulfillment: the pickup address, location, window,
+ * instructions, and curbside details.
+ */
+export type CreatePickupFulfillmentDetailsInput = {
+    /**
+     * Address where the buyer collects the order. A complete postal address. State and postal_code
+     * are required for US addresses and optional for other countries. Send null or omit line2,
+     * state, and postal_code when the address has none.
+     */
+    "address"?: AddressRequestInput;
+    /** Instructions specific to curbside handoff. minLength: 1. maxLength: 2048. */
+    "curbside_instructions"?: string;
+    /**
+     * Buyer-reported arrival time for curbside or counter pickup. Format: date-time. minLength: 1.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "customer_arrived_at"?: string | globalThis.Date;
+    /** Pickup instructions for the buyer, such as where to go on arrival. minLength: 1. */
+    "instructions"?: string;
+    /** Name of the store or place where the buyer collects the order. minLength: 1. */
+    "location_name"?: string;
+    /**
+     * Time by which the buyer should collect the order. Passing it does not change status or emit
+     * an event automatically; the merchant decides how to follow up. Format: date-time. minLength:
+     * 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "pickup_due_at"?: string | globalThis.Date;
+    /**
+     * Width of the promised pickup window, from 0 to 86400 seconds. Format: int64. minimum: 0.
+     * maximum: 86400.
+     */
+    "pickup_window_duration_seconds"?: number;
+    /**
+     * Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds.
+     * Format: int64. minimum: 0. maximum: 86400.
+     */
+    "prep_time_duration_seconds"?: number;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "ready_at"?: string | globalThis.Date;
+    /** Uses an IANA time zone name. minLength: 1. */
+    "timezone"?: string;
+    /** Buyer vehicle description used for curbside handoff. minLength: 1. maxLength: 500. */
+    "vehicle_description"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_end_at"?: string | globalThis.Date;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_start_at"?: string | globalThis.Date;
+};
+/** Add or update a batch of variant prices atomically. */
+export type CreatePriceListPricesRequest = {
+    /**
+     * Price list aggregate version last read. A mismatch rejects the entire batch. Format: uint64.
+     * minimum: 1.
+     */
+    "expected_price_list_version"?: number;
+    /**
+     * Behavior when the list already prices a variant. Default: "return_existing". Value enum:
+     * "return_existing", "update".
+     */
+    "on_variant_conflict"?: "return_existing" | "update" | (string & {});
+    /**
+     * Between 1 and 500 variant prices. A price list holds at most 10,000 prices. minItems: 1.
+     * maxItems: 500. [] (Value): {@link PriceListPriceRequest}. A variant price to add to a price
+     * list.
+     */
+    "prices": Array<PriceListPriceRequest>;
+};
+/** Add or update a batch of variant prices atomically. */
+export type CreatePriceListPricesRequestInput = {
+    /**
+     * Price list aggregate version last read. A mismatch rejects the entire batch. Format: uint64.
+     * minimum: 1.
+     */
+    "expected_price_list_version"?: number;
+    /**
+     * Behavior when the list already prices a variant. Default: "return_existing". Value enum:
+     * "return_existing", "update".
+     */
+    "on_variant_conflict"?: "return_existing" | "update";
+    /**
+     * Between 1 and 500 variant prices. A price list holds at most 10,000 prices. minItems: 1.
+     * maxItems: 500. [] (Value): {@link PriceListPriceRequestInput}. A variant price to add to a
+     * price list.
+     */
+    "prices": Array<PriceListPriceRequestInput>;
+};
+/** A response containing `CreatePriceListPricesResult` data. */
+export type CreatePriceListPricesResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The price list and
+     * individual outcomes after a bulk price write.
+     */
+    "data": CreatePriceListPricesResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** The price list and individual outcomes after a bulk price write. */
+export type CreatePriceListPricesResult = {
+    /**
+     * One result for each requested variant price, in request order. [] (Value): {@link
+     * PriceListPriceAddition}. Outcome for one requested variant price.
+     */
+    "additions": Array<PriceListPriceAddition>;
+    /**
+     * The price list after the batch, including its new count and aggregate version. A
+     * merchant-only set of variant prices for individual customers or customer segments.
+     */
+    "price_list": PriceList;
+};
+/** Fields for a new price list. */
+export type CreatePriceListRequest = {
+    /**
+     * Currency of all list prices, as an uppercase ISO 4217 code. Must match the catalog currency;
+     * currently only USD is supported. Cannot be changed after creation. minLength: 3. maxLength:
+     * 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     */
+    "currency": string;
+    /**
+     * Customer.segment labels to assign, at most 20. Each label can belong to only one unarchived
+     * list, including inactive lists. Omit or send [] for no segment assignments. maxItems: 20.
+     * uniqueItems: true. [] (Value): string. minLength: 1.
+     */
+    "customer_segments"?: Array<string>;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata to store on this price list. Caller-owned key-value data for a new or
+     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
+     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
+     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
+     * for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Name used to identify the price list. minLength: 1. maxLength: 100. */
+    "name": string;
+    /**
+     * Initial availability. Inactive lists remain assignable but do not provide prices. Default:
+     * "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+};
 /** Fields for a new price list. */
 export type CreatePriceListRequestInput = {
     /**
@@ -3024,1024 +4832,3 @@ export type CreateReturnDispositionRequest = ({
     & ((Exclude<CreateReturnDispositionRequestReceiptLine & object, readonly unknown[]>)
     | (Exclude<CreateReturnDispositionRequestInspectionLine & object, readonly unknown[]>)
     | (Record<string, unknown>));
-/** The request body for: Create return disposition. */
-export type CreateReturnDispositionRequestInput = ({
-    /**
-     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
-     * "lost".
-     */
-    "disposition_type": "sellable"
-        | "quality_control"
-        | "damaged"
-        | "quarantined"
-        | "repair"
-        | "refurbish"
-        | "liquidate"
-        | "donate"
-        | "discard"
-        | "return_to_buyer"
-        | "lost";
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * ID of the Location whose stock the disposition changes. Required for `sellable`,
-     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
-     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "inventory_location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at": string | globalThis.Date;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * Why the disposition was made. Value enum: "inspection_result", "return_policy",
-     * "warehouse_override", "safety_requirement", "other".
-     */
-    "reason": "inspection_result" | "return_policy" | "warehouse_override" | "safety_requirement" | "other";
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
-    /**
-     * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
-     * disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-     */
-    "replaces_return_disposition_id"?: string;
-    /**
-     * ID of the Return the disposition belongs to. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-    /**
-     * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
-     * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
-     */
-    "return_inspection_line_item_id"?: string;
-    /**
-     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
-     * minLength: 1. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
-     */
-    "return_receipt_line_item_id"?: string;
-})
-    & ((Exclude<CreateReturnDispositionRequestReceiptLineInput & object, readonly unknown[]>)
-    | (Exclude<CreateReturnDispositionRequestInspectionLineInput & object, readonly unknown[]>));
-/** The `Inspection line` variant of `CreateReturnDispositionRequest`. */
-export type CreateReturnDispositionRequestInspectionLine = ({
-    /**
-     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
-     * "lost".
-     */
-    "disposition_type": "sellable"
-        | "quality_control"
-        | "damaged"
-        | "quarantined"
-        | "repair"
-        | "refurbish"
-        | "liquidate"
-        | "donate"
-        | "discard"
-        | "return_to_buyer"
-        | "lost"
-        | (string & {});
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * ID of the Location whose stock the disposition changes. Required for `sellable`,
-     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
-     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "inventory_location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at": string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * Why the disposition was made. Value enum: "inspection_result", "return_policy",
-     * "warehouse_override", "safety_requirement", "other".
-     */
-    "reason": "inspection_result"
-        | "return_policy"
-        | "warehouse_override"
-        | "safety_requirement"
-        | "other"
-        | (string & {});
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
-    /**
-     * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
-     * disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-     */
-    "replaces_return_disposition_id"?: string;
-    /**
-     * ID of the Return the disposition belongs to. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-    /**
-     * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
-     * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
-     */
-    "return_inspection_line_item_id": string;
-    /**
-     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
-     * minLength: 1. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
-     */
-    "return_receipt_line_item_id"?: string;
-});
-/** The `Inspection line` variant of `CreateReturnDispositionRequest`. */
-export type CreateReturnDispositionRequestInspectionLineInput = ({
-    /**
-     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
-     * "lost".
-     */
-    "disposition_type": "sellable"
-        | "quality_control"
-        | "damaged"
-        | "quarantined"
-        | "repair"
-        | "refurbish"
-        | "liquidate"
-        | "donate"
-        | "discard"
-        | "return_to_buyer"
-        | "lost";
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * ID of the Location whose stock the disposition changes. Required for `sellable`,
-     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
-     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "inventory_location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at": string | globalThis.Date;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * Why the disposition was made. Value enum: "inspection_result", "return_policy",
-     * "warehouse_override", "safety_requirement", "other".
-     */
-    "reason": "inspection_result" | "return_policy" | "warehouse_override" | "safety_requirement" | "other";
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
-    /**
-     * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
-     * disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-     */
-    "replaces_return_disposition_id"?: string;
-    /**
-     * ID of the Return the disposition belongs to. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-    /**
-     * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
-     * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
-     */
-    "return_inspection_line_item_id": string;
-    /**
-     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
-     * minLength: 1. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
-     */
-    "return_receipt_line_item_id"?: string;
-})
-    & ({
-    "return_receipt_line_item_id"?: never;
-});
-/** The `Receipt line` variant of `CreateReturnDispositionRequest`. */
-export type CreateReturnDispositionRequestReceiptLine = ({
-    /**
-     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
-     * "lost".
-     */
-    "disposition_type": "sellable"
-        | "quality_control"
-        | "damaged"
-        | "quarantined"
-        | "repair"
-        | "refurbish"
-        | "liquidate"
-        | "donate"
-        | "discard"
-        | "return_to_buyer"
-        | "lost"
-        | (string & {});
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * ID of the Location whose stock the disposition changes. Required for `sellable`,
-     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
-     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "inventory_location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at": string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * Why the disposition was made. Value enum: "inspection_result", "return_policy",
-     * "warehouse_override", "safety_requirement", "other".
-     */
-    "reason": "inspection_result"
-        | "return_policy"
-        | "warehouse_override"
-        | "safety_requirement"
-        | "other"
-        | (string & {});
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
-    /**
-     * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
-     * disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-     */
-    "replaces_return_disposition_id"?: string;
-    /**
-     * ID of the Return the disposition belongs to. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-    /**
-     * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
-     * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
-     */
-    "return_inspection_line_item_id"?: string;
-    /**
-     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
-     * minLength: 1. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
-     */
-    "return_receipt_line_item_id": string;
-});
-/** The `Receipt line` variant of `CreateReturnDispositionRequest`. */
-export type CreateReturnDispositionRequestReceiptLineInput = ({
-    /**
-     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
-     * "lost".
-     */
-    "disposition_type": "sellable"
-        | "quality_control"
-        | "damaged"
-        | "quarantined"
-        | "repair"
-        | "refurbish"
-        | "liquidate"
-        | "donate"
-        | "discard"
-        | "return_to_buyer"
-        | "lost";
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * ID of the Location whose stock the disposition changes. Required for `sellable`,
-     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
-     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "inventory_location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at": string | globalThis.Date;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * Why the disposition was made. Value enum: "inspection_result", "return_policy",
-     * "warehouse_override", "safety_requirement", "other".
-     */
-    "reason": "inspection_result" | "return_policy" | "warehouse_override" | "safety_requirement" | "other";
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
-    /**
-     * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
-     * disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-     */
-    "replaces_return_disposition_id"?: string;
-    /**
-     * ID of the Return the disposition belongs to. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-    /**
-     * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
-     * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
-     */
-    "return_inspection_line_item_id"?: string;
-    /**
-     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
-     * minLength: 1. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
-     */
-    "return_receipt_line_item_id": string;
-})
-    & ({
-    "return_inspection_line_item_id"?: never;
-});
-export type CreateReturnDispositionResponse = GetReturnDispositionResponse;
-/** A request to preview which items of an order can be returned, given an order and a selection. */
-export type CreateReturnEligibilityPreviewRequest = {
-    /**
-     * ID of the Order to return items from. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-    /**
-     * Which fulfilled units to check. Which order lines to check for return eligibility: all
-     * remaining fulfilled lines, or a specific list of lines.
-     */
-    "selection": ReturnEligibilitySelection;
-};
-/** A request to preview which items of an order can be returned, given an order and a selection. */
-export type CreateReturnEligibilityPreviewRequestInput = {
-    /**
-     * ID of the Order to return items from. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-    /**
-     * Which fulfilled units to check. Which order lines to check for return eligibility: all
-     * remaining fulfilled lines, or a specific list of lines.
-     */
-    "selection": ReturnEligibilitySelectionRequestInput;
-};
-/** The request body for: Create return inspection. */
-export type CreateReturnInspectionRequest = {
-    /**
-     * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or
-     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
-     * "source_correction", "reconciliation_correction", "other".
-     */
-    "correction_reason"?: "entry_error"
-        | "duplicate_observation"
-        | "source_correction"
-        | "reconciliation_correction"
-        | "other"
-        | (string & {});
-    /** Detail about `correction_reason`. minLength: 1. */
-    "correction_reason_message"?: string;
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Format: date-time. minLength: 1.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "inspected_at": string;
-    /**
-     * Location where the returned merchandise was inspected. Must match the receipt
-     * receiving_location_id. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "inspection_location_id": string;
-    /**
-     * The lines recorded. minItems: 1. [] (Value): {@link ReturnInspectionLineItemRequest}. The
-     * inspection result for one received return line: acceptance status, condition, and findings.
-     */
-    "line_items": Array<ReturnInspectionLineItemRequest>;
-    /**
-     * ID of the Return the goods belong to. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-    /**
-     * ID of the receipt being inspected. minLength: 1. Example:
-     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-     */
-    "return_receipt_id": string;
-    /**
-     * System that recorded the observation. `null` when no source system was recorded. The system
-     * a return event came from, such as a point of sale or warehouse system, with its own
-     * identifier.
-     */
-    "source_system"?: ReturnSourceSystemRequest;
-    /**
-     * ID of the inspection this one corrects. minLength: 1. Example:
-     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
-     */
-    "supersedes_return_inspection_id"?: string;
-};
-/** The request body for: Create return inspection. */
-export type CreateReturnInspectionRequestInput = {
-    /**
-     * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or
-     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
-     * "source_correction", "reconciliation_correction", "other".
-     */
-    "correction_reason"?: "entry_error"
-        | "duplicate_observation"
-        | "source_correction"
-        | "reconciliation_correction"
-        | "other";
-    /** Detail about `correction_reason`. minLength: 1. */
-    "correction_reason_message"?: string;
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Format: date-time. minLength: 1.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "inspected_at": string | globalThis.Date;
-    /**
-     * Location where the returned merchandise was inspected. Must match the receipt
-     * receiving_location_id. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "inspection_location_id": string;
-    /**
-     * The lines recorded. minItems: 1. [] (Value): {@link ReturnInspectionLineItemRequestInput}.
-     * The inspection result for one received return line: acceptance status, condition, and
-     * findings.
-     */
-    "line_items": Array<ReturnInspectionLineItemRequestInput>;
-    /**
-     * ID of the Return the goods belong to. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-    /**
-     * ID of the receipt being inspected. minLength: 1. Example:
-     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-     */
-    "return_receipt_id": string;
-    /**
-     * System that recorded the observation. `null` when no source system was recorded. The system
-     * a return event came from, such as a point of sale or warehouse system, with its own
-     * identifier.
-     */
-    "source_system"?: ReturnSourceSystemRequestInput;
-    /**
-     * ID of the inspection this one corrects. minLength: 1. Example:
-     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
-     */
-    "supersedes_return_inspection_id"?: string;
-};
-export type CreateReturnInspectionResponse = GetReturnInspectionResponse;
-/** The request body for: Create return policy. */
-export type CreateReturnPolicyRequest = {
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Name of the policy, limited to 1 through 255 bytes after trimming surrounding whitespace.
-     * minLength: 1.
-     */
-    "name": string;
-    /**
-     * The revision with the complete rules. A field you leave out doesn't carry over from the
-     * previous revision. The rules for a return policy revision: scope, eligibility, return
-     * window, approval and resolution modes, shipping, and restocking fee.
-     */
-    "revision": ReturnPolicyRevisionRequest;
-    /**
-     * Whether the policy applies to new Returns. Defaults to inactive. Creating an active policy
-     * checks for overlapping active policies and a usable receiving location, just like activation
-     * through PATCH. Default: "inactive". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-};
-/** The request body for: Create return policy. */
-export type CreateReturnPolicyRequestInput = {
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Name of the policy, limited to 1 through 255 bytes after trimming surrounding whitespace.
-     * minLength: 1.
-     */
-    "name": string;
-    /**
-     * The revision with the complete rules. A field you leave out doesn't carry over from the
-     * previous revision. The rules for a return policy revision: scope, eligibility, return
-     * window, approval and resolution modes, shipping, and restocking fee.
-     */
-    "revision": ReturnPolicyRevisionRequestInput;
-    /**
-     * Whether the policy applies to new Returns. Defaults to inactive. Creating an active policy
-     * checks for overlapping active policies and a usable receiving location, just like activation
-     * through PATCH. Default: "inactive". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-};
-export type CreateReturnPolicyResponse = GetReturnPolicyResponse;
-/**
- * A return preview, selected by `mode`: either the eligibility of the selected items or the
- * amounts of a resolution.
- */
-export type CreateReturnPreviewData = ({
-    /**
-     * The eligibility check. Present when `mode` is `eligibility`. The result of checking whether
-     * an order's items can be returned: overall status, per-line eligibility, and the policy
-     * evaluation.
-     */
-    "eligibility"?: ReturnEligibilityPreview;
-    /** Which preview to run. Value enum: "eligibility", "resolution". */
-    "mode": "eligibility" | "resolution" | (string & {});
-    /**
-     * The priced resolution. Present when `mode` is `resolution`. A preview of a return resolution
-     * before it is created: returned and replacement totals, adjustments, and amounts due to or
-     * from the buyer.
-     */
-    "resolution"?: ReturnResolutionPreview;
-})
-    & ((Exclude<CreateReturnPreviewDataEligibility & object, readonly unknown[]>)
-    | (Exclude<CreateReturnPreviewDataResolution & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The `eligibility` variant of `CreateReturnPreviewData`. */
-export type CreateReturnPreviewDataEligibility = ({
-    /**
-     * The eligibility check. Present when `mode` is `eligibility`. The result of checking whether
-     * an order's items can be returned: overall status, per-line eligibility, and the policy
-     * evaluation.
-     */
-    "eligibility": ReturnEligibilityPreview;
-    /** Which preview to run. Value enum: "eligibility". */
-    "mode": "eligibility" | (string & {});
-    /**
-     * The priced resolution. Present when `mode` is `resolution`. A preview of a return resolution
-     * before it is created: returned and replacement totals, adjustments, and amounts due to or
-     * from the buyer.
-     */
-    "resolution"?: ReturnResolutionPreview;
-})
-    & (({
-    /** Which preview to run. Value enum: "eligibility". */
-    "mode": unknown;
-    /**
-     * The eligibility check. Present when `mode` is `eligibility`. The result of checking whether
-     * an order's items can be returned: overall status, per-line eligibility, and the policy
-     * evaluation.
-     */
-    "eligibility": ReturnEligibilityPreview;
-}));
-/** The `resolution` variant of `CreateReturnPreviewData`. */
-export type CreateReturnPreviewDataResolution = ({
-    /**
-     * The eligibility check. Present when `mode` is `eligibility`. The result of checking whether
-     * an order's items can be returned: overall status, per-line eligibility, and the policy
-     * evaluation.
-     */
-    "eligibility"?: ReturnEligibilityPreview;
-    /** Which preview to run. Value enum: "resolution". */
-    "mode": "resolution" | (string & {});
-    /**
-     * The priced resolution. Present when `mode` is `resolution`. A preview of a return resolution
-     * before it is created: returned and replacement totals, adjustments, and amounts due to or
-     * from the buyer.
-     */
-    "resolution": ReturnResolutionPreview;
-})
-    & (({
-    /** Which preview to run. Value enum: "resolution". */
-    "mode": unknown;
-    /**
-     * The priced resolution. Present when `mode` is `resolution`. A preview of a return resolution
-     * before it is created: returned and replacement totals, adjustments, and amounts due to or
-     * from the buyer.
-     */
-    "resolution": ReturnResolutionPreview;
-}));
-/** The request body for: Create return preview. */
-export type CreateReturnPreviewRequest = ({
-    /**
-     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
-     * items of an order can be returned, given an order and a selection.
-     */
-    "eligibility"?: CreateReturnEligibilityPreviewRequest;
-    /** Which preview to run. Value enum: "eligibility", "resolution". */
-    "mode": "eligibility" | "resolution" | (string & {});
-    /**
-     * The priced resolution. Present when `mode` is `resolution`. A request to preview the amounts
-     * of a return resolution for a return, selected by `resolution_type`: refund, exchange,
-     * replacement, no monetary action, or correction.
-     */
-    "resolution"?: CreateReturnResolutionPreviewRequest;
-})
-    & ((Exclude<CreateReturnPreviewRequestEligibility & object, readonly unknown[]>)
-    | (Exclude<CreateReturnPreviewRequestResolution & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The `eligibility` variant of `CreateReturnPreviewRequest`. */
-export type CreateReturnPreviewRequestEligibility = ({
-    /**
-     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
-     * items of an order can be returned, given an order and a selection.
-     */
-    "eligibility": CreateReturnEligibilityPreviewRequest;
-    /** Which preview to run. Value enum: "eligibility". */
-    "mode": "eligibility" | (string & {});
-    /**
-     * The priced resolution. Present when `mode` is `resolution`. A request to preview the amounts
-     * of a return resolution for a return, selected by `resolution_type`: refund, exchange,
-     * replacement, no monetary action, or correction.
-     */
-    "resolution"?: CreateReturnResolutionPreviewRequest;
-})
-    & (({
-    /** Which preview to run. Value enum: "eligibility". */
-    "mode": unknown;
-    /**
-     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
-     * items of an order can be returned, given an order and a selection.
-     */
-    "eligibility": CreateReturnEligibilityPreviewRequest;
-}));
-/** The `eligibility` variant of `CreateReturnPreviewRequest`. */
-export type CreateReturnPreviewRequestEligibilityInput = ({
-    /**
-     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
-     * items of an order can be returned, given an order and a selection.
-     */
-    "eligibility": CreateReturnEligibilityPreviewRequestInput;
-    /** Which preview to run. Value enum: "eligibility". */
-    "mode": "eligibility";
-    /**
-     * The priced resolution. Present when `mode` is `resolution`. A request to preview the amounts
-     * of a return resolution for a return, selected by `resolution_type`: refund, exchange,
-     * replacement, no monetary action, or correction.
-     */
-    "resolution"?: CreateReturnResolutionPreviewRequestInput;
-})
-    & (({
-    /** Which preview to run. Value enum: "eligibility". */
-    "mode": "eligibility";
-    /**
-     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
-     * items of an order can be returned, given an order and a selection.
-     */
-    "eligibility": CreateReturnEligibilityPreviewRequestInput;
-})
-    & ({
-    "resolution"?: never;
-}));
-/** The request body for: Create return preview. */
-export type CreateReturnPreviewRequestInput = ({
-    /**
-     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
-     * items of an order can be returned, given an order and a selection.
-     */
-    "eligibility"?: CreateReturnEligibilityPreviewRequestInput;
-    /** Which preview to run. Value enum: "eligibility", "resolution". */
-    "mode": "eligibility" | "resolution";
-    /**
-     * The priced resolution. Present when `mode` is `resolution`. A request to preview the amounts
-     * of a return resolution for a return, selected by `resolution_type`: refund, exchange,
-     * replacement, no monetary action, or correction.
-     */
-    "resolution"?: CreateReturnResolutionPreviewRequestInput;
-})
-    & ((Exclude<CreateReturnPreviewRequestEligibilityInput & object, readonly unknown[]>)
-    | (Exclude<CreateReturnPreviewRequestResolutionInput & object, readonly unknown[]>));
-/** The `resolution` variant of `CreateReturnPreviewRequest`. */
-export type CreateReturnPreviewRequestResolution = ({
-    /**
-     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
-     * items of an order can be returned, given an order and a selection.
-     */
-    "eligibility"?: CreateReturnEligibilityPreviewRequest;
-    /** Which preview to run. Value enum: "resolution". */
-    "mode": "resolution" | (string & {});
-    /**
-     * The priced resolution. Present when `mode` is `resolution`. A request to preview the amounts
-     * of a return resolution for a return, selected by `resolution_type`: refund, exchange,
-     * replacement, no monetary action, or correction.
-     */
-    "resolution": CreateReturnResolutionPreviewRequest;
-})
-    & (({
-    /** Which preview to run. Value enum: "resolution". */
-    "mode": unknown;
-    /**
-     * The priced resolution. Present when `mode` is `resolution`. A request to preview the amounts
-     * of a return resolution for a return, selected by `resolution_type`: refund, exchange,
-     * replacement, no monetary action, or correction.
-     */
-    "resolution": CreateReturnResolutionPreviewRequest;
-}));
-/** The `resolution` variant of `CreateReturnPreviewRequest`. */
-export type CreateReturnPreviewRequestResolutionInput = ({
-    /**
-     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
-     * items of an order can be returned, given an order and a selection.
-     */
-    "eligibility"?: CreateReturnEligibilityPreviewRequestInput;
-    /** Which preview to run. Value enum: "resolution". */
-    "mode": "resolution";
-    /**
-     * The priced resolution. Present when `mode` is `resolution`. A request to preview the amounts
-     * of a return resolution for a return, selected by `resolution_type`: refund, exchange,
-     * replacement, no monetary action, or correction.
-     */
-    "resolution": CreateReturnResolutionPreviewRequestInput;
-})
-    & (({
-    /** Which preview to run. Value enum: "resolution". */
-    "mode": "resolution";
-    /**
-     * The priced resolution. Present when `mode` is `resolution`. A request to preview the amounts
-     * of a return resolution for a return, selected by `resolution_type`: refund, exchange,
-     * replacement, no monetary action, or correction.
-     */
-    "resolution": CreateReturnResolutionPreviewRequestInput;
-})
-    & ({
-    "eligibility"?: never;
-}));
-/** A response containing `CreateReturnPreviewData` data. */
-export type CreateReturnPreviewResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A return preview,
-     * selected by `mode`: either the eligibility of the selected items or the amounts of a
-     * resolution.
-     */
-    "data": CreateReturnPreviewData;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The request body for: Create return reason. */
-export type CreateReturnReasonRequest = {
-    /**
-     * Catalog category handles this reason applies to. A reason with categories is suggested, and
-     * accepted from a customer session, only for order lines whose product is in one of them. A
-     * reason with no categories applies to every line. Not product types or tags: use handles from
-     * GET /v1/categories. Repeated handles are dropped. maxItems: 100. [] (Value): string.
-     * minLength: 1.
-     */
-    "category_handles"?: Array<string>;
-    /** Description, limited to 2048 bytes after trimming surrounding whitespace. minLength: 1. */
-    "description"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Stable lower_snake_case identifier. After trimming surrounding whitespace, it must start
-     * with a lowercase letter and contain only lowercase letters, digits, and underscores, with 1
-     * through 100 characters. minLength: 1.
-     */
-    "handle": string;
-    /**
-     * Whether a Return line with this reason needs a buyer_note. Defaults to false. Default:
-     * false.
-     */
-    "is_note_required"?: boolean;
-    /**
-     * Display name, limited to 1 through 255 bytes after trimming surrounding whitespace.
-     * minLength: 1.
-     */
-    "name": string;
-};
-/** The request body for: Create return reason. */
-export type CreateReturnReasonRequestInput = CreateReturnReasonRequest;
-export type CreateReturnReasonResponse = GetReturnReasonResponse;
-/** The request body for: Create return receipt. */
-export type CreateReturnReceiptRequest = {
-    /**
-     * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or
-     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
-     * "source_correction", "reconciliation_correction", "other".
-     */
-    "correction_reason"?: "entry_error"
-        | "duplicate_observation"
-        | "source_correction"
-        | "reconciliation_correction"
-        | "other"
-        | (string & {});
-    /** Detail about `correction_reason`. minLength: 1. */
-    "correction_reason_message"?: string;
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * The lines recorded. minItems: 1. [] (Value): {@link ReturnReceiptLineItemRequest}. One line
-     * of received merchandise: a matched return line, excess quantity, or an unverified item.
-     */
-    "line_items": Array<ReturnReceiptLineItemRequest>;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Format: date-time. minLength: 1.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "received_at": string;
-    /**
-     * ID of the Location that received the goods. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "receiving_location_id": string;
-    /**
-     * ID of the Return the goods belong to. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-    /**
-     * ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a
-     * shipment. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
-     */
-    "shipment_id"?: string;
-    /**
-     * System that recorded the observation. `null` when no source system was recorded. The system
-     * a return event came from, such as a point of sale or warehouse system, with its own
-     * identifier.
-     */
-    "source_system"?: ReturnSourceSystemRequest;
-    /**
-     * ID of the receipt this one corrects. minLength: 1. Example:
-     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-     */
-    "supersedes_return_receipt_id"?: string;
-};
-/** The request body for: Create return receipt. */
-export type CreateReturnReceiptRequestInput = {
-    /**
-     * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or
-     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
-     * "source_correction", "reconciliation_correction", "other".
-     */
-    "correction_reason"?: "entry_error"
-        | "duplicate_observation"
-        | "source_correction"
-        | "reconciliation_correction"
-        | "other";
-    /** Detail about `correction_reason`. minLength: 1. */
-    "correction_reason_message"?: string;
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * The lines recorded. minItems: 1. [] (Value): {@link ReturnReceiptLineItemRequestInput}. One
-     * line of received merchandise: a matched return line, excess quantity, or an unverified item.
-     */
-    "line_items": Array<ReturnReceiptLineItemRequestInput>;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Format: date-time. minLength: 1.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "received_at": string | globalThis.Date;
-    /**
-     * ID of the Location that received the goods. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "receiving_location_id": string;
-    /**
-     * ID of the Return the goods belong to. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-    /**
-     * ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a
-     * shipment. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
-     */
-    "shipment_id"?: string;
-    /**
-     * System that recorded the observation. `null` when no source system was recorded. The system
-     * a return event came from, such as a point of sale or warehouse system, with its own
-     * identifier.
-     */
-    "source_system"?: ReturnSourceSystemRequestInput;
-    /**
-     * ID of the receipt this one corrects. minLength: 1. Example:
-     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-     */
-    "supersedes_return_receipt_id"?: string;
-};
-export type CreateReturnReceiptResponse = GetReturnReceiptResponse;
-/** The request body for: Create return. */
-export type CreateReturnRequest = {
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * The lines to check or return, each naming an order line item. minItems: 1. [] (Value):
-     * {@link ReturnLineItemRequest}. An order line item to return, with the quantity, return
-     * reason, and optionally a note and the resolution the buyer wants.
-     */
-    "line_items": Array<ReturnLineItemRequest>;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * ID of the Order to return items from. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-};

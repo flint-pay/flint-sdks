@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read mixed $active_payment_attempt_count
  * @property-read string|null $created_at
  * @property-read string|null $custom_domain_id
- * @property-read list<CustomDomainDNSRecord>|null $dns_records
+ * @property-read list<CustomDomainDNSRecordPreviousAttributes>|null $dns_records
  * @property-read string|null $hostname
  * @property-read mixed $last_checked_at
  * @property-read mixed $payment_method_domain_id
@@ -33,8 +33,8 @@ final class CustomDomainArchivedEventDataPreviousAttributes extends Model {
      */
     public function getCustomDomainId(): string|null { return $this->get('custom_domain_id'); }
     public function hasCustomDomainId(): bool { return $this->has('custom_domain_id'); }
-    /** DNS records to add for setup or verification. For an archived hostname, records that can be deleted. anyOf[1] (Value): Array of {@see CustomDomainDNSRecord}. DNS records to add for setup or verification. For an archived hostname, records that can be deleted. anyOf[1][] (Value): {@see CustomDomainDNSRecord}. A DNS record for configuring or verifying a custom hostname. anyOf[2] (Value): null.
-     * @return list<CustomDomainDNSRecord>|null
+    /** DNS records to add for setup or verification. For an archived hostname, records that can be deleted. anyOf[1] (Value): Array of {@see CustomDomainDNSRecordPreviousAttributes}. DNS records to add for setup or verification. For an archived hostname, records that can be deleted. anyOf[1][] (Value): {@see CustomDomainDNSRecordPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<CustomDomainDNSRecordPreviousAttributes>|null
      */
     public function getDnsRecords(): array|null { return $this->get('dns_records'); }
     public function hasDnsRecords(): bool { return $this->has('dns_records'); }

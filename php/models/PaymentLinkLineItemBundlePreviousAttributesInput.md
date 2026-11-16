@@ -1,0 +1,278 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## PaymentLinkLineItemBundlePreviousAttributesInput
+
+
+
+Request input.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `allow_quantity_adjustment` | Optional | boolean or null | Whether the buyer can change the quantity in checkout. `allow_quantity_adjustment`: [declared alternatives](../models/PaymentLinkLineItemBundlePreviousAttributesInput.md#paymentlinklineitembundlepreviousattributesinputallow_quantity_adjustment). |
+| `allow_unit_price_adjustment` | Optional | boolean or null | Whether the buyer sets the unit price. Only `custom_variable` lines allow it. `allow_unit_price_adjustment`: [declared alternatives](../models/PaymentLinkLineItemBundlePreviousAttributesInput.md#paymentlinklineitembundlepreviousattributesinputallow_unit_price_adjustment). |
+| `bundle_id` | Optional | string or null | ID of the catalog bundle a `bundle` line sells. `bundle_id`: [declared alternatives](../models/PaymentLinkLineItemBundlePreviousAttributesInput.md#paymentlinklineitembundlepreviousattributesinputbundle_id). |
+| `default_variant_id` | Optional | string or null | Variant selected when the page opens and used at resolve when the buyer omits a selection. Must be in variant_ids. Omit it to require a buyer selection. `default_variant_id`: [declared alternatives](../models/PaymentLinkLineItemBundlePreviousAttributesInput.md#paymentlinklineitembundlepreviousattributesinputdefault_variant_id). |
+| `description` | Optional | string or null | Description of an ad hoc line item. `description`: [declared alternatives](../models/PaymentLinkLineItemBundlePreviousAttributesInput.md#paymentlinklineitembundlepreviousattributesinputdescription). |
+| `is_catalog_item_unavailable` | Optional | boolean or null | True when the referenced variant or bundle cannot be sold, or no listed variant in variant_ids can be sold in the line currency. Always false on ad hoc line items. `is_catalog_item_unavailable`: [declared alternatives](../models/PaymentLinkLineItemBundlePreviousAttributesInput.md#paymentlinklineitembundlepreviousattributesinputis_catalog_item_unavailable). |
+| `key` | Optional | string or null | Keys the resolve override maps. Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used by explicit keys; retained for an existing line item when omitted on update. `key`: [declared alternatives](../models/PaymentLinkLineItemBundlePreviousAttributesInput.md#paymentlinklineitembundlepreviousattributesinputkey). |
+| `max_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `max_quantity`: [declared alternatives](../models/BundleComponentPreviousAttributesInput.md#bundlecomponentpreviousattributesinputquantity). |
+| `max_unit_price_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. |
+| `min_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `min_quantity`: [declared alternatives](../models/BundleComponentPreviousAttributesInput.md#bundlecomponentpreviousattributesinputquantity). |
+| `min_unit_price_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. |
+| `name` | Optional | string or null | Name of an ad hoc line item. Catalog lines take the catalog name. `name`: [declared alternatives](../models/PaymentLinkLineItemBundlePreviousAttributesInput.md#paymentlinklineitembundlepreviousattributesinputname). |
+| `payment_link_line_item_id` | Optional | string or null | Unique identifier for this payment link line item, prefixed `plli_`. `payment_link_line_item_id`: [declared alternatives](../models/PaymentLinkLineItemBundlePreviousAttributesInput.md#paymentlinklineitembundlepreviousattributesinputpayment_link_line_item_id). |
+| `product_id` | Optional | string or null | Parent catalog context only. The product that the variants in variant_ids belong to. Present only on buyer choice lines; refused on input. `product_id`: [declared alternatives](../models/PaymentLinkLineItemBundlePreviousAttributesInput.md#paymentlinklineitembundlepreviousattributesinputproduct_id). |
+| `product_type` | Optional | string or null or null | Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`, `null`. `product_type`: [declared alternatives](../models/PaymentLinkLineItemBundlePreviousAttributesInput.md#paymentlinklineitembundlepreviousattributesinputproduct_type). |
+| `quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `quantity`: [declared alternatives](../models/BundleComponentPreviousAttributesInput.md#bundlecomponentpreviousattributesinputquantity). |
+| `resolved_name` | Optional | string or null | Current catalog name of the referenced variant or bundle, or the product name for variant_ids lines. A variant reads as the product name, plus the variant name when the variant is a named option combination. This is the catalog value at read time, not a stored snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the catalog object no longer exists. `resolved_name`: [declared alternatives](../models/PaymentLinkLineItemBundlePreviousAttributesInput.md#paymentlinklineitembundlepreviousattributesinputresolved_name). |
+| `resolved_price_range` | Optional | [ProductPriceRangePreviousAttributesInput](../models/ProductPriceRangePreviousAttributesInput.md#productpricerangepreviousattributesinput) or null | Current lowest and highest catalog unit prices among listed variants that can be sold in the line currency. Computed at read time, not stored. Omitted when no listed variant can be sold. |
+| `resolved_unit_price_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | Current catalog unit price of the referenced variant or bundle. For a fixed variant this is the base price that applies below the first quantity price break. This is the catalog value at read time, not a stored snapshot: checkout resolves the price again when a buyer opens the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids lines, and when the catalog object no longer exists. |
+| `suggested_unit_price_money_options` | Optional | Array of [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | Unit prices offered as one-tap choices when the buyer sets the price. `suggested_unit_price_money_options`: [declared alternatives](../models/PaymentLinkLineItemBundlePreviousAttributesInput.md#paymentlinklineitembundlepreviousattributesinputsuggested_unit_price_money_options). |
+| `tax` | Optional | [OrderLineItemTaxPreviousAttributesInput](../models/OrderLineItemTaxPreviousAttributesInput.md#orderlineitemtaxpreviousattributesinput) or null | Tax settings for an ad hoc line item. Catalog lines use the catalog's. |
+| `type` | Optional | (string or null) | How the line item is defined. Values: `"bundle"`. `type`: [declared alternatives](../models/PaymentLinkLineItemBundlePreviousAttributesInput.md#paymentlinklineitembundlepreviousattributesinputtype). |
+| `unit_price_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | Price of one unit of a `custom_fixed` line item. |
+| `variant_id` | Optional | string or null | ID of the catalog variant a `variant` line sells. `variant_id`: [declared alternatives](../models/PaymentLinkLineItemBundlePreviousAttributesInput.md#paymentlinklineitembundlepreviousattributesinputvariant_id). |
+| `variant_ids` | Optional | Array of string or null | Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active, sellable variants of one product in one currency. Available only on standard payment links. Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. `variant_ids`: [declared alternatives](../models/PaymentLinkLineItemBundlePreviousAttributesInput.md#paymentlinklineitembundlepreviousattributesinputvariant_ids). |
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.allow_quantity_adjustment
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.allow_quantity_adjustment variant 1
+
+anyOf variant 1: Whether the buyer can change the quantity in checkout..
+
+- Value shape: boolean. Whether the buyer can change the quantity in checkout. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.allow_quantity_adjustment variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether the buyer can change the quantity in checkout. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.allow_unit_price_adjustment
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.allow_unit_price_adjustment variant 1
+
+anyOf variant 1: Whether the buyer sets the unit price. Only `custom_variable` lines allow it..
+
+- Value shape: boolean. Whether the buyer sets the unit price. Only `custom_variable` lines allow it. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.allow_unit_price_adjustment variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether the buyer sets the unit price. Only `custom_variable` lines allow it. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.bundle_id
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.bundle_id variant 1
+
+anyOf variant 1: ID of the catalog bundle a `bundle` line sells..
+
+- Value shape: string. ID of the catalog bundle a `bundle` line sells. ID of the catalog bundle a `bundle` line sells. Example: `"bun_01KEZF7C00TQ6S76Z6CVQF5SVN"`. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.bundle_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the catalog bundle a `bundle` line sells. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.default_variant_id
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.default_variant_id variant 1
+
+anyOf variant 1: Variant selected when the page opens and used at resolve when the buyer omits a selection. Must be in variant_ids. Omit it to require a buyer selection..
+
+- Value shape: string. Variant selected when the page opens and used at resolve when the buyer omits a selection. Must be in variant_ids. Omit it to require a buyer selection. Variant selected when the page opens and used at resolve when the buyer omits a selection. Must be in variant_ids. Omit it to require a buyer selection. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.default_variant_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Variant selected when the page opens and used at resolve when the buyer omits a selection. Must be in variant_ids. Omit it to require a buyer selection. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.description
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.description variant 1
+
+anyOf variant 1: Description of an ad hoc line item..
+
+- Value shape: string. Description of an ad hoc line item. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.description variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Description of an ad hoc line item. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.is_catalog_item_unavailable
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.is_catalog_item_unavailable variant 1
+
+anyOf variant 1: True when the referenced variant or bundle cannot be sold, or no listed variant in variant_ids can be sold in the line currency. Always false on ad hoc line items..
+
+- Value shape: boolean. True when the referenced variant or bundle cannot be sold, or no listed variant in variant_ids can be sold in the line currency. Always false on ad hoc line items. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.is_catalog_item_unavailable variant 2
+
+anyOf variant 2.
+
+- Value shape: null. True when the referenced variant or bundle cannot be sold, or no listed variant in variant_ids can be sold in the line currency. Always false on ad hoc line items. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.key
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.key variant 1
+
+anyOf variant 1: Keys the resolve override maps. Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used by explicit keys; retained for an existing line item when omitted on update..
+
+- Value shape: string. Keys the resolve override maps. Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used by explicit keys; retained for an existing line item when omitted on update. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.key variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Keys the resolve override maps. Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used by explicit keys; retained for an existing line item when omitted on update. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.max_quantity
+
+Declared alternatives: [BundleComponentPreviousAttributesInput.quantity](../models/BundleComponentPreviousAttributesInput.md#bundlecomponentpreviousattributesinputquantity).
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.min_quantity
+
+Declared alternatives: [BundleComponentPreviousAttributesInput.quantity](../models/BundleComponentPreviousAttributesInput.md#bundlecomponentpreviousattributesinputquantity).
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.name
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.name variant 1
+
+anyOf variant 1: Name of an ad hoc line item. Catalog lines take the catalog name..
+
+- Value shape: string. Name of an ad hoc line item. Catalog lines take the catalog name. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.name variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Name of an ad hoc line item. Catalog lines take the catalog name. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.payment_link_line_item_id
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.payment_link_line_item_id variant 1
+
+anyOf variant 1: Unique identifier for this payment link line item, prefixed `plli_`..
+
+- Value shape: string. Unique identifier for this payment link line item, prefixed `plli_`. Unique identifier for this payment link line item, prefixed `plli_`. Example: `"plli_01KEZF7C004V7GVCCNMYYCBAJS"`. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.payment_link_line_item_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Unique identifier for this payment link line item, prefixed `plli_`. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.product_id
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.product_id variant 1
+
+anyOf variant 1: Parent catalog context only. The product that the variants in variant_ids belong to. Present only on buyer choice lines; refused on input..
+
+- Value shape: string. Parent catalog context only. The product that the variants in variant_ids belong to. Present only on buyer choice lines; refused on input. Parent catalog context only. The product that the variants in variant_ids belong to. Present only on buyer choice lines; refused on input. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.product_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Parent catalog context only. The product that the variants in variant_ids belong to. Present only on buyer choice lines; refused on input. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.product_type
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.product_type variant 1
+
+anyOf variant 1: Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts..
+
+- Value shape: (string or null). Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`, `null`.
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.product_type variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.quantity
+
+Declared alternatives: [BundleComponentPreviousAttributesInput.quantity](../models/BundleComponentPreviousAttributesInput.md#bundlecomponentpreviousattributesinputquantity).
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.resolved_name
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.resolved_name variant 1
+
+anyOf variant 1: Current catalog name of the referenced variant or bundle, or the product name for variant_ids lines. A variant reads as the product name, plus the variant name when the variant is a named option combination. This is the catalog value at read time, not a stored snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the catalog object no longer exists..
+
+- Value shape: string. Current catalog name of the referenced variant or bundle, or the product name for variant_ids lines. A variant reads as the product name, plus the variant name when the variant is a named option combination. This is the catalog value at read time, not a stored snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the catalog object no longer exists. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.resolved_name variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Current catalog name of the referenced variant or bundle, or the product name for variant_ids lines. A variant reads as the product name, plus the variant name when the variant is a named option combination. This is the catalog value at read time, not a stored snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the catalog object no longer exists. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.suggested_unit_price_money_options
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.suggested_unit_price_money_options variant 1
+
+anyOf variant 1: Unit prices offered as one-tap choices when the buyer sets the price..
+
+- Value shape: Array of [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput). Unit prices offered as one-tap choices when the buyer sets the price. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.suggested_unit_price_money_options variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Unit prices offered as one-tap choices when the buyer sets the price. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.type
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.type variant 1
+
+anyOf group 1 variant 1: How the line item is defined..
+
+- Value shape: string. How the line item is defined. Values: `"bundle"`.
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.type variant 2, 4
+
+anyOf group 1 variant 2; anyOf group 2 variant 2.
+
+- Value shape: null. How the line item is defined. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.type variant 3
+
+anyOf group 2 variant 1.
+
+- Value shape: string. How the line item is defined. Values: `"bundle"`.
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.variant_id
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.variant_id variant 1
+
+anyOf variant 1: ID of the catalog variant a `variant` line sells..
+
+- Value shape: string. ID of the catalog variant a `variant` line sells. ID of the catalog variant a `variant` line sells. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.variant_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the catalog variant a `variant` line sells. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.variant_ids
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.variant_ids variant 1
+
+anyOf variant 1: Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active, sellable variants of one product in one currency. Available only on standard payment links. Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields..
+
+- Value shape: Array of string. Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active, sellable variants of one product in one currency. Available only on standard payment links. Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active, sellable variants of one product in one currency. Available only on standard payment links. Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: `1`. maxItems: `100`. uniqueItems: `true`. Items: pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. 
+
+### PaymentLinkLineItemBundlePreviousAttributesInput.variant_ids variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active, sellable variants of one product in one currency. Available only on standard payment links. Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. 
+

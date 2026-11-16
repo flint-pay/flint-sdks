@@ -60,7 +60,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `active_payment_attempt_count` | Optional | integer or null or null | Payment attempts in progress on this checkout hostname. `null` when `type` is `customer_account`. `active_payment_attempt_count`: [declared alternatives](../models/CustomDomainArchivedEventInput.md#customdomainarchivedeventinputdataprevious_attributesactive_payment_attempt_count). |
 | `created_at` | Optional | string or null | When this domain resource was created, in RFC3339 format. `created_at`: [declared alternatives](../models/CustomDomainArchivedEventInput.md#customdomainarchivedeventinputdataprevious_attributescreated_at). |
 | `custom_domain_id` | Optional | string or null | Flint custom domain ID. `custom_domain_id`: [declared alternatives](../models/CustomDomainArchivedEventInput.md#customdomainarchivedeventinputdataprevious_attributescustom_domain_id). |
-| `dns_records` | Optional | Array of [CustomDomainDNSRecordInput](../models/CustomDomainDNSRecordInput.md#customdomaindnsrecordinput) or null | DNS records to add for setup or verification. For an archived hostname, records that can be deleted. `dns_records`: [declared alternatives](../models/CustomDomainArchivedEventInput.md#customdomainarchivedeventinputdataprevious_attributesdns_records). |
+| `dns_records` | Optional | Array of [CustomDomainDNSRecordPreviousAttributesInput](../models/CustomDomainDNSRecordPreviousAttributesInput.md#customdomaindnsrecordpreviousattributesinput) or null | DNS records to add for setup or verification. For an archived hostname, records that can be deleted. `dns_records`: [declared alternatives](../models/CustomDomainArchivedEventInput.md#customdomainarchivedeventinputdataprevious_attributesdns_records). |
 | `hostname` | Optional | string or null | Configured hostname, normalized to lowercase without a trailing dot. `hostname`: [declared alternatives](../models/CustomDomainArchivedEventInput.md#customdomainarchivedeventinputdataprevious_attributeshostname). |
 | `last_checked_at` | Optional | string or null or null | When the domain was last checked, in RFC3339 format; `null` when no check time is available. `last_checked_at`: [declared alternatives](../models/CustomDomainArchivedEventInput.md#customdomainarchivedeventinputdataprevious_attributeslast_checked_at). |
 | `payment_method_domain_id` | Optional | string or null or null | Payment method domain associated with this hostname. `null` when none is reported. `payment_method_domain_id`: [declared alternatives](../models/CustomDomainArchivedEventInput.md#customdomainarchivedeventinputdataprevious_attributespayment_method_domain_id). |
@@ -118,7 +118,7 @@ anyOf variant 2.
 
 anyOf variant 1: DNS records to add for setup or verification. For an archived hostname, records that can be deleted..
 
-- Value shape: Array of [CustomDomainDNSRecordInput](../models/CustomDomainDNSRecordInput.md#customdomaindnsrecordinput). DNS records to add for setup or verification. For an archived hostname, records that can be deleted. 
+- Value shape: Array of [CustomDomainDNSRecordPreviousAttributesInput](../models/CustomDomainDNSRecordPreviousAttributesInput.md#customdomaindnsrecordpreviousattributesinput). DNS records to add for setup or verification. For an archived hostname, records that can be deleted. 
 
 ### CustomDomainArchivedEventInput.data.previous_attributes.dns_records variant 2
 

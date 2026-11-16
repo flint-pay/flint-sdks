@@ -64,6 +64,10 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 Field definitions: [shared fields](MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributes).
 
+### MerchantReadinessUpdatedMerchantEvent.data fields 1.previous_attributes.address
+
+Declared alternatives: [MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.address](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesaddress).
+
 ### MerchantReadinessUpdatedMerchantEvent.data fields 1.previous_attributes.api_version
 
 Declared alternatives: [PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes.api_version](../models/PartnerAppPlatformApprovedEvent.md#partnerappplatformapprovedeventdata-fields-1previous_attributesapi_version).
@@ -100,6 +104,14 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 Declared alternatives: [MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.email](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesemail).
 
+### MerchantReadinessUpdatedMerchantEvent.data fields 1.previous_attributes.icon
+
+Declared alternatives: [MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.icon](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesicon).
+
+### MerchantReadinessUpdatedMerchantEvent.data fields 1.previous_attributes.logo
+
+Declared alternatives: [MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.logo](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributeslogo).
+
 ### MerchantReadinessUpdatedMerchantEvent.data fields 1.previous_attributes.merchant_id
 
 Declared alternatives: [MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.merchant_id](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesmerchant_id).
@@ -111,6 +123,10 @@ Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes
 ### MerchantReadinessUpdatedMerchantEvent.data fields 1.previous_attributes.phone
 
 Declared alternatives: [MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.phone](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesphone).
+
+### MerchantReadinessUpdatedMerchantEvent.data fields 1.previous_attributes.readiness
+
+Declared alternatives: [MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.readiness](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesreadiness).
 
 ### MerchantReadinessUpdatedMerchantEvent.data fields 1.previous_attributes.status
 

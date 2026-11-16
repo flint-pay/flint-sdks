@@ -38,7 +38,7 @@ Field definitions: [shared fields](ReturnDisposition.md#returndisposition).
 
 ### ReturnDispositionCreatedInstalledMerchantsEvent.data.object.metadata
 
-Field definitions: [CheckoutSession.metadata](../models/CheckoutSession.md#checkoutsessionmetadata).
+Field definitions: [CancelOrderEditResult.order.metadata](../models/CancelOrderEditResult.md#cancelordereditresultordermetadata).
 
 ### ReturnDispositionCreatedInstalledMerchantsEvent.source
 

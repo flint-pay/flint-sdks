@@ -14,7 +14,7 @@ Update at least one of registration_number, start_date or end_date. Pending and 
 | --- | --- | --- | --- |
 | `end_date` | Conditional | string or null | Last day the registration applies, inclusive. Must be on or after start_date and today (UTC). Send null to clear the end date before the registration has ended. Format: `date`. minLength: `1`. Example: `"2026-08-02"`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Omit to apply the change to the current resource. Format: `uint64`. minimum: `1`. |
-| `registration_number` | Conditional | string | Seller's tax registration number. For EU, the non-Union OSS number: EU followed by nine digits. Write-only; responses return only its last four characters. minLength: `1`. maxLength: `255`. Input only. |
+| `registration_number` | Conditional | string | Seller's tax registration number as issued: letters and digits with optional spaces, hyphens, periods or slashes. The original format is stored; separators are omitted when confirming with the tax account. For EU, the non-Union OSS number: EU followed by nine digits. Write-only; responses return only its last four characters. minLength: `1`. maxLength: `255`. Input only. |
 | `start_date` | Conditional | string | First day the registration applies, inclusive. Flint checks it against each sale's local date. Status and validation use the UTC date. May be up to 365 days in the future. Format: `date`. minLength: `1`. Example: `"2026-08-02"`. |
 
 ### UpdateTaxRegistrationRequestInput variant 1

@@ -79,6 +79,101 @@ anyOf variant 2.
 
 - Value shape: null. Whether Flint is calling the endpoint, for the current revision. - `closed`: Flint calls the endpoint. - `open`: Flint stopped calling the endpoint after 30 consecutive failed requests. - `half_open`: 30 seconds after opening, the next request is a probe: a valid response closes the circuit, and a failure opens it again. 
 
+### TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.configuration
+
+The endpoint URL and request limits.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `maximum_request_bytes` | Conditional | integer or null | Largest request body Flint sends to your endpoint, in bytes, from 1 to 1048576. Defaults to 262144. `maximum_request_bytes`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesconfiguration-variant-1maximum_request_bytes). |
+| `maximum_response_bytes` | Conditional | integer or null | Largest response body Flint accepts from your endpoint, in bytes, from 1 to 1048576. Defaults to 262144. `maximum_response_bytes`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesconfiguration-variant-1maximum_response_bytes). |
+| `redirect_policy` | Conditional | string or null | How Flint treats a redirect from your endpoint. Flint never follows redirects, so `reject` is the only value. Values: `"reject"`. `redirect_policy`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesconfiguration-variant-1redirect_policy). |
+| `request_timeout_seconds` | Conditional | number or null | How long Flint waits for each request to your endpoint, in seconds, from 0.1 to 10. Defaults to 3. `request_timeout_seconds`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesconfiguration-variant-1request_timeout_seconds). |
+| `url` | Conditional | string or null | HTTPS endpoint that receives signed callback requests. `url`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesconfiguration-variant-1url). |
+
+### TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.configuration variant 1: `redirect_policy` = `"reject"`
+
+anyOf TaxCalculationCallbackConfigurationPreviousAttributes.
+
+- Optional: `maximum_request_bytes`, `maximum_response_bytes`, `redirect_policy`, `request_timeout_seconds`, `url`.
+
+### TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.configuration variant 2
+
+anyOf variant 2.
+
+- Undeclared: `maximum_request_bytes`, `maximum_response_bytes`, `redirect_policy`, `request_timeout_seconds`, `url`.
+- Value shape: null. The endpoint URL and request limits. 
+
+### TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.configuration variant 1.maximum_request_bytes
+
+### TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.configuration variant 1.maximum_request_bytes variant 1
+
+anyOf variant 1: Largest request body Flint sends to your endpoint, in bytes, from 1 to 1048576. Defaults to 262144..
+
+- Value shape: integer. Largest request body Flint sends to your endpoint, in bytes, from 1 to 1048576. Defaults to 262144. Largest request body Flint sends to your endpoint, in bytes, from 1 to 1048576. Defaults to 262144. minimum: `1`. maximum: `1048576`. Default: `262144`. 
+
+### TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.configuration variant 1.maximum_request_bytes variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Largest request body Flint sends to your endpoint, in bytes, from 1 to 1048576. Defaults to 262144. 
+
+### TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.configuration variant 1.maximum_response_bytes
+
+### TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.configuration variant 1.maximum_response_bytes variant 1
+
+anyOf variant 1: Largest response body Flint accepts from your endpoint, in bytes, from 1 to 1048576. Defaults to 262144..
+
+- Value shape: integer. Largest response body Flint accepts from your endpoint, in bytes, from 1 to 1048576. Defaults to 262144. Largest response body Flint accepts from your endpoint, in bytes, from 1 to 1048576. Defaults to 262144. minimum: `1`. maximum: `1048576`. Default: `262144`. 
+
+### TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.configuration variant 1.maximum_response_bytes variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Largest response body Flint accepts from your endpoint, in bytes, from 1 to 1048576. Defaults to 262144. 
+
+### TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.configuration variant 1.redirect_policy
+
+### TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.configuration variant 1.redirect_policy variant 1
+
+anyOf variant 1: How Flint treats a redirect from your endpoint. Flint never follows redirects, so `reject` is the only value..
+
+- Value shape: string. How Flint treats a redirect from your endpoint. Flint never follows redirects, so `reject` is the only value. How Flint treats a redirect from your endpoint. Flint never follows redirects, so `reject` is the only value. Default: `"reject"`. Values: `"reject"`.
+
+### TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.configuration variant 1.redirect_policy variant 2
+
+anyOf variant 2.
+
+- Value shape: null. How Flint treats a redirect from your endpoint. Flint never follows redirects, so `reject` is the only value. 
+
+### TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.configuration variant 1.request_timeout_seconds
+
+### TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.configuration variant 1.request_timeout_seconds variant 1
+
+anyOf variant 1: How long Flint waits for each request to your endpoint, in seconds, from 0.1 to 10. Defaults to 3..
+
+- Value shape: number. How long Flint waits for each request to your endpoint, in seconds, from 0.1 to 10. Defaults to 3. How long Flint waits for each request to your endpoint, in seconds, from 0.1 to 10. Defaults to 3. minimum: `0.1`. maximum: `10`. Default: `3`. 
+
+### TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.configuration variant 1.request_timeout_seconds variant 2
+
+anyOf variant 2.
+
+- Value shape: null. How long Flint waits for each request to your endpoint, in seconds, from 0.1 to 10. Defaults to 3. 
+
+### TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.configuration variant 1.url
+
+### TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.configuration variant 1.url variant 1
+
+anyOf variant 1: HTTPS endpoint that receives signed callback requests..
+
+- Value shape: string. HTTPS endpoint that receives signed callback requests. HTTPS endpoint that receives signed callback requests. Format: `uri`. minLength: `1`. pattern: `^https://`. Example: `"https://example.com/receipt"`. 
+
+### TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.configuration variant 1.url variant 2
+
+anyOf variant 2.
+
+- Value shape: null. HTTPS endpoint that receives signed callback requests. 
+
 ### TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.created_at
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).

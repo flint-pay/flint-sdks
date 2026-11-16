@@ -4,7 +4,9 @@ import type {
     PaymentIntent,
     PaymentIntentActivity,
     PaymentIntentActivityListResponse,
-    PaymentIntentListResponse,
+    PaymentIntentListResponse
+} from '../declarations/types-49.js';
+import type {
     PaymentIntentResponse,
     PaymentIntentWithAction,
     PaymentIntentWithCollection,
@@ -19,9 +21,9 @@ import type {
     PaymentIntentsListParams,
     PaymentIntentsSendReceiptParams,
     PaymentIntentsUpdateParams
-} from '../declarations/types-45.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-50.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,7 +40,6 @@ export type {
 } from '../runtime.js';
 export type {
     PaymentIntentsCancelParams,
-    PaymentIntent,
     PaymentIntentResponse,
     PaymentIntentsCaptureParams,
     PaymentIntentsConfirmParams,
@@ -49,47 +50,57 @@ export type {
     PaymentIntentsGetParams,
     PaymentIntentWithCollectionResponse,
     PaymentIntentsListActivitiesParams,
+    PaymentIntentsListParams,
+    PaymentIntentsSendReceiptParams,
+    PaymentIntentsUpdateParams
+} from '../declarations/types-50.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-60.js';
+export type {
+    PaymentIntent,
     PaymentIntentActivityListResponse,
     PaymentIntentActivity,
-    PaymentIntentsListParams,
     PaymentIntentListResponse,
-    PaymentIntentsSendReceiptParams,
-    PaymentIntentsUpdateParams,
-    PaymentIntentOvercapture,
-    PaymentIntentPlatformFee
-} from '../declarations/types-45.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-54.js';
-export type { ConfirmPaymentIntentResponse, ClientOptions, ConfirmPaymentIntentRequestInput } from '../declarations/types-7.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-70.js';
-export type { CancelPaymentIntentRequestInput } from '../declarations/types-4.js';
-export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type {
     PaymentAddOnFee,
     PaymentFulfillmentHold,
     PaymentErrorSummary,
+    PaymentIntentOvercapture,
+    PaymentIntentPlatformFee,
     PaymentClientAction,
     PaymentClientActionURL,
     PaymentClientActionStripe,
     PaymentCollection,
     PaymentCollectionStripe,
     PaymentCollectionStripeElements
-} from '../declarations/types-44.js';
-export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-39.js';
-export type { ExpandedCustomerSummary, ExpandedInvoiceSummary, ErrorRemediation, ExpandedOrderSummary } from '../declarations/types-24.js';
-export type { PricingAmounts } from '../declarations/types-50.js';
-export type { InvoiceSettlementAmounts } from '../declarations/types-34.js';
-export type { SettlementAmounts, SelectableOrderPaymentIntent, SendPaymentIntentReceiptRequestInput } from '../declarations/types-59.js';
-export type { ReadinessMerchantAccountSession, ReaderPaymentSourceTipInput, ReaderPaymentSourceTip } from '../declarations/types-52.js';
-export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-38.js';
-export type { CheckoutBuyerContact, CapturePaymentIntentRequestInput, CapturePaymentSplitRequestInput } from '../declarations/types-5.js';
-export type { DeferredPromotion } from '../declarations/types-16.js';
+} from '../declarations/types-49.js';
+export type { ConfirmPaymentIntentResponse, ClientOptions, ConfirmPaymentIntentRequestInput } from '../declarations/types-7.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type {
+    CancelPaymentIntentRequestInput,
+    CheckoutBuyerContact,
+    CapturePaymentIntentRequestInput,
+    CapturePaymentSplitRequestInput
+} from '../declarations/types-5.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-42.js';
+export type { ExpandedCustomerSummary, ExpandedInvoiceSummary, ErrorRemediation, ExpandedOrderSummary } from '../declarations/types-26.js';
+export type { PricingAmounts } from '../declarations/types-55.js';
+export type { InvoiceSettlementAmounts } from '../declarations/types-38.js';
+export type {
+    SettlementAmounts,
+    StripePaymentClientAction,
+    StripeSetupIntentClientAction,
+    StripeTerminalPaymentIntentClientAction
+} from '../declarations/types-66.js';
+export type { ReadinessMerchantAccountSession, ReaderPaymentSourceTipInput, ReaderPaymentSourceTip } from '../declarations/types-58.js';
+export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
+export type { DeferredPromotion } from '../declarations/types-17.js';
 export type {
     OrderSettlementAmounts,
     OrderPaymentSourceSelectionInput,
     OrderPaymentSourceCardSelectionInput,
     OrderPaymentSourceCardSelection
-} from '../declarations/types-41.js';
+} from '../declarations/types-45.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
@@ -101,28 +112,29 @@ export type {
     PaymentSourceCredentialPaymentMethodInput,
     PaymentSourceCredentialStripeConfirmationTokenInput,
     PaymentSourceCredentialStripePaymentMethodInput,
-    PaymentSourceCredentialReaderInput
-} from '../declarations/types-47.js';
-export type { PaymentSplitReversal, PaymentSplitRequestInput } from '../declarations/types-48.js';
+    PaymentSourceCredentialReaderInput,
+    PaymentSplitRequestInput
+} from '../declarations/types-52.js';
+export type { PaymentSplitReversal, PendingPaymentAction } from '../declarations/types-53.js';
 export type {
     PlatformFeeRequestInput,
-    PendingPaymentAction,
     PendingPaymentActionSubject,
     PendingPaymentActionPaymentIntentSubject,
     PendingPaymentActionSetupPaymentSourceSubject
-} from '../declarations/types-49.js';
-export type {
-    StripePaymentClientAction,
-    StripeSetupIntentClientAction,
-    StripeTerminalPaymentIntentClientAction
-} from '../declarations/types-60.js';
-export type { CreatePaymentIntentRequestInput } from '../declarations/types-11.js';
-export type { UpdatePaymentIntentRequestInput } from '../declarations/types-67.js';
-export { makeCancelPaymentIntentRequest, makeCapturePaymentIntentRequest, makeCapturePaymentSplitRequest } from '../declarations/types-71.js';
-export { makeConfirmPaymentIntentRequest } from '../declarations/types-72.js';
-export { makeCreatePaymentIntentRequest } from '../declarations/types-74.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-78.js';
-export { makeMoneyValue, makeOrderPaymentSourceCardSelection, makeOrderPaymentSourceSelection } from '../declarations/types-79.js';
+} from '../declarations/types-54.js';
+export type { CreatePaymentIntentRequestInput } from '../declarations/types-12.js';
+export type { SelectableOrderPaymentIntent, SendPaymentIntentReceiptRequestInput } from '../declarations/types-65.js';
+export type { UpdatePaymentIntentRequestInput } from '../declarations/types-74.js';
+export { makeCancelPaymentIntentRequest, makeCapturePaymentIntentRequest, makeCapturePaymentSplitRequest } from '../declarations/types-78.js';
+export { makeConfirmPaymentIntentRequest } from '../declarations/types-79.js';
+export { makeCreatePaymentIntentRequest } from '../declarations/types-81.js';
+export { makeMetadataPatchRequest } from '../declarations/types-85.js';
+export {
+    makeMetadataRequest,
+    makeMoneyValue,
+    makeOrderPaymentSourceCardSelection,
+    makeOrderPaymentSourceSelection
+} from '../declarations/types-86.js';
 export {
     makePaymentSourceCredential,
     makePaymentSourceCredentialPaymentMethod,
@@ -131,10 +143,10 @@ export {
     makePaymentSourceCredentialStripePaymentMethod,
     makePaymentSplitRequest,
     makePlatformFeeRequest
-} from '../declarations/types-80.js';
-export { makeReaderPaymentSourceTip } from '../declarations/types-81.js';
-export { makeSendPaymentIntentReceiptRequest } from '../declarations/types-82.js';
-export { makeUpdatePaymentIntentRequest } from '../declarations/types-84.js';
+} from '../declarations/types-87.js';
+export { makeReaderPaymentSourceTip } from '../declarations/types-88.js';
+export { makeSendPaymentIntentReceiptRequest } from '../declarations/types-89.js';
+export { makeUpdatePaymentIntentRequest } from '../declarations/types-91.js';
 export interface PaymentIntentsResource {
     /**
  * Cancels a standalone or order-owned payment intent. Read supported_actions for the actions its

@@ -42,7 +42,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | The amount transferred to your merchant balance. |
+| `amount_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | The amount transferred to your merchant balance. |
 | `balance_transaction_id` | Optional | string or null | The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version. `balance_transaction_id`: [declared alternatives](../models/PlatformFeePayoutFailedEventInput.md#platformfeepayoutfailedeventinputdataprevious_attributesbalance_transaction_id). |
 | `created_at` | Optional | string or null | When Flint prepared the payout. `created_at`: [declared alternatives](../models/PlatformFeePayoutFailedEventInput.md#platformfeepayoutfailedeventinputdataprevious_attributescreated_at). |
 | `failure_reason` | Optional | string or null | Why the payout failed. Present only when status is failed. Can gain values; treat unknown values as payout_failed. Values: `"merchant_cannot_receive"`, `"payout_failed"`. `failure_reason`: [declared alternatives](../models/PlatformFeePayoutFailedEventInput.md#platformfeepayoutfailedeventinputdataprevious_attributesfailure_reason). |
@@ -51,7 +51,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `status` | Optional | string or null | Where the payout stands. succeeded and failed are final. Values: `"pending"`, `"succeeded"`, `"failed"`. `status`: [declared alternatives](../models/PlatformFeePayoutFailedEventInput.md#platformfeepayoutfailedeventinputdataprevious_attributesstatus). |
 | `succeeded_at` | Optional | string or null | When the transfer succeeded. Present only when status is succeeded. `succeeded_at`: [declared alternatives](../models/PlatformFeePayoutFailedEventInput.md#platformfeepayoutfailedeventinputdataprevious_attributessucceeded_at). |
 | `updated_at` | Optional | string or null | When the payout's owned state last changed. Retry bookkeeping and observing the credit don't change it. `updated_at`: [declared alternatives](../models/PlatformFeePayoutFailedEventInput.md#platformfeepayoutfailedeventinputdataprevious_attributesupdated_at). |
-| `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEventInput.md#checkoutsessionclosedinstalledmerchantseventinputdataprevious_attributesversion). |
+| `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributesInput.md#buyerexpandedpaymentintentsummarypreviousattributesinputversion). |
 
 ### PlatformFeePayoutFailedEventInput.data.previous_attributes.balance_transaction_id
 
@@ -167,7 +167,7 @@ anyOf variant 2.
 
 ### PlatformFeePayoutFailedEventInput.data.previous_attributes.version
 
-Declared alternatives: [CheckoutSessionClosedInstalledMerchantsEventInput.data.previous_attributes.version](../models/CheckoutSessionClosedInstalledMerchantsEventInput.md#checkoutsessionclosedinstalledmerchantseventinputdataprevious_attributesversion).
+Declared alternatives: [BuyerExpandedPaymentIntentSummaryPreviousAttributesInput.version](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributesInput.md#buyerexpandedpaymentintentsummarypreviousattributesinputversion).
 
 ### PlatformFeePayoutFailedEventInput.request
 

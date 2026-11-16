@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# AcceptFulfillmentRequestInput to BuyerErrorRemediationInput
+# AcceptFulfillmentRequestInput to BuyerDigitalFulfillmentDetailsInput
 
 - [AcceptFulfillmentRequestInput](AcceptFulfillmentRequestInput.md)
 - [AcceptPartnerAppPlatformTermsRequestInput](AcceptPartnerAppPlatformTermsRequestInput.md)
@@ -9,6 +9,7 @@
 - [AddLineItemsRequestInput](AddLineItemsRequestInput.md)
 - [AddOrderChargeRequestInput](AddOrderChargeRequestInput.md)
 - [AddressInput](AddressInput.md)
+- [AddressPreviousAttributesInput](AddressPreviousAttributesInput.md)
 - [AddressRequestInput](AddressRequestInput.md)
 - [AddReturnLineItemRequestInput](AddReturnLineItemRequestInput.md)
 - [AddReturnLineItemResponseInput](AddReturnLineItemResponseInput.md)
@@ -46,6 +47,7 @@
 - [AuthContextInput](AuthContextInput.md)
 - [AuthContextResponseInput](AuthContextResponseInput.md)
 - [BackorderPolicyInput](BackorderPolicyInput.md)
+- [BackorderPolicyPreviousAttributesInput](BackorderPolicyPreviousAttributesInput.md)
 - [BalanceInput](BalanceInput.md)
 - [BalanceListResponseInput](BalanceListResponseInput.md)
 - [BalanceTransactionInput](BalanceTransactionInput.md)
@@ -64,7 +66,9 @@
 - [BundleArchivedMerchantEventInput](BundleArchivedMerchantEventInput.md)
 - [BundleComponentInput](BundleComponentInput.md)
 - [BundleComponentListResponseInput](BundleComponentListResponseInput.md)
+- [BundleComponentPreviousAttributesInput](BundleComponentPreviousAttributesInput.md)
 - [BundleComponentVariantSummaryInput](BundleComponentVariantSummaryInput.md)
+- [BundleComponentVariantSummaryPreviousAttributesInput](BundleComponentVariantSummaryPreviousAttributesInput.md)
 - [BundleCreatedInstalledMerchantsEventInput](BundleCreatedInstalledMerchantsEventInput.md)
 - [BundleCreatedMerchantEventInput](BundleCreatedMerchantEventInput.md)
 - [BundleListResponseInput](BundleListResponseInput.md)
@@ -98,8 +102,4 @@
 - [BuyerCustomerSessionResponseInput](BuyerCustomerSessionResponseInput.md)
 - [BuyerDeliveryFulfillmentDetailsInput](BuyerDeliveryFulfillmentDetailsInput.md)
 - [BuyerDigitalFulfillmentDetailsInput](BuyerDigitalFulfillmentDetailsInput.md)
-- [BuyerEmailChangeRequestInput](BuyerEmailChangeRequestInput.md)
-- [BuyerEmailChangeRequestListResponseInput](BuyerEmailChangeRequestListResponseInput.md)
-- [BuyerEmailChangeRequestResponseInput](BuyerEmailChangeRequestResponseInput.md)
-- [BuyerErrorRemediationInput](BuyerErrorRemediationInput.md)
 

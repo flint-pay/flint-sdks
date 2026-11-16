@@ -1,14 +1,14 @@
 import type { Result, WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { WebhookEvent, WebhookEventListResponse, WebhookEventResponse } from '../declarations/types-69.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { WebhookEvent, WebhookEventListResponse, WebhookEventResponse } from '../declarations/types-76.js';
 import type {
     WebhookEventsGetParams,
     WebhookEventsListParams,
     WebhookEventsStreamParams,
     WebhookEventsStreamResponse,
     _SdkWithoutIdempotency
-} from '../declarations/types-70.js';
+} from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,16 +29,16 @@ export type {
     WebhookEventsListParams,
     WebhookEventsStreamParams,
     WebhookEventsStreamResponse
-} from '../declarations/types-70.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { WebhookEvent, WebhookEventResponse, WebhookEventListResponse, WebhookEventSource } from '../declarations/types-69.js';
+} from '../declarations/types-77.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { WebhookEvent, WebhookEventResponse, WebhookEventListResponse, WebhookEventSource } from '../declarations/types-76.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-39.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { DisputesAcceptParams } from '../declarations/types-23.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
+export type { NextAction, MoneyValue } from '../declarations/types-42.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { DisputesAcceptParams } from '../declarations/types-25.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export interface WebhookEventsResource {
     /**
  * Returns a specific webhook event for the authenticated merchant. Global partner-source records

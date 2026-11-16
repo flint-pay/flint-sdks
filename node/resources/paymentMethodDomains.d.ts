@@ -8,9 +8,9 @@ import type {
     PaymentMethodDomainsGetParams,
     PaymentMethodDomainsListParams,
     PaymentMethodDomainsUpdateParams
-} from '../declarations/types-47.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-51.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -34,19 +34,19 @@ export type {
     PaymentMethodDomainListResponse,
     PaymentMethodDomainsUpdateParams,
     PaymentMethodDomainPaymentOptionStatus
-} from '../declarations/types-47.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-51.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreatePaymentMethodDomainRequestInput, CreatePaymentMethodDomainRequest } from '../declarations/types-11.js';
+export type { CreatePaymentMethodDomainRequestInput, CreatePaymentMethodDomainRequest } from '../declarations/types-12.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { NextAction, MoneyValue } from '../declarations/types-39.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { UpdatePaymentMethodDomainRequestInput } from '../declarations/types-67.js';
-export { makeCreatePaymentMethodDomainRequest } from '../declarations/types-74.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
-export { makeUpdatePaymentMethodDomainRequest } from '../declarations/types-84.js';
+export type { NextAction, MoneyValue } from '../declarations/types-42.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
+export type { UpdatePaymentMethodDomainRequestInput } from '../declarations/types-74.js';
+export { makeCreatePaymentMethodDomainRequest } from '../declarations/types-81.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
+export { makeUpdatePaymentMethodDomainRequest } from '../declarations/types-91.js';
 export interface PaymentMethodDomainsResource {
     /**
  * Registers one exact domain or subdomain for Apple Pay and Google Pay in the selected Flint

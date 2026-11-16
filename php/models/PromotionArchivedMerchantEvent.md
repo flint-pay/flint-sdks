@@ -68,6 +68,14 @@ Declared alternatives: [PromotionArchivedMerchantEventDataPreviousAttributes.app
 
 Declared alternatives: [PromotionArchivedMerchantEventDataPreviousAttributes.available](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesavailable).
 
+### PromotionArchivedMerchantEvent.data fields 1.previous_attributes.codes_summary
+
+Declared alternatives: [PromotionArchivedMerchantEventDataPreviousAttributes.codes_summary](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributescodes_summary).
+
+### PromotionArchivedMerchantEvent.data fields 1.previous_attributes.combines_with
+
+Declared alternatives: [PromotionArchivedMerchantEventDataPreviousAttributes.combines_with](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributescombines_with).
+
 ### PromotionArchivedMerchantEvent.data fields 1.previous_attributes.created_at
 
 Declared alternatives: [PromotionArchivedMerchantEventDataPreviousAttributes.created_at](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributescreated_at).
@@ -87,6 +95,10 @@ Declared alternatives: [PromotionArchivedMerchantEventDataPreviousAttributes.dis
 ### PromotionArchivedMerchantEvent.data fields 1.previous_attributes.eligibility_rules
 
 Declared alternatives: [PromotionArchivedMerchantEventDataPreviousAttributes.eligibility_rules](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributeseligibility_rules).
+
+### PromotionArchivedMerchantEvent.data fields 1.previous_attributes.exclusivity
+
+Declared alternatives: [PromotionArchivedMerchantEventDataPreviousAttributes.exclusivity](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesexclusivity).
 
 ### PromotionArchivedMerchantEvent.data fields 1.previous_attributes.external_reference_id
 
@@ -119,6 +131,10 @@ Declared alternatives: [PromotionArchivedMerchantEventDataPreviousAttributes.pro
 ### PromotionArchivedMerchantEvent.data fields 1.previous_attributes.redemption_type
 
 Declared alternatives: [PromotionArchivedMerchantEventDataPreviousAttributes.redemption_type](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesredemption_type).
+
+### PromotionArchivedMerchantEvent.data fields 1.previous_attributes.schedule
+
+Declared alternatives: [PromotionArchivedMerchantEventDataPreviousAttributes.schedule](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesschedule).
 
 ### PromotionArchivedMerchantEvent.data fields 1.previous_attributes.status
 

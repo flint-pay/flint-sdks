@@ -135,7 +135,7 @@ final class PaymentLinkInput extends Model {
      */
     public function getInactiveMessage(): string { return $this->get('inactive_message'); }
     public function hasInactiveMessage(): bool { return $this->has('inactive_message'); }
-    /** The inventory location or routing policy that supplies stock for the link's catalog lines. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
+    /** The inventory location or routing policy that supplies stock for the link's catalog lines. Absent when using the implicit single-Location fallback, which is evaluated again on use. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
      * @return InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_routing_source is omitted; use hasInventoryRoutingSource() or valueOrDefault().
      */

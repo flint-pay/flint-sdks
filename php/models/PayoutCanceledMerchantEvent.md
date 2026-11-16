@@ -94,15 +94,23 @@ Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.mercha
 
 ### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.metadata
 
-Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.metadata](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesmetadata).
+Declared alternatives: [OrderLineItemModifierPreviousAttributes.metadata](../models/OrderLineItemModifierPreviousAttributes.md#orderlineitemmodifierpreviousattributesmetadata).
 
 ### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.method
 
 Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.method](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesmethod).
 
+### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.original_payout
+
+Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.original_payout](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesoriginal_payout).
+
 ### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.original_payout_id
 
 Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.original_payout_id](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesoriginal_payout_id).
+
+### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.payout_destination
+
+Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.payout_destination](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributespayout_destination).
 
 ### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.payout_destination_id
 
@@ -114,7 +122,11 @@ Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.payout
 
 ### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.reversal_status
 
-Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.reversal_status](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesreversal_status).
+Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.original_payout variant 1.reversal_status](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesoriginal_payout-variant-1reversal_status).
+
+### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.reversed_by_payout
+
+Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.reversed_by_payout](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesreversed_by_payout).
 
 ### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.reversed_by_payout_id
 
@@ -126,11 +138,15 @@ Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.statem
 
 ### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.status
 
-Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.status](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesstatus).
+Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.original_payout variant 1.status](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesoriginal_payout-variant-1status).
 
 ### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.supported_actions
 
 Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.supported_actions](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributessupported_actions).
+
+### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.trace_id
+
+Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.trace_id](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributestrace_id).
 
 ### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.updated_at
 

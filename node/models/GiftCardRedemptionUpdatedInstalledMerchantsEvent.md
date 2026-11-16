@@ -41,7 +41,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `capture_mode` | Optional | string or null | Whether the redemption spends the value now or reserves it to capture later. Values: `"automatic"`, `"manual"`. `capture_mode`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEvent.md#giftcardredemptionupdatedinstalledmerchantseventdataprevious_attributescapture_mode). |
-| `captured_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | The value captured from the card so far. `captured_money`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEvent.md#giftcardredemptionupdatedinstalledmerchantseventdataprevious_attributescaptured_money). |
+| `captured_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The value captured from the card so far. `captured_money`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEvent.md#giftcardredemptionupdatedinstalledmerchantseventdataprevious_attributescaptured_money). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `expires_at` | Optional | string or null or null | When an uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`, which posts immediately. `expires_at`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEvent.md#giftcardredemptionupdatedinstalledmerchantseventdataprevious_attributesexpires_at). |
 | `gift_card_id` | Optional | string or null | ID of the gift card the value is spent from. `gift_card_id`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEvent.md#giftcardredemptionupdatedinstalledmerchantseventdataprevious_attributesgift_card_id). |
@@ -49,16 +49,16 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `idempotency_key` | Optional | string or null or null | Your Idempotency-Key for the command that created this record. `null` when Flint created it or no key was sent. `idempotency_key`: [declared alternatives](../models/GiftCardLoadUpdatedInstalledMerchantsEvent.md#giftcardloadupdatedinstalledmerchantseventdataprevious_attributesidempotency_key). |
 | `order_id` | Optional | string or null or null | ID of the Flint order the redemption pays for. `null` when `source_type` is `external`. `order_id`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEvent.md#giftcardredemptionupdatedinstalledmerchantseventdataprevious_attributesorder_id). |
 | `order_payment_attempt_id` | Optional | string or null or null | The order payment attempt the redemption belongs to. Set for source_type flint_order. `null` when `source_type` is `external`. `order_payment_attempt_id`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEvent.md#giftcardredemptionupdatedinstalledmerchantseventdataprevious_attributesorder_payment_attempt_id). |
-| `refunded_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Total refunded against this redemption across all refunds. Each refund lists its share in `tender_allocations`. `refunded_money`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEvent.md#giftcardredemptionupdatedinstalledmerchantseventdataprevious_attributesrefunded_money). |
-| `remaining_refundable_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Captured value not yet refunded. A refund allocation to this redemption can be at most this amount. Zero while the redemption is reserved, canceled, or expired. `remaining_refundable_money`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEvent.md#giftcardredemptionupdatedinstalledmerchantseventdataprevious_attributesremaining_refundable_money). |
-| `requested_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | The amount requested when the redemption was created. `requested_money`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEvent.md#giftcardredemptionupdatedinstalledmerchantseventdataprevious_attributesrequested_money). |
-| `reserved_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | The value held on the card for this redemption while it is reserved. `reserved_money`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEvent.md#giftcardredemptionupdatedinstalledmerchantseventdataprevious_attributesreserved_money). |
+| `refunded_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Total refunded against this redemption across all refunds. Each refund lists its share in `tender_allocations`. `refunded_money`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEvent.md#giftcardredemptionupdatedinstalledmerchantseventdataprevious_attributesrefunded_money). |
+| `remaining_refundable_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Captured value not yet refunded. A refund allocation to this redemption can be at most this amount. Zero while the redemption is reserved, canceled, or expired. `remaining_refundable_money`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEvent.md#giftcardredemptionupdatedinstalledmerchantseventdataprevious_attributesremaining_refundable_money). |
+| `requested_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The amount requested when the redemption was created. `requested_money`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEvent.md#giftcardredemptionupdatedinstalledmerchantseventdataprevious_attributesrequested_money). |
+| `reserved_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The value held on the card for this redemption while it is reserved. `reserved_money`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEvent.md#giftcardredemptionupdatedinstalledmerchantseventdataprevious_attributesreserved_money). |
 | `sale_reference` | Optional | string or null or null | Your reference for the sale the redemption pays for. Set for source_type external. `null` when `source_type` is `flint_order`. `sale_reference`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEvent.md#giftcardredemptionupdatedinstalledmerchantseventdataprevious_attributessale_reference). |
 | `source_type` | Optional | string or null | What the redemption pays for: a sale you record, or a Flint order's payment. Values: `"external"`, `"flint_order"`. `source_type`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEvent.md#giftcardredemptionupdatedinstalledmerchantseventdataprevious_attributessource_type). |
 | `status` | Optional | string or null | Where the redemption is in its lifecycle. Values: `"reserved"`, `"succeeded"`, `"canceled"`, `"expired"`. `status`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEvent.md#giftcardredemptionupdatedinstalledmerchantseventdataprevious_attributesstatus). |
 | `supported_actions` | Optional | Array of string or null | Lifecycle actions accepted for the stored redemption, independent of the caller's credentials. capture is available only before expires_at; cancel remains available until the reservation is resolved. Reservations for Flint orders are resolved through their payment attempt and list no actions. Items values: `"capture"`, `"cancel"`. `supported_actions`: [declared alternatives](../models/GiftCardRedemptionUpdatedInstalledMerchantsEvent.md#giftcardredemptionupdatedinstalledmerchantseventdataprevious_attributessupported_actions). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
-| `version` | Optional | integer or null | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. `version`: [declared alternatives](../models/GiftCardLoadUpdatedInstalledMerchantsEvent.md#giftcardloadupdatedinstalledmerchantseventdataprevious_attributesversion). |
+| `version` | Optional | integer or null | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. `version`: [declared alternatives](../models/GiftCardFundingDisputePreviousAttributes.md#giftcardfundingdisputepreviousattributesversion). |
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.capture_mode
 
@@ -78,13 +78,13 @@ anyOf variant 2.
 
 The value captured from the card so far.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.captured_money variant 1
 
-anyOf MoneyValue: The value captured from the card so far..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.captured_money variant 2
 
@@ -92,6 +92,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. The value captured from the card so far. 
+
+### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.captured_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.captured_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.created_at
 
@@ -175,13 +183,13 @@ anyOf variant 2.
 
 Total refunded against this redemption across all refunds. Each refund lists its share in `tender_allocations`.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.refunded_money variant 1
 
-anyOf MoneyValue: Total refunded against this redemption across all refunds. Each refund lists its share in `tender_allocations`..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.refunded_money variant 2
 
@@ -190,17 +198,25 @@ anyOf variant 2.
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Total refunded against this redemption across all refunds. Each refund lists its share in `tender_allocations`. 
 
+### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.refunded_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.refunded_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+
 ### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.remaining_refundable_money
 
 Captured value not yet refunded. A refund allocation to this redemption can be at most this amount. Zero while the redemption is reserved, canceled, or expired.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.remaining_refundable_money variant 1
 
-anyOf MoneyValue: Captured value not yet refunded. A refund allocation to this redemption can be at most this amount. Zero while the redemption is reserved, canceled, or expired..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.remaining_refundable_money variant 2
 
@@ -209,17 +225,25 @@ anyOf variant 2.
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Captured value not yet refunded. A refund allocation to this redemption can be at most this amount. Zero while the redemption is reserved, canceled, or expired. 
 
+### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.remaining_refundable_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.remaining_refundable_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+
 ### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.requested_money
 
 The amount requested when the redemption was created.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.requested_money variant 1
 
-anyOf MoneyValue: The amount requested when the redemption was created..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.requested_money variant 2
 
@@ -228,17 +252,25 @@ anyOf variant 2.
 - Undeclared: `amount`, `currency`.
 - Value shape: null. The amount requested when the redemption was created. 
 
+### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.requested_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.requested_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
+
 ### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.reserved_money
 
 The value held on the card for this redemption while it is reserved.
 
-Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.reserved_money variant 1
 
-anyOf MoneyValue: The value held on the card for this redemption while it is reserved..
+anyOf MoneyValuePreviousAttributes.
 
-- Required: `amount`, `currency`.
+- Optional: `amount`, `currency`.
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.reserved_money variant 2
 
@@ -246,6 +278,14 @@ anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. The value held on the card for this redemption while it is reserved. 
+
+### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.reserved_money variant 1.amount
+
+Declared alternatives: [BalanceUpdatedInstalledMerchantsEvent.data.previous_attributes.held_money variant 1.amount](../models/BalanceUpdatedInstalledMerchantsEvent.md#balanceupdatedinstalledmerchantseventdataprevious_attributesheld_money-variant-1amount).
+
+### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.reserved_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency](../models/BalanceTransactionUpdatedInstalledMerchantsEvent.md#balancetransactionupdatedinstalledmerchantseventdataprevious_attributesamount_money-variant-1currency).
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.sale_reference
 
@@ -309,7 +349,7 @@ Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEvent.data.previous_attributes.version
 
-Declared alternatives: [GiftCardLoadUpdatedInstalledMerchantsEvent.data.previous_attributes.version](../models/GiftCardLoadUpdatedInstalledMerchantsEvent.md#giftcardloadupdatedinstalledmerchantseventdataprevious_attributesversion).
+Declared alternatives: [GiftCardFundingDisputePreviousAttributes.version](../models/GiftCardFundingDisputePreviousAttributes.md#giftcardfundingdisputepreviousattributesversion).
 
 ### GiftCardRedemptionUpdatedInstalledMerchantsEvent.source
 

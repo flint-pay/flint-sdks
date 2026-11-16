@@ -100,7 +100,7 @@ anyOf variant 2.
 
 ### PriceListArchivedMerchantEventDataPreviousAttributes.metadata variant 1
 
-anyOf MetadataMap: Caller-owned metadata stored on this price list..
+anyOf MetadataMapPreviousAttributes.
 
 - Value shape: Map of string. Caller-owned metadata stored on this price list. Map values: maxLength: `4096`. 
 

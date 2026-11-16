@@ -92,7 +92,7 @@ anyOf variant 2.
 
 anyOf variant 1: DNS records to add for setup or verification. For an archived hostname, records that can be deleted..
 
-- Value shape: Array of [CustomDomainDNSRecord](../models/CustomDomainDNSRecord.md#customdomaindnsrecord). DNS records to add for setup or verification. For an archived hostname, records that can be deleted. 
+- Value shape: Array of [CustomDomainDNSRecordPreviousAttributes](../models/CustomDomainDNSRecordPreviousAttributes.md#customdomaindnsrecordpreviousattributes). DNS records to add for setup or verification. For an archived hostname, records that can be deleted. 
 
 ### CustomDomainArchivedEvent.data fields 1.previous_attributes.dns_records variant 2
 

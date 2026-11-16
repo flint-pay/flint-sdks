@@ -1,9 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
+import type { Reader, ReaderConnectionSession, ReaderConnectionSessionResponse } from '../declarations/types-57.js';
 import type {
-    Reader,
-    ReaderConnectionSession,
-    ReaderConnectionSessionResponse,
     ReaderListResponse,
     ReaderResponse,
     ReadersCreateConnectionSessionParams,
@@ -13,9 +11,9 @@ import type {
     ReadersListParams,
     ReadersSimulateParams,
     ReadersUpdateParams
-} from '../declarations/types-52.js';
-import type { RequestOptions } from '../declarations/types-54.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-58.js';
+import type { RequestOptions } from '../declarations/types-60.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -32,40 +30,41 @@ export type {
 } from '../runtime.js';
 export type {
     ReadersCreateParams,
-    Reader,
     ReaderResponse,
     ReadersCreateConnectionSessionParams,
-    ReaderConnectionSession,
-    ReaderConnectionSessionResponse,
     ReadersDeleteParams,
     ReadersGetParams,
     ReadersListParams,
     ReaderListResponse,
     ReadersSimulateParams,
     ReadersUpdateParams,
+    ReadinessMerchantAccountSession
+} from '../declarations/types-58.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type {
+    Reader,
+    ReaderConnectionSession,
+    ReaderConnectionSessionResponse,
     ReaderConnectivity,
-    ReadinessMerchantAccountSession,
     ReaderConnectionSessionClientSession,
     ReaderConnectionSessionStripe
-} from '../declarations/types-52.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+} from '../declarations/types-57.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateReaderRequestInput } from '../declarations/types-12.js';
-export type { CreateSmartReaderRequestInput } from '../declarations/types-13.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-38.js';
-export type { CreateTapToPayReaderRequestInput, Credentials } from '../declarations/types-14.js';
+export type { CreateSmartReaderRequestInput, CreateTapToPayReaderRequestInput, Credentials } from '../declarations/types-14.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { NextAction, MoneyValue, MoneyValueInput } from '../declarations/types-39.js';
-export type { SimulateReaderRequestInput } from '../declarations/types-60.js';
-export type { UpdateReaderRequestInput } from '../declarations/types-68.js';
-export type { DisputesAcceptParams } from '../declarations/types-23.js';
-export { makeCreateReaderRequest, makeCreateSmartReaderRequest } from '../declarations/types-74.js';
-export { makeCreateTapToPayReaderRequest } from '../declarations/types-75.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-78.js';
-export { makeMoneyValue } from '../declarations/types-79.js';
-export { makeSimulateReaderRequest } from '../declarations/types-82.js';
-export { makeUpdateReaderRequest } from '../declarations/types-84.js';
+export type { NextAction, MoneyValue, MoneyValueInput } from '../declarations/types-42.js';
+export type { SimulateReaderRequestInput } from '../declarations/types-66.js';
+export type { UpdateReaderRequestInput } from '../declarations/types-75.js';
+export type { DisputesAcceptParams } from '../declarations/types-25.js';
+export { makeCreateReaderRequest, makeCreateSmartReaderRequest } from '../declarations/types-81.js';
+export { makeCreateTapToPayReaderRequest } from '../declarations/types-82.js';
+export { makeMetadataPatchRequest } from '../declarations/types-85.js';
+export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeSimulateReaderRequest } from '../declarations/types-89.js';
+export { makeUpdateReaderRequest } from '../declarations/types-91.js';
 export interface ReadersResource {
     /**
  * Readers are payment hardware at a location: a Stripe Reader S710 or S700 your server sends

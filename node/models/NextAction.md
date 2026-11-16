@@ -10,7 +10,7 @@ A follow-up action. When target_resource is present, send its resource_id in the
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `action_type` | Required | string | Action to take next. Use its target resource and required_fields to prepare the request. Values: [162 declared values](#nextaction-action_type-values). |
+| `action_type` | Required | string | Action to take next. Use its target resource and required_fields to prepare the request. Values: [163 declared values](#nextaction-action_type-values). |
 | `expires_at` | Optional | string | When this suggested action expires, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `merchant_account_session` | Optional | [ReadinessMerchantAccountSession](../models/ReadinessMerchantAccountSession.md#readinessmerchantaccountsession) | Request body to send unchanged to POST /v1/merchant-account-sessions when action_type is create_merchant_account_session. When absent, GET merchant readiness and use its recommended session body. Shared request body for `create_merchant_account_session` next actions in readiness, onboarding, errors, and warnings. Send unchanged to POST /v1/merchant-account-sessions; components and collection policy describe which requirements to collect. |
 | `method` | Optional | string | HTTP method for the recovery read. Values: `"GET"`. |
@@ -35,6 +35,7 @@ A follow-up action. When target_resource is present, send its resource_id in the
 - `"complete_gift_card_challenge"`
 - `"confirm_payment_intent"`
 - `"create_checkout_session_customer_verification"`
+- `"create_delivery_selection"`
 - `"create_dispute_response_session"`
 - `"create_merchant_account_session"`
 - `"create_refund"`

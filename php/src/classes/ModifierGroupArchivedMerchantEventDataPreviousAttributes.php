@@ -9,17 +9,17 @@ namespace Flint;
  * @property-read int|null $max_selected
  * @property-read int|null $max_total_quantity
  * @property-read string|null $merchant_id
- * @property-read array<array-key, string>|null $metadata
+ * @property-read mixed $metadata
  * @property-read int|null $min_quantity
  * @property-read int|null $min_selected
  * @property-read string|null $modifier_group_id
  * @property-read string|null $modifier_group_type
- * @property-read list<Modifier>|null $modifiers
+ * @property-read list<ModifierPreviousAttributes>|null $modifiers
  * @property-read string|null $name
  * @property-read bool|null $show_on_fulfillment
  * @property-read bool|null $show_on_receipt
  * @property-read string|null $status
- * @property-read TextModifierConfig|null $text
+ * @property-read mixed $text
  * @property-read string|null $updated_at
  * @property-read int|null $version
  * Presence-aware response; omitted optional fields return null. */
@@ -61,10 +61,10 @@ final class ModifierGroupArchivedMerchantEventDataPreviousAttributes extends Mod
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. anyOf[1] (Value): {@see MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. anyOf[2] (Value): null.
-     * @return array<array-key, string>|null
+    /** Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getMetadata(): array|null { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Minimum whole-number quantity for each selected list modifier when allow_quantities is true; fractional quantities are not supported. anyOf[1] (Value): integer. Minimum whole-number quantity for each selected list modifier when allow_quantities is true; fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
      * @return int|null
@@ -86,8 +86,8 @@ final class ModifierGroupArchivedMerchantEventDataPreviousAttributes extends Mod
      */
     public function getModifierGroupType(): string|null { return $this->get('modifier_group_type'); }
     public function hasModifierGroupType(): bool { return $this->has('modifier_group_type'); }
-    /** Choices in a list group. Only active modifiers whose set override's available is not false are offered to buyers. Text groups do not have choices. anyOf[1] (Value): Array of {@see Modifier}. Choices in a list group. Only active modifiers whose set override's available is not false are offered to buyers. Text groups do not have choices. anyOf[1][] (Value): {@see Modifier}. A purchasable customization choice. anyOf[2] (Value): null.
-     * @return list<Modifier>|null
+    /** Choices in a list group. Only active modifiers whose set override's available is not false are offered to buyers. Text groups do not have choices. anyOf[1] (Value): Array of {@see ModifierPreviousAttributes}. Choices in a list group. Only active modifiers whose set override's available is not false are offered to buyers. Text groups do not have choices. anyOf[1][] (Value): {@see ModifierPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<ModifierPreviousAttributes>|null
      */
     public function getModifiers(): array|null { return $this->get('modifiers'); }
     public function hasModifiers(): bool { return $this->has('modifiers'); }
@@ -111,10 +111,10 @@ final class ModifierGroupArchivedMerchantEventDataPreviousAttributes extends Mod
      */
     public function getStatus(): string|null { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Text entry rules for a text group. Use text.required to require a value; list groups use min_selected instead. anyOf[1] (Value): {@see TextModifierConfig}. Text entry rules for a text group. Use text.required to require a value; list groups use min_selected instead. anyOf[2] (Value): null.
-     * @return TextModifierConfig|null
+    /** Text entry rules for a text group. Use text.required to require a value; list groups use min_selected instead. anyOf[1] (Value): {@see TextModifierConfigPreviousAttributes}. anyOf[2] (Value): null.
+     * @return mixed
      */
-    public function getText(): TextModifierConfig|null { return $this->get('text'); }
+    public function getText(): mixed { return $this->get('text'); }
     public function hasText(): bool { return $this->has('text'); }
     /** When the modifier group or its modifiers last changed, as an RFC3339 timestamp. anyOf[1] (Value): string. When the modifier group or its modifiers last changed, as an RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

@@ -50,7 +50,7 @@ Field definitions: [InventoryCountResponse.data.observation_provenance](../model
 
 Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
 
-Field definitions: [shared fields](InventoryCountAppliedMerchantEventData.md#inventorycountappliedmerchanteventdataprevious_attributes).
+Field definitions: [shared fields](InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributes).
 
 ### InventoryCountAppliedMerchantEvent.data fields 1.previous_attributes.applied_at
 
@@ -78,7 +78,7 @@ Declared alternatives: [InventoryCountAppliedMerchantEventDataPreviousAttributes
 
 ### InventoryCountAppliedMerchantEvent.data fields 1.previous_attributes.observation_provenance
 
-Declared alternatives: [InventoryCountAppliedMerchantEventData.previous_attributes.observation_provenance](../models/InventoryCountAppliedMerchantEventData.md#inventorycountappliedmerchanteventdataprevious_attributesobservation_provenance).
+Declared alternatives: [InventoryCountAppliedMerchantEventDataPreviousAttributes.observation_provenance](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributesobservation_provenance).
 
 ### InventoryCountAppliedMerchantEvent.data fields 1.previous_attributes.status
 
